@@ -31,12 +31,12 @@ int read_item(void *ptr, int n, size_t size)
   return(1);
 }
 
-void pr_uint16(uint16_t n)
+uint16_t swap_uint16(uint16_t n)
 {
   int h = (n & 0xFF00) >> 8;
   int l = (n & 0x00FF);
 
-  printf("%02X%02X", l, h);
+  return((l << 8) + h);
 }
 
 void pr_uint8(uint8_t n)
@@ -48,20 +48,17 @@ void pr_uint8(uint8_t n)
 
 void pr_var_space_size(NOBJ_VAR_SPACE_SIZE *x)
 {
-  printf("\nVar Space Size:");
-  pr_uint16(x->size);
+  printf("\nVar Space Size:%04X", x->size);
 }
 
 void pr_qcode_space_size(NOBJ_QCODE_SPACE_SIZE *x)
 {
-  printf("\nVar Space Size:");
-  pr_uint16(x->size);
+  printf("\nVar Space Size:%04X", x->size);
 }
 
 void pr_global_varname_size(NOBJ_GLOBAL_VARNAME_SIZE *x)
 {
-  printf("\nGlobal varname Size:");
-  pr_uint16(x->size);
+  printf("\nGlobal varname Size:%04X", x->size);
 }
 
 void pr_num_parameters(NOBJ_NUM_PARAMETERS *x)
@@ -100,6 +97,8 @@ int main(int argc, char *argv[])
       return(0);
     }
 
+  var_space_size.size = swap_uint16(var_space_size.size);
+  
   if(!read_item((void *)&qcode_space_size, 1, sizeof(NOBJ_QCODE_SPACE_SIZE)))
     {
       printf("\nError reading qcode space size.");
@@ -124,6 +123,10 @@ int main(int argc, char *argv[])
       return(0);
     }
 
+  global_varname_size.size = swap_uint16(global_varname_size.size);
+  
+  printf("\nGlobal varname size:%d", global_varname_size.size);
+  
   // Global varname is more complicated to read. Each entry is length
   // prefixed, so read them until the length we have read matches the
   // size we have just read.
@@ -180,11 +183,14 @@ do
       printf("\nVarname type=%02X", vartype);
       printf("\nVaraddr addr=%02X", varaddr);
       length_read += 3;
+      printf("\nLength read:%d out of %d", length_read, global_varname_size.size);
+      
     }
- while (length_read < global_varname_size.size );  
-  fclose(fp);
-
-  printf("\nDump of @%s'\n", argv[1]);
+ while (length_read < global_varname_size.size );
+ 
+ fclose(fp);
+ 
+ printf("\nDump of @%s'\n", argv[1]);
 
   pr_var_space_size(&var_space_size);
   pr_qcode_space_size(&qcode_space_size);
