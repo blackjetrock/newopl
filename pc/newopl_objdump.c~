@@ -1,0 +1,23 @@
+// Dumps an object file
+//
+//
+
+#include <stdio.h>
+
+#include "nopl.h"
+
+int main(int argc, char *argv[])
+{
+  FILE fp;
+
+  fp = fopen(argv[1], "r");
+
+  if( fp == NULL )
+    {
+      printf("\nCannot open '%s'", argv[1]);
+      exit(-1);
+    }
+
+  // Read the object file
+  
+}
