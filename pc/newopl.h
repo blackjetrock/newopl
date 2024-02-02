@@ -1,0 +1,3 @@
+#define NOBJ_MAX_PARAMETERS  255
+#define NOBJ_VARNAME_MAXLEN  8
+
