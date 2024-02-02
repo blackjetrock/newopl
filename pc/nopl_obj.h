@@ -46,3 +46,16 @@ typedef struct _NOBJ_VARNAME_ENTRY
   NOBJ_VARTYPE  type;
   NOBJ_VARADDR  address;
 } NOBJ_VARNAME_ENTRY;
+
+
+typedef struct _NOBJ_PROC
+{
+  NOBJ_VAR_SPACE_SIZE      var_space_size;
+  NOBJ_QCODE_SPACE_SIZE    qcode_space_size;
+  NOBJ_NUM_PARAMETERS      num_parameters;
+  NOBJ_PARAMETER_TYPE      parameter_types[NOBJ_MAX_PARAMETERS];
+  NOBJ_GLOBAL_VARNAME_SIZE global_varname_size;
+  int                      global_varname_num;
+  NOBJ_VARNAME_ENTRY       global_varname[NOBJ_GLOBAL_VARNAME_SPACE_MAX];
+  
+} NOBJ_PROC;

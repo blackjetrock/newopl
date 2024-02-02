@@ -9,35 +9,11 @@
 #include <string.h>
 #include "newopl.h"
 #include "nopl_obj.h"
+#include "newopl_lib.h"
 
 FILE *fp;
 
-NOBJ_VAR_SPACE_SIZE      var_space_size;
-NOBJ_QCODE_SPACE_SIZE    qcode_space_size;
-NOBJ_NUM_PARAMETERS      num_parameters;
-NOBJ_PARAMETER_TYPE      parameter_types[NOBJ_MAX_PARAMETERS];
-NOBJ_GLOBAL_VARNAME_SIZE global_varname_size;
-
-int read_item(void *ptr, int n, size_t size)
-{
-  int ni = fread(ptr, n, size, fp);
-  
-  if( feof(fp) || (ni == 0))
-    {
-      // No more file
-      return(0);
-    }
-  
-  return(1);
-}
-
-uint16_t swap_uint16(uint16_t n)
-{
-  int h = (n & 0xFF00) >> 8;
-  int l = (n & 0x00FF);
-
-  return((l << 8) + h);
-}
+NOBJ_PROC                proc;
 
 void pr_uint8(uint8_t n)
 {
@@ -70,13 +46,35 @@ void pr_num_parameters(NOBJ_NUM_PARAMETERS *x)
 void pr_parameter_types(void)
 {
   printf("\nParameter types:");
-  for(int i=0; i<num_parameters.num; i++)
+
+  for(int i=0; i<proc.num_parameters.num; i++)
     {
-      pr_uint8(parameter_types[i]);
+      pr_uint8(proc.parameter_types[i]);
       printf(" ");
     }
 }
 
+
+void dump_proc(NOBJ_PROC *proc)
+{
+  pr_var_space_size(&(proc->var_space_size));
+  pr_qcode_space_size(&(proc->qcode_space_size));
+  pr_num_parameters(&(proc->num_parameters));
+  pr_parameter_types();
+  pr_global_varname_size(&proc->global_varname_size);
+
+  printf("\nGlobal variables (%d)", proc->global_varname_num);
+  for(int i=0; i<proc->global_varname_num; i++)
+    {
+      printf("\n%2d: %-16s %02X %04X",
+	     i,
+	     proc->global_varname[i].varname,
+	     proc->global_varname[i].type,
+	     proc->global_varname[i].address
+	     );
+    }
+  printf("\n");
+}
 
   
 int main(int argc, char *argv[])
@@ -90,114 +88,13 @@ int main(int argc, char *argv[])
     }
 
   // Read the object file
-
-  if(!read_item((void *)&var_space_size, 1, sizeof(NOBJ_VAR_SPACE_SIZE)))
-    {
-      printf("\nError reading var space size.");
-      return(0);
-    }
-
-  var_space_size.size = swap_uint16(var_space_size.size);
+  read_proc_file(fp, &proc);
   
-  if(!read_item((void *)&qcode_space_size, 1, sizeof(NOBJ_QCODE_SPACE_SIZE)))
-    {
-      printf("\nError reading qcode space size.");
-      return(0);
-    }
-
-  if(!read_item((void *)&num_parameters.num, 1, sizeof(NOBJ_NUM_PARAMETERS)))
-    {
-      printf("\nError reading number of parameters.");
-      return(0);
-    }
-
-  if(!read_item((void *)&parameter_types, num_parameters.num, sizeof(NOBJ_PARAMETER_TYPE)))
-    {
-      printf("\nError reading parameter types.");
-      return(0);
-    }
-
-  if(!read_item((void *)&global_varname_size, 1, sizeof(NOBJ_GLOBAL_VARNAME_SIZE)))
-    {
-      printf("\nError reading global varname size");
-      return(0);
-    }
-
-  global_varname_size.size = swap_uint16(global_varname_size.size);
+  // Dump the proc information
+  dump_proc(&proc);
   
-  printf("\nGlobal varname size:%d", global_varname_size.size);
-  
-  // Global varname is more complicated to read. Each entry is length
-  // prefixed, so read them until the length we have read matches the
-  // size we have just read.
-
-  int length_read = 0;
-  
-do
-    {
-      uint8_t len;
-      uint8_t varname[NOBJ_VARNAME_MAXLEN];
-      NOBJ_VARTYPE vartype;
-      NOBJ_VARADDR varaddr;
-      vartype = 0;
-      varaddr = 0;
-      
-      if(!read_item((void *)&len, 1, sizeof(len)))
-	{
-	  printf("\nError reading global varname entry length");
-	  return(0);
-	}
-
-      memset(varname, 0, sizeof(varname));
-      
-      printf("\nVarname entry len=%d", len);
-      
-      length_read += sizeof(len);
-
-      // 3 bytes on end are type and addr, so read rest of data into name field
-      
-      if(!read_item((void *)&varname, len, sizeof(uint8_t)))
-	{
-	  printf("\nError reading global varname entry name field");
-	  return(0);
-	}
-      
-      printf("\nvarname='%s'", varname);
-
-      length_read += len;
-
-      // read type and addr
-
-      if(!read_item((void *)&vartype, 1, sizeof(NOBJ_VARTYPE)))
-	{
-	  printf("\nError reading global varname entry type field");
-	  return(0);
-	}
-
-      if(!read_item((void *)&varaddr, 1, sizeof(NOBJ_VARADDR)))
-	{
-	  printf("\nError reading global varname entry addr field");
-	  return(0);
-	}
-
-      printf("\nVarname type=%02X", vartype);
-      printf("\nVaraddr addr=%02X", varaddr);
-      length_read += 3;
-      printf("\nLength read:%d out of %d", length_read, global_varname_size.size);
-      
-    }
- while (length_read < global_varname_size.size );
  
  fclose(fp);
  
- printf("\nDump of @%s'\n", argv[1]);
-
-  pr_var_space_size(&var_space_size);
-  pr_qcode_space_size(&qcode_space_size);
-  pr_num_parameters(&num_parameters);
-  pr_parameter_types();
-  pr_global_varname_size(&global_varname_size);
-
-  printf("\n");
-    
+ 
 }
