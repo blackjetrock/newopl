@@ -29,7 +29,7 @@ void pr_var_space_size(NOBJ_VAR_SPACE_SIZE *x)
 
 void pr_qcode_space_size(NOBJ_QCODE_SPACE_SIZE *x)
 {
-  printf("\nVar Space Size:%04X", x->size);
+  printf("\nQCode Space Size:%04X", x->size);
 }
 
 void pr_global_varname_size(NOBJ_GLOBAL_VARNAME_SIZE *x)
@@ -48,14 +48,17 @@ void pr_num_parameters(NOBJ_NUM_PARAMETERS *x)
   pr_uint8(x->num);
 }
 
-void pr_parameter_types(void)
+void pr_parameter_types(NOBJ_PROC *p)
 {
   printf("\nParameter types:");
-
-  for(int i=0; i<proc.num_parameters.num; i++)
+  
+  for(int i=0; i<p->num_parameters.num; i++)
     {
-      pr_uint8(proc.parameter_types[i]);
-      printf(" ");
+      printf("\n%2d %s (%d)",
+	     i,
+	     decode_vartype(p->parameter_types[i]),
+	     p->parameter_types[i]
+	     );
     }
 }
 
@@ -65,7 +68,7 @@ void dump_proc(NOBJ_PROC *proc)
   pr_var_space_size(&(proc->var_space_size));
   pr_qcode_space_size(&(proc->qcode_space_size));
   pr_num_parameters(&(proc->num_parameters));
-  pr_parameter_types();
+  pr_parameter_types(proc);
   pr_global_varname_size(&proc->global_varname_size);
 
   printf("\nGlobal variables (%d)", proc->global_varname_num);

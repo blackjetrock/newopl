@@ -47,6 +47,8 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
   p->var_space_size.size = swap_uint16(p->var_space_size.size);
 
   READ_ITEM(fp, p->qcode_space_size,   1,                     NOBJ_QCODE_SPACE_SIZE, "\nError reading qcode space size.");
+  p->qcode_space_size.size = swap_uint16(p->qcode_space_size.size);
+  
   READ_ITEM(fp, p->num_parameters.num, 1,                     NOBJ_NUM_PARAMETERS,   "\nError reading number of parameters.");
   READ_ITEM(fp, p->parameter_types,    p->num_parameters.num, NOBJ_PARAMETER_TYPE,   "\nError reading parameter types.");
 
@@ -295,7 +297,17 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
   while (length_read < p->arysz_fixup_size.size );
 
   p->arysz_fixup_num = num_arysz_fixup;
- 
+
+  //------------------------------------------------------------------------------
+  //
+  // QCode
+  //
+  // The QCode could be large, so malloc an area to store it rather than having a fixed
+  // array size in the PROC structure
+  //
+  //------------------------------------------------------------------------------
+
+  
 }
 
 ////////////////////////////////////////////////////////////////////////////////

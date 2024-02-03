@@ -4,3 +4,5 @@
 #define NOBJ_EXTERNAL_VARNAME_SPACE_MAX    16
 #define NOBJ_STRLEN_FIXUP_MAX              16
 #define NOBJ_ARYSZ_FIXUP_MAX               16
+#define NOBJ_MAX_QCODE_SIZE             65535
+
