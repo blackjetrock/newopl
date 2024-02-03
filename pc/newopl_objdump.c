@@ -383,6 +383,8 @@ void dump_proc(NOBJ_PROC *proc)
   
   // Now display the QCode
   NOBJ_QCODE *qc = proc->qcode;
+
+  printf("\nQCode");
   
   for(int i=0; i<proc->qcode_space_size.size; qc++, i++)
     {
@@ -411,6 +413,8 @@ void dump_proc(NOBJ_PROC *proc)
 	  printf("\n%04X: %02X ????", i, *qc);
 	}
     }
+
+  printf("\n");
 }
 
 
