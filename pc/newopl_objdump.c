@@ -11,8 +11,13 @@
 #include "nopl_obj.h"
 #include "newopl_lib.h"
 
-FILE *fp;
+//------------------------------------------------------------------------------
 
+#define PRT_MAX_LINE  40
+
+//------------------------------------------------------------------------------
+
+FILE *fp;
 NOBJ_PROC                proc;
 
 //------------------------------------------------------------------------------
@@ -31,8 +36,6 @@ struct _QCODE_DESC
 }
   qcode_decode[] =
     {
-
-
      {0x00,	"v",	"-",	"I",	"Push local/global integer variable value"},
      {0x01,	"v",	"-",	"F",	"Push local/global float variable value"},
      {0x02,	"v",	"-",	"S",	"Push local/global string variable value"},
@@ -266,6 +269,62 @@ struct _QCODE_DESC
      {0xE6,	"-",	"I",	"S",	"MONTH$"},
     };
 
+typedef int    (*QC_BYTE_LEN_FN)(int i, NOBJ_QCODE *qc);
+typedef char * (*QC_BYTE_PRT_FN)(int i, NOBJ_QCODE *qc);
+
+typedef struct
+{
+  char *code;
+  QC_BYTE_LEN_FN len_fn;
+  QC_BYTE_PRT_FN prt_fn;
+} QC_BYTE_CODE;
+
+int null_qc_byte_len_fn_2(int i, NOBJ_QCODE *qc)
+{
+  return(2);
+}
+
+char prt_res[PRT_MAX_LINE];
+
+char *qc_byte_prt_fn_v(int i, NOBJ_QCODE *qc)
+{
+  sprintf(prt_res, "\n%04X:: %02X%02X", i+1, *(qc+1), *(qc+2));
+  return(prt_res);
+}
+
+
+char *qc_byte_prt_fn_V(int i, NOBJ_QCODE *qc)
+{
+  sprintf(prt_res, "\n%04X:: %02X%02X", i+1, *(qc+1), *(qc+2));
+  return(prt_res);
+}
+
+char *null_qc_byte_prt_fn(int i, NOBJ_QCODE *qc)
+{
+  return("");
+}
+
+int null_qc_byte_fn(int i, NOBJ_QCODE *qc)
+{
+  return(0);
+}
+
+QC_BYTE_CODE qc_byte_code[] =
+  {
+   
+   {"v",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_v},
+   {"V",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_V},
+   {"-",      null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"m",      null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"f",      null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"I",      null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"F",      null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"S",      null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"B",      null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"O",      null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"D",      null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"f+list", null_qc_byte_fn,       null_qc_byte_prt_fn},
+  };
 
 //------------------------------------------------------------------------------
 
@@ -397,12 +456,16 @@ void dump_proc(NOBJ_PROC *proc)
 	      printf("\n%04X: %02X %s", i, *qc, qcode_decode[j].desc);
 	      printf(" %s", qcode_decode[j].bytes);
 
-	      if( strcmp(qcode_decode[j].bytes, "V") == 0 )
+	      for(int qcb = 0; qcb < (sizeof(qc_byte_code)/sizeof(QC_BYTE_CODE)); qcb++)
 		{
-		  printf("\n%04X: %02X%02X", i+1, *(qc+1), *(qc+2));
-		  qc+=2;
-		  i+=2;
+		  if( strcmp(qcode_decode[j].bytes, qc_byte_code[qcb].code) == 0 )
+		    {
+		      printf("%s", (*qc_byte_code[qcb].prt_fn)(i, qc));
+		      qc +=        (*qc_byte_code[qcb].len_fn)(i, qc);
+		      i +=         (*qc_byte_code[qcb].len_fn)(i, qc);
+		    }
 		}
+
 	      found = 1;
 	      break;
 	    }
