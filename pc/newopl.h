@@ -5,4 +5,4 @@
 #define NOBJ_STRLEN_FIXUP_MAX              16
 #define NOBJ_ARYSZ_FIXUP_MAX               16
 #define NOBJ_MAX_QCODE_SIZE             65535
-
+#define NOBJ_MACHINE_STACK_SIZE         65535

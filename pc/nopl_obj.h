@@ -105,5 +105,5 @@ typedef struct _NOBJ_PROC
 						      
 typedef struct _NOBJ_MACHINE
 {
-  
+  uint8_t machine_stack[NOBJ_MACHINE_STACK_SIZE];
 } NOBJ_MACHINE;
