@@ -100,3 +100,10 @@ typedef struct _NOBJ_PROC
   NOBJ_STRLEN_FIXUP_ENTRY    arysz_fixup[NOBJ_ARYSZ_FIXUP_MAX];
   NOBJ_QCODE                 *qcode;  
 } NOBJ_PROC;
+
+// An execution machine. This is what the QCode executes in
+						      
+typedef struct _NOBJ_MACHINE
+{
+  
+} NOBJ_MACHINE;

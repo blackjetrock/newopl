@@ -299,6 +299,12 @@ char *qc_byte_prt_fn_V(int i, NOBJ_QCODE *qc)
   return(prt_res);
 }
 
+char *qc_byte_prt_fn_I(int i, NOBJ_QCODE *qc)
+{
+  sprintf(prt_res, "\n%04X:: %02X%02X", i+1, *(qc+1), *(qc+2));
+  return(prt_res);
+}
+
 char *null_qc_byte_prt_fn(int i, NOBJ_QCODE *qc)
 {
   return("");
@@ -317,7 +323,7 @@ QC_BYTE_CODE qc_byte_code[] =
    {"-",      null_qc_byte_fn,       null_qc_byte_prt_fn},
    {"m",      null_qc_byte_fn,       null_qc_byte_prt_fn},
    {"f",      null_qc_byte_fn,       null_qc_byte_prt_fn},
-   {"I",      null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"I",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_I},
    {"F",      null_qc_byte_fn,       null_qc_byte_prt_fn},
    {"S",      null_qc_byte_fn,       null_qc_byte_prt_fn},
    {"B",      null_qc_byte_fn,       null_qc_byte_prt_fn},
@@ -475,6 +481,22 @@ void dump_proc(NOBJ_PROC *proc)
 	{
 	  printf("\n%04X: %02X ????", i, *qc);
 	}
+    }
+
+  printf("\n");
+
+  printf("\nQCode Data\n");
+
+  qc = proc->qcode;
+  
+  for(int i=0; i<proc->qcode_space_size.size; qc++, i++)
+    {
+      if( (i % 16)==0 )
+	{
+	  printf("\n%04X:", i);
+	}
+      
+      printf("%02X ", *qc);
     }
 
   printf("\n");
