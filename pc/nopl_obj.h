@@ -78,6 +78,7 @@ typedef struct _NOBJ_ARYSZ_FIXUP_ENTRY
   NOBJ_ARYSZ_FIXUP_LEN   len;
 } NOBJ_ARYSZ_FIXUP_ENTRY;
 
+typedef uint8_t NOBJ_QCODE;
 
 typedef struct _NOBJ_PROC
 {
@@ -97,5 +98,5 @@ typedef struct _NOBJ_PROC
   NOBJ_ARYSZ_FIXUP_SIZE      arysz_fixup_size;
   int                        arysz_fixup_num;
   NOBJ_STRLEN_FIXUP_ENTRY    arysz_fixup[NOBJ_ARYSZ_FIXUP_MAX];
-  
+  NOBJ_QCODE                 *qcode;  
 } NOBJ_PROC;

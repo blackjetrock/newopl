@@ -307,6 +307,20 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
   //
   //------------------------------------------------------------------------------
 
+  p->qcode = malloc(p->qcode_space_size.size);
+
+  if( p->qcode == NULL )
+    {
+      printf("\nError mallocing QCode space.");
+      return;
+    }
+
+  // Read the QCode in
+  if(!read_item(fp, (void *)p->qcode, p->qcode_space_size.size, sizeof(uint8_t)))
+    {
+      printf("\nError reading QCode data");
+      return;
+    }
   
 }
 
