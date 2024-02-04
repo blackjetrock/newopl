@@ -48,8 +48,13 @@ int main(int argc, char *argv[])
 
   printf("\nLoaded '%s'", argv[1]);
 
+  // Initialise the machine
+  init_machine(&machine);
+  
   // Read the object file
-  read_proc_file(fp, &proc);
+  push_proc_on_stack(fp, &machine);
+  
+  //read_proc_file(fp, &proc);
 
   // Execute the QCodes
   exec_proc(&proc);

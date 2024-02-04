@@ -1,0 +1,50 @@
+bin2opl
+~~~~~~~
+By unknown, October 1991.
+
+Makes an OPL-file from a BIN-file containing machine code.
+
+The files contained in bin2opl.zip are:
+
+BIN2OPL.TXT     This text file
+BIN2OPL.EXE     Executable for the PC
+BEEP.SRC        Simple assembler source code example
+A.BAT           Batch file that uses the cross assembler XA to compile and
+                  then calls bin2opl to convert it.
+TEST.BAT        Batch file that runs A.BAT on the example file BEEP.SRC.
+
+
+A translation fo the documentation is below, followed by the Swedish original.
+
+-----------------------------------------------------------------------------
+
+bin2opl is a program that puts machine code from a bin file into an array
+in an OPL file.
+
+Little bits and bobs in the OPL file are updated, such as name, declaration
+of an array with the right size, initialization of the address of the array
+to a local variable, and finally the USR call. The rest would be "a piece of
+cake", as the Yanks wont to say ...
+
+
+Included A.BAT shows how XA.EXE (the cross assembler) can be called to obtain
+a BIN file and also comes with a very simple SRC file to test it out on. Try
+it with "a beep".
+
+-----------------------------------------------------------------------------
+
+
+bin2opl är ett program, som plockar in binärkoden i en BIN-fil till
+en array i en OPL-fil.
+
+Lite smått och gott i OPL-filen lägges till, såsom namn, deklarationen
+av en array med rätt storlek, initiering av adressen till arrayen till
+en lokal variabel samt slutligen själva USR-anropet. Resten torde vara
+"a piece of cake", som jänkarna plägar säga...
+
+Medföljande A.BAT visar hur XA.EXE skall anropas för att man skall er-
+hålla en BIN-fil och dessutom medföljer en mycket enkel SRC-fil att
+testa på. Prova med "a beep".
+
+-----------------------------------------------------------------------------
+Jaap's Psion II page:                           http://www.jaapsch.net/psion/

@@ -1,0 +1,4 @@
+	swi
+	.byte	14	; os$bell
+	rts
+	.end

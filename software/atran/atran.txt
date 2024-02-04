@@ -1,0 +1,185 @@
+
+				Barcelona 9-11-90
+
+
+	ATRAN.EXE is an OPL compiler for the IBM-PC and compatibles. Its
+operation is similar to the OPLTRAN.EXE of PSION PLC. This document is
+intended to explain its operation and its characteristics.
+
+
+		INTRODUCTION
+
+	The program was begun in the summer of 1989. On the one hand I aimed to
+make a compiler which covered certain shortcomings of the old OPLTRAN and
+on the other to learn to construct a compiler. 
+
+The usual way of working is:
+	
+	1 - To edit the programs (OPL files) with an editor.
+	
+	2 - To compile them with OPLTRAN or ATRAN.
+	
+	3 - If there are errors, return to step 1.
+	
+	4 - To send the sources to the XP with the CL program, or to build a
+		datapack file using program BLDPACK and send it with MAKE.
+	
+	5 - To test the programs in the XP and if there are errors return to 1.
+
+
+	The reason for not using the emulator are its shortcomings. On the
+one hand, we cannot use functions as PEEKB or USR and on the other we cannot
+use the functions provided by the peripherals (COMMS-LINK, PRINTER, etc...).
+The reason for not using only the XP is its lack of memory, the possibility of
+losing the programs due to a crash [or battery failure], and the difficulty of
+editing and writing on the XP. Our only recourse is to use the PC and the XP
+and to follow the previously described steps. 
+
+When I started ATRAN, the OPLTRAN had a serious defect which was to give a
+compilation error message without specifying exactly what it was. Another very
+common problem was to be mistaken when entering the name of a variable. This
+error was only detected when the program was run. The initial objective when
+constructing ATRAN was to solve these two problems. ATRAN shows the line
+number where the error occurred, the error number, the error message and
+quotes the line where the error took place. 
+
+The present version ATRAN incorporates some new characteristics and new commands.
+It is recommended that before using some of these commands we judge if it
+really is worthwhile to use them, since then we will only be able to compile
+the programs with ATRAN. Also, ATRAN allows us to detect the errors more
+easily. Finally, ATRAN is between 3 to 5 times faster than OPLTRAN. 
+
+
+
+	1 - Parameters of ATRAN
+
+If we call ATRAN from the system prompt, without any parameters, it will show
+a summary of the switches that we can use. 
+
+	C:\>ATRAN
+	Atran [@]InputFile [-s|-o|-t] [-x|-z] [-a] [-c] [-b] [-p] [-d] [-w] [-e]
+		-s Source    -o Ocode    -t Source & Ocode
+		-x XP        -z LZ
+		-a Advanced translate
+		-c Optimize code
+		-b Build
+		-p Translate COMMS-LINK's proc
+		-d Not delete spaces
+		-w Not display source line
+		-e Error Message
+
+	The order of the switches is unimportant. The brackets indicate the
+optional parameters. "|" indicates that there is a choice of option.
+"InputFile" is the name of the input file. This file can be the source of a
+program (if it does not have an extension, "OPL" is used by default just like
+OPLTRAN) or when it is preceded by an "@", it is the name of an ASCII file
+(without control characters) that has in each line the names of a program to
+compile. By default the extension of this file is "TRN". 
+
+
+	A compiled program has extension OB3. The file can contain the source
+of the program, compiled (object) or the both. By default the OB3 file contains
+only the object code. If we want to include only the source choose the option
+-s, if we want only the compiled one we chose the option -o or and if we want
+both we put option -t. Each one of these three options is incompatible with the
+other two reason is that if we chose two of them it completes the one that
+predominates. 
+
+	A program can be compiled for the XP or LZ. The programs compiled for
+the XP also work for model LZ but in the screen they use only two lines. The
+programs compiled for the LZ do not work on the XP. ATRAN compiles by default
+for model LZ. If we want it to compile for the XP, we must use the option -x.
+If we chose the option -z the program generates the code for model LZ. 
+
+
+	The option -a incorporates new commands and possibilities to OPL. With
+OPLTRAN we can compile a 23K file up to 8 levels of nested loops or conditions.
+ATRAN can compile a file of up to 63K source code and up to 23K when compiled.
+If we chose the option -a then it does not have limits in the number of nested
+loops and conditions (if not activated there is a limit of 8 just like
+OPLTRAN). Furthermore, this option allows the use of commands GOSUB label::
+and RETSUB. They are used in the same way as other BASIC languages. With GOSUB
+we branch off to a subroutine and with RETSUB we return to line following the
+GOSUB. It is recommended to carefully consider whether to use this option
+since we lose the compatibility. 
+
+
+	The option -c generates code shorter and faster. In the present version
+when qualifying this option the only change that the program makes is to
+compile the negative numbers as a single number instead of a positive number
+and a change of sign. In future versions there will be other more significant
+optimizations (like replacing an expression by their value, changing the
+references to an element of an array by their direction, etc.) In contrast to
+the -a option, with this option we do not lose the compatibility. 
+
+	The option -b is most useful. When using this option to compile a
+program (A) and this program calls to another one (B) then ATRAN compiles both
+(A and B). In this way we can compile the whole application invoking ATRAN a
+single time without having to create TRN files.
+
+	The option -p is used in combination with the option -b. By default the
+programs that have the same name as a routine of the COMMS-LINK, the printer,
+etc; they are not compiled. If we chose this option all such programs will be
+compiled. 
+
+	When we choose the option -s or -t then the compiler includes source
+code in the OB3 file. ATRAN in the beginning removes the spaces of each line
+so as to save space. If we activated this option the spaces at the beginning
+of each line are not erased. 
+
+	When ATRAN compiles a program it shows the line number, the percentage
+compiled, etc. If we activated the -w option they don't show these messages,
+and the compilation will be faster.
+
+	This option serves to see an error message. If we want to see the error
+message that corresponds to a number type ATRAN followed by the error number
+and the option -e, and the program shows the error message. 
+
+	C:\ATRAN 200 -e
+	Error:200 Device load err
+
+If we invoked ATRAN from another program or a file BAT we can consult the
+ERRORLEVEL system variable to see if there has been an error. If no errors
+occurred, ERRORLEVEL is 0. A compilation error produces an error 121.
+
+
+	2 -  External Variables
+
+	ATRAN forces to us to declare the external variables. An external
+variable is a global variable of another program that we are using in ours. In
+order to declare an external variable we must use commando EXTERNAL. This will
+become clear with an example. 
+
+	ProgA:
+	Global I%,J,K$(10),L%(5),M(5),N$(5,10)
+	ProgB:
+	Get
+
+	----------------------------------
+
+	ProgB:
+	Rem & External I%,J,K$,L%(),M(),N$()
+	Print I%,J,K$,L%(1),M(1),N$(1)
+
+
+	- REM & is a special command. On the one hand, OPLTRAN and the XP
+		ignore the line because for them this line is a comment. On the
+		other hand, ATRAN ignores all REM except when followed by &.
+		Therefore ATRAN reads and interprets the rest of the line
+		whereas OPLTRAN and the XP ignore the line. 
+
+	- variables I% and J are declared normally.
+	- with variable K$ the length is not declared (it has already been
+		defined in ProgA)
+	- varibles L%, M and N$ take parentheses () to signify that they are
+		arrays. The parentheses must not have anything between them.
+
+	Declaring the external variables allows the compiler to detect all
+nondeclared variables, with which you can save a lot of time (all the times
+you have compiled a program correctly and when trying to execute it the
+message MISSING EXTERNAL appears). It is possible that you are a little
+doubtful in the beginning but with use you will soon be convinced of its
+advantages. 
+
+	I have to say that the use of ATRAN is totally addictive. Once you get
+used to using it, it is not possible to return to using OPLTRAN. 

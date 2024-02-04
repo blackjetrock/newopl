@@ -102,8 +102,12 @@ typedef struct _NOBJ_PROC
 } NOBJ_PROC;
 
 // An execution machine. This is what the QCode executes in
-						      
+     
 typedef struct _NOBJ_MACHINE
 {
-  uint8_t machine_stack[NOBJ_MACHINE_STACK_SIZE];
+  // The machine stack where PROCs are loaded
+  uint8_t stack[NOBJ_MACHINE_STACK_SIZE];
+  
+  // Stack pointer (where next byte will be loaded
+  int sp;
 } NOBJ_MACHINE;

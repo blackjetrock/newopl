@@ -1,0 +1,212 @@
+
+						Barcelona 9-11-90
+
+
+	ATRAN.EXE es un compilador de OPL para el IBM-PC y compatibles.Su
+funcionamiento es similar al OPLTRAN.EXE de PSION PLC . En este documento
+intentar‚ explicar su funcionamiento y sus caracter¡sticas.
+
+
+		INTRODUCCION
+
+	El programa fue comenzado en el verano de 1989 . Por un lado se
+buscaba hacer un compilador que cubriese ciertas carencias del antiguo
+OPLTRAN y por otro aprender a construir un compilador.
+
+
+	La forma habitual de trabajo es :
+
+	  1 - Editar los programas ( ficheros OPL ) con un editor .
+
+	  2 - Compilarlos con OPLTRAN o con ATRAN .
+
+	  3 - Si hay errores volver al paso 1 .
+
+	  4 - Enviar los fuentes al XP con el CL o construir un datapack
+	      utilizando el programa BLDPACK y enviarlo con MAKE
+
+	  5 - Probar los programas en el XP y si hay errores volver a 1
+
+
+	La razon de no utilizar el emulador se debe a las carencias de
+este . Por un lado, no podemos utilizar funciones como PEEKB o USR y por
+otro no podemos utilizar las funciones proporcionadas por los perif‚ricos
+( COMMS-LINK,IMPRESORA,etc ... ). La razon de no utilizar el XP unicamente
+se debe a la falta de memoria, la posibilidad de perder los programas de-
+bido a un bloqueo ( colgada ) y lo dificil de editar y escribir en el XP.
+No nos queda mas remedio que utilizar el PC y el XP siguiendo los pasos
+descritos anteriormente.
+
+	Cuando se comenz¢ el ATRAN, el OPLTRAN ten¡a un grave defecto como
+era el dar un mensaje de error de compilaci¢n sin especificar cual era .
+Otro problema muy habitual era equivocarse al entrar el nombre de una va-
+riable. Este error s¢lo se detectaba en el momento de la ejecuci¢n del
+programa. El objetivo inicial, al construir ATRAN, era solucionar estos
+dos problemas. ATRAN se¤ala el n£mero de l¡nea donde se ha producido el
+error,el n£mero de error, el mensaje de error y un extracto de la l¡nea
+donde se produjo el error.
+
+	En la versi¢n actual ATRAN incorpora algunas nuevas caracter¡s-
+ticas y nuevos comandos. Es recomendable que antes de utilizar estos co-
+mandos valoremos si realmente conviene utilizarlos, ya que entonces sola-
+mente podremos compilar los programas con ATRAN . Ademas ATRAN nos permi-
+te detectar los errores mas facilmente. Por ultimo ATRAN es entre 3 a 5
+veces mas r pido que OPLTRAN.
+
+
+
+
+		1 - Par metros de ATRAN
+
+	Si llamamos a ATRAN desde el PROMPT del sistema, sin ningun par -
+metro, este nos mostrar  un resumen de las opciones que podemos utilizar.
+
+    C:\>ATRAN
+    Atran [@]InputFile [-s|-o|-t] [-x|-z] [-a] [-c] [-b] [-p] [-d] [-w] [-e]
+      -s Source    -o Ocode    -t Source & Ocode
+      -x XP        -z LZ
+      -a Advanced translate
+      -c Optimize code
+      -b Build
+      -p Translate COMMS-LINK's proc
+      -d Not delete spaces
+      -w Not display source line
+      -e Error Message
+
+
+	El orden de los par metros es indiferente . Los corchetes indican
+los par metros opcionales . "|" indica que hay que elegir una opci¢n.
+"InputFile" es el nombre del fichero de entrada . Este fichero puede ser
+el fuente de un programa ( si no tiene extensi¢n se a¤ade por defecto
+".OPL" , igual que OPLTRAN ) o si va precedido de una arroba ( @ ), ser 
+el nombre de un fichero ASCII ( sin caracteres de control ) que tiene en
+cada l¡nea los nombres de los programas a compilar . La extensi¢n por de-
+fecto de este fichero ser  ".TRN" .
+
+	Un programa compilado tiene la extensi¢n .OB3  . El fichero puede
+contener el fuente del programa,el compilado ( objeto ) o ambos . Por
+defecto el fichero  .OB3 contiene solo el codigo objeto . Si queremos
+introducir solo el fuente eligimos la opci¢n  -s ,si queremos solo el
+compilado elegimos la opci¢n  -o y si queremos ambos ponemos la opci¢n
+-t . Cada una de estas tres opciones es incompatible con las otras dos
+por lo que si elegimos dos de ellas ser  la £ltima la que predomine.
+
+	Un programa puede ser compilado para el XP o para LZ . Los pro-
+gramas compilados para el XP funcionan tambien para el modelo LZ pero en
+la pantalla salen dos l¡neas. Los programas compilados para el LZ no
+funcionan en el XP . ATRAN compila por defecto para el modelo LZ . Si
+queremos que compile para el XP , tenemos que escribir la opci¢n  -x
+Si elegimos la opci¢n -z el progama genera el c¢digo para el modelo
+LZ .
+
+	La opci¢n -a incorpora nuevos comandos y posibilidades al OPL.
+Con OPLTRAN podemos compilar un fichero  23K y hasta un nivel de 8
+bucles o condiciones . ATRAN puede compilar un fichero de hasta 63K
+de c¢digo fuente y 23K de c¢digo compilado. Si elegimos la opci¢n -a
+entonces no hay l¡mite en el n£mero de bucles ni condiciones ( si no
+est  activada existe un l¡mite de 8 igual que OPLTRAN ). Ademas esta
+opci¢n habilita el utilizar los comandos  GOSUB  label:: y RETSUB .
+Se utlizan de forma semejante a otros BASIC . Con GOSUB bifurcamos a
+la subrutina y con RETSUB volvemos a la l¡nia siguiente a GOSUB . Es
+recomendable estudiar detenidamente si conviene utilizar esta opci¢n
+ya que perdemos la compatibilidad.
+
+	La opci¢n -c habilita la generaci¢n de un c¢digo mas corto y
+r pido. En la versi¢n actual al habilitar esta opci¢n lo £nico que
+hace el programa es compilar los n£meros negativos como un s¢lo n£-
+mero en vez de un n£mero positivo y un cambio de signo. En futuras
+versiones las optimizaciones ser n bastante mas significativas (
+como el sustituir una expresi¢n por su valor, cambiar las referen-
+cias a un elemento de un vector por su direcci¢n,etc . Al contrario
+que la opci¢n -a con esta opci¢n no perdemos la compatibilidad.
+
+	La opci¢n  -b  es quizas la mas atractiva. Con esta opci¢n
+cuando compilamos un programa ( A ) y este programa llama a otro
+( B ) entonces ATRAN compila los dos ( A y B ). De esta forma podemos
+compilar toda una aplicaci¢n invocando una sola vez al programa ATRAN
+sin tener que crear ficheros  .TRN  . Pruebe a utilizar esta opci¢n,
+creo que le gustar .
+
+	La opci¢n -p se utliza en uni¢n de la opci¢n -b . Por defecto
+los programas que tengan un nombre igual a una rutina del COMMS-LINK,
+de la impresora,etc ; no se compilan . Si elegimos esta opci¢n todos
+los programas ser n compilados.
+
+	Cuando elegimos la opci¢n -s o -t entonces el compilador
+introduce el c¢digo fuente en el fichero .OB3 . ATRAN elimina los es-
+pacios al comienzo de cada l¡nea con el fin de ahorrar espacio. Si
+activamos esta opci¢n los espacios al principio de cada l¡nea no son
+borrados.
+
+	Cuando ATRAN compila un programa va mostrando el n£mero de
+l¡nea, el tanto por cien compilado, etc . Si activamos la opci¢n -w
+no se muestran los mensajes con lo cual la compilaci¢n es mas r pida.
+
+	Esta opci¢n sirve para ver un mensaje de error.Si queremos ver
+el mensaje de error que corresponde a un n£mero escribimos  ATRAN segui-
+do del n£mero de error y de la opci¢n -e , y el programa muestra el
+mensaje de error.
+
+	C:\ATRAN 200 -e
+	Error:200 Device load err    / Err carga disp
+
+
+	Si invocamos ATRAN desde otro programa o desde un fichero .BAT
+podemos consultar la variable del sistema ERRORLEVEL para ver si ha habido
+un error . Si no se producen errores ERRORLEVEL es 0 . Un error de compi-
+laci¢n produce un error 121 .
+
+
+
+
+		2 -  Varibles externas
+
+
+	ATRAN nos obliga a declarar las variables externas. Una varible
+externa es una variable  global de otro programa que estamos utilizando en
+el nuestro. Para declarar una variable externa tenemos que utilizar el
+comando  EXTERNAL . Lo veremos mas claro con un ejemplo.
+
+
+	    ProgA:
+	     Global I%,J,K$(10),L%(5),M(5),N$(5,10)
+
+	    ProgB:
+	    Get
+
+
+  ----------------------------------
+
+	    ProgB:
+	     Rem& External I%,J,K$,L%(),M(),N$()
+
+	    Print I%,J,K$,L%(1),M(1),N$(1)
+
+
+	- REM& es un comando especial. Por un lado, OPLTRAN y el XP ignoran
+	  la l¡nea debido a que para ellos esta l¡nea es un comentario. Por
+	  el otro lado, ATRAN ignora todo REM seguido & . Por lo tanto
+	  ATRAN lee e interpreta el resto de la l¡nea mientras que OPLTRAN
+	  y el XP ignoran la l¡nea.
+
+
+	- Las variables I% y J se declaran normalmente.
+
+	- En la varible K$ no se declara el tama¤o ( ya ha sido definido en
+	  ProgA )
+
+	- Las varibles L%,M y N$ llevan un par‚ntesis () para se¤alar que
+	  son vectores. Dentro del par‚ntesis no debe haber nada.
+
+
+	El declarar las variables externas permite al compilador detectar
+toda variable no declarada con lo cual nos ahorramos un monton de tiempo
+( cuantas veces hemos compilado un programa correctamente y al intentar
+ejecutarlo aparece el mensaje  MISSING EXTERNAL ) . Es posible que al
+principio usted se muestre un poco reacio pero ver  como con el uso se
+va convenciendo de sus ventajas.
+
+	Le prevengo que el uso de ATRAN es totalmente adictivo. Una vez
+que usted se acostumbre a utilizarlo no podr  volver a utilizar OPLTRAN .
+
+

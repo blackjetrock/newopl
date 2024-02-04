@@ -1,0 +1,132 @@
+KEYS
+
+There are a number of special keys used in the emulator.
+F1 starts Organiser Emulation Mode from Emulator Command Mode.
+F4 returns to Emulator Command Mode from Organiser Emulation Mode.
+
+When in Organiser Emulation Mode:
+      F1 and ESC act as the ON/CLEAR key on the Organiser.
+      F2 acts as the MODE key on the Organiser.
+LOAD
+
+Loads an ODB file into the developer from the PC.
+Syntax: load <filename1>[.<ext>] <dev>:[<filename2>]
+Loads <filename1> from the PC into device <dev> on the developer.
+If no <ext> is supplied with <filename1> then ODB is assumed.
+If <filename2> is not supplied then it defaults to <filename1>
+
+<dev> can be one of A, B or C
+SAVE
+
+Saves an ODB file from the developer to the PC.
+Syntax: save <dev>:<filename1> [<filename2>[.<ext>]]
+Saves <filename1> from device <dev> on the developer to the PC.
+If <filename2> is not supplied then it defaults to <filename1>
+If no <ext> is supplied with <filename2> then ODB is assumed.
+
+<dev> can be one of A, B or C
+CREATE
+
+Create a new datapak.  The pack name must be different from that
+of any existing pack.  The extension .IPK is automatically added to
+the pack name.  An optional 'r' can be added to make it a rampak.
+
+Syntax: create <packname> <size>[ r]
+    <packname> is up to 8 alphanumeric characters starting with a letter.
+    <size>    is one of 8, 16, 32, 64, 128 for Datapaks
+              or 32 for Rampaks.
+DELETE
+
+Delete an existing pack.  An error is returned if the pack is fitted
+to the emulator.  The name is assumed to have a .IPK extension.
+
+Syntax: delete <packname>
+    <packname> is up to 8 alphanumeric characters starting with a letter.
+ERASE
+
+Erase the contents of an existing pack.  An error is returned if the pack
+is fitted to the emulator.  The name is assumed to have a .IPK extension.
+
+Syntax: erase <packname>
+    <packname> is up to 8 alphanumeric characters starting with a letter.
+FIT
+
+Fit an existing pack into a slot.  The name is assumed to have
+a .IPK extension.
+
+Syntax: fit <packname> <slot>
+    <packname> is up to 8 alphanumeric characters starting with a letter.
+    <slot>     is either B: or C:.
+REMOVE
+
+Remove a pack from either slot B: or C:.
+
+Syntax: remove <slot>
+    <slot>     is either B: or C:.
+DISK
+
+Select the source and destination for procedure files.
+If DISK is ON, then all OPL procedures are saved or loaded as disk
+files.  Data file access from OPL is still done to the packs in
+the ordinary way.
+If DISK is OFF OPL procedures are read from or written to the packs
+as normal.
+
+Syntax: disk <status>
+    <status>   is either ON or OFF.
+DEBUG
+
+Enable or disable the OPL debug facilities.
+DEBUG is always OFF if the DISK indicator is OFF.
+
+Syntax: debug <status>
+    <status>   is either ON or OFF.
+QUIT
+
+Exit from the emulator.
+
+Syntax: quit
+TRAN
+
+Translates one or more procedures in 4 line mode.
+If the file name is preceded by an '@' then the file name should be a command
+file with extension .TRN. The command file consists of a list of the
+procedures to be translated, one file name per line.
+
+With no '@' the file should be an OPL source file with extension .OPL.
+
+Syntax: tran [@]<filename>
+<filename> is the name of the command file or file to be translated
+XTRAN
+
+Translates one or more procedures in 2 line mode. 4 line opl will not be 
+recognised by xtran. If the file name is preceded by an '@' then the
+file name should be a command file with extension .TRN. The command file
+consists of a list of the procedures to be translated, one file name per line.
+
+With no '@' the file should be an OPL source file with extension .OPL.
+
+Syntax: xtran [@]<filename>
+<filename> is the name of the command file or file to be translated
+DOS
+
+Allows execution of DOS commands.  If the DOS command is given on
+its own, then the screen will be cleared and you will be left in DOS.
+To return to the emulator type EXIT to the DOS prompt.
+
+If a <command line> is given, then that command is executed.
+After that command has been executed control is returned to the emulator.
+
+Syntax: dos [<command line>]
+<command line> is any DOS command.
+HELP
+
+Display help information for the emulator commands.  For help on a
+particular command, type its name and press the RETURN key.
+If HELP is followed by a command then only help on that command is given.
+Just press the RETURN key to leave help.
+
+Syntax: help [command]
+
+All Emulator commands may be abbreviated to their first three letters.
+

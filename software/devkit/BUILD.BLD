@@ -1,0 +1,8 @@
+OPKNAME 16 NOCOPY NOWRITE   !Name/size/protection. Delete prot if none needed.
+BOOT   BIN                  !boot file.
+TABLE  ODB                  !Example data file
+TABLE2 ODB NEWNAME ,        !Can be renamed, and seperator specified.
+PROC1  OB3                  !Example procedure
+PROC2  OB3 NEWNAME          !Can be renamed. Can use other image files OB2-OBF.
+
+			!Call by command BLDPACK @<filename>   without the .BLD extension.
