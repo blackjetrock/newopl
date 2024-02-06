@@ -1,0 +1,33 @@
+rta_fp	A7/A8		Frame (procedure) pointer. rta_fp points into the header of the current procedure. Each procedure header has the form:
+
+0A7: 7E 
+0A8: EE 7E E0 00 00 27 10 14 
+0B0: 01 00 00 00 01 41 7E E6 
+0B8: 00 00 00 00 00 11 00 00 
+
+
+
+
+
+
+
+
+
+Global name table
+Indirection table for externals/parameters
+This is followed by the variables, and finally by the Q code. rta_fp points at the previous rta_fp, so it is easy to jump up through all the procedures above. The language uses this when resolving external references and when handling errors.
+
+7EE0: 6C 7B 55 55 00 00 02 47 
+7EE8: 25 00
+
+      7E E4      ONERR address
+      7E E6      Return rta_pc
+7EEE: 00 00      Device (zero if top procedure)
+7EF0: 7E DB
+      00 00
+      7E F7      base_sp
+      00 00      Previous rta_fp. rta_fp points to this word.
+7EF8: 07 41      Start address of the global name table
+3A 54 45 53 54 31 
+7F00: 55 55 55 55 55 55 55 55 
+7F08: 55 55 55 55 55 55 55 55 
