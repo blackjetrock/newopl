@@ -377,10 +377,9 @@ char *decode_vartype(NOBJ_VARTYPE t)
 void init_machine(NOBJ_MACHINE *m)
 {
   // Set stack pointer
-  // Stack grows from index 0 onwards to index N
-  // Indices increase so we can memcpy data int the stack. The organiser
-  // assumes the stack moves downwards, i.e. decreasing SP values as things are
-  // pushed on the stack. This is different to the stack here.
+  // Stack grows from max index towards index 0
+  // On the original organiser OPL the stack grows downwards, we do the same
+  
   // Addresses of variables are referenced from the start of the proc area
   // on the stack anyway, so addresses have to be manipulated.
 
