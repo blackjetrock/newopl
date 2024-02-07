@@ -52,10 +52,10 @@ int main(int argc, char *argv[])
   init_machine(&machine);
   
   // Read the object file
+  read_proc_file(fp, &proc);
+
   push_proc_on_stack(fp, &machine);
   
-  //read_proc_file(fp, &proc);
-
   // Execute the QCodes
   exec_proc(&proc);
   

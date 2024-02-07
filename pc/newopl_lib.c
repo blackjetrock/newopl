@@ -32,8 +32,11 @@ int read_item(FILE *fp, void *ptr, int n, size_t size)
   return(1);
 }
 
+int debugi = 0;
+
 
 #define READ_ITEM(FP,DEST,NUM,TYPE,ERROR)			\
+  printf("\nLoading %d", debugi++);                             \
   if(!read_item(FP, (void *)&(DEST), NUM, sizeof(TYPE)))	\
     {								\
       printf(ERROR);						\
@@ -55,12 +58,15 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
   p->qcode_space_size.size = swap_uint16(p->qcode_space_size.size);
   
   READ_ITEM(fp, p->num_parameters.num, 1,                     NOBJ_NUM_PARAMETERS,   "\nError reading number of parameters.");
+  printf("\nParameters num:%d", p->num_parameters);
   READ_ITEM(fp, p->parameter_types,    p->num_parameters.num, NOBJ_PARAMETER_TYPE,   "\nError reading parameter types.");
 
+  printf("\nGlobal varname size");
+    
   READ_ITEM( fp,  p->global_varname_size, 1, NOBJ_GLOBAL_VARNAME_SIZE, "\nError reading global varname size.");
   p->global_varname_size.size = swap_uint16(p->global_varname_size.size);
   
-  //  printf("\nGlobal varname size:%d", p->global_varname_size.size);
+  printf("\nGlobal varname size:%d\n", p->global_varname_size.size);
 
   //------------------------------------------------------------------------------
   // Global varname is more complicated to read. Each entry is length
@@ -79,13 +85,15 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
       NOBJ_ADDR addr;
       vartype = 0;
       addr = 0;
-      
+
       if(!read_item(fp, (void *)&len, 1, sizeof(len)))
 	{
 	  printf("\nError reading global varname entry length");
 	  return;
 	}
 
+      printf("\nGlobal varname entry length: %d", len);
+      
       memset(varname, 0, sizeof(varname));
       
       //      printf("\nVarname entry len=%d", len);
@@ -100,7 +108,7 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
 	  return;
 	}
       
-      //printf("\nvarname='%s'", varname);
+      printf("\nvarname='%s'", varname);
 
       length_read += len;
 
@@ -118,8 +126,8 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
 	  return;
 	}
 
-      //printf("\nVarname type=%02X", vartype);
-      //printf("\nAddr addr=%02X", addr);
+      printf("\nVarname type=%02X", vartype);
+      printf("\nAddr addr=%02X", addr);
       length_read += 3;
 
       //printf("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
@@ -383,7 +391,7 @@ void init_machine(NOBJ_MACHINE *m)
   // Addresses of variables are referenced from the start of the proc area
   // on the stack anyway, so addresses have to be manipulated.
 
-  m->sp = 0;
+  m->sp = NOBJ_MACHINE_STACK_SIZE;
   
 }
 
@@ -395,7 +403,7 @@ void init_machine(NOBJ_MACHINE *m)
 // 
 //------------------------------------------------------------------------------
 
-void push_proc_on_stack(FILE *fp, NOBJ_MACHINE *machine)
+void push_proc_on_stack(NOBJ_PROC *proc, NOBJ_MACHINE *machine)
 {
   #if 0
   READ_ITEM(  fp, p->var_space_size, 1, NOBJ_VAR_SPACE_SIZE, "\nError reading var space size.");

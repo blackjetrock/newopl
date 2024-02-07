@@ -1,0 +1,32 @@
+                0035            size of the variables on stack
+                0008            size of Q code length
+                01              number of parameters
+                02                type of parameter
+                0011            size of global area
+                01 42             global name
+                01                global type
+                FFE1              offset
+                02 43 25          global name
+                03                global type
+                FFD9              offset
+                02 44 24          global name
+                02                global type
+                FFD3              offset
+                0004            bytes of externals
+                02 4A 24          external name
+                02                external type
+                0006            bytes of string fix-ups
+                FFCB              string fix-up offset (from FP)
+                05                max length of string
+                FFD2              string fix-up offset (from FP)
+                05                max length of string
+                0004            bytes of array fix-ups
+                FFD9              array fix-up offset (from FP)
+                0003              size of array
+
+The Q code is:
+                16 FFE9         QI_LS_STR_SIM_IND
+                09 FFEB         QI_STR_SIM_IND
+                81              QCO_ASS_STR
+                7B              QCO_RETURN_ZERO
+		
