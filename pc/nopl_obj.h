@@ -113,7 +113,5 @@ typedef struct _NOBJ_MACHINE
 } NOBJ_MACHINE;
 
 
-// Variable types
-typedef uint16_t NOBJ_VAR_INT;
-typedef uint8_t[8] NOBJ_VAR_FLOAT;
+
 

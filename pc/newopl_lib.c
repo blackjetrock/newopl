@@ -61,7 +61,7 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
   p->qcode_space_size.size = swap_uint16(p->qcode_space_size.size);
   
   READ_ITEM(fp, p->num_parameters.num, 1,                     NOBJ_NUM_PARAMETERS,   "\nError reading number of parameters.");
-  printf("\nParameters num:%d", p->num_parameters);
+  printf("\nParameters num:%d", p->num_parameters.num);
   READ_ITEM(fp, p->parameter_types,    p->num_parameters.num, NOBJ_PARAMETER_TYPE,   "\nError reading parameter types.");
 
   printf("\nGlobal varname size");
@@ -395,8 +395,6 @@ void init_machine(NOBJ_MACHINE *m)
   // on the stack anyway, so addresses have to be manipulated.
 
   m->sp = NOBJ_MACHINE_STACK_SIZE;
-<<<<<<< HEAD
-  
 }
 
 void error(char *fmt, ...)
@@ -407,8 +405,6 @@ void error(char *fmt, ...)
 
   vprintf(fmt, valist);
   va_end(valist);
-=======
->>>>>>> 9cbd50c4f859fed7c93835586d36b7bb6eb6b797
   
   exit(-1);
 }
@@ -448,6 +444,46 @@ uint16_t pop_sp_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
   return(sp);  
 }
 
+uint16_t pop_sp_int(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
+{
+  if( sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to pop from empty stack");
+    }
+
+  for(int i=0; i<2; i++)
+    {
+      *(val++) = m->stack[++sp];
+      
+#if DEBUG_PUSH_POP
+      printf("\n%s:Popped %02X from SP:%04X", __FUNCTION__, *val, (m->sp)-1);
+#endif
+    }
+  
+
+  return(sp);  
+}
+
+uint16_t pop_sp_float(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
+{
+  if( sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to pop from empty stack");
+    }
+
+  for(int i=0; i<8; i++)
+    {
+      *(val++) = m->stack[++sp];
+#if DEBUG_PUSH_POP
+      printf("\n%s:Popped %02X from SP:%04X", __FUNCTION__, *val, (m->sp)-1);
+#endif
+      
+    }
+  
+
+  return(sp);  
+}
+
 //------------------------------------------------------------------------------
 //
 // Takes a proc file and pushes it onto a machine language stack ready for
@@ -456,11 +492,7 @@ uint16_t pop_sp_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
 // 
 //------------------------------------------------------------------------------
 
-<<<<<<< HEAD
 void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
-=======
-void push_proc_on_stack(NOBJ_PROC *proc, NOBJ_MACHINE *machine)
->>>>>>> 9cbd50c4f859fed7c93835586d36b7bb6eb6b797
 {
   uint8_t parm_cnt;
   
