@@ -6,10 +6,13 @@
 #include <stdio.h>
 #include <inttypes.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "newopl.h"
 #include "nopl.h"
 #include "nopl_obj.h"
+
+#define DEBUG_PUSH_POP    1
 
 uint16_t swap_uint16(uint16_t n)
 {
@@ -384,8 +387,55 @@ void init_machine(NOBJ_MACHINE *m)
   // Addresses of variables are referenced from the start of the proc area
   // on the stack anyway, so addresses have to be manipulated.
 
-  m->sp = 0;
+  m->sp = NOBJ_MACHINE_STACK_SIZE;
   
+}
+
+void error(char *fmt, ...)
+{
+  va_list valist;
+
+  va_start(valist, fmt);
+
+  vprintf(fmt, valist);
+  va_end(valist);
+  
+  exit(-1);
+}
+
+
+void push_machine_8(NOBJ_MACHINE *m, uint8_t v)
+{
+#if DEBUG_PUSH_POP
+  printf("\n%s:pushing %02X SP:%04X", __FUNCTION__, v, m->sp);
+#endif
+  
+  if( m->sp > 0 )
+    {
+      m->stack[(m->sp)--] = v;
+    }
+  else
+    {
+      error("Attempt to push off end of stack");
+    }
+}
+
+// Pop byte off stack and return new stack pointer value.
+
+uint16_t pop_sp_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
+{
+  if( sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to pop from empty stack");
+    }
+  
+  *val = m->stack[++sp];
+
+#if DEBUG_PUSH_POP
+  printf("\n%s:Popped %02X from SP:%04X", __FUNCTION__, *val, (m->sp)-1);
+#endif
+
+  return(sp);  
 }
 
 //------------------------------------------------------------------------------
@@ -396,8 +446,86 @@ void init_machine(NOBJ_MACHINE *m)
 // 
 //------------------------------------------------------------------------------
 
-void push_proc_on_stack(FILE *fp, NOBJ_MACHINE *machine)
+void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
 {
+  uint8_t parm_cnt;
+  
+  // Check if it is a language extension
+
+  // Search for the procedure
+
+  // Check there is sufficient memory
+  // Is there more than 255 bytes free?
+  if( !(m->sp > 255) )
+    {
+      error("\nOut of memory");
+    }
+  
+  // Set new rta_sp and rta_fp
+
+  // Check the parameter count
+  // Save the stack pointer
+  uint16_t osp = pop_sp_8(m, m->sp, &parm_cnt);
+  uint8_t vartype;
+  
+  // Check the parameter count
+  if( parm_cnt != p->num_parameters.num )
+    {
+      error("\nParameter count does not match (%d in proc does not match %d on stack)", p->num_parameters.num, parm_cnt);
+    }
+  
+  for(int i=0; i<parm_cnt; i++)
+    {
+      osp = pop_sp_8(m, osp, &vartype);
+
+      //
+      // We just skip past the value 
+      switch(vartype)
+	{
+	case NOBJ_VARTYPE_INT:
+	  
+	  break;
+
+	case NOBJ_VARTYPE_FLT:
+	  break;
+
+	case NOBJ_VARTYPE_STR:
+	  break;
+
+	case NOBJ_VARTYPE_INTARY:
+	  break;
+
+	case NOBJ_VARTYPE_FLTARY:
+	  break;
+
+	case NOBJ_VARTYPE_STRARY:
+	  break;
+
+	default:
+	  error("\nBad variable type (%02X)", vartype);
+	  break;
+	}
+    }
+  
+  // Check the parameter types
+
+  // Set up the global variable tables
+
+  // Set up the parameter table
+
+  // Resolve externals and build external table
+
+  // Zero all variable space
+
+  // Fix-up strings
+
+  // Fix up arrays
+
+  // Load code
+
+  // Set new rta_pc
+
+  
   #if 0
   READ_ITEM(  fp, p->var_space_size, 1, NOBJ_VAR_SPACE_SIZE, "\nError reading var space size.");
   p->var_space_size.size = swap_uint16(p->var_space_size.size);

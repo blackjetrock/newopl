@@ -34,6 +34,35 @@ void exec_proc(NOBJ_PROC *proc)
 FILE *fp;
 NOBJ_PROC proc;
 
+void push_parameters(NOBJ_MACHINE *m)
+{
+  // parameters for the code in xx0.bin
+  push_machine_8(m, 'C');
+  push_machine_8(m, 'B');
+  push_machine_8(m, 'A');
+  push_machine_8(m, 0x03);
+  push_machine_8(m, 0x02);
+
+  push_machine_8(m, 0x12);
+  push_machine_8(m, 0x00);
+  push_machine_8(m, 0x00);
+
+  push_machine_8(m, 0x00);
+  push_machine_8(m, 0x01);
+  push_machine_8(m, 0x17);
+  push_machine_8(m, 0x50);
+  push_machine_8(m, 0x00);
+  push_machine_8(m, 0x00);
+  push_machine_8(m, 0x00);
+  push_machine_8(m, 0x00);
+  push_machine_8(m, 0x01);
+
+  // Number of parameters
+  push_machine_8(m, 0x03);
+  
+
+}
+
 int main(int argc, char *argv[])
 {
 
@@ -50,11 +79,15 @@ int main(int argc, char *argv[])
 
   // Initialise the machine
   init_machine(&machine);
+
+  // Put some parameters on the stack for our test code
+  push_parameters(&machine);
   
   // Read the object file
-  push_proc_on_stack(fp, &machine);
-  
-  //read_proc_file(fp, &proc);
+  read_proc_file(fp, &proc);
+
+  // Push it it on the stack
+  push_proc_on_stack(&proc, &machine);
 
   // Execute the QCodes
   exec_proc(&proc);
