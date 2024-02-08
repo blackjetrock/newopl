@@ -111,3 +111,9 @@ typedef struct _NOBJ_MACHINE
   // Stack pointer (where next byte will be loaded
   int sp;
 } NOBJ_MACHINE;
+
+
+// Variable types
+typedef uint16_t NOBJ_VAR_INT;
+typedef uint8_t[8] NOBJ_VAR_FLOAT;
+
