@@ -444,7 +444,7 @@ uint16_t pop_sp_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
   return(sp);  
 }
 
-uint16_t pop_sp_int(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
+uint16_t pop_discard_sp_int(NOBJ_MACHINE *m, uint16_t sp)
 {
   if( sp == NOBJ_MACHINE_STACK_SIZE )
     {
@@ -453,10 +453,10 @@ uint16_t pop_sp_int(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
 
   for(int i=0; i<2; i++)
     {
-      *(val++) = m->stack[++sp];
+      ++sp;
       
 #if DEBUG_PUSH_POP
-      printf("\n%s:Popped %02X from SP:%04X", __FUNCTION__, *val, (m->sp)-1);
+      printf("\n%s:Popped from SP:%04X", __FUNCTION__, (m->sp)-1);
 #endif
     }
   
@@ -464,7 +464,7 @@ uint16_t pop_sp_int(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
   return(sp);  
 }
 
-uint16_t pop_sp_float(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
+uint16_t pop_discard_sp_float(NOBJ_MACHINE *m, uint16_t sp)
 {
   if( sp == NOBJ_MACHINE_STACK_SIZE )
     {
@@ -473,13 +473,35 @@ uint16_t pop_sp_float(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
 
   for(int i=0; i<8; i++)
     {
-      *(val++) = m->stack[++sp];
+      ++sp;
 #if DEBUG_PUSH_POP
-      printf("\n%s:Popped %02X from SP:%04X", __FUNCTION__, *val, (m->sp)-1);
+      printf("\n%s:Popped and discarded from SP:%04X", __FUNCTION__, (m->sp)-1);
 #endif
       
     }
+
+  return(sp);  
+}
+
+uint16_t pop_discard_sp_str(NOBJ_MACHINE *m, uint16_t sp)
+{
+  if( sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to pop from empty stack");
+    }
+
+  uint8_t len_str;
   
+  sp = pop_sp_8(m, sp, &len_str);
+  
+  for(int i=0; i<len_str; i++)
+    {
+      ++sp;
+#if DEBUG_PUSH_POP
+      printf("\n%s:Popped and discarded from SP:%04X", __FUNCTION__, (m->sp)-1);
+#endif
+      
+    }
 
   return(sp);  
 }
@@ -529,13 +551,15 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
       switch(vartype)
 	{
 	case NOBJ_VARTYPE_INT:
-	  
+	  osp = pop_discard_sp_int(m, osp);
 	  break;
 
 	case NOBJ_VARTYPE_FLT:
+	  osp = pop_discard_sp_float(m, osp);
 	  break;
 
 	case NOBJ_VARTYPE_STR:
+	  osp = pop_discard_sp_str(m, osp);
 	  break;
 
 	case NOBJ_VARTYPE_INTARY:
