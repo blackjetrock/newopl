@@ -15,3 +15,5 @@ This tool dumps object files, which are files containg the QCode byte stream.
 
 <code>newopl_objdump [objfile] </code>
 
+It can read binary QCode files and also OB3 files.
+
