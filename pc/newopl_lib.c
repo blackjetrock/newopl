@@ -35,6 +35,43 @@ int read_item(FILE *fp, void *ptr, int n, size_t size)
   return(1);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// Reads the header of an OB3 file
+//
+//
+
+char ob3_hdr[10];
+uint8_t  ob3_block_file_type = 0;
+uint16_t ob3_file_length_word = 0;
+uint16_t ob3_block_length_word = 0;
+
+void read_ob3_header(FILE *fp)
+{
+  int ni;
+
+  strcpy(ob3_hdr, "\0\0\0\0\0\0");
+	 
+  printf("\nReading OB3 header");
+  
+  // Drop the ORG string
+  ni = read_item(fp, &ob3_hdr, 1, 3);
+  printf("\nHdr                  : %s", ob3_hdr);
+  
+  // File length word
+  ni = read_item(fp, &ob3_file_length_word, 1, 2);
+
+  printf("\nOB3 File length word : %X", (int)swap_uint16(ob3_file_length_word));
+  
+  // Block file type
+  ni = fread(&ob3_block_file_type, 1, 1, fp);
+  printf("\nBlock file type      : %02X", (int)ob3_block_file_type);
+
+  // Block length
+  ni = read_item(fp, &ob3_block_length_word, 1, 2);
+  printf("\nOB3 Block length word: %X", (int)swap_uint16(ob3_block_length_word));
+}
+
 int debugi = 0;
 
 
@@ -68,7 +105,8 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
     
   READ_ITEM( fp,  p->global_varname_size, 1, NOBJ_GLOBAL_VARNAME_SIZE, "\nError reading global varname size.");
   p->global_varname_size.size = swap_uint16(p->global_varname_size.size);
-  
+
+  printf("\nVar space size     :%d\n", p->var_space_size.size);
   printf("\nGlobal varname size:%d\n", p->global_varname_size.size);
 
   //------------------------------------------------------------------------------

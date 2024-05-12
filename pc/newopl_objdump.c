@@ -507,6 +507,17 @@ void dump_proc(NOBJ_PROC *proc)
 
 int main(int argc, char *argv[])
 {
+  char filename[100];
+  char extension[10];
+  char name[100];
+
+  strcpy(filename, argv[1]);
+  sscanf(filename, "%[^.].%s", name, extension);
+  printf("\nFilename:'%s'", name);
+  printf("\nFile ext:'%s", extension);
+  
+
+  
   fp = fopen(argv[1], "r");
 
   if( fp == NULL )
@@ -515,6 +526,12 @@ int main(int argc, char *argv[])
       exit(-1);
     }
 
+  // If this is an OB3 file then drop the header
+  if( strcmp(extension, "OB3") == 0 )
+    {
+      read_ob3_header(fp);
+    }
+  
   // Read the object file
   read_proc_file(fp, &proc);
   
