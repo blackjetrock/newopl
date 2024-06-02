@@ -91,6 +91,8 @@ int debugi = 0;
 
 void read_proc_file(FILE *fp, NOBJ_PROC *p)
 {
+  printf("\nEnter:%s", __FUNCTION__);
+  
   READ_ITEM(  fp, p->var_space_size, 1, NOBJ_VAR_SPACE_SIZE, "\nError reading var space size.");
   p->var_space_size.size = swap_uint16(p->var_space_size.size);
 
@@ -117,8 +119,8 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
   
   int length_read = 0;
   int num_global_vars = 0;
-  
-  do
+
+  while (length_read < p->global_varname_size.size )
     {
       uint8_t len;
       uint8_t varname[NOBJ_VARNAME_MAXLEN];
@@ -181,10 +183,10 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
       num_global_vars++;      
     }
 
-  while (length_read < p->global_varname_size.size );
-
   p->global_varname_num = num_global_vars;
 
+  printf("\nNum global vars: %d", num_global_vars);
+  
   //------------------------------------------------------------------------------
   //
   // Now read the external varname table
@@ -196,8 +198,8 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
 
   length_read = 0;
   int num_external_vars = 0;
-  
-  do
+
+  while (length_read < p->external_varname_size.size )
     {
       uint8_t len;
       uint8_t varname[NOBJ_VARNAME_MAXLEN];
@@ -248,7 +250,6 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
       num_external_vars++;      
     }
 
-  while (length_read < p->external_varname_size.size );
 
   p->external_varname_num = num_external_vars;
 
@@ -263,8 +264,8 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
  
   length_read = 0;
   int num_strlen_fixup = 0;
- 
-  do
+
+  while (length_read < p->strlen_fixup_size.size )
     {
       NOBJ_ADDR             addr;
       NOBJ_STRLEN_FIXUP_LEN strlen;
@@ -298,7 +299,6 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
       num_strlen_fixup++;      
     }
 
-  while (length_read < p->strlen_fixup_size.size );
 
   p->strlen_fixup_num = num_strlen_fixup;
 
@@ -313,8 +313,8 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
  
   length_read = 0;
   int num_arysz_fixup = 0;
- 
-  do
+
+  while (length_read < p->arysz_fixup_size.size )
     {
       NOBJ_ADDR             addr;
       NOBJ_ARYSZ_FIXUP_LEN arysz;
@@ -348,7 +348,7 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
       num_arysz_fixup++;      
     }
 
-  while (length_read < p->arysz_fixup_size.size );
+
 
   p->arysz_fixup_num = num_arysz_fixup;
 
@@ -376,6 +376,8 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
       return;
     }
   
+  printf("\nExit:%s", __FUNCTION__);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -425,6 +427,8 @@ char *decode_vartype(NOBJ_VARTYPE t)
 
 void init_machine(NOBJ_MACHINE *m)
 {
+  printf("\nInit machine...");
+  
   // Set stack pointer
   // Stack grows from max index towards index 0
   // On the original organiser OPL the stack grows downwards, we do the same
@@ -433,6 +437,7 @@ void init_machine(NOBJ_MACHINE *m)
   // on the stack anyway, so addresses have to be manipulated.
 
   m->sp = NOBJ_MACHINE_STACK_SIZE;
+  printf("\nInit machine done.");
 }
 
 void error(char *fmt, ...)
@@ -555,7 +560,9 @@ uint16_t pop_discard_sp_str(NOBJ_MACHINE *m, uint16_t sp)
 void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
 {
   uint8_t parm_cnt;
-  
+
+  printf("\nEnter:%s", __FUNCTION__);
+
   // Check if it is a language extension
 
   // Search for the procedure
@@ -569,9 +576,11 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
   
   // Set new rta_sp and rta_fp
 
-  // Check the parameter count
+  // Check the parameter count on the stack agrees with what the procedure requires
+  
   // Save the stack pointer
   uint16_t osp = pop_sp_8(m, m->sp, &parm_cnt);
+
   uint8_t vartype;
   
   // Check the parameter count
@@ -584,7 +593,8 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
     {
       osp = pop_sp_8(m, osp, &vartype);
 
-      //
+      printf("\nChecking parameter %d Type:%s", i, decode_vartype(vartype));
+      
       // We just skip past the value 
       switch(vartype)
 	{

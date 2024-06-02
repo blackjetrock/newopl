@@ -2,8 +2,9 @@
 //
 // As NewOPL uses the same bytecode as original OPL, it should be able to
 // execute original OPL as well as new.
-
+//
 // Executes a byte code file.
+//
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,6 +37,8 @@ NOBJ_PROC proc;
 
 void push_parameters(NOBJ_MACHINE *m)
 {
+  printf("\nPush parameters...");
+  
   // parameters for the code in xx0.bin
   push_machine_8(m, 'C');
   push_machine_8(m, 'B');
@@ -59,7 +62,8 @@ void push_parameters(NOBJ_MACHINE *m)
 
   // Number of parameters
   push_machine_8(m, 0x03);
-  
+
+  printf("\nPush pareameters done.");
 
 }
 

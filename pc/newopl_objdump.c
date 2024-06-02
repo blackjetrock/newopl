@@ -390,6 +390,8 @@ void pr_parameter_types(NOBJ_PROC *p)
 
 void dump_proc(NOBJ_PROC *proc)
 {
+  printf("\nEnter:%s", __FUNCTION__);
+
   pr_var_space_size(&(proc->var_space_size));
   pr_qcode_space_size(&(proc->qcode_space_size));
   pr_num_parameters(&(proc->num_parameters));
@@ -451,56 +453,63 @@ void dump_proc(NOBJ_PROC *proc)
   NOBJ_QCODE *qc = proc->qcode;
 
   printf("\nQCode\n");
-  
-  for(int i=0; i<proc->qcode_space_size.size; qc++, i++)
+  if ( qc == 0 )
     {
-      int found = 0;
-      
-      for(int j=0; j<(sizeof(qcode_decode)/sizeof(struct _QCODE_DESC)); j++)
+      printf("\nNo QCode");
+    }
+  else
+    {
+      for(int i=0; i<proc->qcode_space_size.size; qc++, i++)
 	{
-	  if( qcode_decode[j].qcode == *qc )
+	  int found = 0;
+	  
+	  for(int j=0; j<(sizeof(qcode_decode)/sizeof(struct _QCODE_DESC)); j++)
 	    {
-	      printf("\n%04X: %02X %s", i, *qc, qcode_decode[j].desc);
-	      printf(" %s", qcode_decode[j].bytes);
-
-	      for(int qcb = 0; qcb < (sizeof(qc_byte_code)/sizeof(QC_BYTE_CODE)); qcb++)
+	      if( qcode_decode[j].qcode == *qc )
 		{
-		  if( strcmp(qcode_decode[j].bytes, qc_byte_code[qcb].code) == 0 )
+		  printf("\n%04X: %02X %s", i, *qc, qcode_decode[j].desc);
+		  printf(" %s", qcode_decode[j].bytes);
+		  
+		  for(int qcb = 0; qcb < (sizeof(qc_byte_code)/sizeof(QC_BYTE_CODE)); qcb++)
 		    {
-		      printf("%s", (*qc_byte_code[qcb].prt_fn)(i, qc));
-		      qc +=        (*qc_byte_code[qcb].len_fn)(i, qc);
-		      i +=         (*qc_byte_code[qcb].len_fn)(i, qc);
+		      if( strcmp(qcode_decode[j].bytes, qc_byte_code[qcb].code) == 0 )
+			{
+			  printf("%s", (*qc_byte_code[qcb].prt_fn)(i, qc));
+			  qc +=        (*qc_byte_code[qcb].len_fn)(i, qc);
+			  i +=         (*qc_byte_code[qcb].len_fn)(i, qc);
+			}
 		    }
+		  
+		  found = 1;
+		  break;
 		}
-
-	      found = 1;
-	      break;
+	    }
+	  
+	  if( !found )
+	    {
+	      printf("\n%04X: %02X ????", i, *qc);
 	    }
 	}
       
-      if( !found )
+      
+      printf("\n");
+      
+      printf("\nQCode Data\n");
+      
+      qc = proc->qcode;
+      
+      for(int i=0; i<proc->qcode_space_size.size; qc++, i++)
 	{
-	  printf("\n%04X: %02X ????", i, *qc);
-	}
-    }
-
-  printf("\n");
-
-  printf("\nQCode Data\n");
-
-  qc = proc->qcode;
-  
-  for(int i=0; i<proc->qcode_space_size.size; qc++, i++)
-    {
-      if( (i % 16)==0 )
-	{
-	  printf("\n%04X:", i);
+	  if( (i % 16)==0 )
+	    {
+	      printf("\n%04X:", i);
+	    }
+	  
+	  printf("%02X ", *qc);
 	}
       
-      printf("%02X ", *qc);
+      printf("\n");
     }
-
-  printf("\n");
 }
 
 
