@@ -10,6 +10,7 @@ Tools
 To build these tools on Linux, use the <code>m</code> script.
 
 newopl_objdump
+--------------
 
 This tool dumps object files, which are files containg the QCode byte stream. 
 
@@ -17,3 +18,7 @@ This tool dumps object files, which are files containg the QCode byte stream.
 
 It can read binary QCode files and also OB3 files.
 
+newopl_exec
+-----------
+
+Executes an OPL procedure
