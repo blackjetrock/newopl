@@ -452,6 +452,7 @@ void error(char *fmt, ...)
   exit(-1);
 }
 
+////////////////////////////////////////////////////////////////////////////////
 
 void push_machine_8(NOBJ_MACHINE *m, uint8_t v)
 {

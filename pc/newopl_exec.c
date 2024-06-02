@@ -38,7 +38,8 @@ NOBJ_PROC proc;
 void push_parameters(NOBJ_MACHINE *m)
 {
   printf("\nPush parameters...");
-  
+
+#if 0
   // parameters for the code in xx0.bin
   push_machine_8(m, 'C');
   push_machine_8(m, 'B');
@@ -62,8 +63,14 @@ void push_parameters(NOBJ_MACHINE *m)
 
   // Number of parameters
   push_machine_8(m, 0x03);
+#endif
 
-  printf("\nPush pareameters done.");
+#if 1
+  // Push two floats on to the stack
+
+#endif
+  
+  printf("\nPush parameters done.");
 
 }
 
