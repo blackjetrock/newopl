@@ -33,9 +33,8 @@ typedef struct _FLOAT_TEST
 
 FLOAT_TEST float_test[] =
   {
-
-   {{0x00, 0x90, 0x78, 0x56, 0x34, 0x12, 0x02, 0x80}, -123.457},
-   {{0x00, 0x90, 0x78, 0x56, 0x34, 0x12, 0x02, 0x00}, 123.457},
+   {{0x00, 0x90, 0x78, 0x56, 0x34, 0x12, 0x02, 0x80}, -123.456789},
+   {{0x00, 0x90, 0x78, 0x56, 0x34, 0x12, 0x02, 0x00}, 123.456789},
    {{0x00, 0x00, 0x00, 0x00, 0x00, 0x45, 0x00, 0x00}, 4.5},
   };
 
@@ -50,15 +49,14 @@ void do_t2(void)
     {
       x = psion_float_to_double(&(float_test[t].data[0]));
 
-      if( x != float_test[t].result )
+      if( fabs(x - float_test[t].result) < (1.0e-13) )
 	{
-	  pass = 0;
-	  printf("\n%s: %s %g  %g <> %g", __FUNCTION__, 0?"PASS":"FAIL", x, x, float_test[t].result);
-
+	  printf("\n%s: PASS %g", __FUNCTION__, x);
 	}
       else
 	{
-	  printf("\n%s: %s %g", __FUNCTION__, 1?"PASS":"FAIL", x);
+	  pass = 0;
+	  printf("\n%s: FAIL %f  %f (result) <> %f (desired value) difference: %f", __FUNCTION__, x, x, float_test[t].result, fabs(x-float_test[t].result));
 	}
     }
 }
