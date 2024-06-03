@@ -13,6 +13,7 @@
 // Integer Variable
 //   Format: HH LL
 //   16 bit integer, first the high byte then the low byte.
+//   Signed
 //   Size: 2
 //   Type Byte: 00
 // 
@@ -133,9 +134,9 @@
 // For now floats are converted to doubles, really a BCD data type should be used.
 //
 
-int psion_int_to_int(uint8_t *p)
+NOPL_INT psion_int(uint8_t *p)
 {
-  int x;
+  NOPL_INT x;
 
   x  = ((int)(*(p++)))<<8;
   x += *p;
@@ -143,32 +144,29 @@ int psion_int_to_int(uint8_t *p)
   return(x);
 }
 
-double psion_float_to_double(uint8_t *p)
+NOPL_FLOAT psion_float(uint8_t *p)
 {
-  double x = 0.0;
-  double m = 1.0;
-  double y = 0.0;
+  NOPL_FLOAT nf;
+  
+  int m = 0;
+  int mul = 1;
   
   for(int i = 0; i<6; i++)
     {
       int z = *(p++);
       y = (double)((z & 0xF) + ((z>>4)*10));
-      x +=  y * m;
-      m *= 100.0;
-
-      //      printf("\nm=%g x=%g y=%g z=%d (0x%02X)", m, x, y, z, z);
+      m +=  y * mul;
+      mul *= 100.0;
     }
 
-  double e = pow(10, (double)(*(p++)));
+  nf.m = m;
   
-  x /= 1e11;
-  x *= e;
+  // Signed byte for exponent, binary
+  int es = (int8_t)(*(p++));
+  nf.e = es;
   
-  if( *p )
-    {
-      x *= -1.0;
-    }
-  
-  return(x);
+  nf.s = *p;
+    
+  return(nf);
 }
 

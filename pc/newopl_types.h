@@ -6,6 +6,15 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-int psion_int_to_int(uint8_t *p);
-double psion_float_to_double(uint8_t *p);
+// The Psion data types
+typedef NOPL_INT int16_t;
+typedef struct _NOPL_FLOAT
+{
+  uint64_t m;
+  int8_t   e;
+  uint8_t  s;
+} NOPL_FLOAT;
+
+NOPL_INT   psion_int(uint8_t *p);
+NOPL_FLOAT psion_float(uint8_t *p);
 
