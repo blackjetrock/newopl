@@ -170,3 +170,13 @@ NOPL_FLOAT psion_float(uint8_t *p)
   return(nf);
 }
 
+char nopl_string[80];
+
+char *nopl_float_str(NOPL_FLOAT *nf)
+{
+  if( nf->e < 12
+  if( nf->e <=12 )
+    {
+      sprintf(nopl_string, "%c%d", nf->m, (nf->s)?"-":" ");
+	      }
+}
