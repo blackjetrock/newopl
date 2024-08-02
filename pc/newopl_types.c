@@ -144,6 +144,12 @@ NOPL_INT psion_int(uint8_t *p)
   return(x);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// Convert a Psion float to a NOPL_FLOAT
+//
+////////////////////////////////////////////////////////////////////////////////
+
 NOPL_FLOAT psion_float(uint8_t *p)
 {
   NOPL_FLOAT nf;
@@ -154,7 +160,7 @@ NOPL_FLOAT psion_float(uint8_t *p)
   for(int i = 0; i<6; i++)
     {
       int z = *(p++);
-      y = (double)((z & 0xF) + ((z>>4)*10));
+      double y = (double)((z & 0xF) + ((z>>4)*10));
       m +=  y * mul;
       mul *= 100.0;
     }
@@ -170,13 +176,40 @@ NOPL_FLOAT psion_float(uint8_t *p)
   return(nf);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// Convert a NOPL_FLOAT to a double
+//
+////////////////////////////////////////////////////////////////////////////////
+
+double nopl_float_to_double(NOPL_FLOAT *nf)
+{
+  double r;
+
+  r = nf->m;
+  r *= pow(10, nf->e);
+  if( (nf->s) == 0 )
+    {
+    }
+  else
+    {
+      r = -r;
+    }
+  
+  return(r);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Convert a NOPL_FLOAT to a string
+//
+
 char nopl_string[80];
 
 char *nopl_float_str(NOPL_FLOAT *nf)
 {
-  if( nf->e < 12
   if( nf->e <=12 )
     {
-      sprintf(nopl_string, "%c%d", nf->m, (nf->s)?"-":" ");
-	      }
+      sprintf(nopl_string, "%s%ldE%d", (nf->s)?"-":" ", nf->m, nf->e);
+    }
 }

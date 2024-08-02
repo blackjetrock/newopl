@@ -19,7 +19,7 @@ uint8_t t1[]= {0x35, 0x0b};
 
 void do_t1(void)
 {
-  int x = psion_int_to_int(t1);
+  int x = psion_int(t1);
   
   printf("\n%s: %s %d", __FUNCTION__, (x==13579)?"PASS":"FAIL", x);
 }
@@ -47,21 +47,25 @@ FLOAT_TEST float_test[] =
 void do_t2(void)
 {
   int pass = 1;
-  double x;
+  NOPL_FLOAT x;
 
   for(int t=0; t<NUM_FLOAT_TEST; t++)
     {
-      x = psion_float_to_double(&(float_test[t].data[0]));
+      x = psion_float(&(float_test[t].data[0]));
 
-      if( fabs(x - float_test[t].result) < (1.0e-13) )
+      if( fabs(nopl_float_to_double(&x) - float_test[t].result) < (1.0e-13) )
 	{
-	  printf("\n%s: PASS %f", __FUNCTION__, x);
+	  printf("\n%s: PASS %s", __FUNCTION__, nopl_float_str(&x));
 	}
       else
 	{
 	  pass = 0;
-	  double diff = (double)(x-float_test[t].result);
-	  printf("\n%s: FAIL  %f (result) <> %f (desired value) difference: %f", __FUNCTION__, x, float_test[t].result, diff);
+	  double diff = (double)(nopl_float_to_double(&x) - float_test[t].result);
+	  printf("\n%s: FAIL  %s (result) <> %f (desired value) difference: %f",
+		 __FUNCTION__,
+		 nopl_float_str(&x),
+		 float_test[t].result,
+		 diff);
 	}
     }
 }

@@ -9,7 +9,9 @@
 #include <string.h>
 #include "newopl.h"
 #include "nopl_obj.h"
+#include "newopl_lib.h"
 
+struct _QCODE_DESC
 {
   uint8_t qcode;
   char *bytes;
@@ -267,7 +269,7 @@ int null_qc_byte_len_fn_2(int i, NOBJ_QCODE *qc)
   return(2);
 }
 
-char prt_res[PRT_MAX_LINE];
+char prt_res[NOBJ_PRT_MAX_LINE];
 
 char *qc_byte_prt_fn_v(int i, NOBJ_QCODE *qc)
 {
@@ -506,8 +508,10 @@ int main(int argc, char *argv[])
   sscanf(filename, "%[^.].%s", name, extension);
   printf("\nFilename:'%s'", name);
   printf("\nFile ext:'%s", extension);
-  
 
+  NOBJ_PROC proc;
+
+  FILE *fp;
   
   fp = fopen(argv[1], "r");
 
