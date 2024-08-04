@@ -154,15 +154,22 @@ NOPL_FLOAT psion_float(uint8_t *p)
 {
   NOPL_FLOAT nf;
   
-  int m = 0;
+  uint64_t m = 0;
   int mul = 1;
   
   for(int i = 0; i<6; i++)
     {
       int z = *(p++);
       double y = (double)((z & 0xF) + ((z>>4)*10));
+
       m +=  y * mul;
       mul *= 100.0;
+
+#if DB_PSION_FLOAT
+      printf("\n         m:%ld  mul:%d z:%d y:%lf", m, mul, z, y);
+      
+#endif
+
     }
 
   nf.m = m;
@@ -212,4 +219,6 @@ char *nopl_float_str(NOPL_FLOAT *nf)
     {
       sprintf(nopl_string, "%s%ldE%d", (nf->s)?"-":" ", nf->m, nf->e);
     }
+  
+  return(nopl_string);
 }

@@ -61,6 +61,10 @@ void do_t2(void)
 	{
 	  pass = 0;
 	  double diff = (double)(nopl_float_to_double(&x) - float_test[t].result);
+	  printf("\nA %s", nopl_float_str(&x));
+	  printf("\nB %f",float_test[t].result);
+	  printf("\nC %f",diff);
+	  
 	  printf("\n%s: FAIL  %s (result) <> %f (desired value) difference: %f",
 		 __FUNCTION__,
 		 nopl_float_str(&x),
@@ -72,7 +76,9 @@ void do_t2(void)
 
 int main(void)
 {
+  printf("\n=============================\n");
   do_t1();
+  printf("\n=============================\n");
   do_t2();
 
   printf("\n");
