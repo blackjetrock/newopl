@@ -48,9 +48,12 @@ void do_t2(void)
 {
   int pass = 1;
   NOPL_FLOAT x;
-
+  
   for(int t=0; t<NUM_FLOAT_TEST; t++)
     {
+      printf("\n============= T2 %d test =============", t);
+
+  
       x = psion_float(&(float_test[t].data[0]));
 
       if( fabs(nopl_float_to_double(&x) - float_test[t].result) < (1.0e-13) )
