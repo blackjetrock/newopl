@@ -166,7 +166,7 @@ NOPL_FLOAT psion_float(uint8_t *p)
       mul *= 100.0;
 
 #if DB_PSION_FLOAT
-      printf("\n         m:%ld  mul:%d z:%d y:%lf", m, mul, z, y);
+      printf("\n         m:%lld  mul:%d z:%d y:%lf", m, mul, z, y);
       
 #endif
 
