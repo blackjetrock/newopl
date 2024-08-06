@@ -58,7 +58,9 @@ void do_t2(void)
 
       if( fabs(nopl_float_to_double(&x) - float_test[t].result) < (1.0e-13) )
 	{
-	  printf("\n%s: PASS %s", __FUNCTION__, nopl_float_str(&x));
+	  double diff = (double)(nopl_float_to_double(&x) - float_test[t].result);
+
+	  printf("\n%s: PASS %s diff:%f", __FUNCTION__, nopl_float_str(&x), diff);
 	}
       else
 	{
