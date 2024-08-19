@@ -5,6 +5,40 @@
 //
 // Executes a byte code file.
 //
+//
+//  6.2  MEMORY MAP
+//  
+//  
+//  
+//                  $FFFF   I-------------------------------I
+//                          I          System ROM           I
+//                  $8000   I-------------------------------I
+//                          I    Not Used (except LA/OS)    I
+//    $8000  $6000  $4000   I-------------------------------I
+//    LA/OS  XP/OS  CM/OS   I       Processor Stack         I
+//    $7F00  $5F00  $3F00   I-------------------------------I
+//                          I        Language Stack         I
+//                          I         (grows down)          I
+//                          I                               I
+//                          I          (grows up)           I
+//                          I       Allocated Cells         I
+//                          I...............................I
+//                          I       System Variables        I
+//                  $2000   I-------------------------------I
+//                          I     Not Used (except LA/OS)   I
+//                  $0400   I-------------------------------I
+//                          I       Hardware Addresses      I
+//                  $0100   I-------------------------------I
+//                          I  Transient Application Area   I
+//                  $00E0   I-------------------------------I
+//                          I        System Variables       I
+//                  $0040   I-------------------------------I
+//                          I           Not used            I
+//                  $0020   I-------------------------------I
+//                          I       Internal Registers      I
+//                  $0000   I-------------------------------I
+//  
+//  
 
 #include <stdio.h>
 #include <stdlib.h>
