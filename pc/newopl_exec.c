@@ -39,7 +39,44 @@
 //                  $0000   I-------------------------------I
 //  
 //  
-
+//  17.2.13  LANGUAGE POINTERS
+//  
+//  
+//  There are three key pointers used by the language:
+//  
+//                  RTA_SP          Language stack pointer
+//                  RTA_PC          Program counter
+//                  RTA_FP          Frame (procedure) pointer
+//  
+//  RTA_SP points at the lowest byte  of  the  stack.   So  if  an  integer  is
+//  stacked,  RTA_SP  is  decremented by 2 and the word is saved at the address
+//  pointed to by RTA_SP.
+//  
+//  RTA_PC points at the current operand/operator executed and  is  incremented
+//  after  execution - except at the start of a procedure or a GOTO when RTA_PC
+//  is set up appropriately.
+//  
+//  RTA_FP points into the header of the current procedure.
+//  
+//  Each procedure header has the form:
+//  
+//                          Device (zero if top procedure)
+//                          Return RTA_PC
+//                          ONERR address
+//                          BASE_SP
+//  RTA_FP points at:       Previous RTA_FP
+//                          Start address of the global name table
+//                          Global name table
+//                          Indirection table for externals/parameters
+//  
+//  This is followed by the variables, and finally by the Q code.
+//  
+//  RTA_FP points at the previous RTA_FP, so it is easy to jump up through  all
+//  the  procedures  above.   The  language  uses  this when resolving external
+//  references and when handling errors.
+//
+//
+  
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>
@@ -127,13 +164,21 @@ int main(int argc, char *argv[])
 
   // Put some parameters on the stack for our test code
   push_parameters(&machine);
+
+#if 0
+  // Reading the proc into data structures and then pushing it on the stack isn't
+  // going to work too well with limited RAM.
   
   // Read the object file
   read_proc_file(fp, &proc);
 
   // Push it it on the stack
   push_proc_on_stack(&proc, &machine);
+#endif
 
+  // Load proc onto stack
+  load_proc(fp);
+  
   // Execute the QCodes
   exec_proc(&proc);
   
