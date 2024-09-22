@@ -264,30 +264,75 @@ typedef struct
   QC_BYTE_PRT_FN prt_fn;
 } QC_BYTE_CODE;
 
+// prt fn called first, then len fn
+
 int null_qc_byte_len_fn_2(int i, NOBJ_QCODE *qc)
 {
   return(2);
 }
 
 char prt_res[NOBJ_PRT_MAX_LINE];
+int qc_len = 0;
 
 char *qc_byte_prt_fn_v(int i, NOBJ_QCODE *qc)
 {
-  sprintf(prt_res, "\n%04X:: %02X%02X", i+1, *(qc+1), *(qc+2));
+  sprintf(prt_res, "\n%04X: %02X%02X       (%d)", i+1, *(qc+1), *(qc+2), (*(qc+1))*256+*(qc+2));
   return(prt_res);
 }
 
 
 char *qc_byte_prt_fn_V(int i, NOBJ_QCODE *qc)
 {
-  sprintf(prt_res, "\n%04X:: %02X%02X", i+1, *(qc+1), *(qc+2));
+  sprintf(prt_res, "\n%04X: %02X%02X       (%d)", i+1, *(qc+1), *(qc+2), (*(qc+1))*256+*(qc+2));
   return(prt_res);
 }
 
 char *qc_byte_prt_fn_I(int i, NOBJ_QCODE *qc)
 {
-  sprintf(prt_res, "\n%04X:: %02X%02X", i+1, *(qc+1), *(qc+2));
+  sprintf(prt_res, "\n%04X: %02X%02X       (%d)", i+1, *(qc+1), *(qc+2), (*(qc+1))*256+*(qc+2));
   return(prt_res);
+}
+
+char *qc_byte_prt_fn_D(int i, NOBJ_QCODE *qc)
+{
+  // Where we go for a distance of 0
+  // Instruction is 3 bytes long and distance of 0002 takes us to next instruction.
+  
+  int dest = i + 3 - 2;
+  int16_t  distance = (*(qc+1))*256+*(qc+2);
+  
+  dest += distance;
+  
+  sprintf(prt_res, "\n%04X: Dest:%04X (Dist:%04X)", i+1, dest, distance);
+
+  return(prt_res);
+}
+
+char *qc_byte_prt_fn_S(int i, NOBJ_QCODE *qc)
+{
+  qc_len = *(++qc);
+  
+  char chs[2];
+  chs[1] = '\0';
+
+  sprintf(prt_res, "\n%04X: Len:%d\n%04X: '", i+1, *(qc++), i+2);
+  
+  for(int j=0; j<qc_len; j++)
+    {
+      //printf("\nj:%d", j);
+      chs[0] = *(qc++);
+
+      strcat(prt_res, chs);
+    }
+
+  strcat(prt_res, "'");
+
+  return(prt_res);
+}
+
+int qc_byte_len_fn_S(int i, NOBJ_QCODE *qc)
+{
+  return(qc_len+1);
 }
 
 char *null_qc_byte_prt_fn(int i, NOBJ_QCODE *qc)
@@ -310,10 +355,10 @@ QC_BYTE_CODE qc_byte_code[] =
    {"f",      null_qc_byte_fn,       null_qc_byte_prt_fn},
    {"I",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_I},
    {"F",      null_qc_byte_fn,       null_qc_byte_prt_fn},
-   {"S",      null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"S",           qc_byte_len_fn_S,      qc_byte_prt_fn_S},
    {"B",      null_qc_byte_fn,       null_qc_byte_prt_fn},
    {"O",      null_qc_byte_fn,       null_qc_byte_prt_fn},
-   {"D",      null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"D",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_D},
    {"f+list", null_qc_byte_fn,       null_qc_byte_prt_fn},
   };
 
@@ -451,8 +496,8 @@ void dump_proc(NOBJ_PROC *proc)
 	    {
 	      if( qcode_decode[j].qcode == *qc )
 		{
-		  printf("\n%04X: %02X %s", i, *qc, qcode_decode[j].desc);
-		  printf(" %s", qcode_decode[j].bytes);
+		  printf("\n%04X: %02X       %s", i, *qc, qcode_decode[j].desc);
+		  printf("     (bytes code:%s)", qcode_decode[j].bytes);
 		  
 		  for(int qcb = 0; qcb < (sizeof(qc_byte_code)/sizeof(QC_BYTE_CODE)); qcb++)
 		    {
@@ -522,8 +567,9 @@ int main(int argc, char *argv[])
     }
 
   // If this is an OB3 file then drop the header
-  if( strcmp(extension, "OB3") == 0 )
+  if( strcmp(extension, "ORG") || strcmp(extension, "OB3") == 0 )
     {
+      printf("\nDropping OB3 header...");
       read_ob3_header(fp);
     }
   

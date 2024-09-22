@@ -101,8 +101,11 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
   
   READ_ITEM(fp, p->num_parameters.num, 1,                     NOBJ_NUM_PARAMETERS,   "\nError reading number of parameters.");
   printf("\nParameters num:%d", p->num_parameters.num);
-  READ_ITEM(fp, p->parameter_types,    p->num_parameters.num, NOBJ_PARAMETER_TYPE,   "\nError reading parameter types.");
-
+  if( p->num_parameters.num != 0 )
+    {
+      READ_ITEM(fp, p->parameter_types,    p->num_parameters.num, NOBJ_PARAMETER_TYPE,   "\nError reading parameter types.");
+    }
+  
   printf("\nGlobal varname size");
     
   READ_ITEM( fp,  p->global_varname_size, 1, NOBJ_GLOBAL_VARNAME_SIZE, "\nError reading global varname size.");
