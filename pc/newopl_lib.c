@@ -507,7 +507,46 @@ void push_machine_16(NOBJ_MACHINE *m, int16_t v)
     }
 }
 
+//------------------------------------------------------------------------------
+//
+// Gets a 16 bit value from the machine stack
+// New SP returned, machine sp unchanged
 
+uint16_t get_machine_16(NOBJ_MACHINE *m, uint16_t sp, uint16_t *v)
+{
+  uint16_t value = 0;
+  
+  if( sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to get from empty stack");
+    }
+
+  //printf("\n   from %04X", sp+1);
+  
+  value  =  m->stack[++sp];
+  value |= (m->stack[++sp]) << 8;
+  *v = value;
+  
+  return(sp);  
+}
+
+uint16_t get_machine_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *v)
+{
+  uint8_t value = 0;
+  
+  if( sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to get from empty stack");
+    }
+
+  value  =  m->stack[++sp];
+  *v = value;
+  
+  return(sp);  
+}
+
+
+//------------------------------------------------------------------------------
 // Pop byte off stack and return new stack pointer value.
 
 uint16_t pop_sp_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)

@@ -155,17 +155,98 @@ void push_parameters(NOBJ_MACHINE *m)
 void push_proc(FILE *fp, NOBJ_MACHINE *m)
 {
   // We build a header for the frame
-
+  int sp          = m->rta_sp;
+  int previous_fp = m->rta_fp;
+  
   // Device
-  push_machine_8(m, 0);
+  push_machine_8(m, 0xde);
 
   //  Return PC
   push_machine_16(m, m->rta_pc);
+
+  // ONERR address
+  push_machine_16(m, 0xeeff);
+
+  // Base SP. Used as SP if this is an ONERR procedure
+  push_machine_16(m, sp);
+
+  // Point FP at the frame we are pushing
+  m->rta_fp = m->rta_sp;
+
+  // Previous FP
+  push_machine_16(m, previous_fp);
+
+  // Start of global name table
+  push_machine_16(m, previous_fp);
+
+  
+  
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Displays the contents of a machine 
+//
+////////////////////////////////////////////////////////////////////////////////
+
+// Displays from the last procedure pushed on the stack
+
+void display_machine_procs(NOBJ_MACHINE *m)
+{
+  uint16_t fp = m->rta_fp;
+  int fp_next;
+  
+  int sp = m->rta_sp;
+  uint16_t dp;
+  uint16_t val;
+  uint8_t val8;
+  
+  while(fp != 0 )
+    {
+      
+      printf("\nSP: %04X", sp);
+      printf("\nFP: %04X", fp);
+
+      // Get data about this proc
+      dp = get_machine_16(m, fp-8, &val);
+      printf("\n  Indirection table: %04X", val);
+
+      dp = get_machine_16(m, dp, &val);
+      printf("\n  Global Name table: %04X", val);
+
+      dp = get_machine_16(m, dp, &val);
+      printf("\n  Start address of global name table: %04X", val);
+
+      dp = get_machine_16(m, dp, &val);
+      printf("\n  Previous FP: %02X", val);
+
+      fp = val;
+
+      dp = get_machine_16(m, dp, &val);
+      printf("\n  Base SP: %04X", val);
+
+      dp = get_machine_16(m, dp, &val);
+      printf("\n  ONERR Address: %04X", val);
+
+      dp = get_machine_16(m, dp, &val);
+      printf("\n  Return PC: %04X", val);
+
+      dp = get_machine_8(m, dp, &val8);
+      printf("\n  Device: %02X", val8);
+
+      // Move to next procedure
+      //get_machine_16(m, fp, &fp);
+
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 
 int main(int argc, char *argv[])
 {
@@ -202,6 +283,8 @@ int main(int argc, char *argv[])
 
   // Push proc onto stack
   push_proc(fp, &machine);
+
+  display_machine_procs(&machine);
   
   // Execute the QCodes
   exec_proc(&proc);
