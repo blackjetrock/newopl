@@ -155,12 +155,32 @@ void push_parameters(NOBJ_MACHINE *m)
 void push_proc(FILE *fp, NOBJ_MACHINE *m)
 {
   // We build a header for the frame
-
+  int sp          = m->rta_sp;
+  int previous_fp = m->rta_fp;
+  
   // Device
   push_machine_8(m, 0);
 
   //  Return PC
   push_machine_16(m, m->rta_pc);
+
+  // ONERR address
+  push_machine_16(m, 0);
+
+  // Base SP. Used as SP if this is an ONERR procedure
+  push_machine_16(m, sp);
+
+  // Point FP at the frame we are pushing
+  m->rta_fp = m->rta_sp;
+
+  // Previous FP
+  push_machine_16(m, previous_fp);
+
+  // Start of global name table
+  push_machine_16(m, previous_fp);
+
+  
+  
 }
 
 ////////////////////////////////////////////////////////////////////////////////

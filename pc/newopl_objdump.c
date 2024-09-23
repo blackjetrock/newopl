@@ -21,6 +21,8 @@ struct _QCODE_DESC
 }
   qcode_decode[] =
     {
+      //        Inline  Pull    Push
+      //
      {0x00,	"v",	"-",	"I",	"Push local/global integer variable value"},
      {0x01,	"v",	"-",	"F",	"Push local/global float variable value"},
      {0x02,	"v",	"-",	"S",	"Push local/global string variable value"},

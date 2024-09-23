@@ -83,16 +83,13 @@ int debugi = 0;
       return;							\
     }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// Read the start of an OB3 file
+//
 
-//------------------------------------------------------------------------------
-// Reads a proc file and builds a NOBJ_PROC
-// The NOBJ_PROC is used for dumping procs
-//------------------------------------------------------------------------------
-
-void read_proc_file(FILE *fp, NOBJ_PROC *p)
+void read_proc_file_header(FILE *fp, NOBJ_PROC *p)
 {
-  printf("\nEnter:%s", __FUNCTION__);
-  
   READ_ITEM(  fp, p->var_space_size, 1, NOBJ_VAR_SPACE_SIZE, "\nError reading var space size.");
   p->var_space_size.size = swap_uint16(p->var_space_size.size);
 
@@ -110,7 +107,20 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
     
   READ_ITEM( fp,  p->global_varname_size, 1, NOBJ_GLOBAL_VARNAME_SIZE, "\nError reading global varname size.");
   p->global_varname_size.size = swap_uint16(p->global_varname_size.size);
+}
 
+//------------------------------------------------------------------------------
+// Reads a proc file and builds a NOBJ_PROC
+// The NOBJ_PROC is used for dumping procs
+//------------------------------------------------------------------------------
+
+void read_proc_file(FILE *fp, NOBJ_PROC *p)
+{
+  printf("\nEnter:%s", __FUNCTION__);
+
+  // Read the header data at the start
+  read_proc_file_header(fp, p);
+  
   printf("\nVar space size     :%d\n", p->var_space_size.size);
   printf("\nGlobal varname size:%d\n", p->global_varname_size.size);
 
@@ -439,7 +449,14 @@ void init_machine(NOBJ_MACHINE *m)
   // Addresses of variables are referenced from the start of the proc area
   // on the stack anyway, so addresses have to be manipulated.
 
-  m->sp = NOBJ_MACHINE_STACK_SIZE;
+  // Frame pointer (rta_fp) starts at 0, which is used as a marker for
+  // the end of the list of frames.
+
+  // PC also starts at 0, it is set up on first QCode load
+  m->rta_sp = NOBJ_MACHINE_STACK_SIZE;
+  m->rta_fp = 0;
+  m->rta_pc = 0;
+  
   printf("\nInit machine done.");
 }
 
@@ -460,18 +477,36 @@ void error(char *fmt, ...)
 void push_machine_8(NOBJ_MACHINE *m, uint8_t v)
 {
 #if DEBUG_PUSH_POP
-  printf("\n%s:pushing %02X SP:%04X", __FUNCTION__, v, m->sp);
+  printf("\n%s:pushing %02X SP:%04X", __FUNCTION__, v, m->rta_sp);
 #endif
   
-  if( m->sp > 0 )
+  if( m->rta_sp > 0 )
     {
-      m->stack[(m->sp)--] = v;
+      m->stack[(m->rta_sp)--] = v;
     }
   else
     {
       error("Attempt to push off end of stack");
     }
 }
+
+void push_machine_16(NOBJ_MACHINE *m, int16_t v)
+{
+#if DEBUG_PUSH_POP
+  printf("\n%s:pushing %04X SP:%04X", __FUNCTION__, v, m->rta_sp);
+#endif
+  
+  if( m->rta_sp > 0 )
+    {
+      m->stack[(m->rta_sp)--] = (v >> 8);
+      m->stack[(m->rta_sp)--] = (v &  0xFF);
+    }
+  else
+    {
+      error("Attempt to push off end of stack");
+    }
+}
+
 
 // Pop byte off stack and return new stack pointer value.
 
@@ -485,7 +520,7 @@ uint16_t pop_sp_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
   *val = m->stack[++sp];
 
 #if DEBUG_PUSH_POP
-  printf("\n%s:Popped %02X from SP:%04X", __FUNCTION__, *val, (m->sp)-1);
+  printf("\n%s:Popped %02X from SP:%04X", __FUNCTION__, *val, (m->rta_sp)-1);
 #endif
 
   return(sp);  
@@ -503,7 +538,7 @@ uint16_t pop_discard_sp_int(NOBJ_MACHINE *m, uint16_t sp)
       ++sp;
       
 #if DEBUG_PUSH_POP
-      printf("\n%s:Popped from SP:%04X", __FUNCTION__, (m->sp)-1);
+      printf("\n%s:Popped from SP:%04X", __FUNCTION__, (m->rta_sp)-1);
 #endif
     }
   
@@ -522,7 +557,7 @@ uint16_t pop_discard_sp_float(NOBJ_MACHINE *m, uint16_t sp)
     {
       ++sp;
 #if DEBUG_PUSH_POP
-      printf("\n%s:Popped and discarded from SP:%04X", __FUNCTION__, (m->sp)-1);
+      printf("\n%s:Popped and discarded from SP:%04X", __FUNCTION__, (m->rta_sp)-1);
 #endif
       
     }
@@ -545,7 +580,7 @@ uint16_t pop_discard_sp_str(NOBJ_MACHINE *m, uint16_t sp)
     {
       ++sp;
 #if DEBUG_PUSH_POP
-      printf("\n%s:Popped and discarded from SP:%04X", __FUNCTION__, (m->sp)-1);
+      printf("\n%s:Popped and discarded from SP:%04X", __FUNCTION__, (m->rta_sp)-1);
 #endif
       
     }
@@ -573,7 +608,7 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
 
   // Check there is sufficient memory
   // Is there more than 255 bytes free?
-  if( !(m->sp > 255) )
+  if( !(m->rta_sp > 255) )
     {
       error("\nOut of memory");
     }
@@ -583,7 +618,7 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
   // Check the parameter count on the stack agrees with what the procedure requires
   
   // Save the stack pointer
-  uint16_t osp = pop_sp_8(m, m->sp, &parm_cnt);
+  uint16_t osp = pop_sp_8(m, m->rta_sp, &parm_cnt);
 
   uint8_t vartype;
   

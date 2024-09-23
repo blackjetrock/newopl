@@ -105,11 +105,14 @@ typedef struct _NOBJ_PROC
      
 typedef struct _NOBJ_MACHINE
 {
-  // The machine stack where PROCs are loaded
+  // The machine stack where PROCs are loaded and executed
   uint8_t stack[NOBJ_MACHINE_STACK_SIZE];
   
   // Stack pointer (where next byte will be loaded
-  int sp;
+
+    int rta_sp;
+    int rta_pc;
+    int rta_fp;
 } NOBJ_MACHINE;
 
 
