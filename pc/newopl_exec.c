@@ -178,8 +178,16 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m)
 
   // Start of global name table
   push_machine_16(m, previous_fp);
-
   
+  // Global name table
+  push_machine_16(m, 0xAAAA);
+
+  // Indirection table
+  push_machine_16(m, previous_fp);
+
+  // Variables go here
+
+  // QCode goes here
   
 }
 
@@ -210,35 +218,48 @@ void display_machine_procs(NOBJ_MACHINE *m)
 
       // Get data about this proc
       dp = get_machine_16(m, fp-8, &val);
-      printf("\n  Indirection table: %04X", val);
+      printf("\n%04X:  Indirection table: %04X", dp, val);
 
       dp = get_machine_16(m, dp, &val);
-      printf("\n  Global Name table: %04X", val);
+      printf("\n%04X:  Global Name table: %04X", dp, val);
 
       dp = get_machine_16(m, dp, &val);
-      printf("\n  Start address of global name table: %04X", val);
+      printf("\n%04X:  Start address of global name table: %04X", dp, val);
 
       dp = get_machine_16(m, dp, &val);
-      printf("\n  Previous FP: %02X", val);
+      printf("\n%04X:  Previous FP: %02X", dp, val);
 
       fp = val;
 
       dp = get_machine_16(m, dp, &val);
-      printf("\n  Base SP: %04X", val);
+      printf("\n%04X:  Base SP: %04X", dp, val);
 
       dp = get_machine_16(m, dp, &val);
-      printf("\n  ONERR Address: %04X", val);
+      printf("\n%04X:  ONERR Address: %04X", dp, val);
 
       dp = get_machine_16(m, dp, &val);
-      printf("\n  Return PC: %04X", val);
+      printf("\n%04X:  Return PC: %04X", dp, val);
 
       dp = get_machine_8(m, dp, &val8);
-      printf("\n  Device: %02X", val8);
+      printf("\n%04X:  Device: %02X", dp, val8);
 
       // Move to next procedure
       //get_machine_16(m, fp, &fp);
 
     }
+}
+
+void display_machine(NOBJ_MACHINE *m)
+{
+  display_machine_procs(m);
+
+  // Dump the stack
+  for(int i= NOBJ_MACHINE_STACK_SIZE; i>=m->rta_sp; i--)
+    {
+      printf("\n%04X: %02X", i, m->stack[i]);
+    }
+  
+  printf("\n");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -283,8 +304,9 @@ int main(int argc, char *argv[])
 
   // Push proc onto stack
   push_proc(fp, &machine);
+  push_proc(fp, &machine);
 
-  display_machine_procs(&machine);
+  display_machine(&machine);
   
   // Execute the QCodes
   exec_proc(&proc);
