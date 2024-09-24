@@ -1,5 +1,6 @@
 void read_proc_file(FILE *fp, NOBJ_PROC *p);
 void read_ob3_header(FILE *fp);
+int read_item(FILE *fp, void *ptr, int n, size_t size);
 
 char *decode_vartype(NOBJ_VARTYPE t);
 void init_machine(NOBJ_MACHINE *m);

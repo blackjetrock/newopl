@@ -150,17 +150,79 @@ void push_parameters(NOBJ_MACHINE *m)
 //
 // Pushes a procedure onto the stack of a machine
 //
+// The procedure is in the form of an OB3 file, with file header
+// and then QCode
+//
+//
 ////////////////////////////////////////////////////////////////////////////////
 
-void push_proc(FILE *fp, NOBJ_MACHINE *m)
+void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 {
   // We build a header for the frame
-  int sp          = m->rta_sp;
-  int previous_fp = m->rta_fp;
+  int      sp                = m->rta_sp;
+  int      previous_fp       = m->rta_fp;
+  char     device_ch         = *name;
+  uint16_t size_of_variables = 0;
+  uint16_t size_of_qcode     = 0;
+  uint8_t  num_parameters;
+  
+    // Get sizes from file
+  if( !read_item(fp, &size_of_variables, 1, sizeof(uint16_t)) )
+    {
+      // Error
+    }
+
+  if( !read_item(fp, &size_of_qcode, 1, sizeof(uint16_t)) )
+    {
+      // Error
+    }
+
+  if( !read_item(fp, &num_parameters, 1, sizeof(uint8_t)) )
+    {
+      // Error
+    }
+
+  printf("\nSize of variables    :%02X %d", size_of_variables, size_of_variables);
+  printf("\nSize of QCode        :%02X %d", size_of_qcode, size_of_qcode);
+  printf("\nNumber of parameters :%02X %d", num_parameters, num_parameters);
+
+  // Proc name
+  char *np = name;
+  
+  while( *np != '\0' )
+    {
+      push_machine_8(m, *np);
+      np++;
+    }
+
+  push_machine_8(m, (uint8_t) strlen(name));
+
+  // Read parameter types and push them
+  uint8_t par_type;
+  
+  for(int np = 0; np<num_parameters; np++)
+    {
+      if( !read_item(fp, &par_type, 1, sizeof(uint8_t)) )
+	{
+	  // Error
+	}
+      
+      push_machine_8(m, par_type);
+    }
+  
+  // Num parameters
+  push_machine_8(m, num_parameters);
   
   // Device
-  push_machine_8(m, 0xde);
-
+  if( top )
+    {
+      push_machine_8(m, 0x00);
+    }
+  else
+    {
+      push_machine_8(m, device_ch);
+    }
+  
   //  Return PC
   push_machine_16(m, m->rta_pc);
 
@@ -176,8 +238,9 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m)
   // Previous FP
   push_machine_16(m, previous_fp);
 
+  
   // Start of global name table
-  push_machine_16(m, previous_fp);
+  push_machine_16(m, size_of_variables + 0);
   
   // Global name table
   push_machine_16(m, 0xAAAA);
@@ -303,8 +366,8 @@ int main(int argc, char *argv[])
 #endif
 
   // Push proc onto stack
-  push_proc(fp, &machine);
-  push_proc(fp, &machine);
+  push_proc(fp, &machine, "A:EX4", 1);
+  push_proc(fp, &machine, "A:EX4", 0);
 
   display_machine(&machine);
   
