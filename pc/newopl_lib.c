@@ -29,10 +29,21 @@ int read_item(FILE *fp, void *ptr, int n, size_t size)
   if( feof(fp) || (ni == 0))
     {
       // No more file
+      printf("\n    Error");
       return(0);
     }
   
   return(1);
+}
+
+int read_item_16(FILE *fp, uint16_t *ptr)
+{
+  int ni;
+  
+  ni = read_item(fp, ptr, 1, 2);
+  
+  *ptr = swap_uint16(*ptr);
+  return(ni);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,17 +70,16 @@ void read_ob3_header(FILE *fp)
   printf("\nHdr                  : %s", ob3_hdr);
   
   // File length word
-  ni = read_item(fp, &ob3_file_length_word, 1, 2);
-
-  printf("\nOB3 File length word : %X", (int)swap_uint16(ob3_file_length_word));
+  ni = read_item_16(fp, &ob3_file_length_word);
+  printf("\nOB3 File length word : %04X", ob3_file_length_word);
   
   // Block file type
   ni = fread(&ob3_block_file_type, 1, 1, fp);
   printf("\nBlock file type      : %02X", (int)ob3_block_file_type);
 
   // Block length
-  ni = read_item(fp, &ob3_block_length_word, 1, 2);
-  printf("\nOB3 Block length word: %X", (int)swap_uint16(ob3_block_length_word));
+  ni = read_item_16(fp, &ob3_block_length_word);
+  printf("\nOB3 Block length word: %04X", ob3_block_length_word);
 }
 
 int debugi = 0;
@@ -454,6 +464,7 @@ void init_machine(NOBJ_MACHINE *m)
 
   // PC also starts at 0, it is set up on first QCode load
   m->rta_sp = NOBJ_MACHINE_STACK_SIZE;
+  m->rta_sp = 0x3ef8;
   m->rta_fp = 0;
   m->rta_pc = 0;
   

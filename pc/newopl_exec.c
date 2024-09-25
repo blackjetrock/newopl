@@ -164,15 +164,17 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   char     device_ch         = *name;
   uint16_t size_of_variables = 0;
   uint16_t size_of_qcode     = 0;
+  uint16_t size_of_global_table     = 0;
+  uint16_t size_of_external_table     = 0;
   uint8_t  num_parameters;
   
     // Get sizes from file
-  if( !read_item(fp, &size_of_variables, 1, sizeof(uint16_t)) )
+  if( !read_item_16(fp, &size_of_variables) )
     {
       // Error
     }
 
-  if( !read_item(fp, &size_of_qcode, 1, sizeof(uint16_t)) )
+  if( !read_item_16(fp, &size_of_qcode) )
     {
       // Error
     }
@@ -227,7 +229,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   push_machine_16(m, m->rta_pc);
 
   // ONERR address
-  push_machine_16(m, 0xeeff);
+  push_machine_16(m, 0x0000);
 
   // Base SP. Used as SP if this is an ONERR procedure
   push_machine_16(m, sp);
@@ -238,12 +240,49 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   // Previous FP
   push_machine_16(m, previous_fp);
 
+  // Get size of global table from file
+  if( !read_item_16(fp, &size_of_global_table) )
+    {
+      // Error
+    }
   
-  // Start of global name table
-  push_machine_16(m, size_of_variables + 0);
+  printf("\nSize of global table:%02X %d", size_of_global_table, size_of_global_table);
+
+  // Push global area on to stack 
+
+  for(int i=0; i<size_of_global_table; i++)
+    {
+      uint8_t gv;
+      if( !read_item(fp, &gv, 1, sizeof(uint8_t)) )
+	{
+	  // Error
+	}
+      
+      push_machine_8(m, gv);
+    }
   
-  // Global name table
-  push_machine_16(m, 0xAAAA);
+  // Get size of external table from file
+  if( !read_item_16(fp, &size_of_external_table) )
+    {
+      // Error
+    }
+  
+  printf("\nSize of external table:%02X %d", size_of_external_table, size_of_external_table);
+
+  // Push external area on to stack 
+
+  for(int i=0; i<size_of_external_table; i++)
+    {
+      uint8_t ev;
+      if( !read_item(fp, &ev, 1, sizeof(uint8_t)) )
+	{
+	  // Error
+	}
+      
+      push_machine_8(m, ev);
+    }
+
+  // 
 
   // Indirection table
   push_machine_16(m, previous_fp);
@@ -279,6 +318,8 @@ void display_machine_procs(NOBJ_MACHINE *m)
       printf("\nSP: %04X", sp);
       printf("\nFP: %04X", fp);
 
+      // Get procedure name
+      
       // Get data about this proc
       dp = get_machine_16(m, fp-8, &val);
       printf("\n%04X:  Indirection table: %04X", dp, val);
@@ -348,6 +389,9 @@ int main(int argc, char *argv[])
 
   printf("\nLoaded '%s'", argv[1]);
 
+  // Discard header
+  read_ob3_header(fp);
+  
   // Initialise the machine
   init_machine(&machine);
 
@@ -367,8 +411,10 @@ int main(int argc, char *argv[])
 
   // Push proc onto stack
   push_proc(fp, &machine, "A:EX4", 1);
-  push_proc(fp, &machine, "A:EX4", 0);
+  //push_proc(fp, &machine, "A:EX4", 0);
 
+  printf("\n\n");
+  
   display_machine(&machine);
   
   // Execute the QCodes
