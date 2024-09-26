@@ -151,6 +151,23 @@ void push_parameters(NOBJ_MACHINE *m)
   push_machine_8(m, 0x01);
   
 #endif
+
+#if 0
+  push_machine_8(m, 'X');
+  push_machine_8(m, 'X');
+  push_machine_8(m, 'X');
+  push_machine_8(m, ':');
+  push_machine_8(m, 'A');
+  push_machine_8(m, 0x03);
+  push_machine_8(m, 0x00);
+
+  
+#endif
+
+#if 0
+  push_machine_8(m, 0x00);
+  
+#endif
   
   printf("\nPush parameters done.");
 
@@ -557,7 +574,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 
 		  printf("\n  Address:%04X", glob_addr);
 
-		  ext_fouind = 1;
+		  ext_found = 1;
 		}
 	    }
 
