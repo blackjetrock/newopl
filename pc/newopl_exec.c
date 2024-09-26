@@ -310,17 +310,45 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   
   push_machine_16(m, start_of_global_table);
   
-  // Push global area on to stack 
+  // Push global area on to stack Fill global area on stack (not push)
 
   for(int i=0; i<size_of_global_table; i++)
     {
-      uint8_t gv;
-      if( !read_item(fp, &gv, 1, sizeof(uint8_t)) )
+      // Read variable data from file
+      // Build up the record in the stack
+      
+      uint8_t gv_name_len;
+      if( !read_item(fp, &gv_name_len, 1, sizeof(uint8_t)) )
 	{
 	  // Error
 	}
+
+      m->stack[i] = gv_name_len;
       
-      push_machine_8(m, gv);
+      for(int j=0; j<gv_name_len; j++)
+	{
+	  uint8_t gv_name_char;
+	  if( !read_item(fp, &gv_name_char, 1, sizeof(uint8_t)) )
+	    {
+	      // Error
+	    }
+
+	  m->stack[i+j] = gv_name_char;
+	}
+
+      i += gcv_name_len;
+      uint16_t gv_addr;
+      
+      if( !read_item_16(fp, &gv_addr) )
+	{
+	  // Error
+	}
+
+      gv_addr += start_of_global_table;
+
+      m->stack[i++] = gv_addr >> 8;
+      m->stack[i++] = gv_addr & 0xFF;
+      
     }
   
   // Get size of external table from file
