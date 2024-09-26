@@ -464,7 +464,9 @@ void init_machine(NOBJ_MACHINE *m)
 
   // PC also starts at 0, it is set up on first QCode load
   m->rta_sp = NOBJ_MACHINE_STACK_SIZE;
-  m->rta_sp = 0x3ef8;
+
+  // CM stack for testing
+  m->rta_sp = 0x3ED0;       // For example 4
   m->rta_fp = 0;
   m->rta_pc = 0;
   
@@ -490,7 +492,7 @@ void push_machine_8(NOBJ_MACHINE *m, uint8_t v)
 #if DEBUG_PUSH_POP
   printf("\n%s:pushing %02X SP:%04X", __FUNCTION__, v, m->rta_sp);
 #endif
-  
+
   if( m->rta_sp > 0 )
     {
       m->stack[(m->rta_sp)--] = v;
@@ -503,9 +505,6 @@ void push_machine_8(NOBJ_MACHINE *m, uint8_t v)
 
 void push_machine_16(NOBJ_MACHINE *m, int16_t v)
 {
-#if DEBUG_PUSH_POP
-  printf("\n%s:pushing %04X SP:%04X", __FUNCTION__, v, m->rta_sp);
-#endif
   
   if( m->rta_sp > 0 )
     {
@@ -516,6 +515,11 @@ void push_machine_16(NOBJ_MACHINE *m, int16_t v)
     {
       error("Attempt to push off end of stack");
     }
+
+#if DEBUG_PUSH_POP
+  printf("\n%s:pushing %04X SP:%04X", __FUNCTION__, v, m->rta_sp+1);
+#endif
+
 }
 
 //------------------------------------------------------------------------------

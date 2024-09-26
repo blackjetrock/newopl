@@ -84,6 +84,7 @@
 
 #include "newopl.h"
 #include "nopl_obj.h"
+#include "newopl_exec.h"
 #include "newopl_lib.h"
 
 NOBJ_MACHINE machine;
@@ -136,13 +137,32 @@ void push_parameters(NOBJ_MACHINE *m)
   push_machine_8(m, 0x03);
 #endif
 
-#if 1
+#if 0
   // Push two floats on to the stack
 
+#endif
+
+#if 1
+  push_machine_8(m, 'T');
+  push_machine_8(m, 'S');
+  push_machine_8(m, 'R');
+  push_machine_8(m, 0x03);
+  push_machine_8(m, 0x02);
+  push_machine_8(m, 0x01);
+  
 #endif
   
   printf("\nPush parameters done.");
 
+}
+
+
+void print_machine_state(NOBJ_MACHINE *m)
+{
+  printf("\n  SP:%04X",              m->rta_sp);
+  printf("\n  FP:%04X",              m->rta_fp);
+  printf("\n  PC:%04X",              m->rta_pc);
+  printf("\n");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +179,7 @@ void push_parameters(NOBJ_MACHINE *m)
 void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 {
   // We build a header for the frame
-  int      sp                = m->rta_sp;
+  int      base_sp           = 0;
   int      previous_fp       = m->rta_fp;
   char     device_ch         = *name;
   uint16_t size_of_variables = 0;
@@ -167,13 +187,31 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   uint16_t size_of_global_table     = 0;
   uint16_t size_of_external_table     = 0;
   uint8_t  num_parameters;
+
+  printf("\n\n");
+  printf("\nPushing procedure '%s'", name);
+  printf("\n  Top:%d",               top);
+  printf("\n  onto machine:");
+
+  print_machine_state(m);
   
-    // Get sizes from file
+  // Get sizes from file
   if( !read_item_16(fp, &size_of_variables) )
     {
       // Error
     }
 
+  // Work out the base SP value
+  // This contains data we set up:
+  //     the global table
+  //     the indirection table
+  //
+  // and data not in the OB3 file:
+  //
+  //     space for the variables
+  
+  base_sp += m->rta_sp - size_of_variables - 11 - 7;
+  
   if( !read_item_16(fp, &size_of_qcode) )
     {
       // Error
@@ -188,6 +226,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   printf("\nSize of QCode        :%02X %d", size_of_qcode, size_of_qcode);
   printf("\nNumber of parameters :%02X %d", num_parameters, num_parameters);
 
+#if 0
   // Proc name
   char *np = name;
   
@@ -214,6 +253,25 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   
   // Num parameters
   push_machine_8(m, num_parameters);
+
+#endif
+
+#if 1
+  uint8_t par_type;
+  uint8_t par_types[16];
+  
+  for(int np = 0; np<num_parameters; np++)
+    {
+      if( !read_item(fp, &par_type, 1, sizeof(uint8_t)) )
+	{
+	  // Error
+	}
+      
+      // Store parameter types
+      par_types[np] = par_type;
+    }
+
+#endif
   
   // Device
   if( top )
@@ -232,9 +290,9 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   push_machine_16(m, 0x0000);
 
   // Base SP. Used as SP if this is an ONERR procedure
-  push_machine_16(m, sp);
+  push_machine_16(m, base_sp);
 
-  // Point FP at the frame we are pushing
+  // FP points at the frame we are pushing
   m->rta_fp = m->rta_sp;
 
   // Previous FP
@@ -248,6 +306,10 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   
   printf("\nSize of global table:%02X %d", size_of_global_table, size_of_global_table);
 
+  uint16_t start_of_global_table = m->rta_sp-size_of_global_table-1;
+  
+  push_machine_16(m, start_of_global_table);
+  
   // Push global area on to stack 
 
   for(int i=0; i<size_of_global_table; i++)
@@ -311,13 +373,13 @@ void display_machine_procs(NOBJ_MACHINE *m)
   uint16_t dp;
   uint16_t val;
   uint8_t val8;
-  
+
+  printf("\n\nProcedures:");
+
   while(fp != 0 )
     {
+      print_machine_state(m);
       
-      printf("\nSP: %04X", sp);
-      printf("\nFP: %04X", fp);
-
       // Get procedure name
       
       // Get data about this proc
@@ -411,7 +473,6 @@ int main(int argc, char *argv[])
 
   // Push proc onto stack
   push_proc(fp, &machine, "A:EX4", 1);
-  //push_proc(fp, &machine, "A:EX4", 0);
 
   printf("\n\n");
   
