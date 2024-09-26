@@ -1,0 +1,404 @@
+17.21  EXAMPLES
+
+
+In these examples all values are given  in  hexadecimal;  word  values  are
+given  as  4  digits,  bytes as 2 digits each one separated by a space.  If
+values are undefined they are written as **.
+
+
+
+         _________
+17.21.1  EXAMPLE 1
+
+Source code:
+                EX1:
+                LOCAL A$(5)
+                A$="ABC"
+
+The Q code header is:
+High memory     0009            size of the variables on stack
+                000A            length of Q code
+                00              number of parameters
+                                  type of parameter
+                0000            size of global area
+                                  global name
+                                  global type
+                                  offset
+                0000            size of externals
+                                  external name
+                                  external type
+                0003            bytes of string fix-ups
+                FFF7              string fix-up offset (from FP)
+                05                max length of string
+Low memory      0000            bytes of array fix-ups
+                                  array fix-up offset (from FP)
+                                  size of array
+
+The Q code is:
+                0F FFF8         QI_LS_STR_SIM_FP
+                24              QI_STR_CON
+                03 41 42 43     "ABC"
+                81              QCO_ASS_STR
+                7B              QCO_RETURN_ZERO
+
+If this program is run on a CM the stack looks like:
+
+        Initially           Left Side   Constant    Assign      On Return
+3EFF    '1'                 '1'         '1'         '1'         '1'
+3EFE    'X'                 'X'         'X'         'X'         'X'
+3EFD    'E'                 'E'         'E'         'E'         'E'
+3EFC    ':'                 ':'         ':'         ':'         ':'
+3EFB    'A'                 'A'         'A'         'A'         'A'
+3EFA    05                  05          05          05          05
+3EF9    00   - Top proc     00          00          00          00
+3EF8    00   - No. paras    00          00          00          00
+3EF6    3EF9 - Return PC    3EF9        3EF9        3EF9        3EF9
+3EF4    0000 - ONERR        0000        0000        0000        0000
+3EF2    3EDB - BASE SP      3EDB        3EDB        3EDB        3EDB
+3EF0    0000 - FP           0000        0000        0000        0000
+3EEE    3EEE - Global table 3EEE        3EEE        3EEE        3EEE
+3EED    00                  00          00          00          00
+3EEC    00                  00          00          00          00
+3EEB    00                  00          'C'         'C'         'C'
+3EEA    00                  00          'B'         'B'         'B'
+3EE9    00                  00          'A'         'A'         'A'
+3EE8    00                  00          03          03          03
+3EE7    05                  05          05          05          05
+3EE6    **                  **          **          **          **
+3EE5    **                  **          **          **          **
+3EE4    QCO_RETURN_ZERO    7B           7B          7B          7B
+3EE3    QCO_ASS_STR         81          81          81          81
+3EE2    'C'                 'C'         'C'         'C'         'C'
+3EE1    'B'                 'B'         'B'         'B'         'B'
+3EE0    'A'                 'A'         'A'         'A'         'A'
+3EDF    03                  03          03          03          03
+3EDE    QI_STR_CON          24          24          24          24
+3EDC    FFF8                FFF8        FFF8        FFF8        FFF8
+3EDB    QI_LS_STR_SIM_FP    0F          0F          0F          0F
+3EDA    **                  3EE8        3EE8        **          00
+3ED9    **                  05          05          **          00
+3ED8    **                  00          00          **          00
+3ED7    **                  **          'C'         **          00
+3ED6    **                  **          'B'         **          00
+3ED5    **                  **          'A'         **          00
+3ED4    **                  **          03          **          00
+3ED3    **                  **          **          **          00
+3ED2    **                  **          **          **          00
+
+FP      3EF0                3EF0        3EF0        3EF0
+PC      3EDB                3EDE        3EE3        3EE4
+SP      3EDB                3ED8        3ED4        3EDB
+
+
+
+         _________
+17.21.2  EXAMPLE 2
+
+When a file is created the operator QCO_CREATE is followed by  the  logical
+name  to  use  and the field type and names.  The list is terminated by the
+operator QCO_END_FIELDS.
+
+For example:
+
+                CREATE "B:ABC",B,AAA$,B%,CC
+
+is translated as the Q code:
+
+                24                      QI_STR_CON
+                05 42 3A 41 42 43       "B:ABC"
+                5E                      QCO_CREATE
+                01                      Logical name B
+                02                      Type string
+                04 41 41 41 24          "AAA$"
+                00                      Type integer
+                02 42 25                "B%"
+                01                      Type floating point
+                02 43 43                "CC"
+                88                      QCO_END_FIELDS
+
+
+
+         _________
+17.21.3  EXAMPLE 3
+
+
+The recursive example given in 17.12.1:
+
+                RECURS:(I%)
+                IF I%
+                 RECURS:(I%-1)
+                ENDIF
+
+Looks like this on the stack:
+
+        Address         Contents        Description
+
+        3D5A            0010            Parameter
+        3D59            00              Parameter type
+        3D58            01              Number of parameters
+        3D57            41              Device A
+        3D55            3D6D            Return RTA_PC
+        3D53            0000            ONERR address
+        3D51            3D29            BASE SP
+        3D4F            3D82            Previous FP
+        3D4D            3D4D            Globals start address
+        3D4B            3D5A            Indirect address to parameter
+        3D49            **
+        3D48            7B              QCO_RETURN_ZERO
+        3D47            84              QCO_DROP_NUM
+        3D40            "RECURS"
+        3D3F            7D              QCO_PROC
+        3D3E            01
+        3D3D            20              QCO_STK_LIT_BYTE
+        3D3C            00
+        3D3B            20              QCO_STK_LIT_BYTE
+        3D3A            2E              QCO_SUB_INT
+        3D38            0001
+        3D37            22              QI_INT_CON
+        3D35            FFFC
+        3D34            07              QI_INT_SIM_IND
+        3D32            001B
+        3D31            7E              QCO_BRA_FALSE
+        3D2F            FFFC
+        3D2E            07              QI_INT_SIM_IND
+        3D2C            000F            Parameter for next call
+        3D2B            00              parameter type
+        3D2A            01              parameter count
+
+Note that the top 4 byte and the bottom 4 bytes are almost identical,  this
+is shown at the point where the procedure is about to be invoked:
+
+        RTA_PC          3D3F
+        RTA_SP          3D2A
+        RTA_FP          3D4F
+
+
+
+         _________
+17.21.4  EXAMPLE 4
+
+Source code:
+                EX4:(PPP$)
+                LOCAL A$(5)
+                GLOBAL B,C%(3),D$(5)
+                J$=PPP$
+
+The Q code header is:
+                0035            size of the variables on stack
+                0008            size of Q code length
+                01              number of parameters
+                02                type of parameter
+                0011            size of global area
+                01 42             global name
+                01                global type
+                FFE1              offset
+                02 43 25          global name
+                03                global type
+                FFD9              offset
+                02 44 24          global name
+                02                global type
+                FFD3              offset
+                0004            bytes of externals
+                02 4A 24          external name
+                02                external type
+                0006            bytes of string fix-ups
+                FFCB              string fix-up offset (from FP)
+                05                max length of string
+                FFD2              string fix-up offset (from FP)
+                05                max length of string
+                0004            bytes of array fix-ups
+                FFD9              array fix-up offset (from FP)
+                0003              size of array
+
+The Q code is:
+                16 FFE9         QI_LS_STR_SIM_IND
+                09 FFEB         QI_STR_SIM_IND
+                81              QCO_ASS_STR
+                7B              QCO_RETURN_ZERO
+
+If this program is run on a CM from the procedure:
+                XXX:
+                GLOBAL J$(3)
+                EX4:("RST")
+
+================================================================================
+
+The stack looks like:
+
+3EFA            "A:XXX"
+
+3EF9            00                      Number of parameters
+
+3EF8            00                      Top procedure	
+3EF6            3EF9                    Return PC
+3EF4            0000                    ONERR address
+3EF2            3ED1                    BASE SP
+3EF0            0000                    FP
+
+3EEE            3EE8                    Start of global table
+
+3EEC            3EE4                    Address of global
+
+3EEB            02                      Global type
+
+Start of global table
+3EE8            "J$"                    Global name
+
+Global values
+3EE4            00 00 00 00          Global J$   (current length, then 3 bytes of data)
+
+3EE3            03                     Max length of J$
+
+3EE1            **
+
+QCode (reverse order in listing)               Created from OB3 file when loading (copied)
+3EE0            7B                      QCO_RETURN_ZERO
+3EDF            84                      QCO_DROP_NUM
+3EDB            "EX4"                                           Literal procedure name
+3EDA            7D                      QCO_PROC                Call procedure
+3ED8            20 01                   QI_STK_LIT_BYTE         Number of parameters
+3ED6            20 02                   QI_STK_LIT_BYTE         Parameter type
+
+
+3ED2            "RST"                   Proc name literal 
+
+Base stack address for XXX. First stack address used by the proc?
+
+3ED1            24                      QI_STR_CON        Stack proc name Push string literal
+
+--------------------------------------------------------------
+                 Calculation stack for the QCode
+		 
+3ECD            "RST"                   Parameter            (length prefixed)
+3ECC            02                      Parameter type
+3ECB            01                      Number of parameters
+
+----
+               The following is pushed by the QCO_PROC
+	       
+3ECA            00                      Device A: ** This looks wrong, it should be 'A' I think
+3EC8            3EDA                    Return PC   ** Points at QCO_PROC
+3EC6            0000                    ONERR
+3EC4            3E83                    BASE SP
+3EC2            3EF0                    FP
+3EC0            3EAF                    Start of global table
+
+3EBE            3E95                    Address of value
+3EBD            02
+3EBA            02 44 24                Global D$
+
+3EB8            3E9B
+3EB7            03
+3EB4            02 43 25                Global C%()
+
+3EB2            3EA3
+3EB1            01                      Type 1
+
+**** 3EAF is start of global table
+3EAF            01 42                   Global B (Length prefixed name of variable)
+--------------------------------------------------------------------------------------
+
+Indirection table
+3EAD            3ECD                    Indirection to PPP$
+3EAB            3EE4                    Indirection to J$
+
+Variable area. Cleared to zero when proc loaded. Values that aren't zero on initialisation
+are 'fix-ups'. This means that a value is copied to those parts of variables that need to be
+something other than zero. E.g. max string lengths or number of elements in arrays
+
+For example, the fix up table for this variable area is:
+
+                0006            bytes of string fix-ups
+                FFCB              string fix-up offset (from FP)  3EC2+FFCB = 3E8D
+                05                max length of string
+                FFD2              string fix-up offset (from FP)  3EC2+FFD2 = 3E94
+                05                max length of string
+                0004            bytes of array fix-ups
+                FFD9              array fix-up offset (from FP)  3EC2+FFD9 = 3E9B
+                0003              size of array
+
+These fixup entries are filling in the two 5's and a 3 in the following variable area:
+
+3EA3            00 00 00 00 00 00 00 00         GLOBAL B
+3E9B            00 03 00 00 00 00 00 00         GLOBAL C%()  00:Array type 03: Size, then data
+3E94            05 00 00 00 00 00 00            GLOBAL D$
+3E8D            05 00 00 00 00 00 00            LOCAL A$
+3E8B            **
+3E8A            7B                      QCO_RETURN_ZERO
+3E89            81                      QCO_ASS_STR
+3E87            FFEB
+3E86            09                      QI_STR_SIM_IND
+3E84            FFE9
+
+Base stack address for EX4 
+3E83            16                      QI_LS_STR_SIM_IND
+
+---------------------------------------------------------------------
+
+When running EX4 the offset FFE9 is added to RTA_FP (3EC2)  to  give  3EAB.
+The  address  at  3EAB is 3EE4 which is the address of the global J$.  This
+address with a non-field flag is  stacked.   Similarly  FFEB  is  added  to
+RTA_FP  to  give  3EAD, which contains the address 3ECD, the address of the
+parameter PPP$.
+
+
+
+         _________
+17.21.5  EXAMPLE 5
+
+
+Source code:
+                TOP:
+                PRINT ABC:(GET)
+                GET
+
+
+                ABC:(N%)
+                RETURN(N%*N%)
+
+At the point when ABC: has just been called the stack looks like:
+
+3EFA            "A:TOP"
+3EF9            00              NO. of parameters    Start of procedure on stack
+3EF8            00              Top procedure
+3EF6            3EF9            Return PC
+3EF4            0000            ONERR address
+3EF2            3EDD            BASE SP
+3EF0            0000            FP
+3EEE            3EEE            Global table
+3EEC            **
+3EEB            7B              QCO_RETURN_ZERO
+3EEA            83              QCO_DROP_WORD
+3EE9            91              RTF_GET
+3EE8            73              QCO_PRINT_CR
+3EE7            70              QCO_PRINT_NUM
+3EE3            "ABC"
+3EE2            7D              QCO_PROC
+3EE0            20 01           QI_STK_LIT_BYTE
+3EDE            20 00           QI_STK_LIT_BYTE
+3EDD            91              RTF_GET                Start of qcode on stack
+3EDB            0020
+
+
+3EDA            00              Integer               Start of ABC on stack         
+3ED9            01              No. parameters
+3ED8            41              Device A:
+3ED6            3EE2            Return PC
+3ED4            0000            ONERR
+3ED2            3EC1            BASE SP
+3ED0            3EF0            FP
+3ECE            3ECE            global table
+3ECC            3EE4            Address of N%
+3ECA            **
+3EC9            79              QCO_RETURN
+3EC8            86              QCO_INT_TO_NUM
+3EC7            2F              QCO_MUL_INT
+3EC4            07 FFF7         QI_INT_SIM_IND
+3EC1            07 FFF7         QI_INT_SIM_IND          Start of Qcode on stack
+
+3EBF            0020                    0400                    0300
+3EBD            0020                    **                      1024
+3EBB            **                      **                      0000
+3EB9            **                      **                      0000
+
+PC              3EC7                    3EC8                    3EC9

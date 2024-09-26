@@ -1,0 +1,118 @@
+3. The procedure file format
+A procedure file is a binary file of type $83, as described in the file formats document. Its binary data block has the following format:
+
+VVVV	Total size that variables need on the stack.
+This is size of storage space reserved for local/global varables defined in this procedure
+plus two bytes for each external variable or parameter
+plus size of global variable name table.
+ 
+QQQQ	Size of procedure QCode
+ 
+XX	Number of parameters
+[XX]	Type bytes for parameters, in reverse order
+ 
+XXXX	Size of global variable name table in bytes
+[string,	Global variable name (starts with length byte, name will include any final % or $)
+BB,	Global variable type byte (0-5)
+AAAA]	Global variable address (offset into reserved variable space)
+Variables are listed in order of use in the procedure
+ 
+XXXX	Size of external variable name table in bytes
+[string,	External variable name (starts with length byte, name will include any final % or $)
+BB]	External variable type byte (0-5)
+Variables are listed in order of use in the procedure
+ 
+XXXX	Size of string fixup table in bytes
+[AAAA,	Address of string variable or string array, minus 1 (offset into reserved variable space)
+MM]	Maximum number of bytes in string contents
+ 
+XXXX	Size of array fixup table in bytes
+[AAAA,	Address of array (offset into reserved variable space)
+LLLL]	Number of elements in the array
+ 
+[CC]	QCode, number of bytes is QQQQ above.
+When a procedure is loaded, VVVV bytes are reserved on the stack. This is partially filled by a copy of the global variable name table (after checking that these names have not been defined in the name table of any previous procedure on the stack). Below that is the space reserved for variables. The addresses of parameters and externals are filled in (the latter by looking through the global variable name tables of previous procedures). The rest of the variable storage is filled with zeroes, except for the array lengths and maximum string lengths. These are filled in by using the data in the two fixup tables.
+
+The addresses in the fixup tables and the addresses of variables in the global variable name table and in the QCode block are all relative to the top of the part of the stack reserved for the variables of the procedure. The variables are referred to by their offset from the top of this variable storage space. If no globals were defined (so the global variable name table would just consist of the length word 0000) then the first variable would have the offset address $0000-2-x where x is the space needed by the variable. An integer would therefore have offset address $FFFC.
+
+4. Example QCode Header
+The following example procedure uses all possible types of variable.
+
+TEST:(P1,P2%,P3$)
+LOCAL L1,L2%,L3$(5)
+LOCAL L4(4),L5%(5),L6$(6,12),L7%
+GLOBAL G1,G2%,G3$(13)
+GLOBAL G4(4),G5%(5),G6$(6,14),G7%
+REM rest of code, including use of the following externals
+PRINT E1;E2%;E3$
+PRINT E4(4);E5%(5);E6$(6)
+
+The translated procedure will have the following header data:
+
+0000 : 017D               	Size of variable space	
+       014C               	Size of the qcode	LOCAL L1, L2%, L3$(5)
+       03                 	Number of parameters	
+       02 00 01           	Parameter types
+0008 : 00 2F              	Size of global varname table
+       02 47 31    01 FFB3	G1, float type, address
+       03 47 32 25 00 FFB1	G2%, integer type, address
+       03 47 33 24 02 FFA3	G3$, string type, address
+       02 47 34    04 FF80	G4, float array type, address
+       03 47 35 25 03 FF74	G5%, integer array type, address
+       03 47 36 24 05 FF18	G6$, string array type, address
+       03 47 37 25 00 FF15	G7%, integer type, address
+0039 : 0020               	Size of external varname table
+       02 45 31    01     	E1, float type
+       03 45 32 25 00     	E2%, integer type
+       03 45 33 24 02     	E3$, string type
+       02 45 34    04     	E4, float array type
+       03 45 35 25 03     	E5%, integer array type
+       03 45 36 24 05     	E6$, string array type
+       02 4C 35    04     	E7%, integer type
+005B : 000C               	Size of string fixups
+       FF04 05            	Fixup for L3$ maximum string length
+       FE85 0C            	Fixup for L6$() maximum string length
+       FFA2 0D            	Fixup for G3$ maximum string length
+       FF17 0E            	Fixup for G6$() maximum string length
+0069 : 0018               	Size of array fixups
+       FEE2 0004          	Fixup for L4() array length
+       FED6 0005          	Fixup for L5%() array length
+       FE86 0006          	Fixup for L6$() array length
+       FF80 0004          	Fixup for G4() array length
+       FF74 0005          	Fixup for G5%() array length
+       FF18 0006          	Fixup for G6$() array length
+0083 :                    	Start of the QCode instructions
+The variable storage area used by the program will look as follows:
+
+FFFE-FF           Global variable name table length (will contain 002F)
+FFCF-FD           Global variable name table, of length 002F, exact copy of the above.
+FFCD-CE   P1      Parameters and externals use 2 bytes each
+FFCB-CC   P2%
+FFC9-CA   P3$
+FFC7-C8   E1
+FFC5-C6   E2%
+FFC3-C4   E3$
+FFC1-C2   E4()
+FFBF-C0   E5%()
+FFBD-BE   E6$()
+FFBB-BC   L5()
+
+FFB3-BA   G1      Float uses 8 bytes
+FFB1-B2   G2%     Integer uses 2 bytes
+FFA3-B0   G3$     String uses 2+maxStrLen bytes, but maxStrLen value stored in preceding byte
+FFA2              Maximum string length of G3$
+FF80-A1   G4()    float array uses 2+8*arrLen bytes
+FF74-7F   G5%()   integer array uses 2+2*arrLen bytes
+FF18-73   G6$()   String array uses 3 + (1+maxStrLen)*arrLen, but maxStrLen value stored in preceding byte
+FF17              Maximum string length of G6$() elements
+FF15-16   G7%
+
+FF0D-14   L1
+FF0B-0C   L2%
+FF05-0A   L3$
+FF04              Maximum string length of L3$
+FEE2-03   L4()
+FED6-E1   L5%()
+FE86-D5   L6$()
+FE85              Maximum string length of L6$() elements
+
