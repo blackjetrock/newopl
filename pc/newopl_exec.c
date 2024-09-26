@@ -355,7 +355,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	  // Error
 	}
 
-      m->stack[k++] = gv_name_len;
+      m->stack[k++] = gv_type;
 
       printf(" Type:%d", gv_type);
       
@@ -448,20 +448,130 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       
     }
 
-#if 0
-  for(int i=0; i<size_of_external_table; i++)
+  //------------------------------------------------------------------------------
+  // Now run through the external table.
+  
+  printf("\nBuilding Interaction Table");
+  printf("\nSearching for externals...");
+	 
+  for(int i=0; i<size_of_external_table;)
     {
-      uint8_t ev;
-      if( !read_item(fp, &ev, 1, sizeof(uint8_t)) )
+      uint8_t ext_name_len;
+      char    ext_name[NOBJ_VARNAME_MAXLEN];
+      int ext_type;
+      
+      // Name length
+      if( !read_item(fp, &ext_name_len, 1, sizeof(uint8_t)) )
+	{
+	  // Error
+	}
+
+      i++;
+
+      uint8_t ext_name_char;
+      
+      // Read the name
+      int j;
+      
+      for(j=0; j < ext_name_len; j++)
+	{
+	  // Name length
+	  if( !read_item(fp, &ext_name_char, 1, sizeof(uint8_t)) )
+	    {
+	      // Error
+	    }
+	  
+	  i++;
+	  
+	  ext_name[j] = ext_name_char;
+	}
+
+      ext_name[j] = '\0';
+
+      printf("\nExternal:'%s'", ext_name);
+      
+      // Name length
+      if( !read_item(fp, &ext_type, 1, sizeof(uint8_t)) )
 	{
 	  // Error
 	}
       
-      push_machine_8(m, ev);
+      i++;
+
+      // See if we can find this external global. Look in all the previous frames
+      uint16_t  fpp       = m->rta_fp;
+      int       ext_found = 0;
+      uint16_t  glob_ptr;
+
+      printf("\nFPP now %04X", fpp);
+      
+      while( STACK_ENTRY_16(fpp) != 0 )
+	{
+	  // Point to next frame
+	  fpp = STACK_ENTRY_16(fpp);
+
+	  printf("\nFPP now %04X", fpp);
+	  
+	  // Check the global table
+	  glob_ptr = m->stack[(fpp - 2)];
+
+	  printf("\n  Global table at %04X", glob_ptr);
+	  
+	  for(int gi = 0; gi<size_of_global_table;)
+	    {
+	      // Get name length
+	      uint8_t glob_name_len = m->stack[glob_ptr+gi];
+	      char    glob_name[NOBJ_VARNAME_MAXLEN];
+	      int     glob_type;
+
+	      gi++;
+	      
+	      // Read the name
+	      int j;
+	      
+	      for(j=0; j < glob_name_len; j++)
+		{
+		  glob_name[j] = m->stack[glob_ptr+(gi++)];
+		}
+	      
+	      glob_name[j] = '\0';
+			  
+	      printf("\n  Global name:'%s'", glob_name);
+
+	      if( strcmp(glob_name, ext_name)==0 )
+		{
+		  // Found the global, get the address and put it in indirection table
+		  printf("\n  Found global");
+
+		  uint16_t glob_addr;
+
+		  gi++;
+		  STACK_ENTRY_16(glob_ptr + gi);
+		  gi += 2;
+		  
+		  //		  glob_addr  = m->stack[glob_ptr+(gi++)] << 8;
+		  //glob_addr |= m->stack[glob_ptr+(gi++)] &  0x0F;
+
+		  // Copy to table
+		  push_machine_16(m, glob_addr);
+
+		  printf("\n  Address:%04X", glob_addr);
+
+		  ext_fouind = 1;
+		}
+	    }
+
+	  if( ext_found )
+	    {
+	      // All OK
+	    }
+	  else
+	    {
+	      // Add a dummy entry
+	      push_machine_16(m, 0x0000);
+	    }
+	}
     }
-#endif
-  
-  // 
 
   // Indirection table
   push_machine_16(m, previous_fp);

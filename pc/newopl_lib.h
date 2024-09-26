@@ -17,4 +17,6 @@ uint16_t get_machine_16(NOBJ_MACHINE *m, uint16_t sp, uint16_t *v);
 uint16_t get_machine_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *v);
 void error(char *fmt, ...);
 
-  int datatype_length(int type, int next_byte);
+int datatype_length(int type, int next_byte);
+
+#define STACK_ENTRY_16(AAA)  ((m->stack[AAA] << 8) | (m->stack[AAA+1] & 0x0F))

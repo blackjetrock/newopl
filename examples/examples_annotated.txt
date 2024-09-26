@@ -307,7 +307,7 @@ are 'fix-ups'. This means that a value is copied to those parts of variables tha
 something other than zero. E.g. max string lengths or number of elements in arrays
 
 For example, the fix up table for this variable area is:
-
+n
                 0006            bytes of string fix-ups
                 FFCB              string fix-up offset (from FP)  3EC2+FFCB = 3E8D
                 05                max length of string
