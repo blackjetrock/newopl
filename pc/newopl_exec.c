@@ -350,7 +350,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	  // Error
 	}
 
-      printf("  ADDR:%04X -> %04X", gv_addr, gv_addr + start_of_global_table;
+      printf("  ADDR:%04X -> %04X", gv_addr, gv_addr + start_of_global_table);
       gv_addr += start_of_global_table;
 
       m->stack[i++] = gv_addr >> 8;
