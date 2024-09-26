@@ -394,8 +394,61 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   
   printf("\nSize of external table:%02X %d", size_of_external_table, size_of_external_table);
 
-  // Push external area on to stack 
+  // Push external area on to stack
+  // The indirection area has all parameters and externals
+  // We need to:
+  //
+  // Work through all parameters, placing the address of the parameter (on the stack)
+  // into the table.
+  // Work through the external table in the OB3 file and find the address
+  // of the variable by looking through the linked frame list.
+  //
+  // The size of the table is known and accounted for in the allocation of
+  // storage on the stack. The number of parameters is known, and externals are in
+  // the external table in the object file.
+  //
+  // Parameters first
+  //
 
+  uint16_t par_ptr = m->rta_fp + 9;
+  uint8_t  par_stack_type = 0;
+  uint8_t  par_stack_num_pars = 0;
+
+  // Chck number of parameters correct
+  if( m->stack[par_ptr] == num_parameters )
+    {
+      // Number of parameters is OK
+    }
+  else
+    {
+      error("Incorrect number of parameters. Expected %d, got %d. SP:%04X", num_parameters, m->stack[par_ptr], par_ptr);
+    }
+
+  par_ptr++;
+  for(int np = 0; np<num_parameters; np++)
+    {
+      
+      // Get type, check it matches
+      if( m->stack[par_ptr] == par_types[np] )
+	{
+	  // Type OK
+	}
+      else
+	{
+	  error("Type %d incorrect. Should be %d. Stack %04X", m->stack[par_ptr], par_types[np], par_ptr);
+	}
+
+      par_ptr++;
+
+      // We are pointing at the data, put this value in the table
+      push_machine_16(m, par_ptr);
+
+      // Skip past the data on the stack
+      int par_data_len = datatype_length(par_types[np], m->stack[par_ptr]);
+      
+    }
+
+#if 0
   for(int i=0; i<size_of_external_table; i++)
     {
       uint8_t ev;
@@ -406,7 +459,8 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       
       push_machine_8(m, ev);
     }
-
+#endif
+  
   // 
 
   // Indirection table

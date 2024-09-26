@@ -11,6 +11,7 @@
 #include "newopl.h"
 #include "nopl.h"
 #include "nopl_obj.h"
+#include "newopl_lib.h"
 
 #define DEBUG_PUSH_POP    1
 
@@ -44,6 +45,39 @@ int read_item_16(FILE *fp, uint16_t *ptr)
   
   *ptr = swap_uint16(*ptr);
   return(ni);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Returns th elength of a data type given the type and the byte after the
+// type value
+//
+
+int datatype_length(int type, int next_byte)
+{
+  int length = 0;
+  
+  switch(type)
+    {
+    case 0:
+      length = 2;
+      break;
+
+    case 1:
+      length = 8;
+      break;
+
+    case 2:
+      length = 1+next_byte;
+      break;
+      
+    default:
+      error("unknown parameter type. Line %d", __LINE__);
+      break;
+      
+    }
+  
+  return(length);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -479,8 +513,11 @@ void error(char *fmt, ...)
 
   va_start(valist, fmt);
 
+  printf("\n****\n");
   vprintf(fmt, valist);
   va_end(valist);
+
+  printf("\n\n");
   
   exit(-1);
 }
