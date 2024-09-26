@@ -567,17 +567,16 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	    }
 	  else
 	    {
-	      // Add a dummy entry
+	      // ==========    Add a dummy entry
 	      push_machine_16(m, 0x0000);
 	    }
 	}
     }
 
-  // Indirection table
-  push_machine_16(m, previous_fp);
-
   // Variables go here
-
+  // The variable space is already in place, the SP needs to move after it eventually.
+  // The variable space has to be zeroed.
+  
   // QCode goes here
   
 }
