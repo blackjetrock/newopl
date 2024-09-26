@@ -293,8 +293,10 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   push_machine_16(m, base_sp);
 
   // FP points at the frame we are pushing
-  m->rta_fp = m->rta_sp;
+  m->rta_fp = m->rta_sp-1;
 
+  printf("\nrta_fp = %04X", m->rta_fp);
+  
   // Previous FP
   push_machine_16(m, previous_fp);
 
@@ -312,8 +314,11 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   
   // Push global area on to stack Fill global area on stack (not push)
 
-  for(int i=0; i<size_of_global_table; i++)
+  for(int i=0; i<size_of_global_table;)
     {
+      int start_i = i;
+      int k = i;
+      
       // Read variable data from file
       // Build up the record in the stack
       
@@ -323,7 +328,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	  // Error
 	}
 
-      m->stack[i] = gv_name_len;
+      m->stack[k++] = gv_name_len;
 
       printf("\n  Name length:%d", gv_name_len);
 
@@ -336,27 +341,50 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	      // Error
 	    }
 
-	  m->stack[i+j] = gv_name_char;
-	  printf(" %c", gv_name_char);
+	  m->stack[k++] = gv_name_char;
+	  printf("%c", gv_name_char);
 	}
 
       printf("' ");
       
-      i += gv_name_len;
+      //      k += gv_name_len;
+
+      uint8_t gv_type;
+      if( !read_item(fp, &gv_type, 1, sizeof(uint8_t)) )
+	{
+	  // Error
+	}
+
+      m->stack[k++] = gv_name_len;
+
+      printf(" Type:%d", gv_type);
+      
       uint16_t gv_addr;
+      uint16_t gv_eff_addr;
       
       if( !read_item_16(fp, &gv_addr) )
 	{
 	  // Error
 	}
 
-      printf("  ADDR:%04X -> %04X", gv_addr, gv_addr + start_of_global_table);
-      gv_addr += start_of_global_table;
+      gv_eff_addr = (uint16_t)m->rta_fp + gv_addr;
 
-      m->stack[i++] = gv_addr >> 8;
-      m->stack[i++] = gv_addr & 0xFF;
-      
+      printf("\nEff %04X = %04X - %04X", (int)gv_eff_addr, (int)gv_addr, (int)base_sp);
+      printf("  ADDR:%04X -> %04X", gv_addr, gv_eff_addr);
+
+      m->stack[k++] = gv_eff_addr >> 8;
+      m->stack[k++] = gv_eff_addr & 0xFF;
+
+      for(int ii=start_i; ii<start_i+4+gv_name_len; ii++)
+	{
+	  printf("\n%04X: %02X", ii, m->stack[ii]);
+	}
+
+      i = k;
     }
+
+  // Move SP on by size of global table
+  m->rta_sp -= size_of_global_table;
   
   // Get size of external table from file
   if( !read_item_16(fp, &size_of_external_table) )
