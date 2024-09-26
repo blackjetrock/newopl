@@ -324,7 +324,10 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	}
 
       m->stack[i] = gv_name_len;
-      
+
+      printf("\n  Name length:%d", gv_name_len);
+
+      printf("  '");
       for(int j=0; j<gv_name_len; j++)
 	{
 	  uint8_t gv_name_char;
@@ -334,8 +337,11 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	    }
 
 	  m->stack[i+j] = gv_name_char;
+	  printf(" %c", gv_name_char);
 	}
 
+      printf("' ");
+      
       i += gv_name_len;
       uint16_t gv_addr;
       
@@ -344,6 +350,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	  // Error
 	}
 
+      printf("  ADDR:%04X -> %04X", gv_addr, gv_addr + start_of_global_table;
       gv_addr += start_of_global_table;
 
       m->stack[i++] = gv_addr >> 8;
