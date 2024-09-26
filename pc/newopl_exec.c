@@ -336,7 +336,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	  m->stack[i+j] = gv_name_char;
 	}
 
-      i += gcv_name_len;
+      i += gv_name_len;
       uint16_t gv_addr;
       
       if( !read_item_16(fp, &gv_addr) )
