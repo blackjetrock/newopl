@@ -15,6 +15,17 @@
 
 #define DEBUG_PUSH_POP    1
 
+void debug(char *fmt, ...)
+{
+  va_list valist;
+
+  va_start(valist, fmt);
+
+  vprintf(fmt, valist);
+  va_end(valist);
+}
+
+
 uint16_t swap_uint16(uint16_t n)
 {
   int h = (n & 0xFF00) >> 8;

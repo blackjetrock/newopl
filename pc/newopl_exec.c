@@ -690,7 +690,9 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
     }
   
   // Leave the stack at the end of the procedure
-  m->rta_sp = base_sp;
+  // Move down a by a byte so the stack doesn't overwrite the qcode
+  
+  m->rta_sp = base_sp-1;
 
   // Put the PC at the start of the QCode
   m->rta_pc = base_sp;
@@ -774,7 +776,7 @@ void display_machine(NOBJ_MACHINE *m)
   display_machine_procs(m);
 
   // Dump the stack
-  for(int i= NOBJ_MACHINE_STACK_SIZE; i>=m->rta_sp; i--)
+  for(int i= NOBJ_MACHINE_STACK_SIZE; i>=(m->rta_sp)-128; i--)
     {
       b = m->stack[i];
       
