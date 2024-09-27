@@ -87,23 +87,9 @@
 #include "nopl_obj.h"
 #include "newopl_exec.h"
 #include "newopl_lib.h"
+#include "qcode.h"
 
 NOBJ_MACHINE machine;
-
-void exec_qcode(NOBJ_MACHINE *m, NOBJ_QCODE qc)
-{
-}
-
-void exec_proc(NOBJ_PROC *proc)
-{
-  NOBJ_QCODE *qc = proc->qcode;
-
-  for(int i=0; i<proc->qcode_space_size.size; qc++, i++)
-    {
-      // Execute the QCode, applied to the machine state
-      exec_qcode(&machine, *qc);
-    }
-}
 
 FILE *fp;
 NOBJ_PROC proc;
@@ -302,6 +288,10 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
     }
   
   //  Return PC
+  //  We may adjust this to point to the next qcode to execute.
+  // The original doesn't do that, but we don't have the B register
+  // to use to increment the PC.
+  
   push_machine_16(m, m->rta_pc);
 
   // ONERR address
@@ -700,10 +690,13 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
     }
   
   // Leave the stack at the end of the procedure
-  
   m->rta_sp = base_sp;
-}
 
+  // Put the PC at the start of the QCode
+  m->rta_pc = base_sp;
+  
+
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -846,12 +839,12 @@ int main(int argc, char *argv[])
   // Push proc onto stack
   push_proc(fp, &machine, "A:EX4", 1);
 
+  // Execute it
+  execute_qcode(&machine);
+  
   printf("\n\n");
   
   display_machine(&machine);
-  
-  // Execute the QCodes
-  exec_proc(&proc);
   
   printf("\n");
 }

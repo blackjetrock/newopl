@@ -619,6 +619,29 @@ uint16_t pop_sp_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
   return(sp);  
 }
 
+//------------------------------------------------------------------------------
+// Pop byte off stack
+
+uint8_t pop_machine_8(NOBJ_MACHINE *m)
+{
+  uint8_t val8;
+  
+  if( m->rta_sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to pop from empty stack");
+    }
+  
+  val8 = m->stack[++(m->rta_sp)];
+
+#if DEBUG_PUSH_POP
+  printf("\n%s:Popped %02X from SP:%04X", __FUNCTION__, val8, (m->rta_sp)-1);
+#endif
+
+  return(val8);  
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 uint16_t pop_discard_sp_int(NOBJ_MACHINE *m, uint16_t sp)
 {
   if( sp == NOBJ_MACHINE_STACK_SIZE )
@@ -680,6 +703,7 @@ uint16_t pop_discard_sp_str(NOBJ_MACHINE *m, uint16_t sp)
 
   return(sp);  
 }
+
 
 //------------------------------------------------------------------------------
 //
