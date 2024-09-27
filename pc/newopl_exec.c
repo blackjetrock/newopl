@@ -76,7 +76,8 @@
 //  references and when handling errors.
 //
 //
-  
+
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>
@@ -346,11 +347,13 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
     }
 
   // Push global area on to stack Fill global area on stack (not push)
-
+  int k = start_of_global_table;
+      
   for(int i=0; i<size_of_global_table;)
     {
       int start_i = i;
-      int k = i;
+
+      printf("\n%d %d", size_of_global_table, i);
       
       // Read variable data from file
       // Build up the record in the stack
@@ -362,7 +365,8 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	}
 
       m->stack[k++] = gv_name_len;
-
+      i++;
+      
       printf("\n  Name length:%d", gv_name_len);
 
       printf("  '");
@@ -375,6 +379,8 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	    }
 
 	  m->stack[k++] = gv_name_char;
+	  i++;
+	  
 	  printf("%c", gv_name_char);
 	}
 
@@ -389,7 +395,8 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	}
 
       m->stack[k++] = gv_type;
-
+      i++;
+      
       printf(" Type:%d", gv_type);
       
       uint16_t gv_addr;
@@ -407,13 +414,15 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 
       m->stack[k++] = gv_eff_addr >> 8;
       m->stack[k++] = gv_eff_addr & 0xFF;
-
+      i++;
+      i++;
+      
       for(int ii=start_i; ii<start_i+4+gv_name_len; ii++)
 	{
-	  printf("\n%04X: %02X", ii, m->stack[ii]);
+	  printf("\n%04X: %02X", ii, m->stack[start_of_global_table+ii]);
 	}
 
-      i = k;
+      //      i = k;
     }
 
   // Move SP on by size of global table
@@ -766,7 +775,8 @@ void display_machine_procs(NOBJ_MACHINE *m)
 
 void display_machine(NOBJ_MACHINE *m)
 {
-  char dch, b;
+  char dch;
+  uint8_t b;
   
   display_machine_procs(m);
 
