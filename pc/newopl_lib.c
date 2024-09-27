@@ -500,9 +500,9 @@ void init_machine(NOBJ_MACHINE *m)
   m->rta_sp = NOBJ_MACHINE_STACK_SIZE;
 
   // CM stack for testing
-  //m->rta_sp = 0x3EFF;       // For full example 4
+  m->rta_sp = 0x3EFF;       // For full example 4
   
-  m->rta_sp = 0x3ED0;       // For example 4 just ex4
+  //m->rta_sp = 0x3ED0;       // For example 4 just ex4
   m->rta_fp = 0;
   m->rta_pc = 0;
   
