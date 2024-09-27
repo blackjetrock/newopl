@@ -142,7 +142,7 @@ void push_parameters(NOBJ_MACHINE *m)
 
 #endif
 
-#if 0
+#if 1
   push_machine_8(m, 'T');
   push_machine_8(m, 'S');
   push_machine_8(m, 'R');
@@ -152,7 +152,7 @@ void push_parameters(NOBJ_MACHINE *m)
   
 #endif
 
-#if 1
+#if 0
   push_machine_8(m, 'X');
   push_machine_8(m, 'X');
   push_machine_8(m, 'X');
@@ -328,7 +328,23 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   uint16_t start_of_global_table = m->rta_sp-size_of_global_table-1;
   
   push_machine_16(m, start_of_global_table);
+
+  //------------------------------------------------------------------------------
+  // Zero out the variable area on the stack before we use it.
+  //------------------------------------------------------------------------------
+
+  // This does not clear the global table as that starts at the start and goes
+  // higher in memory. It is fully written by the procedure load so doesn't need
+  // clearing
   
+  printf("\nZeroing stack from base_sp to start of global table");
+  printf("\n%04X to %04X", base_sp, start_of_global_table);
+  
+  for(int va = base_sp; va <= start_of_global_table; va++)
+    {
+      m->stack[va] = 0;
+    }
+
   // Push global area on to stack Fill global area on stack (not push)
 
   for(int i=0; i<size_of_global_table;)
@@ -411,6 +427,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   
   printf("\nSize of external table:%02X %d", size_of_external_table, size_of_external_table);
 
+  //------------------------------------------------------------------------------
   // Push external area on to stack
   // The indirection area has all parameters and externals
   // We need to:
@@ -426,7 +443,8 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   //
   // Parameters first
   //
-
+  //------------------------------------------------------------------------------
+  
   uint16_t par_ptr = m->rta_fp + 9;
   uint8_t  par_stack_type = 0;
   uint8_t  par_stack_num_pars = 0;
@@ -592,10 +610,76 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 
   // Variables go here
   // The variable space is already in place, the SP needs to move after it eventually.
-  // The variable space has to be zeroed.
+  // The variable space has been zeroed.
+
+  // Apply fix-ups
+  printf("\nApplying fixups...");
+  
+  // String fixups
+  uint16_t num_fixups;
+
+  if( !read_item_16(fp, &num_fixups) )
+    {
+      // Error
+    }
+
+  
+  for(int j=0; j < num_fixups/3; j++)
+    {
+      // Address (offset from FP)
+      uint16_t addr;
+      uint8_t fixdata;
+      
+      if( !read_item_16(fp, &addr) )
+	{
+	  // Error
+	}
+
+      if( !read_item(fp, &fixdata, 1, sizeof(uint8_t)) )
+	{
+	  // Error
+	}
+
+      printf("\nFixup at %04X, data %02X, add:%04X", addr, fixdata, m->rta_fp+addr);
+
+      m->stack[(uint16_t)(m->rta_fp+addr)] = fixdata;
+    }
+
+  // Array fixups
+
+  if( !read_item_16(fp, &num_fixups) )
+    {
+      // Error
+    }
+
+  
+  for(int j=0; j < num_fixups/3; j++)
+    {
+      // Address (offset from FP)
+      uint16_t addr;
+      uint16_t fixdata;
+      
+      if( !read_item_16(fp, &addr) )
+	{
+	  // Error
+	}
+
+      if( !read_item_16(fp, &fixdata) )
+	{
+	  // Error
+	}
+
+      printf("\nFixup at %04X, data %04X, addr %04X", addr, fixdata, (m->rta_fp+addr+0) & 0xFFFF);
+
+      m->stack[(uint16_t)(m->rta_fp+addr+0)] = fixdata << 8;
+      m->stack[(uint16_t)(m->rta_fp+addr+1)] = fixdata  & 0x0F;
+    }
   
   // QCode goes here
+
+  // Leave the stack at the end of the procedure
   
+  m->rta_sp = base_sp;
 }
 
 
@@ -617,7 +701,8 @@ void display_machine_procs(NOBJ_MACHINE *m)
   uint16_t val;
   uint8_t val8;
 
-  printf("\n\nProcedures:");
+  printf("\n================================================================================\n");
+  printf("\n\nMachine Procedures:");
 
   while(fp != 0 )
     {
@@ -656,6 +741,8 @@ void display_machine_procs(NOBJ_MACHINE *m)
       //get_machine_16(m, fp, &fp);
 
     }
+  
+  printf("\n================================================================================\n");
 }
 
 void display_machine(NOBJ_MACHINE *m)
