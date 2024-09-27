@@ -758,14 +758,33 @@ void display_machine_procs(NOBJ_MACHINE *m)
   printf("\n================================================================================\n");
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+
 void display_machine(NOBJ_MACHINE *m)
 {
+  char dch, b;
+  
   display_machine_procs(m);
 
   // Dump the stack
   for(int i= NOBJ_MACHINE_STACK_SIZE; i>=m->rta_sp; i--)
     {
-      printf("\n%04X: %02X", i, m->stack[i]);
+      b = m->stack[i];
+      
+      if( isprint(b) )
+	{
+	  dch = b;
+	}
+      else
+	{
+	  dch = '.';
+	}
+      
+      printf("\n%04X: %02X %c", i, b, dch);
     }
   
   printf("\n");
