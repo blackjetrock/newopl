@@ -674,9 +674,22 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       m->stack[(uint16_t)(m->rta_fp+addr+0)] = fixdata << 8;
       m->stack[(uint16_t)(m->rta_fp+addr+1)] = fixdata  & 0x0F;
     }
-  
+
   // QCode goes here
 
+  for(int i=0; i<size_of_qcode; i++)
+    {
+      uint8_t qcode_byte;
+      
+      if( !read_item(fp, &qcode_byte, 1, sizeof(uint8_t)) )
+	{
+	  // Error
+	}
+
+      // Offset fo two bytes to match technical manual
+      m->stack[base_sp+i-2] = qcode_byte;
+    }
+  
   // Leave the stack at the end of the procedure
   
   m->rta_sp = base_sp;
