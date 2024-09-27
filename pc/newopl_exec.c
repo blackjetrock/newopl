@@ -455,7 +455,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
     }
   else
     {
-      error("Incorrect number of parameters. Expected %d, got %d. SP:%04X", num_parameters, m->stack[par_ptr], par_ptr);
+      printf("Incorrect number of parameters. Expected %d, got %d. SP:%04X", num_parameters, m->stack[par_ptr], par_ptr);
     }
 
   par_ptr++;
@@ -469,7 +469,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	}
       else
 	{
-	  error("Type %d incorrect. Should be %d. Stack %04X", m->stack[par_ptr], par_types[np], par_ptr);
+	  printf("Type %d incorrect. Should be %d. Stack %04X", m->stack[par_ptr], par_types[np], par_ptr);
 	}
 
       par_ptr++;

@@ -24,7 +24,7 @@ void qcode_get_string_push_stack(NOBJ_MACHINE *m)
     {
       push_machine_8(m, m->stack[(m->rta_pc)++]);  
     }
-  
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +67,10 @@ int execute_qcode(NOBJ_MACHINE *m)
   NOBJ_QCODE qcode;
   uint16_t ind_ptr;
   uint8_t  len;
-
+  uint8_t data8;
+  char     str[NOBJ_FILENAME_MAXLEN];
+  FILE *fp;
+  
   int done = 0;
   
   while(!done)
@@ -106,6 +109,60 @@ int execute_qcode(NOBJ_MACHINE *m)
 	  
 	  break;
 
+	case 0x20:
+	  // QI_STK_LIT_BYTE
+	  data8 = qcode_next_8(m);
+	  push_machine_8(m, data8);
+	  
+	  break;
+
+	case 0x7D:
+	  // QCO_PROC
+	  // Get proc name
+	  len = qcode_next_8(m);
+	  push_machine_8(m, len);
+
+	  printf("\n  Len:%d", len);
+
+	  int i;
+	  for(i=0; i<len; i++)
+	    {
+	      str[i] = qcode_next_8(m);
+	    }
+
+	  str[i] = '\0';
+	  strcat(str, ".OB3");
+	  
+	  // We have the name, open the file
+	  debug("\nLoading PROC %s", str);
+	  
+	  // Load the procedure file
+	  fp = fopen(str, "r");
+	  
+	  if( fp == NULL )
+	    {
+	      printf("\nCannot open '%s'", str);
+	      exit(-1);
+	    }
+	  
+	  printf("\nLoaded '%s'", str);
+	  
+	  // Discard header
+	  read_ob3_header(fp);
+	  
+	  // Initialise the machine
+	  //init_machine(&machine);
+	  
+	  // Put some parameters on the stack for our test code
+	  push_parameters(m);
+	  
+	  // Push proc onto stack
+	  push_proc(fp, m, "A:EX4", 1);
+
+	  fclose(fp);
+	  
+	  break;
+	  
 	default:
 	  done = 1;
 	  break;
