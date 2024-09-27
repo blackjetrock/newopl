@@ -547,8 +547,8 @@ void push_machine_16(NOBJ_MACHINE *m, int16_t v)
   
   if( m->rta_sp > 0 )
     {
-      m->stack[(m->rta_sp)--] = (v >> 8);
       m->stack[(m->rta_sp)--] = (v &  0xFF);
+      m->stack[(m->rta_sp)--] = (v >> 8);
     }
   else
     {

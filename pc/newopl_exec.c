@@ -142,7 +142,7 @@ void push_parameters(NOBJ_MACHINE *m)
 
 #endif
 
-#if 1
+#if 0
   push_machine_8(m, 'T');
   push_machine_8(m, 'S');
   push_machine_8(m, 'R');
@@ -152,7 +152,7 @@ void push_parameters(NOBJ_MACHINE *m)
   
 #endif
 
-#if 0
+#if 1
   push_machine_8(m, 'X');
   push_machine_8(m, 'X');
   push_machine_8(m, 'X');
