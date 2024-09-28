@@ -11,6 +11,13 @@
 #include "qcode.h"
 
 ////////////////////////////////////////////////////////////////////////////////
+
+void db_qcode(char *s)
+{
+  printf("\n%s", s);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //
 
 void qcode_get_string_push_stack(NOBJ_MACHINE *m)
@@ -26,6 +33,21 @@ void qcode_get_string_push_stack(NOBJ_MACHINE *m)
     }
 
 }
+
+void qcode_get_string_push_stack(NOBJ_MACHINE *m)
+{
+  int len;
+
+  len =  m->stack[(m->rta_pc)++];
+  push_machine_8(m, len);
+
+  for(int i=0; i<len; i++)
+    {
+      push_machine_8(m, m->stack[(m->rta_pc)++]);  
+    }
+
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -86,13 +108,30 @@ int execute_qcode(NOBJ_MACHINE *m)
       switch(qcode)
 	{
 	case 0x16:
-	  // QI_LS_STR_SIM_IND
+	  db_qcode("QI_LS_STR_SIM_IND");
+	  
 	  //
 	  // Get pointer to string
 	  ind_ptr = qcode_next_16(m);
+	  printf("\nind ptr:%04X", ind_ptr);
+	    
+	  // Add to FP
+	  ind_ptr += m->rta_fp;
 	  
-	  // Push string literal
-	  qcode_get_string_push_stack(m);
+	  // Then that address has the address
+	  ind_ptr = stack_entry_16(m, ind_ptr);
+	    
+	  // Get the maximum size
+	  max_sz = m->stack[ind_ptr];
+
+	  // Push string max length
+	  push_machine_8(m, max_sz);
+
+	  // Push address of string
+	  push_machine_16(m, ind_ptr);
+
+	  // Push field flag
+	  push_machine_8(m, 0);
 	  break;
 	  
 	case 0x24:
