@@ -511,7 +511,7 @@ void init_machine(NOBJ_MACHINE *m)
   m->rta_sp = NOBJ_MACHINE_STACK_SIZE;
 
   // CM stack for testing
-  m->rta_sp = 0x3EFF;       // For full example 4
+  m->rta_sp = 0x3F00;       // For full example 4
   
   //m->rta_sp = 0x3ED0;       // For example 4 just ex4
   m->rta_fp = 0;
@@ -540,12 +540,12 @@ void error(char *fmt, ...)
 void push_machine_8(NOBJ_MACHINE *m, uint8_t v)
 {
 #if DEBUG_PUSH_POP
-  printf("\n%s:pushing %02X SP:%04X", __FUNCTION__, v, m->rta_sp);
+  printf("\n%s:pushing %02X to %04X", __FUNCTION__, v, (m->rta_sp)-1);
 #endif
 
   if( m->rta_sp > 0 )
     {
-      m->stack[(m->rta_sp)--] = v;
+      m->stack[--(m->rta_sp)] = v;
     }
   else
     {
@@ -558,8 +558,8 @@ void push_machine_16(NOBJ_MACHINE *m, int16_t v)
   
   if( m->rta_sp > 0 )
     {
-      m->stack[(m->rta_sp)--] = (v &  0xFF);
-      m->stack[(m->rta_sp)--] = (v >> 8);
+      m->stack[--(m->rta_sp)] = (v &  0xFF);
+      m->stack[--(m->rta_sp)] = (v >> 8);
     }
   else
     {
@@ -567,7 +567,7 @@ void push_machine_16(NOBJ_MACHINE *m, int16_t v)
     }
 
 #if DEBUG_PUSH_POP
-  printf("\n%s:pushing %04X SP:%04X", __FUNCTION__, v, m->rta_sp+1);
+  printf("\n%s:pushing %04X to %04X", __FUNCTION__, v, m->rta_sp);
 #endif
 
 }
@@ -588,8 +588,8 @@ uint16_t get_machine_16(NOBJ_MACHINE *m, uint16_t sp, uint16_t *v)
 
   //printf("\n   from %04X", sp+1);
   
-  value  =  m->stack[++sp];
-  value |= (m->stack[++sp]) << 8;
+  value  =  m->stack[sp++];
+  value |= (m->stack[sp++]) << 8;
   *v = value;
   
   return(sp);  
@@ -604,7 +604,7 @@ uint16_t get_machine_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *v)
       error("\nAttempting to get from empty stack");
     }
 
-  value  =  m->stack[++sp];
+  value  =  m->stack[sp++];
   *v = value;
   
   return(sp);  
@@ -621,10 +621,10 @@ uint16_t pop_sp_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
       error("\nAttempting to pop from empty stack");
     }
   
-  *val = m->stack[++sp];
+  *val = m->stack[sp++];
 
 #if DEBUG_PUSH_POP
-  printf("\n%s:Popped %02X from SP:%04X", __FUNCTION__, *val, (m->rta_sp)-1);
+  printf("\n%s:Popped %02X from %04X", __FUNCTION__, *val, (m->rta_sp)-1);
 #endif
 
   return(sp);  
@@ -642,7 +642,7 @@ uint8_t pop_machine_8(NOBJ_MACHINE *m)
       error("\nAttempting to pop from empty stack");
     }
   
-  val8 = m->stack[++(m->rta_sp)];
+  val8 = m->stack[(m->rta_sp)++];
 
 #if DEBUG_PUSH_POP
   printf("\n%s:Popped %02X from SP:%04X", __FUNCTION__, val8, (m->rta_sp)-1);

@@ -65,10 +65,11 @@ uint8_t qcode_next_8(NOBJ_MACHINE *m)
 int execute_qcode(NOBJ_MACHINE *m)
 {
   NOBJ_QCODE qcode;
-  uint16_t ind_ptr;
-  uint8_t  len;
-  uint8_t data8;
-  char     str[NOBJ_FILENAME_MAXLEN];
+  uint16_t   ind_ptr;
+  uint8_t    len;
+  uint8_t    data8;
+  char       str[NOBJ_FILENAME_MAXLEN];
+  char       procpath[NOBJ_FILENAME_MAXLEN];
   FILE *fp;
   
   int done = 0;
@@ -120,7 +121,7 @@ int execute_qcode(NOBJ_MACHINE *m)
 	  // QCO_PROC
 	  // Get proc name
 	  len = qcode_next_8(m);
-	  push_machine_8(m, len);
+	  //push_machine_8(m, len);
 
 	  printf("\n  Len:%d", len);
 
@@ -131,7 +132,11 @@ int execute_qcode(NOBJ_MACHINE *m)
 	    }
 
 	  str[i] = '\0';
+	  strcpy(procpath, "A:");
+	  strcat(procpath, str);
+	  
 	  strcat(str, ".OB3");
+
 	  
 	  // We have the name, open the file
 	  debug("\nLoading PROC %s", str);
@@ -154,10 +159,10 @@ int execute_qcode(NOBJ_MACHINE *m)
 	  //init_machine(&machine);
 	  
 	  // Put some parameters on the stack for our test code
-	  push_parameters(m);
+	  //push_parameters(m);
 	  
 	  // Push proc onto stack
-	  push_proc(fp, m, "A:EX4", 1);
+	  push_proc(fp, m, procpath, 0);
 
 	  fclose(fp);
 	  

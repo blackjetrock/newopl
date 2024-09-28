@@ -193,6 +193,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   uint8_t  num_parameters;
 
   printf("\n\n");
+  printf("\n===================================Proc=========================================\n\n");
   printf("\nPushing procedure '%s'", name);
   printf("\n  Top:%d",               top);
   printf("\n  onto machine:");
@@ -205,6 +206,12 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       // Error
     }
 
+  
+  if( !read_item_16(fp, &size_of_qcode) )
+    {
+      // Error
+    }
+
   // Work out the base SP value
   // This contains data we set up:
   //     the global table
@@ -213,13 +220,9 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   // and data not in the OB3 file:
   //
   //     space for the variables
+  //     space for the qcode
   
-  base_sp += m->rta_sp - size_of_variables - 11 - 7;
-  
-  if( !read_item_16(fp, &size_of_qcode) )
-    {
-      // Error
-    }
+  base_sp += m->rta_sp - size_of_variables - 9 - size_of_qcode;
 
   if( !read_item(fp, &num_parameters, 1, sizeof(uint8_t)) )
     {
@@ -229,36 +232,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   printf("\nSize of variables    :%02X %d", size_of_variables, size_of_variables);
   printf("\nSize of QCode        :%02X %d", size_of_qcode, size_of_qcode);
   printf("\nNumber of parameters :%02X %d", num_parameters, num_parameters);
-
-#if 0
-  // Proc name
-  char *np = name;
-  
-  while( *np != '\0' )
-    {
-      push_machine_8(m, *np);
-      np++;
-    }
-
-  push_machine_8(m, (uint8_t) strlen(name));
-
-  // Read parameter types and push them
-  uint8_t par_type;
-  
-  for(int np = 0; np<num_parameters; np++)
-    {
-      if( !read_item(fp, &par_type, 1, sizeof(uint8_t)) )
-	{
-	  // Error
-	}
-      
-      push_machine_8(m, par_type);
-    }
-  
-  // Num parameters
-  push_machine_8(m, num_parameters);
-
-#endif
+  printf("\nBase SP              :%02X %d", base_sp, base_sp);
 
 #if 1
   uint8_t par_type;
@@ -685,12 +659,12 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	  // Error
 	}
 
-      // Offset fo two bytes to match technical manual
-      m->stack[base_sp+i-2] = qcode_byte;
+      // Offset of two bytes to match technical manual (seems to be included in qcode size)
+      m->stack[base_sp+i/*-2*/] = qcode_byte;
     }
   
   // Leave the stack at the end of the procedure
-  // Move down a by a byte so the stack doesn't overwrite the qcode
+  // Move down by a byte so the stack doesn't overwrite the qcode
   
   m->rta_sp = base_sp-1;
 
@@ -839,7 +813,7 @@ int main(int argc, char *argv[])
 #endif
 
   // Push proc onto stack
-  push_proc(fp, &machine, "A:EX4", 1);
+  push_proc(fp, &machine, "A:XXX", 1);
 
   // Execute it
   execute_qcode(&machine);
