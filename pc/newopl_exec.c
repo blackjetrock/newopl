@@ -275,7 +275,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   push_machine_16(m, base_sp);
 
   // FP points at the frame we are pushing
-  m->rta_fp = m->rta_sp-1;
+  m->rta_fp = m->rta_sp-2;
 
   printf("\nrta_fp = %04X", m->rta_fp);
   
@@ -288,10 +288,11 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       // Error
     }
   
-  printf("\nSize of global table:%02X %d", size_of_global_table, size_of_global_table);
+  printf("\nSize of global table:%02X (%d)", size_of_global_table, size_of_global_table);
 
-  uint16_t start_of_global_table = m->rta_sp-size_of_global_table-1;
-  
+  uint16_t start_of_global_table = m->rta_sp-size_of_global_table-2;
+
+  printf("\nStart of global table:%04X (SP now %04X)", start_of_global_table, m->rta_sp);
   push_machine_16(m, start_of_global_table);
 
   //------------------------------------------------------------------------------
@@ -422,14 +423,14 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   uint8_t  par_stack_type = 0;
   uint8_t  par_stack_num_pars = 0;
 
-  // Chck number of parameters correct
+  // Check number of parameters correct
   if( m->stack[par_ptr] == num_parameters )
     {
       // Number of parameters is OK
     }
   else
     {
-      printf("Incorrect number of parameters. Expected %d, got %d. SP:%04X", num_parameters, m->stack[par_ptr], par_ptr);
+      printf("\nIncorrect number of parameters. Expected %d, got %d. SP:%04X", num_parameters, m->stack[par_ptr], par_ptr);
     }
 
   par_ptr++;
@@ -459,7 +460,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   //------------------------------------------------------------------------------
   // Now run through the external table.
   
-  printf("\nBuilding Interaction Table");
+  printf("\nBuilding Indirection Table");
   printf("\nSearching for externals...");
 	 
   for(int i=0; i<size_of_external_table;)
@@ -513,19 +514,23 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 
       printf("\nFPP now %04X", fpp);
       
-      while( STACK_ENTRY_16(fpp) != 0 )
+      while( stack_entry_16(m, fpp) != 0 )
 	{
 	  // Point to next frame
-	  fpp = STACK_ENTRY_16(fpp);
+	  fpp = stack_entry_16(m, fpp);
 
 	  printf("\nFPP now %04X", fpp);
 	  
 	  // Check the global table
-	  glob_ptr = m->stack[(fpp - 2)];
+	  glob_ptr = stack_entry_16(m, fpp - 2); //m->stack[(fpp - 2)];
 
-	  printf("\n  Global table at %04X", glob_ptr);
+	  uint16_t end_of_upper_table = fpp - 2;
+	  uint16_t size_of_upper_table = end_of_upper_table - glob_ptr;
 	  
-	  for(int gi = 0; gi<size_of_global_table;)
+	  printf("\n  Global table at %04X - %04X", glob_ptr, end_of_upper_table);
+	  printf("\n    (Size %04X)", size_of_upper_table);
+	  
+	  for(int gi = 0; gi<size_of_upper_table;)
 	    {
 	      // Get name length
 	      uint8_t glob_name_len = m->stack[glob_ptr+gi];
@@ -554,7 +559,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 		  uint16_t glob_addr;
 
 		  gi++;
-		  STACK_ENTRY_16(glob_ptr + gi);
+		  glob_addr = stack_entry_16(m, glob_ptr + gi);
 		  gi += 2;
 		  
 		  //		  glob_addr  = m->stack[glob_ptr+(gi++)] << 8;
@@ -660,13 +665,13 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	}
 
       // Offset of two bytes to match technical manual (seems to be included in qcode size)
-      m->stack[base_sp+i/*-2*/] = qcode_byte;
+      m->stack[base_sp+i-2] = qcode_byte;
     }
   
   // Leave the stack at the end of the procedure
   // Move down by a byte so the stack doesn't overwrite the qcode
   
-  m->rta_sp = base_sp-1;
+  m->rta_sp = base_sp;
 
   // Put the PC at the start of the QCode
   m->rta_pc = base_sp;
@@ -747,7 +752,7 @@ void display_machine(NOBJ_MACHINE *m)
   char dch;
   uint8_t b;
   
-  display_machine_procs(m);
+
 
   // Dump the stack
   for(int i= NOBJ_MACHINE_STACK_SIZE; i>=(m->rta_sp)-128; i--)
@@ -767,6 +772,8 @@ void display_machine(NOBJ_MACHINE *m)
     }
   
   printf("\n");
+
+  display_machine_procs(m);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

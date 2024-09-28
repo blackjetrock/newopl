@@ -99,14 +99,20 @@ int execute_qcode(NOBJ_MACHINE *m)
 	  // QI_STR_CON
 	  // Get string from qcodes and push onto stack
 	  len = qcode_next_8(m);
-	  push_machine_8(m, len);
 
 	  printf("\n  Len:%d", len);
-	  
-	  for(int i=0; i<len; i++)
+
+	  int i;
+
+	  for(i=0; i<len; i++)
 	    {
-	      push_machine_8(m, qcode_next_8(m));
+	     str[i] = qcode_next_8(m);
 	    }
+	  
+	  str[i] = '\0';
+	  
+	  push_machine_string(m, len, str);
+
 	  
 	  break;
 
@@ -125,7 +131,6 @@ int execute_qcode(NOBJ_MACHINE *m)
 
 	  printf("\n  Len:%d", len);
 
-	  int i;
 	  for(i=0; i<len; i++)
 	    {
 	      str[i] = qcode_next_8(m);

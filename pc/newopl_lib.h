@@ -22,5 +22,5 @@ void error(char *fmt, ...);
 
 int datatype_length(int type, int next_byte);
 
-#define STACK_ENTRY_16(AAA)  ((m->stack[AAA] << 8) | (m->stack[AAA+1] & 0x0F))
 void debug(char *fmt, ...);
+uint16_t stack_entry_16(NOBJ_MACHINE *m, uint16_t ptr);
