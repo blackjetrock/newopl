@@ -34,20 +34,6 @@ void qcode_get_string_push_stack(NOBJ_MACHINE *m)
 
 }
 
-void qcode_get_string_push_stack(NOBJ_MACHINE *m)
-{
-  int len;
-
-  len =  m->stack[(m->rta_pc)++];
-  push_machine_8(m, len);
-
-  for(int i=0; i<len; i++)
-    {
-      push_machine_8(m, m->stack[(m->rta_pc)++]);  
-    }
-
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -59,8 +45,10 @@ uint16_t qcode_next_16(NOBJ_MACHINE *m)
 {
   uint16_t r;
 
+  debug("\n%s: PC:%04X", __FUNCTION__, m->rta_pc);
+  
   r  = (m->stack[(m->rta_pc)++]) << 8;
-  r |= (m->stack[(m->rta_pc)++])  & 0x0F;
+  r |= (m->stack[(m->rta_pc)++]);
 
   debug("\n%s: %04X", __FUNCTION__, r);
   
@@ -92,7 +80,8 @@ int execute_qcode(NOBJ_MACHINE *m)
   uint8_t    data8;
   char       str[NOBJ_FILENAME_MAXLEN];
   char       procpath[NOBJ_FILENAME_MAXLEN];
-  FILE *fp;
+  FILE       *fp;
+  uint8_t    max_sz;
   
   int done = 0;
   
@@ -117,12 +106,14 @@ int execute_qcode(NOBJ_MACHINE *m)
 	    
 	  // Add to FP
 	  ind_ptr += m->rta_fp;
+
+	  printf("\nIND Addr: %04X", ind_ptr);
 	  
 	  // Then that address has the address
 	  ind_ptr = stack_entry_16(m, ind_ptr);
-	    
+	  
 	  // Get the maximum size
-	  max_sz = m->stack[ind_ptr];
+	  max_sz = m->stack[ind_ptr-1];
 
 	  // Push string max length
 	  push_machine_8(m, max_sz);
