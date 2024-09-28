@@ -698,25 +698,26 @@ void display_machine_procs(NOBJ_MACHINE *m)
   uint8_t val8;
 
   printf("\n================================================================================\n");
-  printf("\n\nMachine Procedures:");
 
+  print_machine_state(m);
+ 
+  printf("\n\nMachine Procedures:");
+	
   while(fp != 0 )
     {
-      print_machine_state(m);
-      
       // Get procedure name
       
       // Get data about this proc
 
-      printf("\n%04X:  Previous FP: %02X", fp, stack_entry_16(m, fp));
-
-      fp_next = val;
-
-      printf("\n%04X:  Base SP: %04X", fp, stack_entry_16(m, fp-2));
-      printf("\n%04X:  ONERR Address: %04X", fp, stack_entry_16(m, fp-4));
-      printf("\n%04X:  Return PC: %04X", fp, stack_entry_16(m, fp-6));
-      printf("\n%04X:  Device: %02X", fp, stack_entry_8(m, fp-8));
-
+      fp_next = stack_entry_16(m, fp);
+      printf("\n%04X:  Previous FP        : %04X", fp+0, fp_next);
+      printf("\n%04X:  Base SP            : %04X", fp+2, stack_entry_16(m, fp+2));
+      printf("\n%04X:  ONERR Address      : %04X", fp+4, stack_entry_16(m, fp+4));
+      printf("\n%04X:  Return PC          : %04X", fp+6, stack_entry_16(m, fp+6));
+      printf("\n%04X:  Device             : %02X", fp+8, stack_entry_8 (m, fp+8));
+      printf("\n%04X:  Global Table Start : %04X", fp-2, stack_entry_16(m, fp-2));
+      printf("\n");
+	     
       // Move to next procedure
       fp = fp_next;
     }
