@@ -606,6 +606,16 @@ uint16_t stack_entry_16(NOBJ_MACHINE *m, uint16_t ptr)
   
 }
 
+uint8_t stack_entry_8(NOBJ_MACHINE *m, uint16_t ptr)
+{
+  uint8_t ret = 0;
+  
+  ret =  (uint16_t)(m->stack[ptr+0]);
+
+  return(ret);
+  
+}
+
 //------------------------------------------------------------------------------
 //
 // Gets a 16 bit value from the machine stack

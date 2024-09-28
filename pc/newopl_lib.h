@@ -24,3 +24,4 @@ int datatype_length(int type, int next_byte);
 
 void debug(char *fmt, ...);
 uint16_t stack_entry_16(NOBJ_MACHINE *m, uint16_t ptr);
+uint8_t stack_entry_8(NOBJ_MACHINE *m, uint16_t ptr);

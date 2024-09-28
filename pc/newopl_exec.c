@@ -690,7 +690,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 void display_machine_procs(NOBJ_MACHINE *m)
 {
   uint16_t fp = m->rta_fp;
-  int fp_next;
+  uint16_t fp_next;
   
   int sp = m->rta_sp;
   uint16_t dp;
@@ -707,35 +707,18 @@ void display_machine_procs(NOBJ_MACHINE *m)
       // Get procedure name
       
       // Get data about this proc
-      dp = get_machine_16(m, fp-8, &val);
-      printf("\n%04X:  Indirection table: %04X", dp, val);
 
-      dp = get_machine_16(m, dp, &val);
-      printf("\n%04X:  Global Name table: %04X", dp, val);
+      printf("\n%04X:  Previous FP: %02X", fp, stack_entry_16(m, fp));
 
-      dp = get_machine_16(m, dp, &val);
-      printf("\n%04X:  Start address of global name table: %04X", dp, val);
+      fp_next = val;
 
-      dp = get_machine_16(m, dp, &val);
-      printf("\n%04X:  Previous FP: %02X", dp, val);
-
-      fp = val;
-
-      dp = get_machine_16(m, dp, &val);
-      printf("\n%04X:  Base SP: %04X", dp, val);
-
-      dp = get_machine_16(m, dp, &val);
-      printf("\n%04X:  ONERR Address: %04X", dp, val);
-
-      dp = get_machine_16(m, dp, &val);
-      printf("\n%04X:  Return PC: %04X", dp, val);
-
-      dp = get_machine_8(m, dp, &val8);
-      printf("\n%04X:  Device: %02X", dp, val8);
+      printf("\n%04X:  Base SP: %04X", fp, stack_entry_16(m, fp-2));
+      printf("\n%04X:  ONERR Address: %04X", fp, stack_entry_16(m, fp-4));
+      printf("\n%04X:  Return PC: %04X", fp, stack_entry_16(m, fp-6));
+      printf("\n%04X:  Device: %02X", fp, stack_entry_8(m, fp-8));
 
       // Move to next procedure
-      //get_machine_16(m, fp, &fp);
-
+      fp = fp_next;
     }
   
   printf("\n================================================================================\n");
