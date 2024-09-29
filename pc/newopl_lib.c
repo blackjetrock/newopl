@@ -575,7 +575,7 @@ void push_machine_16(NOBJ_MACHINE *m, int16_t v)
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Push a string onto the stack. Must be pushed in such a way that the
-// length is poppe doff then the string in character order.
+// length is popped off then the string in character order.
 // Must be pushed in reverse, then.
 
 void push_machine_string(NOBJ_MACHINE *m, int len, char *str)
@@ -594,6 +594,37 @@ void push_machine_string(NOBJ_MACHINE *m, int len, char *str)
   // Length last so popped first
   push_machine_8(m, len);
 }
+
+
+void pop_machine_string(NOBJ_MACHINE *m, uint8_t *len, char *str)
+{
+  uint16_t   orig_sp = m->rta_sp;
+  
+  *len = pop_machine_8(m);
+
+#if DEBUG_PUSH_POP
+  printf("\n%s:popped ", __FUNCTION__);
+#endif
+
+  for(int i=0; i<*len; i++)
+    {
+      str[i] = pop_machine_8(m);
+      
+#if DEBUG_PUSH_POP
+  printf("%c", str[i]);
+#endif
+
+    }
+  
+#if DEBUG_PUSH_POP
+  printf(" from %04X", orig_sp);
+#endif
+  
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 uint16_t stack_entry_16(NOBJ_MACHINE *m, uint16_t ptr)
 {

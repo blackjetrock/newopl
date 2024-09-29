@@ -9,6 +9,7 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *machine);
 void push_machine_8(NOBJ_MACHINE *m, uint8_t v);
 void push_machine_16(NOBJ_MACHINE *m, int16_t v);
 uint8_t pop_machine_8(NOBJ_MACHINE *m);
+void pop_machine_string(NOBJ_MACHINE *m, uint8_t *len, char *str);
 
 
 

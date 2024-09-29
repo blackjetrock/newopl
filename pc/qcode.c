@@ -18,7 +18,8 @@ void db_qcode(char *s, ...)
   va_list valist;
 
   va_start(valist, s);
-
+  printf("\n   ");
+  
   vprintf(s, valist);
   va_end(valist);
 
@@ -187,7 +188,22 @@ int execute_qcode(NOBJ_MACHINE *m)
 	  push_machine_string(m, len, str);
 	  break;
 
+	case 0x79:
+	  db_qcode("QCO_RETURN");
+	  break;
 
+	case 0x7A:
+	  db_qcode("QCO_RETURN_NULL");
+	  break;
+	  
+	case 0x7B:
+	  db_qcode("QCO_RETURN_ZERO");
+	  break;
+	  
+	case 0x7C:
+	  db_qcode("QCO_RETURN_NULL");
+	  break;
+	  
 	case 0x7D:
 	  db_qcode("QCO_PROC");
 	  
@@ -236,6 +252,21 @@ int execute_qcode(NOBJ_MACHINE *m)
 	  push_proc(fp, m, procpath, 0);
 
 	  fclose(fp);
+	  
+	  break;
+
+	case 0x81:
+	  db_qcode("QCO_ASS_STR");
+
+	  // Drop string
+	  pop_machine_string(m, &len, str);
+	  
+	  // Drop string reference
+
+	  // Check for field
+
+	  // Assign
+
 	  
 	  break;
 	  

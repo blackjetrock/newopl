@@ -739,7 +739,7 @@ void display_machine(NOBJ_MACHINE *m)
 
 
   // Dump the stack
-  for(int i= NOBJ_MACHINE_STACK_SIZE; i>=(m->rta_sp)-128; i--)
+  for(int i= NOBJ_MACHINE_STACK_SIZE; i>=(m->rta_sp); i--)
     {
       b = m->stack[i];
       
