@@ -599,25 +599,18 @@ void push_machine_string(NOBJ_MACHINE *m, int len, char *str)
 void pop_machine_string(NOBJ_MACHINE *m, uint8_t *len, char *str)
 {
   uint16_t   orig_sp = m->rta_sp;
+  int i;
   
   *len = pop_machine_8(m);
 
-#if DEBUG_PUSH_POP
-  printf("\n%s:popped ", __FUNCTION__);
-#endif
-
-  for(int i=0; i<*len; i++)
+  for(i=0; i<*len; i++)
     {
       str[i] = pop_machine_8(m);
-      
-#if DEBUG_PUSH_POP
-  printf("%c", str[i]);
-#endif
-
     }
+  str[i] = '\0';
   
 #if DEBUG_PUSH_POP
-  printf(" from %04X", orig_sp);
+  printf("\n%s:Popped '%s' from %04X", __FUNCTION__, str, orig_sp);
 #endif
   
 }
@@ -726,6 +719,24 @@ uint8_t pop_machine_8(NOBJ_MACHINE *m)
   return(val8);  
 }
 
+uint16_t pop_machine_16(NOBJ_MACHINE *m)
+{
+  uint16_t val16;
+  
+  if( m->rta_sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to pop from empty stack");
+    }
+  
+  val16  = (m->stack[(m->rta_sp)++]) << 8;
+  val16 |= (m->stack[(m->rta_sp)++]);
+
+#if DEBUG_PUSH_POP
+  printf("\n%s:Popped %04X from SP:%04X", __FUNCTION__, val16, (m->rta_sp)-2);
+#endif
+
+  return(val16);  
+}
 ////////////////////////////////////////////////////////////////////////////////
 
 uint16_t pop_discard_sp_int(NOBJ_MACHINE *m, uint16_t sp)

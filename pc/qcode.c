@@ -87,11 +87,13 @@ int execute_qcode(NOBJ_MACHINE *m)
   uint8_t    len;
   uint8_t    data8;
   char       str[NOBJ_FILENAME_MAXLEN];
+  uint16_t   str_addr;
   char       procpath[NOBJ_FILENAME_MAXLEN];
   FILE       *fp;
   uint8_t    max_sz;
-  int        i;  
-  int done = 0;
+  int        i;
+  uint8_t    field_flag;
+  int        done = 0;
   
   while(!done)
     {
@@ -260,13 +262,43 @@ int execute_qcode(NOBJ_MACHINE *m)
 
 	  // Drop string
 	  pop_machine_string(m, &len, str);
-	  
-	  // Drop string reference
 
 	  // Check for field
-
+	  field_flag = pop_machine_8(m);
+	  
+	  // Drop string reference
+	  str_addr = pop_machine_16(m);
+	  max_sz = pop_machine_8(m);
+	  
+	  
 	  // Assign
+	  if( field_flag )
+	    {
+	    }
+	  else
+	    {
+	      // Assign string to variable
+	      // We are pointing at length byte of string
+	      // Check lengths
+	      if( len <= max_sz )
+		{
+		  // All OK
+		  // Copy data
 
+		  // We copy the length with the data
+		  for(i=0; i<len+1; i++)
+		    {
+		      m->stack[str_addr+i] = str[i];
+		    }
+
+		  // No need to zero the remaining space
+		 
+		}
+	      else
+		{
+		  printf("\n*** String too big. Len %d but variable max is %d", len, max_sz);
+		}
+	    }
 	  
 	  break;
 	  
