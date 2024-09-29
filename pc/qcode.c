@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>
@@ -12,9 +13,15 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void db_qcode(char *s)
+void db_qcode(char *s, ...)
 {
-  printf("\n%s", s);
+  va_list valist;
+
+  va_start(valist, s);
+
+  vprintf(s, valist);
+  va_end(valist);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +89,7 @@ int execute_qcode(NOBJ_MACHINE *m)
   char       procpath[NOBJ_FILENAME_MAXLEN];
   FILE       *fp;
   uint8_t    max_sz;
-  
+  int        i;  
   int done = 0;
   
   while(!done)
@@ -96,6 +103,35 @@ int execute_qcode(NOBJ_MACHINE *m)
       (m->rta_pc)++;
       switch(qcode)
 	{
+	case 0x09:
+	  db_qcode("QI_STR_SIM_IND");
+
+	  // Get pointer to string
+	  ind_ptr = qcode_next_16(m);
+	  printf("\nind ptr:%04X", ind_ptr);
+	    
+	  // Add to FP
+	  ind_ptr += m->rta_fp;
+
+	  printf("\nIND Addr: %04X", ind_ptr);
+	  
+	  // Then that address has the address
+	  ind_ptr = stack_entry_16(m, ind_ptr);
+
+	  // Now stack the string
+	  len = stack_entry_8(m, ind_ptr++);
+
+	  for(i=0; i<len; i++)
+	    {
+	      str[i] = stack_entry_8(m, ind_ptr++);
+	    }
+
+	  str[i] = '\0';
+	  
+	  push_machine_string(m, len, str);
+		  
+	  break;
+	  
 	case 0x16:
 	  db_qcode("QI_LS_STR_SIM_IND");
 	  
@@ -124,15 +160,22 @@ int execute_qcode(NOBJ_MACHINE *m)
 	  // Push field flag
 	  push_machine_8(m, 0);
 	  break;
+
+	case 0x20:
+	  db_qcode("QI_STK_LIT_BYTE");
 	  
+	  data8 = qcode_next_8(m);
+	  push_machine_8(m, data8);
+	  
+	  break;
+
 	case 0x24:
-	  // QI_STR_CON
+	  db_qcode("QI_STR_CON");
+	  
 	  // Get string from qcodes and push onto stack
 	  len = qcode_next_8(m);
 
 	  printf("\n  Len:%d", len);
-
-	  int i;
 
 	  for(i=0; i<len; i++)
 	    {
@@ -142,19 +185,12 @@ int execute_qcode(NOBJ_MACHINE *m)
 	  str[i] = '\0';
 	  
 	  push_machine_string(m, len, str);
-
-	  
 	  break;
 
-	case 0x20:
-	  // QI_STK_LIT_BYTE
-	  data8 = qcode_next_8(m);
-	  push_machine_8(m, data8);
-	  
-	  break;
 
 	case 0x7D:
-	  // QCO_PROC
+	  db_qcode("QCO_PROC");
+	  
 	  // Get proc name
 	  len = qcode_next_8(m);
 	  //push_machine_8(m, len);
