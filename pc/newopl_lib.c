@@ -572,7 +572,7 @@ void push_machine_16(NOBJ_MACHINE *m, int16_t v)
     }
 
 #if DEBUG_PUSH_POP
-  printf("\n%s:pushing %04X to %04X", __FUNCTION__, v, m->rta_sp);
+  printf("\n%s:pushing %04X to %04X", __FUNCTION__, v, m->rta_sp+2);
 #endif
 
 }

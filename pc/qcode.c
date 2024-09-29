@@ -134,7 +134,8 @@ int execute_qcode(NOBJ_MACHINE *m)
 	  push_machine_string(m, len, str);
 		  
 	  break;
-	  
+
+	case 0x0F:
 	case 0x16:
 	  db_qcode("QI_LS_STR_SIM_IND");
 	  
@@ -147,9 +148,13 @@ int execute_qcode(NOBJ_MACHINE *m)
 	  ind_ptr += m->rta_fp;
 
 	  printf("\nIND Addr: %04X", ind_ptr);
-	  
-	  // Then that address has the address
-	  ind_ptr = stack_entry_16(m, ind_ptr);
+
+	  // Indirect?
+	  if( qcode == 0x16 )
+	    {
+	      // Then that address has the address
+	      ind_ptr = stack_entry_16(m, ind_ptr);
+	    }
 	  
 	  // Get the maximum size
 	  max_sz = m->stack[ind_ptr-1];

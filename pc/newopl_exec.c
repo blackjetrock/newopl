@@ -302,13 +302,18 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   // This does not clear the global table as that starts at the start and goes
   // higher in memory. It is fully written by the procedure load so doesn't need
   // clearing
-  
+
+#define ZERO_VALUE 0x22
+  //#define END_ZEROES   (m->rta_fp + 9)
+#define END_ZEROES   (start_of_global_table - 1)
+
   printf("\nZeroing stack from base_sp to start of global table");
-  printf("\n%04X to %04X", base_sp, start_of_global_table);
+  printf("\n%04X to %04X", base_sp, END_ZEROES);
   
-  for(int va = base_sp; va <= start_of_global_table; va++)
+  
+  for(int va = base_sp; va <= END_ZEROES; va++)
     {
-      m->stack[va] = 0;
+      m->stack[va] = ZERO_VALUE;
     }
 
   // Push global area on to stack Fill global area on stack (not push)
@@ -804,7 +809,7 @@ int main(int argc, char *argv[])
 #endif
 
   // Push proc onto stack
-  push_proc(fp, &machine, "A:XXX", 1);
+  push_proc(fp, &machine, argv[1], 1);
 
   // Execute it
   execute_qcode(&machine);
