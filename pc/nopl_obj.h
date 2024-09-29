@@ -101,6 +101,8 @@ typedef struct _NOBJ_PROC
   NOBJ_QCODE                 *qcode;  
 } NOBJ_PROC;
 
+typedef uint16_t NOBJ_SP;
+
 // An execution machine. This is what the QCode executes in
      
 typedef struct _NOBJ_MACHINE
@@ -110,7 +112,7 @@ typedef struct _NOBJ_MACHINE
   
   // Stack pointer (where next byte will be loaded
 
-    int rta_sp;
+    NOBJ_SP rta_sp;
     int rta_pc;
     int rta_fp;
 } NOBJ_MACHINE;

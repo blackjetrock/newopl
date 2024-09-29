@@ -200,6 +200,51 @@ int execute_qcode(NOBJ_MACHINE *m)
 	  
 	case 0x7B:
 	  db_qcode("QCO_RETURN_ZERO");
+
+	  // Dump stack for debug
+	  printf("\n==============================================Unwind============================");
+	  display_machine(m);
+	  
+	  // Unwind the procedure (remove it from the stack), then
+	  // stack a zero floating point value
+	  uint16_t last_fp;
+
+	  last_fp = stack_entry_16(m, (m->rta_fp)+FP_OFF_NEXT_FP);
+
+	  if( last_fp == 0 )
+	    {
+	      // There is not a previous procedure top return to
+	      // Ignore PC and FP, set the stack to empty
+	      init_sp(m, 0x3F00);       // For full example 4
+
+	      printf("\nStack reset");
+	    }
+	  else
+	    {
+	      // There is a previous procedure to return to
+	      
+	      // To unwind the stack, set SP to the previous frame base SP
+	      m->rta_sp = stack_entry_16(m, last_fp+FP_OFF_BASE_SP);
+	      
+	      // Set PC to return PC address
+	      m->rta_pc = stack_entry_16(m, (m->rta_fp)+FP_OFF_RETURN_PC);
+	    }
+	  
+	  // Set FP to last FP
+	  // If zero then this signals the end of the execution
+	  
+	  m->rta_fp = last_fp;
+	  
+	  // Now push a zero
+	  push_machine_8(m, 0);
+	  push_machine_8(m, 0);
+	  push_machine_8(m, 0);
+	  push_machine_8(m, 0);
+	  push_machine_8(m, 0);
+	  push_machine_8(m, 0);
+	  push_machine_8(m, 0);
+	  push_machine_8(m, 0);
+	  
 	  break;
 	  
 	case 0x7C:
@@ -301,11 +346,33 @@ int execute_qcode(NOBJ_MACHINE *m)
 	    }
 	  
 	  break;
+
+	case 0x84:
+	  db_qcode("QCO_DROP_NUM");
+
+	  pop_machine_8(m);
+	  pop_machine_8(m);
+	  pop_machine_8(m);
+	  pop_machine_8(m);
+	  pop_machine_8(m);
+	  pop_machine_8(m);
+	  pop_machine_8(m);
+	  pop_machine_8(m);
+	  
+	  break;
 	  
 	default:
 	  done = 1;
 	  break;
 	  
+	}
+
+      if ( m->rta_fp == 0 )
+	{
+	  printf("\n===  Exit ====");
+	  display_machine(m);
+	  exit(0);
+	  // Exit?
 	}
     }
 }

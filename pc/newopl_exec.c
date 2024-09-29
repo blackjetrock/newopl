@@ -710,12 +710,12 @@ void display_machine_procs(NOBJ_MACHINE *m)
       // Get data about this proc
 
       fp_next = stack_entry_16(m, fp);
-      printf("\n%04X:  Previous FP        : %04X", fp+0, fp_next);
-      printf("\n%04X:  Base SP            : %04X", fp+2, stack_entry_16(m, fp+2));
-      printf("\n%04X:  ONERR Address      : %04X", fp+4, stack_entry_16(m, fp+4));
-      printf("\n%04X:  Return PC          : %04X", fp+6, stack_entry_16(m, fp+6));
-      printf("\n%04X:  Device             : %02X", fp+8, stack_entry_8 (m, fp+8));
-      printf("\n%04X:  Global Table Start : %04X", fp-2, stack_entry_16(m, fp-2));
+      printf("\n%04X:  Previous FP        : %04X", fp+FP_OFF_NEXT_FP,    fp_next);
+      printf("\n%04X:  Base SP            : %04X", fp+FP_OFF_BASE_SP,    stack_entry_16(m, fp+FP_OFF_BASE_SP));
+      printf("\n%04X:  ONERR Address      : %04X", fp+FP_OFF_ONERR,      stack_entry_16(m, fp+FP_OFF_ONERR));
+      printf("\n%04X:  Return PC          : %04X", fp+FP_OFF_RETURN_PC,  stack_entry_16(m, fp+FP_OFF_RETURN_PC));
+      printf("\n%04X:  Device             : %02X", fp+FP_OFF_DEVICE,     stack_entry_8 (m, fp+FP_OFF_DEVICE));
+      printf("\n%04X:  Global Table Start : %04X", fp+FP_OFF_GLOB_START, stack_entry_16(m, fp+FP_OFF_GLOB_START));
       printf("\n");
 	     
       // Move to next procedure

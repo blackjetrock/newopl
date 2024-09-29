@@ -493,6 +493,11 @@ char *decode_vartype(NOBJ_VARTYPE t)
 //
 //------------------------------------------------------------------------------
 
+void init_sp(NOBJ_MACHINE *m, NOBJ_SP sp )
+{
+  m->rta_sp = sp;
+}
+
 void init_machine(NOBJ_MACHINE *m)
 {
   printf("\nInit machine...");
@@ -508,10 +513,10 @@ void init_machine(NOBJ_MACHINE *m)
   // the end of the list of frames.
 
   // PC also starts at 0, it is set up on first QCode load
-  m->rta_sp = NOBJ_MACHINE_STACK_SIZE;
-
+  init_sp(m, NOBJ_MACHINE_STACK_SIZE);
+  
   // CM stack for testing
-  m->rta_sp = 0x3F00;       // For full example 4
+  init_sp(m, 0x3F00);       // For full example 4
   
   //m->rta_sp = 0x3ED0;       // For example 4 just ex4
   m->rta_fp = 0;
