@@ -600,6 +600,16 @@ void push_machine_string(NOBJ_MACHINE *m, int len, char *str)
   push_machine_8(m, len);
 }
 
+NOBJ_INT pop_machine_int(NOBJ_MACHINE *m)
+{
+  NOBJ_INT r;
+
+  r = pop_machine_8(m);
+  r<< 8;
+  r |= pop_machine_8(m);
+
+  return(r);
+}
 
 void pop_machine_string(NOBJ_MACHINE *m, uint8_t *len, char *str)
 {

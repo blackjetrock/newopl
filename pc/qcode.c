@@ -87,6 +87,7 @@ typedef struct _NOBJ_QCS
   uint8_t    data8;
   char       str[NOBJ_FILENAME_MAXLEN];
   uint16_t   str_addr;
+  uint16_t   addr;
   char       procpath[NOBJ_FILENAME_MAXLEN];
   uint8_t    max_sz;
   int        i;
@@ -101,6 +102,7 @@ typedef void (*NOBJ_QC_ACTION)(NOBJ_MACHINE *m, NOBJ_QCS *s);
 typedef struct
 {
   NOBJ_QCODE      qcode;
+  char            *name;
   NOBJ_QC_ACTION  action[NOBJ_QC_NUM_ACTIONS];
   
 } NOBJ_QCODE_INFO;
@@ -128,6 +130,14 @@ void qca_str_ind_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->str[i] = '\0';
   
   push_machine_string(m, s->len, s->str);
+}
+
+void qca_int_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  
+  // Get int from qcodes and push onto stack
+  push_machine_8(m, qcode_next_8(m));
+  push_machine_8(m, qcode_next_8(m));
 }
 
 void qca_str_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -182,6 +192,21 @@ void qca_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   
   // Push field flag
   push_machine_8(m, 0);
+}
+
+void qca_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Push address of integer
+  push_machine_16(m, s->ind_ptr);
+  
+  // Push field flag
+  push_machine_8(m, 0);
+}
+
+void qca_push_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Push address we calculated
+  push_machine_16(m, s->ind_ptr);
 }
 
 void qca_push_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -281,6 +306,31 @@ void qca_unwind_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
   m->rta_fp = last_fp;
 }
 
+void qca_ass_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT integer;
+  
+  // Drop int
+  integer = pop_machine_int(m);
+
+  // Check for field
+  s->field_flag = pop_machine_8(m);
+	  
+  // Drop int address
+  s->addr = pop_machine_16(m);
+	  
+  // Assign
+  if( s->field_flag )
+    {
+    }
+  else
+    {
+      // Assign integer to variable
+      m->stack[s->addr+0] = integer >> 8;
+      m->stack[s->addr+1] = integer  & 0xFF;
+    }
+}
+
 void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
 
@@ -371,19 +421,23 @@ void qca_pop_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 NOBJ_QCODE_INFO qcode_info[] =
   {
-    { 0x09, qca_fp,           qca_ind,         qca_str_ind_con},
-    { 0x0F, qca_fp,           qca_null,        qca_str },
-    { 0x16, qca_fp,           qca_ind,         qca_str },
-    { 0x20, qca_null,         qca_null,        qca_push_qc_byte},
-    { 0x24, qca_null,         qca_null,        qca_str_qc_con},
+    { 0x00, "QI_INT_SIM_FP",     {qca_fp,           qca_null,        qca_push_ind}},
+    { 0x09, "QI_STR_SIM_IND",    {qca_fp,           qca_ind,         qca_str_ind_con}},
+    { 0x0D, "QI_LS_INT_SIM_FP",  {qca_fp,           qca_null,        qca_int }},
+    { 0x0F, "QI_LS_STR_SIM_FP",  {qca_fp,           qca_null,        qca_str }},
+    { 0x16, "QI_LS_STR_SIM_IND", {qca_fp,           qca_ind,         qca_str }},
+    { 0x20, "QI_STK_LIT_BYTE",   {qca_null,         qca_null,        qca_push_qc_byte}},
+    { 0x22, "QI_INT_CON",        {qca_null,         qca_null,        qca_int_qc_con}},
+    { 0x24, "QI_STR_CON",        {qca_null,         qca_null,        qca_str_qc_con}},
 
-    { 0x79, qca_unwind_proc,  qca_null,        qca_null},
-    { 0x7A, qca_unwind_proc,  qca_push_nought, qca_null},
-    { 0x7B, qca_unwind_proc,  qca_push_zero,   qca_null},
-    { 0x7C, qca_unwind_proc,  qca_push_null,   qca_null},
-    { 0x7D, qca_push_proc,    qca_push_null,   qca_null},
-    { 0x81, qca_ass_str,      qca_null,        qca_null},
-    { 0x84, qca_pop_num,      qca_null,        qca_null},
+    { 0x79, "QCO_RETURN",        {qca_unwind_proc,  qca_null,        qca_null}},
+    { 0x7A, "QCO_RETURN_NOUGHT", {qca_unwind_proc,  qca_push_nought, qca_null}},
+    { 0x7B, "QCO_RETURN_ZERO",   {qca_unwind_proc,  qca_push_zero,   qca_null}},
+    { 0x7C, "QCO_RETURN_NULL",   {qca_unwind_proc,  qca_push_null,   qca_null}},
+    { 0x7D, "QCO_PROC",          {qca_push_proc,    qca_push_null,   qca_null}},
+    { 0x7F, "QCO_ASS_INT",       {qca_ass_int,      qca_null,        qca_null}},
+    { 0x81, "QCO_ASS_STR",       {qca_ass_str,      qca_null,        qca_null}},
+    { 0x84, "QCO_DROP_NUM",      {qca_pop_num,      qca_null,        qca_null}},
   };
 
 #define SIZEOF_QCODE_INFO (sizeof(qcode_info)/sizeof(NOBJ_QCODE_INFO))
@@ -418,6 +472,8 @@ int execute_qcode(NOBJ_MACHINE *m)
 	{
 	  if( s.qcode == qcode_info[q].qcode )
 	    {
+	      printf("\n Executing %s", qcode_info[q].name);
+	      
 	      // Perform actions
 	      for(int a=0; a<NOBJ_QC_NUM_ACTIONS; a++)
 		{

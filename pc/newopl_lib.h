@@ -20,6 +20,7 @@ void push_machine_16(NOBJ_MACHINE *m, int16_t v);
 uint8_t pop_machine_8(NOBJ_MACHINE *m);
 uint16_t pop_machine_16(NOBJ_MACHINE *m);
 void pop_machine_string(NOBJ_MACHINE *m, uint8_t *len, char *str);
+NOBJ_INT pop_machine_int(NOBJ_MACHINE *m);
 
 
 
