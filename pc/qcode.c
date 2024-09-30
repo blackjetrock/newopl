@@ -195,7 +195,7 @@ void qca_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_8(m, 0);
 }
 
-void qca_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+void qca_push_int_addr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Push address of integer
   push_machine_16(m, s->ind_ptr);
@@ -208,6 +208,12 @@ void qca_push_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Push address we calculated
   push_machine_16(m, s->ind_ptr);
+}
+
+void qca_push_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Push integer at the address we calculated
+  push_machine_16(m,  stack_entry_16(m, s->ind_ptr));
 }
 
 void qca_push_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -425,6 +431,11 @@ void qca_print_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
   printf("\n||||%d", s->integer);
 }
 
+void qca_print_cr(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  printf("\n||||<CR>");
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -433,9 +444,9 @@ void qca_print_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 NOBJ_QCODE_INFO qcode_info[] =
   {
-    { 0x00, "QI_INT_SIM_FP",     {qca_fp,           qca_null,        qca_push_ind}},
+    { 0x00, "QI_INT_SIM_FP",     {qca_fp,           qca_null,        qca_push_int}},
     { 0x09, "QI_STR_SIM_IND",    {qca_fp,           qca_ind,         qca_str_ind_con}},
-    { 0x0D, "QI_LS_INT_SIM_FP",  {qca_fp,           qca_null,        qca_int }},
+    { 0x0D, "QI_LS_INT_SIM_FP",  {qca_fp,           qca_null,        qca_push_int_addr }},
     { 0x0F, "QI_LS_STR_SIM_FP",  {qca_fp,           qca_null,        qca_str }},
     { 0x16, "QI_LS_STR_SIM_IND", {qca_fp,           qca_ind,         qca_str }},
     { 0x20, "QI_STK_LIT_BYTE",   {qca_null,         qca_null,        qca_push_qc_byte}},
@@ -443,6 +454,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { 0x24, "QI_STR_CON",        {qca_null,         qca_null,        qca_str_qc_con}},
 
     { 0x6F, "QCO_PRINT_INT",     {qca_pop_int,      qca_print_int,   qca_null}},
+    { 0x73, "QCO_PRINT_CR",      {qca_null,         qca_print_cr,    qca_null}},
 
     { 0x79, "QCO_RETURN",        {qca_unwind_proc,  qca_null,        qca_null}},
     { 0x7A, "QCO_RETURN_NOUGHT", {qca_unwind_proc,  qca_push_nought, qca_null}},
