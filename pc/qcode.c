@@ -82,6 +82,7 @@ uint8_t qcode_next_8(NOBJ_MACHINE *m)
 typedef struct _NOBJ_QCS
 {
   NOBJ_QCODE qcode;
+  NOBJ_INT   integer;
   uint16_t   ind_ptr;
   uint8_t    len;
   uint8_t    data8;
@@ -414,6 +415,17 @@ void qca_pop_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
   pop_machine_8(m);
 }
 
+void qca_pop_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  s->integer = pop_machine_int(m);
+}
+
+void qca_print_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  printf("\n||||%d", s->integer);
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -429,6 +441,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { 0x20, "QI_STK_LIT_BYTE",   {qca_null,         qca_null,        qca_push_qc_byte}},
     { 0x22, "QI_INT_CON",        {qca_null,         qca_null,        qca_int_qc_con}},
     { 0x24, "QI_STR_CON",        {qca_null,         qca_null,        qca_str_qc_con}},
+
+    { 0x6F, "QCO_PRINT_INT",     {qca_pop_int,      qca_print_int,   qca_null}},
 
     { 0x79, "QCO_RETURN",        {qca_unwind_proc,  qca_null,        qca_null}},
     { 0x7A, "QCO_RETURN_NOUGHT", {qca_unwind_proc,  qca_push_nought, qca_null}},
