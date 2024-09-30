@@ -15,14 +15,25 @@
 
 #define DEBUG_PUSH_POP    1
 
+FILE *dbfp;
+
+int debug_open = 0;
+
 void debug(char *fmt, ...)
 {
   va_list valist;
 
+  if( !debug_open )
+    {
+      dbfp = fopen("db.txt", "w");
+    }
+  
   va_start(valist, fmt);
 
-  vprintf(fmt, valist);
+  vfprintf(dbfp, fmt, valist);
   va_end(valist);
+
+  fflush(dbfp);
 }
 
 
@@ -41,7 +52,7 @@ int read_item(FILE *fp, void *ptr, int n, size_t size)
   if( feof(fp) || (ni == 0))
     {
       // No more file
-      printf("\n    Error");
+      debug("\n    Error");
       return(0);
     }
   
@@ -108,33 +119,33 @@ void read_ob3_header(FILE *fp)
 
   strcpy(ob3_hdr, "\0\0\0\0\0\0");
 	 
-  printf("\nReading OB3 header");
+  debug("\nReading OB3 header");
   
   // Drop the ORG string
   ni = read_item(fp, &ob3_hdr, 1, 3);
-  printf("\nHdr                  : %s", ob3_hdr);
+  debug("\nHdr                  : %s", ob3_hdr);
   
   // File length word
   ni = read_item_16(fp, &ob3_file_length_word);
-  printf("\nOB3 File length word : %04X", ob3_file_length_word);
+  debug("\nOB3 File length word : %04X", ob3_file_length_word);
   
   // Block file type
   ni = fread(&ob3_block_file_type, 1, 1, fp);
-  printf("\nBlock file type      : %02X", (int)ob3_block_file_type);
+  debug("\nBlock file type      : %02X", (int)ob3_block_file_type);
 
   // Block length
   ni = read_item_16(fp, &ob3_block_length_word);
-  printf("\nOB3 Block length word: %04X", ob3_block_length_word);
+  debug("\nOB3 Block length word: %04X", ob3_block_length_word);
 }
 
 int debugi = 0;
 
 
 #define READ_ITEM(FP,DEST,NUM,TYPE,ERROR)			\
-  printf("\nLoading %d", debugi++);                             \
+  debug("\nLoading %d", debugi++);                             \
   if(!read_item(FP, (void *)&(DEST), NUM, sizeof(TYPE)))	\
     {								\
-      printf(ERROR);						\
+      debug(ERROR);						\
       return;							\
     }
 
@@ -152,13 +163,13 @@ void read_proc_file_header(FILE *fp, NOBJ_PROC *p)
   p->qcode_space_size.size = swap_uint16(p->qcode_space_size.size);
   
   READ_ITEM(fp, p->num_parameters.num, 1,                     NOBJ_NUM_PARAMETERS,   "\nError reading number of parameters.");
-  printf("\nParameters num:%d", p->num_parameters.num);
+  debug("\nParameters num:%d", p->num_parameters.num);
   if( p->num_parameters.num != 0 )
     {
       READ_ITEM(fp, p->parameter_types,    p->num_parameters.num, NOBJ_PARAMETER_TYPE,   "\nError reading parameter types.");
     }
   
-  printf("\nGlobal varname size");
+  debug("\nGlobal varname size");
     
   READ_ITEM( fp,  p->global_varname_size, 1, NOBJ_GLOBAL_VARNAME_SIZE, "\nError reading global varname size.");
   p->global_varname_size.size = swap_uint16(p->global_varname_size.size);
@@ -171,13 +182,13 @@ void read_proc_file_header(FILE *fp, NOBJ_PROC *p)
 
 void read_proc_file(FILE *fp, NOBJ_PROC *p)
 {
-  printf("\nEnter:%s", __FUNCTION__);
+  debug("\nEnter:%s", __FUNCTION__);
 
   // Read the header data at the start
   read_proc_file_header(fp, p);
   
-  printf("\nVar space size     :%d\n", p->var_space_size.size);
-  printf("\nGlobal varname size:%d\n", p->global_varname_size.size);
+  debug("\nVar space size     :%d\n", p->var_space_size.size);
+  debug("\nGlobal varname size:%d\n", p->global_varname_size.size);
 
   //------------------------------------------------------------------------------
   // Global varname is more complicated to read. Each entry is length
@@ -199,15 +210,15 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
 
       if(!read_item(fp, (void *)&len, 1, sizeof(len)))
 	{
-	  printf("\nError reading global varname entry length");
+	  debug("\nError reading global varname entry length");
 	  return;
 	}
 
-      printf("\nGlobal varname entry length: %d", len);
+      debug("\nGlobal varname entry length: %d", len);
       
       memset(varname, 0, sizeof(varname));
       
-      //      printf("\nVarname entry len=%d", len);
+      //      debug("\nVarname entry len=%d", len);
       
       length_read += sizeof(len);
 
@@ -215,11 +226,11 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
       
       if(!read_item(fp, (void *)&varname, len, sizeof(uint8_t)))
 	{
-	  printf("\nError reading global varname entry name field");
+	  debug("\nError reading global varname entry name field");
 	  return;
 	}
       
-      printf("\nvarname='%s'", varname);
+      debug("\nvarname='%s'", varname);
 
       length_read += len;
 
@@ -227,21 +238,21 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
 
       if(!read_item(fp, (void *)&vartype, 1, sizeof(NOBJ_VARTYPE)))
 	{
-	  printf("\nError reading global varname entry type field");
+	  debug("\nError reading global varname entry type field");
 	  return;
 	}
 
       if(!read_item(fp, (void *)&addr, 1, sizeof(NOBJ_ADDR)))
 	{
-	  printf("\nError reading global varname entry addr field");
+	  debug("\nError reading global varname entry addr field");
 	  return;
 	}
 
-      printf("\nVarname type=%02X", vartype);
-      printf("\nAddr addr=%02X", addr);
+      debug("\nVarname type=%02X", vartype);
+      debug("\nAddr addr=%02X", addr);
       length_read += 3;
 
-      //printf("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
+      //debug("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
 
       // Add variable to list of globals
       p->global_varname[num_global_vars].type    = vartype;
@@ -253,7 +264,7 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
 
   p->global_varname_num = num_global_vars;
 
-  printf("\nNum global vars: %d", num_global_vars);
+  debug("\nNum global vars: %d", num_global_vars);
   
   //------------------------------------------------------------------------------
   //
@@ -276,13 +287,13 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
       
       if(!read_item(fp, (void *)&len, 1, sizeof(len)))
 	{
-	  printf("\nError reading external varname entry length");
+	  debug("\nError reading external varname entry length");
 	  return;
 	}
 
       memset(varname, 0, sizeof(varname));
       
-      //      printf("\nVarname entry len=%d", len);
+      //      debug("\nVarname entry len=%d", len);
       
       length_read += sizeof(len);
 
@@ -290,11 +301,11 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
       
       if(!read_item(fp, (void *)&varname, len, sizeof(uint8_t)))
 	{
-	  printf("\nError reading global varname entry name field");
+	  debug("\nError reading global varname entry name field");
 	  return;
 	}
       
-      //printf("\nvarname='%s'", varname);
+      //debug("\nvarname='%s'", varname);
 
       length_read += len;
 
@@ -302,14 +313,14 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
 
       if(!read_item(fp, (void *)&vartype, 1, sizeof(NOBJ_VARTYPE)))
 	{
-	  printf("\nError reading global varname entry type field");
+	  debug("\nError reading global varname entry type field");
 	  return;
 	}
 
-      //printf("\nVarname type=%02X", vartype);
+      //debug("\nVarname type=%02X", vartype);
       length_read += 1;
 
-      //printf("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
+      //debug("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
 
       // Add variable to list of globals
       p->external_varname[num_external_vars].type    = vartype;
@@ -342,23 +353,23 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
       
       if(!read_item(fp, (void *)&addr, 1, sizeof(NOBJ_ADDR)))
 	{
-	  printf("\nError reading strlen fixup address field");
+	  debug("\nError reading strlen fixup address field");
 	  return;
 	}
 
-      //printf("\nVarname type=%02X", vartype);
+      //debug("\nVarname type=%02X", vartype);
       length_read += sizeof(NOBJ_ADDR);
 
       if(!read_item(fp, (void *)&strlen, 1, sizeof(NOBJ_STRLEN_FIXUP_LEN)))
 	{
-	  printf("\nError reading strlen fixup length field");
+	  debug("\nError reading strlen fixup length field");
 	  return;
 	}
 
-      //printf("\nVarname type=%02X", vartype);
+      //debug("\nVarname type=%02X", vartype);
       length_read += sizeof(NOBJ_STRLEN_FIXUP_LEN);
 
-      //printf("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
+      //debug("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
 
       // Add variable to list of globals
       p->strlen_fixup[num_strlen_fixup].address  = swap_uint16(addr);
@@ -391,23 +402,23 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
       
       if(!read_item(fp, (void *)&addr, 1, sizeof(NOBJ_ADDR)))
 	{
-	  printf("\nError reading arysz fixup address field");
+	  debug("\nError reading arysz fixup address field");
 	  return;
 	}
 
-      //printf("\nVarname type=%02X", vartype);
+      //debug("\nVarname type=%02X", vartype);
       length_read += sizeof(NOBJ_ADDR);
 
       if(!read_item(fp, (void *)&arysz, 1, sizeof(NOBJ_ARYSZ_FIXUP_LEN)))
 	{
-	  printf("\nError reading arysz fixup length field");
+	  debug("\nError reading arysz fixup length field");
 	  return;
 	}
 
-      //printf("\nVarname type=%02X", vartype);
+      //debug("\nVarname type=%02X", vartype);
       length_read += sizeof(NOBJ_ARYSZ_FIXUP_LEN);
 
-      //printf("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
+      //debug("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
 
       // Add variable to list of globals
       p->arysz_fixup[num_arysz_fixup].address  = swap_uint16(addr);
@@ -433,18 +444,18 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
 
   if( p->qcode == NULL )
     {
-      printf("\nError mallocing QCode space.");
+      debug("\nError mallocing QCode space.");
       return;
     }
 
   // Read the QCode in
   if(!read_item(fp, (void *)p->qcode, p->qcode_space_size.size, sizeof(uint8_t)))
     {
-      printf("\nError reading QCode data");
+      debug("\nError reading QCode data");
       return;
     }
   
-  printf("\nExit:%s", __FUNCTION__);
+  debug("\nExit:%s", __FUNCTION__);
 
 }
 
@@ -500,7 +511,7 @@ void init_sp(NOBJ_MACHINE *m, NOBJ_SP sp )
 
 void init_machine(NOBJ_MACHINE *m)
 {
-  printf("\nInit machine...");
+  debug("\nInit machine...");
   
   // Set stack pointer
   // Stack grows from max index towards index 0
@@ -522,7 +533,7 @@ void init_machine(NOBJ_MACHINE *m)
   m->rta_fp = 0;
   m->rta_pc = 0;
   
-  printf("\nInit machine done.");
+  debug("\nInit machine done.");
 }
 
 void error(char *fmt, ...)
@@ -545,7 +556,7 @@ void error(char *fmt, ...)
 void push_machine_8(NOBJ_MACHINE *m, uint8_t v)
 {
 #if DEBUG_PUSH_POP
-  printf("\n%s:pushing %02X to %04X", __FUNCTION__, v, (m->rta_sp)-1);
+  debug("\n%s:pushing %02X to %04X", __FUNCTION__, v, (m->rta_sp)-1);
 #endif
 
   if( m->rta_sp > 0 )
@@ -572,7 +583,7 @@ void push_machine_16(NOBJ_MACHINE *m, int16_t v)
     }
 
 #if DEBUG_PUSH_POP
-  printf("\n%s:pushing %04X to %04X", __FUNCTION__, v, m->rta_sp+2);
+  debug("\n%s:pushing %04X to %04X", __FUNCTION__, v, m->rta_sp+2);
 #endif
 
 }
@@ -586,7 +597,7 @@ void push_machine_16(NOBJ_MACHINE *m, int16_t v)
 void push_machine_string(NOBJ_MACHINE *m, int len, char *str)
 {
 #if DEBUG_PUSH_POP
-  printf("\n%s:pushing %s to %04X", __FUNCTION__, str, m->rta_sp);
+  debug("\n%s:pushing %s to %04X", __FUNCTION__, str, m->rta_sp);
 #endif
 
   // Push the string
@@ -625,7 +636,7 @@ void pop_machine_string(NOBJ_MACHINE *m, uint8_t *len, char *str)
   str[i] = '\0';
   
 #if DEBUG_PUSH_POP
-  printf("\n%s:Popped '%s' from %04X", __FUNCTION__, str, orig_sp);
+  debug("\n%s:Popped '%s' from %04X", __FUNCTION__, str, orig_sp);
 #endif
   
 }
@@ -669,7 +680,7 @@ uint16_t get_machine_16(NOBJ_MACHINE *m, uint16_t sp, uint16_t *v)
       error("\nAttempting to get from empty stack");
     }
 
-  //printf("\n   from %04X", sp+1);
+  //debug("\n   from %04X", sp+1);
   
   value  =  m->stack[sp++];
   value |= (m->stack[sp++]) << 8;
@@ -707,7 +718,7 @@ uint16_t pop_sp_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
   *val = m->stack[sp++];
 
 #if DEBUG_PUSH_POP
-  printf("\n%s:Popped %02X from %04X", __FUNCTION__, *val, (m->rta_sp)-1);
+  debug("\n%s:Popped %02X from %04X", __FUNCTION__, *val, (m->rta_sp)-1);
 #endif
 
   return(sp);  
@@ -728,7 +739,7 @@ uint8_t pop_machine_8(NOBJ_MACHINE *m)
   val8 = m->stack[(m->rta_sp)++];
 
 #if DEBUG_PUSH_POP
-  printf("\n%s:Popped %02X from SP:%04X", __FUNCTION__, val8, (m->rta_sp)-1);
+  debug("\n%s:Popped %02X from SP:%04X", __FUNCTION__, val8, (m->rta_sp)-1);
 #endif
 
   return(val8);  
@@ -747,7 +758,7 @@ uint16_t pop_machine_16(NOBJ_MACHINE *m)
   val16 |= (m->stack[(m->rta_sp)++]);
 
 #if DEBUG_PUSH_POP
-  printf("\n%s:Popped %04X from SP:%04X", __FUNCTION__, val16, (m->rta_sp)-2);
+  debug("\n%s:Popped %04X from SP:%04X", __FUNCTION__, val16, (m->rta_sp)-2);
 #endif
 
   return(val16);  
@@ -766,7 +777,7 @@ uint16_t pop_discard_sp_int(NOBJ_MACHINE *m, uint16_t sp)
       ++sp;
       
 #if DEBUG_PUSH_POP
-      printf("\n%s:Popped from SP:%04X", __FUNCTION__, (m->rta_sp)-1);
+      debug("\n%s:Popped from SP:%04X", __FUNCTION__, (m->rta_sp)-1);
 #endif
     }
   
@@ -785,7 +796,7 @@ uint16_t pop_discard_sp_float(NOBJ_MACHINE *m, uint16_t sp)
     {
       ++sp;
 #if DEBUG_PUSH_POP
-      printf("\n%s:Popped and discarded from SP:%04X", __FUNCTION__, (m->rta_sp)-1);
+      debug("\n%s:Popped and discarded from SP:%04X", __FUNCTION__, (m->rta_sp)-1);
 #endif
       
     }
@@ -808,7 +819,7 @@ uint16_t pop_discard_sp_str(NOBJ_MACHINE *m, uint16_t sp)
     {
       ++sp;
 #if DEBUG_PUSH_POP
-      printf("\n%s:Popped and discarded from SP:%04X", __FUNCTION__, (m->rta_sp)-1);
+      debug("\n%s:Popped and discarded from SP:%04X", __FUNCTION__, (m->rta_sp)-1);
 #endif
       
     }
@@ -829,7 +840,7 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
 {
   uint8_t parm_cnt;
 
-  printf("\nEnter:%s", __FUNCTION__);
+  debug("\nEnter:%s", __FUNCTION__);
 
   // Check if it is a language extension
 
@@ -861,7 +872,7 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
     {
       osp = pop_sp_8(m, osp, &vartype);
 
-      printf("\nChecking parameter %d Type:%s", i, decode_vartype(vartype));
+      debug("\nChecking parameter %d Type:%s", i, decode_vartype(vartype));
       
       // We just skip past the value 
       switch(vartype)
@@ -925,7 +936,7 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
   READ_ITEM( fp,  p->global_varname_size, 1, NOBJ_GLOBAL_VARNAME_SIZE, "\nError reading global varname size.");
   p->global_varname_size.size = swap_uint16(p->global_varname_size.size);
   
-  //  printf("\nGlobal varname size:%d", p->global_varname_size.size);
+  //  debug("\nGlobal varname size:%d", p->global_varname_size.size);
 
   //------------------------------------------------------------------------------
   // Global varname is more complicated to read. Each entry is length
@@ -947,13 +958,13 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
       
       if(!read_item(fp, (void *)&len, 1, sizeof(len)))
 	{
-	  printf("\nError reading global varname entry length");
+	  debug("\nError reading global varname entry length");
 	  return;
 	}
 
       memset(varname, 0, sizeof(varname));
       
-      //      printf("\nVarname entry len=%d", len);
+      //      debug("\nVarname entry len=%d", len);
       
       length_read += sizeof(len);
 
@@ -961,11 +972,11 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
       
       if(!read_item(fp, (void *)&varname, len, sizeof(uint8_t)))
 	{
-	  printf("\nError reading global varname entry name field");
+	  debug("\nError reading global varname entry name field");
 	  return;
 	}
       
-      //printf("\nvarname='%s'", varname);
+      //debug("\nvarname='%s'", varname);
 
       length_read += len;
 
@@ -973,21 +984,21 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
 
       if(!read_item(fp, (void *)&vartype, 1, sizeof(NOBJ_VARTYPE)))
 	{
-	  printf("\nError reading global varname entry type field");
+	  debug("\nError reading global varname entry type field");
 	  return;
 	}
 
       if(!read_item(fp, (void *)&addr, 1, sizeof(NOBJ_ADDR)))
 	{
-	  printf("\nError reading global varname entry addr field");
+	  debug("\nError reading global varname entry addr field");
 	  return;
 	}
 
-      //printf("\nVarname type=%02X", vartype);
-      //printf("\nAddr addr=%02X", addr);
+      //debug("\nVarname type=%02X", vartype);
+      //debug("\nAddr addr=%02X", addr);
       length_read += 3;
 
-      //printf("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
+      //debug("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
 
       // Add variable to list of globals
       p->global_varname[num_global_vars].type    = vartype;
@@ -1022,13 +1033,13 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
       
       if(!read_item(fp, (void *)&len, 1, sizeof(len)))
 	{
-	  printf("\nError reading external varname entry length");
+	  debug("\nError reading external varname entry length");
 	  return;
 	}
 
       memset(varname, 0, sizeof(varname));
       
-      //      printf("\nVarname entry len=%d", len);
+      //      debug("\nVarname entry len=%d", len);
       
       length_read += sizeof(len);
 
@@ -1036,11 +1047,11 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
       
       if(!read_item(fp, (void *)&varname, len, sizeof(uint8_t)))
 	{
-	  printf("\nError reading global varname entry name field");
+	  debug("\nError reading global varname entry name field");
 	  return;
 	}
       
-      //printf("\nvarname='%s'", varname);
+      //debug("\nvarname='%s'", varname);
 
       length_read += len;
 
@@ -1048,14 +1059,14 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
 
       if(!read_item(fp, (void *)&vartype, 1, sizeof(NOBJ_VARTYPE)))
 	{
-	  printf("\nError reading global varname entry type field");
+	  debug("\nError reading global varname entry type field");
 	  return;
 	}
 
-      //printf("\nVarname type=%02X", vartype);
+      //debug("\nVarname type=%02X", vartype);
       length_read += 1;
 
-      //printf("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
+      //debug("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
 
       // Add variable to list of globals
       p->external_varname[num_external_vars].type    = vartype;
@@ -1089,23 +1100,23 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
       
       if(!read_item(fp, (void *)&addr, 1, sizeof(NOBJ_ADDR)))
 	{
-	  printf("\nError reading strlen fixup address field");
+	  debug("\nError reading strlen fixup address field");
 	  return;
 	}
 
-      //printf("\nVarname type=%02X", vartype);
+      //debug("\nVarname type=%02X", vartype);
       length_read += sizeof(NOBJ_ADDR);
 
       if(!read_item(fp, (void *)&strlen, 1, sizeof(NOBJ_STRLEN_FIXUP_LEN)))
 	{
-	  printf("\nError reading strlen fixup length field");
+	  debug("\nError reading strlen fixup length field");
 	  return;
 	}
 
-      //printf("\nVarname type=%02X", vartype);
+      //debug("\nVarname type=%02X", vartype);
       length_read += sizeof(NOBJ_STRLEN_FIXUP_LEN);
 
-      //printf("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
+      //debug("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
 
       // Add variable to list of globals
       p->strlen_fixup[num_strlen_fixup].address  = swap_uint16(addr);
@@ -1139,23 +1150,23 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
       
       if(!read_item(fp, (void *)&addr, 1, sizeof(NOBJ_ADDR)))
 	{
-	  printf("\nError reading arysz fixup address field");
+	  debug("\nError reading arysz fixup address field");
 	  return;
 	}
 
-      //printf("\nVarname type=%02X", vartype);
+      //debug("\nVarname type=%02X", vartype);
       length_read += sizeof(NOBJ_ADDR);
 
       if(!read_item(fp, (void *)&arysz, 1, sizeof(NOBJ_ARYSZ_FIXUP_LEN)))
 	{
-	  printf("\nError reading arysz fixup length field");
+	  debug("\nError reading arysz fixup length field");
 	  return;
 	}
 
-      //printf("\nVarname type=%02X", vartype);
+      //debug("\nVarname type=%02X", vartype);
       length_read += sizeof(NOBJ_ARYSZ_FIXUP_LEN);
 
-      //printf("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
+      //debug("\nLength read:%d out of %d", length_read, p->global_varname_size.size);
 
       // Add variable to list of globals
       p->arysz_fixup[num_arysz_fixup].address  = swap_uint16(addr);
@@ -1181,14 +1192,14 @@ void push_proc_on_stack(NOBJ_PROC *p, NOBJ_MACHINE *m)
 
   if( p->qcode == NULL )
     {
-      printf("\nError mallocing QCode space.");
+      debug("\nError mallocing QCode space.");
       return;
     }
 
   // Read the QCode in
   if(!read_item(fp, (void *)p->qcode, p->qcode_space_size.size, sizeof(uint8_t)))
     {
-      printf("\nError reading QCode data");
+      debug("\nError reading QCode data");
       return;
     }
 #endif  

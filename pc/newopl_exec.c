@@ -96,7 +96,7 @@ NOBJ_PROC proc;
 
 void push_parameters(NOBJ_MACHINE *m)
 {
-  printf("\nPush parameters...");
+  debug("\nPush parameters...");
 
 #if 0
   // parameters for the code in xx0.bin
@@ -156,17 +156,17 @@ void push_parameters(NOBJ_MACHINE *m)
   
 #endif
   
-  printf("\nPush parameters done.");
+  debug("\nPush parameters done.");
 
 }
 
 
 void print_machine_state(NOBJ_MACHINE *m)
 {
-  printf("\n  SP:%04X",              m->rta_sp);
-  printf("\n  FP:%04X",              m->rta_fp);
-  printf("\n  PC:%04X",              m->rta_pc);
-  printf("\n");
+  debug("\n  SP:%04X",              m->rta_sp);
+  debug("\n  FP:%04X",              m->rta_fp);
+  debug("\n  PC:%04X",              m->rta_pc);
+  debug("\n");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -192,11 +192,11 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   uint16_t size_of_external_table     = 0;
   uint8_t  num_parameters;
 
-  printf("\n\n");
-  printf("\n===================================Proc=========================================\n\n");
-  printf("\nPushing procedure '%s'", name);
-  printf("\n  Top:%d",               top);
-  printf("\n  onto machine:");
+  debug("\n\n");
+  debug("\n===================================Proc=========================================\n\n");
+  debug("\nPushing procedure '%s'", name);
+  debug("\n  Top:%d",               top);
+  debug("\n  onto machine:");
 
   print_machine_state(m);
   
@@ -229,10 +229,10 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       // Error
     }
 
-  printf("\nSize of variables    :%02X %d", size_of_variables, size_of_variables);
-  printf("\nSize of QCode        :%02X %d", size_of_qcode, size_of_qcode);
-  printf("\nNumber of parameters :%02X %d", num_parameters, num_parameters);
-  printf("\nBase SP              :%02X %d", base_sp, base_sp);
+  debug("\nSize of variables    :%02X %d", size_of_variables, size_of_variables);
+  debug("\nSize of QCode        :%02X %d", size_of_qcode, size_of_qcode);
+  debug("\nNumber of parameters :%02X %d", num_parameters, num_parameters);
+  debug("\nBase SP              :%02X %d", base_sp, base_sp);
 
 #if 1
   uint8_t par_type;
@@ -277,7 +277,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   // FP points at the frame we are pushing
   m->rta_fp = m->rta_sp-2;
 
-  printf("\nrta_fp = %04X", m->rta_fp);
+  debug("\nrta_fp = %04X", m->rta_fp);
   
   // Previous FP
   push_machine_16(m, previous_fp);
@@ -288,11 +288,11 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       // Error
     }
   
-  printf("\nSize of global table:%02X (%d)", size_of_global_table, size_of_global_table);
+  debug("\nSize of global table:%02X (%d)", size_of_global_table, size_of_global_table);
 
   uint16_t start_of_global_table = m->rta_sp-size_of_global_table-2;
 
-  printf("\nStart of global table:%04X (SP now %04X)", start_of_global_table, m->rta_sp);
+  debug("\nStart of global table:%04X (SP now %04X)", start_of_global_table, m->rta_sp);
   push_machine_16(m, start_of_global_table);
 
   //------------------------------------------------------------------------------
@@ -307,8 +307,8 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   //#define END_ZEROES   (m->rta_fp + 9)
 #define END_ZEROES   (start_of_global_table - 1)
 
-  printf("\nZeroing stack from base_sp to start of global table");
-  printf("\n%04X to %04X", base_sp, END_ZEROES);
+  debug("\nZeroing stack from base_sp to start of global table");
+  debug("\n%04X to %04X", base_sp, END_ZEROES);
   
   
   for(int va = base_sp; va <= END_ZEROES; va++)
@@ -323,7 +323,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
     {
       int start_i = i;
 
-      printf("\n%d %d", size_of_global_table, i);
+      debug("\n%d %d", size_of_global_table, i);
       
       // Read variable data from file
       // Build up the record in the stack
@@ -337,9 +337,9 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       m->stack[k++] = gv_name_len;
       i++;
       
-      printf("\n  Name length:%d", gv_name_len);
+      debug("\n  Name length:%d", gv_name_len);
 
-      printf("  '");
+      debug("  '");
       for(int j=0; j<gv_name_len; j++)
 	{
 	  uint8_t gv_name_char;
@@ -351,10 +351,10 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	  m->stack[k++] = gv_name_char;
 	  i++;
 	  
-	  printf("%c", gv_name_char);
+	  debug("%c", gv_name_char);
 	}
 
-      printf("' ");
+      debug("' ");
       
       //      k += gv_name_len;
 
@@ -367,7 +367,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       m->stack[k++] = gv_type;
       i++;
       
-      printf(" Type:%d", gv_type);
+      debug(" Type:%d", gv_type);
       
       uint16_t gv_addr;
       uint16_t gv_eff_addr;
@@ -379,8 +379,8 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 
       gv_eff_addr = (uint16_t)m->rta_fp + gv_addr;
 
-      printf("\nEff %04X = %04X - %04X", (int)gv_eff_addr, (int)gv_addr, (int)base_sp);
-      printf("  ADDR:%04X -> %04X", gv_addr, gv_eff_addr);
+      debug("\nEff %04X = %04X - %04X", (int)gv_eff_addr, (int)gv_addr, (int)base_sp);
+      debug("  ADDR:%04X -> %04X", gv_addr, gv_eff_addr);
 
       m->stack[k++] = gv_eff_addr >> 8;
       m->stack[k++] = gv_eff_addr & 0xFF;
@@ -389,7 +389,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       
       for(int ii=start_i; ii<start_i+4+gv_name_len; ii++)
 	{
-	  printf("\n%04X: %02X", ii, m->stack[start_of_global_table+ii]);
+	  debug("\n%04X: %02X", ii, m->stack[start_of_global_table+ii]);
 	}
 
       //      i = k;
@@ -404,7 +404,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       // Error
     }
   
-  printf("\nSize of external table:%02X %d", size_of_external_table, size_of_external_table);
+  debug("\nSize of external table:%02X %d", size_of_external_table, size_of_external_table);
 
   //------------------------------------------------------------------------------
   // Push external area on to stack
@@ -435,7 +435,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
     }
   else
     {
-      printf("\nIncorrect number of parameters. Expected %d, got %d. SP:%04X", num_parameters, m->stack[par_ptr], par_ptr);
+      debug("\nIncorrect number of parameters. Expected %d, got %d. SP:%04X", num_parameters, m->stack[par_ptr], par_ptr);
     }
 
   par_ptr++;
@@ -449,7 +449,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	}
       else
 	{
-	  printf("Type %d incorrect. Should be %d. Stack %04X", m->stack[par_ptr], par_types[np], par_ptr);
+	  debug("Type %d incorrect. Should be %d. Stack %04X", m->stack[par_ptr], par_types[np], par_ptr);
 	}
 
       par_ptr++;
@@ -465,8 +465,8 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   //------------------------------------------------------------------------------
   // Now run through the external table.
   
-  printf("\nBuilding Indirection Table");
-  printf("\nSearching for externals...");
+  debug("\nBuilding Indirection Table");
+  debug("\nSearching for externals...");
 	 
   for(int i=0; i<size_of_external_table;)
     {
@@ -502,7 +502,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 
       ext_name[j] = '\0';
 
-      printf("\nExternal:'%s'", ext_name);
+      debug("\nExternal:'%s'", ext_name);
       
       // Name length
       if( !read_item(fp, &ext_type, 1, sizeof(uint8_t)) )
@@ -517,14 +517,14 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       int       ext_found = 0;
       uint16_t  glob_ptr;
 
-      printf("\nFPP now %04X", fpp);
+      debug("\nFPP now %04X", fpp);
       
       while( stack_entry_16(m, fpp) != 0 )
 	{
 	  // Point to next frame
 	  fpp = stack_entry_16(m, fpp);
 
-	  printf("\nFPP now %04X", fpp);
+	  debug("\nFPP now %04X", fpp);
 	  
 	  // Check the global table
 	  glob_ptr = stack_entry_16(m, fpp - 2); //m->stack[(fpp - 2)];
@@ -532,8 +532,8 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	  uint16_t end_of_upper_table = fpp - 2;
 	  uint16_t size_of_upper_table = end_of_upper_table - glob_ptr;
 	  
-	  printf("\n  Global table at %04X - %04X", glob_ptr, end_of_upper_table);
-	  printf("\n    (Size %04X)", size_of_upper_table);
+	  debug("\n  Global table at %04X - %04X", glob_ptr, end_of_upper_table);
+	  debug("\n    (Size %04X)", size_of_upper_table);
 	  
 	  for(int gi = 0; gi<size_of_upper_table;)
 	    {
@@ -554,12 +554,12 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	      
 	      glob_name[j] = '\0';
 			  
-	      printf("\n  Global name:'%s'", glob_name);
+	      debug("\n  Global name:'%s'", glob_name);
 
 	      if( strcmp(glob_name, ext_name)==0 )
 		{
 		  // Found the global, get the address and put it in indirection table
-		  printf("\n  Found global");
+		  debug("\n  Found global");
 
 		  uint16_t glob_addr;
 
@@ -573,7 +573,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 		  // Copy to table
 		  push_machine_16(m, glob_addr);
 
-		  printf("\n  Address:%04X", glob_addr);
+		  debug("\n  Address:%04X", glob_addr);
 
 		  ext_found = 1;
 		}
@@ -596,7 +596,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   // The variable space has been zeroed.
 
   // Apply fix-ups
-  printf("\nApplying fixups...");
+  debug("\nApplying fixups...");
   
   // String fixups
   uint16_t num_fixups;
@@ -623,7 +623,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	  // Error
 	}
 
-      printf("\nFixup at %04X, data %02X, add:%04X", addr, fixdata, m->rta_fp+addr);
+      debug("\nFixup at %04X, data %02X, add:%04X", addr, fixdata, m->rta_fp+addr);
 
       m->stack[(uint16_t)(m->rta_fp+addr)] = fixdata;
     }
@@ -652,7 +652,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	  // Error
 	}
 
-      printf("\nFixup at %04X, data %04X, addr %04X", addr, fixdata, (m->rta_fp+addr+0) & 0xFFFF);
+      debug("\nFixup at %04X, data %04X, addr %04X", addr, fixdata, (m->rta_fp+addr+0) & 0xFFFF);
 
       m->stack[(uint16_t)(m->rta_fp+addr+0)] = fixdata << 8;
       m->stack[(uint16_t)(m->rta_fp+addr+1)] = fixdata  & 0x0F;
@@ -702,11 +702,11 @@ void display_machine_procs(NOBJ_MACHINE *m)
   uint16_t val;
   uint8_t val8;
 
-  printf("\n================================================================================\n");
+  debug("\n================================================================================\n");
 
   print_machine_state(m);
  
-  printf("\n\nMachine Procedures:");
+  debug("\n\nMachine Procedures:");
 	
   while(fp != 0 )
     {
@@ -715,19 +715,19 @@ void display_machine_procs(NOBJ_MACHINE *m)
       // Get data about this proc
 
       fp_next = stack_entry_16(m, fp);
-      printf("\n%04X:  Previous FP        : %04X", fp+FP_OFF_NEXT_FP,    fp_next);
-      printf("\n%04X:  Base SP            : %04X", fp+FP_OFF_BASE_SP,    stack_entry_16(m, fp+FP_OFF_BASE_SP));
-      printf("\n%04X:  ONERR Address      : %04X", fp+FP_OFF_ONERR,      stack_entry_16(m, fp+FP_OFF_ONERR));
-      printf("\n%04X:  Return PC          : %04X", fp+FP_OFF_RETURN_PC,  stack_entry_16(m, fp+FP_OFF_RETURN_PC));
-      printf("\n%04X:  Device             : %02X", fp+FP_OFF_DEVICE,     stack_entry_8 (m, fp+FP_OFF_DEVICE));
-      printf("\n%04X:  Global Table Start : %04X", fp+FP_OFF_GLOB_START, stack_entry_16(m, fp+FP_OFF_GLOB_START));
-      printf("\n");
+      debug("\n%04X:  Previous FP        : %04X", fp+FP_OFF_NEXT_FP,    fp_next);
+      debug("\n%04X:  Base SP            : %04X", fp+FP_OFF_BASE_SP,    stack_entry_16(m, fp+FP_OFF_BASE_SP));
+      debug("\n%04X:  ONERR Address      : %04X", fp+FP_OFF_ONERR,      stack_entry_16(m, fp+FP_OFF_ONERR));
+      debug("\n%04X:  Return PC          : %04X", fp+FP_OFF_RETURN_PC,  stack_entry_16(m, fp+FP_OFF_RETURN_PC));
+      debug("\n%04X:  Device             : %02X", fp+FP_OFF_DEVICE,     stack_entry_8 (m, fp+FP_OFF_DEVICE));
+      debug("\n%04X:  Global Table Start : %04X", fp+FP_OFF_GLOB_START, stack_entry_16(m, fp+FP_OFF_GLOB_START));
+      debug("\n");
 	     
       // Move to next procedure
       fp = fp_next;
     }
   
-  printf("\n================================================================================\n");
+  debug("\n================================================================================\n");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -757,10 +757,10 @@ void display_machine(NOBJ_MACHINE *m)
 	  dch = '.';
 	}
       
-      printf("\n%04X: %02X %c", i, b, dch);
+      debug("\n%04X: %02X %c", i, b, dch);
     }
   
-  printf("\n");
+  debug("\n");
 
   display_machine_procs(m);
 }
@@ -775,18 +775,18 @@ void display_machine(NOBJ_MACHINE *m)
 int main(int argc, char *argv[])
 {
 
-  printf("\nSize of NOBJ_PROC:%ld", sizeof(NOBJ_PROC));
+  debug("\nSize of NOBJ_PROC:%ld", sizeof(NOBJ_PROC));
   
   // Load the procedure file
   fp = fopen(argv[1], "r");
 
   if( fp == NULL )
     {
-      printf("\nCannot open '%s'", argv[1]);
+      debug("\nCannot open '%s'", argv[1]);
       exit(-1);
     }
 
-  printf("\nLoaded '%s'", argv[1]);
+  debug("\nLoaded '%s'", argv[1]);
 
   // Discard header
   read_ob3_header(fp);
@@ -814,9 +814,9 @@ int main(int argc, char *argv[])
   // Execute it
   execute_qcode(&machine);
   
-  printf("\n\n");
+  debug("\n\n");
   
   display_machine(&machine);
   
-  printf("\n");
+  debug("\n");
 }

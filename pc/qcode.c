@@ -147,7 +147,7 @@ void qca_str_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
   // Get string from qcodes and push onto stack
   s->len = qcode_next_8(m);
   
-  printf("\n  Len:%d", s->len);
+  debug("\n  Len:%d", s->len);
 
   int i;
   
@@ -165,12 +165,12 @@ void qca_fp(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Get pointer to string
   s->ind_ptr = qcode_next_16(m);
-  printf("\nind ptr:%04X", s->ind_ptr);
+  debug("\nind ptr:%04X", s->ind_ptr);
   
   // Add to FP
   s->ind_ptr += m->rta_fp;
   
-  printf("\nIND Addr: %04X", s->ind_ptr);
+  debug("\nIND Addr: %04X", s->ind_ptr);
 }
 
 void qca_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -225,7 +225,7 @@ void qca_push_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
   // Get proc name
   s->len = qcode_next_8(m);
 
-  printf("\n  Len:%d", s->len);
+  debug("\n  Len:%d", s->len);
 
   int i;
   
@@ -249,11 +249,11 @@ void qca_push_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
 	  
   if( fp == NULL )
     {
-      printf("\nCannot open '%s'", s->str);
+      debug("\nCannot open '%s'", s->str);
       exit(-1);
     }
 	  
-  printf("\nLoaded '%s'", s->str);
+  debug("\nLoaded '%s'", s->str);
 	  
   // Discard header
   read_ob3_header(fp);
@@ -279,7 +279,7 @@ void qca_push_qc_byte(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_unwind_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Dump stack for debug
-  printf("\n==============================================Unwind============================");
+  debug("\n==============================================Unwind============================");
   display_machine(m);
 	  
   // Unwind the procedure (remove it from the stack), then
@@ -294,7 +294,7 @@ void qca_unwind_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
       // Ignore PC and FP, set the stack to empty
       init_sp(m, 0x3F00);       // For full example 4
 
-      printf("\nStack reset");
+      debug("\nStack reset");
     }
   else
     {
@@ -376,7 +376,7 @@ void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 	}
       else
 	{
-	  printf("\n*** String too big. Len %d but variable max is %d", s->len, s->max_sz);
+	  debug("\n*** String too big. Len %d but variable max is %d", s->len, s->max_sz);
 	}
     }
 }
@@ -428,12 +428,12 @@ void qca_pop_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_print_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  printf("\n||||%d", s->integer);
+  printf("%d", s->integer);
 }
 
 void qca_print_cr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  printf("\n||||<CR>");
+  printf("\n");
 }
 
 
@@ -488,7 +488,7 @@ int execute_qcode(NOBJ_MACHINE *m)
       
       s.qcode = m->stack[m->rta_pc];
 
-      printf("\nExecuting QCode %02X at %04X", s.qcode, m->rta_pc);
+      debug("\nExecuting QCode %02X at %04X", s.qcode, m->rta_pc);
       
       (m->rta_pc)++;
 
@@ -498,7 +498,7 @@ int execute_qcode(NOBJ_MACHINE *m)
 	{
 	  if( s.qcode == qcode_info[q].qcode )
 	    {
-	      printf("\n Executing %s", qcode_info[q].name);
+	      debug("\n Executing %s", qcode_info[q].name);
 	      
 	      // Perform actions
 	      for(int a=0; a<NOBJ_QC_NUM_ACTIONS; a++)
@@ -517,7 +517,7 @@ int execute_qcode(NOBJ_MACHINE *m)
 
       if ( m->rta_fp == 0 )
 	{
-	  printf("\n===  Exit ====");
+	  debug("\n===  Exit ====");
 	  display_machine(m);
 	  exit(0);
 	  // Exit?
