@@ -75,12 +75,11 @@ uint8_t qcode_next_8(NOBJ_MACHINE *m)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//
-// Execute one QCode 
-//
-////////////////////////////////////////////////////////////////////////////////
 
-int execute_qcode(NOBJ_MACHINE *m)
+// QCode state
+// Used to pass execution state of a single QCode
+
+typedef struct _NOBJ_QCS
 {
   NOBJ_QCODE qcode;
   uint16_t   ind_ptr;
@@ -89,287 +88,349 @@ int execute_qcode(NOBJ_MACHINE *m)
   char       str[NOBJ_FILENAME_MAXLEN];
   uint16_t   str_addr;
   char       procpath[NOBJ_FILENAME_MAXLEN];
-  FILE       *fp;
   uint8_t    max_sz;
   int        i;
   uint8_t    field_flag;
-  int        done = 0;
+  int        done;
+} NOBJ_QCS;
+
+typedef void (*NOBJ_QC_ACTION)(NOBJ_MACHINE *m, NOBJ_QCS *s);
+
+#define NOBJ_QC_NUM_ACTIONS 3
+
+typedef struct
+{
+  NOBJ_QCODE      qcode;
+  NOBJ_QC_ACTION  action[NOBJ_QC_NUM_ACTIONS];
   
-  while(!done)
+} NOBJ_QCODE_INFO;
+
+////////////////////////////////////////////////////////////////////////////////
+
+void qca_null(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+}
+
+
+void qca_str_ind_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  
+  // Now stack the string
+  s->len = stack_entry_8(m, (s->ind_ptr++) );
+
+  int i;
+  
+  for(i=0; i<s->len; i++)
+    {
+      s->str[i] = stack_entry_8(m, s->ind_ptr++);
+    }
+  
+  s->str[i] = '\0';
+  
+  push_machine_string(m, s->len, s->str);
+}
+
+void qca_str_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  
+  // Get string from qcodes and push onto stack
+  s->len = qcode_next_8(m);
+  
+  printf("\n  Len:%d", s->len);
+
+  int i;
+  
+  for(i=0; i<s->len; i++)
+    {
+      s->str[i] = qcode_next_8(m);
+    }
+  
+  s->str[i] = '\0';
+  
+  push_machine_string(m, s->len, s->str);
+}
+
+void qca_fp(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Get pointer to string
+  s->ind_ptr = qcode_next_16(m);
+  printf("\nind ptr:%04X", s->ind_ptr);
+  
+  // Add to FP
+  s->ind_ptr += m->rta_fp;
+  
+  printf("\nIND Addr: %04X", s->ind_ptr);
+}
+
+void qca_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Then that address has the address
+  s->ind_ptr = stack_entry_16(m, s->ind_ptr);
+
+}
+
+void qca_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Get the maximum size
+  s->max_sz = m->stack[s->ind_ptr-1];
+  
+  // Push string max length
+  push_machine_8(m, s->max_sz);
+  
+  // Push address of string
+  push_machine_16(m, s->ind_ptr);
+  
+  // Push field flag
+  push_machine_8(m, 0);
+}
+
+void qca_push_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  db_qcode("QCO_PROC");
+
+  FILE *fp;
+  
+  // Get proc name
+  s->len = qcode_next_8(m);
+
+  printf("\n  Len:%d", s->len);
+
+  int i;
+  
+  for(i=0; i<s->len; i++)
+    {
+      s->str[i] = qcode_next_8(m);
+    }
+
+  s->str[i] = '\0';
+  strcpy(s->procpath, "A:");
+  strcat(s->procpath, s->str);
+	  
+  strcat(s->str, ".OB3");
+
+	  
+  // We have the name, open the file
+  debug("\nLoading PROC %s", s->str);
+	  
+  // Load the procedure file
+  fp = fopen(s->str, "r");
+	  
+  if( fp == NULL )
+    {
+      printf("\nCannot open '%s'", s->str);
+      exit(-1);
+    }
+	  
+  printf("\nLoaded '%s'", s->str);
+	  
+  // Discard header
+  read_ob3_header(fp);
+	  
+  // Initialise the machine
+  //init_machine(&machine);
+	  
+  // Put some parameters on the stack for our test code
+  //push_parameters(m);
+	  
+  // Push proc onto stack
+  push_proc(fp, m, s->procpath, 0);
+
+  fclose(fp);
+}
+
+void qca_push_qc_byte(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  s->data8 = qcode_next_8(m);
+  push_machine_8(m, s->data8);
+}
+
+void qca_unwind_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Dump stack for debug
+  printf("\n==============================================Unwind============================");
+  display_machine(m);
+	  
+  // Unwind the procedure (remove it from the stack), then
+  // stack a zero floating point value
+  uint16_t last_fp;
+
+  last_fp = stack_entry_16(m, (m->rta_fp)+FP_OFF_NEXT_FP);
+
+  if( last_fp == 0 )
+    {
+      // There is not a previous procedure top return to
+      // Ignore PC and FP, set the stack to empty
+      init_sp(m, 0x3F00);       // For full example 4
+
+      printf("\nStack reset");
+    }
+  else
+    {
+      // There is a previous procedure to return to
+	      
+      // To unwind the stack, set SP to the previous frame base SP
+      m->rta_sp = stack_entry_16(m, last_fp+FP_OFF_BASE_SP);
+	      
+      // Set PC to return PC address
+      m->rta_pc = stack_entry_16(m, (m->rta_fp)+FP_OFF_RETURN_PC);
+    }
+	  
+  // Set FP to last FP
+  // If zero then this signals the end of the execution
+	  
+  m->rta_fp = last_fp;
+}
+
+void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+
+  // Drop string
+  pop_machine_string(m, &(s->len), s->str);
+
+  // Check for field
+  s->field_flag = pop_machine_8(m);
+	  
+  // Drop string reference
+  s->str_addr = pop_machine_16(m);
+  s->max_sz = pop_machine_8(m);
+	  
+  // Assign
+  if( s->field_flag )
+    {
+    }
+  else
+    {
+      // Assign string to variable
+      // We are pointing at length byte of string
+      // Check lengths
+      if( s->len <= s->max_sz )
+	{
+	  // All OK
+	  // Copy data
+
+	  // We copy the length with the data
+	  for(int i=0; i<s->len+1; i++)
+	    {
+	      m->stack[s->str_addr+i] = s->str[i];
+	    }
+
+	  // No need to zero the remaining space
+		 
+	}
+      else
+	{
+	  printf("\n*** String too big. Len %d but variable max is %d", s->len, s->max_sz);
+	}
+    }
+}
+
+
+void qca_push_zero(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Now push a zero
+  push_machine_8(m, 0);
+  push_machine_8(m, 0);
+  push_machine_8(m, 0);
+  push_machine_8(m, 0);
+  push_machine_8(m, 0);
+  push_machine_8(m, 0);
+  push_machine_8(m, 0);
+  push_machine_8(m, 0);
+}
+
+void qca_push_null(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Now push a zero
+  push_machine_8(m, 0);
+  push_machine_8(m, 0);
+}
+
+void qca_push_nought(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Now push a nought
+  push_machine_8(m, 0);
+  push_machine_8(m, 0);
+}
+
+void qca_pop_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  pop_machine_8(m);
+  pop_machine_8(m);
+  pop_machine_8(m);
+  pop_machine_8(m);
+  pop_machine_8(m);
+  pop_machine_8(m);
+  pop_machine_8(m);
+  pop_machine_8(m);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+
+
+NOBJ_QCODE_INFO qcode_info[] =
+  {
+    { 0x09, qca_fp,           qca_ind,         qca_str_ind_con},
+    { 0x0F, qca_fp,           qca_null,        qca_str },
+    { 0x16, qca_fp,           qca_ind,         qca_str },
+    { 0x20, qca_null,         qca_null,        qca_push_qc_byte},
+    { 0x24, qca_null,         qca_null,        qca_str_qc_con},
+
+    { 0x79, qca_unwind_proc,  qca_null,        qca_null},
+    { 0x7A, qca_unwind_proc,  qca_push_nought, qca_null},
+    { 0x7B, qca_unwind_proc,  qca_push_zero,   qca_null},
+    { 0x7C, qca_unwind_proc,  qca_push_null,   qca_null},
+    { 0x7D, qca_push_proc,    qca_push_null,   qca_null},
+    { 0x81, qca_ass_str,      qca_null,        qca_null},
+    { 0x84, qca_pop_num,      qca_null,        qca_null},
+  };
+
+#define SIZEOF_QCODE_INFO (sizeof(qcode_info)/sizeof(NOBJ_QCODE_INFO))
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Execute one QCode 
+//
+////////////////////////////////////////////////////////////////////////////////
+
+int execute_qcode(NOBJ_MACHINE *m)
+{
+  uint8_t    field_flag;
+  NOBJ_QCS   s;
+  int        found;
+
+  s.done = 0;
+  
+  while(!s.done)
     {
       // Get the qcode using the PC from the stack
       
-      qcode = m->stack[m->rta_pc];
+      s.qcode = m->stack[m->rta_pc];
 
-      printf("\nExecuting QCode %02X at %04X", qcode, m->rta_pc);
+      printf("\nExecuting QCode %02X at %04X", s.qcode, m->rta_pc);
       
       (m->rta_pc)++;
-      switch(qcode)
+
+      found = 0;
+
+      for(int q=0; q<SIZEOF_QCODE_INFO; q++)
 	{
-	case 0x09:
-	  db_qcode("QI_STR_SIM_IND");
-
-	  // Get pointer to string
-	  ind_ptr = qcode_next_16(m);
-	  printf("\nind ptr:%04X", ind_ptr);
-	    
-	  // Add to FP
-	  ind_ptr += m->rta_fp;
-
-	  printf("\nIND Addr: %04X", ind_ptr);
-	  
-	  // Then that address has the address
-	  ind_ptr = stack_entry_16(m, ind_ptr);
-
-	  // Now stack the string
-	  len = stack_entry_8(m, ind_ptr++);
-
-	  for(i=0; i<len; i++)
+	  if( s.qcode == qcode_info[q].qcode )
 	    {
-	      str[i] = stack_entry_8(m, ind_ptr++);
-	    }
-
-	  str[i] = '\0';
-	  
-	  push_machine_string(m, len, str);
-		  
-	  break;
-
-	case 0x0F:
-	case 0x16:
-	  db_qcode("QI_LS_STR_SIM_IND");
-	  
-	  //
-	  // Get pointer to string
-	  ind_ptr = qcode_next_16(m);
-	  printf("\nind ptr:%04X", ind_ptr);
-	    
-	  // Add to FP
-	  ind_ptr += m->rta_fp;
-
-	  printf("\nIND Addr: %04X", ind_ptr);
-
-	  // Indirect?
-	  if( qcode == 0x16 )
-	    {
-	      // Then that address has the address
-	      ind_ptr = stack_entry_16(m, ind_ptr);
-	    }
-	  
-	  // Get the maximum size
-	  max_sz = m->stack[ind_ptr-1];
-
-	  // Push string max length
-	  push_machine_8(m, max_sz);
-
-	  // Push address of string
-	  push_machine_16(m, ind_ptr);
-
-	  // Push field flag
-	  push_machine_8(m, 0);
-	  break;
-
-	case 0x20:
-	  db_qcode("QI_STK_LIT_BYTE");
-	  
-	  data8 = qcode_next_8(m);
-	  push_machine_8(m, data8);
-	  
-	  break;
-
-	case 0x24:
-	  db_qcode("QI_STR_CON");
-	  
-	  // Get string from qcodes and push onto stack
-	  len = qcode_next_8(m);
-
-	  printf("\n  Len:%d", len);
-
-	  for(i=0; i<len; i++)
-	    {
-	     str[i] = qcode_next_8(m);
-	    }
-	  
-	  str[i] = '\0';
-	  
-	  push_machine_string(m, len, str);
-	  break;
-
-	case 0x79:
-	  db_qcode("QCO_RETURN");
-	  break;
-
-	case 0x7A:
-	  db_qcode("QCO_RETURN_NULL");
-	  break;
-	  
-	case 0x7B:
-	  db_qcode("QCO_RETURN_ZERO");
-
-	  // Dump stack for debug
-	  printf("\n==============================================Unwind============================");
-	  display_machine(m);
-	  
-	  // Unwind the procedure (remove it from the stack), then
-	  // stack a zero floating point value
-	  uint16_t last_fp;
-
-	  last_fp = stack_entry_16(m, (m->rta_fp)+FP_OFF_NEXT_FP);
-
-	  if( last_fp == 0 )
-	    {
-	      // There is not a previous procedure top return to
-	      // Ignore PC and FP, set the stack to empty
-	      init_sp(m, 0x3F00);       // For full example 4
-
-	      printf("\nStack reset");
-	    }
-	  else
-	    {
-	      // There is a previous procedure to return to
-	      
-	      // To unwind the stack, set SP to the previous frame base SP
-	      m->rta_sp = stack_entry_16(m, last_fp+FP_OFF_BASE_SP);
-	      
-	      // Set PC to return PC address
-	      m->rta_pc = stack_entry_16(m, (m->rta_fp)+FP_OFF_RETURN_PC);
-	    }
-	  
-	  // Set FP to last FP
-	  // If zero then this signals the end of the execution
-	  
-	  m->rta_fp = last_fp;
-	  
-	  // Now push a zero
-	  push_machine_8(m, 0);
-	  push_machine_8(m, 0);
-	  push_machine_8(m, 0);
-	  push_machine_8(m, 0);
-	  push_machine_8(m, 0);
-	  push_machine_8(m, 0);
-	  push_machine_8(m, 0);
-	  push_machine_8(m, 0);
-	  
-	  break;
-	  
-	case 0x7C:
-	  db_qcode("QCO_RETURN_NULL");
-	  break;
-	  
-	case 0x7D:
-	  db_qcode("QCO_PROC");
-	  
-	  // Get proc name
-	  len = qcode_next_8(m);
-	  //push_machine_8(m, len);
-
-	  printf("\n  Len:%d", len);
-
-	  for(i=0; i<len; i++)
-	    {
-	      str[i] = qcode_next_8(m);
-	    }
-
-	  str[i] = '\0';
-	  strcpy(procpath, "A:");
-	  strcat(procpath, str);
-	  
-	  strcat(str, ".OB3");
-
-	  
-	  // We have the name, open the file
-	  debug("\nLoading PROC %s", str);
-	  
-	  // Load the procedure file
-	  fp = fopen(str, "r");
-	  
-	  if( fp == NULL )
-	    {
-	      printf("\nCannot open '%s'", str);
-	      exit(-1);
-	    }
-	  
-	  printf("\nLoaded '%s'", str);
-	  
-	  // Discard header
-	  read_ob3_header(fp);
-	  
-	  // Initialise the machine
-	  //init_machine(&machine);
-	  
-	  // Put some parameters on the stack for our test code
-	  //push_parameters(m);
-	  
-	  // Push proc onto stack
-	  push_proc(fp, m, procpath, 0);
-
-	  fclose(fp);
-	  
-	  break;
-
-	case 0x81:
-	  db_qcode("QCO_ASS_STR");
-
-	  // Drop string
-	  pop_machine_string(m, &len, str);
-
-	  // Check for field
-	  field_flag = pop_machine_8(m);
-	  
-	  // Drop string reference
-	  str_addr = pop_machine_16(m);
-	  max_sz = pop_machine_8(m);
-	  
-	  
-	  // Assign
-	  if( field_flag )
-	    {
-	    }
-	  else
-	    {
-	      // Assign string to variable
-	      // We are pointing at length byte of string
-	      // Check lengths
-	      if( len <= max_sz )
+	      // Perform actions
+	      for(int a=0; a<NOBJ_QC_NUM_ACTIONS; a++)
 		{
-		  // All OK
-		  // Copy data
-
-		  // We copy the length with the data
-		  for(i=0; i<len+1; i++)
-		    {
-		      m->stack[str_addr+i] = str[i];
-		    }
-
-		  // No need to zero the remaining space
-		 
+		  qcode_info[q].action[a](m, &s);
 		}
-	      else
-		{
-		  printf("\n*** String too big. Len %d but variable max is %d", len, max_sz);
-		}
+	      found = 1;
+	      break;
 	    }
-	  
-	  break;
+	}
 
-	case 0x84:
-	  db_qcode("QCO_DROP_NUM");
-
-	  pop_machine_8(m);
-	  pop_machine_8(m);
-	  pop_machine_8(m);
-	  pop_machine_8(m);
-	  pop_machine_8(m);
-	  pop_machine_8(m);
-	  pop_machine_8(m);
-	  pop_machine_8(m);
-	  
-	  break;
-	  
-	default:
-	  done = 1;
-	  break;
-	  
+      if( !found )
+	{
+	  s.done = 1;
 	}
 
       if ( m->rta_fp == 0 )

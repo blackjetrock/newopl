@@ -1,0 +1,30 @@
+
+2520 3a47 4554 0000 0000 0983 4441 5953
+3120 2020 0002 8000 b800 3a00 0800 2d00
+0000 0000 0000 0000 59b2 0dff fc22 000e
+2200 06
+22 07a5
+dd       INT_SIM_IND
+87
+7f
+0d fffa   LS_INT_SIM_FP
+8c        DAY
+9a        MONTH
+a1        YEAR
+dd        ????
+87        NUM_TO_INT
+7f        ASS_INT
+0d fff8
+00 fffa
+00 fffc   INT_SIM_FP
+2e        SUB_INT
+7f        ASS_INT
+00 fff8   INT_SIM_FP
+6f        PRINT_INT
+73        PRINT
+91        GET
+83        DROP_WORD
+7b        RETURN
+
+00 7a64 6179 7331 3a00 4c4f
+4341 4c20 6269 7274 6825 2c6e 6f77 252c

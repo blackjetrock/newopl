@@ -1,0 +1,7 @@
+days1:
+LOCAL birth%,now%,answer%
+birth%=DAYS(14,6,1957)
+now%=DAYS(DAY,MONTH,YEAR)
+answer%=now%-birth%
+PRINT answer% :GET
+
