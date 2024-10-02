@@ -3,6 +3,8 @@
 // This is backwards compatible with QCode where possible.
 //
 
+#define NOPL_MAX_TOKEN           80
+
 typedef uint8_t NOBJ_PARAMETER_TYPE;
 typedef uint16_t NOBJ_INT;
 
