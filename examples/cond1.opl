@@ -1,0 +1,50 @@
+cond1:
+LOCAL g%
+LOCAL a%, b
+
+a%=10
+DO
+ PRINT "A=";a%
+ a%=a%-1
+UNTIL a%=0
+
+a=4.1
+b=2.7
+WHILE a>b
+ PRINT "a is greater than b"
+ b=b+1.04
+ENDWH
+
+GOTO exit::
+PRINT "MISS THIS LINE"
+PRINT "AND THIS ONE"
+exit::
+
+
+
+g%=GET
+PRINT "THAT KEY IS"
+IF g%>64 AND g%<91
+ PRINT "UPPER CASE"
+ELSEIF g%>96 AND g%<123
+ PRINT "lower case"
+ELSE
+ PRINT "NOT A LETTER."
+ENDIF
+GET
+
+IF salary<expenses
+ PRINT "bad"
+ELSEIF salary>expenses
+ PRINT "good"
+ENDIF
+
+ONERR noprint::
+LPRINT "Dear Sir"
+RETURN
+noprint::
+ONERR OFF :IF ERR=194 :RAISE ERR :ENDIF
+PRINT "CONNECT PRINTER"
+GET
+
+
