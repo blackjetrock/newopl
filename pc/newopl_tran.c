@@ -373,7 +373,7 @@ void process_token(char *token)
 	  output_operator(o2);
 	}
       
-      op_stack_push(o1);
+      op_stack_push(tokptr);
     }
   
   if( token_is_float(token) )
