@@ -1,0 +1,117 @@
+
+(output_variable) a%
+(output_float) 10
+(output_operator) =
+(output_variable) DO
+(output_variable) "A="
+(output_variable) ;
+(output_variable) a%
+(output_operator) PRINT
+(output_variable) a%
+(output_variable) a%
+(output_float) 1
+(output_operator) -
+(output_operator) =
+(output_variable) UNTIL
+(output_variable) a%
+(output_float) 0
+(output_operator) =
+(output_variable) a
+(output_variable) 4.1
+(output_operator) =
+(output_variable) b
+(output_variable) 2.7
+(output_operator) =
+(output_variable) WHILE
+(output_variable) a
+(output_variable) >
+(output_variable) b
+(output_variable) "a is greater than b"
+(output_operator) PRINT
+(output_variable) b
+(output_variable) b
+(output_variable) 1.04
+(output_operator) +
+(output_operator) =
+(output_variable) ENDWH
+(output_variable) exit
+(output_variable) :
+(output_variable) :
+(output_operator) GOTO
+(output_variable) "MISS   THIS  LINE"
+(output_operator) PRINT
+(output_variable) "AND THIS         ONE"
+(output_operator) PRINT
+(output_variable) exit
+(output_variable) :
+(output_variable) :
+(output_variable) g%
+(output_variable) GET
+(output_operator) =
+(output_variable) "THAT KEY IS"
+(output_operator) PRINT
+(output_variable) IF
+(output_variable) g%
+(output_variable) >
+(output_float) 64
+(output_variable) AND
+(output_variable) g%
+(output_variable) <
+(output_float) 91
+(output_variable) "UPPER CASE"
+(output_operator) PRINT
+(output_variable) ELSEIF
+(output_variable) g%
+(output_variable) >
+(output_float) 96
+(output_variable) AND
+(output_variable) g%
+(output_variable) <
+(output_float) 123
+(output_variable) "lower case"
+(output_operator) PRINT
+(output_variable) ELSE
+(output_variable) "NOT A LETTER."
+(output_operator) PRINT
+(output_variable) ENDIF
+(output_variable) GET
+(output_variable) IF
+(output_variable) salary
+(output_variable) <
+(output_variable) expenses
+(output_variable) "bad"
+(output_operator) PRINT
+(output_variable) ELSEIF
+(output_variable) salary
+(output_variable) >
+(output_variable) expenses
+(output_variable) "good"
+(output_operator) PRINT
+(output_variable) ENDIF
+(output_variable) ONERR
+(output_variable) noprint
+(output_variable) :
+(output_variable) :
+(output_variable) LPRINT
+(output_variable) "Dear Sir"
+(output_variable) RETURN
+(output_variable) noprint
+(output_variable) :
+(output_variable) :
+(output_variable) ONERR
+(output_variable) OFF
+(output_variable) :
+(output_variable) IF
+(output_variable) ERR
+(output_float) 194
+(output_variable) :
+(output_variable) RAISE
+(output_variable) ERR
+(output_variable) :
+(output_variable) ENDIF
+(output_operator) =
+(output_variable) "CONNECT        PRINTER"
+(output_operator) PRINT
+(output_variable) GET
+
+Operator Stack
