@@ -4,6 +4,7 @@
 //
 
 #define NOPL_MAX_TOKEN           80
+#define NOPL_MAX_OP_STACK        50
 
 typedef uint8_t NOBJ_PARAMETER_TYPE;
 typedef uint16_t NOBJ_INT;

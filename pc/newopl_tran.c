@@ -1,8 +1,12 @@
+////////////////////////////////////////////////////////////////////////////////
+//
 // NewOPL Translater
-
+//
 // Translates NewOPL to byte code.
-
+//
 // Processes files: reads file, translates it and writes bytecode file.
+//
+////////////////////////////////////////////////////////////////////////////////
 
 #include <ctype.h>
 #include <stdio.h>
@@ -42,8 +46,16 @@
 //
 // (),:
 //
-
+//
 // 1 when line defines the procedure (i.e. the first line)
+//
+////////////////////////////////////////////////////////////////////////////////
+
+int token_is_operator(char *token, char **tokstr);
+int token_is_function(char *token, char **tokstr);
+
+
+
 int defline = 1;
 
 int token_is_float(char *token)
@@ -80,20 +92,365 @@ int token_is_integer(char *token)
   return(all_digits);
 }
 
+// Variable if it ends in $ or %
+// Variable if not a function name
+
+int token_is_variable(char *token)
+{
+  int is_var = 0;
+  char *tokptr;
+  
+  if( token_is_operator(token, &tokptr) )
+    {
+      return(0);
+    }
+
+  if( token_is_function(token, &tokptr) )
+    {
+      return(0);
+    }
+
+  char last_char = token[strlen(token)-1];
+
+  switch(last_char)
+    {
+    case '$':
+    case '%':
+      return(1);
+      break;
+    }
+  
+  return(1);
+}
+
+int token_is_string(char *token)
+{
+  return( *token == '"' );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+struct _FN_INFO
+{
+  char *name;
+}
+  fn_info[] =
+  {
+    { "SIN" },
+    { "COS" },
+    { "TAN" },
+    { "PRINT" },
+    { "EOL" },
+    { "GOTO" },
+    { "=" },
+  };
+
+#define NUM_FUNCTIONS (sizeof(fn_info)/sizeof(struct _FN_INFO))
+
+int token_is_function(char *token, char **tokstr)
+{
+  for(int i=0; i<NUM_FUNCTIONS; i++)
+    {
+      if( strcmp(token, fn_info[i].name) == 0 )
+	{
+	  *tokstr = &(fn_info[i].name[0]);
+	  
+	  printf("\n%s is function", token);
+	  return(1);
+	}
+    }
+  
+  return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+struct _OP_INFO
+{
+  char *name;
+  int  precedence;
+  int left_assoc;
+}
+  op_info[] =
+  {
+    { "+", 3, 0},
+    { "-", 3, 0},
+    { "*", 5, 1},
+    { "/", 5, 1},
+    { ",", 0, 0 },
+  };
+
+#define NUM_OPERATORS (sizeof(op_info)/sizeof(struct _OP_INFO))
+
+// tokstr is a constant string that we use in the operator stack
+// to minimise memory usage.
+
+int token_is_operator(char *token, char **tokstr)
+{
+  for(int i=0; i<NUM_OPERATORS; i++)
+    {
+      if( strcmp(token, op_info[i].name) == 0 )
+	{
+	  *tokstr = &(op_info[i].name[0]);
+	  
+	  printf("\n%s is operator", token);
+	  return(1);
+	}
+    }
+  
+  return(0);
+}
+
+int operator_precedence(char *token)
+{
+  for(int i=0; i<NUM_OPERATORS; i++)
+    {
+      if( strcmp(token, op_info[i].name) == 0 )
+	{
+	  printf("\n%s is operator", token);
+	  return(op_info[i].precedence);
+	}
+    }
+  
+  return(0);
+}
+
+int operator_left_assoc(char *token)
+{
+  for(int i=0; i<NUM_OPERATORS; i++)
+    {
+      if( strcmp(token, op_info[i].name) == 0 )
+	{
+	  printf("\n%s is operator", token);
+	  return(op_info[i].left_assoc);
+	}
+    }
+  
+  return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+FILE *ofp;
+
+void output_float(char *token)
+{
+  fprintf(ofp, "\n(%s) %s", __FUNCTION__, token);
+}
+
+void output_integer(char *token)
+{
+  fprintf(ofp, "\n(%s) %s", __FUNCTION__, token);
+}
+
+void output_operator(char *op)
+{
+  fprintf(ofp, "\n(%s) %s", __FUNCTION__, op);
+}
+
+void output_variable(char *op)
+{
+  fprintf(ofp, "\n(%s) %s", __FUNCTION__, op);
+}
+
+void output_string(char *op)
+{
+  fprintf(ofp, "\n(%s) %s", __FUNCTION__, op);
+}
+
+
+// Stack function in operator stack
+char *op_stack[NOPL_MAX_OP_STACK+1];
+int op_stack_ptr = 0;
+
+void op_stack_push(char *token)
+{
+  printf("\n Push:'%s'", token);
+  
+  if( op_stack_ptr < NOPL_MAX_OP_STACK )
+    {
+      op_stack[op_stack_ptr++] = token;
+    }
+  else
+    {
+      printf("\n%s: Operator stack full", __FUNCTION__);
+      exit(-1);
+    }
+}
+
+// Copies data into string
+
+void op_stack_pop(char **token)
+{
+  if( op_stack_ptr == 0 )
+    {
+      printf("\n%s: Operator stack empty", __FUNCTION__);
+      exit(-1);
+    }
+  
+  op_stack_ptr --;
+
+  *token = op_stack[op_stack_ptr];
+  printf("\nPop '%s'", *token);
+}
+
+// Return a pointer to the top entry of the stack, empty string if empty
+char *op_stack_top(void)
+{
+  if( op_stack_ptr == 0 )
+    {
+      return("");
+    }
+
+  return( op_stack[op_stack_ptr-1] );
+}
+
+void op_stack_display(void)
+{
+  char *s;
+  
+  fprintf(ofp, "\n\nOperator Stack\n");
+  
+  for(int i=0; i<op_stack_ptr-1; i++)
+    {
+      s = op_stack[i];
+      fprintf(ofp, "\n%03d: %s", i, s);
+    }
+}
+
+// End of shunting algorithm, fush the stack
+
+void op_stack_finalise(void)
+{
+  char *o;
+  
+  while( strlen(op_stack_top()) != 0 )
+    {
+      op_stack_pop(&o);
+      output_operator(o);
+    }
+}
+
+void init_output(void)
+{
+  ofp = fopen("output.txt", "w");
+}
+
+void uninit_output(void)
+{
+  op_stack_display();
+  fclose(ofp);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 void process_token(char *token)
 {
+  char *tokptr;
+  char *o1, *o2;
+  int opr1, opr2;
+  
+  printf("\n   T:'%s'", token);
+
+  o1 = token;
+  
   // Another token has arrived, process it using the shunting algorithm
+  // First, check the stack for work to do
+
+  o2 = op_stack_top();
+  opr1 = operator_precedence(o1);
+  opr2 = operator_precedence(o2);
+  
+  if( token_is_operator(token, &(tokptr)) )
+    {
+      while( ( strcmp(o2, ")") != 0 ) &&
+	     ( (opr2 > opr1) || ((opr1 == opr2) && operator_left_assoc(o1)))
+	     )
+	{
+	  printf("\nPop 1");
+	  
+	  op_stack_pop(&o2);
+	  output_operator(o2);
+	}
+      
+      op_stack_push(o1);
+    }
+  
   if( token_is_float(token) )
     {
+      output_float(token);
+      return;
     }
 
   if( token_is_integer(token) )
     {
+      output_integer(token);
+      return;
     }
 
-  printf("\n   T:'%s'", token);
+  if( token_is_variable(token) )
+    {
+      output_variable(token);
+      return;
+    }
+
+  if( token_is_string(token) )
+    {
+      output_string(token);
+      return;
+    }
+  
+  if( token_is_function(token, &tokptr) )
+    {
+      op_stack_push(tokptr);
+      return;
+    }
+
+  if( strcmp(token, ",")==0 )
+    {
+      while( strcmp(op_stack_top(), ")") != 0 )
+	{
+	  printf("\nPop 2");
+	  op_stack_pop(&o2);
+	  output_operator(o2);
+	}
+    }
+
+  if( strcmp(token, "(")==0 )
+    {
+      op_stack_push("(");
+    }
+
+  if( strcmp(token, ")")==0 )
+    {
+      while(  (strcmp(op_stack_top(), "(") != 0) && (strlen(op_stack_top())!=0) )
+	{
+	  printf("\nPop 3");
+	  op_stack_pop(&o2);
+	  output_operator(o2);
+	}
+
+      if( strlen(op_stack_top())==0 )
+	{
+	  // Mismatched parentheses
+	  printf("\nMismatched parentheses");
+	}
+
+      printf("\nPop 4");
+      op_stack_pop(&o2);
+
+      if( strcmp(o2, "(") != 0 )
+	{
+	  printf("\n**** Should be left parenthesis");
+	}
+
+      if( token_is_function(op_stack_top(), &tokptr) )
+	{
+	  printf("\nPop 5");
+	  op_stack_pop(&o2);
+	  output_operator(o2);
+	}
+    }
 }
 
 int is_op_delimiter(char ch)
@@ -163,13 +520,13 @@ void process_expression(char *line)
   
   if( strstr(line, "GLOBAL") != NULL )
     {
-      printf("\n%s", line);
+      printf("\n>>>%s", line);
       return;
     }
 
   if( strstr(line, "LOCAL") != NULL )
     {
-      printf("\n%s", line);
+      printf("\n>>>%s", line);
       return;
     }
   
@@ -220,7 +577,6 @@ void process_expression(char *line)
       
       if( (*line) == '\"' )
 	{
-	  printf("\nstr");
 	  if( capture_string )
 	    {
 	      // End of string
@@ -271,6 +627,9 @@ void process_expression(char *line)
 	  end_cap_later = 0;
 	}
     }
+
+  // Now finalise the translation
+  op_stack_finalise();
 }
 
 void process_line(char *line)
@@ -315,7 +674,7 @@ void translate_file(FILE *fp, FILE *ofp)
 	{
 	  // Process line
 	  process_line(line);
-	  process_token("EOL");
+	  //process_token("EOL");
 	}
     }
 }
@@ -325,6 +684,8 @@ int main(int argc, char *argv[])
 {
   FILE *fp;
   FILE *ofp;
+
+  init_output();
   
   // Open file and process on a line by line basis
   fp = fopen(argv[1], "r");
@@ -341,5 +702,10 @@ int main(int argc, char *argv[])
 
   fclose(fp);
   fclose(ofp);
+
+  uninit_output();
+
+  printf("\n");
+  
 }
 
