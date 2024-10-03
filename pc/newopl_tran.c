@@ -230,6 +230,106 @@ int operator_left_assoc(char *token)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// QCode output stream
+//
+//
+//
+// The text based tokens from the output stream are converted here to the final
+// qcodes
+//
+// Most codes are translated directly
+// Variable offsets have to be inserted instea dof variable names.
+// Tables of variables are maintained
+//
+//
+//
+// Fixed size tables for variables
+//
+
+typedef struct _VAR_INFO
+{
+  char *name;
+  NOBJ_VAR_TYPE type;
+  uint16_t offset;    // Offset from FP
+} VAR_INFO;
+
+VAR_INFO local_info[NOPL_MAX_LOCAL];
+VAR_INFO global_info[NOPL_MAX_GLOBAL];
+
+int local_info_index  = 0;
+int global_info_index = 0;
+
+void output_qcode(char *token)
+{
+  
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Name parsing
+//
+
+char *gns_ptr;
+
+void init_get_name(char *s)
+{
+  gns_ptr = s;
+
+  // Skip leading spaces
+  while( ((*gns_ptr) != '\0') && isspace(*gns_ptr) )
+    {
+      gns_ptr++;
+    }
+}
+
+
+char *get_name(char *n, VAR_TYPE *t)
+{
+  while (*gns_ptr != '\0')
+    {
+      switch(*gns_ptr)
+	{
+	case '$':
+	  *t = NOBJ_VARTYPE_STRING;
+	  break;
+
+	case '%':
+	  *t = NOBJ_VARTYPE_INT;
+	  break;
+	  
+	case ',':
+	  break;
+	}
+    }
+}
+
+void output_qcode_variable(char *def)
+{
+  char vname[NOBJ_VARNAME_MAXLEN];
+  NOBJ_VAR_TYPE type;
+  
+  printf("\n%s: %s", __FUNCTION__, def);
+
+  if( strstr(def, "GLOBAL") != NULL )
+    {
+      // Get variable names
+      init_get_name(def);
+
+      while( get_name(vname) )
+	{
+	  
+	}
+    }
+
+  if( strstr(def, "LOCAL") != NULL )
+    {
+    }
+
+  
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 FILE *ofp;
 
@@ -258,6 +358,7 @@ void output_string(char *op)
   fprintf(ofp, "\n(%s) %s", __FUNCTION__, op);
 }
 
+////////////////////////////////////////////////////////////////////////////////
 
 // Stack function in operator stack
 char *op_stack[NOPL_MAX_OP_STACK+1];
@@ -520,13 +621,13 @@ void process_expression(char *line)
   
   if( strstr(line, "GLOBAL") != NULL )
     {
-      printf("\n>>>%s", line);
+      output_qcode_variable(line);
       return;
     }
 
   if( strstr(line, "LOCAL") != NULL )
     {
-      printf("\n>>>%s", line);
+      output_qcode_variable(line);
       return;
     }
   

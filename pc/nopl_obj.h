@@ -5,6 +5,15 @@
 
 #define NOPL_MAX_TOKEN           80
 #define NOPL_MAX_OP_STACK        50
+#define NOPL_MAX_LOCAL           16
+#define NOPL_MAX_GLOBAL          16
+
+typedef enum
+  {
+    NOBJ_INT = 2,
+    NOBJ_FLOAT,
+    NOBJ_STRING,
+  } NOBJ_VAR_TYPE;
 
 typedef uint8_t NOBJ_PARAMETER_TYPE;
 typedef uint16_t NOBJ_INT;
