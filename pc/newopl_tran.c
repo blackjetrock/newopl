@@ -646,9 +646,12 @@ void process_token(char *token)
   
   if( token_is_operator(o1.name, &(tokptr)) )
     {
-      while( ( strcmp(o2.name, ")") != 0 ) &&
+      printf("\nToken is operator o1 name:%s o2 name:%s", o1.name, o2.name);
+      printf("\nopr1:%d opr2:%d", opr1, opr2);
+      
+      while( (strlen(op_stack_top().name) != 0) && (strcmp(o2.name, ")") != 0 ) &&
 	     ( (opr2 > opr1) || ((opr1 == opr2) && operator_left_assoc(o1.name)))
-	     )
+	       )
 	{
 	  printf("\nPop 1");
 	  
