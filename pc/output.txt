@@ -2,14 +2,17 @@
 ( output_variable) f A
 ( output_variable) f 1.5
 ( output_operator) f =
+
 ( output_variable) f B
 ( output_variable) f 2.5
 ( output_operator) f =
+
 ( output_variable) i Y%
 (    output_float) i 10
 ( output_variable) f 1.5
 ( output_operator) i *
 ( output_operator) i =
+
 ( output_variable) i Y%
 ( output_operator) U PRINT
 ( output_variable) i X%
