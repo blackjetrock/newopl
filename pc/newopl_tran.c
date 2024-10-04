@@ -53,7 +53,21 @@
 
 int token_is_operator(char *token, char **tokstr);
 int token_is_function(char *token, char **tokstr);
+void modify_expression_type(NOBJ_VARTYPE t);
+void op_stack_display(void);
+void op_stack_print(void);
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// Expression type is reset for each line and also for sub-lines separated by colons
+//
+// This is a global to avoid passing it down to every function in the translate call stack.
+// If translating is ever to be a parallel process then that will have to change.
+
+NOBJ_VARTYPE expression_type = NOBJ_VARTYPE_UNKNOWN;
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 
 int defline = 1;
@@ -267,41 +281,68 @@ void output_qcode(char *token)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Name parsing
+// Variable name parsing
+//
+// The type of the variable is determined.
 //
 
 char *gns_ptr;
+char gn_str[NOBJ_VARNAME_MAXLEN];
 
 void init_get_name(char *s)
 {
   gns_ptr = s;
-
+  printf("\n%s:'%s'", __FUNCTION__, gns_ptr);
+  
   // Skip leading spaces
   while( ((*gns_ptr) != '\0') && isspace(*gns_ptr) )
     {
       gns_ptr++;
     }
+
+  printf("\n%s:'%s'", __FUNCTION__, gns_ptr);
 }
 
 
 char *get_name(char *n, NOBJ_VARTYPE *t)
 {
+  int i = 0;
+  
   while (*gns_ptr != '\0')
     {
+      gn_str[i++] = *gns_ptr;
       switch(*gns_ptr)
 	{
 	case '$':
 	  *t = NOBJ_VARTYPE_STR;
+	  gn_str[i] = '\0';
+	  printf("\n%s:gn:'%s'", __FUNCTION__, gn_str);
+	  return(gn_str);
 	  break;
 
 	case '%':
+
 	  *t = NOBJ_VARTYPE_INT;
+	  gn_str[i] = '\0';
+	  printf("\n%s:gn:'%s'", __FUNCTION__, gn_str);
+	  return(gn_str);
 	  break;
 	  
 	case ',':
 	  break;
+
+	default:
+	  
+	  break;
 	}
+
+      gns_ptr++;
     }
+
+  gn_str[i] = '\0';
+  printf("\n%s:gn:'%s'", __FUNCTION__, gn_str);
+  *t = NOBJ_VARTYPE_FLT;
+  return(gn_str);
 }
 
 void output_qcode_variable(char *def)
@@ -316,9 +357,10 @@ void output_qcode_variable(char *def)
       // Get variable names
       init_get_name(def);
 
-      while( get_name(vname, &type) )
+      if( get_name(vname, &type) )
 	{
-	  
+	  modify_expression_type(type);
+	  type = expression_type;
 	}
     }
 
@@ -331,31 +373,138 @@ void output_qcode_variable(char *def)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+char type_to_char(NOBJ_VARTYPE t)
+{
+  char c;
+  
+  switch(t)
+    {
+    case NOBJ_VARTYPE_INT:
+      c = 'i';
+      break;
+
+    case NOBJ_VARTYPE_FLT:
+      c = 'f';
+      break;
+
+    case NOBJ_VARTYPE_STR:
+      c = 's';
+      break;
+
+    case NOBJ_VARTYPE_INTARY:
+      c = 'I';
+      break;
+
+    case NOBJ_VARTYPE_FLTARY:
+      c = 'F';
+      break;
+
+    case NOBJ_VARTYPE_STRARY:
+      c = 'S';
+      break;
+
+    case NOBJ_VARTYPE_UNKNOWN:
+      c = 'U';
+      break;
+      
+    default:
+      c = '?';
+      break;
+    }
+  
+  return(c);
+}
+
+//------------------------------------------------------------------------------
+//
+// A new variable has appeared in an expression. Modify the expression based on
+// this new type.
+//
+//
+
+void modify_expression_type(NOBJ_VARTYPE t)
+{
+  switch(expression_type)
+    {
+    case NOBJ_VARTYPE_UNKNOWN:
+      expression_type = t;
+      break;
+
+    case NOBJ_VARTYPE_INT:
+      switch(t)
+	{
+	case NOBJ_VARTYPE_INT:
+	  break;
+	  
+	case NOBJ_VARTYPE_FLT:
+	  // Move to float type
+	  expression_type = t;
+	  break;
+
+	case NOBJ_VARTYPE_STR:
+	  // Syntax error
+	  break;
+	}
+      break;
+
+    case NOBJ_VARTYPE_FLT:
+      switch(t)
+	{
+	case NOBJ_VARTYPE_INT:
+	  // Type conversion
+	  break;
+	  
+	case NOBJ_VARTYPE_FLT:
+	  break;
+
+	case NOBJ_VARTYPE_STR:
+	  // Syntax error
+	  break;
+	}
+      break;
+
+    case NOBJ_VARTYPE_STR:
+      switch(t)
+	{
+	case NOBJ_VARTYPE_INT:
+	case NOBJ_VARTYPE_FLT:
+	  // Syntax error
+	  break;
+
+	case NOBJ_VARTYPE_STR:
+	  break;
+	}
+      break;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 FILE *ofp;
 
 void output_float(OP_STACK_ENTRY token)
 {
-  fprintf(ofp, "\n(%s) %s", __FUNCTION__, token.name);
+  fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(token.type), token.name);
 }
 
 void output_integer(OP_STACK_ENTRY token)
 {
-  fprintf(ofp, "\n(%s) %s", __FUNCTION__, token.name);
+  fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(token.type), token.name);
 }
 
 void output_operator(OP_STACK_ENTRY op)
 {
-  fprintf(ofp, "\n(%s) %s", __FUNCTION__, op.name);
+  fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(op.type), op.name);
 }
 
 void output_variable(OP_STACK_ENTRY op)
 {
-  fprintf(ofp, "\n(%s) %s", __FUNCTION__, op.name);
+  fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(op.type), op.name);
 }
 
 void output_string(OP_STACK_ENTRY op)
 {
-  fprintf(ofp, "\n(%s) %s", __FUNCTION__, op.name);
+  fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(op.type), op.name);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -370,6 +519,7 @@ int op_stack_ptr = 0;
 void op_stack_push(OP_STACK_ENTRY entry)
 {
   printf("\n Push:'%s'", entry.name);
+
   
   if( op_stack_ptr < NOPL_MAX_OP_STACK )
     {
@@ -380,6 +530,8 @@ void op_stack_push(OP_STACK_ENTRY entry)
       printf("\n%s: Operator stack full", __FUNCTION__);
       exit(-1);
     }
+    op_stack_print();
+
 }
 
 // Copies data into string
@@ -398,7 +550,7 @@ OP_STACK_ENTRY op_stack_pop(void)
 
   o = op_stack[op_stack_ptr];
   printf("\nPop '%s'", o.name);
-
+  op_stack_print();
   return(o);
 }
 
@@ -429,6 +581,22 @@ void op_stack_display(void)
       s = op_stack[i].name;
       fprintf(ofp, "\n%03d: %s type:%d", i, s, op_stack[i].type);
     }
+}
+
+void op_stack_print(void)
+{
+  char *s;
+
+  printf("\n------------------");
+  printf("\nOperator Stack     (%d)\n", op_stack_ptr);
+  
+  for(int i=0; i<op_stack_ptr; i++)
+    {
+      s = op_stack[i].name;
+      printf("\n%03d: %s type:%d", i, s, op_stack[i].type);
+    }
+
+  printf("\n------------------\n");
 }
 
 // End of shunting algorithm, flush the stack
@@ -467,7 +635,7 @@ void process_token(char *token)
   printf("\n   T:'%s'", token);
 
   o1.name = token;
-  o1.type = NOBJ_VARTYPE_UNKNOWN;
+  o1.type = expression_type;
   
   // Another token has arrived, process it using the shunting algorithm
   // First, check the stack for work to do
@@ -507,6 +675,29 @@ void process_token(char *token)
 
   if( token_is_variable(o1.name) )
     {
+      NOBJ_VARTYPE type, new_type;
+
+      // Get variable names
+      init_get_name(o1.name);
+
+      if( get_name(o1.name, &type) )
+	{
+	  // Valid variable name
+	  // Perform type checking. We need to be sure that this is a
+	  // valid type (e.g. A% = B$ is invalid) and also the expression type
+	  // may need to change (e.g.  A% + 10 * B needs to be type FLT for the * and a
+	  // type conversion token needs to be inserted.
+	  modify_expression_type(type);
+
+	  o1.type = expression_type;
+	}
+      else
+	{
+	  // Syntax error
+	}
+      
+      // The type of the variable will affect the expression type
+      
       output_variable(o1);
       return;
     }
@@ -520,7 +711,7 @@ void process_token(char *token)
   if( token_is_function(o1.name, &tokptr) )
     {
       o1.name = tokptr;
-      o1.type = NOBJ_VARTYPE_UNKNOWN;
+      o1.type = expression_type;
       op_stack_push(o1);
       return;
     }
@@ -533,6 +724,8 @@ void process_token(char *token)
 	  o2 = op_stack_pop();
 	  output_operator(o2);
 	}
+
+      expression_type = NOBJ_VARTYPE_UNKNOWN;
     }
 
   if( strcmp(o1.name, "(")==0 )
@@ -632,6 +825,11 @@ int is_delimiter(char ch)
   
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+
 void process_expression(char *line)
 {
   char token[NOPL_MAX_TOKEN+1];
@@ -641,6 +839,9 @@ void process_expression(char *line)
   int capture_string = 0;
   char ss[2];
   int end_cap_later = 0;
+
+  // The type of an expression is initially unknown
+  expression_type = NOBJ_VARTYPE_UNKNOWN;
   
   if( strstr(line, "GLOBAL") != NULL )
     {

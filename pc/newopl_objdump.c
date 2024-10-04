@@ -337,6 +337,45 @@ int qc_byte_len_fn_S(int i, NOBJ_QCODE *qc)
   return(qc_len+1);
 }
 
+// Compact floating point form
+
+char *qc_byte_prt_fn_F(int i, NOBJ_QCODE *qc)
+{
+  uint8_t first_byte;
+   int8_t exponent;
+  uint8_t sign;
+  char line[12];
+  char digits[12];
+  
+  first_byte = *(++qc);
+  qc_len = first_byte & 0x7F;
+  sign = first_byte & 0x80;
+  
+  sprintf(prt_res, "\n%04X: Len:%d\n%04X: '", i+1, *(qc++), i+2);
+
+  line[0] = '\0';
+  
+  for(int j=0; j<qc_len-1; j++)
+    {
+      sprintf(digits, "%02X", *(qc++));
+      strcat(line, digits);
+    }
+  
+  exponent = *(qc++);
+  
+  sprintf(digits, "E%d", exponent);
+  strcat(line, digits);
+
+  strcat(prt_res, line);
+  return(prt_res);
+}
+
+// Floating point compact format
+int qc_byte_len_fn_F(int i, NOBJ_QCODE *qc)
+{
+  return(qc_len+1);
+}
+
 char *null_qc_byte_prt_fn(int i, NOBJ_QCODE *qc)
 {
   return("");
@@ -356,7 +395,7 @@ QC_BYTE_CODE qc_byte_code[] =
    {"m",      null_qc_byte_fn,       null_qc_byte_prt_fn},
    {"f",      null_qc_byte_fn,       null_qc_byte_prt_fn},
    {"I",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_I},
-   {"F",      null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"F",           qc_byte_len_fn_F,      qc_byte_prt_fn_F},
    {"S",           qc_byte_len_fn_S,      qc_byte_prt_fn_S},
    {"B",      null_qc_byte_fn,       null_qc_byte_prt_fn},
    {"O",      null_qc_byte_fn,       null_qc_byte_prt_fn},

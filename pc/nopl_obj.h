@@ -135,8 +135,16 @@ typedef struct _NOBJ_MACHINE
     int rta_fp;
 } NOBJ_MACHINE;
 
-
+////////////////////////////////////////////////////////////////////////////////
 // Shunting algorithm operator stack
+// Name is the token string
+// type is the type of the expression that is being parsed, nbot this
+// entry specifically. It is determined as each expression is processed
+// For instance, it starts unknown and could then be INT, then move to FLT
+// if a decimal point is seen.
+// It is needed for tokens like '=' to be selected correctly, as there are
+// different tokens for string = and int =
+//
 
 typedef struct _OP_STACK_ENTRY
 {
