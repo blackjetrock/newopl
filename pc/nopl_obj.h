@@ -3,17 +3,21 @@
 // This is backwards compatible with QCode where possible.
 //
 
+
+
 #define NOPL_MAX_TOKEN           80
 #define NOPL_MAX_OP_STACK        50
 #define NOPL_MAX_LOCAL           16
 #define NOPL_MAX_GLOBAL          16
 
+#if 0
 typedef enum
   {
-    NOBJ_INT = 2,
-    NOBJ_FLOAT,
-    NOBJ_STRING,
+    NOBJ_TYPE_INT = 2,
+    NOBJ_TYPE_FLOAT,
+    NOBJ_TYPE_STRING,
   } NOBJ_VAR_TYPE;
+#endif
 
 typedef uint8_t NOBJ_PARAMETER_TYPE;
 typedef uint16_t NOBJ_INT;
@@ -57,12 +61,13 @@ typedef uint8_t NOBJ_VARTYPE;
 
 enum
   {
-   NOBJ_VARTYPE_INT    = 0x00,
-   NOBJ_VARTYPE_FLT    = 0x01,
-   NOBJ_VARTYPE_STR    = 0x02,
-   NOBJ_VARTYPE_INTARY = 0x03,
-   NOBJ_VARTYPE_FLTARY = 0x04,
-   NOBJ_VARTYPE_STRARY = 0x05,
+   NOBJ_VARTYPE_INT     = 0x00,
+   NOBJ_VARTYPE_FLT     = 0x01,
+   NOBJ_VARTYPE_STR     = 0x02,
+   NOBJ_VARTYPE_INTARY  = 0x03,
+   NOBJ_VARTYPE_FLTARY  = 0x04,
+   NOBJ_VARTYPE_STRARY  = 0x05,
+   NOBJ_VARTYPE_UNKNOWN = 0x10,
   };
 
 typedef uint16_t NOBJ_ADDR;
@@ -131,5 +136,10 @@ typedef struct _NOBJ_MACHINE
 } NOBJ_MACHINE;
 
 
+// Shunting algorithm operator stack
 
-
+typedef struct _OP_STACK_ENTRY
+{
+  char          *name;
+  NOBJ_VARTYPE   type;
+} OP_STACK_ENTRY;

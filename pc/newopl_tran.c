@@ -250,7 +250,7 @@ int operator_left_assoc(char *token)
 typedef struct _VAR_INFO
 {
   char *name;
-  NOBJ_VAR_TYPE type;
+  NOBJ_VARTYPE type;
   uint16_t offset;    // Offset from FP
 } VAR_INFO;
 
@@ -284,14 +284,14 @@ void init_get_name(char *s)
 }
 
 
-char *get_name(char *n, VAR_TYPE *t)
+char *get_name(char *n, NOBJ_VARTYPE *t)
 {
   while (*gns_ptr != '\0')
     {
       switch(*gns_ptr)
 	{
 	case '$':
-	  *t = NOBJ_VARTYPE_STRING;
+	  *t = NOBJ_VARTYPE_STR;
 	  break;
 
 	case '%':
@@ -307,7 +307,7 @@ char *get_name(char *n, VAR_TYPE *t)
 void output_qcode_variable(char *def)
 {
   char vname[NOBJ_VARNAME_MAXLEN];
-  NOBJ_VAR_TYPE type;
+  NOBJ_VARTYPE type;
   
   printf("\n%s: %s", __FUNCTION__, def);
 
@@ -316,7 +316,7 @@ void output_qcode_variable(char *def)
       // Get variable names
       init_get_name(def);
 
-      while( get_name(vname) )
+      while( get_name(vname, &type) )
 	{
 	  
 	}
@@ -333,44 +333,47 @@ void output_qcode_variable(char *def)
 
 FILE *ofp;
 
-void output_float(char *token)
+void output_float(OP_STACK_ENTRY token)
 {
-  fprintf(ofp, "\n(%s) %s", __FUNCTION__, token);
+  fprintf(ofp, "\n(%s) %s", __FUNCTION__, token.name);
 }
 
-void output_integer(char *token)
+void output_integer(OP_STACK_ENTRY token)
 {
-  fprintf(ofp, "\n(%s) %s", __FUNCTION__, token);
+  fprintf(ofp, "\n(%s) %s", __FUNCTION__, token.name);
 }
 
-void output_operator(char *op)
+void output_operator(OP_STACK_ENTRY op)
 {
-  fprintf(ofp, "\n(%s) %s", __FUNCTION__, op);
+  fprintf(ofp, "\n(%s) %s", __FUNCTION__, op.name);
 }
 
-void output_variable(char *op)
+void output_variable(OP_STACK_ENTRY op)
 {
-  fprintf(ofp, "\n(%s) %s", __FUNCTION__, op);
+  fprintf(ofp, "\n(%s) %s", __FUNCTION__, op.name);
 }
 
-void output_string(char *op)
+void output_string(OP_STACK_ENTRY op)
 {
-  fprintf(ofp, "\n(%s) %s", __FUNCTION__, op);
+  fprintf(ofp, "\n(%s) %s", __FUNCTION__, op.name);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 // Stack function in operator stack
-char *op_stack[NOPL_MAX_OP_STACK+1];
+
+
+OP_STACK_ENTRY op_stack[NOPL_MAX_OP_STACK+1];
+
 int op_stack_ptr = 0;
 
-void op_stack_push(char *token)
+void op_stack_push(OP_STACK_ENTRY entry)
 {
-  printf("\n Push:'%s'", token);
+  printf("\n Push:'%s'", entry.name);
   
   if( op_stack_ptr < NOPL_MAX_OP_STACK )
     {
-      op_stack[op_stack_ptr++] = token;
+      op_stack[op_stack_ptr++] = entry;
     }
   else
     {
@@ -381,8 +384,10 @@ void op_stack_push(char *token)
 
 // Copies data into string
 
-void op_stack_pop(char **token)
+OP_STACK_ENTRY op_stack_pop(void)
 {
+  OP_STACK_ENTRY o;
+  
   if( op_stack_ptr == 0 )
     {
       printf("\n%s: Operator stack empty", __FUNCTION__);
@@ -391,16 +396,23 @@ void op_stack_pop(char **token)
   
   op_stack_ptr --;
 
-  *token = op_stack[op_stack_ptr];
-  printf("\nPop '%s'", *token);
+  o = op_stack[op_stack_ptr];
+  printf("\nPop '%s'", o.name);
+
+  return(o);
 }
 
 // Return a pointer to the top entry of the stack, empty string if empty
-char *op_stack_top(void)
+OP_STACK_ENTRY op_stack_top(void)
 {
   if( op_stack_ptr == 0 )
     {
-      return("");
+      OP_STACK_ENTRY o;
+      
+      o.name = "";
+      o.type = NOBJ_VARTYPE_UNKNOWN;
+      
+      return(o);
     }
 
   return( op_stack[op_stack_ptr-1] );
@@ -414,20 +426,20 @@ void op_stack_display(void)
   
   for(int i=0; i<op_stack_ptr-1; i++)
     {
-      s = op_stack[i];
-      fprintf(ofp, "\n%03d: %s", i, s);
+      s = op_stack[i].name;
+      fprintf(ofp, "\n%03d: %s type:%d", i, s, op_stack[i].type);
     }
 }
 
-// End of shunting algorithm, fush the stack
+// End of shunting algorithm, flush the stack
 
 void op_stack_finalise(void)
 {
-  char *o;
+  OP_STACK_ENTRY o;
   
-  while( strlen(op_stack_top()) != 0 )
+  while( strlen(op_stack_top().name) != 0 )
     {
-      op_stack_pop(&o);
+      o = op_stack_pop();
       output_operator(o);
     }
 }
@@ -448,107 +460,118 @@ void uninit_output(void)
 void process_token(char *token)
 {
   char *tokptr;
-  char *o1, *o2;
+  OP_STACK_ENTRY o1;
+  OP_STACK_ENTRY o2;
   int opr1, opr2;
   
   printf("\n   T:'%s'", token);
 
-  o1 = token;
+  o1.name = token;
+  o1.type = NOBJ_VARTYPE_UNKNOWN;
   
   // Another token has arrived, process it using the shunting algorithm
   // First, check the stack for work to do
 
   o2 = op_stack_top();
-  opr1 = operator_precedence(o1);
-  opr2 = operator_precedence(o2);
+  opr1 = operator_precedence(o1.name);
+  opr2 = operator_precedence(o2.name);
   
-  if( token_is_operator(token, &(tokptr)) )
+  if( token_is_operator(o1.name, &(tokptr)) )
     {
-      while( ( strcmp(o2, ")") != 0 ) &&
-	     ( (opr2 > opr1) || ((opr1 == opr2) && operator_left_assoc(o1)))
+      while( ( strcmp(o2.name, ")") != 0 ) &&
+	     ( (opr2 > opr1) || ((opr1 == opr2) && operator_left_assoc(o1.name)))
 	     )
 	{
 	  printf("\nPop 1");
 	  
-	  op_stack_pop(&o2);
+	  o2 = op_stack_pop();
 	  output_operator(o2);
 	}
-      
-      op_stack_push(tokptr);
+
+      o1.name = tokptr;
+      o1.type = 0;
+      op_stack_push(o1);
     }
   
-  if( token_is_float(token) )
+  if( token_is_float(o1.name) )
     {
-      output_float(token);
+      output_float(o1);
       return;
     }
 
-  if( token_is_integer(token) )
+  if( token_is_integer(o1.name) )
     {
-      output_integer(token);
+      output_integer(o1);
       return;
     }
 
-  if( token_is_variable(token) )
+  if( token_is_variable(o1.name) )
     {
-      output_variable(token);
+      output_variable(o1);
       return;
     }
 
-  if( token_is_string(token) )
+  if( token_is_string(o1.name) )
     {
-      output_string(token);
+      output_string(o1);
       return;
     }
   
-  if( token_is_function(token, &tokptr) )
+  if( token_is_function(o1.name, &tokptr) )
     {
-      op_stack_push(tokptr);
+      o1.name = tokptr;
+      o1.type = NOBJ_VARTYPE_UNKNOWN;
+      op_stack_push(o1);
       return;
     }
 
-  if( strcmp(token, ",")==0 )
+  if( strcmp(o1.name, ",")==0 )
     {
-      while( strcmp(op_stack_top(), ")") != 0 )
+      while( strcmp(op_stack_top().name, ")") != 0 )
 	{
 	  printf("\nPop 2");
-	  op_stack_pop(&o2);
+	  o2 = op_stack_pop();
 	  output_operator(o2);
 	}
     }
 
-  if( strcmp(token, "(")==0 )
+  if( strcmp(o1.name, "(")==0 )
     {
-      op_stack_push("(");
+      OP_STACK_ENTRY o;
+
+      strcpy(o.name, "(");
+      o.type = NOBJ_VARTYPE_UNKNOWN;
+      
+      op_stack_push(o);
     }
 
-  if( strcmp(token, ")")==0 )
+  if( strcmp(o1.name, ")")==0 )
     {
-      while(  (strcmp(op_stack_top(), "(") != 0) && (strlen(op_stack_top())!=0) )
+      while(  (strcmp(op_stack_top().name, "(") != 0) && (strlen(op_stack_top().name)!=0) )
 	{
 	  printf("\nPop 3");
-	  op_stack_pop(&o2);
+	  o2 = op_stack_pop();
 	  output_operator(o2);
 	}
 
-      if( strlen(op_stack_top())==0 )
+      if( strlen(op_stack_top().name)==0 )
 	{
 	  // Mismatched parentheses
 	  printf("\nMismatched parentheses");
 	}
 
       printf("\nPop 4");
-      op_stack_pop(&o2);
+      o2 = op_stack_pop();
 
-      if( strcmp(o2, "(") != 0 )
+      if( strcmp(o2.name, "(") != 0 )
 	{
 	  printf("\n**** Should be left parenthesis");
 	}
 
-      if( token_is_function(op_stack_top(), &tokptr) )
+      if( token_is_function(op_stack_top().name, &tokptr) )
 	{
 	  printf("\nPop 5");
-	  op_stack_pop(&o2);
+	  o2 = op_stack_pop();
 	  output_operator(o2);
 	}
     }
