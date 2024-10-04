@@ -1,0 +1,27 @@
+LOCAL A, B
+LOCAL X%, Y%
+LOCAL F$(10)
+
+A = 1.5
+B = 2.5
+
+Y% = 10 * 1.5
+PRINT Y%
+
+X% = 10 * Y%
+PRINT X%
+
+X% = 1 + A + B
+PRINT X%
+
+X% = 1 + A * 4
+PRINT X%
+
+A = X% + Y%
+PRINT A
+
+B = 1 * 2 + A
+PRINT B
+
+F$="ABC"
+
