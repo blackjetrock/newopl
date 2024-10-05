@@ -78,7 +78,7 @@ int token_is_float(char *token)
 
   for(int i=0; i<strlen(token); i++)
     {
-      if( !isdigit(*(token)) || (*token == '.') || (*token == '-'))
+      if( !( isdigit(*token) || (*token == '.')))
 	{
 	  all_digits = 0;
 	}
@@ -108,6 +108,7 @@ int token_is_integer(char *token)
 
 // Variable if it ends in $ or %
 // Variable if not a function name
+// Variables have to be only alpha or alpha followed by alphanum
 
 int token_is_variable(char *token)
 {
@@ -124,8 +125,37 @@ int token_is_variable(char *token)
       return(0);
     }
 
+  // First char has to be alpha
+
+  if( !isalpha(*token) )
+    {
+      return(0);
+    }
+
+  printf("\nA");
+  
+  for(int i=0; i<strlen(token)-1; i++)
+    {
+      if( !isalnum(token[i]) )
+	{
+	  return(0);
+	}
+    }
+
+  printf("\nB");
+  
   char last_char = token[strlen(token)-1];
 
+  printf("\nC last:%c", last_char);
+
+#if 0
+  if( !isalnum(last_char) )
+    {
+      return(0);
+    }
+#endif
+  printf("\nD");
+    
   switch(last_char)
     {
     case '$':
@@ -133,7 +163,7 @@ int token_is_variable(char *token)
       return(1);
       break;
     }
-  
+
   return(1);
 }
 
@@ -150,14 +180,134 @@ struct _FN_INFO
 }
   fn_info[] =
   {
-    { "SIN" },
-    { "COS" },
-    { "TAN" },
-    { "PRINT" },
     { "EOL" },
-    { "GOTO" },
     { "=" },
+    { "ABS" },
+    { "ACOS" },
+    { "ADDR" },
+    { "APPEND" },
+    { "ASC" },
+    { "ASIN" },
+    { "AT" },
+    { "ATAN" },
+    { "BACK" },
+    { "BEEP" },
+    { "BREAK" },
+    { "CHR$" },
+    { "CLOCK" },
+    { "CLOSE" },
+    { "CLS" },
+    { "CONTINUE" },
+    { "COPY" },
+    { "COPYW" },
+    { "COS" },
+    { "COUNT" },
+    { "CREATE" },
+    { "CURSOR" },
+    { "DATIM$" },
+    { "DAY" },
+    { "DAYNAME$" },
+    { "DAYS" },
+    { "DEG" },
+    { "DELETE" },
+    { "DELETEW" },
+    { "DIR$" },
+    { "DIRW$" },
+    { "DISP" },
+    { "DOW" },
+    { "EDIT" },
+    { "EOF" },
+    { "ERASE" },
+    { "ERR" },
+    { "ERR$" },
+    { "ESCAPE" },
+    { "EXIST" },
+    { "EXP" },
+    { "FIND" },
+    { "FINDW" },
+    { "FIRST" },
+    { "FIX$" },
+    { "FLT" },
+    { "FREE" },
+    { "GEN$" },
+    { "GET" },
+    { "GET$" },
+    { "GLOBAL" },
+    { "GOTO" },
+    { "HEX$" },
+    { "HOUR" },
+    { "IABS" },
+    { "INPUT" },
+    { "INT" },
+    { "INTF" },
+    { "KEY" },
+    { "KEY$" },
+    { "KSTAT" },
+    { "LAST" },
+    { "LEFT$" },
+    { "LEN" },
+    { "LN" },
+    { "LOC" },
+    { "LOCAL" },
+    { "LOG" },
+    { "LOWER$" },
+    { "LPRINT" },
+    { "MAX" },
+    { "MEAN" },
+    { "MENU" },
+    { "MENUN" },
+    { "MID$" },
+    { "MIN" },
+    { "MINUTE" },
+    { "MONTH" },
+    { "MONTH$" },
+    { "NEXT" },
+    { "NUM$" },
+    { "OFF" },
+    { "OPEN" },
+    { "ONERR" },
+    { "PAUSE" },
+    { "PEEKB" },
+    { "PEEKW" },
+    { "PI" },
+    { "POKEB" },
+    { "POKEW" },
+    { "POS" },
+    { "POSITION" },
+    { "PRINT" },
+    { "RAD" },
+    { "RAISE" },
+    { "RANDOMIZE" },
+    { "RECSIZE" },
+    { "REM" },
+    { "RENAME" },
+    { "REPT$" },
+    { "RETURN" },
+    { "RIGHT$" },
+    { "RND" },
+    { "SCI$" },
+    { "SECOND" },
+    { "SIN" },
+    { "SPACE" },
+    { "SQR" },
+    { "STD" },
+    { "STOP" },
+    { "SUM" },
+    { "TAN" },
+    { "TRAP" },
+    { "UDG" },
+    { "UPDATE" },
+    { "UPPER$" },
+    { "USE" },
+    { "USR" },
+    { "USR$" },
+    { "VAL" },
+    { "VAR" },
+    { "VIEW" },
+    { "WEEK" },
+    { "YEAR" },
   };
+
 
 #define NUM_FUNCTIONS (sizeof(fn_info)/sizeof(struct _FN_INFO))
 
@@ -207,7 +357,7 @@ int token_is_operator(char *token, char **tokstr)
 	{
 	  *tokstr = &(op_info[i].name[0]);
 	  
-	  printf("\n%s is operator", token);
+	  printf("\n'%s' is operator", token);
 	  return(1);
 	}
     }
@@ -484,26 +634,31 @@ FILE *ofp;
 
 void output_float(OP_STACK_ENTRY token)
 {
+  printf("\nop float");
   fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(token.type), token.name);
 }
 
 void output_integer(OP_STACK_ENTRY token)
 {
+  printf("\nop integer");
   fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(token.type), token.name);
 }
 
 void output_operator(OP_STACK_ENTRY op)
 {
+  printf("\nop operator");
   fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(op.type), op.name);
 }
 
 void output_variable(OP_STACK_ENTRY op)
 {
+  printf("\nop variable");
   fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(op.type), op.name);
 }
 
 void output_string(OP_STACK_ENTRY op)
 {
+  printf("\nop string");
   fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(op.type), op.name);
 }
 
@@ -643,25 +798,91 @@ void process_token(char *token)
   o2 = op_stack_top();
   opr1 = operator_precedence(o1.name);
   opr2 = operator_precedence(o2.name);
+
+    if( strcmp(o1.name, ",")==0 )
+    {
+      while( (strlen(op_stack_top().name) != 0) &&
+	     strcmp(op_stack_top().name, "(") != 0 )
+	{
+	  printf("\nPop 2");
+	  o2 = op_stack_pop();
+	  output_operator(o2);
+	}
+
+      // Commas delimit sub expressions, reset the expression type.
+      expression_type = NOBJ_VARTYPE_UNKNOWN;
+      return;
+    }
+
+  if( strcmp(o1.name, "(")==0 )
+    {
+      OP_STACK_ENTRY o;
+
+      o.name = "(";
+      o.type = NOBJ_VARTYPE_UNKNOWN;
+      
+      op_stack_push(o);
+      return;
+    }
+
+  if( strcmp(o1.name, ")")==0 )
+    {
+      while(  (strcmp(op_stack_top().name, "(") != 0) && (strlen(op_stack_top().name)!=0) )
+	{
+	  printf("\nPop 3");
+	  o2 = op_stack_pop();
+	  output_operator(o2);
+	}
+
+      if( strlen(op_stack_top().name)==0 )
+	{
+	  // Mismatched parentheses
+	  printf("\nMismatched parentheses");
+	}
+
+      printf("\nPop 4");
+      o2 = op_stack_pop();
+
+      if( strcmp(o2.name, "(") != 0 )
+	{
+	  printf("\n**** Should be left parenthesis");
+	}
+
+      if( token_is_function(op_stack_top().name, &tokptr) )
+	{
+	  printf("\nPop 5");
+	  o2 = op_stack_pop();
+	  output_operator(o2);
+	}
+      return;
+    }
+
+#define OP_PREC(OP) (operator_precedence(OP.name))
   
   if( token_is_operator(o1.name, &(tokptr)) )
     {
       printf("\nToken is operator o1 name:%s o2 name:%s", o1.name, o2.name);
       printf("\nopr1:%d opr2:%d", opr1, opr2);
       
-      while( (strlen(op_stack_top().name) != 0) && (strcmp(o2.name, ")") != 0 ) &&
-	     ( (opr2 > opr1) || ((opr1 == opr2) && operator_left_assoc(o1.name)))
+      while( (strlen(op_stack_top().name) != 0) && (strcmp(op_stack_top().name, ")") != 0 ) &&
+	     ( OP_PREC(op_stack_top()) > opr1) || ((opr1 == OP_PREC(op_stack_top()) && operator_left_assoc(o1.name)))
 	       )
 	{
 	  printf("\nPop 1");
 	  
 	  o2 = op_stack_pop();
+	  opr1 = operator_precedence(o1.name);
+	  opr2 = operator_precedence(o2.name);
+
 	  output_operator(o2);
 	}
 
+      printf("\nPush 1");
+      
       o1.name = tokptr;
-      o1.type = 0;
+      o1.type = expression_type;
       op_stack_push(o1);
+      return;
     }
   
   if( token_is_float(o1.name) )
@@ -719,58 +940,6 @@ void process_token(char *token)
       return;
     }
 
-  if( strcmp(o1.name, ",")==0 )
-    {
-      while( strcmp(op_stack_top().name, ")") != 0 )
-	{
-	  printf("\nPop 2");
-	  o2 = op_stack_pop();
-	  output_operator(o2);
-	}
-
-      expression_type = NOBJ_VARTYPE_UNKNOWN;
-    }
-
-  if( strcmp(o1.name, "(")==0 )
-    {
-      OP_STACK_ENTRY o;
-
-      strcpy(o.name, "(");
-      o.type = NOBJ_VARTYPE_UNKNOWN;
-      
-      op_stack_push(o);
-    }
-
-  if( strcmp(o1.name, ")")==0 )
-    {
-      while(  (strcmp(op_stack_top().name, "(") != 0) && (strlen(op_stack_top().name)!=0) )
-	{
-	  printf("\nPop 3");
-	  o2 = op_stack_pop();
-	  output_operator(o2);
-	}
-
-      if( strlen(op_stack_top().name)==0 )
-	{
-	  // Mismatched parentheses
-	  printf("\nMismatched parentheses");
-	}
-
-      printf("\nPop 4");
-      o2 = op_stack_pop();
-
-      if( strcmp(o2.name, "(") != 0 )
-	{
-	  printf("\n**** Should be left parenthesis");
-	}
-
-      if( token_is_function(op_stack_top().name, &tokptr) )
-	{
-	  printf("\nPop 5");
-	  o2 = op_stack_pop();
-	  output_operator(o2);
-	}
-    }
 }
 
 int is_op_delimiter(char ch)
@@ -843,6 +1012,11 @@ void process_expression(char *line)
   char ss[2];
   int end_cap_later = 0;
 
+  printf("\n==========================");
+  printf("\n%s", line);
+  printf("\n==========================");
+
+  
   // The type of an expression is initially unknown
   expression_type = NOBJ_VARTYPE_UNKNOWN;
   
