@@ -823,6 +823,8 @@ void process_token(char *token)
 
     if( strcmp(o1.name, ",")==0 )
     {
+      //output_marker("------- Comma 1");
+      
       while( (strlen(op_stack_top().name) != 0) &&
 	     strcmp(op_stack_top().name, "(") != 0 )
 	{
@@ -831,6 +833,8 @@ void process_token(char *token)
 	  output_operator(o2);
 	}
 
+      output_marker("-------- Comma 2");
+	
       // Commas delimit sub expressions, reset the expression type.
       expression_type = NOBJ_VARTYPE_UNKNOWN;
       return;
@@ -840,6 +844,8 @@ void process_token(char *token)
     {
       OP_STACK_ENTRY o;
 
+      output_marker("--------- Sub 1");
+      
       o.name = "(";
       o.type = NOBJ_VARTYPE_UNKNOWN;
       
@@ -849,6 +855,8 @@ void process_token(char *token)
 
   if( strcmp(o1.name, ")")==0 )
     {
+      //output_marker("----------- Sub E 1");
+	    
       while(  (strcmp(op_stack_top().name, "(") != 0) && (strlen(op_stack_top().name)!=0) )
 	{
 	  printf("\nPop 3");
@@ -865,6 +873,8 @@ void process_token(char *token)
       printf("\nPop 4");
       o2 = op_stack_pop();
 
+      output_marker("-------- Sub E 2");
+      
       if( strcmp(o2.name, "(") != 0 )
 	{
 	  printf("\n**** Should be left parenthesis");
@@ -876,6 +886,8 @@ void process_token(char *token)
 	  o2 = op_stack_pop();
 	  output_operator(o2);
 	}
+
+      output_marker("-------- Sub E 3");
       return;
     }
 

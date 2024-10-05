@@ -1,4 +1,5 @@
 
+(   output_marker) **Expression start 'LOCAL A, B'
 (   output_marker) **Expression start 'LOCAL X%, Y%'
 (   output_marker) **Expression start 'LOCAL F$(10)'
 (   output_marker) **Expression start ''
@@ -84,62 +85,87 @@
 (   output_marker) **Expression start ''
 (   output_marker) **Expression start 'A = SIN(45*2)'
 ( output_variable) f A
+(   output_marker) --------- Sub 1
 (  output_integer) i 45
 (  output_integer) i 2
 ( output_operator) f *
+(   output_marker) -------- Sub E 2
 ( output_operator) f SIN
+(   output_marker) -------- Sub E 3
 ( output_operator) f =
 (   output_marker) **Expression start 'B = SIN(45*2.0)'
 ( output_variable) f B
+(   output_marker) --------- Sub 1
 (  output_integer) i 45
 (    output_float) f 2.0
 ( output_operator) f *
+(   output_marker) -------- Sub E 2
 ( output_operator) f SIN
+(   output_marker) -------- Sub E 3
 ( output_operator) f =
 (   output_marker) **Expression start ''
 (   output_marker) **Expression start 'X% = USR(X%, Y%)'
 ( output_variable) i X%
+(   output_marker) --------- Sub 1
 ( output_variable) i X%
+(   output_marker) -------- Comma 2
 ( output_variable) i Y%
+(   output_marker) -------- Sub E 2
 ( output_operator) i USR
+(   output_marker) -------- Sub E 3
 ( output_operator) i =
 (   output_marker) **Expression start ''
 (   output_marker) **Expression start 'X% = USR(12*4+1, 20*3+4)'
 ( output_variable) i X%
+(   output_marker) --------- Sub 1
 (  output_integer) i 12
 (  output_integer) i 4
 ( output_operator) i *
 (  output_integer) i 1
 ( output_operator) i +
+(   output_marker) -------- Comma 2
 (  output_integer) i 20
 (  output_integer) i 3
 ( output_operator) U *
 (  output_integer) i 4
 ( output_operator) U +
+(   output_marker) -------- Sub E 2
 ( output_operator) i USR
+(   output_marker) -------- Sub E 3
 ( output_operator) i =
 (   output_marker) **Expression start ''
 (   output_marker) **Expression start 'X% = USR(1+2, 1.2*3.6)'
 ( output_variable) i X%
+(   output_marker) --------- Sub 1
 (  output_integer) i 1
 (  output_integer) i 2
 ( output_operator) i +
+(   output_marker) -------- Comma 2
 (    output_float) f 1.2
 (    output_float) f 3.6
 ( output_operator) U *
+(   output_marker) -------- Sub E 2
 ( output_operator) i USR
+(   output_marker) -------- Sub E 3
 ( output_operator) i =
 (   output_marker) **Expression start ''
 (   output_marker) **Expression start 'A = SIN ( MAX ( 2, 3 ) / 3 * 3.14 )'
 ( output_variable) f A
+(   output_marker) --------- Sub 1
+(   output_marker) --------- Sub 1
 (  output_integer) i 2
+(   output_marker) -------- Comma 2
 (  output_integer) i 3
+(   output_marker) -------- Sub E 2
 ( output_operator) f MAX
+(   output_marker) -------- Sub E 3
 (  output_integer) i 3
 ( output_operator) U /
 (    output_float) f 3.14
 ( output_operator) U *
+(   output_marker) -------- Sub E 2
 ( output_operator) f SIN
+(   output_marker) -------- Sub E 3
 ( output_operator) f =
 
 Operator Stack
