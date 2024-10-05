@@ -684,6 +684,12 @@ void output_marker(char *marker, ...)
   fprintf(ofp, "\n(%16s) %s", __FUNCTION__, line);
 }
 
+void output_expression_start(void)
+{
+  printf("\nExpression start");
+  fprintf(ofp, "\n(%16s)", __FUNCTION__);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 // Stack function in operator stack
@@ -1053,7 +1059,7 @@ void process_expression(char *line)
   printf("\n%s", line);
   printf("\n==========================");
 
-  output_marker("**Expression start '%s'", line);
+  output_expression_start();
   
   // The type of an expression is initially unknown
   expression_type = NOBJ_VARTYPE_UNKNOWN;
