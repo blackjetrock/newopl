@@ -29,6 +29,7 @@ For example:
 
 Runs the PRNT1.OB3 exmple file. This contains:
 
+<code>
 prnt1:
 
 LOCAL A%, A1%
@@ -45,13 +46,17 @@ PRINT G%
 PRINT G1%
 PRINT GG%
 
+</code>
+
 and results in the output:
 
+<code>
 1
 11
 6
 61
 66
+</code>
 
 ** Not all qcodes are implemented, only a minimum set at the moment.
 
