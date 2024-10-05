@@ -86,13 +86,19 @@ Translation
 
 The translation model at the moment (hopefully it will work), is to treat every OPL statement as an expression. So, for instance, 
 
-PRINT X%
+<code>PRINT X%</code>
 
 is regarded as a function called PRINT with an argument of X%.
 
 Obviously functions like SIN and COS work well with this scheme, and as commands like PRINT behave like functions with no return values, they work well too.
 The algorithm used to process expressions is the 'shunting yard algorithm' (see here: https://en.wikipedia.org/wiki/Shunting_yard_algorithm). this parses an expression and outputs an RPN stack based version of the infix expression. This seems to match quite well with the qcode that the organiser translater outputs. 
 The expressions in OPL have to be typed as different qcodes are used for different types of code. For example, the PRINT qcode has versions for integers, floats and strings. The correct code has to be used for the argument the code is presented with. This is done at translate time by the original OPL.
+
+The text is tokenised and expressions (statements) are isolated. Each expression is passed to an expression processor that handles these in isolation.
+As the translator is going to run on a small Pico sized processor we cannot use a file system for the core processing (the PC version has files for debug but they aren't used in the core translation) and we also can't have large memory based syntax trees as the memory is not available. This is very like the original Organiser which did all this in the organiser ROM.
+
+The expressions are then processed and converted to RPN. Control structures are handled separately. Each expression is turned into an intermediate stream of codes which also have syntax and type information. These are then processed and automatic type conversion codes inserted where needed in the arithmetical codes. This is only needed for the integer and float types which need to interoperate within expressions.
+
 
 Assignment statements are also treated as expressions, with the '=' symbol represented by an assignment operator. This seems to match with the original OPL as well, but is a bit counter-intuitive.
 
