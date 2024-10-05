@@ -9,6 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <ctype.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>
@@ -662,6 +663,21 @@ void output_string(OP_STACK_ENTRY op)
   fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(op.type), op.name);
 }
 
+// Markers used as comments, and hints
+void output_marker(char *marker, ...)
+{
+  va_list valist;
+  char line[80];
+  
+  va_start(valist, marker);
+
+  vsprintf(line, marker, valist);
+  va_end(valist);
+
+  printf("\nop marker %s", line);
+  fprintf(ofp, "\n(%16s) %s", __FUNCTION__, line);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 // Stack function in operator stack
@@ -1016,6 +1032,7 @@ void process_expression(char *line)
   printf("\n%s", line);
   printf("\n==========================");
 
+  output_marker("**Expression start '%s'", line);
   
   // The type of an expression is initially unknown
   expression_type = NOBJ_VARTYPE_UNKNOWN;
