@@ -76,7 +76,8 @@ int defline = 1;
 int token_is_float(char *token)
 {
   int all_digits = 1;
-
+  int decimal_present = 0;
+  
   for(int i=0; i<strlen(token); i++)
     {
       if( !( isdigit(*token) || (*token == '.')))
@@ -84,10 +85,15 @@ int token_is_float(char *token)
 	  all_digits = 0;
 	}
 
+      if( *token == '.' )
+	{
+	  decimal_present = 1;
+	}
+      
       token++;
     }
   
-  return(all_digits);
+  return(all_digits && decimal_present);
 }
 
 int token_is_integer(char *token)
@@ -903,12 +909,14 @@ void process_token(char *token)
   
   if( token_is_float(o1.name) )
     {
+      o1.type = NOBJ_VARTYPE_FLT;
       output_float(o1);
       return;
     }
 
   if( token_is_integer(o1.name) )
     {
+      o1.type = NOBJ_VARTYPE_INT;
       output_integer(o1);
       return;
     }
@@ -1017,6 +1025,7 @@ int is_delimiter(char ch)
 //
 //
 //
+////////////////////////////////////////////////////////////////////////////////
 
 void process_expression(char *line)
 {
