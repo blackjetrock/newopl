@@ -844,9 +844,42 @@ void dump_exp_buffer(void)
 
 void typecheck_expression(void)
 {
+  EXP_BUFFER_ENTRY be;
+  
   for(int i=0; i<exp_buffer_i; i++)
     {
       // Execute
+      be = exp_buffer[i];
+
+      switch(be.buf_id)
+	{
+	case EXP_BUFF_ID_TKN:
+	  break;
+	  
+	case EXP_BUFF_ID_SUB_START:
+	  break;
+
+	case EXP_BUFF_ID_SUB_END:
+	  break;
+
+	case EXP_BUFF_ID_VARIABLE:
+	  break;
+
+	case EXP_BUFF_ID_FLT:
+	case EXP_BUFF_ID_INTEGER:
+	case EXP_BUFF_ID_STR:
+	  type_check_stack_push(be.op);
+	  break;
+
+	case EXP_BUFF_ID_FUNCTION:
+	  break;
+
+	case EXP_BUFF_ID_OPERATOR:
+	  break;
+	    
+	}
+      
+      
 #if 0
       exp_buffer[exp_buffer_i].op = op;
       exp_buffer[exp_buffer_i].buf_id = id;
