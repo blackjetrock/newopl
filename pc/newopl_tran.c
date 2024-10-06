@@ -77,8 +77,10 @@ int token_is_float(char *token)
 {
   int all_digits = 1;
   int decimal_present = 0;
+  int retval;
+  int len = strlen(token);
   
-  for(int i=0; i<strlen(token); i++)
+  for(int i=0; i < len; i++)
     {
       if( !( isdigit(*token) || (*token == '.')))
 	{
@@ -92,15 +94,18 @@ int token_is_float(char *token)
       
       token++;
     }
-  
-  return(all_digits && decimal_present);
+
+  retval = all_digits && decimal_present;
+
+  return(retval);
 }
 
 int token_is_integer(char *token)
 {
   int all_digits = 1;
-
-  for(int i=0; i<strlen(token); i++)
+  int len = strlen(token);
+  
+  for(int i=0; i<len; i++)
     {
       if( !isdigit(*(token)) )
 	{
@@ -574,7 +579,7 @@ char type_to_char(NOBJ_VARTYPE t)
 
 //------------------------------------------------------------------------------
 //
-// A new variable has appeared in an expression. Modify the expression based on
+// A new token has appeared in an expression. Modify the expression based on
 // this new type.
 //
 //
@@ -636,37 +641,71 @@ void modify_expression_type(NOBJ_VARTYPE t)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// Output expression processing
+//
+// Each expression is placed in this buffer and processed to create the
+// corresponding QCode
+//
+
+#define MAX_EXP_BUFFER   200
+
+typedef struct _EXP_BUFFER_ENTRY
+{
+  OP_STACK_ENTRY op;
+} EXP_BUFFER_ENTRY;
+
+EXP_BUFFER_ENTRY exp_buffer[MAX_EXP_BUFFER];
+int exp_buffer_i = 0;
+
+//------------------------------------------------------------------------------
+//
+
+void clear_exp_buffer(void)
+{
+  exp_buffer_i = 0;
+}
+
+void add_exp_buffer_entry(OP_STACK_ENTRY op)
+{
+  exp_buffer[exp_buffer_i].op = op;
+
+  exp_buffer_i++;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 FILE *ofp;
 
 void output_float(OP_STACK_ENTRY token)
 {
   printf("\nop float");
-  fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(token.type), token.name);
+  fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(token.type), type_to_char(token.req_type), token.name);
 }
 
 void output_integer(OP_STACK_ENTRY token)
 {
   printf("\nop integer");
-  fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(token.type), token.name);
+  fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(token.type), type_to_char(token.req_type), token.name);
 }
 
 void output_operator(OP_STACK_ENTRY op)
 {
   printf("\nop operator");
-  fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(op.type), op.name);
+  fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(op.type), type_to_char(op.req_type), op.name);
 }
 
 void output_variable(OP_STACK_ENTRY op)
 {
   printf("\nop variable");
-  fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(op.type), op.name);
+  fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(op.type), type_to_char(op.req_type), op.name);
 }
 
 void output_string(OP_STACK_ENTRY op)
 {
   printf("\nop string");
-  fprintf(ofp, "\n(%16s) %c %s", __FUNCTION__, type_to_char(op.type), op.name);
+  fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(op.type), type_to_char(op.req_type), op.name);
 }
 
 // Markers used as comments, and hints
@@ -807,6 +846,45 @@ void uninit_output(void)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// Expression type stack
+//
+// Used when processing sub expressions
+//
+//
+
+#define MAX_EXP_TYPE_STACK  20
+
+NOBJ_VARTYPE exp_type_stack[MAX_EXP_TYPE_STACK];
+int exp_type_stack_ptr = 0;
+
+void exp_type_push(NOBJ_VARTYPE t)
+{
+  if( exp_type_stack_ptr <= (MAX_EXP_TYPE_STACK - 1))
+    {
+      exp_type_stack[exp_type_stack_ptr++] = t;
+    }
+  else
+    {
+      printf("\nSub expression stack full");
+      exit(-1);
+    }
+}
+
+NOBJ_VARTYPE exp_type_pop(void)
+{
+  if( exp_type_stack_ptr > 0 )
+    {
+      return(exp_type_stack[--exp_type_stack_ptr]);
+    }
+  else
+    {
+      printf("\nExp stack empty on pop");
+      exit(-1);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 void process_token(char *token)
 {
@@ -856,6 +934,12 @@ void process_token(char *token)
       o.type = NOBJ_VARTYPE_UNKNOWN;
       
       op_stack_push(o);
+
+      // Sub expression, push the expression type and process the sub expression
+      // as a new one
+      exp_type_push(expression_type);
+      expression_type = NOBJ_VARTYPE_UNKNOWN;
+      
       return;
     }
 
@@ -893,6 +977,8 @@ void process_token(char *token)
 	  output_operator(o2);
 	}
 
+      expression_type = exp_type_pop();
+      
       output_marker("-------- Sub E 3");
       return;
     }
@@ -920,14 +1006,21 @@ void process_token(char *token)
       printf("\nPush 1");
       
       o1.name = tokptr;
-      o1.type = expression_type;
+      o1.type = NOBJ_VARTYPE_UNKNOWN;
+      o1.req_type = expression_type;
       op_stack_push(o1);
       return;
     }
   
   if( token_is_float(o1.name) )
     {
+
       o1.type = NOBJ_VARTYPE_FLT;
+
+      modify_expression_type(o1.type);
+
+      o1.req_type = expression_type;
+      
       output_float(o1);
       return;
     }
@@ -935,6 +1028,9 @@ void process_token(char *token)
   if( token_is_integer(o1.name) )
     {
       o1.type = NOBJ_VARTYPE_INT;
+      
+      modify_expression_type(o1.type);
+      o1.req_type = expression_type;
       output_integer(o1);
       return;
     }
@@ -954,7 +1050,7 @@ void process_token(char *token)
 	  // may need to change (e.g.  A% + 10 * B needs to be type FLT for the * and a
 	  // type conversion token needs to be inserted.
 	  modify_expression_type(type);
-
+	  o1.req_type = expression_type;
 	  o1.type = expression_type;
 	}
       else
@@ -978,6 +1074,7 @@ void process_token(char *token)
     {
       o1.name = tokptr;
       o1.type = expression_type;
+            o1.req_type = expression_type;
       op_stack_push(o1);
       return;
     }

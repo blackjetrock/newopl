@@ -10,14 +10,6 @@
 #define NOPL_MAX_LOCAL           16
 #define NOPL_MAX_GLOBAL          16
 
-#if 0
-typedef enum
-  {
-    NOBJ_TYPE_INT = 2,
-    NOBJ_TYPE_FLOAT,
-    NOBJ_TYPE_STRING,
-  } NOBJ_VAR_TYPE;
-#endif
 
 typedef uint8_t NOBJ_PARAMETER_TYPE;
 typedef uint16_t NOBJ_INT;
@@ -149,5 +141,6 @@ typedef struct _NOBJ_MACHINE
 typedef struct _OP_STACK_ENTRY
 {
   char          *name;
-  NOBJ_VARTYPE   type;
+  NOBJ_VARTYPE   type;       // Original type
+  NOBJ_VARTYPE   req_type;   // Required type
 } OP_STACK_ENTRY;

@@ -4,168 +4,254 @@
 (output_expression_start)
 (output_expression_start)
 (output_expression_start)
-( output_variable) f A
-(    output_float) f 1.5
-( output_operator) f =
+( output_variable) f f A
+(    output_float) f f 1.5
+( output_operator) f f =
 (output_expression_start)
-( output_variable) f B
-(    output_float) f 2.5
-( output_operator) f =
-(output_expression_start)
-(output_expression_start)
-( output_variable) i Y%
-(  output_integer) i 10
-(    output_float) f 1.5
-( output_operator) i *
-( output_operator) i =
-(output_expression_start)
-( output_variable) i Y%
-( output_operator) U PRINT
+( output_variable) f f B
+(    output_float) f f 2.5
+( output_operator) f f =
 (output_expression_start)
 (output_expression_start)
-( output_variable) i X%
-(  output_integer) i 10
-( output_variable) i Y%
-( output_operator) i *
-( output_operator) i =
+( output_variable) i i Y%
+(  output_integer) i i 10
+(    output_float) f f 1.5
+( output_operator) U i *
+( output_operator) i i =
 (output_expression_start)
-( output_variable) i X%
-( output_operator) U PRINT
-(output_expression_start)
-(output_expression_start)
-( output_variable) i X%
-(  output_integer) i 1
-( output_variable) f A
-( output_variable) f B
-( output_operator) f +
-( output_operator) i +
-( output_operator) i =
-(output_expression_start)
-( output_variable) i X%
-( output_operator) U PRINT
+( output_variable) i i Y%
+( output_operator) U U PRINT
 (output_expression_start)
 (output_expression_start)
-( output_variable) i X%
-(  output_integer) i 1
-( output_variable) f A
-(  output_integer) i 4
-( output_operator) f *
-( output_operator) i +
-( output_operator) i =
+( output_variable) i i X%
+(  output_integer) i i 10
+( output_variable) i i Y%
+( output_operator) U i *
+( output_operator) i i =
 (output_expression_start)
-( output_variable) i X%
-( output_operator) U PRINT
+( output_variable) i i X%
+( output_operator) U U PRINT
 (output_expression_start)
 (output_expression_start)
-( output_variable) f A
-( output_variable) f X%
-( output_variable) f Y%
-( output_operator) f +
-( output_operator) f =
+( output_variable) i i X%
+(  output_integer) i i 1
+( output_variable) f f A
+( output_variable) f f B
+( output_operator) U f +
+( output_operator) U i +
+( output_operator) i i =
 (output_expression_start)
-( output_variable) f A
-( output_operator) U PRINT
-(output_expression_start)
-(output_expression_start)
-( output_variable) f B
-(  output_integer) i 1
-(  output_integer) i 2
-( output_operator) f *
-( output_variable) f A
-( output_operator) f +
-( output_operator) f =
-(output_expression_start)
-( output_variable) f B
-( output_operator) U PRINT
+( output_variable) i i X%
+( output_operator) U U PRINT
 (output_expression_start)
 (output_expression_start)
-( output_variable) s F$
-(   output_string) s "ABC"
-( output_operator) s =
-(output_expression_start)
-(output_expression_start)
-( output_variable) f A
+( output_variable) i i X%
 (   output_marker) --------- Sub 1
-(  output_integer) i 45
-(  output_integer) i 2
-( output_operator) f *
+(   output_marker) --------- Sub 1
+(  output_integer) i i 1
 (   output_marker) -------- Sub E 2
-( output_operator) f SIN
+( output_operator) U U FLT
 (   output_marker) -------- Sub E 3
-( output_operator) f =
-(output_expression_start)
-( output_variable) f B
+( output_variable) f f A
 (   output_marker) --------- Sub 1
-(  output_integer) i 45
-(    output_float) f 2.0
-( output_operator) f *
+(  output_integer) i i 4
 (   output_marker) -------- Sub E 2
-( output_operator) f SIN
+( output_operator) f f FLT
 (   output_marker) -------- Sub E 3
-( output_operator) f =
+( output_operator) U f *
+( output_operator) U U +
+(   output_marker) -------- Sub E 2
+( output_operator) i i INT
+(   output_marker) -------- Sub E 3
+( output_operator) i i =
 (output_expression_start)
 (output_expression_start)
-( output_variable) i X%
+( output_variable) i i X%
+( output_operator) U U PRINT
+(output_expression_start)
+(output_expression_start)
+( output_variable) f f A
+( output_variable) f f X%
+( output_variable) f f Y%
+( output_operator) U f +
+( output_operator) f f =
+(output_expression_start)
+( output_variable) f f A
+( output_operator) U U PRINT
+(output_expression_start)
+(output_expression_start)
+( output_variable) f f B
+(  output_integer) i f 1
+(  output_integer) i f 2
+( output_operator) U f *
+( output_variable) f f A
+( output_operator) U f +
+( output_operator) f f =
+(output_expression_start)
+( output_variable) f f B
+(  output_integer) i f 1
 (   output_marker) --------- Sub 1
-( output_variable) i X%
+(  output_integer) i i 2
+( output_variable) f f A
+( output_operator) U i +
+(   output_marker) -------- Sub E 2
+(   output_marker) -------- Sub E 3
+( output_operator) U f *
+( output_operator) f f =
+(output_expression_start)
+( output_variable) f f B
+(  output_integer) i f 2
+(   output_marker) --------- Sub 1
+(  output_integer) i i 3
+(   output_marker) --------- Sub 1
+(  output_integer) i i 4
+(   output_marker) --------- Sub 1
+(  output_integer) i i 1
+(  output_integer) i i 1
+( output_operator) U i +
+(   output_marker) -------- Sub E 2
+(   output_marker) -------- Sub E 3
+( output_operator) U i +
+(   output_marker) -------- Sub E 2
+(   output_marker) -------- Sub E 3
+( output_operator) U i *
+(   output_marker) -------- Sub E 2
+(   output_marker) -------- Sub E 3
+( output_operator) U f *
+( output_operator) f f =
+(output_expression_start)
+(output_expression_start)
+( output_variable) f f B
+( output_operator) U U PRINT
+(output_expression_start)
+(output_expression_start)
+(  output_integer) i i 1
+(  output_integer) i i 2
+( output_operator) U i *
+( output_variable) f f A
+( output_operator) U i +
+( output_operator) U U PRINT
+(output_expression_start)
+(output_expression_start)
+(   output_string) U U "Point 2"
+( output_operator) U U PRINT
+(output_expression_start)
+(output_expression_start)
+( output_variable) f f A
+(  output_integer) i f 1000
+(  output_integer) i f 1000
+( output_operator) U f *
+(  output_integer) i f 1000
+( output_operator) U f *
+( output_operator) f f =
+(output_expression_start)
+( output_variable) f f A
+(    output_float) f f 1000.
+(  output_integer) i f 1000
+( output_operator) U f *
+(  output_integer) i f 1000
+( output_operator) U f *
+( output_operator) f f =
+(output_expression_start)
+( output_variable) f f A
+(    output_float) f f 1000.
+(   output_marker) --------- Sub 1
+(  output_integer) i i 1000
+(  output_integer) i i 1000
+( output_operator) U i *
+(   output_marker) -------- Sub E 2
+(   output_marker) -------- Sub E 3
+( output_operator) U f *
+( output_operator) f f =
+(output_expression_start)
+(output_expression_start)
+( output_variable) s s F$
+(   output_string) s s "ABC"
+( output_operator) s s =
+(output_expression_start)
+(output_expression_start)
+( output_variable) f f A
+(   output_marker) --------- Sub 1
+(  output_integer) i i 45
+(  output_integer) i i 2
+( output_operator) U i *
+(   output_marker) -------- Sub E 2
+( output_operator) f f SIN
+(   output_marker) -------- Sub E 3
+( output_operator) f f =
+(output_expression_start)
+( output_variable) f f B
+(   output_marker) --------- Sub 1
+(  output_integer) i i 45
+(    output_float) f f 2.0
+( output_operator) U i *
+(   output_marker) -------- Sub E 2
+( output_operator) f f SIN
+(   output_marker) -------- Sub E 3
+( output_operator) f f =
+(output_expression_start)
+(output_expression_start)
+( output_variable) i i X%
+(   output_marker) --------- Sub 1
+( output_variable) i i X%
 (   output_marker) -------- Comma 2
-( output_variable) i Y%
+( output_variable) i i Y%
 (   output_marker) -------- Sub E 2
-( output_operator) i USR
+( output_operator) i i USR
 (   output_marker) -------- Sub E 3
-( output_operator) i =
+( output_operator) i i =
 (output_expression_start)
 (output_expression_start)
-( output_variable) i X%
+( output_variable) i i X%
 (   output_marker) --------- Sub 1
-(  output_integer) i 12
-(  output_integer) i 4
-( output_operator) i *
-(  output_integer) i 1
-( output_operator) i +
+(  output_integer) i i 12
+(  output_integer) i i 4
+( output_operator) U i *
+(  output_integer) i i 1
+( output_operator) U i +
 (   output_marker) -------- Comma 2
-(  output_integer) i 20
-(  output_integer) i 3
-( output_operator) U *
-(  output_integer) i 4
-( output_operator) U +
+(  output_integer) i i 20
+(  output_integer) i i 3
+( output_operator) U i *
+(  output_integer) i i 4
+( output_operator) U i +
 (   output_marker) -------- Sub E 2
-( output_operator) i USR
+( output_operator) i i USR
 (   output_marker) -------- Sub E 3
-( output_operator) i =
+( output_operator) i i =
 (output_expression_start)
 (output_expression_start)
-( output_variable) i X%
+( output_variable) i i X%
 (   output_marker) --------- Sub 1
-(  output_integer) i 1
-(  output_integer) i 2
-( output_operator) i +
+(  output_integer) i i 1
+(  output_integer) i i 2
+( output_operator) U i +
 (   output_marker) -------- Comma 2
-(    output_float) f 1.2
-(    output_float) f 3.6
-( output_operator) U *
+(    output_float) f f 1.2
+(    output_float) f f 3.6
+( output_operator) U f *
 (   output_marker) -------- Sub E 2
-( output_operator) i USR
+( output_operator) i i USR
 (   output_marker) -------- Sub E 3
-( output_operator) i =
+( output_operator) i i =
 (output_expression_start)
 (output_expression_start)
-( output_variable) f A
+( output_variable) f f A
 (   output_marker) --------- Sub 1
 (   output_marker) --------- Sub 1
-(  output_integer) i 2
+(  output_integer) i i 2
 (   output_marker) -------- Comma 2
-(  output_integer) i 3
+(  output_integer) i i 3
 (   output_marker) -------- Sub E 2
-( output_operator) f MAX
+( output_operator) U U MAX
 (   output_marker) -------- Sub E 3
-(  output_integer) i 3
-( output_operator) U /
-(    output_float) f 3.14
-( output_operator) U *
+(  output_integer) i i 3
+( output_operator) U U /
+(    output_float) f f 3.14
+( output_operator) U i *
 (   output_marker) -------- Sub E 2
-( output_operator) f SIN
+( output_operator) f f SIN
 (   output_marker) -------- Sub E 3
-( output_operator) f =
+( output_operator) f f =
 
 Operator Stack
