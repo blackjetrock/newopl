@@ -18,6 +18,8 @@
 #include "newopl.h"
 #include "nopl_obj.h"
 
+FILE *ofp;
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Translate a file
@@ -189,135 +191,137 @@ int token_is_string(char *token)
 struct _FN_INFO
 {
   char *name;
+  char *argtypes;
+  char *resulttype;
 }
   fn_info[] =
   {
-    { "EOL" },
-    { "=" },
-    { "ABS" },
-    { "ACOS" },
-    { "ADDR" },
-    { "APPEND" },
-    { "ASC" },
-    { "ASIN" },
-    { "AT" },
-    { "ATAN" },
-    { "BACK" },
-    { "BEEP" },
-    { "BREAK" },
-    { "CHR$" },
-    { "CLOCK" },
-    { "CLOSE" },
-    { "CLS" },
-    { "CONTINUE" },
-    { "COPY" },
-    { "COPYW" },
-    { "COS" },
-    { "COUNT" },
-    { "CREATE" },
-    { "CURSOR" },
-    { "DATIM$" },
-    { "DAY" },
-    { "DAYNAME$" },
-    { "DAYS" },
-    { "DEG" },
-    { "DELETE" },
-    { "DELETEW" },
-    { "DIR$" },
-    { "DIRW$" },
-    { "DISP" },
-    { "DOW" },
-    { "EDIT" },
-    { "EOF" },
-    { "ERASE" },
-    { "ERR" },
-    { "ERR$" },
-    { "ESCAPE" },
-    { "EXIST" },
-    { "EXP" },
-    { "FIND" },
-    { "FINDW" },
-    { "FIRST" },
-    { "FIX$" },
-    { "FLT" },
-    { "FREE" },
-    { "GEN$" },
-    { "GET" },
-    { "GET$" },
-    { "GLOBAL" },
-    { "GOTO" },
-    { "HEX$" },
-    { "HOUR" },
-    { "IABS" },
-    { "INPUT" },
-    { "INT" },
-    { "INTF" },
-    { "KEY" },
-    { "KEY$" },
-    { "KSTAT" },
-    { "LAST" },
-    { "LEFT$" },
-    { "LEN" },
-    { "LN" },
-    { "LOC" },
-    { "LOCAL" },
-    { "LOG" },
-    { "LOWER$" },
-    { "LPRINT" },
-    { "MAX" },
-    { "MEAN" },
-    { "MENU" },
-    { "MENUN" },
-    { "MID$" },
-    { "MIN" },
-    { "MINUTE" },
-    { "MONTH" },
-    { "MONTH$" },
-    { "NEXT" },
-    { "NUM$" },
-    { "OFF" },
-    { "OPEN" },
-    { "ONERR" },
-    { "PAUSE" },
-    { "PEEKB" },
-    { "PEEKW" },
-    { "PI" },
-    { "POKEB" },
-    { "POKEW" },
-    { "POS" },
-    { "POSITION" },
-    { "PRINT" },
-    { "RAD" },
-    { "RAISE" },
-    { "RANDOMIZE" },
-    { "RECSIZE" },
-    { "REM" },
-    { "RENAME" },
-    { "REPT$" },
-    { "RETURN" },
-    { "RIGHT$" },
-    { "RND" },
-    { "SCI$" },
-    { "SECOND" },
-    { "SIN" },
-    { "SPACE" },
-    { "SQR" },
-    { "STD" },
-    { "STOP" },
-    { "SUM" },
-    { "TAN" },
-    { "TRAP" },
-    { "UDG" },
-    { "UPDATE" },
-    { "UPPER$" },
-    { "USE" },
-    { "USR" },
-    { "USR$" },
-    { "VAL" },
-    { "VAR" },
-    { "VIEW" },
-    { "WEEK" },
-    { "YEAR" },
+    { "EOL",      "ii",       "f" },
+    { "=",        "ii",       "f" },
+    { "ABS",      "ii",       "f" },
+    { "ACOS",     "ii",       "f" },
+    { "ADDR",     "ii",       "f" },
+    { "APPEND",   "ii",       "f" },
+    { "ASC",      "ii",       "f" },
+    { "ASIN",     "ii",       "f" },
+    { "AT",       "ii",       "f" },
+    { "ATAN",     "ii",       "f" },
+    { "BACK",     "ii",       "f" },
+    { "BEEP",     "ii",       "f" },
+    { "BREAK",    "ii",       "f" },
+    { "CHR$",     "ii",       "f" },
+    { "CLOCK",    "ii",       "f" },
+    { "CLOSE",    "ii",       "f" },
+    { "CLS",      "ii",       "f" },
+    { "CONTINUE", "ii",       "f" },
+    { "COPY",     "ii",       "f" },
+    { "COPYW",    "ii",       "f" },
+    { "COS",      "ii",       "f" },
+    { "COUNT",    "ii",       "f" },
+    { "CREATE",   "ii",       "f" },
+    { "CURSOR",   "ii",       "f" },
+    { "DATIM$",   "ii",       "f" },
+    { "DAY",      "ii",       "f" },
+    { "DAYNAME$", "ii",       "f" },
+    { "DAYS",     "ii",       "f" },
+    { "DEG",      "ii",       "f" },
+    { "DELETE",   "ii",       "f" },
+    { "DELETEW",  "ii",       "f" },
+    { "DIR$",     "ii",       "f" },
+    { "DIRW$",    "ii",       "f" },
+    { "DISP",     "ii",       "f" },
+    { "DOW",      "ii",       "f" },
+    { "EDIT",     "ii",       "f" },
+    { "EOF",      "ii",       "f" },
+    { "ERASE",    "ii",       "f" },
+    { "ERR",      "ii",       "f" },
+    { "ERR$",     "ii",       "f" },
+    { "ESCAPE",   "ii",       "f" },
+    { "EXIST",    "ii",       "f" },
+    { "EXP",      "ii",       "f" },
+    { "FIND",     "ii",       "f" },
+    { "FINDW",    "ii",       "f" },
+    { "FIRST",    "ii",       "f" },
+    { "FIX$",     "ii",       "f" },
+    { "FLT",      "ii",       "f" },
+    { "FREE",     "ii",       "f" },
+    { "GEN$",     "ii",       "f" },
+    { "GET",      "ii",       "f" },
+    { "GET$",     "ii",       "f" },
+    { "GLOBAL",   "ii",       "f" },
+    { "GOTO",     "ii",       "f" },
+    { "HEX$",     "ii",       "f" },
+    { "HOUR",     "ii",       "f" },
+    { "IABS",     "ii",       "f" },
+    { "INPUT",    "ii",       "f" },
+    { "INT",      "ii",       "f" },
+    { "INTF",     "ii",       "f" },
+    { "KEY",      "ii",       "f" },
+    { "KEY$",     "ii",       "f" },
+    { "KSTAT",    "ii",       "f" },
+    { "LAST",     "ii",       "f" },
+    { "LEFT$",    "ii",       "f" },
+    { "LEN",      "ii",       "f" },
+    { "LN",       "ii",       "f" },
+    { "LOC",      "ii",       "f" },
+    { "LOCAL",    "ii",       "f" },
+    { "LOG",      "ii",       "f" },
+    { "LOWER$",   "ii",       "f" },
+    { "LPRINT",   "ii",       "f" },
+    { "MAX",      "ii",       "f" },
+    { "MEAN",     "ii",       "f" },
+    { "MENU",     "ii",       "f" },
+    { "MENUN",    "ii",       "f" },
+    { "MID$",     "ii",       "f" },
+    { "MIN",      "ii",       "f" },
+    { "MINUTE",   "ii",       "f" },
+    { "MONTH",    "ii",       "f" },
+    { "MONTH$",   "ii",       "f" },
+    { "NEXT",     "ii",       "f" },
+    { "NUM$",     "ii",       "f" },
+    { "OFF",      "ii",       "f" },
+    { "OPEN",     "ii",       "f" },
+    { "ONERR",    "ii",       "f" },
+    { "PAUSE",    "ii",       "f" },
+    { "PEEKB",    "ii",       "f" },
+    { "PEEKW",    "ii",       "f" },
+    { "PI",       "ii",       "f" },
+    { "POKEB",    "ii",       "f" },
+    { "POKEW",    "ii",       "f" },
+    { "POS",      "ii",       "f" },
+    { "POSITION", "ii",       "f" },
+    { "PRINT",    "ii",       "f" },
+    { "RAD",      "ii",       "f" },
+    { "RAISE",    "ii",       "f" },
+    { "RANDOMIZE","ii",       "f" },
+    { "RECSIZE",  "ii",       "f" },
+    { "REM",      "ii",       "f" },
+    { "RENAME",   "ii",       "f" },
+    { "REPT$",    "ii",       "f" },
+    { "RETURN",   "ii",       "f" },
+    { "RIGHT$",   "ii",       "f" },
+    { "RND",      "ii",       "f" },
+    { "SCI$",     "ii",       "f" },
+    { "SECOND",   "ii",       "f" },
+    { "SIN",      "ii",       "f" },
+    { "SPACE",    "ii",       "f" },
+    { "SQR",      "ii",       "f" },
+    { "STD",      "ii",       "f" },
+    { "STOP",     "ii",       "f" },
+    { "SUM",      "ii",       "f" },
+    { "TAN",      "ii",       "f" },
+    { "TRAP",     "ii",       "f" },
+    { "UDG",      "ii",       "f" },
+    { "UPDATE",   "ii",       "f" },
+    { "UPPER$",   "ii",       "f" },
+    { "USE",      "ii",       "f" },
+    { "USR",      "ii",       ""  },
+    { "USR$",     "ii",       "f" },
+    { "VAL",      "ii",       "f" },
+    { "VAR",      "ii",       "f" },
+    { "VIEW",     "ii",       "f" },
+    { "WEEK",     "ii",       "f" },
+    { "YEAR",     "ii",       "f" },
   };
 
 
@@ -645,14 +649,155 @@ void modify_expression_type(NOBJ_VARTYPE t)
 // Output expression processing
 //
 // Each expression is placed in this buffer and processed to create the
-// corresponding QCode
+// corresponding QCode.
 //
+// The buffer holds RPN codes with functions and operands in text form. This is
+// executed as RPN on a stack, but with no function. This is done to check the
+// typing of the functions and operands, and also as a general way to insert the
+// automatic type conversion codes.
+//
+// The reason that this is done is that the operands for an operator may be
+// arbitrarily far from the operator.
+//
+// For instance:
+//
+//     B = 2 * (3 * ( 4 + (1 + 1)))
+//
+//  is the following in RPN:
+//
+//
+//    B
+//    2      <=== First operand
+//    3
+//    4
+//    1
+//    1
+//    +
+//    +
+//    *
+//    *      <==== operator
+//    =
+//
+// From this you can see that the first operand of the * operator is
+// many entries in the stack away from the operator. Working out if an auto
+// conversion code should be inserted when that operand is emitted to the qcode
+// stream requires a look-ahead of many stack entries. Executing the code as RPN allows the
+// positions of auto conversion codes to be determined in a general way.
+//
+// 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+// Typechecking execution stack
+//
+
+void type_check_stack_print(void);
+
+#define MAX_TYPE_CHECK_STACK  40
+
+OP_STACK_ENTRY type_check_stack[MAX_TYPE_CHECK_STACK];
+int type_check_stack_ptr = 0;
+
+void type_check_stack_push(OP_STACK_ENTRY entry)
+{
+  printf("\n Push:'%s'", entry.name);
+
+  
+  if( type_check_stack_ptr < MAX_TYPE_CHECK_STACK )
+    {
+      type_check_stack[type_check_stack_ptr++] = entry;
+    }
+  else
+    {
+      printf("\n%s: Operator stack full", __FUNCTION__);
+      exit(-1);
+    }
+    type_check_stack_print();
+
+}
+
+// Copies data into string
+
+OP_STACK_ENTRY type_check_stack_pop(void)
+{
+  OP_STACK_ENTRY o;
+  
+  if( type_check_stack_ptr == 0 )
+    {
+      printf("\n%s: Operator stack empty", __FUNCTION__);
+      exit(-1);
+    }
+  
+  type_check_stack_ptr --;
+
+  o = type_check_stack[type_check_stack_ptr];
+  printf("\nPop '%s'", o.name);
+  type_check_stack_print();
+  return(o);
+}
+
+void type_check_stack_display(void)
+{
+  char *s;
+  
+  fprintf(ofp, "\n\nOperator Stack\n");
+  
+  for(int i=0; i<type_check_stack_ptr-1; i++)
+    {
+      s = type_check_stack[i].name;
+      fprintf(ofp, "\n%03d: %s type:%d", i, s, type_check_stack[i].type);
+    }
+}
+
+void type_check_stack_print(void)
+{
+  char *s;
+
+  printf("\n------------------");
+  printf("\nOperator Stack     (%d)\n", type_check_stack_ptr);
+  
+  for(int i=0; i<type_check_stack_ptr; i++)
+    {
+      s = type_check_stack[i].name;
+      printf("\n%03d: %s type:%d", i, s, type_check_stack[i].type);
+    }
+
+  printf("\n------------------\n");
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 #define MAX_EXP_BUFFER   200
 
+#define EXP_BUFF_ID_TKN        0x01
+#define EXP_BUFF_ID_SUB_START  0x02
+#define EXP_BUFF_ID_SUB_END    0x03
+#define EXP_BUFF_ID_VARIABLE   0x04
+#define EXP_BUFF_ID_INTEGER    0x05
+#define EXP_BUFF_ID_FLT        0x06
+#define EXP_BUFF_ID_STR        0x07
+#define EXP_BUFF_ID_FUNCTION   0x08
+#define EXP_BUFF_ID_OPERATOR   0x09
+
+char *exp_buffer_id_str[] =
+  {
+    "EXP_BUFF_ID_TKN",
+    "EXP_BUFF_ID_SUB_START",
+    "EXP_BUFF_ID_SUB_END",
+    "EXP_BUFF_ID_VARIABLE",
+    "EXP_BUFF_ID_INTEGER",
+    "EXP_BUFF_ID_FLT",
+    "EXP_BUFF_ID_STR",
+    "EXP_BUFF_ID_FUNCTION",
+    "EXP_BUFF_ID_OPERATOR",
+  };
+
 typedef struct _EXP_BUFFER_ENTRY
 {
+  char name[40];
   OP_STACK_ENTRY op;
+  int buf_id;
 } EXP_BUFFER_ENTRY;
 
 EXP_BUFFER_ENTRY exp_buffer[MAX_EXP_BUFFER];
@@ -666,46 +811,89 @@ void clear_exp_buffer(void)
   exp_buffer_i = 0;
 }
 
-void add_exp_buffer_entry(OP_STACK_ENTRY op)
+void add_exp_buffer_entry(OP_STACK_ENTRY op, int id)
 {
   exp_buffer[exp_buffer_i].op = op;
-
+  exp_buffer[exp_buffer_i].buf_id = id;
+  strcpy(&(exp_buffer[exp_buffer_i].name[0]), op.name);
   exp_buffer_i++;
+}
+
+void dump_exp_buffer(void)
+{
+  char *idstr;
+  
+  fprintf(ofp, "\nExpression buffer");
+  fprintf(ofp, "\n=================");
+  
+  for(int i=0; i<exp_buffer_i; i++)
+    {
+      OP_STACK_ENTRY token = exp_buffer[i].op;
+
+      fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, exp_buffer_id_str[exp_buffer[i].buf_id], type_to_char(token.type), type_to_char(token.req_type), exp_buffer[i].name);
+    }
+  
+    fprintf(ofp, "\n=================");
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Take the expression buffer and execute it for types
+//
+////////////////////////////////////////////////////////////////////////////////
+
+void typecheck_expression(void)
+{
+  for(int i=0; i<exp_buffer_i; i++)
+    {
+      // Execute
+#if 0
+      exp_buffer[exp_buffer_i].op = op;
+      exp_buffer[exp_buffer_i].buf_id = id;
+      strcpy(&(exp_buffer[exp_buffer_i].name[0]), op.name);
+#endif
+    }
+  
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
 
-FILE *ofp;
+
 
 void output_float(OP_STACK_ENTRY token)
 {
   printf("\nop float");
   fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(token.type), type_to_char(token.req_type), token.name);
+  add_exp_buffer_entry(token, EXP_BUFF_ID_FLT);
 }
 
 void output_integer(OP_STACK_ENTRY token)
 {
   printf("\nop integer");
   fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(token.type), type_to_char(token.req_type), token.name);
+  add_exp_buffer_entry(token, EXP_BUFF_ID_INTEGER);
 }
 
 void output_operator(OP_STACK_ENTRY op)
 {
   printf("\nop operator");
   fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(op.type), type_to_char(op.req_type), op.name);
+  add_exp_buffer_entry(op, EXP_BUFF_ID_OPERATOR);
 }
 
 void output_variable(OP_STACK_ENTRY op)
 {
   printf("\nop variable");
   fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(op.type), type_to_char(op.req_type), op.name);
+  add_exp_buffer_entry(op, EXP_BUFF_ID_VARIABLE);
 }
 
 void output_string(OP_STACK_ENTRY op)
 {
   printf("\nop string");
-  fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(op.type), type_to_char(op.req_type), op.name);
+  fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  add_exp_buffer_entry(op, EXP_BUFF_ID_STR);
 }
 
 // Markers used as comments, and hints
@@ -723,10 +911,38 @@ void output_marker(char *marker, ...)
   fprintf(ofp, "\n(%16s) %s", __FUNCTION__, line);
 }
 
+void output_sub_start(void)
+{
+  OP_STACK_ENTRY op;
+  
+  printf("\nSub expression start");
+  fprintf(ofp, "\n(%16s)", __FUNCTION__);
+
+  op.name = "";
+  op.type = NOBJ_VARTYPE_UNKNOWN;
+  add_exp_buffer_entry(op, EXP_BUFF_ID_SUB_START);
+}
+
+void output_sub_end(void)
+{
+  OP_STACK_ENTRY op;
+  
+  printf("\nSub expression end");
+  fprintf(ofp, "\n(%16s)", __FUNCTION__);
+
+  op.name = "";
+  op.type = NOBJ_VARTYPE_UNKNOWN;
+  add_exp_buffer_entry(op, EXP_BUFF_ID_SUB_END);
+}
+
 void output_expression_start(void)
 {
   printf("\nExpression start");
   fprintf(ofp, "\n(%16s)", __FUNCTION__);
+
+  dump_exp_buffer();
+  
+  clear_exp_buffer();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -907,8 +1123,6 @@ void process_token(char *token)
 
     if( strcmp(o1.name, ",")==0 )
     {
-      //output_marker("------- Comma 1");
-      
       while( (strlen(op_stack_top().name) != 0) &&
 	     strcmp(op_stack_top().name, "(") != 0 )
 	{
@@ -917,8 +1131,9 @@ void process_token(char *token)
 	  output_operator(o2);
 	}
 
-      output_marker("-------- Comma 2");
-	
+      //output_marker("-------- Comma 2");
+      output_sub_start();
+      
       // Commas delimit sub expressions, reset the expression type.
       expression_type = NOBJ_VARTYPE_UNKNOWN;
       return;
@@ -928,7 +1143,8 @@ void process_token(char *token)
     {
       OP_STACK_ENTRY o;
 
-      output_marker("--------- Sub 1");
+      //output_marker("--------- Sub 1");
+      output_sub_start();
       
       o.name = "(";
       o.type = NOBJ_VARTYPE_UNKNOWN;
@@ -963,7 +1179,8 @@ void process_token(char *token)
       printf("\nPop 4");
       o2 = op_stack_pop();
 
-      output_marker("-------- Sub E 2");
+      //output_marker("-------- Sub E 2");
+      output_sub_end();
       
       if( strcmp(o2.name, "(") != 0 )
 	{
@@ -978,8 +1195,9 @@ void process_token(char *token)
 	}
 
       expression_type = exp_type_pop();
-      
-      output_marker("-------- Sub E 3");
+
+      output_sub_end();
+      //output_marker("-------- Sub E 3");
       return;
     }
 
@@ -1152,9 +1370,9 @@ void process_expression(char *line)
   char ss[2];
   int end_cap_later = 0;
 
-  printf("\n==========================");
-  printf("\n%s", line);
-  printf("\n==========================");
+  fprintf(ofp, "\n==========================");
+  fprintf(ofp, "\n%s", line);
+  fprintf(ofp, "\n==========================");
 
   output_expression_start();
   
