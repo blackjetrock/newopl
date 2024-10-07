@@ -77,11 +77,11 @@ void op_stack_print(void);
 typedef struct _OP_INFO
 {
   char *name;
-  int  precedence;
-  int left_assoc;
-  int immutable;
-  int type[MAX_OPERATOR_TYPES];
-  int qcode;                     // Easily translatable qcodes
+  int   precedence;
+  int   left_assoc;
+  int   immutable;
+  int   type[MAX_OPERATOR_TYPES];
+  int   qcode;                     // Easily translatable qcodes
 } OP_INFO;
 
 OP_INFO  op_info[] =
@@ -986,6 +986,7 @@ void typecheck_expression(void)
 	  break;
 
 	case EXP_BUFF_ID_VARIABLE:
+	  type_check_stack_push(be.op);
 	  break;
 
 	case EXP_BUFF_ID_FLT:
@@ -1001,21 +1002,33 @@ void typecheck_expression(void)
 	  // operands. Some of them are mutable (polymorphic) and we have to bind them to their
 	  // type here.
 	  // Some are immutable and cause errors if theior operators are not correct
+	  
 	case EXP_BUFF_ID_OPERATOR:
 	  // Check that the operands are correct, i.e. all of them are the same and in
 	  // the list of acceptable types
 	  if( find_op_info(be.name, &op_info) )
 	    {
+	      fprintf(ofp, "\nFound operator %s", be.name);
+
+	      // Single type only, all operands must be that type
+	      op1 = type_check_stack_pop();
+	      op2 = type_check_stack_pop();
+	      
 	      // Check all operands are of correct type.
 	      if( op_info.immutable )
 		{
-		  // Single type only, all operands must be that type
-		  op1 = type_check_stack_pop();
-		  op2 = type_check_stack_pop();
-
+		  
 		  if( (op1.type ==  REQ_TYPE) && (op2.type == REQ_TYPE) )
 		    {
 		      // Types correct, copy operator over
+
+		      // Push dummy result
+		      OP_STACK_ENTRY res;
+		      strcpy(res.name, "000");
+		      res.type      = op1.type;
+		      res.req_type  = op1.type;
+		      type_check_stack_push(res);
+					    
 		    }
 		  else
 		    {
@@ -1055,6 +1068,12 @@ void typecheck_expression(void)
 			  be.op.req_type = NOBJ_VARTYPE_FLT;
 
 			}
+
+		      OP_STACK_ENTRY res;
+		      strcpy(res.name, "000");
+		      res.type      = op1.type;
+		      res.req_type  = op1.type;
+		      type_check_stack_push(res);
 
 		    }
 		}		
