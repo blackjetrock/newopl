@@ -116,6 +116,22 @@ int find_op_info(char *name, OP_INFO *op)
   return(0);
 }
 
+// Is type one of those in the list?
+int is_a_req_type(NOBJ_VARTYPE type, OP_INFO *op_info)
+{
+  for(int i=0; i<MAX_OPERATOR_TYPES; i++)
+    {
+      if( op_info->type[i] == type )
+	{
+	  // It is in the list
+	  return(1);
+	}
+    }
+
+  // Not in list
+  return(0);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Expression type is reset for each line and also for sub-lines separated by colons
@@ -768,6 +784,7 @@ OP_STACK_ENTRY type_check_stack_pop(void)
   type_check_stack_ptr --;
 
   o = type_check_stack[type_check_stack_ptr];
+  
   printf("\nPop '%s'", o.name);
   type_check_stack_print();
   return(o);
@@ -777,12 +794,12 @@ void type_check_stack_display(void)
 {
   char *s;
   
-  fprintf(ofp, "\n\nOperator Stack\n");
-  
-  for(int i=0; i<type_check_stack_ptr-1; i++)
+  fprintf(ofp, "\n\nType Check Stack (%d)\n", type_check_stack_ptr);
+
+  for(int i=0; i<type_check_stack_ptr; i++)
     {
       s = type_check_stack[i].name;
-      fprintf(ofp, "\n%03d: %s type:%d", i, s, type_check_stack[i].type);
+      fprintf(ofp, "\n%03d: '%s' type:%d", i, s, type_check_stack[i].type);
     }
 }
 
@@ -791,12 +808,12 @@ void type_check_stack_print(void)
   char *s;
 
   printf("\n------------------");
-  printf("\nOperator Stack     (%d)\n", type_check_stack_ptr);
+  printf("\nType Check Stack     (%d)\n", type_check_stack_ptr);
   
   for(int i=0; i<type_check_stack_ptr; i++)
     {
       s = type_check_stack[i].name;
-      printf("\n%03d: %s type:%d", i, s, type_check_stack[i].type);
+      printf("\n%03d: '%s' type:%d", i, s, type_check_stack[i].type);
     }
 
   printf("\n------------------\n");
@@ -824,6 +841,7 @@ void type_check_stack_init(void)
 
 char *exp_buffer_id_str[] =
   {
+    "EXP_BUFF_ID_???",
     "EXP_BUFF_ID_TKN",
     "EXP_BUFF_ID_SUB_START",
     "EXP_BUFF_ID_SUB_END",
@@ -845,6 +863,9 @@ typedef struct _EXP_BUFFER_ENTRY
 EXP_BUFFER_ENTRY exp_buffer[MAX_EXP_BUFFER];
 int exp_buffer_i = 0;
 
+EXP_BUFFER_ENTRY exp_buffer2[MAX_EXP_BUFFER];
+int exp_buffer2_i = 0;
+
 //------------------------------------------------------------------------------
 //
 
@@ -861,6 +882,14 @@ void add_exp_buffer_entry(OP_STACK_ENTRY op, int id)
   exp_buffer_i++;
 }
 
+void add_exp_buffer2_entry(OP_STACK_ENTRY op, int id)
+{
+  exp_buffer2[exp_buffer2_i].op = op;
+  exp_buffer2[exp_buffer2_i].buf_id = id;
+  strcpy(&(exp_buffer2[exp_buffer2_i].name[0]), op.name);
+  exp_buffer2_i++;
+}
+
 void dump_exp_buffer(void)
 {
   char *idstr;
@@ -872,7 +901,24 @@ void dump_exp_buffer(void)
     {
       OP_STACK_ENTRY token = exp_buffer[i].op;
 
-      fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, exp_buffer_id_str[exp_buffer[i].buf_id], type_to_char(token.type), type_to_char(token.req_type), exp_buffer[i].name);
+      fprintf(ofp, "\n(%16s) %-24s %c %c %s", __FUNCTION__, exp_buffer_id_str[exp_buffer[i].buf_id], type_to_char(token.type), type_to_char(token.req_type), exp_buffer[i].name);
+    }
+  
+    fprintf(ofp, "\n=================");
+}
+
+void dump_exp_buffer2(void)
+{
+  char *idstr;
+  
+  fprintf(ofp, "\nExpression buffer 2");
+  fprintf(ofp, "\n===================");
+  
+  for(int i=0; i<exp_buffer2_i; i++)
+    {
+      OP_STACK_ENTRY token = exp_buffer2[i].op;
+
+      fprintf(ofp, "\n(%16s) %-24s %c %c %s", __FUNCTION__, exp_buffer_id_str[exp_buffer2[i].buf_id], type_to_char(token.type), type_to_char(token.req_type), exp_buffer2[i].name);
     }
   
     fprintf(ofp, "\n=================");
@@ -892,7 +938,13 @@ void typecheck_expression(void)
   OP_INFO op_info;
   OP_STACK_ENTRY op1;
   OP_STACK_ENTRY op2;
+  int copied;
+  
+  // We copy results over to a second buffer, this allows easy insertion of
+  // needed extra codes
 
+  exp_buffer2_i = 0;
+  
   // We can check for an assignment and adjust the assignment token to
   // differentiate it from the equality token.
 
@@ -910,12 +962,15 @@ void typecheck_expression(void)
   type_check_stack_init();
 
 #define REQ_TYPE (op_info.type[0])
-  
+
   for(int i=0; i<exp_buffer_i; i++)
     {
       // Execute
       be = exp_buffer[i];
+      copied = 0;
 
+      fprintf(ofp, "\n BE:%s", be.name);
+		  
       switch(be.buf_id)
 	{
 	  // Not used
@@ -979,6 +1034,29 @@ void typecheck_expression(void)
 		  // INT and FLT have an additional requirement where INT is used
 		  // as long as possible, and also assignment can turn FLT into INT
 		  // or INT into FLT
+		  fprintf(ofp, "\n Mutable type %d %d", op1.type, op2.type);
+		  
+		  // Check types OK
+		  if( is_a_req_type(op1.type, &op_info) && is_a_req_type(op1.type, &op_info))
+		    {
+		      // Types are both OK
+		      // If they are the same then we will bind the operator type to that type
+		      if( op1.type == op2.type )
+			{
+			  fprintf(ofp, "\n same type");
+			  be.op.type = op1.type;
+			  be.op.req_type = op1.req_type;
+			}
+		      else
+			{
+			  // Which type do we use?
+			  // For now assume int and flt and promote to flt
+			  be.op.type = NOBJ_VARTYPE_FLT;
+			  be.op.req_type = NOBJ_VARTYPE_FLT;
+
+			}
+
+		    }
 		}		
 	    }
 	  else
@@ -989,12 +1067,14 @@ void typecheck_expression(void)
 	    
 	}
       
-      
-#if 0
-      exp_buffer[exp_buffer_i].op = op;
-      exp_buffer[exp_buffer_i].buf_id = id;
-      strcpy(&(exp_buffer[exp_buffer_i].name[0]), op.name);
-#endif
+      // If entry not copied over, copy it
+      if( !copied )
+	{
+	  exp_buffer2[exp_buffer2_i++] = be;
+	  //add_exp_buffer2_entry(be.op, be.buf_id);
+	}
+
+      type_check_stack_display();
     }
   
 }
@@ -1061,7 +1141,7 @@ void output_sub_start(void)
   printf("\nSub expression start");
   fprintf(ofp, "\n(%16s)", __FUNCTION__);
 
-  op.name = "";
+  strcpy(op.name,  "");
   op.type = NOBJ_VARTYPE_UNKNOWN;
   add_exp_buffer_entry(op, EXP_BUFF_ID_SUB_START);
 }
@@ -1073,7 +1153,7 @@ void output_sub_end(void)
   printf("\nSub expression end");
   fprintf(ofp, "\n(%16s)", __FUNCTION__);
 
-  op.name = "";
+  strcpy(op.name, "");
   op.type = NOBJ_VARTYPE_UNKNOWN;
   add_exp_buffer_entry(op, EXP_BUFF_ID_SUB_END);
 }
@@ -1086,6 +1166,7 @@ void output_expression_start(void)
   dump_exp_buffer();
   typecheck_expression();
   dump_exp_buffer();
+  dump_exp_buffer2();
     
   clear_exp_buffer();
 }
@@ -1144,7 +1225,7 @@ OP_STACK_ENTRY op_stack_top(void)
     {
       OP_STACK_ENTRY o;
       
-      o.name = "";
+      strcpy(o.name, "");
       o.type = NOBJ_VARTYPE_UNKNOWN;
       
       return(o);
@@ -1258,7 +1339,7 @@ void process_token(char *token)
   
   printf("\n   T:'%s'", token);
 
-  o1.name = token;
+  strcpy(o1.name, token);
   o1.type = expression_type;
   
   // Another token has arrived, process it using the shunting algorithm
@@ -1293,7 +1374,7 @@ void process_token(char *token)
       //output_marker("--------- Sub 1");
       output_sub_start();
       
-      o.name = "(";
+      strcpy(o.name, "(");
       o.type = NOBJ_VARTYPE_UNKNOWN;
       
       op_stack_push(o);
@@ -1370,7 +1451,7 @@ void process_token(char *token)
 
       printf("\nPush 1");
       
-      o1.name = tokptr;
+      strcpy(o1.name, tokptr);
       o1.type = NOBJ_VARTYPE_UNKNOWN;
       o1.req_type = expression_type;
       op_stack_push(o1);
@@ -1437,7 +1518,7 @@ void process_token(char *token)
   
   if( token_is_function(o1.name, &tokptr) )
     {
-      o1.name = tokptr;
+      strcpy(o1.name, tokptr);
       o1.type = expression_type;
             o1.req_type = expression_type;
       op_stack_push(o1);

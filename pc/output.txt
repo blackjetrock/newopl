@@ -9,6 +9,9 @@ Expression buffer
 Expression buffer
 =================
 =================
+Expression buffer 2
+===================
+=================
 ==========================
 LOCAL X%, Y%
 ==========================
@@ -18,6 +21,9 @@ Expression buffer
 =================
 Expression buffer
 =================
+=================
+Expression buffer 2
+===================
 =================
 ==========================
 LOCAL F$(10)
@@ -29,6 +35,9 @@ Expression buffer
 Expression buffer
 =================
 =================
+Expression buffer 2
+===================
+=================
 ==========================
 
 ==========================
@@ -38,6 +47,9 @@ Expression buffer
 =================
 Expression buffer
 =================
+=================
+Expression buffer 2
+===================
 =================
 ==========================
 A = 1.5
@@ -49,6 +61,9 @@ Expression buffer
 Expression buffer
 =================
 =================
+Expression buffer 2
+===================
+=================
 ( output_variable) f f A
 (    output_float) f f 1.5
 ( output_operator) f f =
@@ -58,15 +73,35 @@ B = 2.5
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 1.5
-( dump_exp_buffer) (null) f f =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 1.5
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f =
 =================
+ BE:A
+
+Type Check Stack (0)
+
+ BE:1.5
+
+Type Check Stack (1)
+
+000: '1.5' type:1
+ BE::=
+
+Type Check Stack (1)
+
+000: '1.5' type:1
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 1.5
-( dump_exp_buffer) (null) f f :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 1.5
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f A
+(dump_exp_buffer2) EXP_BUFF_ID_FLT          f f 1.5
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     f f :=
 =================
 ( output_variable) f f B
 (    output_float) f f 2.5
@@ -77,15 +112,35 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 2.5
-( dump_exp_buffer) (null) f f =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f B
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 2.5
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f =
 =================
+ BE:B
+
+Type Check Stack (0)
+
+ BE:2.5
+
+Type Check Stack (1)
+
+000: '2.5' type:1
+ BE::=
+
+Type Check Stack (1)
+
+000: '2.5' type:1
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 2.5
-( dump_exp_buffer) (null) f f :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f B
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 2.5
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f B
+(dump_exp_buffer2) EXP_BUFF_ID_FLT          f f 2.5
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     f f :=
 =================
 ==========================
 Y% = 10 * 1.5
@@ -96,6 +151,9 @@ Expression buffer
 =================
 Expression buffer
 =================
+=================
+Expression buffer 2
+===================
 =================
 ( output_variable) i i Y%
 (  output_integer) i i 10
@@ -108,19 +166,56 @@ PRINT Y%
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i Y%
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 10
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 1.5
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) (null) i i =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i Y%
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 10
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 1.5
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i =
 =================
+ BE:Y%
+
+Type Check Stack (0)
+
+ BE:10
+
+Type Check Stack (1)
+
+000: '10' type:0
+ BE:1.5
+
+Type Check Stack (2)
+
+000: '10' type:0
+001: '1.5' type:1
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (2)
+
+000: '10' type:0
+001: '1.5' type:1
+ BE::=
+
+Type Check Stack (2)
+
+000: '10' type:0
+001: '1.5' type:1
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i Y%
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 10
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 1.5
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) (null) i i :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i Y%
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 10
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 1.5
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     i i Y%
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 10
+(dump_exp_buffer2) EXP_BUFF_ID_FLT          f f 1.5
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i :=
 =================
 ( output_variable) i i Y%
 ( output_operator) U U PRINT
@@ -130,13 +225,26 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i Y%
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i Y%
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
+ BE:Y%
+
+Type Check Stack (0)
+
+ BE:PRINT
+
+Type Check Stack (0)
+
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i Y%
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i Y%
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     i i Y%
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
 ==========================
 X% = 10 * Y%
@@ -147,6 +255,9 @@ Expression buffer
 =================
 Expression buffer
 =================
+=================
+Expression buffer 2
+===================
 =================
 ( output_variable) i i X%
 (  output_integer) i i 10
@@ -159,19 +270,53 @@ PRINT X%
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 10
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i Y%
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) (null) i i =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 10
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i Y%
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i =
 =================
+ BE:X%
+
+Type Check Stack (0)
+
+ BE:10
+
+Type Check Stack (1)
+
+000: '10' type:0
+ BE:Y%
+
+Type Check Stack (1)
+
+000: '10' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (1)
+
+000: '10' type:0
+ BE::=
+
+Type Check Stack (1)
+
+000: '10' type:0
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 10
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i Y%
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) (null) i i :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 10
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i Y%
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     i i X%
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 10
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     i i Y%
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i :=
 =================
 ( output_variable) i i X%
 ( output_operator) U U PRINT
@@ -181,13 +326,26 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
+ BE:X%
+
+Type Check Stack (0)
+
+ BE:PRINT
+
+Type Check Stack (0)
+
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     i i X%
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
 ==========================
 X% = 1 + A + B
@@ -198,6 +356,9 @@ Expression buffer
 =================
 Expression buffer
 =================
+=================
+Expression buffer 2
+===================
 =================
 ( output_variable) i i X%
 (  output_integer) i i 1
@@ -212,23 +373,71 @@ PRINT X%
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
-( dump_exp_buffer) (null) U f +
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) (null) i i =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f B
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f +
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i =
 =================
+ BE:X%
+
+Type Check Stack (0)
+
+ BE:1
+
+Type Check Stack (1)
+
+000: '1' type:0
+ BE:A
+
+Type Check Stack (1)
+
+000: '1' type:0
+ BE:B
+
+Type Check Stack (1)
+
+000: '1' type:0
+ BE:+
+ Mutable type 0 0
+ same type
+
+Type Check Stack (1)
+
+000: '1' type:0
+ BE:+
+ Mutable type 0 0
+ same type
+
+Type Check Stack (1)
+
+000: '1' type:0
+ BE::=
+
+Type Check Stack (1)
+
+000: '1' type:0
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
-( dump_exp_buffer) (null) U f +
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) (null) i i :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f B
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f +
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     i i X%
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 1
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f A
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f B
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i +
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i +
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i :=
 =================
 ( output_variable) i i X%
 ( output_operator) U U PRINT
@@ -238,13 +447,26 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
+ BE:X%
+
+Type Check Stack (0)
+
+ BE:PRINT
+
+Type Check Stack (0)
+
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     i i X%
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
 ==========================
 X% = INT(FLT(1) + A * FLT(4))
@@ -255,6 +477,9 @@ Expression buffer
 =================
 Expression buffer
 =================
+=================
+Expression buffer 2
+===================
 =================
 ( output_variable) i i X%
 (output_sub_start)
@@ -281,47 +506,175 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U U 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) U U FLT
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 4
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) f f FLT
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) (null) U U +
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i INT
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U FLT
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 4
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U U 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f FLT
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i INT
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i =
 =================
+ BE:X%
+
+Type Check Stack (0)
+
+ BE:
+
+Type Check Stack (0)
+
+ BE:
+
+Type Check Stack (0)
+
+ BE:1
+
+Type Check Stack (1)
+
+000: '1' type:0
+ BE:
+
+Type Check Stack (1)
+
+000: '1' type:0
+ BE:FLT
+
+Type Check Stack (1)
+
+000: '1' type:0
+ BE:
+
+Type Check Stack (1)
+
+000: '1' type:0
+ BE:A
+
+Type Check Stack (1)
+
+000: '1' type:0
+ BE:
+
+Type Check Stack (1)
+
+000: '1' type:0
+ BE:4
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '4' type:0
+ BE:
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '4' type:0
+ BE:FLT
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '4' type:0
+ BE:
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '4' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '4' type:0
+ BE:+
+ Mutable type 0 0
+ same type
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '4' type:0
+ BE:
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '4' type:0
+ BE:INT
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '4' type:0
+ BE:
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '4' type:0
+ BE::=
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '4' type:0
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U U 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) U U FLT
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 4
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) f f FLT
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) (null) U U +
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i INT
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U FLT
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 4
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U U 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f FLT
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i INT
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     i i X%
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 1
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     U U FLT
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f A
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 4
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U U 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     f f FLT
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i +
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i INT
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i :=
 =================
 ==========================
 PRINT X%
@@ -333,6 +686,9 @@ Expression buffer
 Expression buffer
 =================
 =================
+Expression buffer 2
+===================
+=================
 ( output_variable) i i X%
 ( output_operator) U U PRINT
 ==========================
@@ -341,13 +697,26 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
+ BE:X%
+
+Type Check Stack (0)
+
+ BE:PRINT
+
+Type Check Stack (0)
+
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     i i X%
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
 ==========================
 A = X% + Y%
@@ -358,6 +727,9 @@ Expression buffer
 =================
 Expression buffer
 =================
+=================
+Expression buffer 2
+===================
 =================
 ( output_variable) f f A
 ( output_variable) f f X%
@@ -370,19 +742,49 @@ PRINT A
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f X%
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f Y%
-( dump_exp_buffer) (null) U f +
-( dump_exp_buffer) (null) f f =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f X%
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f Y%
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f +
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f =
 =================
+ BE:A
+
+Type Check Stack (0)
+
+ BE:X%
+
+Type Check Stack (0)
+
+ BE:Y%
+
+Type Check Stack (0)
+
+ BE:+
+ Mutable type 0 0
+ same type
+
+Type Check Stack (0)
+
+ BE::=
+
+Type Check Stack (0)
+
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f X%
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f Y%
-( dump_exp_buffer) (null) U f +
-( dump_exp_buffer) (null) f f :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f X%
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f Y%
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f +
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f A
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f X%
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f Y%
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i +
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     f f :=
 =================
 ( output_variable) f f A
 ( output_operator) U U PRINT
@@ -392,13 +794,26 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
+ BE:A
+
+Type Check Stack (0)
+
+ BE:PRINT
+
+Type Check Stack (0)
+
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f A
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
 ==========================
 B = 1 * 2 + A
@@ -409,6 +824,9 @@ Expression buffer
 =================
 Expression buffer
 =================
+=================
+Expression buffer 2
+===================
 =================
 ( output_variable) f f B
 (  output_integer) i f 1
@@ -423,23 +841,76 @@ B = 1 * ( 2 + A )
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 2
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) (null) U f +
-( dump_exp_buffer) (null) f f =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f B
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 1
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 2
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f +
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f =
 =================
+ BE:B
+
+Type Check Stack (0)
+
+ BE:1
+
+Type Check Stack (1)
+
+000: '1' type:0
+ BE:2
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '2' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '2' type:0
+ BE:A
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '2' type:0
+ BE:+
+ Mutable type 0 0
+ same type
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '2' type:0
+ BE::=
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '2' type:0
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 2
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) (null) U f +
-( dump_exp_buffer) (null) f f :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f B
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 1
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 2
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f +
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f B
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i f 1
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i f 2
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f A
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i +
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     f f :=
 =================
 ( output_variable) f f B
 (  output_integer) i f 1
@@ -457,29 +928,102 @@ B = 2 * (3 * ( 4 + (1 + 1)))
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 2
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) (null) f f =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f B
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 1
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 2
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U f 
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f =
 =================
+ BE:B
+
+Type Check Stack (0)
+
+ BE:1
+
+Type Check Stack (1)
+
+000: '1' type:0
+ BE:
+
+Type Check Stack (1)
+
+000: '1' type:0
+ BE:2
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '2' type:0
+ BE:A
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '2' type:0
+ BE:+
+ Mutable type 0 0
+ same type
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '2' type:0
+ BE:
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '2' type:0
+ BE:
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '2' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '2' type:0
+ BE::=
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '2' type:0
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 2
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) (null) f f :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f B
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 1
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 2
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U f 
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f B
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i f 1
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 2
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f A
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i +
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U f 
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     f f :=
 =================
 ( output_variable) f f B
 (  output_integer) i f 2
@@ -507,49 +1051,236 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 2
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 3
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 4
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) (null) f f =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f B
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 2
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 3
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 4
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U f 
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U f 
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U f 
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f =
 =================
+ BE:B
+
+Type Check Stack (0)
+
+ BE:2
+
+Type Check Stack (1)
+
+000: '2' type:0
+ BE:
+
+Type Check Stack (1)
+
+000: '2' type:0
+ BE:3
+
+Type Check Stack (2)
+
+000: '2' type:0
+001: '3' type:0
+ BE:
+
+Type Check Stack (2)
+
+000: '2' type:0
+001: '3' type:0
+ BE:4
+
+Type Check Stack (3)
+
+000: '2' type:0
+001: '3' type:0
+002: '4' type:0
+ BE:
+
+Type Check Stack (3)
+
+000: '2' type:0
+001: '3' type:0
+002: '4' type:0
+ BE:1
+
+Type Check Stack (4)
+
+000: '2' type:0
+001: '3' type:0
+002: '4' type:0
+003: '1' type:0
+ BE:1
+
+Type Check Stack (5)
+
+000: '2' type:0
+001: '3' type:0
+002: '4' type:0
+003: '1' type:0
+004: '1' type:0
+ BE:+
+ Mutable type 0 0
+ same type
+
+Type Check Stack (5)
+
+000: '2' type:0
+001: '3' type:0
+002: '4' type:0
+003: '1' type:0
+004: '1' type:0
+ BE:
+
+Type Check Stack (5)
+
+000: '2' type:0
+001: '3' type:0
+002: '4' type:0
+003: '1' type:0
+004: '1' type:0
+ BE:
+
+Type Check Stack (5)
+
+000: '2' type:0
+001: '3' type:0
+002: '4' type:0
+003: '1' type:0
+004: '1' type:0
+ BE:+
+ Mutable type 0 0
+ same type
+
+Type Check Stack (5)
+
+000: '2' type:0
+001: '3' type:0
+002: '4' type:0
+003: '1' type:0
+004: '1' type:0
+ BE:
+
+Type Check Stack (5)
+
+000: '2' type:0
+001: '3' type:0
+002: '4' type:0
+003: '1' type:0
+004: '1' type:0
+ BE:
+
+Type Check Stack (5)
+
+000: '2' type:0
+001: '3' type:0
+002: '4' type:0
+003: '1' type:0
+004: '1' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (5)
+
+000: '2' type:0
+001: '3' type:0
+002: '4' type:0
+003: '1' type:0
+004: '1' type:0
+ BE:
+
+Type Check Stack (5)
+
+000: '2' type:0
+001: '3' type:0
+002: '4' type:0
+003: '1' type:0
+004: '1' type:0
+ BE:
+
+Type Check Stack (5)
+
+000: '2' type:0
+001: '3' type:0
+002: '4' type:0
+003: '1' type:0
+004: '1' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (5)
+
+000: '2' type:0
+001: '3' type:0
+002: '4' type:0
+003: '1' type:0
+004: '1' type:0
+ BE::=
+
+Type Check Stack (5)
+
+000: '2' type:0
+001: '3' type:0
+002: '4' type:0
+003: '1' type:0
+004: '1' type:0
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 2
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 3
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 4
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) (null) f f :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f B
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 2
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 3
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 4
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U f 
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U f 
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U f 
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f B
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i f 2
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 3
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 4
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 1
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 1
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i +
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U f 
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i +
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U f 
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U f 
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     f f :=
 =================
 ==========================
 PRINT B
@@ -561,6 +1292,9 @@ Expression buffer
 Expression buffer
 =================
 =================
+Expression buffer 2
+===================
+=================
 ( output_variable) f f B
 ( output_operator) U U PRINT
 ==========================
@@ -569,13 +1303,26 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f B
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
+ BE:B
+
+Type Check Stack (0)
+
+ BE:PRINT
+
+Type Check Stack (0)
+
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f B
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f B
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
 ==========================
 PRINT 1 * 2 + A
@@ -586,6 +1333,9 @@ Expression buffer
 =================
 Expression buffer
 =================
+=================
+Expression buffer 2
+===================
 =================
 (  output_integer) i i 1
 (  output_integer) i i 2
@@ -599,21 +1349,63 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 2
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 2
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
+ BE:1
+
+Type Check Stack (0)
+
+ BE:2
+
+Type Check Stack (1)
+
+000: '2' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (1)
+
+000: '2' type:0
+ BE:A
+
+Type Check Stack (1)
+
+000: '2' type:0
+ BE:+
+ Mutable type 0 0
+ same type
+
+Type Check Stack (1)
+
+000: '2' type:0
+ BE:PRINT
+
+Type Check Stack (1)
+
+000: '2' type:0
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i 1
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 2
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i 1
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 2
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     i i 1
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 2
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f A
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i +
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
 ==========================
 PRINT "Point 2"
@@ -625,6 +1417,9 @@ Expression buffer
 Expression buffer
 =================
 =================
+Expression buffer 2
+===================
+=================
 (   output_string) U U "Point 2"
 ( output_operator) U U PRINT
 ==========================
@@ -633,13 +1428,26 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_FUNCTION U U "Point 2"
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_STR          U U "Point 2"
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
+ BE:"Point 2"
+
+Type Check Stack (0)
+
+ BE:PRINT
+
+Type Check Stack (0)
+
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER U U "Point 2"
-( dump_exp_buffer) (null) U U PRINT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     U U "Point 2"
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U U PRINT
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     U U "Point 2"
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     U U PRINT
 =================
 ==========================
 A = 1000*1000*1000
@@ -650,6 +1458,9 @@ Expression buffer
 =================
 Expression buffer
 =================
+=================
+Expression buffer 2
+===================
 =================
 ( output_variable) f f A
 (  output_integer) i f 1000
@@ -664,23 +1475,79 @@ A = 1000.*1000*1000
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) (null) f f =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 1000
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 1000
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 1000
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f =
 =================
+ BE:A
+
+Type Check Stack (0)
+
+ BE:1000
+
+Type Check Stack (1)
+
+000: '1000' type:0
+ BE:1000
+
+Type Check Stack (2)
+
+000: '1000' type:0
+001: '1000' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (2)
+
+000: '1000' type:0
+001: '1000' type:0
+ BE:1000
+
+Type Check Stack (3)
+
+000: '1000' type:0
+001: '1000' type:0
+002: '1000' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (3)
+
+000: '1000' type:0
+001: '1000' type:0
+002: '1000' type:0
+ BE::=
+
+Type Check Stack (3)
+
+000: '1000' type:0
+001: '1000' type:0
+002: '1000' type:0
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) (null) f f :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 1000
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 1000
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 1000
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f A
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i f 1000
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i f 1000
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i f 1000
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     f f :=
 =================
 ( output_variable) f f A
 (    output_float) f f 1000.
@@ -695,23 +1562,79 @@ A = 1000.*(1000*1000)
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 1000.
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) (null) f f =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 1000.
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 1000
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 1000
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f =
 =================
+ BE:A
+
+Type Check Stack (0)
+
+ BE:1000.
+
+Type Check Stack (1)
+
+000: '1000.' type:1
+ BE:1000
+
+Type Check Stack (2)
+
+000: '1000.' type:1
+001: '1000' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (2)
+
+000: '1000.' type:1
+001: '1000' type:0
+ BE:1000
+
+Type Check Stack (3)
+
+000: '1000.' type:1
+001: '1000' type:0
+002: '1000' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (3)
+
+000: '1000.' type:1
+001: '1000' type:0
+002: '1000' type:0
+ BE::=
+
+Type Check Stack (3)
+
+000: '1000.' type:1
+001: '1000' type:0
+002: '1000' type:0
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 1000.
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) (null) f f :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 1000.
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 1000
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i f 1000
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f A
+(dump_exp_buffer2) EXP_BUFF_ID_FLT          f f 1000.
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i f 1000
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i f 1000
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     f f :=
 =================
 ( output_variable) f f A
 (    output_float) f f 1000.
@@ -729,29 +1652,108 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 1000.
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1000
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1000
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) (null) f f =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 1000.
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1000
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1000
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U f 
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f =
 =================
+ BE:A
+
+Type Check Stack (0)
+
+ BE:1000.
+
+Type Check Stack (1)
+
+000: '1000.' type:1
+ BE:
+
+Type Check Stack (1)
+
+000: '1000.' type:1
+ BE:1000
+
+Type Check Stack (2)
+
+000: '1000.' type:1
+001: '1000' type:0
+ BE:1000
+
+Type Check Stack (3)
+
+000: '1000.' type:1
+001: '1000' type:0
+002: '1000' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (3)
+
+000: '1000.' type:1
+001: '1000' type:0
+002: '1000' type:0
+ BE:
+
+Type Check Stack (3)
+
+000: '1000.' type:1
+001: '1000' type:0
+002: '1000' type:0
+ BE:
+
+Type Check Stack (3)
+
+000: '1000.' type:1
+001: '1000' type:0
+002: '1000' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (3)
+
+000: '1000.' type:1
+001: '1000' type:0
+002: '1000' type:0
+ BE::=
+
+Type Check Stack (3)
+
+000: '1000.' type:1
+001: '1000' type:0
+002: '1000' type:0
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 1000.
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1000
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1000
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) (null) f f :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 1000.
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1000
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1000
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U f 
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f A
+(dump_exp_buffer2) EXP_BUFF_ID_FLT          f f 1000.
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 1000
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 1000
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U f 
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     f f :=
 =================
 ==========================
 F$="ABC"
@@ -763,6 +1765,9 @@ Expression buffer
 Expression buffer
 =================
 =================
+Expression buffer 2
+===================
+=================
 ( output_variable) s s F$
 (   output_string) s s "ABC"
 ( output_operator) s s =
@@ -772,15 +1777,35 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER s s F$
-( dump_exp_buffer) EXP_BUFF_ID_FUNCTION s s "ABC"
-( dump_exp_buffer) (null) s s =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     s s F$
+( dump_exp_buffer) EXP_BUFF_ID_STR          s s "ABC"
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     s s =
 =================
+ BE:F$
+
+Type Check Stack (0)
+
+ BE:"ABC"
+
+Type Check Stack (1)
+
+000: '"ABC"' type:2
+ BE::=
+
+Type Check Stack (1)
+
+000: '"ABC"' type:2
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER s s F$
-( dump_exp_buffer) EXP_BUFF_ID_FUNCTION s s "ABC"
-( dump_exp_buffer) (null) s s :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     s s F$
+( dump_exp_buffer) EXP_BUFF_ID_STR          s s "ABC"
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     s s :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     s s F$
+(dump_exp_buffer2) EXP_BUFF_ID_STR          s s "ABC"
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     s s :=
 =================
 ==========================
 A = SIN(45*2)
@@ -791,6 +1816,9 @@ Expression buffer
 =================
 Expression buffer
 =================
+=================
+Expression buffer 2
+===================
 =================
 ( output_variable) f f A
 (output_sub_start)
@@ -807,27 +1835,90 @@ B = SIN(45*2.0)
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 45
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 2
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) f f SIN
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) f f =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 45
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 2
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f SIN
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f =
 =================
+ BE:A
+
+Type Check Stack (0)
+
+ BE:
+
+Type Check Stack (0)
+
+ BE:45
+
+Type Check Stack (1)
+
+000: '45' type:0
+ BE:2
+
+Type Check Stack (2)
+
+000: '45' type:0
+001: '2' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (2)
+
+000: '45' type:0
+001: '2' type:0
+ BE:
+
+Type Check Stack (2)
+
+000: '45' type:0
+001: '2' type:0
+ BE:SIN
+
+Type Check Stack (2)
+
+000: '45' type:0
+001: '2' type:0
+ BE:
+
+Type Check Stack (2)
+
+000: '45' type:0
+001: '2' type:0
+ BE::=
+
+Type Check Stack (2)
+
+000: '45' type:0
+001: '2' type:0
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 45
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 2
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) f f SIN
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) f f :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f A
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 45
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 2
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f SIN
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f A
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 45
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 2
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     f f SIN
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     f f :=
 =================
 ( output_variable) f f B
 (output_sub_start)
@@ -844,27 +1935,90 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 45
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 2.0
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) f f SIN
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) f f =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f B
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 45
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 2.0
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f SIN
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f =
 =================
+ BE:B
+
+Type Check Stack (0)
+
+ BE:
+
+Type Check Stack (0)
+
+ BE:45
+
+Type Check Stack (1)
+
+000: '45' type:0
+ BE:2.0
+
+Type Check Stack (2)
+
+000: '45' type:0
+001: '2.0' type:1
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (2)
+
+000: '45' type:0
+001: '2.0' type:1
+ BE:
+
+Type Check Stack (2)
+
+000: '45' type:0
+001: '2.0' type:1
+ BE:SIN
+
+Type Check Stack (2)
+
+000: '45' type:0
+001: '2.0' type:1
+ BE:
+
+Type Check Stack (2)
+
+000: '45' type:0
+001: '2.0' type:1
+ BE::=
+
+Type Check Stack (2)
+
+000: '45' type:0
+001: '2.0' type:1
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 45
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 2.0
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) f f SIN
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) f f :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     f f B
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 45
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 2.0
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f SIN
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     f f :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     f f B
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 45
+(dump_exp_buffer2) EXP_BUFF_ID_FLT          f f 2.0
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     f f SIN
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     f f :=
 =================
 ==========================
 X% = USR(X%, Y%)
@@ -875,6 +2029,9 @@ Expression buffer
 =================
 Expression buffer
 =================
+=================
+Expression buffer 2
+===================
 =================
 ( output_variable) i i X%
 (output_sub_start)
@@ -891,27 +2048,75 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U ? 
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i Y%
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i USR
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i Y%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i USR
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i =
 =================
+ BE:X%
+
+Type Check Stack (0)
+
+ BE:
+
+Type Check Stack (0)
+
+ BE:X%
+
+Type Check Stack (0)
+
+ BE:
+
+Type Check Stack (0)
+
+ BE:Y%
+
+Type Check Stack (0)
+
+ BE:
+
+Type Check Stack (0)
+
+ BE:USR
+
+Type Check Stack (0)
+
+ BE:
+
+Type Check Stack (0)
+
+ BE::=
+
+Type Check Stack (0)
+
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U ? 
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i Y%
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i USR
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i Y%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i USR
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     i i X%
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     i i X%
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     i i Y%
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i USR
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i :=
 =================
 ==========================
 X% = USR(12*4+1, 20*3+4)
@@ -922,6 +2127,9 @@ Expression buffer
 =================
 Expression buffer
 =================
+=================
+Expression buffer 2
+===================
 =================
 ( output_variable) i i X%
 (output_sub_start)
@@ -946,43 +2154,203 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 12
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 4
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U ? 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 20
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 3
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 4
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i USR
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 12
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 4
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 20
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 3
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 4
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i USR
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i =
 =================
+ BE:X%
+
+Type Check Stack (0)
+
+ BE:
+
+Type Check Stack (0)
+
+ BE:12
+
+Type Check Stack (1)
+
+000: '12' type:0
+ BE:4
+
+Type Check Stack (2)
+
+000: '12' type:0
+001: '4' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (2)
+
+000: '12' type:0
+001: '4' type:0
+ BE:1
+
+Type Check Stack (3)
+
+000: '12' type:0
+001: '4' type:0
+002: '1' type:0
+ BE:+
+ Mutable type 0 0
+ same type
+
+Type Check Stack (3)
+
+000: '12' type:0
+001: '4' type:0
+002: '1' type:0
+ BE:
+
+Type Check Stack (3)
+
+000: '12' type:0
+001: '4' type:0
+002: '1' type:0
+ BE:20
+
+Type Check Stack (4)
+
+000: '12' type:0
+001: '4' type:0
+002: '1' type:0
+003: '20' type:0
+ BE:3
+
+Type Check Stack (5)
+
+000: '12' type:0
+001: '4' type:0
+002: '1' type:0
+003: '20' type:0
+004: '3' type:0
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (5)
+
+000: '12' type:0
+001: '4' type:0
+002: '1' type:0
+003: '20' type:0
+004: '3' type:0
+ BE:4
+
+Type Check Stack (6)
+
+000: '12' type:0
+001: '4' type:0
+002: '1' type:0
+003: '20' type:0
+004: '3' type:0
+005: '4' type:0
+ BE:+
+ Mutable type 0 0
+ same type
+
+Type Check Stack (6)
+
+000: '12' type:0
+001: '4' type:0
+002: '1' type:0
+003: '20' type:0
+004: '3' type:0
+005: '4' type:0
+ BE:
+
+Type Check Stack (6)
+
+000: '12' type:0
+001: '4' type:0
+002: '1' type:0
+003: '20' type:0
+004: '3' type:0
+005: '4' type:0
+ BE:USR
+
+Type Check Stack (6)
+
+000: '12' type:0
+001: '4' type:0
+002: '1' type:0
+003: '20' type:0
+004: '3' type:0
+005: '4' type:0
+ BE:
+
+Type Check Stack (6)
+
+000: '12' type:0
+001: '4' type:0
+002: '1' type:0
+003: '20' type:0
+004: '3' type:0
+005: '4' type:0
+ BE::=
+
+Type Check Stack (6)
+
+000: '12' type:0
+001: '4' type:0
+002: '1' type:0
+003: '20' type:0
+004: '3' type:0
+005: '4' type:0
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 12
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 4
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U ? 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 20
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 3
-( dump_exp_buffer) (null) U i *
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 4
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i USR
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 12
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 4
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 20
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 3
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i *
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 4
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i USR
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     i i X%
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 12
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 4
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 1
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i +
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 20
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 3
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 4
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i +
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i USR
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i :=
 =================
 ==========================
 X% = USR(1+2, 1.2*3.6)
@@ -993,6 +2361,9 @@ Expression buffer
 =================
 Expression buffer
 =================
+=================
+Expression buffer 2
+===================
 =================
 ( output_variable) i i X%
 (output_sub_start)
@@ -1013,35 +2384,141 @@ Expression buffer
 (output_expression_start)
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 2
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U ? 
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 1.2
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 3.6
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i USR
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i =
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 2
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 1.2
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 3.6
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i USR
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i =
 =================
+ BE:X%
+
+Type Check Stack (0)
+
+ BE:
+
+Type Check Stack (0)
+
+ BE:1
+
+Type Check Stack (1)
+
+000: '1' type:0
+ BE:2
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '2' type:0
+ BE:+
+ Mutable type 0 0
+ same type
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '2' type:0
+ BE:
+
+Type Check Stack (2)
+
+000: '1' type:0
+001: '2' type:0
+ BE:1.2
+
+Type Check Stack (3)
+
+000: '1' type:0
+001: '2' type:0
+002: '1.2' type:1
+ BE:3.6
+
+Type Check Stack (4)
+
+000: '1' type:0
+001: '2' type:0
+002: '1.2' type:1
+003: '3.6' type:1
+ BE:*
+ Mutable type 0 0
+ same type
+
+Type Check Stack (4)
+
+000: '1' type:0
+001: '2' type:0
+002: '1.2' type:1
+003: '3.6' type:1
+ BE:
+
+Type Check Stack (4)
+
+000: '1' type:0
+001: '2' type:0
+002: '1.2' type:1
+003: '3.6' type:1
+ BE:USR
+
+Type Check Stack (4)
+
+000: '1' type:0
+001: '2' type:0
+002: '1.2' type:1
+003: '3.6' type:1
+ BE:
+
+Type Check Stack (4)
+
+000: '1' type:0
+001: '2' type:0
+002: '1.2' type:1
+003: '3.6' type:1
+ BE::=
+
+Type Check Stack (4)
+
+000: '1' type:0
+001: '2' type:0
+002: '1.2' type:1
+003: '3.6' type:1
 Expression buffer
 =================
-( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
-( dump_exp_buffer) EXP_BUFF_ID_FLT i i 2
-( dump_exp_buffer) (null) U i +
-( dump_exp_buffer) EXP_BUFF_ID_SUB_END U ? 
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 1.2
-( dump_exp_buffer) EXP_BUFF_ID_STR f f 3.6
-( dump_exp_buffer) (null) U f *
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i USR
-( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
-( dump_exp_buffer) (null) i i :=
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE     i i X%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 1
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER      i i 2
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U i +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_START    U i 
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 1.2
+( dump_exp_buffer) EXP_BUFF_ID_FLT          f f 3.6
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     U f *
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i USR
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END      U i 
+( dump_exp_buffer) EXP_BUFF_ID_OPERATOR     i i :=
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) EXP_BUFF_ID_VARIABLE     i i X%
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 1
+(dump_exp_buffer2) EXP_BUFF_ID_INTEGER      i i 2
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i +
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_START    U i 
+(dump_exp_buffer2) EXP_BUFF_ID_FLT          f f 1.2
+(dump_exp_buffer2) EXP_BUFF_ID_FLT          f f 3.6
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i *
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i USR
+(dump_exp_buffer2) EXP_BUFF_ID_SUB_END      U i 
+(dump_exp_buffer2) EXP_BUFF_ID_OPERATOR     i i :=
 =================
 ==========================
 A = SIN ( MAX ( 2, 3 ) / 3 * 3.14 )
@@ -1052,6 +2529,9 @@ Expression buffer
 =================
 Expression buffer
 =================
+=================
+Expression buffer 2
+===================
 =================
 ( output_variable) f f A
 (output_sub_start)
