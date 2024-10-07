@@ -6,10 +6,16 @@ LOCAL A, B
 Expression buffer
 =================
 =================
+Expression buffer
+=================
+=================
 ==========================
 LOCAL X%, Y%
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -20,6 +26,9 @@ LOCAL F$(10)
 Expression buffer
 =================
 =================
+Expression buffer
+=================
+=================
 ==========================
 
 ==========================
@@ -27,10 +36,16 @@ Expression buffer
 Expression buffer
 =================
 =================
+Expression buffer
+=================
+=================
 ==========================
 A = 1.5
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -47,6 +62,12 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_STR f f 1.5
 ( dump_exp_buffer) (null) f f =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
+( dump_exp_buffer) EXP_BUFF_ID_STR f f 1.5
+( dump_exp_buffer) (null) f f :=
+=================
 ( output_variable) f f B
 (    output_float) f f 2.5
 ( output_operator) f f =
@@ -60,10 +81,19 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_STR f f 2.5
 ( dump_exp_buffer) (null) f f =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
+( dump_exp_buffer) EXP_BUFF_ID_STR f f 2.5
+( dump_exp_buffer) (null) f f :=
+=================
 ==========================
 Y% = 10 * 1.5
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -84,6 +114,14 @@ Expression buffer
 ( dump_exp_buffer) (null) U i *
 ( dump_exp_buffer) (null) i i =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i Y%
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 10
+( dump_exp_buffer) EXP_BUFF_ID_STR f f 1.5
+( dump_exp_buffer) (null) U i *
+( dump_exp_buffer) (null) i i :=
+=================
 ( output_variable) i i Y%
 ( output_operator) U U PRINT
 ==========================
@@ -95,10 +133,18 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i Y%
 ( dump_exp_buffer) (null) U U PRINT
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i Y%
+( dump_exp_buffer) (null) U U PRINT
+=================
 ==========================
 X% = 10 * Y%
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -119,6 +165,14 @@ Expression buffer
 ( dump_exp_buffer) (null) U i *
 ( dump_exp_buffer) (null) i i =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 10
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i Y%
+( dump_exp_buffer) (null) U i *
+( dump_exp_buffer) (null) i i :=
+=================
 ( output_variable) i i X%
 ( output_operator) U U PRINT
 ==========================
@@ -130,10 +184,18 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
 ( dump_exp_buffer) (null) U U PRINT
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
+( dump_exp_buffer) (null) U U PRINT
+=================
 ==========================
 X% = 1 + A + B
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -158,6 +220,16 @@ Expression buffer
 ( dump_exp_buffer) (null) U i +
 ( dump_exp_buffer) (null) i i =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
+( dump_exp_buffer) (null) U f +
+( dump_exp_buffer) (null) U i +
+( dump_exp_buffer) (null) i i :=
+=================
 ( output_variable) i i X%
 ( output_operator) U U PRINT
 ==========================
@@ -169,10 +241,18 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
 ( dump_exp_buffer) (null) U U PRINT
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
+( dump_exp_buffer) (null) U U PRINT
+=================
 ==========================
 X% = INT(FLT(1) + A * FLT(4))
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -221,10 +301,35 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
 ( dump_exp_buffer) (null) i i =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U U 
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) U U FLT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 4
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) f f FLT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) U f *
+( dump_exp_buffer) (null) U U +
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) i i INT
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) i i :=
+=================
 ==========================
 PRINT X%
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -239,10 +344,18 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
 ( dump_exp_buffer) (null) U U PRINT
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
+( dump_exp_buffer) (null) U U PRINT
+=================
 ==========================
 A = X% + Y%
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -263,6 +376,14 @@ Expression buffer
 ( dump_exp_buffer) (null) U f +
 ( dump_exp_buffer) (null) f f =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f X%
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f Y%
+( dump_exp_buffer) (null) U f +
+( dump_exp_buffer) (null) f f :=
+=================
 ( output_variable) f f A
 ( output_operator) U U PRINT
 ==========================
@@ -274,10 +395,18 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
 ( dump_exp_buffer) (null) U U PRINT
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
+( dump_exp_buffer) (null) U U PRINT
+=================
 ==========================
 B = 1 * 2 + A
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -301,6 +430,16 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
 ( dump_exp_buffer) (null) U f +
 ( dump_exp_buffer) (null) f f =
+=================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
+( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1
+( dump_exp_buffer) EXP_BUFF_ID_FLT i f 2
+( dump_exp_buffer) (null) U f *
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
+( dump_exp_buffer) (null) U f +
+( dump_exp_buffer) (null) f f :=
 =================
 ( output_variable) f f B
 (  output_integer) i f 1
@@ -328,6 +467,19 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
 ( dump_exp_buffer) (null) U f *
 ( dump_exp_buffer) (null) f f =
+=================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
+( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 2
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
+( dump_exp_buffer) (null) U i +
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) U f *
+( dump_exp_buffer) (null) f f :=
 =================
 ( output_variable) f f B
 (  output_integer) i f 2
@@ -376,10 +528,36 @@ Expression buffer
 ( dump_exp_buffer) (null) U f *
 ( dump_exp_buffer) (null) f f =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
+( dump_exp_buffer) EXP_BUFF_ID_FLT i f 2
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 3
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 4
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
+( dump_exp_buffer) (null) U i +
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) U i +
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) U i *
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) U f *
+( dump_exp_buffer) (null) f f :=
+=================
 ==========================
 PRINT B
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -394,10 +572,18 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
 ( dump_exp_buffer) (null) U U PRINT
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
+( dump_exp_buffer) (null) U U PRINT
+=================
 ==========================
 PRINT 1 * 2 + A
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -420,10 +606,22 @@ Expression buffer
 ( dump_exp_buffer) (null) U i +
 ( dump_exp_buffer) (null) U U PRINT
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i 1
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 2
+( dump_exp_buffer) (null) U i *
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
+( dump_exp_buffer) (null) U i +
+( dump_exp_buffer) (null) U U PRINT
+=================
 ==========================
 PRINT "Point 2"
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -438,10 +636,18 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_FUNCTION U U "Point 2"
 ( dump_exp_buffer) (null) U U PRINT
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER U U "Point 2"
+( dump_exp_buffer) (null) U U PRINT
+=================
 ==========================
 A = 1000*1000*1000
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -466,6 +672,16 @@ Expression buffer
 ( dump_exp_buffer) (null) U f *
 ( dump_exp_buffer) (null) f f =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
+( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
+( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
+( dump_exp_buffer) (null) U f *
+( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
+( dump_exp_buffer) (null) U f *
+( dump_exp_buffer) (null) f f :=
+=================
 ( output_variable) f f A
 (    output_float) f f 1000.
 (  output_integer) i f 1000
@@ -486,6 +702,16 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
 ( dump_exp_buffer) (null) U f *
 ( dump_exp_buffer) (null) f f =
+=================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
+( dump_exp_buffer) EXP_BUFF_ID_STR f f 1000.
+( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
+( dump_exp_buffer) (null) U f *
+( dump_exp_buffer) EXP_BUFF_ID_FLT i f 1000
+( dump_exp_buffer) (null) U f *
+( dump_exp_buffer) (null) f f :=
 =================
 ( output_variable) f f A
 (    output_float) f f 1000.
@@ -514,10 +740,26 @@ Expression buffer
 ( dump_exp_buffer) (null) U f *
 ( dump_exp_buffer) (null) f f =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
+( dump_exp_buffer) EXP_BUFF_ID_STR f f 1000.
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1000
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1000
+( dump_exp_buffer) (null) U i *
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) U f *
+( dump_exp_buffer) (null) f f :=
+=================
 ==========================
 F$="ABC"
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -534,10 +776,19 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_FUNCTION s s "ABC"
 ( dump_exp_buffer) (null) s s =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER s s F$
+( dump_exp_buffer) EXP_BUFF_ID_FUNCTION s s "ABC"
+( dump_exp_buffer) (null) s s :=
+=================
 ==========================
 A = SIN(45*2)
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -566,6 +817,18 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
 ( dump_exp_buffer) (null) f f =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f A
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 45
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 2
+( dump_exp_buffer) (null) U i *
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) f f SIN
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) f f :=
+=================
 ( output_variable) f f B
 (output_sub_start)
 (  output_integer) i i 45
@@ -591,10 +854,25 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
 ( dump_exp_buffer) (null) f f =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER f f B
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U f 
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 45
+( dump_exp_buffer) EXP_BUFF_ID_STR f f 2.0
+( dump_exp_buffer) (null) U i *
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) f f SIN
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) f f :=
+=================
 ==========================
 X% = USR(X%, Y%)
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -623,10 +901,25 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
 ( dump_exp_buffer) (null) i i =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U ? 
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i Y%
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) i i USR
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) i i :=
+=================
 ==========================
 X% = USR(12*4+1, 20*3+4)
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -671,10 +964,33 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
 ( dump_exp_buffer) (null) i i =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 12
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 4
+( dump_exp_buffer) (null) U i *
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
+( dump_exp_buffer) (null) U i +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U ? 
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 20
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 3
+( dump_exp_buffer) (null) U i *
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 4
+( dump_exp_buffer) (null) U i +
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) i i USR
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) i i :=
+=================
 ==========================
 X% = USR(1+2, 1.2*3.6)
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================
@@ -711,10 +1027,29 @@ Expression buffer
 ( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
 ( dump_exp_buffer) (null) i i =
 =================
+Expression buffer
+=================
+( dump_exp_buffer) EXP_BUFF_ID_INTEGER i i X%
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U i 
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 1
+( dump_exp_buffer) EXP_BUFF_ID_FLT i i 2
+( dump_exp_buffer) (null) U i +
+( dump_exp_buffer) EXP_BUFF_ID_SUB_END U ? 
+( dump_exp_buffer) EXP_BUFF_ID_STR f f 1.2
+( dump_exp_buffer) EXP_BUFF_ID_STR f f 3.6
+( dump_exp_buffer) (null) U f *
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) i i USR
+( dump_exp_buffer) EXP_BUFF_ID_VARIABLE U ? 
+( dump_exp_buffer) (null) i i :=
+=================
 ==========================
 A = SIN ( MAX ( 2, 3 ) / 3 * 3.14 )
 ==========================
 (output_expression_start)
+Expression buffer
+=================
+=================
 Expression buffer
 =================
 =================

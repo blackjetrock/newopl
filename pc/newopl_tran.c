@@ -60,6 +60,62 @@ void modify_expression_type(NOBJ_VARTYPE t);
 void op_stack_display(void);
 void op_stack_print(void);
 
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Operator info
+//
+// Some operators have a mutable type, they are polymorphic. Some are not.
+// The possible types for operators are listed here
+//
+
+#define MAX_OPERATOR_TYPES 3
+#define IMMUTABLE_TYPE     1
+#define   MUTABLE_TYPE     0
+
+typedef struct _OP_INFO
+{
+  char *name;
+  int  precedence;
+  int left_assoc;
+  int immutable;
+  int type[MAX_OPERATOR_TYPES];
+  int qcode;                     // Easily translatable qcodes
+} OP_INFO;
+
+OP_INFO  op_info[] =
+  {
+    { "+",   3, 0,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "-",   3, 0,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "*",   5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "/",   5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { ">",   5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "AND", 5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    // (Handle bitwise on integer, logical on floats somewhere)
+    //{ ",", 0, 0 }, /// Not used?
+    
+    // LZ only
+    { "+%", 5, 1, IMMUTABLE_TYPE, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
+    { "-%", 5, 1, IMMUTABLE_TYPE, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
+  };
+
+#define NUM_OPERATORS (sizeof(op_info)/sizeof(struct _OP_INFO))
+
+int find_op_info(char *name, OP_INFO *op)
+{
+  for(int i=0; i<NUM_OPERATORS; i++)
+    {
+      if( strcmp(op_info[i].name, name) == 0 )
+	{
+	  *op = op_info[i];
+	  return(1);
+	}
+    }
+  
+  return(0);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Expression type is reset for each line and also for sub-lines separated by colons
@@ -342,25 +398,6 @@ int token_is_function(char *token, char **tokstr)
   
   return(0);
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-struct _OP_INFO
-{
-  char *name;
-  int  precedence;
-  int left_assoc;
-}
-  op_info[] =
-  {
-    { "+", 3, 0},
-    { "-", 3, 0},
-    { "*", 5, 1},
-    { "/", 5, 1},
-    { ",", 0, 0 },
-  };
-
-#define NUM_OPERATORS (sizeof(op_info)/sizeof(struct _OP_INFO))
 
 // tokstr is a constant string that we use in the operator stack
 // to minimise memory usage.
@@ -765,6 +802,11 @@ void type_check_stack_print(void)
   printf("\n------------------\n");
 }
 
+void type_check_stack_init(void)
+{
+  type_check_stack_ptr = 0;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -839,12 +881,35 @@ void dump_exp_buffer(void)
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Take the expression buffer and execute it for types
+// Copies expression from one buffer to another, moving closer to QCode in
+// the second buffer
 //
 ////////////////////////////////////////////////////////////////////////////////
 
 void typecheck_expression(void)
 {
   EXP_BUFFER_ENTRY be;
+  OP_INFO op_info;
+  OP_STACK_ENTRY op1;
+  OP_STACK_ENTRY op2;
+
+  // We can check for an assignment and adjust the assignment token to
+  // differentiate it from the equality token.
+
+  // If first token is a variable
+  if( exp_buffer[0].buf_id =  EXP_BUFF_ID_VARIABLE)
+    {
+      // and the last token is an '=', then this is an assignment
+      if( strcmp(exp_buffer[exp_buffer_i-1].name, "=") == 0 )
+	{
+	  // Assignment, make token more specific
+	  strcpy(exp_buffer[exp_buffer_i-1].name, ":=");
+	}
+    }
+  
+  type_check_stack_init();
+
+#define REQ_TYPE (op_info.type[0])
   
   for(int i=0; i<exp_buffer_i; i++)
     {
@@ -853,12 +918,15 @@ void typecheck_expression(void)
 
       switch(be.buf_id)
 	{
+	  // Not used
 	case EXP_BUFF_ID_TKN:
 	  break;
-	  
+
+	  // No type, marker
 	case EXP_BUFF_ID_SUB_START:
 	  break;
 
+	  // No type, marker
 	case EXP_BUFF_ID_SUB_END:
 	  break;
 
@@ -874,7 +942,49 @@ void typecheck_expression(void)
 	case EXP_BUFF_ID_FUNCTION:
 	  break;
 
+	  // Operators have to be typed correctly depending on their
+	  // operands. Some of them are mutable (polymorphic) and we have to bind them to their
+	  // type here.
+	  // Some are immutable and cause errors if theior operators are not correct
 	case EXP_BUFF_ID_OPERATOR:
+	  // Check that the operands are correct, i.e. all of them are the same and in
+	  // the list of acceptable types
+	  if( find_op_info(be.name, &op_info) )
+	    {
+	      // Check all operands are of correct type.
+	      if( op_info.immutable )
+		{
+		  // Single type only, all operands must be that type
+		  op1 = type_check_stack_pop();
+		  op2 = type_check_stack_pop();
+
+		  if( (op1.type ==  REQ_TYPE) && (op2.type == REQ_TYPE) )
+		    {
+		      // Types correct, copy operator over
+		    }
+		  else
+		    {
+		      // Error
+		      printf("\nType of %s or %s is not %c", op1.name, op2.name, type_to_char(REQ_TYPE));
+		      exit(-1);
+		    }
+		}
+	      else
+		{
+		  // Mutable type is dependent on the arguments, e.g.
+		  //  A$ = "RTY"
+		  // requires that a string equality is used, similarly
+		  // INT and FLT need the correct operator.
+
+		  // INT and FLT have an additional requirement where INT is used
+		  // as long as possible, and also assignment can turn FLT into INT
+		  // or INT into FLT
+		}		
+	    }
+	  else
+	    {
+	      // Error, not found
+	    }
 	  break;
 	    
 	}
@@ -974,7 +1084,9 @@ void output_expression_start(void)
   fprintf(ofp, "\n(%16s)", __FUNCTION__);
 
   dump_exp_buffer();
-  
+  typecheck_expression();
+  dump_exp_buffer();
+    
   clear_exp_buffer();
 }
 
@@ -1098,7 +1210,9 @@ void uninit_output(void)
 //
 // Expression type stack
 //
-// Used when processing sub expressions
+// Used when processing sub expressions as we need to have an expression type for
+// all sub expressions but nbot lose the current one when the sub expression finishes
+// processing.
 //
 //
 
