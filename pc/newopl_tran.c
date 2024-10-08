@@ -76,12 +76,12 @@ void op_stack_print(void);
 
 typedef struct _OP_INFO
 {
-  char *name;
-  int   precedence;
-  int   left_assoc;
-  int   immutable;
-  int   type[MAX_OPERATOR_TYPES];
-  int   qcode;                     // Easily translatable qcodes
+  char          *name;
+  int           precedence;
+  int           left_assoc;
+  int           immutable;
+  NOBJ_VARTYPE  type[MAX_OPERATOR_TYPES];
+  int           qcode;                     // Easily translatable qcodes
 } OP_INFO;
 
 OP_INFO  op_info[] =
@@ -946,6 +946,41 @@ void dump_exp_buffer2(void)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+// Insert a buffer2 entry into the list, after the entry with the given
+// node_id.
+
+int insert_buf2_entry_after_node_id(int node_id, EXP_BUFFER_ENTRY e)
+{
+  int j;
+
+  dump_exp_buffer2();
+  
+  // Find the entry with the given node_id
+  fprintf(ofp, "\n Insert after %d exp_buffer2_i:%d", node_id, exp_buffer2_i);
+  
+  for(int i= 0; i<exp_buffer2_i; i++)
+    {
+      if( exp_buffer2[i].node_id == node_id )
+	{
+	  fprintf(ofp, "\n   Found at i:%d", i);
+	  
+	  // Found the entry, move all after it on by one entry
+	  for(j=exp_buffer2_i; j>=i+2; j--)
+	    {
+	      exp_buffer2[j] = exp_buffer2[j-1];
+	      fprintf(ofp, "\n   Copied %d to %d:", j-1, j);
+	    }
+	  
+	  exp_buffer2[i+1] = e;
+	  exp_buffer2_i++;
+
+	  dump_exp_buffer2();
+	  return(1);	  
+	}
+    }
+  
+  return(0);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -961,6 +996,8 @@ void typecheck_expression(void)
   OP_INFO op_info;
   EXP_BUFFER_ENTRY op1;
   EXP_BUFFER_ENTRY op2;
+  NOBJ_VARTYPE     op1_type, op2_type;
+  NOBJ_VARTYPE     op1_reqtype, op2_reqtype;
   int copied;
   
   // We copy results over to a second buffer, this allows easy insertion of
@@ -983,8 +1020,6 @@ void typecheck_expression(void)
     }
   
   type_check_stack_init();
-
-#define REQ_TYPE (op_info.type[0])
 
   for(int i=0; i<exp_buffer_i; i++)
     {
@@ -1024,6 +1059,9 @@ void typecheck_expression(void)
 	  break;
 
 	case EXP_BUFF_ID_FUNCTION:
+	  // Functions also require certain types, for instance USR reuires
+	  // all integers. Any floats in the arguments require conversion codes.
+
 	  break;
 
 	  // Operators have to be typed correctly depending on their
@@ -1038,10 +1076,20 @@ void typecheck_expression(void)
 	    {
 	      fprintf(ofp, "\nFound operator %s", be.name);
 
-	      // Single type only, all operands must be that type
+	      // We only handle binary operators here
+	      // Pop arguments off stack
+	      
 	      op1 = type_check_stack_pop();
 	      op2 = type_check_stack_pop();
 
+	      op1_type = op1.op.type;
+	      op2_type = op2.op.type;
+	      op1_reqtype = op1.op.req_type;
+	      op2_reqtype - op2.op.req_type;
+
+	      // Get the node ids of the argumenmts so we can find them if we ned to
+	      // adjust them.
+	      
 	      be.p_idx = 2;
 	      be.p[0] = op1.node_id;
 	      be.p[1] = op2.node_id;
@@ -1049,7 +1097,10 @@ void typecheck_expression(void)
 	      // Check all operands are of correct type.
 	      if( op_info.immutable )
 		{
-		  if( (op1.op.type ==  REQ_TYPE) && (op2.op.type == REQ_TYPE) )
+		  // Immutable types for this operator so we don't do any
+		  // auto conversion here.
+		  
+		  if( (op1.op.type ==  op_info.type[0]) && (op2.op.type == op_info.type[0]) )
 		    {
 		      // Types correct, copy operator over
 
@@ -1068,7 +1119,7 @@ void typecheck_expression(void)
 		  else
 		    {
 		      // Error
-		      printf("\nType of %s or %s is not %c", op1.name, op2.name, type_to_char(REQ_TYPE));
+		      printf("\nType of %s or %s is not %c", op1.name, op2.name, type_to_char(op_info.type[0]));
 		      exit(-1);
 		    }
 		}
@@ -1087,6 +1138,14 @@ void typecheck_expression(void)
 		  // Check types OK
 		  if( is_a_req_type(op1.op.type, &op_info) && is_a_req_type(op1.op.type, &op_info))
 		    {
+		      // We have types here. We need to insert auto type conversion qcodes here
+		      // if needed.
+		      //
+		      // Int -> float if float required
+		      // Float -> int if int required
+		      // Expressions start as integer and turn into float if a float is found.
+		      //
+		      
 		      // Types are both OK
 		      // If they are the same then we will bind the operator type to that type
 		      if( op1.op.type == op2.op.type )
@@ -1097,11 +1156,29 @@ void typecheck_expression(void)
 			}
 		      else
 			{
+			  
+			  fprintf(ofp, "\n Autoconversion");
+			  fprintf(ofp, "\n Op1: type:%d req type:%d", op1.op.type, op1.op.req_type);
+			  fprintf(ofp, "\n Op2: type:%d req type:%d", op2.op.type, op2.op.req_type);
+		 
 			  // Which type do we use?
 			  // For now assume int and flt and promote to flt
 			  be.op.type = NOBJ_VARTYPE_FLT;
 			  be.op.req_type = NOBJ_VARTYPE_FLT;
-
+			  
+			  EXP_BUFFER_ENTRY autocon;
+			  strcpy(autocon.name, "autocon");
+			  autocon.buf_id = 0;
+			  autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
+			  autocon.p_idx = 2;
+			  autocon.p[0] = op1.node_id;
+			  autocon.p[1] = op2.node_id;
+			  autocon.op.type      = op1.op.type;
+			  autocon.op.req_type  = op1.op.type;
+			  exp_buffer2[exp_buffer2_i++] = be;
+ 
+			  // Insert entry
+			  insert_buf2_entry_after_node_id(op2.node_id, autocon);
 			}
 
 		      EXP_BUFFER_ENTRY res;
@@ -1194,6 +1271,7 @@ void output_marker(char *marker, ...)
 
 void output_sub_start(void)
 {
+#if 0  
   OP_STACK_ENTRY op;
   
   printf("\nSub expression start");
@@ -1202,10 +1280,12 @@ void output_sub_start(void)
   strcpy(op.name,  "");
   op.type = NOBJ_VARTYPE_UNKNOWN;
   add_exp_buffer_entry(op, EXP_BUFF_ID_SUB_START);
+#endif
 }
 
 void output_sub_end(void)
 {
+#if 0
   OP_STACK_ENTRY op;
   
   printf("\nSub expression end");
@@ -1214,6 +1294,7 @@ void output_sub_end(void)
   strcpy(op.name, "");
   op.type = NOBJ_VARTYPE_UNKNOWN;
   add_exp_buffer_entry(op, EXP_BUFF_ID_SUB_END);
+#endif
 }
 
 void output_expression_start(void)
@@ -1659,9 +1740,9 @@ void process_expression(char *line)
   int end_cap_later = 0;
 
   
-  fprintf(ofp, "\n==========================");
+  fprintf(ofp, "\n========================================================");
   fprintf(ofp, "\n%s", line);
-  fprintf(ofp, "\n==========================");
+  fprintf(ofp, "\n========================================================");
 
   output_expression_start();
   
