@@ -748,10 +748,10 @@ void type_check_stack_print(void);
 
 #define MAX_TYPE_CHECK_STACK  40
 
-OP_STACK_ENTRY type_check_stack[MAX_TYPE_CHECK_STACK];
+EXP_BUFFER_ENTRY type_check_stack[MAX_TYPE_CHECK_STACK];
 int type_check_stack_ptr = 0;
 
-void type_check_stack_push(OP_STACK_ENTRY entry)
+void type_check_stack_push(EXP_BUFFER_ENTRY entry)
 {
   printf("\n Push:'%s'", entry.name);
 
@@ -771,9 +771,9 @@ void type_check_stack_push(OP_STACK_ENTRY entry)
 
 // Copies data into string
 
-OP_STACK_ENTRY type_check_stack_pop(void)
+EXP_BUFFER_ENTRY type_check_stack_pop(void)
 {
-  OP_STACK_ENTRY o;
+  EXP_BUFFER_ENTRY o;
   
   if( type_check_stack_ptr == 0 )
     {
@@ -799,7 +799,7 @@ void type_check_stack_display(void)
   for(int i=0; i<type_check_stack_ptr; i++)
     {
       s = type_check_stack[i].name;
-      fprintf(ofp, "\n%03d: '%s' type:%d", i, s, type_check_stack[i].type);
+      fprintf(ofp, "\n%03d: '%s' type:%d", i, s, type_check_stack[i].op.type);
     }
 }
 
@@ -813,7 +813,7 @@ void type_check_stack_print(void)
   for(int i=0; i<type_check_stack_ptr; i++)
     {
       s = type_check_stack[i].name;
-      printf("\n%03d: '%s' type:%d", i, s, type_check_stack[i].type);
+      printf("\n%03d: '%s' type:%d", i, s, type_check_stack[i].op.type);
     }
 
   printf("\n------------------\n");
@@ -853,12 +853,11 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_OPERATOR",
   };
 
-typedef struct _EXP_BUFFER_ENTRY
-{
-  char name[40];
-  OP_STACK_ENTRY op;
-  int buf_id;
-} EXP_BUFFER_ENTRY;
+
+// Per-expression
+// Indices start at 1, 0 is 'no p'
+int node_id_index = 1;
+
 
 EXP_BUFFER_ENTRY exp_buffer[MAX_EXP_BUFFER];
 int exp_buffer_i = 0;
@@ -899,9 +898,15 @@ void dump_exp_buffer(void)
   
   for(int i=0; i<exp_buffer_i; i++)
     {
-      OP_STACK_ENTRY token = exp_buffer[i].op;
-
-      fprintf(ofp, "\n(%16s) %-24s %c %c %s", __FUNCTION__, exp_buffer_id_str[exp_buffer[i].buf_id], type_to_char(token.type), type_to_char(token.req_type), exp_buffer[i].name);
+      EXP_BUFFER_ENTRY token = exp_buffer[i];
+      
+      fprintf(ofp, "\n(%16s) N%d %-24s %c %c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer[i].buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer[i].name);
+      
+      fprintf(ofp, "  %d:", token.p_idx);
+      for(int pi=0; pi<token.p_idx; pi++)
+	{
+	  fprintf(ofp, " %d", token.p[pi]);
+	}
     }
   
     fprintf(ofp, "\n=================");
@@ -916,13 +921,31 @@ void dump_exp_buffer2(void)
   
   for(int i=0; i<exp_buffer2_i; i++)
     {
-      OP_STACK_ENTRY token = exp_buffer2[i].op;
-
-      fprintf(ofp, "\n(%16s) %-24s %c %c %s", __FUNCTION__, exp_buffer_id_str[exp_buffer2[i].buf_id], type_to_char(token.type), type_to_char(token.req_type), exp_buffer2[i].name);
+      EXP_BUFFER_ENTRY token = exp_buffer2[i];
+      
+      fprintf(ofp, "\n(%16s) N%d %-24s %c %c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
+      
+      fprintf(ofp, "  %d:", token.p_idx);
+      for(int pi=0; pi<token.p_idx; pi++)
+	{
+	  fprintf(ofp, " %d", token.p[pi]);
+	}
     }
-  
-    fprintf(ofp, "\n=================");
+  fprintf(ofp, "\n=================");
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Expression tree
+//
+// Once we have an RPN version of the expression we then build a tree. This
+// allows the auto type conversion to be done in a general way by traversing
+// the tree looking for type conflict and inserting auto conversion nodes.
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -936,8 +959,8 @@ void typecheck_expression(void)
 {
   EXP_BUFFER_ENTRY be;
   OP_INFO op_info;
-  OP_STACK_ENTRY op1;
-  OP_STACK_ENTRY op2;
+  EXP_BUFFER_ENTRY op1;
+  EXP_BUFFER_ENTRY op2;
   int copied;
   
   // We copy results over to a second buffer, this allows easy insertion of
@@ -969,6 +992,9 @@ void typecheck_expression(void)
       be = exp_buffer[i];
       copied = 0;
 
+      // Give every entry a node id
+      be.node_id = node_id_index++;
+      
       fprintf(ofp, "\n BE:%s", be.name);
 		  
       switch(be.buf_id)
@@ -986,13 +1012,15 @@ void typecheck_expression(void)
 	  break;
 
 	case EXP_BUFF_ID_VARIABLE:
-	  type_check_stack_push(be.op);
+	  be.p_idx = 0;
+	  type_check_stack_push(be);
 	  break;
 
 	case EXP_BUFF_ID_FLT:
 	case EXP_BUFF_ID_INTEGER:
 	case EXP_BUFF_ID_STR:
-	  type_check_stack_push(be.op);
+	  be.p_idx = 0;
+	  type_check_stack_push(be);
 	  break;
 
 	case EXP_BUFF_ID_FUNCTION:
@@ -1013,20 +1041,27 @@ void typecheck_expression(void)
 	      // Single type only, all operands must be that type
 	      op1 = type_check_stack_pop();
 	      op2 = type_check_stack_pop();
+
+	      be.p_idx = 2;
+	      be.p[0] = op1.node_id;
+	      be.p[1] = op2.node_id;
 	      
 	      // Check all operands are of correct type.
 	      if( op_info.immutable )
 		{
-		  
-		  if( (op1.type ==  REQ_TYPE) && (op2.type == REQ_TYPE) )
+		  if( (op1.op.type ==  REQ_TYPE) && (op2.op.type == REQ_TYPE) )
 		    {
 		      // Types correct, copy operator over
 
 		      // Push dummy result
-		      OP_STACK_ENTRY res;
+		      EXP_BUFFER_ENTRY res;
+		      res.node_id = be.node_id;          // Result id is that of the operator
+		      res.p_idx = 2;
+		      res.p[0] = op1.node_id;
+		      res.p[1] = op2.node_id;
 		      strcpy(res.name, "000");
-		      res.type      = op1.type;
-		      res.req_type  = op1.type;
+		      res.op.type      = op1.op.type;
+		      res.op.req_type  = op1.op.type;
 		      type_check_stack_push(res);
 					    
 		    }
@@ -1047,18 +1082,18 @@ void typecheck_expression(void)
 		  // INT and FLT have an additional requirement where INT is used
 		  // as long as possible, and also assignment can turn FLT into INT
 		  // or INT into FLT
-		  fprintf(ofp, "\n Mutable type %d %d", op1.type, op2.type);
+		  fprintf(ofp, "\n Mutable type %d %d", op1.op.type, op2.op.type);
 		  
 		  // Check types OK
-		  if( is_a_req_type(op1.type, &op_info) && is_a_req_type(op1.type, &op_info))
+		  if( is_a_req_type(op1.op.type, &op_info) && is_a_req_type(op1.op.type, &op_info))
 		    {
 		      // Types are both OK
 		      // If they are the same then we will bind the operator type to that type
-		      if( op1.type == op2.type )
+		      if( op1.op.type == op2.op.type )
 			{
 			  fprintf(ofp, "\n same type");
-			  be.op.type = op1.type;
-			  be.op.req_type = op1.req_type;
+			  be.op.type = op1.op.type;
+			  be.op.req_type = op1.op.req_type;
 			}
 		      else
 			{
@@ -1069,10 +1104,14 @@ void typecheck_expression(void)
 
 			}
 
-		      OP_STACK_ENTRY res;
+		      EXP_BUFFER_ENTRY res;
 		      strcpy(res.name, "000");
-		      res.type      = op1.type;
-		      res.req_type  = op1.type;
+		      res.node_id = be.node_id;   //Dummy result carries the operator node id as that is the tree node
+		      res.p_idx = 2;
+		      res.p[0] = op1.node_id;
+		      res.p[1] = op2.node_id;
+		      res.op.type      = op1.op.type;
+		      res.op.req_type  = op1.op.type;
 		      type_check_stack_push(res);
 
 		    }
@@ -1182,6 +1221,8 @@ void output_expression_start(void)
   printf("\nExpression start");
   fprintf(ofp, "\n(%16s)", __FUNCTION__);
 
+  node_id_index = 1;
+  
   dump_exp_buffer();
   typecheck_expression();
   dump_exp_buffer();
@@ -1617,6 +1658,7 @@ void process_expression(char *line)
   char ss[2];
   int end_cap_later = 0;
 
+  
   fprintf(ofp, "\n==========================");
   fprintf(ofp, "\n%s", line);
   fprintf(ofp, "\n==========================");

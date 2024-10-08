@@ -144,3 +144,17 @@ typedef struct _OP_STACK_ENTRY
   NOBJ_VARTYPE   type;       // Original type
   NOBJ_VARTYPE   req_type;   // Required type
 } OP_STACK_ENTRY;
+
+#define MAX_EXP_BUF_P   12
+
+
+typedef struct _EXP_BUFFER_ENTRY
+{
+  char name[40];
+  OP_STACK_ENTRY op;
+  int buf_id;
+  int node_id;
+  int p_idx;
+  int p[MAX_EXP_BUF_P];
+  int nxt;
+} EXP_BUFFER_ENTRY;
