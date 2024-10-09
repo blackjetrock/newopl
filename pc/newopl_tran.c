@@ -20,6 +20,7 @@
 
 FILE *ofp;
 char current_expression[200];
+int first_token = 1;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -88,11 +89,12 @@ typedef struct _OP_INFO
 
 OP_INFO  op_info[] =
   {
+   { "=",    1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
    { ":=",   1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
    { "+",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
    { "-",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { "*",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { "/",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+   { "*",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+   { "/",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
    { ">",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
    { "AND",  5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
    // (Handle bitwise on integer, logical on floats somewhere)
@@ -272,7 +274,7 @@ struct _FN_INFO
   fn_info[] =
     {
      { "EOL",      "ii",       "f" },
-     { "=",        "ii",       "f" },
+     //{ "=",        "ii",       "f" },
      { "ABS",      "ii",       "f" },
      { "ACOS",     "ii",       "f" },
      { "ADDR",     "ii",       "f" },
@@ -429,7 +431,7 @@ int token_is_operator(char *token, char **tokstr)
 	{
 	  *tokstr = &(op_info[i].name[0]);
 	  
-	  printf("\n'%s' is operator", token);
+	  fprintf(ofp, "\n'%s' is operator", token);
 	  return(1);
 	}
     }
@@ -1341,35 +1343,42 @@ void expression_tree_process(char *expr)
 void output_float(OP_STACK_ENTRY token)
 {
   printf("\nop float");
-  fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(token.type), type_to_char(token.req_type), token.name);
+  fprintf(ofp, "\n(%16s) [%c] %c %c %s", __FUNCTION__, type_to_char(expression_type), type_to_char(token.type), type_to_char(token.req_type), token.name);
   add_exp_buffer_entry(token, EXP_BUFF_ID_FLT);
 }
 
 void output_integer(OP_STACK_ENTRY token)
 {
   printf("\nop integer");
-  fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(token.type), type_to_char(token.req_type), token.name);
+  fprintf(ofp, "\n(%16s) [%c] %c %c %s", __FUNCTION__, type_to_char(expression_type), type_to_char(token.type), type_to_char(token.req_type), token.name);
   add_exp_buffer_entry(token, EXP_BUFF_ID_INTEGER);
 }
 
 void output_operator(OP_STACK_ENTRY op)
 {
   printf("\nop operator");
-  fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(op.type), type_to_char(op.req_type), op.name);
+  fprintf(ofp, "\n(%16s) [%c] %c %c %s", __FUNCTION__, type_to_char(expression_type), type_to_char(op.type), type_to_char(op.req_type), op.name);
+  add_exp_buffer_entry(op, EXP_BUFF_ID_OPERATOR);
+}
+
+void output_function(OP_STACK_ENTRY op)
+{
+  printf("\nop function");
+  fprintf(ofp, "\n(%16s) [%c] %c %c %s", __FUNCTION__, type_to_char(expression_type), type_to_char(op.type), type_to_char(op.req_type), op.name);
   add_exp_buffer_entry(op, EXP_BUFF_ID_OPERATOR);
 }
 
 void output_variable(OP_STACK_ENTRY op)
 {
   printf("\nop variable");
-  fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(op.type), type_to_char(op.req_type), op.name);
+  fprintf(ofp, "\n(%16s) [%c] %c %c %s", __FUNCTION__, type_to_char(expression_type), type_to_char(op.type), type_to_char(op.req_type), op.name);
   add_exp_buffer_entry(op, EXP_BUFF_ID_VARIABLE);
 }
 
 void output_string(OP_STACK_ENTRY op)
 {
   printf("\nop string");
-  fprintf(ofp, "\n(%16s) %c %c %s", __FUNCTION__, type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  fprintf(ofp, "\n(%16s) [%c] %c %c %s", __FUNCTION__, type_to_char(expression_type), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_STR);
 }
 
@@ -1436,8 +1445,10 @@ void output_expression_start(char *expr)
       
     }
   
-  // Clear the buffer ready for the new ex[pression that has just come in
+  // Clear the buffer ready for the new expression that has just come in
   clear_exp_buffer();
+
+  first_token = 1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1544,10 +1555,18 @@ void op_stack_print(void)
 void op_stack_finalise(void)
 {
   OP_STACK_ENTRY o;
-  
+
+  fprintf(ofp, "\nFinalise stack");
   while( strlen(op_stack_top().name) != 0 )
     {
       o = op_stack_pop();
+
+      if( o.req_type = NOBJ_VARTYPE_UNKNOWN )
+	{
+	  o.req_type = expression_type;
+	  o.type = expression_type;
+	}
+      
       output_operator(o);
     }
 
@@ -1629,7 +1648,7 @@ void process_token(char *token)
   OP_STACK_ENTRY o2;
   int opr1, opr2;
   
-  printf("\n   T:'%s'", token);
+  printf("\n   Frst:%d T:'%s'", first_token, token);
 
   strcpy(o1.name, token);
   o1.type = expression_type;
@@ -1656,6 +1675,7 @@ void process_token(char *token)
       
       // Commas delimit sub expressions, reset the expression type.
       expression_type = NOBJ_VARTYPE_UNKNOWN;
+      first_token = 0;
       return;
     }
 
@@ -1675,6 +1695,7 @@ void process_token(char *token)
       // as a new one
       exp_type_push(expression_type);
       expression_type = NOBJ_VARTYPE_UNKNOWN;
+      first_token = 0;
       
       return;
     }
@@ -1711,13 +1732,14 @@ void process_token(char *token)
 	{
 	  printf("\nPop 5");
 	  o2 = op_stack_pop();
-	  output_operator(o2);
+	  output_function(o2);
 	}
 
       expression_type = exp_type_pop();
 
       output_sub_end();
       //output_marker("-------- Sub E 3");
+      first_token = 0;
       return;
     }
 
@@ -1732,7 +1754,7 @@ void process_token(char *token)
 	     ( OP_PREC(op_stack_top()) > opr1) || ((opr1 == OP_PREC(op_stack_top()) && operator_left_assoc(o1.name)))
 	     )
 	{
-	  printf("\nPop 1");
+	  fprintf(ofp, "\nPop 1");
 	  
 	  o2 = op_stack_pop();
 	  opr1 = operator_precedence(o1.name);
@@ -1741,12 +1763,13 @@ void process_token(char *token)
 	  output_operator(o2);
 	}
 
-      printf("\nPush 1");
+      fprintf(ofp, "\nPush 1");
       
       strcpy(o1.name, tokptr);
       o1.type = NOBJ_VARTYPE_UNKNOWN;
       o1.req_type = expression_type;
       op_stack_push(o1);
+      first_token = 0;
       return;
     }
   
@@ -1760,6 +1783,7 @@ void process_token(char *token)
       o1.req_type = expression_type;
       
       output_float(o1);
+      first_token = 0;
       return;
     }
 
@@ -1770,6 +1794,7 @@ void process_token(char *token)
       modify_expression_type(o1.type);
       o1.req_type = expression_type;
       output_integer(o1);
+      first_token = 0;
       return;
     }
 
@@ -1787,9 +1812,28 @@ void process_token(char *token)
 	  // valid type (e.g. A% = B$ is invalid) and also the expression type
 	  // may need to change (e.g.  A% + 10 * B needs to be type FLT for the * and a
 	  // type conversion token needs to be inserted.
-	  modify_expression_type(type);
-	  o1.req_type = expression_type;
-	  o1.type = expression_type;
+
+	  // If the first token is a variable then we don't want to update the expression type
+	  // as this is an assignment and we want the assignment to become a float, for instance
+	  // only based on the calculation not the assignent variable type. If we didn't then
+	  // expressionms like:
+	  //
+	  // A= 10*20
+	  //
+	  // would be calculated as floats, which isn't what the original does.
+	  //
+	  // 
+	  if( first_token )
+	    {
+	      o1.req_type = type;
+	      o1.type = type;
+	    }
+	  else
+	    {
+	      modify_expression_type(type);
+	      o1.req_type = expression_type;
+	      o1.type = expression_type;
+	    }
 	}
       else
 	{
@@ -1799,12 +1843,16 @@ void process_token(char *token)
       // The type of the variable will affect the expression type
       
       output_variable(o1);
+      first_token = 0;
       return;
     }
 
   if( token_is_string(o1.name) )
     {
+      o1.type = NOBJ_VARTYPE_STR;
       output_string(o1);
+      modify_expression_type(o1.type);
+      first_token = 0;
       return;
     }
   
@@ -1814,8 +1862,11 @@ void process_token(char *token)
       o1.type = expression_type;
       o1.req_type = expression_type;
       op_stack_push(o1);
+      first_token = 0;
       return;
     }
+
+  first_token = 0;
 
 }
 
@@ -1889,9 +1940,7 @@ void process_expression(char *line)
   int capture_string = 0;
   char ss[2];
   int end_cap_later = 0;
-
   
-
   output_expression_start(line);
   
   // The type of an expression is initially unknown
