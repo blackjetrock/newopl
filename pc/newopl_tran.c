@@ -87,18 +87,18 @@ typedef struct _OP_INFO
 
 OP_INFO  op_info[] =
   {
-    { "+",   3, 0,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "-",   3, 0,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "*",   5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "/",   5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { ">",   5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "AND", 5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-    // (Handle bitwise on integer, logical on floats somewhere)
-    //{ ",", 0, 0 }, /// Not used?
+   { "+",   3, 0,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+   { "-",   3, 0,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+   { "*",   5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+   { "/",   5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+   { ">",   5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+   { "AND", 5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+   // (Handle bitwise on integer, logical on floats somewhere)
+   //{ ",", 0, 0 }, /// Not used?
     
-    // LZ only
-    { "+%", 5, 1, IMMUTABLE_TYPE, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
-    { "-%", 5, 1, IMMUTABLE_TYPE, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
+   // LZ only
+   { "+%", 5, 1, IMMUTABLE_TYPE, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
+   { "-%", 5, 1, IMMUTABLE_TYPE, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
   };
 
 #define NUM_OPERATORS (sizeof(op_info)/sizeof(struct _OP_INFO))
@@ -118,7 +118,7 @@ int find_op_info(char *name, OP_INFO *op)
 }
 
 // Is type one of those in the list?
-int is_a_req_type(NOBJ_VARTYPE type, OP_INFO *op_info)
+int is_a_valid_type(NOBJ_VARTYPE type, OP_INFO *op_info)
 {
   for(int i=0; i<MAX_OPERATOR_TYPES; i++)
     {
@@ -268,134 +268,134 @@ struct _FN_INFO
   char *resulttype;
 }
   fn_info[] =
-  {
-    { "EOL",      "ii",       "f" },
-    { "=",        "ii",       "f" },
-    { "ABS",      "ii",       "f" },
-    { "ACOS",     "ii",       "f" },
-    { "ADDR",     "ii",       "f" },
-    { "APPEND",   "ii",       "f" },
-    { "ASC",      "ii",       "f" },
-    { "ASIN",     "ii",       "f" },
-    { "AT",       "ii",       "f" },
-    { "ATAN",     "ii",       "f" },
-    { "BACK",     "ii",       "f" },
-    { "BEEP",     "ii",       "f" },
-    { "BREAK",    "ii",       "f" },
-    { "CHR$",     "ii",       "f" },
-    { "CLOCK",    "ii",       "f" },
-    { "CLOSE",    "ii",       "f" },
-    { "CLS",      "ii",       "f" },
-    { "CONTINUE", "ii",       "f" },
-    { "COPY",     "ii",       "f" },
-    { "COPYW",    "ii",       "f" },
-    { "COS",      "ii",       "f" },
-    { "COUNT",    "ii",       "f" },
-    { "CREATE",   "ii",       "f" },
-    { "CURSOR",   "ii",       "f" },
-    { "DATIM$",   "ii",       "f" },
-    { "DAY",      "ii",       "f" },
-    { "DAYNAME$", "ii",       "f" },
-    { "DAYS",     "ii",       "f" },
-    { "DEG",      "ii",       "f" },
-    { "DELETE",   "ii",       "f" },
-    { "DELETEW",  "ii",       "f" },
-    { "DIR$",     "ii",       "f" },
-    { "DIRW$",    "ii",       "f" },
-    { "DISP",     "ii",       "f" },
-    { "DOW",      "ii",       "f" },
-    { "EDIT",     "ii",       "f" },
-    { "EOF",      "ii",       "f" },
-    { "ERASE",    "ii",       "f" },
-    { "ERR",      "ii",       "f" },
-    { "ERR$",     "ii",       "f" },
-    { "ESCAPE",   "ii",       "f" },
-    { "EXIST",    "ii",       "f" },
-    { "EXP",      "ii",       "f" },
-    { "FIND",     "ii",       "f" },
-    { "FINDW",    "ii",       "f" },
-    { "FIRST",    "ii",       "f" },
-    { "FIX$",     "ii",       "f" },
-    { "FLT",      "ii",       "f" },
-    { "FREE",     "ii",       "f" },
-    { "GEN$",     "ii",       "f" },
-    { "GET",      "ii",       "f" },
-    { "GET$",     "ii",       "f" },
-    { "GLOBAL",   "ii",       "f" },
-    { "GOTO",     "ii",       "f" },
-    { "HEX$",     "ii",       "f" },
-    { "HOUR",     "ii",       "f" },
-    { "IABS",     "ii",       "f" },
-    { "INPUT",    "ii",       "f" },
-    { "INT",      "ii",       "f" },
-    { "INTF",     "ii",       "f" },
-    { "KEY",      "ii",       "f" },
-    { "KEY$",     "ii",       "f" },
-    { "KSTAT",    "ii",       "f" },
-    { "LAST",     "ii",       "f" },
-    { "LEFT$",    "ii",       "f" },
-    { "LEN",      "ii",       "f" },
-    { "LN",       "ii",       "f" },
-    { "LOC",      "ii",       "f" },
-    { "LOCAL",    "ii",       "f" },
-    { "LOG",      "ii",       "f" },
-    { "LOWER$",   "ii",       "f" },
-    { "LPRINT",   "ii",       "f" },
-    { "MAX",      "ii",       "f" },
-    { "MEAN",     "ii",       "f" },
-    { "MENU",     "ii",       "f" },
-    { "MENUN",    "ii",       "f" },
-    { "MID$",     "ii",       "f" },
-    { "MIN",      "ii",       "f" },
-    { "MINUTE",   "ii",       "f" },
-    { "MONTH",    "ii",       "f" },
-    { "MONTH$",   "ii",       "f" },
-    { "NEXT",     "ii",       "f" },
-    { "NUM$",     "ii",       "f" },
-    { "OFF",      "ii",       "f" },
-    { "OPEN",     "ii",       "f" },
-    { "ONERR",    "ii",       "f" },
-    { "PAUSE",    "ii",       "f" },
-    { "PEEKB",    "ii",       "f" },
-    { "PEEKW",    "ii",       "f" },
-    { "PI",       "ii",       "f" },
-    { "POKEB",    "ii",       "f" },
-    { "POKEW",    "ii",       "f" },
-    { "POS",      "ii",       "f" },
-    { "POSITION", "ii",       "f" },
-    { "PRINT",    "ii",       "f" },
-    { "RAD",      "ii",       "f" },
-    { "RAISE",    "ii",       "f" },
-    { "RANDOMIZE","ii",       "f" },
-    { "RECSIZE",  "ii",       "f" },
-    { "REM",      "ii",       "f" },
-    { "RENAME",   "ii",       "f" },
-    { "REPT$",    "ii",       "f" },
-    { "RETURN",   "ii",       "f" },
-    { "RIGHT$",   "ii",       "f" },
-    { "RND",      "ii",       "f" },
-    { "SCI$",     "ii",       "f" },
-    { "SECOND",   "ii",       "f" },
-    { "SIN",      "ii",       "f" },
-    { "SPACE",    "ii",       "f" },
-    { "SQR",      "ii",       "f" },
-    { "STD",      "ii",       "f" },
-    { "STOP",     "ii",       "f" },
-    { "SUM",      "ii",       "f" },
-    { "TAN",      "ii",       "f" },
-    { "TRAP",     "ii",       "f" },
-    { "UDG",      "ii",       "f" },
-    { "UPDATE",   "ii",       "f" },
-    { "UPPER$",   "ii",       "f" },
-    { "USE",      "ii",       "f" },
-    { "USR",      "ii",       ""  },
-    { "USR$",     "ii",       "f" },
-    { "VAL",      "ii",       "f" },
-    { "VAR",      "ii",       "f" },
-    { "VIEW",     "ii",       "f" },
-    { "WEEK",     "ii",       "f" },
-    { "YEAR",     "ii",       "f" },
-  };
+    {
+     { "EOL",      "ii",       "f" },
+     { "=",        "ii",       "f" },
+     { "ABS",      "ii",       "f" },
+     { "ACOS",     "ii",       "f" },
+     { "ADDR",     "ii",       "f" },
+     { "APPEND",   "ii",       "f" },
+     { "ASC",      "ii",       "f" },
+     { "ASIN",     "ii",       "f" },
+     { "AT",       "ii",       "f" },
+     { "ATAN",     "ii",       "f" },
+     { "BACK",     "ii",       "f" },
+     { "BEEP",     "ii",       "f" },
+     { "BREAK",    "ii",       "f" },
+     { "CHR$",     "ii",       "f" },
+     { "CLOCK",    "ii",       "f" },
+     { "CLOSE",    "ii",       "f" },
+     { "CLS",      "ii",       "f" },
+     { "CONTINUE", "ii",       "f" },
+     { "COPY",     "ii",       "f" },
+     { "COPYW",    "ii",       "f" },
+     { "COS",      "ii",       "f" },
+     { "COUNT",    "ii",       "f" },
+     { "CREATE",   "ii",       "f" },
+     { "CURSOR",   "ii",       "f" },
+     { "DATIM$",   "ii",       "f" },
+     { "DAY",      "ii",       "f" },
+     { "DAYNAME$", "ii",       "f" },
+     { "DAYS",     "ii",       "f" },
+     { "DEG",      "ii",       "f" },
+     { "DELETE",   "ii",       "f" },
+     { "DELETEW",  "ii",       "f" },
+     { "DIR$",     "ii",       "f" },
+     { "DIRW$",    "ii",       "f" },
+     { "DISP",     "ii",       "f" },
+     { "DOW",      "ii",       "f" },
+     { "EDIT",     "ii",       "f" },
+     { "EOF",      "ii",       "f" },
+     { "ERASE",    "ii",       "f" },
+     { "ERR",      "ii",       "f" },
+     { "ERR$",     "ii",       "f" },
+     { "ESCAPE",   "ii",       "f" },
+     { "EXIST",    "ii",       "f" },
+     { "EXP",      "ii",       "f" },
+     { "FIND",     "ii",       "f" },
+     { "FINDW",    "ii",       "f" },
+     { "FIRST",    "ii",       "f" },
+     { "FIX$",     "ii",       "f" },
+     { "FLT",      "ii",       "f" },
+     { "FREE",     "ii",       "f" },
+     { "GEN$",     "ii",       "f" },
+     { "GET",      "ii",       "f" },
+     { "GET$",     "ii",       "f" },
+     { "GLOBAL",   "ii",       "f" },
+     { "GOTO",     "ii",       "f" },
+     { "HEX$",     "ii",       "f" },
+     { "HOUR",     "ii",       "f" },
+     { "IABS",     "ii",       "f" },
+     { "INPUT",    "ii",       "f" },
+     { "INT",      "ii",       "f" },
+     { "INTF",     "ii",       "f" },
+     { "KEY",      "ii",       "f" },
+     { "KEY$",     "ii",       "f" },
+     { "KSTAT",    "ii",       "f" },
+     { "LAST",     "ii",       "f" },
+     { "LEFT$",    "ii",       "f" },
+     { "LEN",      "ii",       "f" },
+     { "LN",       "ii",       "f" },
+     { "LOC",      "ii",       "f" },
+     { "LOCAL",    "ii",       "f" },
+     { "LOG",      "ii",       "f" },
+     { "LOWER$",   "ii",       "f" },
+     { "LPRINT",   "ii",       "f" },
+     { "MAX",      "ii",       "f" },
+     { "MEAN",     "ii",       "f" },
+     { "MENU",     "ii",       "f" },
+     { "MENUN",    "ii",       "f" },
+     { "MID$",     "ii",       "f" },
+     { "MIN",      "ii",       "f" },
+     { "MINUTE",   "ii",       "f" },
+     { "MONTH",    "ii",       "f" },
+     { "MONTH$",   "ii",       "f" },
+     { "NEXT",     "ii",       "f" },
+     { "NUM$",     "ii",       "f" },
+     { "OFF",      "ii",       "f" },
+     { "OPEN",     "ii",       "f" },
+     { "ONERR",    "ii",       "f" },
+     { "PAUSE",    "ii",       "f" },
+     { "PEEKB",    "ii",       "f" },
+     { "PEEKW",    "ii",       "f" },
+     { "PI",       "ii",       "f" },
+     { "POKEB",    "ii",       "f" },
+     { "POKEW",    "ii",       "f" },
+     { "POS",      "ii",       "f" },
+     { "POSITION", "ii",       "f" },
+     { "PRINT",    "ii",       "f" },
+     { "RAD",      "ii",       "f" },
+     { "RAISE",    "ii",       "f" },
+     { "RANDOMIZE","ii",       "f" },
+     { "RECSIZE",  "ii",       "f" },
+     { "REM",      "ii",       "f" },
+     { "RENAME",   "ii",       "f" },
+     { "REPT$",    "ii",       "f" },
+     { "RETURN",   "ii",       "f" },
+     { "RIGHT$",   "ii",       "f" },
+     { "RND",      "ii",       "f" },
+     { "SCI$",     "ii",       "f" },
+     { "SECOND",   "ii",       "f" },
+     { "SIN",      "ii",       "f" },
+     { "SPACE",    "ii",       "f" },
+     { "SQR",      "ii",       "f" },
+     { "STD",      "ii",       "f" },
+     { "STOP",     "ii",       "f" },
+     { "SUM",      "ii",       "f" },
+     { "TAN",      "ii",       "f" },
+     { "TRAP",     "ii",       "f" },
+     { "UDG",      "ii",       "f" },
+     { "UPDATE",   "ii",       "f" },
+     { "UPPER$",   "ii",       "f" },
+     { "USE",      "ii",       "f" },
+     { "USR",      "ii",       ""  },
+     { "USR$",     "ii",       "f" },
+     { "VAL",      "ii",       "f" },
+     { "VAR",      "ii",       "f" },
+     { "VIEW",     "ii",       "f" },
+     { "WEEK",     "ii",       "f" },
+     { "YEAR",     "ii",       "f" },
+    };
 
 
 #define NUM_FUNCTIONS (sizeof(fn_info)/sizeof(struct _FN_INFO))
@@ -766,7 +766,7 @@ void type_check_stack_push(EXP_BUFFER_ENTRY entry)
       printf("\n%s: Operator stack full", __FUNCTION__);
       exit(-1);
     }
-    type_check_stack_print();
+  type_check_stack_print();
 
 }
 
@@ -839,19 +839,21 @@ void type_check_stack_init(void)
 #define EXP_BUFF_ID_STR        0x07
 #define EXP_BUFF_ID_FUNCTION   0x08
 #define EXP_BUFF_ID_OPERATOR   0x09
+#define EXP_BUFF_ID_MAX        0x0A
 
 char *exp_buffer_id_str[] =
   {
-    "EXP_BUFF_ID_???",
-    "EXP_BUFF_ID_TKN",
-    "EXP_BUFF_ID_SUB_START",
-    "EXP_BUFF_ID_SUB_END",
-    "EXP_BUFF_ID_VARIABLE",
-    "EXP_BUFF_ID_INTEGER",
-    "EXP_BUFF_ID_FLT",
-    "EXP_BUFF_ID_STR",
-    "EXP_BUFF_ID_FUNCTION",
-    "EXP_BUFF_ID_OPERATOR",
+   "EXP_BUFF_ID_???",
+   "EXP_BUFF_ID_TKN",
+   "EXP_BUFF_ID_SUB_START",
+   "EXP_BUFF_ID_SUB_END",
+   "EXP_BUFF_ID_VARIABLE",
+   "EXP_BUFF_ID_INTEGER",
+   "EXP_BUFF_ID_FLT",
+   "EXP_BUFF_ID_STR",
+   "EXP_BUFF_ID_FUNCTION",
+   "EXP_BUFF_ID_OPERATOR",
+   "EXP_BUFF_ID_MAX",
   };
 
 
@@ -901,7 +903,7 @@ void dump_exp_buffer(void)
     {
       EXP_BUFFER_ENTRY token = exp_buffer[i];
       
-      fprintf(ofp, "\n(%16s) N%d %-24s %c %c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer[i].buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer[i].name);
+      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer[i].buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer[i].name);
       
       fprintf(ofp, "  %d:", token.p_idx);
       for(int pi=0; pi<token.p_idx; pi++)
@@ -910,7 +912,7 @@ void dump_exp_buffer(void)
 	}
     }
   
-    fprintf(ofp, "\n=================");
+  fprintf(ofp, "\n=================");
 }
 
 void dump_exp_buffer2(void)
@@ -923,8 +925,13 @@ void dump_exp_buffer2(void)
   for(int i=0; i<exp_buffer2_i; i++)
     {
       EXP_BUFFER_ENTRY token = exp_buffer2[i];
+
+      if( (exp_buffer2[i].buf_id < 0) || (exp_buffer2[i].buf_id > EXP_BUFF_ID_MAX) )
+	{
+	  printf("\nN%d buf_id invalid", token.node_id);
+	}
       
-      fprintf(ofp, "\n(%16s) N%d %-24s %c %c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
+      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
       
       fprintf(ofp, "  %d:", token.p_idx);
       for(int pi=0; pi<token.p_idx; pi++)
@@ -1000,6 +1007,7 @@ int insert_buf2_entry_after_node_id(int node_id, EXP_BUFFER_ENTRY e)
 void typecheck_expression(void)
 {
   EXP_BUFFER_ENTRY be;
+  EXP_BUFFER_ENTRY autocon;
   OP_INFO op_info;
   EXP_BUFFER_ENTRY op1;
   EXP_BUFFER_ENTRY op2;
@@ -1106,9 +1114,9 @@ void typecheck_expression(void)
 		{
 		  // Immutable types for this operator so we don't do any
 		  // auto conversion here. Just check that the correct type
-		  // is present, if not, its an error
+		  // is present, if not, it's an error
 		  
-		  if( (op1.op.type ==  op_info.type[0]) && (op2.op.type == op_info.type[0]) )
+		  if( (op1.op.type ==  op_info.type[0]) )
 		    {
 		      // Types correct, puh a dummy result so we have a correct execution stack
 
@@ -1136,15 +1144,16 @@ void typecheck_expression(void)
 		  // Mutable type is dependent on the arguments, e.g.
 		  //  A$ = "RTY"
 		  // requires that a string equality is used, similarly
-		  // INT and FLT need the correct operator.
+		  // INT and FLT need the correctly typed operator.
 
 		  // INT and FLT have an additional requirement where INT is used
 		  // as long as possible, and also assignment can turn FLT into INT
 		  // or INT into FLT
+		  
 		  fprintf(ofp, "\n Mutable type %d %d", op1.op.type, op2.op.type);
 		  
-		  // Check types aren't unknown.
-		  if( is_a_req_type(op1.op.type, &op_info) && is_a_req_type(op2.op.type, &op_info))
+		  // Check types are valid for this operator
+		  if( is_a_valid_type(op1.op.type, &op_info) && is_a_valid_type(op2.op.type, &op_info))
 		    {
 		      // We have types here. We need to insert auto type conversion qcodes here
 		      // if needed.
@@ -1156,37 +1165,100 @@ void typecheck_expression(void)
 		      
 		      // Types are both OK
 		      // If they are the same then we will bind the operator type to that type
+		      // as long as they are both the required type, if not then if types aren't
+		      // INT or FLT then it's an error
+		      // INT or FLT can be auto converted to the required type
+		      
 		      if( op1.op.type == op2.op.type )
 			{
-			  fprintf(ofp, "\n same type");
-			  be.op.type = op1.op.type;
-			  be.op.req_type = op1.op.req_type;
+			  fprintf(ofp, "\n Same type");
+			  if( op1.op.type == be.op.req_type )
+			    {
+			      // The types of the operands are the same as the required type, all ok
+			      be.op.type = op1.op.type;
+			      be.op.req_type = op1.op.req_type;
+			    }
+			  else
+			    {
+			      // The types of the argument aren't the required type, we may be able to
+			      // auto convert.
+			      switch(op1.op.type)
+				{
+				case NOBJ_VARTYPE_INT:
+				case NOBJ_VARTYPE_FLT:
+				  // We need to auto convert both operands. We don't change the operator type
+				  // to match as the operator has a required type. This is probably quite unusual.
+				  
+				  // Push dummy result
+				  
+				  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.req_type));
+				  autocon.buf_id = 0;
+				  autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
+				  autocon.p_idx = 2;
+				  autocon.p[0] = op1.node_id;
+				  autocon.p[1] = op2.node_id;
+				  autocon.op.type      = be.op.type;
+				  autocon.op.req_type  = be.op.type;
+				  //exp_buffer2[exp_buffer2_i++] = be;
+
+				  // Insert entry
+				  insert_buf2_entry_after_node_id(op1.node_id, autocon);
+				  insert_buf2_entry_after_node_id(op2.node_id, autocon);
+				  
+				  break;
+				  
+				default:
+				  // No auto conversion is available, so this is an error
+				  printf("\nType is not the require dtype and no auto conversion available,");
+				  printf("\n Node N%d", be.node_id);
+				  exit(-1);
+				  break;
+				}
+			    }
 			}
 		      else
 			{
-			  
 			  fprintf(ofp, "\n Autoconversion");
+			  fprintf(ofp, "\n --------------");
 			  fprintf(ofp, "\n Op1: type:%d req type:%d", op1.op.type, op1.op.req_type);
 			  fprintf(ofp, "\n Op2: type:%d req type:%d", op2.op.type, op2.op.req_type);
+			  fprintf(ofp, "\n BE:  type:%d req type:%d",  be.op.type,  be.op.req_type);
 		 
-			  // Which type do we use?
-			  // For now assume int and flt and promote to flt
-			  be.op.type = NOBJ_VARTYPE_FLT;
-			  be.op.req_type = NOBJ_VARTYPE_FLT;
-			  
-			  EXP_BUFFER_ENTRY autocon;
-			  strcpy(autocon.name, "autocon");
+			  // We insert auto conversion nodes to force the type of the arguments to match the
+			  // operator type. For INT and FLT we can force the operator to FLT if required
+			  // Do that before inserting auto conversion nodes.
+
+			  if( (op1.op.type == NOBJ_VARTYPE_FLT) || (op2.op.type == NOBJ_VARTYPE_FLT) )
+			    {
+			      // Force operator to FLT
+			      be.op.type = NOBJ_VARTYPE_FLT;
+			      be.op.req_type = NOBJ_VARTYPE_FLT;
+			    }
+
+			  // Now insert auto convert nodes if required
+
+			  strcpy(autocon.name, "autoconv");
 			  autocon.buf_id = 0;
 			  autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
 			  autocon.p_idx = 2;
 			  autocon.p[0] = op1.node_id;
 			  autocon.p[1] = op2.node_id;
-			  autocon.op.type      = op1.op.type;
-			  autocon.op.req_type  = op1.op.type;
-			  exp_buffer2[exp_buffer2_i++] = be;
+			  autocon.op.type      = be.op.type;
+			  autocon.op.req_type  = be.op.type;
+
+			  if( (op1.op.type != be.op.req_type) )
+			    {
+			      insert_buf2_entry_after_node_id(op1.node_id, autocon);
+			    }
+
+			  if( (op2.op.type != be.op.req_type) )
+			    {
+			      insert_buf2_entry_after_node_id(op2.node_id, autocon);
+			    }
+
+
+			  //			  exp_buffer2[exp_buffer2_i++] = be;
  
-			  // Insert entry
-			  insert_buf2_entry_after_node_id(op2.node_id, autocon);
 			}
 
 		      EXP_BUFFER_ENTRY res;
@@ -1227,6 +1299,17 @@ void typecheck_expression(void)
     }
   
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Processes the RPN tree
+//
+// The RPN is 'executed' but no function is actually performed. The execution
+// is done so a tree can be built up with the nodes of the RPN (with types
+// associated with the nodes). This allows auto type conversion nodes to be
+// added in the tree where required.
+//
+////////////////////////////////////////////////////////////////////////////////
 
 void expression_tree_process(char *expr)
 {
@@ -1345,9 +1428,10 @@ void output_expression_start(char *expr)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
+//
 // Stack function in operator stack
-
+//
+////////////////////////////////////////////////////////////////////////////////
 
 OP_STACK_ENTRY op_stack[NOPL_MAX_OP_STACK+1];
 
@@ -1367,7 +1451,7 @@ void op_stack_push(OP_STACK_ENTRY entry)
       printf("\n%s: Operator stack full", __FUNCTION__);
       exit(-1);
     }
-    op_stack_print();
+  op_stack_print();
 
 }
 
@@ -1439,6 +1523,8 @@ void op_stack_print(void)
 ////////////////////////////////////////////////////////////////////////////////
 //
 // End of shunting algorithm, flush the stack
+// Processing the RPN as a tree (adds auto conversion) is done after we flush
+// the stack (shunting operator stack)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -1475,10 +1561,11 @@ void uninit_output(void)
 // Expression type stack
 //
 // Used when processing sub expressions as we need to have an expression type for
-// all sub expressions but nbot lose the current one when the sub expression finishes
-// processing.
+// all sub expressions but not lose the current one when the sub expression finishes
+// processing. The current expression type is saved by pushing it onto this stack
 //
 //
+////////////////////////////////////////////////////////////////////////////////
 
 #define MAX_EXP_TYPE_STACK  20
 
@@ -1512,6 +1599,15 @@ NOBJ_VARTYPE exp_type_pop(void)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// Process another token using the shunting algorithm.
+//
+// This converts the infix expression (as in OPL) to an RPN expression.
+// All OPL statements are treated as expressions. This works well with the
+// QCode assignment operator, and OPL functions and statements (functions
+// with no return value)
+//
+////////////////////////////////////////////////////////////////////////////////
 
 void process_token(char *token)
 {
@@ -1532,7 +1628,7 @@ void process_token(char *token)
   opr1 = operator_precedence(o1.name);
   opr2 = operator_precedence(o2.name);
 
-    if( strcmp(o1.name, ",")==0 )
+  if( strcmp(o1.name, ",")==0 )
     {
       while( (strlen(op_stack_top().name) != 0) &&
 	     strcmp(op_stack_top().name, "(") != 0 )
@@ -1621,7 +1717,7 @@ void process_token(char *token)
       
       while( (strlen(op_stack_top().name) != 0) && (strcmp(op_stack_top().name, ")") != 0 ) &&
 	     ( OP_PREC(op_stack_top()) > opr1) || ((opr1 == OP_PREC(op_stack_top()) && operator_left_assoc(o1.name)))
-	       )
+	     )
 	{
 	  printf("\nPop 1");
 	  
@@ -1703,7 +1799,7 @@ void process_token(char *token)
     {
       strcpy(o1.name, tokptr);
       o1.type = expression_type;
-            o1.req_type = expression_type;
+      o1.req_type = expression_type;
       op_stack_push(o1);
       return;
     }
