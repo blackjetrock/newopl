@@ -36,11 +36,13 @@ Type Check Stack (2)
 000: 'A' type:1
 001: '1.5' type:1
  BE::=
+Found operator :=
+ Mutable type 1 1
+ Same type
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'A' type:1
-001: '1.5' type:1
+000: '000' type:1
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
@@ -51,7 +53,7 @@ Expression buffer 2
 ===================
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1.5  0:
-(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f :=  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 2 1
 =================
 ========================================================
 B = 2.5
@@ -78,11 +80,13 @@ Type Check Stack (2)
 000: 'B' type:1
 001: '2.5' type:1
  BE::=
+Found operator :=
+ Mutable type 1 1
+ Same type
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'B' type:1
-001: '2.5' type:1
+000: '000' type:1
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
@@ -93,7 +97,7 @@ Expression buffer 2
 ===================
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 2.5  0:
-(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f :=  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 2 1
 =================
 ========================================================
 Y% = 10 * 1.5
@@ -151,7 +155,7 @@ Expression buffer 2
 ===================
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 10  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autoconv  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 1.5  0:
 =================
 
@@ -160,11 +164,36 @@ Type Check Stack (2)
 000: 'Y%' type:0
 001: '000' type:1
  BE::=
+Found operator :=
+ Mutable type 1 0
+ Autoconversion
+ --------------
+ Op1: type:1 req type:1
+ Op2: type:0 req type:0
+ BE:  type:0 req type:0
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 10  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 1.5  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
+=================
+ Insert after 4 exp_buffer2_i:5
+   Found at i:4
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 10  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 1.5  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          i rq:i autocon f->i  2: 4 1
+=================
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'Y%' type:0
-001: '000' type:1
+000: '000' type:1
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
@@ -177,10 +206,11 @@ Expression buffer 2
 ===================
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 10  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autoconv  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 1.5  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
-(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     i rq:i :=  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          i rq:i autocon f->i  2: 4 1
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     i rq:i :=  2: 4 1
 =================
 ========================================================
 PRINT Y%
@@ -258,11 +288,13 @@ Type Check Stack (2)
 000: 'X%' type:0
 001: '000' type:0
  BE::=
+Found operator :=
+ Mutable type 0 0
+ Same type
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'X%' type:0
-001: '000' type:0
+000: '000' type:0
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
@@ -277,7 +309,7 @@ Expression buffer 2
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 10  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 3 2
-(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i :=  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i :=  2: 4 1
 =================
 ========================================================
 PRINT X%
@@ -392,7 +424,7 @@ Expression buffer 2
 ===================
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
-(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autoconv  2: 5 2
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 4 3
@@ -403,11 +435,40 @@ Type Check Stack (2)
 000: 'X%' type:0
 001: '000' type:1
  BE::=
+Found operator :=
+ Mutable type 1 0
+ Autoconversion
+ --------------
+ Op1: type:1 req type:1
+ Op2: type:0 req type:0
+ BE:  type:0 req type:0
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 2
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 4 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 5 2
+=================
+ Insert after 6 exp_buffer2_i:7
+   Found at i:6
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 2
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 4 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 5 2
+(dump_exp_buffer2) N9 EXP_BUFF_ID_???          i rq:i autocon f->i  2: 6 1
+=================
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'X%' type:0
-001: '000' type:1
+000: '000' type:1
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
@@ -422,12 +483,13 @@ Expression buffer 2
 ===================
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
-(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autoconv  2: 5 2
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 4 3
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 5 2
-(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i :=  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_???          i rq:i autocon f->i  2: 6 1
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i :=  2: 6 1
 =================
 ========================================================
 PRINT X%
@@ -554,7 +616,7 @@ Expression buffer 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     U rq:U FLT  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autoconv  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 4
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f FLT  0:
 =================
 
@@ -574,7 +636,7 @@ Expression buffer 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     U rq:U FLT  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autoconv  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 4
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f FLT  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 5 4
 =================
@@ -587,7 +649,7 @@ Expression buffer 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     U rq:U FLT  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autoconv  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 4
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f FLT  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 5 4
 (dump_exp_buffer2) N10 EXP_BUFF_ID_???          U rq:U autocon i->U  2: 7 2
@@ -599,7 +661,7 @@ Expression buffer 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     U rq:U FLT  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autoconv  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 4
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f FLT  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 5 4
 (dump_exp_buffer2) N10 EXP_BUFF_ID_???          U rq:U autocon i->U  2: 7 2
@@ -621,7 +683,7 @@ Expression buffer 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     U rq:U FLT  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autoconv  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 4
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f FLT  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 5 4
 (dump_exp_buffer2) N10 EXP_BUFF_ID_???          U rq:U autocon i->U  2: 7 2
@@ -638,11 +700,13 @@ Type Check Stack (2)
 000: 'X%' type:0
 001: '000' type:0
  BE::=
+Found operator :=
+ Mutable type 0 0
+ Same type
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'X%' type:0
-001: '000' type:0
+000: '000' type:0
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
@@ -664,13 +728,13 @@ Expression buffer 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     U rq:U FLT  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autoconv  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 4
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f FLT  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 5 4
 (dump_exp_buffer2) N10 EXP_BUFF_ID_???          U rq:U autocon i->U  2: 7 2
 (dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     U rq:U +  2: 7 2
 (dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     i rq:i INT  0:
-(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     i rq:i :=  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     i rq:i :=  2: 9 1
 =================
 ========================================================
 PRINT X%
@@ -748,11 +812,13 @@ Type Check Stack (2)
 000: 'A' type:1
 001: '000' type:1
  BE::=
+Found operator :=
+ Mutable type 1 1
+ Same type
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'A' type:1
-001: '000' type:1
+000: '000' type:1
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
@@ -767,7 +833,7 @@ Expression buffer 2
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f X%  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     f rq:f Y%  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 3 2
-(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f :=  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 4 1
 =================
 ========================================================
 PRINT A
@@ -918,7 +984,7 @@ Expression buffer 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 2  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 3 2
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     U rq:f *  2: 3 2
-(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autoconv  2: 6 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 6 4
 (dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 =================
 
@@ -927,11 +993,13 @@ Type Check Stack (2)
 000: 'B' type:1
 001: '000' type:1
  BE::=
+Found operator :=
+ Mutable type 1 1
+ Same type
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'B' type:1
-001: '000' type:1
+000: '000' type:1
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
@@ -950,10 +1018,10 @@ Expression buffer 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 2  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 3 2
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     U rq:f *  2: 3 2
-(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autoconv  2: 6 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 6 4
 (dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 6 4
-(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f :=  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 7 1
 =================
 ========================================================
 B = 1 * ( 2 + A )
@@ -1025,7 +1093,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:f 1  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
-(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autoconv  2: 4 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 3
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 =================
 
@@ -1047,7 +1115,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:f 1  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
-(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autoconv  2: 4 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 3
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 4 3
 =================
@@ -1061,9 +1129,9 @@ Expression buffer 2
 ===================
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:f 1  0:
-(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autoconv  2: 5 2
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
-(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autoconv  2: 4 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 3
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 4 3
 =================
@@ -1073,11 +1141,13 @@ Type Check Stack (2)
 000: 'B' type:1
 001: '000' type:1
  BE::=
+Found operator :=
+ Mutable type 1 1
+ Same type
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'B' type:1
-001: '000' type:1
+000: '000' type:1
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
@@ -1092,13 +1162,13 @@ Expression buffer 2
 ===================
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:f 1  0:
-(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autoconv  2: 5 2
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
-(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autoconv  2: 4 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 3
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 4 3
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 5 2
-(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f :=  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 7 1
 =================
 ========================================================
 B = 2 * (3 * ( 4 + (1 + 1)))
@@ -1281,11 +1351,50 @@ Type Check Stack (2)
 000: 'B' type:1
 001: '000' type:0
  BE::=
+Found operator :=
+ Mutable type 0 1
+ Autoconversion
+ --------------
+ Op1: type:0 req type:0
+ Op2: type:1 req type:1
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:f 2  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 9 2
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 6 5
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 7 4
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 8 3
+(dump_exp_buffer2) N11 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 9 2
+(dump_exp_buffer2) N10 EXP_BUFF_ID_OPERATOR     U rq:f *  2: 9 2
+=================
+ Insert after 10 exp_buffer2_i:12
+   Found at i:11
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:f 2  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 9 2
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 6 5
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 7 4
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 8 3
+(dump_exp_buffer2) N11 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 9 2
+(dump_exp_buffer2) N10 EXP_BUFF_ID_OPERATOR     U rq:f *  2: 9 2
+(dump_exp_buffer2) N13 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 10 1
+=================
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'B' type:1
-001: '000' type:0
+000: '000' type:0
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
@@ -1314,7 +1423,8 @@ Expression buffer 2
 (dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 8 3
 (dump_exp_buffer2) N11 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 9 2
 (dump_exp_buffer2) N10 EXP_BUFF_ID_OPERATOR     U rq:f *  2: 9 2
-(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     f rq:f :=  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 10 1
+(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 10 1
 =================
 ========================================================
 PRINT B
@@ -1414,7 +1524,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 1  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 2 1
-(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autoconv  2: 4 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 3
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 =================
 
@@ -1440,7 +1550,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 1  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 2 1
-(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autoconv  2: 4 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 3
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 4 3
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     U rq:U PRINT  0:
@@ -1625,11 +1735,46 @@ Type Check Stack (2)
 000: 'A' type:1
 001: '000' type:0
  BE::=
+Found operator :=
+ Mutable type 0 1
+ Autoconversion
+ --------------
+ Op1: type:0 req type:0
+ Op2: type:1 req type:1
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 3 2
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     U rq:f *  2: 3 2
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 6 4
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 6 4
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     U rq:f *  2: 6 4
+=================
+ Insert after 7 exp_buffer2_i:10
+   Found at i:9
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 3 2
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     U rq:f *  2: 3 2
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 6 4
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 6 4
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     U rq:f *  2: 6 4
+(dump_exp_buffer2) N10 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 7 1
+=================
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'A' type:1
-001: '000' type:0
+000: '000' type:0
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
@@ -1652,7 +1797,8 @@ Expression buffer 2
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
 (dump_exp_buffer2) N8 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 6 4
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     U rq:f *  2: 6 4
-(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f :=  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 7 1
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 7 1
 =================
 ========================================================
 A = 1000.*1000*1000
@@ -1714,7 +1860,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autoconv  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
 =================
 
 Type Check Stack (2)
@@ -1737,7 +1883,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autoconv  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
 =================
@@ -1748,7 +1894,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autoconv  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
 (dump_exp_buffer2) N8 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 6 4
@@ -1758,7 +1904,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autoconv  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
 (dump_exp_buffer2) N8 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 6 4
@@ -1772,7 +1918,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autoconv  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
 (dump_exp_buffer2) N8 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 6 4
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
@@ -1784,11 +1930,44 @@ Type Check Stack (2)
 000: 'A' type:1
 001: '000' type:0
  BE::=
+Found operator :=
+ Mutable type 0 1
+ Autoconversion
+ --------------
+ Op1: type:0 req type:0
+ Op2: type:1 req type:1
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 6 4
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 6 4
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     U rq:f *  2: 6 4
+=================
+ Insert after 7 exp_buffer2_i:9
+   Found at i:8
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 6 4
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 6 4
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     U rq:f *  2: 6 4
+(dump_exp_buffer2) N10 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 7 1
+=================
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'A' type:1
-001: '000' type:0
+000: '000' type:0
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
@@ -1804,13 +1983,14 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autoconv  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
 (dump_exp_buffer2) N8 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 6 4
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
 (dump_exp_buffer2) N8 EXP_BUFF_ID_???          U rq:U autocon i->f  2: 6 4
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     U rq:f *  2: 6 4
-(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f :=  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 7 1
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 7 1
 =================
 ========================================================
 A = 1000.*(1000*1000)
@@ -1894,7 +2074,7 @@ Expression buffer 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 4 3
-(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autoconv  2: 5 2
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 2
 =================
 
 Type Check Stack (2)
@@ -1902,11 +2082,40 @@ Type Check Stack (2)
 000: 'A' type:1
 001: '000' type:0
  BE::=
+Found operator :=
+ Mutable type 0 1
+ Autoconversion
+ --------------
+ Op1: type:0 req type:0
+ Op2: type:1 req type:1
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 4 3
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 5 2
+=================
+ Insert after 6 exp_buffer2_i:7
+   Found at i:6
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 4 3
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 5 2
+(dump_exp_buffer2) N9 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 6 1
+=================
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'A' type:1
-001: '000' type:0
+000: '000' type:0
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
@@ -1924,9 +2133,10 @@ Expression buffer 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 4 3
-(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autoconv  2: 5 2
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 2
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 5 2
-(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     f rq:f :=  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 6 1
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 6 1
 =================
 ========================================================
 F$="ABC"
@@ -1953,11 +2163,13 @@ Type Check Stack (2)
 000: 'F$' type:2
 001: '"ABC"' type:2
  BE::=
+Found operator :=
+ Mutable type 2 2
+ Same type
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'F$' type:2
-001: '"ABC"' type:2
+000: '000' type:2
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     s rq:s F$  0:
@@ -1968,7 +2180,7 @@ Expression buffer 2
 ===================
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s F$  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_STR          s rq:s "ABC"  0:
-(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     s rq:s :=  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     s rq:s :=  2: 2 1
 =================
 ========================================================
 A = SIN(45*2)
@@ -2023,11 +2235,37 @@ Type Check Stack (2)
 000: 'A' type:1
 001: '000' type:0
  BE::=
+Found operator :=
+ Mutable type 0 1
+ Autoconversion
+ --------------
+ Op1: type:0 req type:0
+ Op2: type:1 req type:1
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 45  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f SIN  0:
+=================
+ Insert after 4 exp_buffer2_i:5
+   Found at i:3
+   Copied 4 to 5:
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 45  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 3 2
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 1
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f SIN  0:
+=================
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'A' type:1
-001: '000' type:0
+000: '000' type:0
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
@@ -2043,8 +2281,9 @@ Expression buffer 2
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 45  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 3 2
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 1
 (dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f SIN  0:
-(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f :=  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 4 1
 =================
 ========================================================
 B = SIN(45*2.0)
@@ -2104,7 +2343,7 @@ Expression buffer 2
 ===================
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 45  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autoconv  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 2.0  0:
 =================
 
@@ -2119,11 +2358,13 @@ Type Check Stack (2)
 000: 'B' type:1
 001: '000' type:1
  BE::=
+Found operator :=
+ Mutable type 1 1
+ Same type
 
-Type Check Stack (2)
+Type Check Stack (1)
 
-000: 'B' type:1
-001: '000' type:1
+000: '000' type:1
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
@@ -2137,11 +2378,11 @@ Expression buffer 2
 ===================
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 45  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autoconv  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 2.0  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f SIN  0:
-(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f :=  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 4 1
 =================
 ========================================================
 X% = USR(X%, Y%)
@@ -2186,12 +2427,14 @@ Type Check Stack (3)
 001: 'X%' type:0
 002: 'Y%' type:0
  BE::=
+Found operator :=
+ Mutable type 0 0
+ Same type
 
-Type Check Stack (3)
+Type Check Stack (2)
 
 000: 'X%' type:0
-001: 'X%' type:0
-002: 'Y%' type:0
+001: '000' type:0
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
@@ -2206,7 +2449,7 @@ Expression buffer 2
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i USR  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i :=  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i :=  2: 3 2
 =================
 ========================================================
 X% = USR(12*4+1, 20*3+4)
@@ -2335,12 +2578,14 @@ Type Check Stack (3)
 001: '000' type:0
 002: '000' type:0
  BE::=
+Found operator :=
+ Mutable type 0 0
+ Same type
 
-Type Check Stack (3)
+Type Check Stack (2)
 
 000: 'X%' type:0
 001: '000' type:0
-002: '000' type:0
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
@@ -2371,7 +2616,7 @@ Expression buffer 2
 (dump_exp_buffer2) N10 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
 (dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 10 9
 (dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     i rq:i USR  0:
-(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     i rq:i :=  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     i rq:i :=  2: 11 6
 =================
 ========================================================
 X% = USR(1+2, 1.2*3.6)
@@ -2458,12 +2703,44 @@ Type Check Stack (3)
 001: '000' type:0
 002: '000' type:1
  BE::=
+Found operator :=
+ Mutable type 1 0
+ Autoconversion
+ --------------
+ Op1: type:1 req type:1
+ Op2: type:0 req type:0
+ BE:  type:0 req type:0
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_FLT          f rq:f 1.2  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FLT          f rq:f 3.6  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 6 5
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i USR  0:
+=================
+ Insert after 7 exp_buffer2_i:8
+   Found at i:6
+   Copied 7 to 8:
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_FLT          f rq:f 1.2  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FLT          f rq:f 3.6  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 6 5
+(dump_exp_buffer2) N10 EXP_BUFF_ID_???          i rq:i autocon f->i  2: 7 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i USR  0:
+=================
 
-Type Check Stack (3)
+Type Check Stack (2)
 
 000: 'X%' type:0
-001: '000' type:0
-002: '000' type:1
+001: '000' type:1
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
@@ -2485,8 +2762,9 @@ Expression buffer 2
 (dump_exp_buffer2) N5 EXP_BUFF_ID_FLT          f rq:f 1.2  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_FLT          f rq:f 3.6  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 6 5
+(dump_exp_buffer2) N10 EXP_BUFF_ID_???          i rq:i autocon f->i  2: 7 4
 (dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i USR  0:
-(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i :=  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i :=  2: 7 4
 =================
 ========================================================
 A = SIN ( MAX ( 2, 3 ) / 3 * 3.14 )
@@ -2642,7 +2920,7 @@ Expression buffer 2
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_???          U rq:U autocon i->U  2: 5 3
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     U rq:U /  2: 5 3
-(dump_exp_buffer2) N10 EXP_BUFF_ID_???          f rq:f autoconv  2: 8 6
+(dump_exp_buffer2) N10 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 8 6
 (dump_exp_buffer2) N8 EXP_BUFF_ID_FLT          f rq:f 3.14  0:
 =================
 
@@ -2659,12 +2937,52 @@ Type Check Stack (3)
 001: '2' type:0
 002: '000' type:1
  BE::=
+Found operator :=
+ Mutable type 1 0
+ Autoconversion
+ --------------
+ Op1: type:1 req type:1
+ Op2: type:0 req type:0
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          U rq:U autocon i->U  2: 5 3
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     U rq:U MAX  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          U rq:U autocon i->U  2: 5 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     U rq:U /  2: 5 3
+(dump_exp_buffer2) N10 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 8 6
+(dump_exp_buffer2) N8 EXP_BUFF_ID_FLT          f rq:f 3.14  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 8 6
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     f rq:f SIN  0:
+=================
+ Insert after 9 exp_buffer2_i:12
+   Found at i:10
+   Copied 11 to 12:
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          U rq:U autocon i->U  2: 5 3
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     U rq:U MAX  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          U rq:U autocon i->U  2: 5 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     U rq:U /  2: 5 3
+(dump_exp_buffer2) N10 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 8 6
+(dump_exp_buffer2) N8 EXP_BUFF_ID_FLT          f rq:f 3.14  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 8 6
+(dump_exp_buffer2) N13 EXP_BUFF_ID_???          i rq:i autocon f->i  2: 9 2
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     f rq:f SIN  0:
+=================
 
-Type Check Stack (3)
+Type Check Stack (2)
 
 000: 'A' type:1
-001: '2' type:0
-002: '000' type:1
+001: '000' type:1
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
@@ -2688,11 +3006,12 @@ Expression buffer 2
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_???          U rq:U autocon i->U  2: 5 3
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     U rq:U /  2: 5 3
-(dump_exp_buffer2) N10 EXP_BUFF_ID_???          f rq:f autoconv  2: 8 6
+(dump_exp_buffer2) N10 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 8 6
 (dump_exp_buffer2) N8 EXP_BUFF_ID_FLT          f rq:f 3.14  0:
 (dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 8 6
+(dump_exp_buffer2) N13 EXP_BUFF_ID_???          i rq:i autocon f->i  2: 9 2
 (dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     f rq:f SIN  0:
-(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     f rq:f :=  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     i rq:i :=  2: 9 2
 =================
 
 Operator Stack

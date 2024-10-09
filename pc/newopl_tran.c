@@ -80,25 +80,27 @@ typedef struct _OP_INFO
   char          *name;
   int           precedence;
   int           left_assoc;
-  int           immutable;
+  int           immutable;                // Is the operator type mutable?
+  int           assignment;               // Special code for assignment
   NOBJ_VARTYPE  type[MAX_OPERATOR_TYPES];
   int           qcode;                     // Easily translatable qcodes
 } OP_INFO;
 
 OP_INFO  op_info[] =
   {
-   { "+",   3, 0,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { "-",   3, 0,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { "*",   5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { "/",   5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { ">",   5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { "AND", 5, 1,   MUTABLE_TYPE, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+   { ":=",   1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+   { "+",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+   { "-",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+   { "*",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+   { "/",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+   { ">",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+   { "AND",  5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
    // (Handle bitwise on integer, logical on floats somewhere)
-   //{ ",", 0, 0 }, /// Not used?
+   //{ ",",  0, 0 }, /// Not used?
     
    // LZ only
-   { "+%", 5, 1, IMMUTABLE_TYPE, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
-   { "-%", 5, 1, IMMUTABLE_TYPE, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
+   { "+%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
+   { "-%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
   };
 
 #define NUM_OPERATORS (sizeof(op_info)/sizeof(struct _OP_INFO))
@@ -1227,17 +1229,26 @@ void typecheck_expression(void)
 			  // We insert auto conversion nodes to force the type of the arguments to match the
 			  // operator type. For INT and FLT we can force the operator to FLT if required
 			  // Do that before inserting auto conversion nodes.
-
-			  if( (op1.op.type == NOBJ_VARTYPE_FLT) || (op2.op.type == NOBJ_VARTYPE_FLT) )
+			  // Special treatment for assignment operator
+			  if( op_info.assignment )
 			    {
-			      // Force operator to FLT
-			      be.op.type = NOBJ_VARTYPE_FLT;
-			      be.op.req_type = NOBJ_VARTYPE_FLT;
+			      // Operator type follows the second operand, which is the variable we
+			      // are assigning to
+			      be.op.type = op2.op.type;
+			      be.op.req_type = op2.op.req_type;
 			    }
-
+			  else
+			    {
+			      if( (op1.op.type == NOBJ_VARTYPE_FLT) || (op2.op.type == NOBJ_VARTYPE_FLT) )
+				{
+				  // Force operator to FLT
+				  be.op.type = NOBJ_VARTYPE_FLT;
+				  be.op.req_type = NOBJ_VARTYPE_FLT;
+				}
+			    }
+			  
 			  // Now insert auto convert nodes if required
-
-			  strcpy(autocon.name, "autoconv");
+			  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.req_type));
 			  autocon.buf_id = 0;
 			  autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
 			  autocon.p_idx = 2;
@@ -1248,11 +1259,13 @@ void typecheck_expression(void)
 
 			  if( (op1.op.type != be.op.req_type) )
 			    {
+			      sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.req_type));
 			      insert_buf2_entry_after_node_id(op1.node_id, autocon);
 			    }
 
 			  if( (op2.op.type != be.op.req_type) )
 			    {
+			      sprintf(autocon.name, "autocon %c->%c", type_to_char(op2.op.type), type_to_char(be.op.req_type));
 			      insert_buf2_entry_after_node_id(op2.node_id, autocon);
 			    }
 
