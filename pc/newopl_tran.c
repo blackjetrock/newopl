@@ -1001,6 +1001,38 @@ int insert_buf2_entry_after_node_id(int node_id, EXP_BUFFER_ENTRY e)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+// return a type that can be reached by as few type conversions as possible.
+
+NOBJ_VARTYPE type_with_least_conversion_from(NOBJ_VARTYPE t1, NOBJ_VARTYPE t2)
+{
+  NOBJ_VARTYPE ret = t1;
+
+  if( (t1 == NOBJ_VARTYPE_INT) && (t2 == NOBJ_VARTYPE_INT) )
+    {
+      ret = NOBJ_VARTYPE_INT;
+    }
+
+  if( (t1 == NOBJ_VARTYPE_FLT) && (t2 == NOBJ_VARTYPE_FLT) )
+    {
+      ret = NOBJ_VARTYPE_FLT;
+    }
+
+  if( (t1 == NOBJ_VARTYPE_FLT) && (t2 == NOBJ_VARTYPE_INT) )
+    {
+      ret = NOBJ_VARTYPE_FLT;
+    }
+
+  if( (t1 == NOBJ_VARTYPE_INT) && (t2 == NOBJ_VARTYPE_FLT) )
+    {
+      ret = NOBJ_VARTYPE_FLT;
+    }
+
+  fprintf(ofp, "\n%s: %c %c => %c",  __FUNCTION__, type_to_char(t1), type_to_char(t2), type_to_char(ret));
+  return(ret);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
 // Take the expression buffer and execute it for types
 // Copies expression from one buffer to another, moving closer to QCode in
 // the second buffer
@@ -1171,6 +1203,28 @@ void typecheck_expression(void)
 		      // Float -> int if int required
 		      // Expressions start as integer and turn into float if a float is found.
 		      //
+
+		      // If the operator type is unknown then we use the types of the arguments
+		      // Unknown types arise when brackets are used.
+		      if( be.op.type == NOBJ_VARTYPE_UNKNOWN)
+			{
+			  be.op.type = type_with_least_conversion_from(op1.op.type, op2.op.type);
+			}
+
+		      if( be.op.req_type == NOBJ_VARTYPE_UNKNOWN)
+			{
+			  be.op.req_type = type_with_least_conversion_from(op1.op.type, op2.op.type);
+			}
+
+		      if( be.op.type == NOBJ_VARTYPE_INT)
+			{
+			  be.op.type = type_with_least_conversion_from(op1.op.type, op2.op.type);
+			}
+
+		      if( be.op.req_type == NOBJ_VARTYPE_INT)
+			{
+			  be.op.req_type = type_with_least_conversion_from(op1.op.type, op2.op.type);
+			}
 		      
 		      // Types are both OK
 		      // If they are the same then we will bind the operator type to that type
@@ -1246,6 +1300,7 @@ void typecheck_expression(void)
 			    }
 			  else
 			    {
+			      // Must be INT/FLT or FLT/INT
 			      if( (op1.op.type == NOBJ_VARTYPE_FLT) || (op2.op.type == NOBJ_VARTYPE_FLT) )
 				{
 				  // Force operator to FLT
@@ -1253,6 +1308,8 @@ void typecheck_expression(void)
 				  be.op.req_type = NOBJ_VARTYPE_FLT;
 				}
 			    }
+
+			  // If type of operator is unknown, 
 			  
 			  // Now insert auto convert nodes if required
 			  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.req_type));
@@ -1365,7 +1422,7 @@ char *type_stack_str(void)
 void output_float(OP_STACK_ENTRY token)
 {
   printf("\nop float");
-  fprintf(ofp, "\n(%16s) [%c] %c %c %s", __FUNCTION__, type_to_char(expression_type), type_to_char(token.type), type_to_char(token.req_type), token.name);
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(token.type), type_to_char(token.req_type), token.name);
   add_exp_buffer_entry(token, EXP_BUFF_ID_FLT);
 }
 
@@ -1784,7 +1841,7 @@ void process_token(char *token)
       fprintf(ofp, "\nPush 1");
       
       strcpy(o1.name, tokptr);
-      o1.type = NOBJ_VARTYPE_UNKNOWN;
+      o1.type = expression_type;
       o1.req_type = expression_type;
       op_stack_push(o1);
       first_token = 0;
