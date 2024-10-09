@@ -19,6 +19,7 @@
 #include "nopl_obj.h"
 
 FILE *ofp;
+char current_expression[200];
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -988,6 +989,12 @@ int insert_buf2_entry_after_node_id(int node_id, EXP_BUFFER_ENTRY e)
 // Copies expression from one buffer to another, moving closer to QCode in
 // the second buffer
 //
+// Tree-like information about the nodes in the RPN is built up, this allows
+// auto conversion tokens to be inserted higher up the tree when needed.
+// Auto conversion is only inserted to convert inputs to the required type, it
+// isn't used on the output or result of an operator or function. This is to
+// avoid double application of conversion tokens.
+//
 ////////////////////////////////////////////////////////////////////////////////
 
 void typecheck_expression(void)
@@ -1077,7 +1084,7 @@ void typecheck_expression(void)
 	      fprintf(ofp, "\nFound operator %s", be.name);
 
 	      // We only handle binary operators here
-	      // Pop arguments off stack
+	      // Pop arguments off stack, this is an analogue of execution of the operator
 	      
 	      op1 = type_check_stack_pop();
 	      op2 = type_check_stack_pop();
@@ -1087,7 +1094,7 @@ void typecheck_expression(void)
 	      op1_reqtype = op1.op.req_type;
 	      op2_reqtype - op2.op.req_type;
 
-	      // Get the node ids of the argumenmts so we can find them if we ned to
+	      // Get the node ids of the argumenmts so we can find them if we need to
 	      // adjust them.
 	      
 	      be.p_idx = 2;
@@ -1098,11 +1105,12 @@ void typecheck_expression(void)
 	      if( op_info.immutable )
 		{
 		  // Immutable types for this operator so we don't do any
-		  // auto conversion here.
+		  // auto conversion here. Just check that the correct type
+		  // is present, if not, its an error
 		  
 		  if( (op1.op.type ==  op_info.type[0]) && (op2.op.type == op_info.type[0]) )
 		    {
-		      // Types correct, copy operator over
+		      // Types correct, puh a dummy result so we have a correct execution stack
 
 		      // Push dummy result
 		      EXP_BUFFER_ENTRY res;
@@ -1135,8 +1143,8 @@ void typecheck_expression(void)
 		  // or INT into FLT
 		  fprintf(ofp, "\n Mutable type %d %d", op1.op.type, op2.op.type);
 		  
-		  // Check types OK
-		  if( is_a_req_type(op1.op.type, &op_info) && is_a_req_type(op1.op.type, &op_info))
+		  // Check types aren't unknown.
+		  if( is_a_req_type(op1.op.type, &op_info) && is_a_req_type(op2.op.type, &op_info))
 		    {
 		      // We have types here. We need to insert auto type conversion qcodes here
 		      // if needed.
@@ -1192,6 +1200,12 @@ void typecheck_expression(void)
 		      type_check_stack_push(res);
 
 		    }
+		  else
+		    {
+		      // unknown required types exist, this probably shoudn't happen
+		      printf("\nUnknown required types at node id N%d", be.node_id);
+		      exit(-1);
+		    }
 		}		
 	    }
 	  else
@@ -1214,6 +1228,15 @@ void typecheck_expression(void)
   
 }
 
+void expression_tree_process(char *expr)
+{
+  node_id_index = 1;
+  
+  dump_exp_buffer();
+  typecheck_expression();
+  dump_exp_buffer();
+  dump_exp_buffer2();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -1297,18 +1320,27 @@ void output_sub_end(void)
 #endif
 }
 
-void output_expression_start(void)
+void output_expression_start(char *expr)
 {
-  printf("\nExpression start");
-  fprintf(ofp, "\n(%16s)", __FUNCTION__);
-
-  node_id_index = 1;
+  strcpy(current_expression, expr);
   
-  dump_exp_buffer();
-  typecheck_expression();
-  dump_exp_buffer();
-  dump_exp_buffer2();
-    
+  if( strlen(expr) > 0 )
+    {
+      printf("\nExpression start");
+      fprintf(ofp, "\n========================================================");
+      fprintf(ofp, "\n%s", expr);
+      fprintf(ofp, "\n========================================================");
+
+      fprintf(ofp, "\n(%16s)", __FUNCTION__);
+      
+      // We have a new expression, process the previous one which will be in the
+      // buffer
+      
+      //  expression_tree_process(expr);
+      
+    }
+  
+  // Clear the buffer ready for the new ex[pression that has just come in
   clear_exp_buffer();
 }
 
@@ -1404,7 +1436,11 @@ void op_stack_print(void)
   printf("\n------------------\n");
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
 // End of shunting algorithm, flush the stack
+//
+////////////////////////////////////////////////////////////////////////////////
 
 void op_stack_finalise(void)
 {
@@ -1414,6 +1450,12 @@ void op_stack_finalise(void)
     {
       o = op_stack_pop();
       output_operator(o);
+    }
+
+  if( strlen(current_expression) > 0 )
+    {
+      // Process the RPN as a tree and generate qcode
+      expression_tree_process(current_expression);
     }
 }
 
@@ -1740,11 +1782,8 @@ void process_expression(char *line)
   int end_cap_later = 0;
 
   
-  fprintf(ofp, "\n========================================================");
-  fprintf(ofp, "\n%s", line);
-  fprintf(ofp, "\n========================================================");
 
-  output_expression_start();
+  output_expression_start(line);
   
   // The type of an expression is initially unknown
   expression_type = NOBJ_VARTYPE_UNKNOWN;

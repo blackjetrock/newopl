@@ -3,74 +3,21 @@
 LOCAL A, B
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ========================================================
 LOCAL X%, Y%
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ========================================================
 LOCAL F$(10)
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
-========================================================
-
-========================================================
-(output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ========================================================
 A = 1.5
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) f f A
 (    output_float) f f 1.5
 ( output_operator) f f =
-========================================================
-B = 2.5
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f f A  0:
@@ -106,13 +53,13 @@ Expression buffer 2
 (dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f f 1.5  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f f :=  0:
 =================
+========================================================
+B = 2.5
+========================================================
+(output_expression_start)
 ( output_variable) f f B
 (    output_float) f f 2.5
 ( output_operator) f f =
-========================================================
-
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f f B  0:
@@ -152,24 +99,11 @@ Expression buffer 2
 Y% = 10 * 1.5
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) i i Y%
 (  output_integer) i i 10
 (    output_float) f f 1.5
 ( output_operator) U i *
 ( output_operator) i i =
-========================================================
-PRINT Y%
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i i Y%  0:
@@ -250,12 +184,12 @@ Expression buffer 2
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f f *  2: 3 2
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     i i :=  0:
 =================
-( output_variable) i i Y%
-( output_operator) U U PRINT
 ========================================================
-
+PRINT Y%
 ========================================================
 (output_expression_start)
+( output_variable) i i Y%
+( output_operator) U U PRINT
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i i Y%  0:
@@ -285,24 +219,11 @@ Expression buffer 2
 X% = 10 * Y%
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) i i X%
 (  output_integer) i i 10
 ( output_variable) i i Y%
 ( output_operator) U i *
 ( output_operator) i i =
-========================================================
-PRINT X%
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i i X%  0:
@@ -360,12 +281,12 @@ Expression buffer 2
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i i *  2: 3 2
 (dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i i :=  0:
 =================
-( output_variable) i i X%
-( output_operator) U U PRINT
 ========================================================
-
+PRINT X%
 ========================================================
 (output_expression_start)
+( output_variable) i i X%
+( output_operator) U U PRINT
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i i X%  0:
@@ -395,15 +316,6 @@ Expression buffer 2
 X% = 1 + A + B
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) i i X%
 (  output_integer) i i 1
 ( output_variable) f f A
@@ -411,10 +323,6 @@ Expression buffer 2
 ( output_operator) U f +
 ( output_operator) U i +
 ( output_operator) i i =
-========================================================
-PRINT X%
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i i X%  0:
@@ -525,12 +433,12 @@ Expression buffer 2
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f f +  2: 5 2
 (dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i i :=  0:
 =================
-( output_variable) i i X%
-( output_operator) U U PRINT
 ========================================================
-
+PRINT X%
 ========================================================
 (output_expression_start)
+( output_variable) i i X%
+( output_operator) U U PRINT
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i i X%  0:
@@ -560,15 +468,6 @@ Expression buffer 2
 X% = INT(FLT(1) + A * FLT(4))
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) i i X%
 (  output_integer) i i 1
 ( output_operator) U U FLT
@@ -579,10 +478,6 @@ Expression buffer 2
 ( output_operator) U U +
 ( output_operator) i i INT
 ( output_operator) i i =
-========================================================
-
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i i X%  0:
@@ -727,21 +622,8 @@ Expression buffer 2
 PRINT X%
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) i i X%
 ( output_operator) U U PRINT
-========================================================
-
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i i X%  0:
@@ -771,24 +653,11 @@ Expression buffer 2
 A = X% + Y%
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) f f A
 ( output_variable) f f X%
 ( output_variable) f f Y%
 ( output_operator) U f +
 ( output_operator) f f =
-========================================================
-PRINT A
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f f A  0:
@@ -846,12 +715,12 @@ Expression buffer 2
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f f +  2: 3 2
 (dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f f :=  0:
 =================
-( output_variable) f f A
-( output_operator) U U PRINT
 ========================================================
-
+PRINT A
 ========================================================
 (output_expression_start)
+( output_variable) f f A
+( output_operator) U U PRINT
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f f A  0:
@@ -881,15 +750,6 @@ Expression buffer 2
 B = 1 * 2 + A
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) f f B
 (  output_integer) i f 1
 (  output_integer) i f 2
@@ -897,10 +757,6 @@ Expression buffer 2
 ( output_variable) f f A
 ( output_operator) U f +
 ( output_operator) f f =
-========================================================
-B = 1 * ( 2 + A )
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f f B  0:
@@ -1007,6 +863,10 @@ Expression buffer 2
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f f +  2: 5 4
 (dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     f f :=  0:
 =================
+========================================================
+B = 1 * ( 2 + A )
+========================================================
+(output_expression_start)
 ( output_variable) f f B
 (  output_integer) i f 1
 (  output_integer) i i 2
@@ -1014,10 +874,6 @@ Expression buffer 2
 ( output_operator) U i +
 ( output_operator) U f *
 ( output_operator) f f =
-========================================================
-B = 2 * (3 * ( 4 + (1 + 1)))
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f f B  0:
@@ -1159,6 +1015,10 @@ Expression buffer 2
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f f *  2: 5 2
 (dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f f :=  0:
 =================
+========================================================
+B = 2 * (3 * ( 4 + (1 + 1)))
+========================================================
+(output_expression_start)
 ( output_variable) f f B
 (  output_integer) i f 2
 (  output_integer) i i 3
@@ -1170,10 +1030,6 @@ Expression buffer 2
 ( output_operator) U i *
 ( output_operator) U f *
 ( output_operator) f f =
-========================================================
-
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f f B  0:
@@ -1313,21 +1169,8 @@ Expression buffer 2
 PRINT B
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) f f B
 ( output_operator) U U PRINT
-========================================================
-
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f f B  0:
@@ -1357,25 +1200,12 @@ Expression buffer 2
 PRINT 1 * 2 + A
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 (  output_integer) i i 1
 (  output_integer) i i 2
 ( output_operator) U i *
 ( output_variable) f f A
 ( output_operator) U i +
 ( output_operator) U U PRINT
-========================================================
-
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i i 1  0:
@@ -1470,21 +1300,8 @@ Expression buffer 2
 PRINT "Point 2"
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 (   output_string) U U "Point 2"
 ( output_operator) U U PRINT
-========================================================
-
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_STR          U U "Point 2"  0:
@@ -1514,15 +1331,6 @@ Expression buffer 2
 A = 1000*1000*1000
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) f f A
 (  output_integer) i f 1000
 (  output_integer) i f 1000
@@ -1530,10 +1338,6 @@ Expression buffer 2
 (  output_integer) i f 1000
 ( output_operator) U f *
 ( output_operator) f f =
-========================================================
-A = 1000.*1000*1000
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f f A  0:
@@ -1613,6 +1417,10 @@ Expression buffer 2
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     i f *  2: 5 4
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f f :=  0:
 =================
+========================================================
+A = 1000.*1000*1000
+========================================================
+(output_expression_start)
 ( output_variable) f f A
 (    output_float) f f 1000.
 (  output_integer) i f 1000
@@ -1620,10 +1428,6 @@ Expression buffer 2
 (  output_integer) i f 1000
 ( output_operator) U f *
 ( output_operator) f f =
-========================================================
-A = 1000.*(1000*1000)
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f f A  0:
@@ -1726,6 +1530,10 @@ Expression buffer 2
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i f *  2: 6 4
 (dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     f f :=  0:
 =================
+========================================================
+A = 1000.*(1000*1000)
+========================================================
+(output_expression_start)
 ( output_variable) f f A
 (    output_float) f f 1000.
 (  output_integer) i i 1000
@@ -1733,10 +1541,6 @@ Expression buffer 2
 ( output_operator) U i *
 ( output_operator) U f *
 ( output_operator) f f =
-========================================================
-
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f f A  0:
@@ -1851,22 +1655,9 @@ Expression buffer 2
 F$="ABC"
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) s s F$
 (   output_string) s s "ABC"
 ( output_operator) s s =
-========================================================
-
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     s s F$  0:
@@ -1906,25 +1697,12 @@ Expression buffer 2
 A = SIN(45*2)
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) f f A
 (  output_integer) i i 45
 (  output_integer) i i 2
 ( output_operator) U i *
 ( output_operator) f f SIN
 ( output_operator) f f =
-========================================================
-B = SIN(45*2.0)
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f f A  0:
@@ -1991,16 +1769,16 @@ Expression buffer 2
 (dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f f SIN  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f f :=  0:
 =================
+========================================================
+B = SIN(45*2.0)
+========================================================
+(output_expression_start)
 ( output_variable) f f B
 (  output_integer) i i 45
 (    output_float) f f 2.0
 ( output_operator) U i *
 ( output_operator) f f SIN
 ( output_operator) f f =
-========================================================
-
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f f B  0:
@@ -2094,24 +1872,11 @@ Expression buffer 2
 X% = USR(X%, Y%)
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) i i X%
 ( output_variable) i i X%
 ( output_variable) i i Y%
 ( output_operator) i i USR
 ( output_operator) i i =
-========================================================
-
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i i X%  0:
@@ -2172,15 +1937,6 @@ Expression buffer 2
 X% = USR(12*4+1, 20*3+4)
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) i i X%
 (  output_integer) i i 12
 (  output_integer) i i 4
@@ -2194,10 +1950,6 @@ Expression buffer 2
 ( output_operator) U i +
 ( output_operator) i i USR
 ( output_operator) i i =
-========================================================
-
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i i X%  0:
@@ -2350,15 +2102,6 @@ Expression buffer 2
 X% = USR(1+2, 1.2*3.6)
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) i i X%
 (  output_integer) i i 1
 (  output_integer) i i 2
@@ -2368,10 +2111,6 @@ Expression buffer 2
 ( output_operator) U f *
 ( output_operator) i i USR
 ( output_operator) i i =
-========================================================
-
-========================================================
-(output_expression_start)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i i X%  0:
@@ -2478,15 +2217,6 @@ Expression buffer 2
 A = SIN ( MAX ( 2, 3 ) / 3 * 3.14 )
 ========================================================
 (output_expression_start)
-Expression buffer
-=================
-=================
-Expression buffer
-=================
-=================
-Expression buffer 2
-===================
-=================
 ( output_variable) f f A
 (  output_integer) i i 2
 (  output_integer) i i 3
@@ -2497,5 +2227,150 @@ Expression buffer 2
 ( output_operator) U i *
 ( output_operator) f f SIN
 ( output_operator) f f =
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i i 3  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     U U MAX  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i i 3  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     U U /  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f f 3.14  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     U i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f f SIN  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f f =  0:
+=================
+ BE:A
+
+Type Check Stack (1)
+
+000: 'A' type:1
+ BE:2
+
+Type Check Stack (2)
+
+000: 'A' type:1
+001: '2' type:0
+ BE:3
+
+Type Check Stack (3)
+
+000: 'A' type:1
+001: '2' type:0
+002: '3' type:0
+ BE:MAX
+
+Type Check Stack (3)
+
+000: 'A' type:1
+001: '2' type:0
+002: '3' type:0
+ BE:3
+
+Type Check Stack (4)
+
+000: 'A' type:1
+001: '2' type:0
+002: '3' type:0
+003: '3' type:0
+ BE:/
+Found operator /
+ Mutable type 0 0
+ same type
+
+Type Check Stack (3)
+
+000: 'A' type:1
+001: '2' type:0
+002: '000' type:0
+ BE:3.14
+
+Type Check Stack (4)
+
+000: 'A' type:1
+001: '2' type:0
+002: '000' type:0
+003: '3.14' type:1
+ BE:*
+Found operator *
+ Mutable type 1 0
+ Autoconversion
+ Op1: type:1 req type:1
+ Op2: type:0 req type:0
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i i 3  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     U U MAX  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i i 3  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     i i /  2: 5 3
+(dump_exp_buffer2) N7 EXP_BUFF_ID_FLT          f f 3.14  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     f f *  2: 7 6
+=================
+ Insert after 6 exp_buffer2_i:8
+   Found at i:5
+   Copied 7 to 8:
+   Copied 6 to 7:
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i i 3  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     U U MAX  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i i 3  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     i i /  2: 5 3
+(dump_exp_buffer2) N9 EXP_BUFF_ID_???          f f autocon  2: 7 6
+(dump_exp_buffer2) N7 EXP_BUFF_ID_FLT          f f 3.14  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     f f *  2: 7 6
+=================
+
+Type Check Stack (3)
+
+000: 'A' type:1
+001: '2' type:0
+002: '000' type:1
+ BE:SIN
+
+Type Check Stack (3)
+
+000: 'A' type:1
+001: '2' type:0
+002: '000' type:1
+ BE::=
+
+Type Check Stack (3)
+
+000: 'A' type:1
+001: '2' type:0
+002: '000' type:1
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i i 3  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     U U MAX  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i i 3  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     U U /  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f f 3.14  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     U i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f f SIN  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f f :=  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i i 3  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     U U MAX  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i i 3  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     i i /  2: 5 3
+(dump_exp_buffer2) N9 EXP_BUFF_ID_???          f f autocon  2: 7 6
+(dump_exp_buffer2) N7 EXP_BUFF_ID_FLT          f f 3.14  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     f f *  2: 7 6
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     f f *  2: 7 6
+(dump_exp_buffer2) N10 EXP_BUFF_ID_OPERATOR     f f SIN  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     f f :=  0:
+=================
 
 Operator Stack
