@@ -67,7 +67,7 @@ void modify_expression_type(NOBJ_VARTYPE t);
 void op_stack_display(void);
 void op_stack_print(void);
 char type_to_char(NOBJ_VARTYPE t);
-
+NOBJ_VARTYPE char_to_type(char ch);
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -280,12 +280,12 @@ struct _FN_INFO
     {
      { "EOL",      "ii",       "f" },
      //{ "=",        "ii",       "f" },
-     { "ABS",      "ii",       "f" },
-     { "ACOS",     "ii",       "f" },
+     { "ABS",      "f",       "f" },
+     { "ACOS",     "f",       "f" },
      { "ADDR",     "ii",       "f" },
      { "APPEND",   "ii",       "f" },
      { "ASC",      "ii",       "f" },
-     { "ASIN",     "ii",       "f" },
+     { "ASIN",     "f",       "f" },
      { "AT",       "ii",       "f" },
      { "ATAN",     "ii",       "f" },
      { "BACK",     "ii",       "f" },
@@ -298,7 +298,7 @@ struct _FN_INFO
      { "CONTINUE", "ii",       "f" },
      { "COPY",     "ii",       "f" },
      { "COPYW",    "ii",       "f" },
-     { "COS",      "ii",       "f" },
+     { "COS",      "f",        "f" },
      { "COUNT",    "ii",       "f" },
      { "CREATE",   "ii",       "f" },
      { "CURSOR",   "ii",       "f" },
@@ -334,9 +334,9 @@ struct _FN_INFO
      { "GOTO",     "ii",       "f" },
      { "HEX$",     "ii",       "f" },
      { "HOUR",     "ii",       "f" },
-     { "IABS",     "ii",       "f" },
+     { "IABS",     "i",       "i" },
      { "INPUT",    "ii",       "f" },
-     { "INT",      "ii",       "f" },
+     { "INT",      "f",       "i" },
      { "INTF",     "ii",       "f" },
      { "KEY",      "ii",       "f" },
      { "KEY$",     "ii",       "f" },
@@ -393,7 +393,7 @@ struct _FN_INFO
      { "SUM",      "ii",       "f" },
      { "TAN",      "ii",       "f" },
      { "TRAP",     "ii",       "f" },
-     { "UDG",      "ii",       "f" },
+     { "UDG",      "iiiiiiiii", "" },
      { "UPDATE",   "ii",       "f" },
      { "UPPER$",   "ii",       "f" },
      { "USE",      "ii",       "f" },
@@ -425,8 +425,53 @@ int token_is_function(char *token, char **tokstr)
   return(0);
 }
 
+// Return the function return value type
+NOBJ_VARTYPE function_return_type(char *fname)
+{
+
+  for(int i=0; i<NUM_FUNCTIONS; i++)
+    {
+      if( strcmp(fname, fn_info[i].name) == 0 )
+	{
+	  return(char_to_type(fn_info[i].resulttype[0]));
+	}
+    }
+  return(NOBJ_VARTYPE_UNKNOWN);
+}
+
+// Return the function return value type
+int function_num_args(char *fname)
+{
+
+  for(int i=0; i<NUM_FUNCTIONS; i++)
+    {
+      if( strcmp(fname, fn_info[i].name) == 0 )
+	{
+	  return(strlen(fn_info[i].argtypes));
+	}
+    }
+  return(0);
+}
+
+NOBJ_VARTYPE function_arg_type_n(char *fname, int n)
+{
+
+  for(int i=0; i<NUM_FUNCTIONS; i++)
+    {
+      if( strcmp(fname, fn_info[i].name) == 0 )
+	{
+	  return(fn_info[i].argtypes[n]);
+	}
+    }
+  return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
 // tokstr is a constant string that we use in the operator stack
 // to minimise memory usage.
+//
+////////////////////////////////////////////////////////////////////////////////
 
 int token_is_operator(char *token, char **tokstr)
 {
@@ -642,6 +687,27 @@ char type_to_char(NOBJ_VARTYPE t)
     }
   
   return(c);
+}
+
+NOBJ_VARTYPE char_to_type(char ch)
+{
+  NOBJ_VARTYPE ret_t = '?'; 
+  switch(ch)
+    {
+    case 'i':
+      ret_t = NOBJ_VARTYPE_INT;
+      break;
+
+    case 'f':
+      ret_t = NOBJ_VARTYPE_INT;
+      break;
+
+    case 's':
+      ret_t = NOBJ_VARTYPE_INT;
+      break;
+    }
+
+  return(ret_t);
 }
 
 //------------------------------------------------------------------------------
@@ -1049,12 +1115,13 @@ void typecheck_expression(void)
 {
   EXP_BUFFER_ENTRY be;
   EXP_BUFFER_ENTRY autocon;
-  OP_INFO op_info;
+  OP_INFO          op_info;
   EXP_BUFFER_ENTRY op1;
   EXP_BUFFER_ENTRY op2;
   NOBJ_VARTYPE     op1_type, op2_type;
   NOBJ_VARTYPE     op1_reqtype, op2_reqtype;
-  int copied;
+  NOBJ_VARTYPE     ret_type;
+  int              copied;
   
   // We copy results over to a second buffer, this allows easy insertion of
   // needed extra codes
@@ -1117,6 +1184,69 @@ void typecheck_expression(void)
 	case EXP_BUFF_ID_FUNCTION:
 	  // Functions also require certain types, for instance USR reuires
 	  // all integers. Any floats in the arguments require conversion codes.
+	  fprintf(ofp, "\nFN: %d args", function_num_args(be.name));
+	  
+	  // Set up the function return value
+	  ret_type = function_return_type(be.name);
+
+	  // Now insert auto convert nodes if required
+	  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(ret_type));
+	  autocon.buf_id = 0;
+	  autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
+	  autocon.p_idx = 2;
+	  autocon.p[0] = op1.node_id;
+	  autocon.p[1] = op2.node_id;
+	  autocon.op.type      = ret_type;
+	  autocon.op.req_type  = ret_type;
+
+	  // Now check that all arguments have the correct type or
+	  // can with an auto type conversion
+	  for(int i=function_num_args(be.name)-1; i>=0; i--)
+	    {
+	      // Pop an argument off and check it
+	      op1 = type_check_stack_pop();
+
+	      fprintf(ofp, "\nFN ARG %d r%c %s %d(%c)", i,
+		      type_to_char(function_arg_type_n(be.name, i)),
+		      op1.name, op1.op.type,
+		      type_to_char(op1.op.type));
+	      
+	      if( op1.op.type == function_arg_type_n(be.name, i))
+		{
+		  fprintf(ofp, "  Arg ok");
+		  // All OK
+		}
+	      else
+		{
+		  fprintf(ofp, "  Arg not OK");
+		  
+		  // Can we use an auto conversion?
+		  if( (op1.op.type == NOBJ_VARTYPE_INT) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_FLT))
+		    {
+		      sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), function_arg_type_n(be.name, i));
+		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
+		    }
+
+		  if( (op1.op.type == NOBJ_VARTYPE_FLT) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_INT))
+		    {
+		      sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), function_arg_type_n(be.name, i));
+		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
+		    }
+		}
+	    }
+	  
+#if 1	      
+	      // Push dummy result
+	      EXP_BUFFER_ENTRY res;
+	      res.node_id = be.node_id;          // Result id is that of the operator
+	      res.p_idx = function_num_args(be.name);
+	      res.p[0] = op1.node_id;
+	      res.p[1] = op2.node_id;
+	      strcpy(res.name, "000");
+	      res.op.type      = ret_type;
+	      res.op.req_type  = ret_type;
+	      type_check_stack_push(res);
+#endif
 
 	  break;
 
@@ -1444,7 +1574,7 @@ void output_function(OP_STACK_ENTRY op)
 {
   printf("\nop function");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
-  add_exp_buffer_entry(op, EXP_BUFF_ID_OPERATOR);
+  add_exp_buffer_entry(op, EXP_BUFF_ID_FUNCTION);
 }
 
 void output_variable(OP_STACK_ENTRY op)
