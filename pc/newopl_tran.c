@@ -22,6 +22,11 @@ FILE *ofp;
 char current_expression[200];
 int first_token = 1;
 
+#define MAX_EXP_TYPE_STACK  20
+
+NOBJ_VARTYPE exp_type_stack[MAX_EXP_TYPE_STACK];
+int exp_type_stack_ptr = 0;
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Translate a file
@@ -61,7 +66,7 @@ int token_is_function(char *token, char **tokstr);
 void modify_expression_type(NOBJ_VARTYPE t);
 void op_stack_display(void);
 void op_stack_print(void);
-
+char type_to_char(NOBJ_VARTYPE t);
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1338,7 +1343,24 @@ void expression_tree_process(char *expr)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+// String display of type stack
 
+char tss[40];
+
+char *type_stack_str(void)
+{
+  char tmps[20];
+  
+  sprintf(tss, "[%c,(", type_to_char(expression_type));
+  
+  for(int i=0; i<exp_type_stack_ptr; i++)
+    {
+      sprintf(tmps, "%c ", type_to_char(exp_type_stack[i]));
+      strcat(tss, tmps);
+    }
+  strcat(tss, ")]");
+  return(tss);
+}
 
 void output_float(OP_STACK_ENTRY token)
 {
@@ -1350,35 +1372,35 @@ void output_float(OP_STACK_ENTRY token)
 void output_integer(OP_STACK_ENTRY token)
 {
   printf("\nop integer");
-  fprintf(ofp, "\n(%16s) [%c] %c %c %s", __FUNCTION__, type_to_char(expression_type), type_to_char(token.type), type_to_char(token.req_type), token.name);
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(token.type), type_to_char(token.req_type), token.name);
   add_exp_buffer_entry(token, EXP_BUFF_ID_INTEGER);
 }
 
 void output_operator(OP_STACK_ENTRY op)
 {
   printf("\nop operator");
-  fprintf(ofp, "\n(%16s) [%c] %c %c %s", __FUNCTION__, type_to_char(expression_type), type_to_char(op.type), type_to_char(op.req_type), op.name);
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
   add_exp_buffer_entry(op, EXP_BUFF_ID_OPERATOR);
 }
 
 void output_function(OP_STACK_ENTRY op)
 {
   printf("\nop function");
-  fprintf(ofp, "\n(%16s) [%c] %c %c %s", __FUNCTION__, type_to_char(expression_type), type_to_char(op.type), type_to_char(op.req_type), op.name);
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
   add_exp_buffer_entry(op, EXP_BUFF_ID_OPERATOR);
 }
 
 void output_variable(OP_STACK_ENTRY op)
 {
   printf("\nop variable");
-  fprintf(ofp, "\n(%16s) [%c] %c %c %s", __FUNCTION__, type_to_char(expression_type), type_to_char(op.type), type_to_char(op.req_type), op.name);
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
   add_exp_buffer_entry(op, EXP_BUFF_ID_VARIABLE);
 }
 
 void output_string(OP_STACK_ENTRY op)
 {
   printf("\nop string");
-  fprintf(ofp, "\n(%16s) [%c] %c %c %s", __FUNCTION__, type_to_char(expression_type), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_STR);
 }
 
@@ -1599,10 +1621,6 @@ void uninit_output(void)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#define MAX_EXP_TYPE_STACK  20
-
-NOBJ_VARTYPE exp_type_stack[MAX_EXP_TYPE_STACK];
-int exp_type_stack_ptr = 0;
 
 void exp_type_push(NOBJ_VARTYPE t)
 {
@@ -1815,16 +1833,28 @@ void process_token(char *token)
 
 	  // If the first token is a variable then we don't want to update the expression type
 	  // as this is an assignment and we want the assignment to become a float, for instance
-	  // only based on the calculation not the assignent variable type. If we didn't then
+	  // only based on the calculation not the assignment variable type. If we didn't then
 	  // expressionms like:
 	  //
 	  // A= 10*20
 	  //
-	  // would be calculated as floats, which isn't what the original does.
+	  // would be calculated as floats, which isn't what the original does. The type is therefore set
+	  // to int if it's a float or int
 	  //
 	  // 
 	  if( first_token )
 	    {
+	      // If a float variable then we start with INT as a type. Auto conversion will
+	      // handle the int/float type issues.
+	      if (type == NOBJ_VARTYPE_FLT)
+		{
+		  modify_expression_type(NOBJ_VARTYPE_INT);
+		}
+	      else
+		{
+		  modify_expression_type(type);
+		}
+	      
 	      o1.req_type = type;
 	      o1.type = type;
 	    }
