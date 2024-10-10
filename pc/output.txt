@@ -16,6 +16,8 @@ Finalise stack
 UDG(1, 2, 3,   4,   5, 6, 7, 8, 9)
 ========================================================
 (output_expression_start)
+function_return_type: 'UDG' =>v
+process_token: 'UDG' t=>v
 (  output_integer) [i,(U )] i i 1
 (  output_integer) [i,(U )] i i 2
 (  output_integer) [i,(U )] i i 3
@@ -25,7 +27,7 @@ UDG(1, 2, 3,   4,   5, 6, 7, 8, 9)
 (  output_integer) [i,(U )] i i 7
 (  output_integer) [i,(U )] i i 8
 (  output_integer) [i,(U )] i i 9
-( output_function) [i,(U )] U U UDG
+( output_function) [i,(U )] v v UDG
 Finalise stack
 Expression buffer
 =================
@@ -38,107 +40,128 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     U rq:U UDG  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v UDG  0:
 =================
  BE:1
+type_check_stack_push: '1'
 
 Type Check Stack (1)
 
-000: '1' type:0
+000: '1' type:i (0)
  BE:2
+type_check_stack_push: '2'
 
 Type Check Stack (2)
 
-000: '1' type:0
-001: '2' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
  BE:3
+type_check_stack_push: '3'
 
 Type Check Stack (3)
 
-000: '1' type:0
-001: '2' type:0
-002: '3' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '3' type:i (0)
  BE:4
+type_check_stack_push: '4'
 
 Type Check Stack (4)
 
-000: '1' type:0
-001: '2' type:0
-002: '3' type:0
-003: '4' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '3' type:i (0)
+003: '4' type:i (0)
  BE:5
+type_check_stack_push: '5'
 
 Type Check Stack (5)
 
-000: '1' type:0
-001: '2' type:0
-002: '3' type:0
-003: '4' type:0
-004: '5' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '3' type:i (0)
+003: '4' type:i (0)
+004: '5' type:i (0)
  BE:6
+type_check_stack_push: '6'
 
 Type Check Stack (6)
 
-000: '1' type:0
-001: '2' type:0
-002: '3' type:0
-003: '4' type:0
-004: '5' type:0
-005: '6' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '3' type:i (0)
+003: '4' type:i (0)
+004: '5' type:i (0)
+005: '6' type:i (0)
  BE:7
+type_check_stack_push: '7'
 
 Type Check Stack (7)
 
-000: '1' type:0
-001: '2' type:0
-002: '3' type:0
-003: '4' type:0
-004: '5' type:0
-005: '6' type:0
-006: '7' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '3' type:i (0)
+003: '4' type:i (0)
+004: '5' type:i (0)
+005: '6' type:i (0)
+006: '7' type:i (0)
  BE:8
+type_check_stack_push: '8'
 
 Type Check Stack (8)
 
-000: '1' type:0
-001: '2' type:0
-002: '3' type:0
-003: '4' type:0
-004: '5' type:0
-005: '6' type:0
-006: '7' type:0
-007: '8' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '3' type:i (0)
+003: '4' type:i (0)
+004: '5' type:i (0)
+005: '6' type:i (0)
+006: '7' type:i (0)
+007: '8' type:i (0)
  BE:9
+type_check_stack_push: '9'
 
 Type Check Stack (9)
 
-000: '1' type:0
-001: '2' type:0
-002: '3' type:0
-003: '4' type:0
-004: '5' type:0
-005: '6' type:0
-006: '7' type:0
-007: '8' type:0
-008: '9' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '3' type:i (0)
+003: '4' type:i (0)
+004: '5' type:i (0)
+005: '6' type:i (0)
+006: '7' type:i (0)
+007: '8' type:i (0)
+008: '9' type:i (0)
  BE:UDG
 FN: 9 args
-FN ARG 8 r? 9 0(i)  Arg not OK
-FN ARG 7 r? 8 0(i)  Arg not OK
-FN ARG 6 r? 7 0(i)  Arg not OK
-FN ARG 5 r? 6 0(i)  Arg not OK
-FN ARG 4 r? 5 0(i)  Arg not OK
-FN ARG 3 r? 4 0(i)  Arg not OK
-FN ARG 2 r? 3 0(i)  Arg not OK
-FN ARG 1 r? 2 0(i)  Arg not OK
-FN ARG 0 r? 1 0(i)  Arg not OK
+function_return_type: 'UDG' =>v
+typecheck_expression:Ret type of UDG : v
+type_check_stack_pop: '9'
+FN ARG 8 ri 9 0(i)  Arg ok
+type_check_stack_pop: '8'
+FN ARG 7 ri 8 0(i)  Arg ok
+type_check_stack_pop: '7'
+FN ARG 6 ri 7 0(i)  Arg ok
+type_check_stack_pop: '6'
+FN ARG 5 ri 6 0(i)  Arg ok
+type_check_stack_pop: '5'
+FN ARG 4 ri 5 0(i)  Arg ok
+type_check_stack_pop: '4'
+FN ARG 3 ri 4 0(i)  Arg ok
+type_check_stack_pop: '3'
+FN ARG 2 ri 3 0(i)  Arg ok
+type_check_stack_pop: '2'
+FN ARG 1 ri 2 0(i)  Arg ok
+type_check_stack_pop: '1'
+FN ARG 0 ri 1 0(i)  Arg ok
+type_check_stack_push: '000'
 
 Type Check Stack (1)
 
-000: '000' type:63
+000: '000' type:v (17)
 Expression buffer
 =================
-( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
@@ -147,11 +170,11 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     U rq:U UDG  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v UDG  0:
 =================
 Expression buffer 2
 ===================
-(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 1  0:
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
@@ -160,14 +183,16 @@ Expression buffer 2
 (dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
 (dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
 (dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
-(dump_exp_buffer2) N10 EXP_BUFF_ID_FUNCTION     U rq:U UDG  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_FUNCTION     v rq:v UDG  0:
 =================
 ========================================================
-UDG(1, 2. 1.3, 4,   5, 6, 7, 8, 9)
+UDG(1, 2, 1.3, 4,   5, 6, 7, 8, 9)
 ========================================================
 (output_expression_start)
+function_return_type: 'UDG' =>v
+process_token: 'UDG' t=>v
 (  output_integer) [i,(U )] i i 1
-(    output_float) [f,(U )] f f 2.
+(  output_integer) [i,(U )] i i 2
 (    output_float) [f,(U )] f f 1.3
 (  output_integer) [i,(U )] i i 4
 (  output_integer) [i,(U )] i i 5
@@ -175,12 +200,12 @@ UDG(1, 2. 1.3, 4,   5, 6, 7, 8, 9)
 (  output_integer) [i,(U )] i i 7
 (  output_integer) [i,(U )] i i 8
 (  output_integer) [i,(U )] i i 9
-( output_function) [i,(U )] U U UDG
+( output_function) [i,(U )] v v UDG
 Finalise stack
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 2.  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 1.3  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 5  0:
@@ -188,121 +213,120 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     U rq:U UDG  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v UDG  0:
 =================
  BE:1
+type_check_stack_push: '1'
 
 Type Check Stack (1)
 
-000: '1' type:0
- BE:2.
+000: '1' type:i (0)
+ BE:2
+type_check_stack_push: '2'
 
 Type Check Stack (2)
 
-000: '1' type:0
-001: '2.' type:1
+000: '1' type:i (0)
+001: '2' type:i (0)
  BE:1.3
+type_check_stack_push: '1.3'
 
 Type Check Stack (3)
 
-000: '1' type:0
-001: '2.' type:1
-002: '1.3' type:1
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '1.3' type:f (1)
  BE:4
+type_check_stack_push: '4'
 
 Type Check Stack (4)
 
-000: '1' type:0
-001: '2.' type:1
-002: '1.3' type:1
-003: '4' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '1.3' type:f (1)
+003: '4' type:i (0)
  BE:5
+type_check_stack_push: '5'
 
 Type Check Stack (5)
 
-000: '1' type:0
-001: '2.' type:1
-002: '1.3' type:1
-003: '4' type:0
-004: '5' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '1.3' type:f (1)
+003: '4' type:i (0)
+004: '5' type:i (0)
  BE:6
+type_check_stack_push: '6'
 
 Type Check Stack (6)
 
-000: '1' type:0
-001: '2.' type:1
-002: '1.3' type:1
-003: '4' type:0
-004: '5' type:0
-005: '6' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '1.3' type:f (1)
+003: '4' type:i (0)
+004: '5' type:i (0)
+005: '6' type:i (0)
  BE:7
+type_check_stack_push: '7'
 
 Type Check Stack (7)
 
-000: '1' type:0
-001: '2.' type:1
-002: '1.3' type:1
-003: '4' type:0
-004: '5' type:0
-005: '6' type:0
-006: '7' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '1.3' type:f (1)
+003: '4' type:i (0)
+004: '5' type:i (0)
+005: '6' type:i (0)
+006: '7' type:i (0)
  BE:8
+type_check_stack_push: '8'
 
 Type Check Stack (8)
 
-000: '1' type:0
-001: '2.' type:1
-002: '1.3' type:1
-003: '4' type:0
-004: '5' type:0
-005: '6' type:0
-006: '7' type:0
-007: '8' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '1.3' type:f (1)
+003: '4' type:i (0)
+004: '5' type:i (0)
+005: '6' type:i (0)
+006: '7' type:i (0)
+007: '8' type:i (0)
  BE:9
+type_check_stack_push: '9'
 
 Type Check Stack (9)
 
-000: '1' type:0
-001: '2.' type:1
-002: '1.3' type:1
-003: '4' type:0
-004: '5' type:0
-005: '6' type:0
-006: '7' type:0
-007: '8' type:0
-008: '9' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '1.3' type:f (1)
+003: '4' type:i (0)
+004: '5' type:i (0)
+005: '6' type:i (0)
+006: '7' type:i (0)
+007: '8' type:i (0)
+008: '9' type:i (0)
  BE:UDG
 FN: 9 args
-FN ARG 8 r? 9 0(i)  Arg not OK
-FN ARG 7 r? 8 0(i)  Arg not OK
-FN ARG 6 r? 7 0(i)  Arg not OK
-FN ARG 5 r? 6 0(i)  Arg not OK
-FN ARG 4 r? 5 0(i)  Arg not OK
-FN ARG 3 r? 4 0(i)  Arg not OK
-FN ARG 2 r? 1.3 1(f)  Arg not OK
-FN ARG 1 r? 2. 1(f)  Arg not OK
-FN ARG 0 r? 1 0(i)  Arg not OK
-
-Type Check Stack (1)
-
-000: '000' type:63
-Expression buffer
-=================
-( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i 1  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 2.  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 1.3  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 5  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 6  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     U rq:U UDG  0:
-=================
+function_return_type: 'UDG' =>v
+typecheck_expression:Ret type of UDG : v
+type_check_stack_pop: '9'
+FN ARG 8 ri 9 0(i)  Arg ok
+type_check_stack_pop: '8'
+FN ARG 7 ri 8 0(i)  Arg ok
+type_check_stack_pop: '7'
+FN ARG 6 ri 7 0(i)  Arg ok
+type_check_stack_pop: '6'
+FN ARG 5 ri 6 0(i)  Arg ok
+type_check_stack_pop: '5'
+FN ARG 4 ri 5 0(i)  Arg ok
+type_check_stack_pop: '4'
+FN ARG 3 ri 4 0(i)  Arg ok
+type_check_stack_pop: '1.3'
+FN ARG 2 ri 1.3 1(f)  Arg not OK
 Expression buffer 2
 ===================
-(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 1  0:
-(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 2.  0:
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 1.3  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 5  0:
@@ -310,12 +334,70 @@ Expression buffer 2
 (dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
 (dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
 (dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
-(dump_exp_buffer2) N10 EXP_BUFF_ID_FUNCTION     U rq:U UDG  0:
+=================
+ Insert after 3 exp_buffer2_i:9
+   Found at i:2
+   Copied 8 to 9:
+   Copied 7 to 8:
+   Copied 6 to 7:
+   Copied 5 to 6:
+   Copied 4 to 5:
+   Copied 3 to 4:
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 1.3  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_???          v rq:v autocon f->i  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 5  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 6  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
+=================
+type_check_stack_pop: '2'
+FN ARG 1 ri 2 0(i)  Arg ok
+type_check_stack_pop: '1'
+FN ARG 0 ri 1 0(i)  Arg ok
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:v (17)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 1.3  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 5  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 6  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v UDG  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 1.3  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_???          v rq:v autocon f->i  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 5  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 6  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_FUNCTION     v rq:v UDG  0:
 =================
 ========================================================
 UDG(1, 2, 3.4, 4.4, 5, 6, 7, 8 ,9)
 ========================================================
 (output_expression_start)
+function_return_type: 'UDG' =>v
+process_token: 'UDG' t=>v
 (  output_integer) [i,(U )] i i 1
 (  output_integer) [i,(U )] i i 2
 (    output_float) [f,(U )] f f 3.4
@@ -325,7 +407,7 @@ UDG(1, 2, 3.4, 4.4, 5, 6, 7, 8 ,9)
 (  output_integer) [i,(U )] i i 7
 (  output_integer) [i,(U )] i i 8
 (  output_integer) [i,(U )] i i 9
-( output_function) [i,(U )] U U UDG
+( output_function) [i,(U )] v v UDG
 Finalise stack
 Expression buffer
 =================
@@ -338,120 +420,117 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     U rq:U UDG  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v UDG  0:
 =================
  BE:1
+type_check_stack_push: '1'
 
 Type Check Stack (1)
 
-000: '1' type:0
+000: '1' type:i (0)
  BE:2
+type_check_stack_push: '2'
 
 Type Check Stack (2)
 
-000: '1' type:0
-001: '2' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
  BE:3.4
+type_check_stack_push: '3.4'
 
 Type Check Stack (3)
 
-000: '1' type:0
-001: '2' type:0
-002: '3.4' type:1
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '3.4' type:f (1)
  BE:4.4
+type_check_stack_push: '4.4'
 
 Type Check Stack (4)
 
-000: '1' type:0
-001: '2' type:0
-002: '3.4' type:1
-003: '4.4' type:1
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '3.4' type:f (1)
+003: '4.4' type:f (1)
  BE:5
+type_check_stack_push: '5'
 
 Type Check Stack (5)
 
-000: '1' type:0
-001: '2' type:0
-002: '3.4' type:1
-003: '4.4' type:1
-004: '5' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '3.4' type:f (1)
+003: '4.4' type:f (1)
+004: '5' type:i (0)
  BE:6
+type_check_stack_push: '6'
 
 Type Check Stack (6)
 
-000: '1' type:0
-001: '2' type:0
-002: '3.4' type:1
-003: '4.4' type:1
-004: '5' type:0
-005: '6' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '3.4' type:f (1)
+003: '4.4' type:f (1)
+004: '5' type:i (0)
+005: '6' type:i (0)
  BE:7
+type_check_stack_push: '7'
 
 Type Check Stack (7)
 
-000: '1' type:0
-001: '2' type:0
-002: '3.4' type:1
-003: '4.4' type:1
-004: '5' type:0
-005: '6' type:0
-006: '7' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '3.4' type:f (1)
+003: '4.4' type:f (1)
+004: '5' type:i (0)
+005: '6' type:i (0)
+006: '7' type:i (0)
  BE:8
+type_check_stack_push: '8'
 
 Type Check Stack (8)
 
-000: '1' type:0
-001: '2' type:0
-002: '3.4' type:1
-003: '4.4' type:1
-004: '5' type:0
-005: '6' type:0
-006: '7' type:0
-007: '8' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '3.4' type:f (1)
+003: '4.4' type:f (1)
+004: '5' type:i (0)
+005: '6' type:i (0)
+006: '7' type:i (0)
+007: '8' type:i (0)
  BE:9
+type_check_stack_push: '9'
 
 Type Check Stack (9)
 
-000: '1' type:0
-001: '2' type:0
-002: '3.4' type:1
-003: '4.4' type:1
-004: '5' type:0
-005: '6' type:0
-006: '7' type:0
-007: '8' type:0
-008: '9' type:0
+000: '1' type:i (0)
+001: '2' type:i (0)
+002: '3.4' type:f (1)
+003: '4.4' type:f (1)
+004: '5' type:i (0)
+005: '6' type:i (0)
+006: '7' type:i (0)
+007: '8' type:i (0)
+008: '9' type:i (0)
  BE:UDG
 FN: 9 args
-FN ARG 8 r? 9 0(i)  Arg not OK
-FN ARG 7 r? 8 0(i)  Arg not OK
-FN ARG 6 r? 7 0(i)  Arg not OK
-FN ARG 5 r? 6 0(i)  Arg not OK
-FN ARG 4 r? 5 0(i)  Arg not OK
-FN ARG 3 r? 4.4 1(f)  Arg not OK
-FN ARG 2 r? 3.4 1(f)  Arg not OK
-FN ARG 1 r? 2 0(i)  Arg not OK
-FN ARG 0 r? 1 0(i)  Arg not OK
-
-Type Check Stack (1)
-
-000: '000' type:63
-Expression buffer
-=================
-( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i 1  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 3.4  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 4.4  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 5  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 6  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     U rq:U UDG  0:
-=================
+function_return_type: 'UDG' =>v
+typecheck_expression:Ret type of UDG : v
+type_check_stack_pop: '9'
+FN ARG 8 ri 9 0(i)  Arg ok
+type_check_stack_pop: '8'
+FN ARG 7 ri 8 0(i)  Arg ok
+type_check_stack_pop: '7'
+FN ARG 6 ri 7 0(i)  Arg ok
+type_check_stack_pop: '6'
+FN ARG 5 ri 6 0(i)  Arg ok
+type_check_stack_pop: '5'
+FN ARG 4 ri 5 0(i)  Arg ok
+type_check_stack_pop: '4.4'
+FN ARG 3 ri 4.4 1(f)  Arg not OK
 Expression buffer 2
 ===================
-(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 1  0:
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 3.4  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_FLT          f rq:f 4.4  0:
@@ -460,7 +539,101 @@ Expression buffer 2
 (dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
 (dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
 (dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
-(dump_exp_buffer2) N10 EXP_BUFF_ID_FUNCTION     U rq:U UDG  0:
+=================
+ Insert after 4 exp_buffer2_i:9
+   Found at i:3
+   Copied 8 to 9:
+   Copied 7 to 8:
+   Copied 6 to 7:
+   Copied 5 to 6:
+   Copied 4 to 5:
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 3.4  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FLT          f rq:f 4.4  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_???          v rq:v autocon f->i  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 5  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 6  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
+=================
+type_check_stack_pop: '3.4'
+FN ARG 2 ri 3.4 1(f)  Arg not OK
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 3.4  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FLT          f rq:f 4.4  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_???          v rq:v autocon f->i  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 5  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 6  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
+=================
+ Insert after 3 exp_buffer2_i:10
+   Found at i:2
+   Copied 9 to 10:
+   Copied 8 to 9:
+   Copied 7 to 8:
+   Copied 6 to 7:
+   Copied 5 to 6:
+   Copied 4 to 5:
+   Copied 3 to 4:
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 3.4  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_???          v rq:v autocon f->i  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FLT          f rq:f 4.4  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_???          v rq:v autocon f->i  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 5  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 6  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
+=================
+type_check_stack_pop: '2'
+FN ARG 1 ri 2 0(i)  Arg ok
+type_check_stack_pop: '1'
+FN ARG 0 ri 1 0(i)  Arg ok
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:v (17)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 3.4  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 4.4  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 5  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 6  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v UDG  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 3.4  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_???          v rq:v autocon f->i  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FLT          f rq:f 4.4  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_???          v rq:v autocon f->i  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 5  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 6  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_FUNCTION     v rq:v UDG  0:
 =================
 Finalise stack
 ========================================================
@@ -480,24 +653,29 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f =  0:
 =================
  BE:A
+type_check_stack_push: 'A'
 
 Type Check Stack (1)
 
-000: 'A' type:1
+000: 'A' type:f (1)
  BE:1.5
+type_check_stack_push: '1.5'
 
 Type Check Stack (2)
 
-000: 'A' type:1
-001: '1.5' type:1
+000: 'A' type:f (1)
+001: '1.5' type:f (1)
  BE::=
 Found operator :=
+type_check_stack_pop: '1.5'
+type_check_stack_pop: 'A'
  Mutable type 1 1
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (1)
 
-000: '000' type:1
+000: '000' type:f (1)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
@@ -527,24 +705,29 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f =  0:
 =================
  BE:B
+type_check_stack_push: 'B'
 
 Type Check Stack (1)
 
-000: 'B' type:1
+000: 'B' type:f (1)
  BE:2.5
+type_check_stack_push: '2.5'
 
 Type Check Stack (2)
 
-000: 'B' type:1
-001: '2.5' type:1
+000: 'B' type:f (1)
+001: '2.5' type:f (1)
  BE::=
 Found operator :=
+type_check_stack_pop: '2.5'
+type_check_stack_pop: 'B'
  Mutable type 1 1
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (1)
 
-000: '000' type:1
+000: '000' type:f (1)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
@@ -592,74 +775,90 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i =  0:
 =================
  BE:B
+type_check_stack_push: 'B'
 
 Type Check Stack (1)
 
-000: 'B' type:1
+000: 'B' type:f (1)
  BE:1
+type_check_stack_push: '1'
 
 Type Check Stack (2)
 
-000: 'B' type:1
-001: '1' type:0
+000: 'B' type:f (1)
+001: '1' type:i (0)
  BE:2
+type_check_stack_push: '2'
 
 Type Check Stack (3)
 
-000: 'B' type:1
-001: '1' type:0
-002: '2' type:0
+000: 'B' type:f (1)
+001: '1' type:i (0)
+002: '2' type:i (0)
  BE:+
 Found operator +
+type_check_stack_pop: '2'
+type_check_stack_pop: '1'
  Mutable type 0 0
 type_with_least_conversion_from: i i => i
 type_with_least_conversion_from: i i => i
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (2)
 
-000: 'B' type:1
-001: '000' type:0
+000: 'B' type:f (1)
+001: '000' type:i (0)
  BE:3
+type_check_stack_push: '3'
 
 Type Check Stack (3)
 
-000: 'B' type:1
-001: '000' type:0
-002: '3' type:0
+000: 'B' type:f (1)
+001: '000' type:i (0)
+002: '3' type:i (0)
  BE:4
+type_check_stack_push: '4'
 
 Type Check Stack (4)
 
-000: 'B' type:1
-001: '000' type:0
-002: '3' type:0
-003: '4' type:0
+000: 'B' type:f (1)
+001: '000' type:i (0)
+002: '3' type:i (0)
+003: '4' type:i (0)
  BE:+
 Found operator +
+type_check_stack_pop: '4'
+type_check_stack_pop: '3'
  Mutable type 0 0
 type_with_least_conversion_from: i i => i
 type_with_least_conversion_from: i i => i
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (3)
 
-000: 'B' type:1
-001: '000' type:0
-002: '000' type:0
+000: 'B' type:f (1)
+001: '000' type:i (0)
+002: '000' type:i (0)
  BE:/
 Found operator /
+type_check_stack_pop: '000'
+type_check_stack_pop: '000'
  Mutable type 0 0
 type_with_least_conversion_from: i i => i
 type_with_least_conversion_from: i i => i
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (2)
 
-000: 'B' type:1
-001: '000' type:0
+000: 'B' type:f (1)
+001: '000' type:i (0)
  BE::=
 Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'B'
  Mutable type 0 1
 type_with_least_conversion_from: i f => f
 type_with_least_conversion_from: i f => f
@@ -693,10 +892,11 @@ Expression buffer 2
 (dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i /  2: 7 4
 (dump_exp_buffer2) N10 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 8 1
 =================
+type_check_stack_push: '000'
 
 Type Check Stack (1)
 
-000: '000' type:0
+000: '000' type:f (1)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
@@ -757,82 +957,99 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i =  0:
 =================
  BE:B%
+type_check_stack_push: 'B%'
 
 Type Check Stack (1)
 
-000: 'B%' type:0
+000: 'B%' type:i (0)
  BE:1
+type_check_stack_push: '1'
 
 Type Check Stack (2)
 
-000: 'B%' type:0
-001: '1' type:0
+000: 'B%' type:i (0)
+001: '1' type:i (0)
  BE:2
+type_check_stack_push: '2'
 
 Type Check Stack (3)
 
-000: 'B%' type:0
-001: '1' type:0
-002: '2' type:0
+000: 'B%' type:i (0)
+001: '1' type:i (0)
+002: '2' type:i (0)
  BE:+
 Found operator +
+type_check_stack_pop: '2'
+type_check_stack_pop: '1'
  Mutable type 0 0
 type_with_least_conversion_from: i i => i
 type_with_least_conversion_from: i i => i
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (2)
 
-000: 'B%' type:0
-001: '000' type:0
+000: 'B%' type:i (0)
+001: '000' type:i (0)
  BE:3
+type_check_stack_push: '3'
 
 Type Check Stack (3)
 
-000: 'B%' type:0
-001: '000' type:0
-002: '3' type:0
+000: 'B%' type:i (0)
+001: '000' type:i (0)
+002: '3' type:i (0)
  BE:4
+type_check_stack_push: '4'
 
 Type Check Stack (4)
 
-000: 'B%' type:0
-001: '000' type:0
-002: '3' type:0
-003: '4' type:0
+000: 'B%' type:i (0)
+001: '000' type:i (0)
+002: '3' type:i (0)
+003: '4' type:i (0)
  BE:+
 Found operator +
+type_check_stack_pop: '4'
+type_check_stack_pop: '3'
  Mutable type 0 0
 type_with_least_conversion_from: i i => i
 type_with_least_conversion_from: i i => i
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (3)
 
-000: 'B%' type:0
-001: '000' type:0
-002: '000' type:0
+000: 'B%' type:i (0)
+001: '000' type:i (0)
+002: '000' type:i (0)
  BE:/
 Found operator /
+type_check_stack_pop: '000'
+type_check_stack_pop: '000'
  Mutable type 0 0
 type_with_least_conversion_from: i i => i
 type_with_least_conversion_from: i i => i
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (2)
 
-000: 'B%' type:0
-001: '000' type:0
+000: 'B%' type:i (0)
+001: '000' type:i (0)
  BE::=
 Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'B%'
  Mutable type 0 0
 type_with_least_conversion_from: i i => i
 type_with_least_conversion_from: i i => i
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (1)
 
-000: '000' type:0
+000: '000' type:i (0)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i B%  0:
@@ -892,78 +1109,95 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i =  0:
 =================
  BE:A
+type_check_stack_push: 'A'
 
 Type Check Stack (1)
 
-000: 'A' type:1
+000: 'A' type:f (1)
  BE:1.2
+type_check_stack_push: '1.2'
 
 Type Check Stack (2)
 
-000: 'A' type:1
-001: '1.2' type:1
+000: 'A' type:f (1)
+001: '1.2' type:f (1)
  BE:3.4
+type_check_stack_push: '3.4'
 
 Type Check Stack (3)
 
-000: 'A' type:1
-001: '1.2' type:1
-002: '3.4' type:1
+000: 'A' type:f (1)
+001: '1.2' type:f (1)
+002: '3.4' type:f (1)
  BE:+
 Found operator +
+type_check_stack_pop: '3.4'
+type_check_stack_pop: '1.2'
  Mutable type 1 1
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (2)
 
-000: 'A' type:1
-001: '000' type:1
+000: 'A' type:f (1)
+001: '000' type:f (1)
  BE:5.6
+type_check_stack_push: '5.6'
 
 Type Check Stack (3)
 
-000: 'A' type:1
-001: '000' type:1
-002: '5.6' type:1
+000: 'A' type:f (1)
+001: '000' type:f (1)
+002: '5.6' type:f (1)
  BE:7.8
+type_check_stack_push: '7.8'
 
 Type Check Stack (4)
 
-000: 'A' type:1
-001: '000' type:1
-002: '5.6' type:1
-003: '7.8' type:1
+000: 'A' type:f (1)
+001: '000' type:f (1)
+002: '5.6' type:f (1)
+003: '7.8' type:f (1)
  BE:+
 Found operator +
+type_check_stack_pop: '7.8'
+type_check_stack_pop: '5.6'
  Mutable type 1 1
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (3)
 
-000: 'A' type:1
-001: '000' type:1
-002: '000' type:1
+000: 'A' type:f (1)
+001: '000' type:f (1)
+002: '000' type:f (1)
  BE:/
 Found operator /
+type_check_stack_pop: '000'
+type_check_stack_pop: '000'
  Mutable type 1 1
 type_with_least_conversion_from: f f => f
 type_with_least_conversion_from: f f => f
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (2)
 
-000: 'A' type:1
-001: '000' type:1
+000: 'A' type:f (1)
+001: '000' type:f (1)
  BE::=
 Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'A'
  Mutable type 1 1
 type_with_least_conversion_from: f f => f
 type_with_least_conversion_from: f f => f
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (1)
 
-000: '000' type:1
+000: '000' type:f (1)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
@@ -1011,25 +1245,30 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f =  0:
 =================
  BE:Y%
+type_check_stack_push: 'Y%'
 
 Type Check Stack (1)
 
-000: 'Y%' type:0
+000: 'Y%' type:i (0)
  BE:10
+type_check_stack_push: '10'
 
 Type Check Stack (2)
 
-000: 'Y%' type:0
-001: '10' type:0
+000: 'Y%' type:i (0)
+001: '10' type:i (0)
  BE:1.5
+type_check_stack_push: '1.5'
 
 Type Check Stack (3)
 
-000: 'Y%' type:0
-001: '10' type:0
-002: '1.5' type:1
+000: 'Y%' type:i (0)
+001: '10' type:i (0)
+002: '1.5' type:f (1)
  BE:*
 Found operator *
+type_check_stack_pop: '1.5'
+type_check_stack_pop: '10'
  Mutable type 1 0
  Autoconversion
  --------------
@@ -1052,13 +1291,16 @@ Expression buffer 2
 (dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 1.5  0:
 =================
+type_check_stack_push: '000'
 
 Type Check Stack (2)
 
-000: 'Y%' type:0
-001: '000' type:1
+000: 'Y%' type:i (0)
+001: '000' type:f (1)
  BE::=
 Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'Y%'
  Mutable type 1 0
  Autoconversion
  --------------
@@ -1084,10 +1326,11 @@ Expression buffer 2
 (dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
 (dump_exp_buffer2) N7 EXP_BUFF_ID_???          i rq:i autocon f->i  2: 4 1
 =================
+type_check_stack_push: '000'
 
 Type Check Stack (1)
 
-000: '000' type:1
+000: '000' type:i (0)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
@@ -1111,6 +1354,8 @@ Finalise stack
 PRINT Y%
 ========================================================
 (output_expression_start)
+function_return_type: 'PRINT' =>f
+process_token: 'PRINT' t=>f
 ( output_variable) [i,()] i i Y%
 Finalise stack
 ( output_operator) [i,()] i i PRINT
@@ -1120,15 +1365,16 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i PRINT  0:
 =================
  BE:Y%
+type_check_stack_push: 'Y%'
 
 Type Check Stack (1)
 
-000: 'Y%' type:0
+000: 'Y%' type:i (0)
  BE:PRINT
 
 Type Check Stack (1)
 
-000: 'Y%' type:0
+000: 'Y%' type:i (0)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
@@ -1163,44 +1409,53 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i =  0:
 =================
  BE:X%
+type_check_stack_push: 'X%'
 
 Type Check Stack (1)
 
-000: 'X%' type:0
+000: 'X%' type:i (0)
  BE:10
+type_check_stack_push: '10'
 
 Type Check Stack (2)
 
-000: 'X%' type:0
-001: '10' type:0
+000: 'X%' type:i (0)
+001: '10' type:i (0)
  BE:Y%
+type_check_stack_push: 'Y%'
 
 Type Check Stack (3)
 
-000: 'X%' type:0
-001: '10' type:0
-002: 'Y%' type:0
+000: 'X%' type:i (0)
+001: '10' type:i (0)
+002: 'Y%' type:i (0)
  BE:*
 Found operator *
+type_check_stack_pop: 'Y%'
+type_check_stack_pop: '10'
  Mutable type 0 0
 type_with_least_conversion_from: i i => i
 type_with_least_conversion_from: i i => i
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (2)
 
-000: 'X%' type:0
-001: '000' type:0
+000: 'X%' type:i (0)
+001: '000' type:i (0)
  BE::=
 Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'X%'
  Mutable type 0 0
 type_with_least_conversion_from: i i => i
 type_with_least_conversion_from: i i => i
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (1)
 
-000: '000' type:0
+000: '000' type:i (0)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
@@ -1221,6 +1476,8 @@ Expression buffer 2
 PRINT X%
 ========================================================
 (output_expression_start)
+function_return_type: 'PRINT' =>f
+process_token: 'PRINT' t=>f
 ( output_variable) [i,()] i i X%
 Finalise stack
 ( output_operator) [i,()] i i PRINT
@@ -1230,15 +1487,16 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i PRINT  0:
 =================
  BE:X%
+type_check_stack_push: 'X%'
 
 Type Check Stack (1)
 
-000: 'X%' type:0
+000: 'X%' type:i (0)
  BE:PRINT
 
 Type Check Stack (1)
 
-000: 'X%' type:0
+000: 'X%' type:i (0)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
@@ -1279,43 +1537,52 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f =  0:
 =================
  BE:X%
+type_check_stack_push: 'X%'
 
 Type Check Stack (1)
 
-000: 'X%' type:0
+000: 'X%' type:i (0)
  BE:1
+type_check_stack_push: '1'
 
 Type Check Stack (2)
 
-000: 'X%' type:0
-001: '1' type:0
+000: 'X%' type:i (0)
+001: '1' type:i (0)
  BE:A
+type_check_stack_push: 'A'
 
 Type Check Stack (3)
 
-000: 'X%' type:0
-001: '1' type:0
-002: 'A' type:1
+000: 'X%' type:i (0)
+001: '1' type:i (0)
+002: 'A' type:f (1)
  BE:B
+type_check_stack_push: 'B'
 
 Type Check Stack (4)
 
-000: 'X%' type:0
-001: '1' type:0
-002: 'A' type:1
-003: 'B' type:1
+000: 'X%' type:i (0)
+001: '1' type:i (0)
+002: 'A' type:f (1)
+003: 'B' type:f (1)
  BE:+
 Found operator +
+type_check_stack_pop: 'B'
+type_check_stack_pop: 'A'
  Mutable type 1 1
  Same type
+type_check_stack_push: '000'
 
 Type Check Stack (3)
 
-000: 'X%' type:0
-001: '1' type:0
-002: '000' type:1
+000: 'X%' type:i (0)
+001: '1' type:i (0)
+002: '000' type:f (1)
  BE:+
 Found operator +
+type_check_stack_pop: '000'
+type_check_stack_pop: '1'
  Mutable type 1 0
  Autoconversion
  --------------
@@ -1344,13 +1611,16 @@ Expression buffer 2
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 4 3
 =================
+type_check_stack_push: '000'
 
 Type Check Stack (2)
 
-000: 'X%' type:0
-001: '000' type:1
+000: 'X%' type:i (0)
+001: '000' type:f (1)
  BE::=
 Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'X%'
  Mutable type 1 0
  Autoconversion
  --------------
@@ -1380,10 +1650,11 @@ Expression buffer 2
 (dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 5 2
 (dump_exp_buffer2) N9 EXP_BUFF_ID_???          i rq:i autocon f->i  2: 6 1
 =================
+type_check_stack_push: '000'
 
 Type Check Stack (1)
 
-000: '000' type:1
+000: '000' type:i (0)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
@@ -1410,6 +1681,8 @@ Expression buffer 2
 PRINT X%
 ========================================================
 (output_expression_start)
+function_return_type: 'PRINT' =>f
+process_token: 'PRINT' t=>f
 ( output_variable) [i,()] i i X%
 Finalise stack
 ( output_operator) [i,()] i i PRINT
@@ -1419,15 +1692,16 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i PRINT  0:
 =================
  BE:X%
+type_check_stack_push: 'X%'
 
 Type Check Stack (1)
 
-000: 'X%' type:0
+000: 'X%' type:i (0)
  BE:PRINT
 
 Type Check Stack (1)
 
-000: 'X%' type:0
+000: 'X%' type:i (0)
 Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
@@ -1446,13 +1720,19 @@ X% = INT(FLT(1) + A * FLT(4))
 ( output_variable) [i,()] i i X%
 '=' is operator
 Push 1
+function_return_type: 'INT' =>i
+process_token: 'INT' t=>i
+function_return_type: 'FLT' =>f
+process_token: 'FLT' t=>f
 (  output_integer) [i,(i U )] i i 1
-( output_function) [i,(i U )] U U FLT
+( output_function) [i,(i U )] f f FLT
 '+' is operator
 Push 1
 ( output_variable) [f,(i )] f f A
 '*' is operator
 Push 1
+function_return_type: 'FLT' =>f
+process_token: 'FLT' t=>f
 (  output_integer) [i,(i f )] i i 4
 ( output_function) [i,(i f )] f f FLT
 ( output_operator) [f,(i )] f f *
@@ -1464,7 +1744,7 @@ Expression buffer
 =================
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     U rq:U FLT  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     f rq:f FLT  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     f rq:f FLT  0:
@@ -1474,101 +1754,2363 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i =  0:
 =================
  BE:X%
+type_check_stack_push: 'X%'
 
 Type Check Stack (1)
 
-000: 'X%' type:0
+000: 'X%' type:i (0)
  BE:1
+type_check_stack_push: '1'
 
 Type Check Stack (2)
 
-000: 'X%' type:0
-001: '1' type:0
+000: 'X%' type:i (0)
+001: '1' type:i (0)
  BE:FLT
-FN: 2 args
-FN ARG 1 r? 1 0(i)  Arg not OK
-FN ARG 0 r? X% 0(i)  Arg not OK
-
-Type Check Stack (1)
-
-000: '000' type:0
- BE:A
+FN: 1 args
+function_return_type: 'FLT' =>f
+typecheck_expression:Ret type of FLT : f
+type_check_stack_pop: '1'
+FN ARG 0 ri 1 0(i)  Arg ok
+type_check_stack_push: '000'
 
 Type Check Stack (2)
 
-000: '000' type:0
-001: 'A' type:1
- BE:4
+000: 'X%' type:i (0)
+001: '000' type:f (1)
+ BE:A
+type_check_stack_push: 'A'
 
 Type Check Stack (3)
 
-000: '000' type:0
-001: 'A' type:1
-002: '4' type:0
+000: 'X%' type:i (0)
+001: '000' type:f (1)
+002: 'A' type:f (1)
+ BE:4
+type_check_stack_push: '4'
+
+Type Check Stack (4)
+
+000: 'X%' type:i (0)
+001: '000' type:f (1)
+002: 'A' type:f (1)
+003: '4' type:i (0)
  BE:FLT
-FN: 2 args
-FN ARG 1 r? 4 0(i)  Arg not OK
-FN ARG 0 r? A 1(f)  Arg not OK
+FN: 1 args
+function_return_type: 'FLT' =>f
+typecheck_expression:Ret type of FLT : f
+type_check_stack_pop: '4'
+FN ARG 0 ri 4 0(i)  Arg ok
+type_check_stack_push: '000'
+
+Type Check Stack (4)
+
+000: 'X%' type:i (0)
+001: '000' type:f (1)
+002: 'A' type:f (1)
+003: '000' type:f (1)
+ BE:*
+Found operator *
+type_check_stack_pop: '000'
+type_check_stack_pop: 'A'
+ Mutable type 1 1
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (3)
+
+000: 'X%' type:i (0)
+001: '000' type:f (1)
+002: '000' type:f (1)
+ BE:+
+Found operator +
+type_check_stack_pop: '000'
+type_check_stack_pop: '000'
+ Mutable type 1 1
+type_with_least_conversion_from: f f => f
+type_with_least_conversion_from: f f => f
+ Same type
+type_check_stack_push: '000'
 
 Type Check Stack (2)
 
-000: '000' type:0
-001: '000' type:0
- BE:*
-Found operator *
+000: 'X%' type:i (0)
+001: '000' type:f (1)
+ BE:INT
+FN: 1 args
+function_return_type: 'INT' =>i
+typecheck_expression:Ret type of INT : i
+type_check_stack_pop: '000'
+FN ARG 0 rf 000 1(f)  Arg ok
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'X%' type:i (0)
+001: '000' type:i (0)
+ BE::=
+Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'X%'
  Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
  Same type
-Expression buffer 2
-===================
-(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
-(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
-(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     U rq:U FLT  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
-(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-(dump_exp_buffer2) N7 EXP_BUFF_ID_FUNCTION     f rq:f FLT  0:
-=================
- Insert after 7 exp_buffer2_i:6
-   Found at i:5
-Expression buffer 2
-===================
-(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
-(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
-(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     U rq:U FLT  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
-(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-(dump_exp_buffer2) N7 EXP_BUFF_ID_FUNCTION     f rq:f FLT  0:
-(dump_exp_buffer2) N10 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 7 3
-=================
-Expression buffer 2
-===================
-(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
-(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
-(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     U rq:U FLT  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
-(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-(dump_exp_buffer2) N7 EXP_BUFF_ID_FUNCTION     f rq:f FLT  0:
-(dump_exp_buffer2) N10 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 7 3
-=================
- Insert after 3 exp_buffer2_i:7
-   Found at i:2
-   Copied 6 to 7:
-   Copied 5 to 6:
-   Copied 4 to 5:
-   Copied 3 to 4:
-Expression buffer 2
-===================
-(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
-(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
-(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     U rq:U FLT  0:
-(dump_exp_buffer2) N10 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 7 3
-(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
-(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-(dump_exp_buffer2) N7 EXP_BUFF_ID_FUNCTION     f rq:f FLT  0:
-(dump_exp_buffer2) N10 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 7 3
-=================
+type_check_stack_push: '000'
 
 Type Check Stack (1)
 
-000: '000' type:0
+000: '000' type:i (0)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     f rq:f FLT  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     f rq:f FLT  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     U rq:U +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     i rq:i INT  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i :=  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     f rq:f FLT  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     f rq:f FLT  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 6 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 7 3
+(dump_exp_buffer2) N9 EXP_BUFF_ID_FUNCTION     i rq:i INT  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_OPERATOR     i rq:i :=  2: 9 1
+=================
+Finalise stack
+========================================================
+PRINT X%
+========================================================
+(output_expression_start)
+function_return_type: 'PRINT' =>f
+process_token: 'PRINT' t=>f
+( output_variable) [i,()] i i X%
+Finalise stack
+( output_operator) [i,()] i i PRINT
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i PRINT  0:
+=================
+ BE:X%
+type_check_stack_push: 'X%'
+
+Type Check Stack (1)
+
+000: 'X%' type:i (0)
+ BE:PRINT
+
+Type Check Stack (1)
+
+000: 'X%' type:i (0)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i PRINT  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_OPERATOR     i rq:i PRINT  0:
+=================
+Finalise stack
+========================================================
+A = X% + Y%
+========================================================
+(output_expression_start)
+( output_variable) [i,()] f f A
+'=' is operator
+Push 1
+( output_variable) [i,()] i i X%
+'+' is operator
+Push 1
+( output_variable) [i,()] i i Y%
+Finalise stack
+( output_operator) [i,()] i i +
+( output_operator) [i,()] i i =
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i =  0:
+=================
+ BE:A
+type_check_stack_push: 'A'
+
+Type Check Stack (1)
+
+000: 'A' type:f (1)
+ BE:X%
+type_check_stack_push: 'X%'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: 'X%' type:i (0)
+ BE:Y%
+type_check_stack_push: 'Y%'
+
+Type Check Stack (3)
+
+000: 'A' type:f (1)
+001: 'X%' type:i (0)
+002: 'Y%' type:i (0)
  BE:+
 Found operator +
+type_check_stack_pop: 'Y%'
+type_check_stack_pop: 'X%'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '000' type:i (0)
+ BE::=
+Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'A'
+ Mutable type 0 1
+type_with_least_conversion_from: i f => f
+type_with_least_conversion_from: i f => f
+ Autoconversion
+ --------------
+ Op1: type:0 req type:0
+ Op2: type:1 req type:1
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 3 2
+=================
+ Insert after 4 exp_buffer2_i:4
+   Found at i:3
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 1
+=================
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:f (1)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i :=  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 1
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 4 1
+=================
+========================================================
+PRINT A
+========================================================
+(output_expression_start)
+function_return_type: 'PRINT' =>f
+process_token: 'PRINT' t=>f
+( output_variable) [f,()] f f A
+Finalise stack
+( output_operator) [f,()] f f PRINT
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f PRINT  0:
+=================
+ BE:A
+type_check_stack_push: 'A'
+
+Type Check Stack (1)
+
+000: 'A' type:f (1)
+ BE:PRINT
+
+Type Check Stack (1)
+
+000: 'A' type:f (1)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f PRINT  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_OPERATOR     f rq:f PRINT  0:
+=================
+Finalise stack
+========================================================
+B = 1 * 2 + A
+========================================================
+(output_expression_start)
+( output_variable) [i,()] f f B
+'=' is operator
+Push 1
+(  output_integer) [i,()] i i 1
+'*' is operator
+Push 1
+(  output_integer) [i,()] i i 2
+'+' is operator
+Pop 1
+( output_operator) [i,()] i i *
+Push 1
+( output_variable) [f,()] f f A
+Finalise stack
+( output_operator) [f,()] f f +
+( output_operator) [f,()] f f =
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f =  0:
+=================
+ BE:B
+type_check_stack_push: 'B'
+
+Type Check Stack (1)
+
+000: 'B' type:f (1)
+ BE:1
+type_check_stack_push: '1'
+
+Type Check Stack (2)
+
+000: 'B' type:f (1)
+001: '1' type:i (0)
+ BE:2
+type_check_stack_push: '2'
+
+Type Check Stack (3)
+
+000: 'B' type:f (1)
+001: '1' type:i (0)
+002: '2' type:i (0)
+ BE:*
+Found operator *
+type_check_stack_pop: '2'
+type_check_stack_pop: '1'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'B' type:f (1)
+001: '000' type:i (0)
+ BE:A
+type_check_stack_push: 'A'
+
+Type Check Stack (3)
+
+000: 'B' type:f (1)
+001: '000' type:i (0)
+002: 'A' type:f (1)
+ BE:+
+Found operator +
+type_check_stack_pop: 'A'
+type_check_stack_pop: '000'
+ Mutable type 1 0
+ Autoconversion
+ --------------
+ Op1: type:1 req type:1
+ Op2: type:0 req type:0
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+=================
+ Insert after 4 exp_buffer2_i:5
+   Found at i:3
+   Copied 4 to 5:
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 3 2
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 4
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+=================
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'B' type:f (1)
+001: '000' type:f (1)
+ BE::=
+Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'B'
+ Mutable type 1 1
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:f (1)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f :=  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 3 2
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 4
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 6 1
+=================
+========================================================
+B = 1 * ( 2 + A )
+========================================================
+(output_expression_start)
+( output_variable) [i,()] f f B
+'=' is operator
+Push 1
+(  output_integer) [i,()] i i 1
+'*' is operator
+Push 1
+(  output_integer) [i,(i )] i i 2
+'+' is operator
+Push 1
+( output_variable) [f,(i )] f f A
+( output_operator) [f,(i )] i i +
+Finalise stack
+( output_operator) [i,()] i i *
+( output_operator) [i,()] i i =
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i =  0:
+=================
+ BE:B
+type_check_stack_push: 'B'
+
+Type Check Stack (1)
+
+000: 'B' type:f (1)
+ BE:1
+type_check_stack_push: '1'
+
+Type Check Stack (2)
+
+000: 'B' type:f (1)
+001: '1' type:i (0)
+ BE:2
+type_check_stack_push: '2'
+
+Type Check Stack (3)
+
+000: 'B' type:f (1)
+001: '1' type:i (0)
+002: '2' type:i (0)
+ BE:A
+type_check_stack_push: 'A'
+
+Type Check Stack (4)
+
+000: 'B' type:f (1)
+001: '1' type:i (0)
+002: '2' type:i (0)
+003: 'A' type:f (1)
+ BE:+
+Found operator +
+type_check_stack_pop: 'A'
+type_check_stack_pop: '2'
+ Mutable type 1 0
+type_with_least_conversion_from: f i => f
+type_with_least_conversion_from: f i => f
+ Autoconversion
+ --------------
+ Op1: type:1 req type:1
+ Op2: type:0 req type:0
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+=================
+ Insert after 3 exp_buffer2_i:4
+   Found at i:2
+   Copied 3 to 4:
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 3
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+=================
+type_check_stack_push: '000'
+
+Type Check Stack (3)
+
+000: 'B' type:f (1)
+001: '1' type:i (0)
+002: '000' type:f (1)
+ BE:*
+Found operator *
+type_check_stack_pop: '000'
+type_check_stack_pop: '1'
+ Mutable type 1 0
+type_with_least_conversion_from: f i => f
+type_with_least_conversion_from: f i => f
+ Autoconversion
+ --------------
+ Op1: type:1 req type:1
+ Op2: type:0 req type:0
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 3
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 4 3
+=================
+ Insert after 2 exp_buffer2_i:6
+   Found at i:1
+   Copied 5 to 6:
+   Copied 4 to 5:
+   Copied 3 to 4:
+   Copied 2 to 3:
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 2
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 3
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 4 3
+=================
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'B' type:f (1)
+001: '000' type:f (1)
+ BE::=
+Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'B'
+ Mutable type 1 1
+type_with_least_conversion_from: f f => f
+type_with_least_conversion_from: f f => f
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:f (1)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i :=  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 2
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 3
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 4 3
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 5 2
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 7 1
+=================
+========================================================
+B = 2 * (3 * ( 4 + (1 + 1)))
+========================================================
+(output_expression_start)
+( output_variable) [i,()] f f B
+'=' is operator
+Push 1
+(  output_integer) [i,()] i i 2
+'*' is operator
+Push 1
+(  output_integer) [i,(i )] i i 3
+'*' is operator
+Push 1
+(  output_integer) [i,(i i )] i i 4
+'+' is operator
+Push 1
+(  output_integer) [i,(i i i )] i i 1
+'+' is operator
+Push 1
+(  output_integer) [i,(i i i )] i i 1
+( output_operator) [i,(i i i )] i i +
+( output_operator) [i,(i i )] i i +
+( output_operator) [i,(i )] i i *
+Finalise stack
+( output_operator) [i,()] i i *
+( output_operator) [i,()] i i =
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i =  0:
+=================
+ BE:B
+type_check_stack_push: 'B'
+
+Type Check Stack (1)
+
+000: 'B' type:f (1)
+ BE:2
+type_check_stack_push: '2'
+
+Type Check Stack (2)
+
+000: 'B' type:f (1)
+001: '2' type:i (0)
+ BE:3
+type_check_stack_push: '3'
+
+Type Check Stack (3)
+
+000: 'B' type:f (1)
+001: '2' type:i (0)
+002: '3' type:i (0)
+ BE:4
+type_check_stack_push: '4'
+
+Type Check Stack (4)
+
+000: 'B' type:f (1)
+001: '2' type:i (0)
+002: '3' type:i (0)
+003: '4' type:i (0)
+ BE:1
+type_check_stack_push: '1'
+
+Type Check Stack (5)
+
+000: 'B' type:f (1)
+001: '2' type:i (0)
+002: '3' type:i (0)
+003: '4' type:i (0)
+004: '1' type:i (0)
+ BE:1
+type_check_stack_push: '1'
+
+Type Check Stack (6)
+
+000: 'B' type:f (1)
+001: '2' type:i (0)
+002: '3' type:i (0)
+003: '4' type:i (0)
+004: '1' type:i (0)
+005: '1' type:i (0)
+ BE:+
+Found operator +
+type_check_stack_pop: '1'
+type_check_stack_pop: '1'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (5)
+
+000: 'B' type:f (1)
+001: '2' type:i (0)
+002: '3' type:i (0)
+003: '4' type:i (0)
+004: '000' type:i (0)
+ BE:+
+Found operator +
+type_check_stack_pop: '000'
+type_check_stack_pop: '4'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (4)
+
+000: 'B' type:f (1)
+001: '2' type:i (0)
+002: '3' type:i (0)
+003: '000' type:i (0)
+ BE:*
+Found operator *
+type_check_stack_pop: '000'
+type_check_stack_pop: '3'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (3)
+
+000: 'B' type:f (1)
+001: '2' type:i (0)
+002: '000' type:i (0)
+ BE:*
+Found operator *
+type_check_stack_pop: '000'
+type_check_stack_pop: '2'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'B' type:f (1)
+001: '000' type:i (0)
+ BE::=
+Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'B'
+ Mutable type 0 1
+type_with_least_conversion_from: i f => f
+type_with_least_conversion_from: i f => f
+ Autoconversion
+ --------------
+ Op1: type:0 req type:0
+ Op2: type:1 req type:1
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 6 5
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 7 4
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 8 3
+(dump_exp_buffer2) N10 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 9 2
+=================
+ Insert after 10 exp_buffer2_i:10
+   Found at i:9
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 6 5
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 7 4
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 8 3
+(dump_exp_buffer2) N10 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 9 2
+(dump_exp_buffer2) N12 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 10 1
+=================
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:f (1)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i :=  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 6 5
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 7 4
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 8 3
+(dump_exp_buffer2) N10 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 9 2
+(dump_exp_buffer2) N12 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 10 1
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 10 1
+=================
+Finalise stack
+========================================================
+PRINT B
+========================================================
+(output_expression_start)
+function_return_type: 'PRINT' =>f
+process_token: 'PRINT' t=>f
+( output_variable) [f,()] f f B
+Finalise stack
+( output_operator) [f,()] f f PRINT
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f PRINT  0:
+=================
+ BE:B
+type_check_stack_push: 'B'
+
+Type Check Stack (1)
+
+000: 'B' type:f (1)
+ BE:PRINT
+
+Type Check Stack (1)
+
+000: 'B' type:f (1)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f PRINT  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_OPERATOR     f rq:f PRINT  0:
+=================
+Finalise stack
+========================================================
+PRINT 1 * 2 + A
+========================================================
+(output_expression_start)
+function_return_type: 'PRINT' =>f
+process_token: 'PRINT' t=>f
+(  output_integer) [i,()] i i 1
+'*' is operator
+Push 1
+(  output_integer) [i,()] i i 2
+'+' is operator
+Pop 1
+( output_operator) [i,()] i i *
+Push 1
+( output_variable) [f,()] f f A
+Finalise stack
+( output_operator) [f,()] f f +
+( output_operator) [f,()] f f PRINT
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f PRINT  0:
+=================
+ BE:1
+type_check_stack_push: '1'
+
+Type Check Stack (1)
+
+000: '1' type:i (0)
+ BE:2
+type_check_stack_push: '2'
+
+Type Check Stack (2)
+
+000: '1' type:i (0)
+001: '2' type:i (0)
+ BE:*
+Found operator *
+type_check_stack_pop: '2'
+type_check_stack_pop: '1'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:i (0)
+ BE:A
+type_check_stack_push: 'A'
+
+Type Check Stack (2)
+
+000: '000' type:i (0)
+001: 'A' type:f (1)
+ BE:+
+Found operator +
+type_check_stack_pop: 'A'
+type_check_stack_pop: '000'
+ Mutable type 1 0
+ Autoconversion
+ --------------
+ Op1: type:1 req type:1
+ Op2: type:0 req type:0
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 2 1
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+=================
+ Insert after 3 exp_buffer2_i:4
+   Found at i:2
+   Copied 3 to 4:
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 2 1
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 3
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+=================
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:f (1)
+ BE:PRINT
+
+Type Check Stack (1)
+
+000: '000' type:f (1)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f PRINT  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 2 1
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 4 3
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 4 3
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f PRINT  0:
+=================
+Finalise stack
+========================================================
+PRINT "Point 2"
+========================================================
+(output_expression_start)
+function_return_type: 'PRINT' =>f
+process_token: 'PRINT' t=>f
+(   output_string) [U,()] s f "Point 2"
+Finalise stack
+( output_operator) [s,()] s s PRINT
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:f "Point 2"  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     s rq:s PRINT  0:
+=================
+ BE:"Point 2"
+type_check_stack_push: '"Point 2"'
+
+Type Check Stack (1)
+
+000: '"Point 2"' type:s (2)
+ BE:PRINT
+
+Type Check Stack (1)
+
+000: '"Point 2"' type:s (2)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:f "Point 2"  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     s rq:s PRINT  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:f "Point 2"  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_OPERATOR     s rq:s PRINT  0:
+=================
+Finalise stack
+========================================================
+A = 1000*1000*1000
+========================================================
+(output_expression_start)
+( output_variable) [i,()] f f A
+'=' is operator
+Push 1
+(  output_integer) [i,()] i i 1000
+'*' is operator
+Push 1
+(  output_integer) [i,()] i i 1000
+'*' is operator
+Pop 1
+( output_operator) [i,()] i i *
+Push 1
+(  output_integer) [i,()] i i 1000
+Finalise stack
+( output_operator) [i,()] i i *
+( output_operator) [i,()] i i =
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i =  0:
+=================
+ BE:A
+type_check_stack_push: 'A'
+
+Type Check Stack (1)
+
+000: 'A' type:f (1)
+ BE:1000
+type_check_stack_push: '1000'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '1000' type:i (0)
+ BE:1000
+type_check_stack_push: '1000'
+
+Type Check Stack (3)
+
+000: 'A' type:f (1)
+001: '1000' type:i (0)
+002: '1000' type:i (0)
+ BE:*
+Found operator *
+type_check_stack_pop: '1000'
+type_check_stack_pop: '1000'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '000' type:i (0)
+ BE:1000
+type_check_stack_push: '1000'
+
+Type Check Stack (3)
+
+000: 'A' type:f (1)
+001: '000' type:i (0)
+002: '1000' type:i (0)
+ BE:*
+Found operator *
+type_check_stack_pop: '1000'
+type_check_stack_pop: '000'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '000' type:i (0)
+ BE::=
+Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'A'
+ Mutable type 0 1
+type_with_least_conversion_from: i f => f
+type_with_least_conversion_from: i f => f
+ Autoconversion
+ --------------
+ Op1: type:0 req type:0
+ Op2: type:1 req type:1
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 5 4
+=================
+ Insert after 6 exp_buffer2_i:6
+   Found at i:5
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 6 1
+=================
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:f (1)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i :=  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 6 1
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 6 1
+=================
+========================================================
+A = 1000.*1000*1000
+========================================================
+(output_expression_start)
+( output_variable) [i,()] f f A
+'=' is operator
+Push 1
+(    output_float) [f,()] f f 1000.
+'*' is operator
+Push 1
+(  output_integer) [f,()] i f 1000
+'*' is operator
+Pop 1
+( output_operator) [f,()] f f *
+Push 1
+(  output_integer) [f,()] i f 1000
+Finalise stack
+( output_operator) [f,()] f f *
+( output_operator) [f,()] f f =
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f =  0:
+=================
+ BE:A
+type_check_stack_push: 'A'
+
+Type Check Stack (1)
+
+000: 'A' type:f (1)
+ BE:1000.
+type_check_stack_push: '1000.'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '1000.' type:f (1)
+ BE:1000
+type_check_stack_push: '1000'
+
+Type Check Stack (3)
+
+000: 'A' type:f (1)
+001: '1000.' type:f (1)
+002: '1000' type:i (0)
+ BE:*
+Found operator *
+type_check_stack_pop: '1000'
+type_check_stack_pop: '1000.'
+ Mutable type 0 1
+ Autoconversion
+ --------------
+ Op1: type:0 req type:1
+ Op2: type:1 req type:1
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+=================
+ Insert after 3 exp_buffer2_i:3
+   Found at i:2
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
+=================
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '000' type:f (1)
+ BE:1000
+type_check_stack_push: '1000'
+
+Type Check Stack (3)
+
+000: 'A' type:f (1)
+001: '000' type:f (1)
+002: '1000' type:i (0)
+ BE:*
+Found operator *
+type_check_stack_pop: '1000'
+type_check_stack_pop: '000'
+ Mutable type 0 1
+ Autoconversion
+ --------------
+ Op1: type:0 req type:1
+ Op2: type:1 req type:1
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+=================
+ Insert after 6 exp_buffer2_i:6
+   Found at i:5
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 6 4
+=================
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '000' type:f (1)
+ BE::=
+Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'A'
+ Mutable type 1 1
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:f (1)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f :=  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:f 1000  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 6 4
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 6 4
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 7 1
+=================
+========================================================
+A = 1000.*(1000*1000)
+========================================================
+(output_expression_start)
+( output_variable) [i,()] f f A
+'=' is operator
+Push 1
+(    output_float) [f,()] f f 1000.
+'*' is operator
+Push 1
+(  output_integer) [i,(f )] i i 1000
+'*' is operator
+Push 1
+(  output_integer) [i,(f )] i i 1000
+( output_operator) [i,(f )] i i *
+Finalise stack
+( output_operator) [f,()] f f *
+( output_operator) [f,()] f f =
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f =  0:
+=================
+ BE:A
+type_check_stack_push: 'A'
+
+Type Check Stack (1)
+
+000: 'A' type:f (1)
+ BE:1000.
+type_check_stack_push: '1000.'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '1000.' type:f (1)
+ BE:1000
+type_check_stack_push: '1000'
+
+Type Check Stack (3)
+
+000: 'A' type:f (1)
+001: '1000.' type:f (1)
+002: '1000' type:i (0)
+ BE:1000
+type_check_stack_push: '1000'
+
+Type Check Stack (4)
+
+000: 'A' type:f (1)
+001: '1000.' type:f (1)
+002: '1000' type:i (0)
+003: '1000' type:i (0)
+ BE:*
+Found operator *
+type_check_stack_pop: '1000'
+type_check_stack_pop: '1000'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (3)
+
+000: 'A' type:f (1)
+001: '1000.' type:f (1)
+002: '000' type:i (0)
+ BE:*
+Found operator *
+type_check_stack_pop: '000'
+type_check_stack_pop: '1000.'
+ Mutable type 0 1
+ Autoconversion
+ --------------
+ Op1: type:0 req type:0
+ Op2: type:1 req type:1
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 4 3
+=================
+ Insert after 5 exp_buffer2_i:5
+   Found at i:4
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 4 3
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 2
+=================
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '000' type:f (1)
+ BE::=
+Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'A'
+ Mutable type 1 1
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:f (1)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f :=  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f 1000.  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 1000  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 4 3
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 5 2
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 6 1
+=================
+Finalise stack
+========================================================
+F$="ABC"
+========================================================
+(output_expression_start)
+( output_variable) [s,()] s s F$
+'=' is operator
+Push 1
+(   output_string) [s,()] s s "ABC"
+Finalise stack
+( output_operator) [s,()] s s =
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     s rq:s F$  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:s "ABC"  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     s rq:s =  0:
+=================
+ BE:F$
+type_check_stack_push: 'F$'
+
+Type Check Stack (1)
+
+000: 'F$' type:s (2)
+ BE:"ABC"
+type_check_stack_push: '"ABC"'
+
+Type Check Stack (2)
+
+000: 'F$' type:s (2)
+001: '"ABC"' type:s (2)
+ BE::=
+Found operator :=
+type_check_stack_pop: '"ABC"'
+type_check_stack_pop: 'F$'
+ Mutable type 2 2
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:s (2)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     s rq:s F$  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:s "ABC"  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     s rq:s :=  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s F$  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_STR          s rq:s "ABC"  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     s rq:s :=  2: 2 1
+=================
+Finalise stack
+========================================================
+A = SIN(45*2)
+========================================================
+(output_expression_start)
+( output_variable) [i,()] f f A
+'=' is operator
+Push 1
+function_return_type: 'SIN' =>f
+process_token: 'SIN' t=>f
+(  output_integer) [i,(i )] i i 45
+'*' is operator
+Push 1
+(  output_integer) [i,(i )] i i 2
+( output_operator) [i,(i )] i i *
+( output_function) [i,(i )] f f SIN
+Finalise stack
+( output_operator) [i,()] i i =
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 45  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     f rq:f SIN  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i =  0:
+=================
+ BE:A
+type_check_stack_push: 'A'
+
+Type Check Stack (1)
+
+000: 'A' type:f (1)
+ BE:45
+type_check_stack_push: '45'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '45' type:i (0)
+ BE:2
+type_check_stack_push: '2'
+
+Type Check Stack (3)
+
+000: 'A' type:f (1)
+001: '45' type:i (0)
+002: '2' type:i (0)
+ BE:*
+Found operator *
+type_check_stack_pop: '2'
+type_check_stack_pop: '45'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '000' type:i (0)
+ BE:SIN
+FN: 1 args
+function_return_type: 'SIN' =>f
+typecheck_expression:Ret type of SIN : f
+type_check_stack_pop: '000'
+FN ARG 0 rf 000 0(i)  Arg not OK
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 45  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 3 2
+=================
+ Insert after 4 exp_buffer2_i:4
+   Found at i:3
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 45  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  0:
+=================
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '000' type:f (1)
+ BE::=
+Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'A'
+ Mutable type 1 1
+type_with_least_conversion_from: f f => f
+type_with_least_conversion_from: f f => f
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:f (1)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 45  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     f rq:f SIN  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i :=  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 45  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_???          f rq:f autocon i->f  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_FUNCTION     f rq:f SIN  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 5 1
+=================
+========================================================
+B = SIN(45*2.0)
+========================================================
+(output_expression_start)
+( output_variable) [i,()] f f B
+'=' is operator
+Push 1
+function_return_type: 'SIN' =>f
+process_token: 'SIN' t=>f
+(  output_integer) [i,(i )] i i 45
+'*' is operator
+Push 1
+(    output_float) [f,(i )] f f 2.0
+( output_operator) [f,(i )] i i *
+( output_function) [f,(i )] f f SIN
+Finalise stack
+( output_operator) [i,()] i i =
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 45  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 2.0  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     f rq:f SIN  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i =  0:
+=================
+ BE:B
+type_check_stack_push: 'B'
+
+Type Check Stack (1)
+
+000: 'B' type:f (1)
+ BE:45
+type_check_stack_push: '45'
+
+Type Check Stack (2)
+
+000: 'B' type:f (1)
+001: '45' type:i (0)
+ BE:2.0
+type_check_stack_push: '2.0'
+
+Type Check Stack (3)
+
+000: 'B' type:f (1)
+001: '45' type:i (0)
+002: '2.0' type:f (1)
+ BE:*
+Found operator *
+type_check_stack_pop: '2.0'
+type_check_stack_pop: '45'
+ Mutable type 1 0
+type_with_least_conversion_from: f i => f
+type_with_least_conversion_from: f i => f
+ Autoconversion
+ --------------
+ Op1: type:1 req type:1
+ Op2: type:0 req type:0
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 45  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 2.0  0:
+=================
+ Insert after 2 exp_buffer2_i:3
+   Found at i:1
+   Copied 2 to 3:
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 45  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 2.0  0:
+=================
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'B' type:f (1)
+001: '000' type:f (1)
+ BE:SIN
+FN: 1 args
+function_return_type: 'SIN' =>f
+typecheck_expression:Ret type of SIN : f
+type_check_stack_pop: '000'
+FN ARG 0 rf 000 1(f)  Arg ok
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'B' type:f (1)
+001: '000' type:f (1)
+ BE::=
+Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'B'
+ Mutable type 1 1
+type_with_least_conversion_from: f f => f
+type_with_least_conversion_from: f f => f
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:f (1)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 45  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 2.0  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     f rq:f SIN  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i :=  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f B  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 45  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 3 2
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FLT          f rq:f 2.0  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     f rq:f SIN  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 6 1
+=================
+Finalise stack
+========================================================
+USR(X%, Y%)
+========================================================
+(output_expression_start)
+function_return_type: 'USR' =>v
+process_token: 'USR' t=>v
+( output_variable) [i,(U )] i i X%
+( output_variable) [i,(U )] i i Y%
+( output_function) [i,(U )] v v USR
+Finalise stack
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v USR  0:
+=================
+ BE:X%
+type_check_stack_push: 'X%'
+
+Type Check Stack (1)
+
+000: 'X%' type:i (0)
+ BE:Y%
+type_check_stack_push: 'Y%'
+
+Type Check Stack (2)
+
+000: 'X%' type:i (0)
+001: 'Y%' type:i (0)
+ BE:USR
+FN: 2 args
+function_return_type: 'USR' =>v
+typecheck_expression:Ret type of USR : v
+type_check_stack_pop: 'Y%'
+FN ARG 1 ri Y% 0(i)  Arg ok
+type_check_stack_pop: 'X%'
+FN ARG 0 ri X% 0(i)  Arg ok
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:v (17)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v USR  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     v rq:v USR  0:
+=================
+Finalise stack
+========================================================
+USR(12*4+1, 20*3+4)
+========================================================
+(output_expression_start)
+function_return_type: 'USR' =>v
+process_token: 'USR' t=>v
+(  output_integer) [i,(U )] i i 12
+'*' is operator
+Push 1
+(  output_integer) [i,(U )] i i 4
+'+' is operator
+Pop 1
+( output_operator) [i,(U )] i i *
+Push 1
+(  output_integer) [i,(U )] i i 1
+( output_operator) [i,(U )] i i +
+(  output_integer) [i,(U )] i i 20
+'*' is operator
+Push 1
+(  output_integer) [i,(U )] i i 3
+'+' is operator
+Pop 1
+( output_operator) [i,(U )] i i *
+Push 1
+(  output_integer) [i,(U )] i i 4
+( output_operator) [i,(U )] i i +
+( output_function) [i,(U )] v v USR
+Finalise stack
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 12  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 20  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v USR  0:
+=================
+ BE:12
+type_check_stack_push: '12'
+
+Type Check Stack (1)
+
+000: '12' type:i (0)
+ BE:4
+type_check_stack_push: '4'
+
+Type Check Stack (2)
+
+000: '12' type:i (0)
+001: '4' type:i (0)
+ BE:*
+Found operator *
+type_check_stack_pop: '4'
+type_check_stack_pop: '12'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:i (0)
+ BE:1
+type_check_stack_push: '1'
+
+Type Check Stack (2)
+
+000: '000' type:i (0)
+001: '1' type:i (0)
+ BE:+
+Found operator +
+type_check_stack_pop: '1'
+type_check_stack_pop: '000'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:i (0)
+ BE:20
+type_check_stack_push: '20'
+
+Type Check Stack (2)
+
+000: '000' type:i (0)
+001: '20' type:i (0)
+ BE:3
+type_check_stack_push: '3'
+
+Type Check Stack (3)
+
+000: '000' type:i (0)
+001: '20' type:i (0)
+002: '3' type:i (0)
+ BE:*
+Found operator *
+type_check_stack_pop: '3'
+type_check_stack_pop: '20'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: '000' type:i (0)
+001: '000' type:i (0)
+ BE:4
+type_check_stack_push: '4'
+
+Type Check Stack (3)
+
+000: '000' type:i (0)
+001: '000' type:i (0)
+002: '4' type:i (0)
+ BE:+
+Found operator +
+type_check_stack_pop: '4'
+type_check_stack_pop: '000'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: '000' type:i (0)
+001: '000' type:i (0)
+ BE:USR
+FN: 2 args
+function_return_type: 'USR' =>v
+typecheck_expression:Ret type of USR : v
+type_check_stack_pop: '000'
+FN ARG 1 ri 000 0(i)  Arg ok
+type_check_stack_pop: '000'
+FN ARG 0 ri 000 0(i)  Arg ok
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:v (17)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 12  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 20  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v USR  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 12  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 2 1
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 4 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 20  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 7 6
+(dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 9 8
+(dump_exp_buffer2) N11 EXP_BUFF_ID_FUNCTION     v rq:v USR  0:
+=================
+Finalise stack
+========================================================
+USR(1+2, 1.2*3.6)
+========================================================
+(output_expression_start)
+function_return_type: 'USR' =>v
+process_token: 'USR' t=>v
+(  output_integer) [i,(U )] i i 1
+'+' is operator
+Push 1
+(  output_integer) [i,(U )] i i 2
+( output_operator) [i,(U )] i i +
+(    output_float) [f,(U )] f f 1.2
+'*' is operator
+Push 1
+(    output_float) [f,(U )] f f 3.6
+( output_operator) [f,(U )] f f *
+( output_function) [f,(U )] v v USR
+Finalise stack
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 1.2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 3.6  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v USR  0:
+=================
+ BE:1
+type_check_stack_push: '1'
+
+Type Check Stack (1)
+
+000: '1' type:i (0)
+ BE:2
+type_check_stack_push: '2'
+
+Type Check Stack (2)
+
+000: '1' type:i (0)
+001: '2' type:i (0)
+ BE:+
+Found operator +
+type_check_stack_pop: '2'
+type_check_stack_pop: '1'
+ Mutable type 0 0
+type_with_least_conversion_from: i i => i
+type_with_least_conversion_from: i i => i
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:i (0)
+ BE:1.2
+type_check_stack_push: '1.2'
+
+Type Check Stack (2)
+
+000: '000' type:i (0)
+001: '1.2' type:f (1)
+ BE:3.6
+type_check_stack_push: '3.6'
+
+Type Check Stack (3)
+
+000: '000' type:i (0)
+001: '1.2' type:f (1)
+002: '3.6' type:f (1)
+ BE:*
+Found operator *
+type_check_stack_pop: '3.6'
+type_check_stack_pop: '1.2'
+ Mutable type 1 1
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: '000' type:i (0)
+001: '000' type:f (1)
+ BE:USR
+FN: 2 args
+function_return_type: 'USR' =>v
+typecheck_expression:Ret type of USR : v
+type_check_stack_pop: '000'
+FN ARG 1 ri 000 1(f)  Arg not OK
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 2 1
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FLT          f rq:f 1.2  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_FLT          f rq:f 3.6  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 5 4
+=================
+ Insert after 6 exp_buffer2_i:6
+   Found at i:5
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 2 1
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FLT          f rq:f 1.2  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_FLT          f rq:f 3.6  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          v rq:v autocon f->i  0:
+=================
+type_check_stack_pop: '000'
+FN ARG 0 ri 000 0(i)  Arg ok
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:v (17)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i +  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 1.2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 3.6  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v USR  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i +  2: 2 1
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FLT          f rq:f 1.2  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_FLT          f rq:f 3.6  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_???          v rq:v autocon f->i  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_FUNCTION     v rq:v USR  0:
+=================
+Finalise stack
+========================================================
+A = SIN ( MAX ( 2, 3 ) / 3 * 3.14 )
+========================================================
+(output_expression_start)
+( output_variable) [i,()] f f A
+'=' is operator
+Push 1
+function_return_type: 'SIN' =>f
+process_token: 'SIN' t=>f
+function_return_type: 'MAX' =>f
+process_token: 'MAX' t=>f
+(  output_integer) [i,(i U )] i i 2
+(  output_integer) [i,(i U )] i i 3
+( output_function) [i,(i U )] f f MAX
+'/' is operator
+Push 1
+(  output_integer) [i,(i )] i i 3
+'*' is operator
+Pop 1
+( output_operator) [i,(i )] U U /
+Push 1
+(    output_float) [f,(i )] f f 3.14
+( output_operator) [f,(i )] i i *
+( output_function) [f,(i )] f f SIN
+Finalise stack
+( output_operator) [i,()] i i =
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     f rq:f MAX  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     U rq:U /  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 3.14  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     f rq:f SIN  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i =  0:
+=================
+ BE:A
+type_check_stack_push: 'A'
+
+Type Check Stack (1)
+
+000: 'A' type:f (1)
+ BE:2
+type_check_stack_push: '2'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '2' type:i (0)
+ BE:3
+type_check_stack_push: '3'
+
+Type Check Stack (3)
+
+000: 'A' type:f (1)
+001: '2' type:i (0)
+002: '3' type:i (0)
+ BE:MAX
+FN: 2 args
+function_return_type: 'MAX' =>f
+typecheck_expression:Ret type of MAX : f
+type_check_stack_pop: '3'
+FN ARG 1 ri 3 0(i)  Arg ok
+type_check_stack_pop: '2'
+FN ARG 0 ri 2 0(i)  Arg ok
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '000' type:f (1)
+ BE:3
+type_check_stack_push: '3'
+
+Type Check Stack (3)
+
+000: 'A' type:f (1)
+001: '000' type:f (1)
+002: '3' type:i (0)
+ BE:/
+Found operator /
+type_check_stack_pop: '3'
+type_check_stack_pop: '000'
+ Mutable type 0 1
+type_with_least_conversion_from: i f => f
+type_with_least_conversion_from: i f => f
+ Autoconversion
+ --------------
+ Op1: type:0 req type:0
+ Op2: type:1 req type:1
+ BE:  type:1 req type:1
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     f rq:f MAX  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+=================
+ Insert after 5 exp_buffer2_i:5
+   Found at i:4
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     f rq:f MAX  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 4
+=================
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '000' type:f (1)
+ BE:3.14
+type_check_stack_push: '3.14'
+
+Type Check Stack (3)
+
+000: 'A' type:f (1)
+001: '000' type:f (1)
+002: '3.14' type:f (1)
+ BE:*
+Found operator *
+type_check_stack_pop: '3.14'
+type_check_stack_pop: '000'
+ Mutable type 1 1
+type_with_least_conversion_from: f f => f
+type_with_least_conversion_from: f f => f
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '000' type:f (1)
+ BE:SIN
+FN: 1 args
+function_return_type: 'SIN' =>f
+typecheck_expression:Ret type of SIN : f
+type_check_stack_pop: '000'
+FN ARG 0 rf 000 1(f)  Arg ok
+type_check_stack_push: '000'
+
+Type Check Stack (2)
+
+000: 'A' type:f (1)
+001: '000' type:f (1)
+ BE::=
+Found operator :=
+type_check_stack_pop: '000'
+type_check_stack_pop: 'A'
+ Mutable type 1 1
+type_with_least_conversion_from: f f => f
+type_with_least_conversion_from: f f => f
+ Same type
+type_check_stack_push: '000'
+
+Type Check Stack (1)
+
+000: '000' type:f (1)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     f rq:f MAX  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     U rq:U /  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FLT          f rq:f 3.14  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     f rq:f SIN  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i :=  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     f rq:f MAX  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_???          f rq:f autocon i->f  2: 5 4
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f /  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_FLT          f rq:f 3.14  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 8 6
+(dump_exp_buffer2) N10 EXP_BUFF_ID_FUNCTION     f rq:f SIN  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 10 1
+=================
+
+Operator Stack

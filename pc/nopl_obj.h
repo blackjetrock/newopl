@@ -60,6 +60,7 @@ enum
    NOBJ_VARTYPE_FLTARY  = 0x04,
    NOBJ_VARTYPE_STRARY  = 0x05,
    NOBJ_VARTYPE_UNKNOWN = 0x10,
+   NOBJ_VARTYPE_VOID    = 0x11,
   };
 
 typedef uint16_t NOBJ_ADDR;

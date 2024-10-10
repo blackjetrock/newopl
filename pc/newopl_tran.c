@@ -269,6 +269,14 @@ int token_is_string(char *token)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// Information about functions.
+//
+// First column is name
+// Second is argument types in order
+//   Empty string for no arguments
+// Third is return type.
+//   'v' for void (not empty string)
 
 struct _FN_INFO
 {
@@ -284,14 +292,14 @@ struct _FN_INFO
      { "ACOS",     "f",       "f" },
      { "ADDR",     "ii",       "f" },
      { "APPEND",   "ii",       "f" },
-     { "ASC",      "ii",       "f" },
+     { "ASC",      "i",        "s" },
      { "ASIN",     "f",       "f" },
      { "AT",       "ii",       "f" },
-     { "ATAN",     "ii",       "f" },
+     { "ATAN",     "f",       "f" },
      { "BACK",     "ii",       "f" },
      { "BEEP",     "ii",       "f" },
      { "BREAK",    "ii",       "f" },
-     { "CHR$",     "ii",       "f" },
+     { "CHR$",     "s",        "i" },
      { "CLOCK",    "ii",       "f" },
      { "CLOSE",    "ii",       "f" },
      { "CLS",      "ii",       "f" },
@@ -303,7 +311,7 @@ struct _FN_INFO
      { "CREATE",   "ii",       "f" },
      { "CURSOR",   "ii",       "f" },
      { "DATIM$",   "ii",       "f" },
-     { "DAY",      "ii",       "f" },
+     { "DAY",      "",         "i" },
      { "DAYNAME$", "ii",       "f" },
      { "DAYS",     "ii",       "f" },
      { "DEG",      "ii",       "f" },
@@ -320,12 +328,12 @@ struct _FN_INFO
      { "ERR$",     "ii",       "f" },
      { "ESCAPE",   "ii",       "f" },
      { "EXIST",    "ii",       "f" },
-     { "EXP",      "ii",       "f" },
+     { "EXP",      "f",        "f" },
      { "FIND",     "ii",       "f" },
      { "FINDW",    "ii",       "f" },
      { "FIRST",    "ii",       "f" },
      { "FIX$",     "ii",       "f" },
-     { "FLT",      "ii",       "f" },
+     { "FLT",      "i",        "f" },
      { "FREE",     "ii",       "f" },
      { "GEN$",     "ii",       "f" },
      { "GET",      "ii",       "f" },
@@ -333,10 +341,10 @@ struct _FN_INFO
      { "GLOBAL",   "ii",       "f" },
      { "GOTO",     "ii",       "f" },
      { "HEX$",     "ii",       "f" },
-     { "HOUR",     "ii",       "f" },
-     { "IABS",     "i",       "i" },
+     { "HOUR",     "",         "i" },
+     { "IABS",     "i",        "i" },
      { "INPUT",    "ii",       "f" },
-     { "INT",      "f",       "i" },
+     { "INT",      "f",        "i" },
      { "INTF",     "ii",       "f" },
      { "KEY",      "ii",       "f" },
      { "KEY$",     "ii",       "f" },
@@ -344,20 +352,20 @@ struct _FN_INFO
      { "LAST",     "ii",       "f" },
      { "LEFT$",    "ii",       "f" },
      { "LEN",      "ii",       "f" },
-     { "LN",       "ii",       "f" },
+     { "LN",       "f",         "f" },
      { "LOC",      "ii",       "f" },
      { "LOCAL",    "ii",       "f" },
      { "LOG",      "ii",       "f" },
      { "LOWER$",   "ii",       "f" },
      { "LPRINT",   "ii",       "f" },
-     { "MAX",      "ii",       "f" },
+     { "MAX",      "ii",        "f" },
      { "MEAN",     "ii",       "f" },
      { "MENU",     "ii",       "f" },
      { "MENUN",    "ii",       "f" },
      { "MID$",     "ii",       "f" },
      { "MIN",      "ii",       "f" },
-     { "MINUTE",   "ii",       "f" },
-     { "MONTH",    "ii",       "f" },
+     { "MINUTE",   "",         "i" },
+     { "MONTH",    "",         "i" },
      { "MONTH$",   "ii",       "f" },
      { "NEXT",     "ii",       "f" },
      { "NUM$",     "ii",       "f" },
@@ -384,26 +392,26 @@ struct _FN_INFO
      { "RIGHT$",   "ii",       "f" },
      { "RND",      "ii",       "f" },
      { "SCI$",     "ii",       "f" },
-     { "SECOND",   "ii",       "f" },
-     { "SIN",      "ii",       "f" },
+     { "SECOND",   "",         "i" },
+     { "SIN",      "f",        "f" },
      { "SPACE",    "ii",       "f" },
-     { "SQR",      "ii",       "f" },
-     { "STD",      "ii",       "f" },
-     { "STOP",     "ii",       "f" },
-     { "SUM",      "ii",       "f" },
-     { "TAN",      "ii",       "f" },
-     { "TRAP",     "ii",       "f" },
-     { "UDG",      "iiiiiiiii", "" },
-     { "UPDATE",   "ii",       "f" },
-     { "UPPER$",   "ii",       "f" },
-     { "USE",      "ii",       "f" },
-     { "USR",      "ii",       ""  },
-     { "USR$",     "ii",       "f" },
-     { "VAL",      "ii",       "f" },
-     { "VAR",      "ii",       "f" },
-     { "VIEW",     "ii",       "f" },
-     { "WEEK",     "ii",       "f" },
-     { "YEAR",     "ii",       "f" },
+     { "SQR",      "f",         "f" },
+     { "STD",      "ii",        "f" },
+     { "STOP",     "ii",        "f" },
+     { "SUM",      "ii",        "f" },
+     { "TAN",      "f",         "f" },
+     { "TRAP",     "ii",        "f" },
+     { "UDG",      "iiiiiiiii", "v" },
+     { "UPDATE",   "ii",        "f" },
+     { "UPPER$",   "ii",        "f" },
+     { "USE",      "ii",        "f" },
+     { "USR",      "ii",        "v" },
+     { "USR$",     "ii",        "f" },
+     { "VAL",      "ii",        "f" },
+     { "VAR",      "ii",        "f" },
+     { "VIEW",     "ii",        "f" },
+     { "WEEK",     "ii",        "f" },
+     { "YEAR",     "ii",        "f" },
     };
 
 
@@ -421,21 +429,26 @@ int token_is_function(char *token, char **tokstr)
 	  return(1);
 	}
     }
-  
   return(0);
 }
 
 // Return the function return value type
 NOBJ_VARTYPE function_return_type(char *fname)
 {
-
+  char *rtype;
+  
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
       if( strcmp(fname, fn_info[i].name) == 0 )
 	{
-	  return(char_to_type(fn_info[i].resulttype[0]));
+	  rtype = fn_info[i].resulttype;
+	  
+	  fprintf(ofp, "\n%s: '%s' =>%c", __FUNCTION__, fname, *rtype);
+
+	  return(char_to_type(*rtype));
 	}
     }
+  
   return(NOBJ_VARTYPE_UNKNOWN);
 }
 
@@ -455,15 +468,20 @@ int function_num_args(char *fname)
 
 NOBJ_VARTYPE function_arg_type_n(char *fname, int n)
 {
-
+  char *atypes;
+  
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
       if( strcmp(fname, fn_info[i].name) == 0 )
 	{
-	  return(fn_info[i].argtypes[n]);
+	  atypes = fn_info[i].argtypes;
+	  
+	  //fprintf(ofp, "\n%s: n:%d at:'%s' =>%c", __FUNCTION__, n, atypes, *(atypes+n));	  
+	  return(char_to_type(*(atypes+n)));
 	}
     }
-  return(0);
+  
+  return(NOBJ_VARTYPE_UNKNOWN);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -680,6 +698,10 @@ char type_to_char(NOBJ_VARTYPE t)
     case NOBJ_VARTYPE_UNKNOWN:
       c = 'U';
       break;
+
+    case NOBJ_VARTYPE_VOID:
+      c = 'v';
+      break;
       
     default:
       c = '?';
@@ -691,7 +713,8 @@ char type_to_char(NOBJ_VARTYPE t)
 
 NOBJ_VARTYPE char_to_type(char ch)
 {
-  NOBJ_VARTYPE ret_t = '?'; 
+  NOBJ_VARTYPE ret_t = '?';
+  
   switch(ch)
     {
     case 'i':
@@ -699,11 +722,15 @@ NOBJ_VARTYPE char_to_type(char ch)
       break;
 
     case 'f':
-      ret_t = NOBJ_VARTYPE_INT;
+      ret_t = NOBJ_VARTYPE_FLT;
       break;
 
     case 's':
       ret_t = NOBJ_VARTYPE_INT;
+      break;
+
+    case 'v':
+      ret_t = NOBJ_VARTYPE_VOID;
       break;
     }
 
@@ -829,8 +856,7 @@ int type_check_stack_ptr = 0;
 
 void type_check_stack_push(EXP_BUFFER_ENTRY entry)
 {
-  printf("\n Push:'%s'", entry.name);
-
+  fprintf(ofp, "\n%s: '%s'", __FUNCTION__, entry.name);
   
   if( type_check_stack_ptr < MAX_TYPE_CHECK_STACK )
     {
@@ -838,7 +864,7 @@ void type_check_stack_push(EXP_BUFFER_ENTRY entry)
     }
   else
     {
-      printf("\n%s: Operator stack full", __FUNCTION__);
+      fprintf(ofp, "\n%s: Operator stack full", __FUNCTION__);
       exit(-1);
     }
   type_check_stack_print();
@@ -853,7 +879,7 @@ EXP_BUFFER_ENTRY type_check_stack_pop(void)
   
   if( type_check_stack_ptr == 0 )
     {
-      printf("\n%s: Operator stack empty", __FUNCTION__);
+      fprintf(ofp, "\n%s: Operator stack empty", __FUNCTION__);
       exit(-1);
     }
   
@@ -861,7 +887,7 @@ EXP_BUFFER_ENTRY type_check_stack_pop(void)
 
   o = type_check_stack[type_check_stack_ptr];
   
-  printf("\nPop '%s'", o.name);
+  fprintf(ofp, "\n%s: '%s'", __FUNCTION__, o.name);
   type_check_stack_print();
   return(o);
 }
@@ -869,13 +895,16 @@ EXP_BUFFER_ENTRY type_check_stack_pop(void)
 void type_check_stack_display(void)
 {
   char *s;
+  NOBJ_VARTYPE type;
   
   fprintf(ofp, "\n\nType Check Stack (%d)\n", type_check_stack_ptr);
 
   for(int i=0; i<type_check_stack_ptr; i++)
     {
       s = type_check_stack[i].name;
-      fprintf(ofp, "\n%03d: '%s' type:%d", i, s, type_check_stack[i].op.type);
+      type = type_check_stack[i].op.type;
+      
+      fprintf(ofp, "\n%03d: '%s' type:%c (%d)", i, s, type_to_char(type), type);
     }
 }
 
@@ -1132,7 +1161,7 @@ void typecheck_expression(void)
   // differentiate it from the equality token.
 
   // If first token is a variable
-  if( exp_buffer[0].buf_id =  EXP_BUFF_ID_VARIABLE)
+  if( exp_buffer[0].buf_id ==  EXP_BUFF_ID_VARIABLE)
     {
       // and the last token is an '=', then this is an assignment
       if( strcmp(exp_buffer[exp_buffer_i-1].name, "=") == 0 )
@@ -1188,14 +1217,15 @@ void typecheck_expression(void)
 	  
 	  // Set up the function return value
 	  ret_type = function_return_type(be.name);
-
+	  fprintf(ofp, "\n%s:Ret type of %s : %c", __FUNCTION__, be.name, type_to_char(ret_type));
+	  
 	  // Now insert auto convert nodes if required
-	  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(ret_type));
+
 	  autocon.buf_id = 0;
-	  autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
-	  autocon.p_idx = 2;
-	  autocon.p[0] = op1.node_id;
-	  autocon.p[1] = op2.node_id;
+
+	  autocon.p_idx = 0;
+	  //	  autocon.p[0] = op1.node_id;
+	  //autocon.p[1] = op2.node_id;
 	  autocon.op.type      = ret_type;
 	  autocon.op.req_type  = ret_type;
 
@@ -1208,7 +1238,8 @@ void typecheck_expression(void)
 
 	      fprintf(ofp, "\nFN ARG %d r%c %s %d(%c)", i,
 		      type_to_char(function_arg_type_n(be.name, i)),
-		      op1.name, op1.op.type,
+		      op1.name,
+		      op1.op.type,
 		      type_to_char(op1.op.type));
 	      
 	      if( op1.op.type == function_arg_type_n(be.name, i))
@@ -1219,35 +1250,38 @@ void typecheck_expression(void)
 	      else
 		{
 		  fprintf(ofp, "  Arg not OK");
-		  
+
+		  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(function_arg_type_n(be.name, i)));
 		  // Can we use an auto conversion?
 		  if( (op1.op.type == NOBJ_VARTYPE_INT) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_FLT))
 		    {
-		      sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), function_arg_type_n(be.name, i));
+		      autocon.node_id = node_id_index++;
 		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
 		    }
 
 		  if( (op1.op.type == NOBJ_VARTYPE_FLT) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_INT))
 		    {
-		      sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), function_arg_type_n(be.name, i));
+		      autocon.node_id = node_id_index++;
 		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
 		    }
 		}
 	    }
 	  
-#if 1	      
-	      // Push dummy result
-	      EXP_BUFFER_ENTRY res;
-	      res.node_id = be.node_id;          // Result id is that of the operator
-	      res.p_idx = function_num_args(be.name);
-	      res.p[0] = op1.node_id;
-	      res.p[1] = op2.node_id;
-	      strcpy(res.name, "000");
-	      res.op.type      = ret_type;
-	      res.op.req_type  = ret_type;
-	      type_check_stack_push(res);
-#endif
-
+	  // Push dummy result
+	  EXP_BUFFER_ENTRY res;
+	  res.node_id = be.node_id;          // Result id is that of the operator
+	  res.p_idx = function_num_args(be.name);
+	  res.p[0] = op1.node_id;
+	  res.p[1] = op2.node_id;
+	  strcpy(res.name, "000");
+	  res.op.type      = ret_type;
+	  res.op.req_type  = ret_type;
+	  type_check_stack_push(res);
+	  
+	  // The return type opf the function is known
+	  be.op.type = ret_type;
+	  be.op.req_type = ret_type;
+	  
 	  break;
 
 	  // Operators have to be typed correctly depending on their
@@ -1289,7 +1323,7 @@ void typecheck_expression(void)
 		  
 		  if( (op1.op.type ==  op_info.type[0]) )
 		    {
-		      // Types correct, puh a dummy result so we have a correct execution stack
+		      // Types correct, push a dummy result so we have a correct execution stack
 
 		      // Push dummy result
 		      EXP_BUFFER_ENTRY res;
@@ -1474,15 +1508,15 @@ void typecheck_expression(void)
 		      res.p_idx = 2;
 		      res.p[0] = op1.node_id;
 		      res.p[1] = op2.node_id;
-		      res.op.type      = op1.op.type;
-		      res.op.req_type  = op1.op.type;
+		      res.op.type      = be.op.type;
+		      res.op.req_type  = be.op.type;
 		      type_check_stack_push(res);
 
 		    }
 		  else
 		    {
-		      // unknown required types exist, this probably shoudn't happen
-		      printf("\nUnknown required types at node id N%d", be.node_id);
+		      // unknown required types exist, this probably shoudn't happen is a syntax error
+		      fprintf(ofp, "\n%s:Syntax error at node N%d", __FUNCTION__, be.node_id);
 		      exit(-1);
 		    }
 		}		
@@ -2075,9 +2109,17 @@ void process_token(char *token)
   
   if( token_is_function(o1.name, &tokptr) )
     {
+      NOBJ_VARTYPE vt;
+     
+      // The type of the function is known, use that, not the expression type
+      // which is more of a hint.
       strcpy(o1.name, tokptr);
-      o1.type = expression_type;
-      o1.req_type = expression_type;
+      vt = function_return_type(o1.name);
+
+      fprintf(ofp, "\n%s: '%s' t=>%c", __FUNCTION__, o1.name, type_to_char(vt));
+      
+      o1.type = vt;
+      o1.req_type = vt;
       op_stack_push(o1);
       first_token = 0;
       return;
