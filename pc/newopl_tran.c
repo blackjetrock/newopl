@@ -566,8 +566,9 @@ VAR_INFO global_info[NOPL_MAX_GLOBAL];
 int local_info_index  = 0;
 int global_info_index = 0;
 
-void output_qcode(char *token)
+void output_qcode(void)
 {
+  // Run through the final expression buffer, converting into QCode
   
 }
 
@@ -1815,8 +1816,11 @@ void op_stack_finalise(void)
 
   if( strlen(current_expression) > 0 )
     {
-      // Process the RPN as a tree and generate qcode
+      // Process the RPN as a tree
       expression_tree_process(current_expression);
+
+      // Generate the QCode from the tree output
+      output_qcode();
     }
 }
 
