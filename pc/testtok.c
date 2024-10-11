@@ -40,10 +40,19 @@ void drop_space()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+// Scan for a literal
+// Leading space means drop spaces before looking for the literal,
+// trailing mena sdrop spaces after finding it
+
 int scan_literal(char *lit)
 {
+  if( *lit == ' ' )
+    {
+      lit++;
+      drop_space();
+    }
   
-  while( *lit != '\0' )
+  while( (*lit != '\0') &7 (*lit != ' ') )
     {
       if( *lit == cline[cline_i++] )
 	{
@@ -51,14 +60,30 @@ int scan_literal(char *lit)
 	  return(0);
 	}
     }
-
+  
+  if( *lit == ' ' )
+    {
+      lit++;
+      drop_space();
+    }
+  
   // reached end of literal string , all ok
   return(1);
 }
 
+// Check for a literal string.
+// Leading space means drop spaces before looking for the literal,
+// trailing mena sdrop spaces after finding it
+
 int check_literal(char *lit)
 {
   int save_cli = cline_i;
+
+  if( *lit == ' ' )
+    {
+      lit++;
+      drop_space();
+    }
   
   while( *lit != '\0' )
     {
@@ -78,22 +103,45 @@ int check_literal(char *lit)
 
 int check_assignment()
 {
-
+  int save_cli = cline_i;
+  
+  if( check_variable() )
+    {
+      if( check_literal(" = ") )
+	{
+	  if( check_expression() )
+	    {
+	      cline_i = save_cli;
+	      return(1);
+	    }
+	}
+    }
+  
+  cline_i = save_cli;
+  return(0);
 }
 
-int check_line()
+int scan_assignment(void)
+{
+  if( scan_variable() )
+    {
+    }
+  
+}
+
+int check_line(void)
 {
   if( check_assignment(fp)   |
       check_command(fp)      |
-      check_literal("LOCAL") |
-      check_literal("GLOBAL") |
-      check_literal("IF") |
-      check_literal("ELSE") |
-      check_literal("ENDIF") |
-      check_literal("DO") |
-      check_literal("WHILE") |
-      check_literal("REPEAT") |
-      check_literal("UNTIL") )
+      check_literal(" LOCAL ") |
+      check_literal(" GLOBAL ") |
+      check_literal(" IF ") |
+      check_literal(" ELSE ") |
+      check_literal(" ENDIF ") |
+      check_literal(" DO ") |
+      check_literal(" WHILE ") |
+      check_literal(" REPEAT ") |
+      check_literal(" UNTIL ") )
     {
       return(1);
     }
@@ -113,49 +161,49 @@ int scan_line()
       scan_command(fp);
     }
   
-  if( check_literal("LOCAL") )
+  if( check_literal(" LOCAL ") )
     {
-      scan_literal("LOCAL");
+      scan_literal(" LOCAL ");
     }
   
-  if( check_literal("GLOBAL") )
+  if( check_literal(" GLOBAL ") )
     {
-      scan_literal("GLOBAL");
+      scan_literal(" GLOBAL ");
     }
   
-  if( check_literal("IF") )
+  if( check_literal(" IF ") )
     {
-      scan_literal("IF");
+      scan_literal(" IF ");
     }
   
-  if( check_literal("ELSE") )
+  if( check_literal(" ELSE ") )
     {
-      scan_literal("ELSE");
+      scan_literal(" ELSE ");
     }
   
-  if( check_literal("ENDIF") )
+  if( check_literal(" ENDIF ") )
     {
-      scan_literal("ENDIF");
+      scan_literal(" ENDIF ");
     }
   
-  if( check_literal("DO") )
+  if( check_literal(" DO ") )
     {
-      scan_literal("DO");
+      scan_literal(" DO ");
     }
   
-  if( check_literal("WHILE") )
+  if( check_literal(" WHILE ") )
     {
-      scan_literal("WHILE");
+      scan_literal(" WHILE ");
     }
   
-  if( check_literal("REPEAT") )
+  if( check_literal(" REPEAT ") )
     {
-      scan_literal("REPEAT");
+      scan_literal(" REPEAT ");
     }
   
-  if( check_literal("UNTIL") )
+  if( check_literal(" UNTIL ") )
     { 
-      scan_literal("UNTIL");
+      scan_literal(" UNTIL ");
     }
   
   return(0);    
