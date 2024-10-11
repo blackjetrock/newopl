@@ -5,6 +5,7 @@ process_line: Local
 process_line: Local
 process_line: Local
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
@@ -14,11 +15,13 @@ process_line: Line='UDG A@(5), 202.76, 30,   40,   50, 60, 70, 80, 90'
 scan_command:Got cmd
 process_line: Line=' A@(5), 202.76, 30,   40,   50, 60, 70, 80, 90'
 (process_line) COMMAND scan exp
+(scan_expression) *********************************
 (scan_expression) Scanning ' A@(5), 202.76, 30,   40,   50, 60, 70, 80, 90'
 ========================================================
  A@(5), 202.76, 30,   40,   50, 60, 70, 80, 90
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:' A@(5), 202.76, 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'A'
@@ -29,11 +32,13 @@ token_is_variable: tok:'A'
 '@' is operator
 Push 1
  Push:'@'
+(scan_expression) scan_expression:  Line:'(5), 202.76, 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'5), 202.76, 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'5'
@@ -44,12 +49,14 @@ Pop 4
 Pop '('
 (  output_sub_end)
 (  output_sub_end)
+(scan_expression) scan_expression:  Line:', 202.76, 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 Pop '@'
 ( output_operator) [i,()] i i @
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 202.76, 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'2'
@@ -62,6 +69,7 @@ Pop '@'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'3'
@@ -70,6 +78,7 @@ Pop '@'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:'   40,   50, 60, 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'4'
@@ -78,6 +87,7 @@ Pop '@'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:'   50, 60, 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'5'
@@ -86,6 +96,7 @@ Pop '@'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 60, 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'6'
@@ -94,6 +105,7 @@ Pop '@'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'7'
@@ -102,6 +114,7 @@ Pop '@'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'8'
@@ -110,6 +123,7 @@ Pop '@'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'9'
@@ -665,11 +679,13 @@ process_line: Line='UDG 10, 202.76, 30,   40,   50, 60, 70, 80, 90'
 scan_command:Got cmd
 process_line: Line=' 10, 202.76, 30,   40,   50, 60, 70, 80, 90'
 (process_line) COMMAND scan exp
+(scan_expression) *********************************
 (scan_expression) Scanning ' 10, 202.76, 30,   40,   50, 60, 70, 80, 90'
 ========================================================
  10, 202.76, 30,   40,   50, 60, 70, 80, 90
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:' 10, 202.76, 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -678,6 +694,7 @@ process_line: Line=' 10, 202.76, 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 202.76, 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'2'
@@ -690,6 +707,7 @@ process_line: Line=' 10, 202.76, 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'3'
@@ -698,6 +716,7 @@ process_line: Line=' 10, 202.76, 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:'   40,   50, 60, 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'4'
@@ -706,6 +725,7 @@ process_line: Line=' 10, 202.76, 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:'   50, 60, 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'5'
@@ -714,6 +734,7 @@ process_line: Line=' 10, 202.76, 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 60, 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'6'
@@ -722,6 +743,7 @@ process_line: Line=' 10, 202.76, 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 70, 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'7'
@@ -730,6 +752,7 @@ process_line: Line=' 10, 202.76, 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 80, 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'8'
@@ -738,6 +761,7 @@ process_line: Line=' 10, 202.76, 30,   40,   50, 60, 70, 80, 90'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 90'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'9'
@@ -1117,16 +1141,19 @@ process_line: Line='UDG(1, 2, 3,   4,   5, 6, 7, 8, 9)'
 scan_command:Got cmd
 process_line: Line='(1, 2, 3,   4,   5, 6, 7, 8, 9)'
 (process_line) COMMAND scan exp
+(scan_expression) *********************************
 (scan_expression) Scanning '(1, 2, 3,   4,   5, 6, 7, 8, 9)'
 ========================================================
 (1, 2, 3,   4,   5, 6, 7, 8, 9)
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'(1, 2, 3,   4,   5, 6, 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:1 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'1, 2, 3,   4,   5, 6, 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'1'
@@ -1134,6 +1161,7 @@ process_line: Line='(1, 2, 3,   4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 2, 3,   4,   5, 6, 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'2'
@@ -1141,6 +1169,7 @@ process_line: Line='(1, 2, 3,   4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 3,   4,   5, 6, 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'3'
@@ -1148,6 +1177,7 @@ process_line: Line='(1, 2, 3,   4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:'   4,   5, 6, 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'4'
@@ -1155,6 +1185,7 @@ process_line: Line='(1, 2, 3,   4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:'   5, 6, 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'5'
@@ -1162,6 +1193,7 @@ process_line: Line='(1, 2, 3,   4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 6, 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'6'
@@ -1169,6 +1201,7 @@ process_line: Line='(1, 2, 3,   4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'7'
@@ -1176,6 +1209,7 @@ process_line: Line='(1, 2, 3,   4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'8'
@@ -1183,6 +1217,7 @@ process_line: Line='(1, 2, 3,   4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'9'
@@ -1550,16 +1585,19 @@ process_line: Line='UDG(1, 2, 1.3, 4,   5, 6, 7, 8, 9)'
 scan_command:Got cmd
 process_line: Line='(1, 2, 1.3, 4,   5, 6, 7, 8, 9)'
 (process_line) COMMAND scan exp
+(scan_expression) *********************************
 (scan_expression) Scanning '(1, 2, 1.3, 4,   5, 6, 7, 8, 9)'
 ========================================================
 (1, 2, 1.3, 4,   5, 6, 7, 8, 9)
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'(1, 2, 1.3, 4,   5, 6, 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:1 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'1, 2, 1.3, 4,   5, 6, 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'1'
@@ -1567,6 +1605,7 @@ process_line: Line='(1, 2, 1.3, 4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 2, 1.3, 4,   5, 6, 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'2'
@@ -1574,6 +1613,7 @@ process_line: Line='(1, 2, 1.3, 4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 1.3, 4,   5, 6, 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -1583,6 +1623,7 @@ process_line: Line='(1, 2, 1.3, 4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 4,   5, 6, 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'4'
@@ -1590,6 +1631,7 @@ process_line: Line='(1, 2, 1.3, 4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:'   5, 6, 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'5'
@@ -1597,6 +1639,7 @@ process_line: Line='(1, 2, 1.3, 4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 6, 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'6'
@@ -1604,6 +1647,7 @@ process_line: Line='(1, 2, 1.3, 4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 7, 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'7'
@@ -1611,6 +1655,7 @@ process_line: Line='(1, 2, 1.3, 4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 8, 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'8'
@@ -1618,6 +1663,7 @@ process_line: Line='(1, 2, 1.3, 4,   5, 6, 7, 8, 9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'9'
@@ -2050,16 +2096,19 @@ process_line: Line='UDG(1, 2, 3.4, 4.4, 5, 6, 7, 8 ,9)'
 scan_command:Got cmd
 process_line: Line='(1, 2, 3.4, 4.4, 5, 6, 7, 8 ,9)'
 (process_line) COMMAND scan exp
+(scan_expression) *********************************
 (scan_expression) Scanning '(1, 2, 3.4, 4.4, 5, 6, 7, 8 ,9)'
 ========================================================
 (1, 2, 3.4, 4.4, 5, 6, 7, 8 ,9)
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'(1, 2, 3.4, 4.4, 5, 6, 7, 8 ,9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:1 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'1, 2, 3.4, 4.4, 5, 6, 7, 8 ,9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'1'
@@ -2067,6 +2116,7 @@ process_line: Line='(1, 2, 3.4, 4.4, 5, 6, 7, 8 ,9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 2, 3.4, 4.4, 5, 6, 7, 8 ,9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'2'
@@ -2074,6 +2124,7 @@ process_line: Line='(1, 2, 3.4, 4.4, 5, 6, 7, 8 ,9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 3.4, 4.4, 5, 6, 7, 8 ,9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'3'
@@ -2083,6 +2134,7 @@ process_line: Line='(1, 2, 3.4, 4.4, 5, 6, 7, 8 ,9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 4.4, 5, 6, 7, 8 ,9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'4'
@@ -2092,6 +2144,7 @@ process_line: Line='(1, 2, 3.4, 4.4, 5, 6, 7, 8 ,9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 5, 6, 7, 8 ,9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'5'
@@ -2099,6 +2152,7 @@ process_line: Line='(1, 2, 3.4, 4.4, 5, 6, 7, 8 ,9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 6, 7, 8 ,9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'6'
@@ -2106,6 +2160,7 @@ process_line: Line='(1, 2, 3.4, 4.4, 5, 6, 7, 8 ,9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 7, 8 ,9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'7'
@@ -2113,14 +2168,17 @@ process_line: Line='(1, 2, 3.4, 4.4, 5, 6, 7, 8 ,9)'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 8 ,9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'8'
 (  output_integer) [i,(U )] i i 8
+(scan_expression) scan_expression:  Line:',9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:'9)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'9'
@@ -2613,14 +2671,17 @@ infix_stack_pop: 'UDG(1 2 3.4 4.4 5 6 7 8 9 )'
 (    output_qcode) N20 EXP_BUFF_ID_SUB_END      U rq:i   0:
 (    output_qcode) N21 EXP_BUFF_ID_FUNCTION     v rq:v UDG  0:
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'S%(3) = 12'
 ========================================================
 S%(3) = 12
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'S%(3) = 12'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'S'
@@ -2631,6 +2692,7 @@ token_is_variable: tok:'S%'
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'3) = 12'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'3'
@@ -2641,12 +2703,14 @@ Pop 4
 Pop '('
 (  output_sub_end)
 (  output_sub_end)
+(scan_expression) scan_expression:  Line:' = 12'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' 12'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -2759,25 +2823,30 @@ infix_stack_pop: '(3 := 12)'
 (    output_qcode) N6 EXP_BUFF_ID_INTEGER      i rq:i 12  0:
 (    output_qcode) N7 EXP_BUFF_ID_OPERATOR     i rq:i :=  2: 6 3
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'A = 1.5'
 ========================================================
 A = 1.5
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'A = 1.5'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'A'
 token_is_variable: tok:'A'
 ( output_variable) [i,()] f f A
+(scan_expression) scan_expression:  Line:'= 1.5'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' 1.5'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -2846,22 +2915,26 @@ infix_stack_pop: '(A := 1.5)'
 (    output_qcode) N2 EXP_BUFF_ID_FLT          f rq:f 1.5  0:
 (    output_qcode) N3 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 2 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'B = 2.5'
 ========================================================
 B = 2.5
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'B = 2.5'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'B'
 token_is_variable: tok:'B'
 ( output_variable) [i,()] f f B
+(scan_expression) scan_expression:  Line:'= 2.5'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' 2.5'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'2'
@@ -2930,27 +3003,32 @@ infix_stack_pop: '(B := 2.5)'
 (    output_qcode) N2 EXP_BUFF_ID_FLT          f rq:f 2.5  0:
 (    output_qcode) N3 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 2 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'B  = (1+2)/(3+4)'
 ========================================================
 B  = (1+2)/(3+4)
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'B  = (1+2)/(3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'B'
 token_is_variable: tok:'B'
 ( output_variable) [i,()] f f B
+(scan_expression) scan_expression:  Line:' = (1+2)/(3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' (1+2)/(3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'1+2)/(3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'1'
@@ -2960,6 +3038,7 @@ Push 1
 '+' is operator
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:'2)/(3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'2'
@@ -2972,17 +3051,20 @@ Pop 4
 Pop '('
 (  output_sub_end)
 (  output_sub_end)
+(scan_expression) scan_expression:  Line:'/(3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'/'
    Frst:0 T:'/'
 '/' is operator
 Push 1
  Push:'/'
+(scan_expression) scan_expression:  Line:'(3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'3'
@@ -2992,6 +3074,7 @@ Push 1
 '+' is operator
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:'4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'4'
@@ -3278,28 +3361,33 @@ infix_stack_pop: '(B := ((1 + 2) / (3 + 4)))'
 (    output_qcode) N16 EXP_BUFF_ID_AUTOCON      f rq:f autocon i->f  2: 14 1
 (    output_qcode) N15 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 14 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'B% = (1+2)/(3+4)'
 ========================================================
 B% = (1+2)/(3+4)
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'B% = (1+2)/(3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'B'
    Frst:1 T:'B%'
 token_is_variable: tok:'B%'
 ( output_variable) [i,()] i i B%
+(scan_expression) scan_expression:  Line:'= (1+2)/(3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' (1+2)/(3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'1+2)/(3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'1'
@@ -3309,6 +3397,7 @@ Push 1
 '+' is operator
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:'2)/(3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'2'
@@ -3321,17 +3410,20 @@ Pop 4
 Pop '('
 (  output_sub_end)
 (  output_sub_end)
+(scan_expression) scan_expression:  Line:'/(3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'/'
    Frst:0 T:'/'
 '/' is operator
 Push 1
  Push:'/'
+(scan_expression) scan_expression:  Line:'(3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'3'
@@ -3341,6 +3433,7 @@ Push 1
 '+' is operator
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:'4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'4'
@@ -3584,44 +3677,52 @@ infix_stack_pop: '(B% := ((1 + 2) / (3 + 4)))'
 (    output_qcode) N14 EXP_BUFF_ID_OPERATOR     i rq:i /  2: 11 5
 (    output_qcode) N15 EXP_BUFF_ID_OPERATOR     i rq:i :=  2: 14 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'A = ((1.2 + 3.4) / (5.6 + 7.8))'
 ========================================================
 A = ((1.2 + 3.4) / (5.6 + 7.8))
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'A = ((1.2 + 3.4) / (5.6 + 7.8))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'A'
 token_is_variable: tok:'A'
 ( output_variable) [i,()] f f A
+(scan_expression) scan_expression:  Line:'= ((1.2 + 3.4) / (5.6 + 7.8))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' ((1.2 + 3.4) / (5.6 + 7.8))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'(1.2 + 3.4) / (5.6 + 7.8))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'1.2 + 3.4) / (5.6 + 7.8))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
 (scan_expression) CapStrOn:0 CapStr:'' token:'1.'
    Frst:0 T:'1.2'
 (    output_float) [f,(i U )] f f 1.2
+(scan_expression) scan_expression:  Line:'+ 3.4) / (5.6 + 7.8))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'+'
    Frst:0 T:'+'
 '+' is operator
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:' 3.4) / (5.6 + 7.8))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'3'
@@ -3636,29 +3737,34 @@ Pop 4
 Pop '('
 (  output_sub_end)
 (  output_sub_end)
+(scan_expression) scan_expression:  Line:' / (5.6 + 7.8))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'/'
    Frst:0 T:'/'
 '/' is operator
 Push 1
  Push:'/'
+(scan_expression) scan_expression:  Line:' (5.6 + 7.8))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'5.6 + 7.8))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'5'
 (scan_expression) CapStrOn:0 CapStr:'' token:'5.'
    Frst:0 T:'5.6'
 (    output_float) [f,(i U )] f f 5.6
+(scan_expression) scan_expression:  Line:'+ 7.8))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'+'
    Frst:0 T:'+'
 '+' is operator
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:' 7.8))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'7'
@@ -3673,6 +3779,7 @@ Pop 4
 Pop '('
 (  output_sub_end)
 (  output_sub_end)
+(scan_expression) scan_expression:  Line:')'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:')'
    Frst:0 T:')'
@@ -3936,34 +4043,40 @@ infix_stack_pop: '(A := ((1.2 + 3.4) / (5.6 + 7.8)))'
 (    output_qcode) N17 EXP_BUFF_ID_SUB_END      U rq:i   0:
 (    output_qcode) N18 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 15 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'Y% = 10 * 1.5'
 ========================================================
 Y% = 10 * 1.5
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'Y% = 10 * 1.5'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'Y'
    Frst:1 T:'Y%'
 token_is_variable: tok:'Y%'
 ( output_variable) [i,()] i i Y%
+(scan_expression) scan_expression:  Line:'= 10 * 1.5'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' 10 * 1.5'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
    Frst:0 T:'10'
 (  output_integer) [i,()] i i 10
+(scan_expression) scan_expression:  Line:'* 1.5'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'*'
    Frst:0 T:'*'
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:' 1.5'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -4113,6 +4226,7 @@ infix_stack_pop: '(Y% := (10 * 1.5))'
 (    output_qcode) N7 EXP_BUFF_ID_AUTOCON      i rq:i autocon f->i  2: 4 1
 (    output_qcode) N6 EXP_BUFF_ID_OPERATOR     i rq:i :=  2: 4 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
@@ -4122,11 +4236,13 @@ process_line: Line='PRINT Y%'
 scan_command:Got cmd
 process_line: Line=' Y%'
 (process_line) COMMAND scan exp
+(scan_expression) *********************************
 (scan_expression) Scanning ' Y%'
 ========================================================
  Y%
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:' Y%'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'Y'
@@ -4194,37 +4310,44 @@ infix_stack_pop: 'PRINT(Y% )'
 (    output_qcode) N1 EXP_BUFF_ID_VARIABLE     i rq:i Y%  0:
 (    output_qcode) N2 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'X% = 10 * Y%'
 ========================================================
 X% = 10 * Y%
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'X% = 10 * Y%'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'X'
    Frst:1 T:'X%'
 token_is_variable: tok:'X%'
 ( output_variable) [i,()] i i X%
+(scan_expression) scan_expression:  Line:'= 10 * Y%'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' 10 * Y%'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
    Frst:0 T:'10'
 (  output_integer) [i,()] i i 10
+(scan_expression) scan_expression:  Line:'* Y%'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'*'
    Frst:0 T:'*'
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:' Y%'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'Y'
@@ -4337,11 +4460,13 @@ process_line: Line='PRINT X%'
 scan_command:Got cmd
 process_line: Line=' X%'
 (process_line) COMMAND scan exp
+(scan_expression) *********************************
 (scan_expression) Scanning ' X%'
 ========================================================
  X%
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:' X%'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'X'
@@ -4409,47 +4534,56 @@ infix_stack_pop: 'PRINT(X% )'
 (    output_qcode) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
 (    output_qcode) N2 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'X% = 1 + A + B'
 ========================================================
 X% = 1 + A + B
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'X% = 1 + A + B'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'X'
    Frst:1 T:'X%'
 token_is_variable: tok:'X%'
 ( output_variable) [i,()] i i X%
+(scan_expression) scan_expression:  Line:'= 1 + A + B'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' 1 + A + B'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'1'
 (  output_integer) [i,()] i i 1
+(scan_expression) scan_expression:  Line:'+ A + B'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'+'
    Frst:0 T:'+'
 '+' is operator
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:' A + B'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'A'
 token_is_variable: tok:'A'
 ( output_variable) [f,()] f f A
+(scan_expression) scan_expression:  Line:'+ B'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'+'
    Frst:0 T:'+'
 '+' is operator
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:' B'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'B'
@@ -4650,11 +4784,13 @@ process_line: Line='PRINT X%'
 scan_command:Got cmd
 process_line: Line=' X%'
 (process_line) COMMAND scan exp
+(scan_expression) *********************************
 (scan_expression) Scanning ' X%'
 ========================================================
  X%
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:' X%'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'X'
@@ -4722,26 +4858,31 @@ infix_stack_pop: 'PRINT(X% )'
 (    output_qcode) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
 (    output_qcode) N2 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'X% = INT(FLT(1) + A * FLT(4))'
 ========================================================
 X% = INT(FLT(1) + A * FLT(4))
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'X% = INT(FLT(1) + A * FLT(4))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'X'
    Frst:1 T:'X%'
 token_is_variable: tok:'X%'
 ( output_variable) [i,()] i i X%
+(scan_expression) scan_expression:  Line:'= INT(FLT(1) + A * FLT(4))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' INT(FLT(1) + A * FLT(4))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'I'
@@ -4757,6 +4898,7 @@ process_token: 'INT' t=>i
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'FLT(1) + A * FLT(4))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'F'
@@ -4772,6 +4914,7 @@ process_token: 'FLT' t=>f
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'1) + A * FLT(4))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'1'
@@ -4786,23 +4929,27 @@ Pop 5
 Pop 'FLT'
 ( output_function) [i,(i U )] f f FLT
 (  output_sub_end)
+(scan_expression) scan_expression:  Line:' + A * FLT(4))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'+'
    Frst:0 T:'+'
 '+' is operator
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:' A * FLT(4))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'A'
 token_is_variable: tok:'A'
 ( output_variable) [f,(i )] f f A
+(scan_expression) scan_expression:  Line:'* FLT(4))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'*'
    Frst:0 T:'*'
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:' FLT(4))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'F'
@@ -4818,6 +4965,7 @@ process_token: 'FLT' t=>f
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'4))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'4'
@@ -4832,6 +4980,7 @@ Pop 5
 Pop 'FLT'
 ( output_function) [i,(i f )] f f FLT
 (  output_sub_end)
+(scan_expression) scan_expression:  Line:')'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:')'
    Frst:0 T:')'
@@ -4862,7 +5011,7 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:U   0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     f rq:f FLT  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f *  0:
@@ -5049,7 +5198,7 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:U   0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     f rq:f FLT  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f *  0:
@@ -5071,7 +5220,7 @@ Expression buffer 2
 (dump_exp_buffer2) N8 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (dump_exp_buffer2) N10 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:U   0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i   0:
 (dump_exp_buffer2) N12 EXP_BUFF_ID_FUNCTION     f rq:f FLT  0:
 (dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_END      U rq:i   0:
 (dump_exp_buffer2) N14 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 12 8
@@ -5118,7 +5267,7 @@ infix_stack_pop: '(X% := INT((FLT(1 ) + (A * FLT(4 ))) ))'
 (    output_qcode) N8 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (    output_qcode) N9 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (    output_qcode) N10 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-(    output_qcode) N11 EXP_BUFF_ID_SUB_END      U rq:U   0:
+(    output_qcode) N11 EXP_BUFF_ID_SUB_END      U rq:i   0:
 (    output_qcode) N12 EXP_BUFF_ID_FUNCTION     f rq:f FLT  0:
 (    output_qcode) N13 EXP_BUFF_ID_SUB_END      U rq:i   0:
 (    output_qcode) N14 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 12 8
@@ -5128,6 +5277,7 @@ infix_stack_pop: '(X% := INT((FLT(1 ) + (A * FLT(4 ))) ))'
 (    output_qcode) N18 EXP_BUFF_ID_SUB_END      U rq:i   0:
 (    output_qcode) N19 EXP_BUFF_ID_OPERATOR     i rq:i :=  2: 17 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
@@ -5137,11 +5287,13 @@ process_line: Line='PRINT X%'
 scan_command:Got cmd
 process_line: Line=' X%'
 (process_line) COMMAND scan exp
+(scan_expression) *********************************
 (scan_expression) Scanning ' X%'
 ========================================================
  X%
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:' X%'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'X'
@@ -5209,37 +5361,44 @@ infix_stack_pop: 'PRINT(X% )'
 (    output_qcode) N1 EXP_BUFF_ID_VARIABLE     i rq:i X%  0:
 (    output_qcode) N2 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'A = X% + Y%'
 ========================================================
 A = X% + Y%
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'A = X% + Y%'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'A'
 token_is_variable: tok:'A'
 ( output_variable) [i,()] f f A
+(scan_expression) scan_expression:  Line:'= X% + Y%'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' X% + Y%'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'X'
    Frst:0 T:'X%'
 token_is_variable: tok:'X%'
 ( output_variable) [i,()] i i X%
+(scan_expression) scan_expression:  Line:'+ Y%'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'+'
    Frst:0 T:'+'
 '+' is operator
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:' Y%'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'Y'
@@ -5375,11 +5534,13 @@ process_line: Line='PRINT A'
 scan_command:Got cmd
 process_line: Line=' A'
 (process_line) COMMAND scan exp
+(scan_expression) *********************************
 (scan_expression) Scanning ' A'
 ========================================================
  A
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:' A'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'A'
@@ -5459,39 +5620,47 @@ infix_stack_pop: 'PRINT(A )'
 (    output_qcode) N3 EXP_BUFF_ID_AUTOCON      v rq:v autocon f->i  0:
 (    output_qcode) N2 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'B = 1 * 2 + A'
 ========================================================
 B = 1 * 2 + A
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'B = 1 * 2 + A'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'B'
 token_is_variable: tok:'B'
 ( output_variable) [i,()] f f B
+(scan_expression) scan_expression:  Line:'= 1 * 2 + A'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' 1 * 2 + A'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'1'
 (  output_integer) [i,()] i i 1
+(scan_expression) scan_expression:  Line:'* 2 + A'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'*'
    Frst:0 T:'*'
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:' 2 + A'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'2'
 (  output_integer) [i,()] i i 2
+(scan_expression) scan_expression:  Line:'+ A'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'+'
    Frst:0 T:'+'
@@ -5501,6 +5670,7 @@ Pop '*'
 ( output_operator) [i,()] i i *
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:' A'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'A'
@@ -5662,52 +5832,62 @@ infix_stack_pop: '(B := ((1 * 2) + A))'
 (    output_qcode) N6 EXP_BUFF_ID_OPERATOR     f rq:f +  2: 5 4
 (    output_qcode) N8 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 6 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'B = 1 * ( 2 + A )'
 ========================================================
 B = 1 * ( 2 + A )
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'B = 1 * ( 2 + A )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'B'
 token_is_variable: tok:'B'
 ( output_variable) [i,()] f f B
+(scan_expression) scan_expression:  Line:'= 1 * ( 2 + A )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' 1 * ( 2 + A )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'1'
 (  output_integer) [i,()] i i 1
+(scan_expression) scan_expression:  Line:'* ( 2 + A )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'*'
    Frst:0 T:'*'
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:' ( 2 + A )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:' 2 + A )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'2'
 (  output_integer) [i,(i )] i i 2
+(scan_expression) scan_expression:  Line:'+ A )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'+'
    Frst:0 T:'+'
 '+' is operator
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:' A )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'A'
 token_is_variable: tok:'A'
 ( output_variable) [f,(i )] f f A
+(scan_expression) scan_expression:  Line:')'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:')'
    Frst:0 T:')'
@@ -5951,77 +6131,92 @@ infix_stack_pop: '(B := (1 * (2 + A)))'
 (    output_qcode) N10 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 6 2
 (    output_qcode) N12 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 10 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'B = 2 * (3 * ( 4 + (1 + 1)))'
 ========================================================
 B = 2 * (3 * ( 4 + (1 + 1)))
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'B = 2 * (3 * ( 4 + (1 + 1)))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'B'
 token_is_variable: tok:'B'
 ( output_variable) [i,()] f f B
+(scan_expression) scan_expression:  Line:'= 2 * (3 * ( 4 + (1 + 1)))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' 2 * (3 * ( 4 + (1 + 1)))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'2'
 (  output_integer) [i,()] i i 2
+(scan_expression) scan_expression:  Line:'* (3 * ( 4 + (1 + 1)))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'*'
    Frst:0 T:'*'
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:' (3 * ( 4 + (1 + 1)))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'3 * ( 4 + (1 + 1)))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'3'
 (  output_integer) [i,(i )] i i 3
+(scan_expression) scan_expression:  Line:'* ( 4 + (1 + 1)))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'*'
    Frst:0 T:'*'
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:' ( 4 + (1 + 1)))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:' 4 + (1 + 1)))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'4'
 (  output_integer) [i,(i i )] i i 4
+(scan_expression) scan_expression:  Line:'+ (1 + 1)))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'+'
    Frst:0 T:'+'
 '+' is operator
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:' (1 + 1)))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'1 + 1)))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'1'
 (  output_integer) [i,(i i i )] i i 1
+(scan_expression) scan_expression:  Line:'+ 1)))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'+'
    Frst:0 T:'+'
 '+' is operator
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:' 1)))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'1'
@@ -6034,6 +6229,7 @@ Pop 4
 Pop '('
 (  output_sub_end)
 (  output_sub_end)
+(scan_expression) scan_expression:  Line:'))'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:')'
    Frst:0 T:')'
@@ -6043,6 +6239,7 @@ Pop 4
 Pop '('
 (  output_sub_end)
 (  output_sub_end)
+(scan_expression) scan_expression:  Line:')'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:')'
    Frst:0 T:')'
@@ -6424,6 +6621,7 @@ infix_stack_pop: '(B := (2 * (3 * (4 + (1 + 1)))))'
 (    output_qcode) N21 EXP_BUFF_ID_AUTOCON      f rq:f autocon i->f  2: 19 1
 (    output_qcode) N20 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 19 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
@@ -6433,11 +6631,13 @@ process_line: Line='PRINT B'
 scan_command:Got cmd
 process_line: Line=' B'
 (process_line) COMMAND scan exp
+(scan_expression) *********************************
 (scan_expression) Scanning ' B'
 ========================================================
  B
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:' B'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'B'
@@ -6517,6 +6717,7 @@ infix_stack_pop: 'PRINT(B )'
 (    output_qcode) N3 EXP_BUFF_ID_AUTOCON      v rq:v autocon f->i  0:
 (    output_qcode) N2 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
@@ -6526,25 +6727,30 @@ process_line: Line='PRINT 1 * 2 + A'
 scan_command:Got cmd
 process_line: Line=' 1 * 2 + A'
 (process_line) COMMAND scan exp
+(scan_expression) *********************************
 (scan_expression) Scanning ' 1 * 2 + A'
 ========================================================
  1 * 2 + A
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:' 1 * 2 + A'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'1'
 (  output_integer) [i,()] i i 1
+(scan_expression) scan_expression:  Line:'* 2 + A'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'*'
    Frst:0 T:'*'
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:' 2 + A'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'2'
 (  output_integer) [i,()] i i 2
+(scan_expression) scan_expression:  Line:'+ A'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'+'
    Frst:0 T:'+'
@@ -6554,6 +6760,7 @@ Pop '*'
 ( output_operator) [i,()] i i *
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:' A'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'A'
@@ -6731,6 +6938,7 @@ infix_stack_pop: 'PRINT(((1 * 2) + A) )'
 (    output_qcode) N8 EXP_BUFF_ID_AUTOCON      v rq:v autocon f->i  0:
 (    output_qcode) N7 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
@@ -6740,19 +6948,23 @@ process_line: Line='PRINT "Point 2"'
 scan_command:Got cmd
 process_line: Line=' "Point 2"'
 (process_line) COMMAND scan exp
+(scan_expression) *********************************
 (scan_expression) Scanning ' "Point 2"'
 ========================================================
  "Point 2"
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:' "Point 2"'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'"'
+(scan_expression) scan_expression:  Line:'Point 2"'
 (scan_expression) CapStrOn:1 CapStr:'"' token:''
 (scan_expression) CapStrOn:1 CapStr:'"' token:''
 (scan_expression) CapStrOn:1 CapStr:'"P' token:'P'
 (scan_expression) CapStrOn:1 CapStr:'"Po' token:'Po'
 (scan_expression) CapStrOn:1 CapStr:'"Poi' token:'Poi'
 (scan_expression) CapStrOn:1 CapStr:'"Poin' token:'Poin'
+(scan_expression) scan_expression:  Line:'2"'
 (scan_expression) CapStrOn:1 CapStr:'"Point ' token:''
 (scan_expression) CapStrOn:1 CapStr:'"Point ' token:''
    Frst:1 T:'"Point 2"'
@@ -6820,25 +7032,30 @@ infix_stack_pop: 'PRINT("Point 2" )'
 (    output_qcode) N1 EXP_BUFF_ID_STR          s rq:? "Point 2"  0:
 (    output_qcode) N2 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'A = 1000*1000*1000'
 ========================================================
 A = 1000*1000*1000
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'A = 1000*1000*1000'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'A'
 token_is_variable: tok:'A'
 ( output_variable) [i,()] f f A
+(scan_expression) scan_expression:  Line:'= 1000*1000*1000'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' 1000*1000*1000'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -6851,6 +7068,7 @@ Push 1
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:'1000*1000'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -6866,6 +7084,7 @@ Pop '*'
 ( output_operator) [i,()] i i *
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:'1000'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -7034,22 +7253,26 @@ infix_stack_pop: '(A := ((1000 * 1000) * 1000))'
 (    output_qcode) N8 EXP_BUFF_ID_AUTOCON      f rq:f autocon i->f  2: 6 1
 (    output_qcode) N7 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 6 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'A = 1000.*1000*1000'
 ========================================================
 A = 1000.*1000*1000
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'A = 1000.*1000*1000'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'A'
 token_is_variable: tok:'A'
 ( output_variable) [i,()] f f A
+(scan_expression) scan_expression:  Line:'= 1000.*1000*1000'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' 1000.*1000*1000'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -7063,6 +7286,7 @@ Push 1
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:'1000*1000'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -7078,6 +7302,7 @@ Pop '*'
 ( output_operator) [f,()] f f *
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:'1000'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -7261,22 +7486,26 @@ infix_stack_pop: '(A := ((1000. * 1000) * 1000))'
 (    output_qcode) N7 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 6 4
 (    output_qcode) N9 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 7 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'A = 1000.*(1000*1000)'
 ========================================================
 A = 1000.*(1000*1000)
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'A = 1000.*(1000*1000)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'A'
 token_is_variable: tok:'A'
 ( output_variable) [i,()] f f A
+(scan_expression) scan_expression:  Line:'= 1000.*(1000*1000)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' 1000.*(1000*1000)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -7290,11 +7519,13 @@ Push 1
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:'(1000*1000)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'1000*1000)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -7307,6 +7538,7 @@ Push 1
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:'1000)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -7519,14 +7751,17 @@ infix_stack_pop: '(A := (1000. * (1000 * 1000)))'
 (    output_qcode) N9 EXP_BUFF_ID_OPERATOR     f rq:f *  2: 6 2
 (    output_qcode) N11 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 9 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'F$="ABC"'
 ========================================================
 F$="ABC"
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'F$="ABC"'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'F'
@@ -7538,8 +7773,10 @@ token_is_variable: tok:'F$'
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:'"ABC"'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'"'
+(scan_expression) scan_expression:  Line:'ABC"'
 (scan_expression) CapStrOn:1 CapStr:'"' token:''
 (scan_expression) CapStrOn:1 CapStr:'"' token:''
 (scan_expression) CapStrOn:1 CapStr:'"A' token:'A'
@@ -7610,25 +7847,30 @@ infix_stack_pop: '(F$ := "ABC")'
 (    output_qcode) N2 EXP_BUFF_ID_STR          s rq:? "ABC"  0:
 (    output_qcode) N3 EXP_BUFF_ID_OPERATOR     s rq:? :=  2: 2 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'A = SIN(45*2)'
 ========================================================
 A = SIN(45*2)
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'A = SIN(45*2)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'A'
 token_is_variable: tok:'A'
 ( output_variable) [i,()] f f A
+(scan_expression) scan_expression:  Line:'= SIN(45*2)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' SIN(45*2)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'S'
@@ -7644,6 +7886,7 @@ process_token: 'SIN' t=>f
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'45*2)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'4'
@@ -7654,6 +7897,7 @@ process_token: 'SIN' t=>f
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:'2)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'2'
@@ -7839,22 +8083,26 @@ infix_stack_pop: '(A := SIN((45 * 2) ))'
 (    output_qcode) N9 EXP_BUFF_ID_SUB_END      U rq:i   0:
 (    output_qcode) N10 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 7 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'B = SIN(45*2.0)'
 ========================================================
 B = SIN(45*2.0)
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'B = SIN(45*2.0)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'B'
 token_is_variable: tok:'B'
 ( output_variable) [i,()] f f B
+(scan_expression) scan_expression:  Line:'= SIN(45*2.0)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' SIN(45*2.0)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'S'
@@ -7870,6 +8118,7 @@ process_token: 'SIN' t=>f
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'45*2.0)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'4'
@@ -7880,6 +8129,7 @@ process_token: 'SIN' t=>f
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:'2.0)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'2'
@@ -8067,15 +8317,18 @@ infix_stack_pop: '(B := SIN((45 * 2.0) ))'
 (    output_qcode) N9 EXP_BUFF_ID_SUB_END      U rq:i   0:
 (    output_qcode) N10 EXP_BUFF_ID_OPERATOR     f rq:f :=  2: 8 1
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
 check_command: USR
+(scan_expression) *********************************
 (scan_expression) Scanning 'USR(X%, Y%)'
 ========================================================
 USR(X%, Y%)
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'USR(X%, Y%)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'U'
@@ -8091,6 +8344,7 @@ process_token: 'USR' t=>v
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'X%, Y%)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'X'
@@ -8100,6 +8354,7 @@ token_is_variable: tok:'X%'
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' Y%)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'Y'
@@ -8214,15 +8469,18 @@ infix_stack_pop: 'USR(X% Y% )'
 (    output_qcode) N6 EXP_BUFF_ID_FUNCTION     v rq:v USR  0:
 (    output_qcode) N7 EXP_BUFF_ID_SUB_END      U rq:i   0:
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
 check_command: USR
+(scan_expression) *********************************
 (scan_expression) Scanning 'USR(12*4+1, 20*3+4)'
 ========================================================
 USR(12*4+1, 20*3+4)
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'USR(12*4+1, 20*3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'U'
@@ -8238,6 +8496,7 @@ process_token: 'USR' t=>v
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'12*4+1, 20*3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -8248,6 +8507,7 @@ process_token: 'USR' t=>v
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:'4+1, 20*3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'4'
@@ -8260,6 +8520,7 @@ Pop '*'
 ( output_operator) [i,(U )] i i *
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:'1, 20*3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'1'
@@ -8269,6 +8530,7 @@ Push 1
 Pop '+'
 ( output_operator) [i,(U )] i i +
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 20*3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'2'
@@ -8279,6 +8541,7 @@ Pop '+'
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:'3+4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'3'
@@ -8291,6 +8554,7 @@ Pop '*'
 ( output_operator) [i,(U )] i i *
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:'4)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'4'
@@ -8537,15 +8801,18 @@ infix_stack_pop: 'USR(((12 * 4) + 1) ((20 * 3) + 4) )'
 (    output_qcode) N14 EXP_BUFF_ID_FUNCTION     v rq:v USR  0:
 (    output_qcode) N15 EXP_BUFF_ID_SUB_END      U rq:i   0:
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
 check_command: USR
+(scan_expression) *********************************
 (scan_expression) Scanning 'USR(1+2, 1.2*3.6)'
 ========================================================
 USR(1+2, 1.2*3.6)
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'USR(1+2, 1.2*3.6)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'U'
@@ -8561,6 +8828,7 @@ process_token: 'USR' t=>v
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:'1+2, 1.2*3.6)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'1'
@@ -8570,6 +8838,7 @@ process_token: 'USR' t=>v
 '+' is operator
 Push 1
  Push:'+'
+(scan_expression) scan_expression:  Line:'2, 1.2*3.6)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'2'
@@ -8579,6 +8848,7 @@ Push 1
 Pop '+'
 ( output_operator) [i,(U )] i i +
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 1.2*3.6)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'1'
@@ -8590,6 +8860,7 @@ Pop '+'
 '*' is operator
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:'3.6)'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'3'
@@ -8800,25 +9071,30 @@ infix_stack_pop: 'USR((1 + 2) (1.2 * 3.6) )'
 (    output_qcode) N10 EXP_BUFF_ID_FUNCTION     v rq:v USR  0:
 (    output_qcode) N12 EXP_BUFF_ID_SUB_END      U rq:i   0:
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning ''
 Finalise stack
 check_command:
+(scan_expression) *********************************
 (scan_expression) Scanning 'A = SIN ( MAX ( 2, 3 ) / 3 * 3.14 )'
 ========================================================
 A = SIN ( MAX ( 2, 3 ) / 3 * 3.14 )
 ========================================================
 (output_expression_start)
+(scan_expression) scan_expression:  Line:'A = SIN ( MAX ( 2, 3 ) / 3 * 3.14 )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:1 T:'A'
 token_is_variable: tok:'A'
 ( output_variable) [i,()] f f A
+(scan_expression) scan_expression:  Line:'= SIN ( MAX ( 2, 3 ) / 3 * 3.14 )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'='
    Frst:0 T:'='
 '=' is operator
 Push 1
  Push:'='
+(scan_expression) scan_expression:  Line:' SIN ( MAX ( 2, 3 ) / 3 * 3.14 )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'S'
@@ -8830,11 +9106,13 @@ SIN is function
 function_return_type: 'SIN' =>f
 process_token: 'SIN' t=>f
  Push:'SIN'
+(scan_expression) scan_expression:  Line:'( MAX ( 2, 3 ) / 3 * 3.14 )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:' MAX ( 2, 3 ) / 3 * 3.14 )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'M'
@@ -8846,11 +9124,13 @@ MAX is function
 function_return_type: 'MAX' =>f
 process_token: 'MAX' t=>f
  Push:'MAX'
+(scan_expression) scan_expression:  Line:'( 2, 3 ) / 3 * 3.14 )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'('
    Frst:0 T:'('
 (output_sub_start)
  Push:'('
+(scan_expression) scan_expression:  Line:' 2, 3 ) / 3 * 3.14 )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'2'
@@ -8858,10 +9138,12 @@ process_token: 'MAX' t=>f
 (scan_expression) is op_delimiter token:','
    Frst:0 T:','
 (output_sub_start)
+(scan_expression) scan_expression:  Line:' 3 ) / 3 * 3.14 )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'3'
 (  output_integer) [i,(i U )] i i 3
+(scan_expression) scan_expression:  Line:') / 3 * 3.14 )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:')'
    Frst:0 T:')'
@@ -8873,16 +9155,19 @@ Pop 5
 Pop 'MAX'
 ( output_function) [i,(i U )] f f MAX
 (  output_sub_end)
+(scan_expression) scan_expression:  Line:' / 3 * 3.14 )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'/'
    Frst:0 T:'/'
 '/' is operator
 Push 1
  Push:'/'
+(scan_expression) scan_expression:  Line:' 3 * 3.14 )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
    Frst:0 T:'3'
 (  output_integer) [i,(i )] i i 3
+(scan_expression) scan_expression:  Line:'* 3.14 )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:'*'
    Frst:0 T:'*'
@@ -8892,6 +9177,7 @@ Pop '/'
 ( output_operator) [i,(i )] U U /
 Push 1
  Push:'*'
+(scan_expression) scan_expression:  Line:' 3.14 )'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) CapStrOn:0 CapStr:'' token:'3'
@@ -8899,6 +9185,7 @@ Push 1
 (scan_expression) CapStrOn:0 CapStr:'' token:'3.1'
    Frst:0 T:'3.14'
 (    output_float) [f,(i )] f f 3.14
+(scan_expression) scan_expression:  Line:')'
 (scan_expression) CapStrOn:0 CapStr:'' token:''
 (scan_expression) is op_delimiter token:')'
    Frst:0 T:')'

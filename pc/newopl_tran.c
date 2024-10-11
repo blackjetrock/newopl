@@ -1248,8 +1248,11 @@ NOBJ_VARTYPE type_with_least_conversion_from(NOBJ_VARTYPE t1, NOBJ_VARTYPE t2)
 // Convert exp_buffer into an infix expression
 //
 ////////////////////////////////////////////////////////////////////////////////
-
+//
 // This is useful for checking the translator.
+//
+////////////////////////////////////////////////////////////////////////////////
+
 #define MAX_INFIX_STACK 50
 #define MAX_INFIX_STR   40
 
@@ -1297,6 +1300,7 @@ char *infix_from_rpn(void)
   char op1[MAX_INFIX_STR], op2[MAX_INFIX_STR];
   char newstr[MAX_INFIX_STR*20+5];
   char newstr2[MAX_INFIX_STR*20+5];
+  int numarg;
   
   infix_stack_ptr = 0;
   
@@ -1317,7 +1321,7 @@ char *infix_from_rpn(void)
 	case EXP_BUFF_ID_COMMAND:
 	case EXP_BUFF_ID_FUNCTION:
 	  // See how many arguments to pop
-	  int numarg = function_num_args(be.name);
+	  numarg = function_num_args(be.name);
 
 	  strcpy(newstr, "");
 	  
@@ -2451,11 +2455,11 @@ int is_delimiter(char ch)
 //
 // Scan an expression.
 //
-// The expression (a string) is first tokenised
+// The expression (a string) is tokenised and each token is sent for processing
 //
-// Tokens:
+// 
 //
-
+////////////////////////////////////////////////////////////////////////////////
 
 int  scan_expression(char *line)
 {
@@ -2467,6 +2471,7 @@ int  scan_expression(char *line)
   char ss[2];
   int end_cap_later = 0;
 
+  dbprintf("*********************************",0);
   dbprintf("Scanning '%s'", line);
   
   output_expression_start(line);
@@ -2479,15 +2484,17 @@ int  scan_expression(char *line)
   // QCode.
     
   token[0] = '\0';
-
+  cap_string[0] ='\0';
+  
 #define DB_EXP 1
   
   while( *line != '\0' )
     {
-      //printf("\n  F:'%s'", line);
+      dbprintf("%s:  Line:'%s'", __FUNCTION__, line);
 
       // Strings within quotes need to be able to have spaces in them.
       // Otherwise white space is removed.
+
       dbprintf("CapStrOn:%d CapStr:'%s' token:'%s'", capture_string, cap_string, token);
       
       while( isspace(*line) )
