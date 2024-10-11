@@ -1,0 +1,21 @@
+<file>       : <procdef> <cline>*
+<cline>      : <line> | <line> ':' <cine>+
+<procdef>    : <string> ':'
+<line>       : <assignment> | <command> |
+               'LOCAL' <varlist> |
+	       'GLOBAL' <varlist> |
+               'IF' <expression> | 'ELSE' | 'ENDIF' |
+	       'DO' | 'WHILE' <expression> |
+	       'REPEAT' | 'UNTIL' <expression>
+<atom>       : <variable> | <operator> | <function> | '(' | ')'
+<expression  : <atom>+
+<variable>   : <vname> | <vname>'%' | <vname>'$' |
+               <vname>'(' <expression> ')' |
+	       <vname>'%''(' <expression> ')' |
+	       <vname>'$''(' <expression> ')' |
+	       <vname>'$''(' <expression ',' <expression> ')'
+<command>    : <command-list-name-entry> <expression>
+<assignment> : <variable> '=' <expression>
+<varlist>    : <variable>+
+
+	      
