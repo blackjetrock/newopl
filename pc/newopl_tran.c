@@ -119,6 +119,28 @@ NOBJ_VARTYPE char_to_type(char ch);
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+// Markers used as comments, and hints
+//
+////////////////////////////////////////////////////////////////////////////////
+
+//#define dbprintf(fmt,...) dbpf(__FUNCTION__, fmt, ...)
+#define dbprintf(fmt,...) dbpf(__FUNCTION__, fmt,__VA_ARGS__)
+
+void dbpf(const char *caller, char *fmt, ...)
+{
+  va_list valist;
+  char line[80];
+  
+  va_start(valist, fmt);
+
+  vsprintf(line, fmt, valist);
+  va_end(valist);
+
+  fprintf(ofp, "\n(%s) %s", caller, line);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
 // Operator info
 //
 // Some operators have a mutable type, they are polymorphic. Some are not.
@@ -142,6 +164,8 @@ typedef struct _OP_INFO
 
 OP_INFO  op_info[] =
   {
+    // Array dereference internal operator
+   { "@",    9, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
    { "=",    1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
    { ":=",   1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
    { "+",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
@@ -258,6 +282,8 @@ int token_is_variable(char *token)
 {
   int is_var = 0;
   char *tokptr;
+
+  fprintf(ofp, "\n%s: tok:'%s'", __FUNCTION__, token);
   
   if( token_is_operator(token, &tokptr) )
     {
@@ -430,7 +456,7 @@ struct _FN_INFO
      { "POKEW",    1, "ii",       "f", 0x00 },
      { "POS",      0, "ii",       "f", 0x00 },
      { "POSITION", 1, "ii",       "f", 0x00 },
-     { "PRINT",    1, "ii",       "f", 0x00 },
+     { "PRINT",    1, "i",        "v", 0x00 },
      { "RAD",      0, "ii",       "f", 0x00 },
      { "RAISE",    1, "ii",       "f", 0x00 },
      { "RANDOMIZE",1, "ii",       "f", 0x00 },
@@ -1740,7 +1766,7 @@ void output_marker(char *marker, ...)
 
 void output_sub_start(void)
 {
-#if 0  
+#if 1
   OP_STACK_ENTRY op;
   
   printf("\nSub expression start");
@@ -1754,7 +1780,7 @@ void output_sub_start(void)
 
 void output_sub_end(void)
 {
-#if 0
+#if 1
   OP_STACK_ENTRY op;
   
   printf("\nSub expression end");
@@ -1911,6 +1937,10 @@ void op_stack_finalise(void)
       output_operator(o);
     }
 
+}
+
+void process_expression_types(void)
+{
   if( strlen(current_expression) > 0 )
     {
       // Process the RPN as a tree
@@ -2241,6 +2271,7 @@ int is_op_delimiter(char ch)
     case ')':
     case '"':
     case '+':
+    case'@':
     case '-':
     case '*':
     case '/':
@@ -2266,6 +2297,7 @@ int is_delimiter(char ch)
     case ':':
     case ';':
     case ',':
+    case '@':
     case '+':
     case '-':
     case '*':
@@ -2294,16 +2326,12 @@ int is_delimiter(char ch)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+// Scan an expression.
 //
-// Lines are either:
+// The expression (a string) is first tokenised
 //
-// blank
-// comment
-// <variable> = <expression>
-// <command> <expression>*
-// <expression>
+// Tokens:
 //
-////////////////////////////////////////////////////////////////////////////////
 
 
 int  scan_expression(char *line)
@@ -2315,7 +2343,9 @@ int  scan_expression(char *line)
   int capture_string = 0;
   char ss[2];
   int end_cap_later = 0;
-    
+
+  dbprintf("Scanning '%s'", line);
+  
   output_expression_start(line);
     
   // The type of an expression is initially unknown
@@ -2326,10 +2356,17 @@ int  scan_expression(char *line)
   // QCode.
     
   token[0] = '\0';
-    
+
+#define DB_EXP 1
+  
   while( *line != '\0' )
     {
       //printf("\n  F:'%s'", line);
+
+      // Strings within quotes need to be able to have spaces in them.
+      // Otherwise white space is removed.
+      dbprintf("CapStrOn:%d CapStr:'%s' token:'%s'", capture_string, cap_string, token);
+      
       while( isspace(*line) )
 	{
 	  ss[1] = '\0';
@@ -2347,7 +2384,8 @@ int  scan_expression(char *line)
       
       while((strlen(token) < NOPL_MAX_TOKEN) && !(is_delimiter(*line)) && (*line != '\0') )
 	{
-
+	  dbprintf("CapStrOn:%d CapStr:'%s' token:'%s'", capture_string, cap_string, token);
+	  
 	  ss[1] = '\0';
 	  ss[0] = *line;
 	  strcat(token, ss);
@@ -2365,7 +2403,8 @@ int  scan_expression(char *line)
 	  ss[0] = *line;
 	  strcat(cap_string, ss);
 	}
-      
+
+      // If we see a double quote then we start captuing a literal string.
       if( (*line) == '\"' )
 	{
 	  if( capture_string )
@@ -2403,8 +2442,10 @@ int  scan_expression(char *line)
 	  token[0] = '\0';
 	}
 
+      
       if( op_delimiter )
 	{
+	  dbprintf("is op_delimiter token:'%s'", ss);
 	  if( !capture_string )
 	    {
 	      process_token(ss);
@@ -2420,11 +2461,29 @@ int  scan_expression(char *line)
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 void finalise_expression(void)
 {
   // Now finalise the translation
   op_stack_finalise();
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+// Lines are either:
+//
+// blank
+// comment
+// LOCAL <varlist>
+// GLOBAL <varlist>
+// <variable> = <expression>
+// <command> <expression>*
+// <expression>
+//
+////////////////////////////////////////////////////////////////////////////////
 
 void process_line(char *line)
 {
@@ -2460,10 +2519,21 @@ void process_line(char *line)
       line = scan_command(line, command_name);
 
       fprintf(ofp, "\n%s: Line='%s'", __FUNCTION__, line);
-      scan_expression(line);
-      process_token(command_name);
 
+      // process the expression
+      dbprintf("COMMAND scan exp",0);
+      scan_expression(line);
+      dbprintf("COMMAND finalise exp",0);
       finalise_expression();
+      
+      dbprintf("COMMAND process token",0);
+      // Add the command that will process the arguments (expression)
+      process_token(command_name);
+      finalise_expression();
+      
+      dbprintf("COMMAND process exp types",0);
+      process_expression_types();
+
 #if 0
       // Put command after expression
       sprintf(command_entry.name, command_name);
@@ -2481,6 +2551,7 @@ void process_line(char *line)
   // Assignment can be done using an expression
   scan_expression(line);
   finalise_expression();
+  process_expression_types();
 }
 
 void translate_file(FILE *fp, FILE *ofp)
