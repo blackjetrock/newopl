@@ -1688,9 +1688,11 @@ void output_integer(OP_STACK_ENTRY token)
 
 void output_operator(OP_STACK_ENTRY op)
 {
+  char *tokptr;
+  
   printf("\nop operator");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
-  if( token_is_function(op.name) )
+  if( token_is_function(op.name, &tokptr) )
     {
       add_exp_buffer_entry(op, EXP_BUFF_ID_FUNCTION);
     }
