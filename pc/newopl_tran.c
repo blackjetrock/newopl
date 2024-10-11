@@ -1295,8 +1295,8 @@ char *infix_from_rpn(void)
 {
   EXP_BUFFER_ENTRY be;
   char op1[MAX_INFIX_STR], op2[MAX_INFIX_STR];
-  char newstr[MAX_INFIX_STR*3+5];
-  char newstr2[MAX_INFIX_STR*3+5];
+  char newstr[MAX_INFIX_STR*20+5];
+  char newstr2[MAX_INFIX_STR*20+5];
   
   infix_stack_ptr = 0;
   
