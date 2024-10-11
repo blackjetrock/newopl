@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 //
 // NewOPL Translater
 //
@@ -26,6 +26,54 @@ int first_token = 1;
 
 NOBJ_VARTYPE exp_type_stack[MAX_EXP_TYPE_STACK];
 int exp_type_stack_ptr = 0;
+
+////////////////////////////////////////////////////////////////////////////////
+
+#define MAX_EXP_BUFFER   200
+
+enum
+  {
+   EXP_BUFF_ID_TKN = 1,
+   EXP_BUFF_ID_SUB_START,
+   EXP_BUFF_ID_SUB_END,
+   EXP_BUFF_ID_VARIABLE,
+   EXP_BUFF_ID_INTEGER,
+   EXP_BUFF_ID_FLT,
+   EXP_BUFF_ID_STR,
+   EXP_BUFF_ID_FUNCTION,
+   EXP_BUFF_ID_OPERATOR,
+   EXP_BUFF_ID_AUTOCON,
+   EXP_BUFF_ID_COMMAND,
+   EXP_BUFF_ID_MAX,
+  };
+
+char *exp_buffer_id_str[] =
+  {
+   "EXP_BUFF_ID_???",
+   "EXP_BUFF_ID_TKN",
+   "EXP_BUFF_ID_SUB_START",
+   "EXP_BUFF_ID_SUB_END",
+   "EXP_BUFF_ID_VARIABLE",
+   "EXP_BUFF_ID_INTEGER",
+   "EXP_BUFF_ID_FLT",
+   "EXP_BUFF_ID_STR",
+   "EXP_BUFF_ID_FUNCTION",
+   "EXP_BUFF_ID_OPERATOR",
+   "EXP_BUFF_ID_AUTOCON",
+   "EXP_BUFF_ID_COMMAND",
+   "EXP_BUFF_ID_MAX",
+  };
+
+
+// Per-expression
+// Indices start at 1, 0 is 'no p'
+int node_id_index = 1;
+
+EXP_BUFFER_ENTRY exp_buffer[MAX_EXP_BUFFER];
+int exp_buffer_i = 0;
+
+EXP_BUFFER_ENTRY exp_buffer2[MAX_EXP_BUFFER];
+int exp_buffer2_i = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -281,137 +329,139 @@ int token_is_string(char *token)
 struct _FN_INFO
 {
   char *name;
+  int command;         // 1 if command, 0 if function
   char *argtypes;
   char *resulttype;
+  uint8_t qcode;
 }
   fn_info[] =
     {
-     { "EOL",      "ii",       "f" },
-     //{ "=",        "ii",       "f" },
-     { "ABS",      "f",       "f" },
-     { "ACOS",     "f",       "f" },
-     { "ADDR",     "ii",       "f" },
-     { "APPEND",   "ii",       "f" },
-     { "ASC",      "i",        "s" },
-     { "ASIN",     "f",       "f" },
-     { "AT",       "ii",       "f" },
-     { "ATAN",     "f",       "f" },
-     { "BACK",     "ii",       "f" },
-     { "BEEP",     "ii",       "f" },
-     { "BREAK",    "ii",       "f" },
-     { "CHR$",     "s",        "i" },
-     { "CLOCK",    "ii",       "f" },
-     { "CLOSE",    "ii",       "f" },
-     { "CLS",      "ii",       "f" },
-     { "CONTINUE", "ii",       "f" },
-     { "COPY",     "ii",       "f" },
-     { "COPYW",    "ii",       "f" },
-     { "COS",      "f",        "f" },
-     { "COUNT",    "ii",       "f" },
-     { "CREATE",   "ii",       "f" },
-     { "CURSOR",   "ii",       "f" },
-     { "DATIM$",   "ii",       "f" },
-     { "DAY",      "",         "i" },
-     { "DAYNAME$", "ii",       "f" },
-     { "DAYS",     "ii",       "f" },
-     { "DEG",      "ii",       "f" },
-     { "DELETE",   "ii",       "f" },
-     { "DELETEW",  "ii",       "f" },
-     { "DIR$",     "ii",       "f" },
-     { "DIRW$",    "ii",       "f" },
-     { "DISP",     "ii",       "f" },
-     { "DOW",      "ii",       "f" },
-     { "EDIT",     "ii",       "f" },
-     { "EOF",      "ii",       "f" },
-     { "ERASE",    "ii",       "f" },
-     { "ERR",      "ii",       "f" },
-     { "ERR$",     "ii",       "f" },
-     { "ESCAPE",   "ii",       "f" },
-     { "EXIST",    "ii",       "f" },
-     { "EXP",      "f",        "f" },
-     { "FIND",     "ii",       "f" },
-     { "FINDW",    "ii",       "f" },
-     { "FIRST",    "ii",       "f" },
-     { "FIX$",     "ii",       "f" },
-     { "FLT",      "i",        "f" },
-     { "FREE",     "ii",       "f" },
-     { "GEN$",     "ii",       "f" },
-     { "GET",      "ii",       "f" },
-     { "GET$",     "ii",       "f" },
-     { "GLOBAL",   "ii",       "f" },
-     { "GOTO",     "ii",       "f" },
-     { "HEX$",     "ii",       "f" },
-     { "HOUR",     "",         "i" },
-     { "IABS",     "i",        "i" },
-     { "INPUT",    "ii",       "f" },
-     { "INT",      "f",        "i" },
-     { "INTF",     "ii",       "f" },
-     { "KEY",      "ii",       "f" },
-     { "KEY$",     "ii",       "f" },
-     { "KSTAT",    "ii",       "f" },
-     { "LAST",     "ii",       "f" },
-     { "LEFT$",    "ii",       "f" },
-     { "LEN",      "ii",       "f" },
-     { "LN",       "f",         "f" },
-     { "LOC",      "ii",       "f" },
-     { "LOCAL",    "ii",       "f" },
-     { "LOG",      "ii",       "f" },
-     { "LOWER$",   "ii",       "f" },
-     { "LPRINT",   "ii",       "f" },
-     { "MAX",      "ii",        "f" },
-     { "MEAN",     "ii",       "f" },
-     { "MENU",     "ii",       "f" },
-     { "MENUN",    "ii",       "f" },
-     { "MID$",     "ii",       "f" },
-     { "MIN",      "ii",       "f" },
-     { "MINUTE",   "",         "i" },
-     { "MONTH",    "",         "i" },
-     { "MONTH$",   "ii",       "f" },
-     { "NEXT",     "ii",       "f" },
-     { "NUM$",     "ii",       "f" },
-     { "OFF",      "ii",       "f" },
-     { "OPEN",     "ii",       "f" },
-     { "ONERR",    "ii",       "f" },
-     { "PAUSE",    "ii",       "f" },
-     { "PEEKB",    "ii",       "f" },
-     { "PEEKW",    "ii",       "f" },
-     { "PI",       "ii",       "f" },
-     { "POKEB",    "ii",       "f" },
-     { "POKEW",    "ii",       "f" },
-     { "POS",      "ii",       "f" },
-     { "POSITION", "ii",       "f" },
-     { "PRINT",    "ii",       "f" },
-     { "RAD",      "ii",       "f" },
-     { "RAISE",    "ii",       "f" },
-     { "RANDOMIZE","ii",       "f" },
-     { "RECSIZE",  "ii",       "f" },
-     { "REM",      "ii",       "f" },
-     { "RENAME",   "ii",       "f" },
-     { "REPT$",    "ii",       "f" },
-     { "RETURN",   "ii",       "f" },
-     { "RIGHT$",   "ii",       "f" },
-     { "RND",      "ii",       "f" },
-     { "SCI$",     "ii",       "f" },
-     { "SECOND",   "",         "i" },
-     { "SIN",      "f",        "f" },
-     { "SPACE",    "ii",       "f" },
-     { "SQR",      "f",         "f" },
-     { "STD",      "ii",        "f" },
-     { "STOP",     "ii",        "f" },
-     { "SUM",      "ii",        "f" },
-     { "TAN",      "f",         "f" },
-     { "TRAP",     "ii",        "f" },
-     { "UDG",      "iiiiiiiii", "v" },
-     { "UPDATE",   "ii",        "f" },
-     { "UPPER$",   "ii",        "f" },
-     { "USE",      "ii",        "f" },
-     { "USR",      "ii",        "v" },
-     { "USR$",     "ii",        "f" },
-     { "VAL",      "ii",        "f" },
-     { "VAR",      "ii",        "f" },
-     { "VIEW",     "ii",        "f" },
-     { "WEEK",     "ii",        "f" },
-     { "YEAR",     "ii",        "f" },
+     { "EOL",      0, "ii",       "f", 0x00 },
+     //{ "=",      0,   "ii",       "f", 0x00 },
+     { "ABS",      0, "f",       "f", 0x00 },
+     { "ACOS",     0, "f",       "f", 0x00 },
+     { "ADDR",     0, "ii",       "f", 0x00 },
+     { "APPEND",   1, "ii",       "f", 0x00 },
+     { "ASC",      0, "i",        "s", 0x00 },
+     { "ASIN",     0, "f",       "f", 0x00 },
+     { "AT",       1, "ii",       "f", 0x4C },
+     { "ATAN",     0, "f",       "f", 0x00 },
+     { "BACK",     1, "ii",       "f", 0x00 },
+     { "BEEP",     1, "ii",       "f", 0x00 },
+     { "BREAK",    1, "ii",       "f", 0x00 },
+     { "CHR$",     0, "s",        "i", 0x00 },
+     { "CLOCK",    0, "ii",       "f", 0x00 },
+     { "CLOSE",    1, "ii",       "f", 0x00 },
+     { "CLS",      1, "ii",       "f", 0x00 },
+     { "CONTINUE", 1, "ii",       "f", 0x00 },
+     { "COPY",     1, "ii",       "f", 0x00 },
+     { "COPYW",    1, "ii",       "f", 0x00 },
+     { "COS",      0, "f",        "f", 0x00 },
+     { "COUNT",    0, "ii",       "f", 0x00 },
+     { "CREATE",   1, "ii",       "f", 0x00 },
+     { "CURSOR",   1, "ii",       "f", 0x00 },
+     { "DATIM$",   0, "ii",       "f", 0x00 },
+     { "DAY",      0, "",         "i", 0x00 },
+     { "DAYNAME$", 0, "ii",       "f", 0x00 },
+     { "DAYS",     0, "ii",       "f", 0x00 },
+     { "DEG",      0, "ii",       "f", 0x00 },
+     { "DELETE",   1, "ii",       "f", 0x00 },
+     { "DELETEW",  1, "ii",       "f", 0x00 },
+     { "DIR$",     0, "ii",       "f", 0x00 },
+     { "DIRW$",    0, "ii",       "f", 0x00 },
+     { "DISP",     0, "ii",       "f", 0x00 },
+     { "DOW",      0, "ii",       "f", 0x00 },
+     { "EDIT",     1, "ii",       "f", 0x00 },
+     { "EOF",      0, "ii",       "f", 0x00 },
+     { "ERASE",    1, "ii",       "f", 0x00 },
+     { "ERR",      0, "ii",       "f", 0x00 },
+     { "ERR$",     0, "ii",       "f", 0x00 },
+     { "ESCAPE",   1, "ii",       "f", 0x00 },
+     { "EXIST",    0, "ii",       "f", 0x00 },
+     { "EXP",      0, "f",        "f", 0x00 },
+     { "FIND",     0, "ii",       "f", 0x00 },
+     { "FINDW",    0, "ii",       "f", 0x00 },
+     { "FIRST",    1, "ii",       "f", 0x00 },
+     { "FIX$",     0, "ii",       "f", 0x00 },
+     { "FLT",      0, "i",        "f", 0x00 },
+     { "FREE",     0, "ii",       "f", 0x00 },
+     { "GEN$",     0, "ii",       "f", 0x00 },
+     { "GET",      0, "ii",       "f", 0x00 },
+     { "GET$",     0, "ii",       "f", 0x00 },
+     { "GLOBAL",   1, "ii",       "f", 0x00 },
+     { "GOTO",     1, "ii",       "f", 0x00 },
+     { "HEX$",     0, "ii",       "f", 0x00 },
+     { "HOUR",     0, "",         "i", 0x00 },
+     { "IABS",     0, "i",        "i", 0x00 },
+     { "INPUT",    1, "ii",       "f", 0x00 },
+     { "INT",      0, "f",        "i", 0x00 },
+     { "INTF",     0, "ii",       "f", 0x00 },
+     { "KEY",      0, "ii",       "f", 0x00 },
+     { "KEY$",     0, "ii",       "f", 0x00 },
+     { "KSTAT",    1, "ii",       "f", 0x00 },
+     { "LAST",     1, "ii",       "f", 0x00 },
+     { "LEFT$",    0, "ii",       "f", 0x00 },
+     { "LEN",      0, "ii",       "f", 0x00 },
+     { "LN",       0, "f",         "f", 0x00 },
+     { "LOC",      0, "ii",       "f", 0x00 },
+     { "LOCAL",    1, "ii",       "f", 0x00 },
+     { "LOG",      0, "ii",       "f", 0x00 },
+     { "LOWER$",   0, "ii",       "f", 0x00 },
+     { "LPRINT",   1, "ii",       "f", 0x00 },
+     { "MAX",      0, "ii",        "f", 0x00 },
+     { "MEAN",     0, "ii",       "f", 0x00 },
+     { "MENU",     0, "ii",       "f", 0x00 },
+     { "MENUN",    0, "ii",       "f", 0x00 },
+     { "MID$",     0, "ii",       "f", 0x00 },
+     { "MIN",      0, "ii",       "f", 0x00 },
+     { "MINUTE",   0, "",         "i", 0x00 },
+     { "MONTH",    0, "",         "i", 0x00 },
+     { "MONTH$",   0, "ii",       "f", 0x00 },
+     { "NEXT",     0, "ii",       "f", 0x00 },
+     { "NUM$",     0, "ii",       "f", 0x00 },
+     { "OFF",      1, "ii",       "f", 0x00 },
+     { "OPEN",     1, "ii",       "f", 0x00 },
+     { "ONERR",    1, "ii",       "f", 0x00 },
+     { "PAUSE",    1, "ii",       "f", 0x00 },
+     { "PEEKB",    0, "ii",       "f", 0x00 },
+     { "PEEKW",    0, "ii",       "f", 0x00 },
+     { "PI",       0, "ii",       "f", 0x00 },
+     { "POKEB",    1, "ii",       "f", 0x00 },
+     { "POKEW",    1, "ii",       "f", 0x00 },
+     { "POS",      0, "ii",       "f", 0x00 },
+     { "POSITION", 1, "ii",       "f", 0x00 },
+     { "PRINT",    1, "ii",       "f", 0x00 },
+     { "RAD",      0, "ii",       "f", 0x00 },
+     { "RAISE",    1, "ii",       "f", 0x00 },
+     { "RANDOMIZE",1, "ii",       "f", 0x00 },
+     { "RECSIZE",  0, "ii",       "f", 0x00 },
+     { "REM",      1, "ii",       "f", 0x00 },
+     { "RENAME",   1, "ii",       "f", 0x00 },
+     { "REPT$",    0, "ii",       "f", 0x00 },
+     { "RETURN",   1, "ii",       "f", 0x00 },
+     { "RIGHT$",   0, "ii",       "f", 0x00 },
+     { "RND",      0, "ii",       "f", 0x00 },
+     { "SCI$",     0, "ii",       "f", 0x00 },
+     { "SECOND",   0, "",         "i", 0x00 },
+     { "SIN",      0, "f",        "f", 0x00 },
+     { "SPACE",    0, "ii",       "f", 0x00 },
+     { "SQR",      0, "f",         "f", 0x00 },
+     { "STD",      0, "ii",        "f", 0x00 },
+     { "STOP",     1, "ii",        "f", 0x00 },
+     { "SUM",      0, "ii",        "f", 0x00 },
+     { "TAN",      0, "f",         "f", 0x00 },
+     { "TRAP",     1, "ii",        "f", 0x00 },
+     { "UDG",      1, "iiiiiiiii", "v", 0x00 },
+     { "UPDATE",   1, "ii",        "f", 0x00 },
+     { "UPPER$",   0, "ii",        "f", 0x00 },
+     { "USE",      1, "ii",        "f", 0x00 },
+     { "USR",      0, "ii",        "v", 0x00 },
+     { "USR$",     0, "ii",        "f", 0x00 },
+     { "VAL",      0, "ii",        "f", 0x00 },
+     { "VAR",      0, "ii",        "f", 0x00 },
+     { "VIEW",     0, "ii",        "f", 0x00 },
+     { "WEEK",     0, "ii",        "f", 0x00 },
+     { "YEAR",     0, "ii",        "f", 0x00 },
     };
 
 
@@ -425,7 +475,7 @@ int token_is_function(char *token, char **tokstr)
 	{
 	  *tokstr = &(fn_info[i].name[0]);
 	  
-	  printf("\n%s is function", token);
+	  fprintf(ofp,"\n%s is function", token);
 	  return(1);
 	}
     }
@@ -483,6 +533,67 @@ NOBJ_VARTYPE function_arg_type_n(char *fname, int n)
   
   return(NOBJ_VARTYPE_UNKNOWN);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Is this line a command?
+//
+////////////////////////////////////////////////////////////////////////////////
+
+int check_command(char *line)
+{
+  fprintf(ofp, "\n%s:", __FUNCTION__);
+  
+  // Skip leading spaces
+  while( isspace(*line))
+    {
+      line++;
+    }
+  
+  for(int i=0; i<NUM_FUNCTIONS; i++)
+    {
+      if( strncmp(line, fn_info[i].name, strlen(fn_info[i].name))==0 )
+	{
+	  fprintf(ofp, "\n%s: %s", __FUNCTION__, fn_info[i].name);
+	  // Found a match, is it a command?
+	  return(fn_info[i].command);
+	}
+    }
+  
+  return(0);
+}
+
+char *scan_command(char *line, char *command_name)
+{
+  // Skip leading spaces
+  while( isspace(*line))
+    {
+      line++;
+    }
+  
+  for(int i=0; i< NUM_FUNCTIONS; i++)
+    {
+      if( strncmp(line, fn_info[i].name, strlen(fn_info[i].name))==0 )
+	{
+	  // Found a match, is it a command?
+	  if(fn_info[i].command)
+	    {
+	      fprintf(ofp, "\n%s:Got cmd", __FUNCTION__);
+	      strcpy(command_name, fn_info[i].name);
+	      return(line+strlen(fn_info[i].name));
+	    }
+	  else
+	    {
+	      strcpy(command_name, "");
+	      return(line);
+	    }
+	}
+    }
+  
+  strcpy(command_name, "");
+  return(line);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -568,8 +679,26 @@ int global_info_index = 0;
 
 void output_qcode(void)
 {
+
   // Run through the final expression buffer, converting into QCode
-  
+  for(int i=0; i<exp_buffer2_i; i++)
+    {
+      EXP_BUFFER_ENTRY token = exp_buffer2[i];
+
+      if( (exp_buffer2[i].buf_id < 0) || (exp_buffer2[i].buf_id > EXP_BUFF_ID_MAX) )
+	{
+	  printf("\nN%d buf_id invalid", token.node_id);
+	}
+      
+      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
+      
+      fprintf(ofp, "  %d:", token.p_idx);
+      for(int pi=0; pi<token.p_idx; pi++)
+	{
+	  fprintf(ofp, " %d", token.p[pi]);
+	}
+    }
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -931,47 +1060,6 @@ void type_check_stack_init(void)
 }
 
 
-////////////////////////////////////////////////////////////////////////////////
-
-#define MAX_EXP_BUFFER   200
-
-#define EXP_BUFF_ID_TKN        0x01
-#define EXP_BUFF_ID_SUB_START  0x02
-#define EXP_BUFF_ID_SUB_END    0x03
-#define EXP_BUFF_ID_VARIABLE   0x04
-#define EXP_BUFF_ID_INTEGER    0x05
-#define EXP_BUFF_ID_FLT        0x06
-#define EXP_BUFF_ID_STR        0x07
-#define EXP_BUFF_ID_FUNCTION   0x08
-#define EXP_BUFF_ID_OPERATOR   0x09
-#define EXP_BUFF_ID_MAX        0x0A
-
-char *exp_buffer_id_str[] =
-  {
-   "EXP_BUFF_ID_???",
-   "EXP_BUFF_ID_TKN",
-   "EXP_BUFF_ID_SUB_START",
-   "EXP_BUFF_ID_SUB_END",
-   "EXP_BUFF_ID_VARIABLE",
-   "EXP_BUFF_ID_INTEGER",
-   "EXP_BUFF_ID_FLT",
-   "EXP_BUFF_ID_STR",
-   "EXP_BUFF_ID_FUNCTION",
-   "EXP_BUFF_ID_OPERATOR",
-   "EXP_BUFF_ID_MAX",
-  };
-
-
-// Per-expression
-// Indices start at 1, 0 is 'no p'
-int node_id_index = 1;
-
-
-EXP_BUFFER_ENTRY exp_buffer[MAX_EXP_BUFFER];
-int exp_buffer_i = 0;
-
-EXP_BUFFER_ENTRY exp_buffer2[MAX_EXP_BUFFER];
-int exp_buffer2_i = 0;
 
 //------------------------------------------------------------------------------
 //
@@ -1222,7 +1310,7 @@ void typecheck_expression(void)
 	  
 	  // Now insert auto convert nodes if required
 
-	  autocon.buf_id = 0;
+	  autocon.buf_id = EXP_BUFF_ID_AUTOCON;
 
 	  autocon.p_idx = 0;
 	  //	  autocon.p[0] = op1.node_id;
@@ -1420,7 +1508,7 @@ void typecheck_expression(void)
 				  // Push dummy result
 				  
 				  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.req_type));
-				  autocon.buf_id = 0;
+				  autocon.buf_id = EXP_BUFF_ID_AUTOCON;
 				  autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
 				  autocon.p_idx = 2;
 				  autocon.p[0] = op1.node_id;
@@ -1478,7 +1566,7 @@ void typecheck_expression(void)
 			  
 			  // Now insert auto convert nodes if required
 			  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.req_type));
-			  autocon.buf_id = 0;
+			  autocon.buf_id = EXP_BUFF_ID_AUTOCON;
 			  autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
 			  autocon.p_idx = 2;
 			  autocon.p[0] = op1.node_id;
@@ -1602,7 +1690,14 @@ void output_operator(OP_STACK_ENTRY op)
 {
   printf("\nop operator");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
-  add_exp_buffer_entry(op, EXP_BUFF_ID_OPERATOR);
+  if( token_is_function(op.name) )
+    {
+      add_exp_buffer_entry(op, EXP_BUFF_ID_FUNCTION);
+    }
+  else
+    {
+      add_exp_buffer_entry(op, EXP_BUFF_ID_OPERATOR);
+    }
 }
 
 void output_function(OP_STACK_ENTRY op)
@@ -1707,7 +1802,7 @@ int op_stack_ptr = 0;
 
 void op_stack_push(OP_STACK_ENTRY entry)
 {
-  printf("\n Push:'%s'", entry.name);
+  fprintf(ofp,"\n Push:'%s'", entry.name);
 
   
   if( op_stack_ptr < NOPL_MAX_OP_STACK )
@@ -1738,7 +1833,7 @@ OP_STACK_ENTRY op_stack_pop(void)
   op_stack_ptr --;
 
   o = op_stack[op_stack_ptr];
-  printf("\nPop '%s'", o.name);
+  fprintf(ofp, "\nPop '%s'", o.name);
   op_stack_print();
   return(o);
 }
@@ -1891,7 +1986,7 @@ void process_token(char *token)
   OP_STACK_ENTRY o2;
   int opr1, opr2;
   
-  printf("\n   Frst:%d T:'%s'", first_token, token);
+  fprintf(ofp, "\n   Frst:%d T:'%s'", first_token, token);
 
   strcpy(o1.name, token);
   o1.type = expression_type;
@@ -1960,7 +2055,7 @@ void process_token(char *token)
 	  printf("\nMismatched parentheses");
 	}
 
-      printf("\nPop 4");
+      fprintf(ofp, "\nPop 4");
       o2 = op_stack_pop();
 
       //output_marker("-------- Sub E 2");
@@ -1973,7 +2068,7 @@ void process_token(char *token)
 
       if( token_is_function(op_stack_top().name, &tokptr) )
 	{
-	  printf("\nPop 5");
+	  fprintf(ofp, "\nPop 5");
 	  o2 = op_stack_pop();
 	  output_function(o2);
 	}
@@ -2190,11 +2285,26 @@ int is_delimiter(char ch)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+// Scan and check for command
+// 
+////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////
 //
+//
+// Lines are either:
+//
+// blank
+// comment
+// <variable> = <expression>
+// <command> <expression>*
+// <expression>
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-void process_expression(char *line)
+
+int  scan_expression(char *line)
 {
   char token[NOPL_MAX_TOKEN+1];
   int i;
@@ -2203,30 +2313,18 @@ void process_expression(char *line)
   int capture_string = 0;
   char ss[2];
   int end_cap_later = 0;
-  
+    
   output_expression_start(line);
-  
+    
   // The type of an expression is initially unknown
   expression_type = NOBJ_VARTYPE_UNKNOWN;
-  
-  if( strstr(line, "GLOBAL") != NULL )
-    {
-      output_qcode_variable(line);
-      return;
-    }
-
-  if( strstr(line, "LOCAL") != NULL )
-    {
-      output_qcode_variable(line);
-      return;
-    }
-  
+    
   // The line is tokenised and treated as an expression.
   // The expression is converted to RPN and that generates the
   // QCode.
-
+    
   token[0] = '\0';
-
+    
   while( *line != '\0' )
     {
       //printf("\n  F:'%s'", line);
@@ -2318,7 +2416,10 @@ void process_expression(char *line)
 	  end_cap_later = 0;
 	}
     }
+}
 
+void finalise_expression(void)
+{
   // Now finalise the translation
   op_stack_finalise();
 }
@@ -2326,8 +2427,58 @@ void process_expression(char *line)
 void process_line(char *line)
 {
   // Process any expressions
+
   // Separate expressions are delimited by ':'
-  process_expression(line);
+
+
+  if( strstr(line, "GLOBAL") != NULL )
+    {
+      fprintf(ofp, "\n%s: Global", __FUNCTION__);
+      output_qcode_variable(line);
+      return;
+    }
+
+  if( strstr(line, "LOCAL") != NULL )
+    {
+      fprintf(ofp, "\n%s: Local", __FUNCTION__);
+      output_qcode_variable(line);
+      return;
+    }
+
+  // We could have a command
+
+  if( check_command(line) )
+    {
+      fprintf(ofp, "\n%s: Command", __FUNCTION__);
+      
+      char command_name[100];
+      EXP_BUFFER_ENTRY command_entry;
+
+      fprintf(ofp, "\n%s: Line='%s'", __FUNCTION__, line);
+      line = scan_command(line, command_name);
+
+      fprintf(ofp, "\n%s: Line='%s'", __FUNCTION__, line);
+      scan_expression(line);
+      process_token(command_name);
+
+      finalise_expression();
+#if 0
+      // Put command after expression
+      sprintf(command_entry.name, command_name);
+      command_entry.buf_id = EXP_BUFF_ID_COMMAND;
+      command_entry.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
+      command_entry.p_idx = 2;
+      command_entry.p[0] = 0;
+      command_entry.p[1] = 0;
+      command_entry.op.type      = function_return_type(command_entry.name);
+      command_entry.op.req_type  = function_return_type(command_entry.name);
+#endif
+      return;
+    }
+
+  // Assignment can be done using an expression
+  scan_expression(line);
+  finalise_expression();
 }
 
 void translate_file(FILE *fp, FILE *ofp)
