@@ -19,6 +19,8 @@
 #include "nopl_obj.h"
 
 FILE *ofp;
+FILE *chkfp;
+
 char current_expression[200];
 int first_token = 1;
 
@@ -1243,6 +1245,115 @@ NOBJ_VARTYPE type_with_least_conversion_from(NOBJ_VARTYPE t1, NOBJ_VARTYPE t2)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+// Convert exp_buffer into an infix expression
+//
+////////////////////////////////////////////////////////////////////////////////
+
+// This is useful for checking the translator.
+#define MAX_INFIX_STACK 50
+#define MAX_INFIX_STR   40
+
+char infix_stack[MAX_INFIX_STACK][MAX_INFIX_STR];
+int infix_stack_ptr = 0;
+char result[MAX_INFIX_STR*20];
+
+void infix_stack_push(char *entry)
+{
+  fprintf(ofp, "\n%s: '%s'", __FUNCTION__, entry);
+  
+  if( infix_stack_ptr < MAX_INFIX_STACK )
+    {
+      strcpy(infix_stack[infix_stack_ptr++], entry);
+    }
+  else
+    {
+      fprintf(ofp, "\n%s: Operator stack full", __FUNCTION__);
+      exit(-1);
+    }
+}
+
+// Copies data into string
+
+void infix_stack_pop(char *entry)
+{
+  EXP_BUFFER_ENTRY o;
+  
+  if( infix_stack_ptr == 0 )
+    {
+      fprintf(ofp, "\n%s: Operator stack empty", __FUNCTION__);
+      exit(-1);
+    }
+  
+  infix_stack_ptr --;
+
+  strcpy(entry, infix_stack[infix_stack_ptr]);
+  
+  fprintf(ofp, "\n%s: '%s'", __FUNCTION__, entry);
+}
+
+char *infix_from_rpn(void)
+{
+  EXP_BUFFER_ENTRY be;
+  char op1[MAX_INFIX_STR], op2[MAX_INFIX_STR];
+  char newstr[MAX_INFIX_STR*3+5];
+  char newstr2[MAX_INFIX_STR*3+5];
+  
+  infix_stack_ptr = 0;
+  
+  for(int i=0; i<exp_buffer2_i; i++)
+    {
+      
+      be = exp_buffer2[i];
+
+      switch(be.buf_id)
+	{
+	case EXP_BUFF_ID_VARIABLE:
+	case EXP_BUFF_ID_INTEGER:
+	case EXP_BUFF_ID_FLT:
+	case EXP_BUFF_ID_STR:
+	  infix_stack_push(be.name);
+	  break;
+
+	case EXP_BUFF_ID_COMMAND:
+	case EXP_BUFF_ID_FUNCTION:
+	  // See how many arguments to pop
+	  int numarg = function_num_args(be.name);
+
+	  strcpy(newstr, "");
+	  
+	  for(int i=0; i<numarg; i++)
+	    {
+	      infix_stack_pop(op1);
+
+	      sprintf(newstr2, "%s %s", op1, newstr);
+	      strcpy(newstr, newstr2);
+
+	      //	      strcat(newstr, ",");
+	    }
+	  
+	  snprintf(newstr2, MAX_INFIX_STR, "%s(%s)", be.name, newstr);
+	  infix_stack_push(newstr2);
+	  break;
+	  
+	case EXP_BUFF_ID_OPERATOR:
+	  infix_stack_pop(op1);
+	  infix_stack_pop(op2);
+	  sprintf(newstr, "(%s %s %s)", op2, be.name, op1);
+	  infix_stack_push(newstr);
+	  break;
+	  
+	case EXP_BUFF_ID_AUTOCON:
+	  break;
+	}
+    }
+
+  infix_stack_pop(result);
+  return(result);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
 // Take the expression buffer and execute it for types
 // Copies expression from one buffer to another, moving closer to QCode in
 // the second buffer
@@ -1801,6 +1912,8 @@ void output_expression_start(char *expr)
       printf("\nExpression start");
       fprintf(ofp, "\n========================================================");
       fprintf(ofp, "\n%s", expr);
+      fprintf(chkfp, "\n\n\n%s", expr);
+      
       fprintf(ofp, "\n========================================================");
 
       fprintf(ofp, "\n(%16s)", __FUNCTION__);
@@ -1941,11 +2054,19 @@ void op_stack_finalise(void)
 
 void process_expression_types(void)
 {
+  char *infix;
+  
   if( strlen(current_expression) > 0 )
     {
       // Process the RPN as a tree
       expression_tree_process(current_expression);
 
+      dbprintf("\n==INFIX==\n",0);
+      dbprintf("==%s==", infix = infix_from_rpn());
+      dbprintf("\n\n",0);
+
+      fprintf(chkfp, "\n%s", infix);
+      
       // Generate the QCode from the tree output
       output_qcode();
     }
@@ -1954,6 +2075,8 @@ void process_expression_types(void)
 void init_output(void)
 {
   ofp = fopen("output.txt", "w");
+  chkfp = fopen("check.txt", "w");
+  
 }
 
 void uninit_output(void)
@@ -2617,7 +2740,8 @@ int main(int argc, char *argv[])
 
   fclose(fp);
   fclose(ofp);
-
+  fclose(chkfp);
+  
   uninit_output();
 
   printf("\n");
