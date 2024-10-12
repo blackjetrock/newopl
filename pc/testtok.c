@@ -253,6 +253,7 @@ void drop_space()
 {
   while( isspace(cline[cline_i]) && (cline[cline_i] != '\0') )
     {
+      cline_i++;
     }
 
   if( cline_i > 0 )
@@ -269,14 +270,22 @@ void drop_space()
 
 int scan_literal(char *lit)
 {
+  char *origlit = lit;
+  
   if( *lit == ' ' )
     {
       lit++;
       drop_space();
     }
-  
+
   while( (*lit != '\0') && (*lit != ' ') )
     {
+      if( cline[cline_i] == '\0' )
+	{
+	  syntax_error("Bad literal '%s'", origlit);
+	  return(0);
+	}
+      
       if( *lit == cline[cline_i++] )
 	{
 	  // Not a match, fail
