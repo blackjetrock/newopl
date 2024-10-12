@@ -7,8 +7,12 @@
                'IF' <expression> | 'ELSE' | 'ENDIF' |
 	       'DO' | 'WHILE' <expression> |
 	       'REPEAT' | 'UNTIL' <expression>
-<atom>       : <variable> | <operator> | <function> | '(' | ')'
-<expression  : <atom>+
+<string>     : '"'<textchar>*'"'
+<number>     : <integer> | <float>
+<atom>       : <string> | <number> | <variable>	       
+<sub_expr>   : '(' <expression> ')'
+<eitem>      : <operator> | <function> | <atom> | <sub_expr> 
+<expression> : <eitem>+
 <variable>   : <vname> | <vname>'%' | <vname>'$' |
                <vname>'(' <expression> ')' |
 	       <vname>'%''(' <expression> ')' |
@@ -17,5 +21,5 @@
 <command>    : <command-list-name-entry> <expression>
 <assignment> : <variable> '=' <expression>
 <varlist>    : <variable>+
-
+<vname>      : <A-Z><A-Z0-9>*
 	      
