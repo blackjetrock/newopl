@@ -912,7 +912,7 @@ int scan_variable(char *variable_dest)
 
 	  // Could be string array, which has two expressions in
 	  // the brackets
-	  if( check_literal(SAVE_I," , ") )
+	  if( check_literal(SAVE_I," ,") )
 	    {
 	      if( var_is_string )
 		{
@@ -1000,7 +1000,7 @@ int check_variable(int save)
 
 	  // Could be string array, which has two expressions in
 	  // the brackets
-	  if( check_literal(NO_SAVE_I," , ") )
+	  if( check_literal(NO_SAVE_I," ,") )
 	    {
 	      if( var_is_string )
 		{
@@ -1587,47 +1587,47 @@ int check_line(void)
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(SAVE_I," LOCAL "))
+  if( check_literal(SAVE_I," LOCAL"))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(SAVE_I," GLOBAL "))
+  if( check_literal(SAVE_I," GLOBAL"))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(SAVE_I," IF "))
+  if( check_literal(SAVE_I," IF"))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(SAVE_I," ELSE "))
+  if( check_literal(SAVE_I," ELSE"))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(SAVE_I," ENDIF "))
+  if( check_literal(SAVE_I," ENDIF"))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(SAVE_I," DO "))
+  if( check_literal(SAVE_I," DO"))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(SAVE_I," WHILE "))
+  if( check_literal(SAVE_I," WHILE"))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(SAVE_I," REPEAT "))
+  if( check_literal(SAVE_I," REPEAT"))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(SAVE_I," UNTIL "))
+  if( check_literal(SAVE_I," UNTIL"))
     {
       cline_i = save_cli;
       return(1);
@@ -1654,60 +1654,70 @@ int scan_line()
       return(1);
     }
   
-  if( check_literal(SAVE_I," LOCAL ") )
+  if( check_literal(SAVE_I," LOCAL") )
     {
-      scan_literal(" LOCAL ");
+      scan_literal(" LOCAL");
       return(1);
     }
   
-  if( check_literal(SAVE_I," GLOBAL ") )
+  if( check_literal(SAVE_I," GLOBAL") )
     {
-      scan_literal(" GLOBAL ");
+      scan_literal(" GLOBAL");
       return(1);
     }
   
-  if( check_literal(SAVE_I," IF ") )
+  if( check_literal(SAVE_I," IF") )
     {
-      scan_literal(" IF ");
+      scan_literal(" IF");
       return(1);
     }
   
-  if( check_literal(SAVE_I," ELSE ") )
+  if( check_literal(SAVE_I," ELSE") )
     {
-      scan_literal(" ELSE ");
+      scan_literal(" ELSE");
       return(1);
     }
   
-  if( check_literal(SAVE_I," ENDIF ") )
+  if( check_literal(SAVE_I," ENDIF") )
     {
-      scan_literal(" ENDIF ");
+      scan_literal(" ENDIF");
       return(1);
     }
   
-  if( check_literal(SAVE_I," DO ") )
+  if( check_literal(SAVE_I," DO") )
     {
-      scan_literal(" DO ");
+      scan_literal(" DO");
       return(1);
     }
   
-  if( check_literal(SAVE_I," WHILE ") )
+  if( check_literal(SAVE_I," WHILE") )
     {
-      scan_literal(" WHILE ");
+      scan_literal(" WHILE");
       return(1);
     }
   
-  if( check_literal(SAVE_I," REPEAT ") )
+  if( check_literal(SAVE_I," REPEAT") )
     {
-      scan_literal(" REPEAT ");
+      scan_literal(" REPEAT");
       return(1);
     }
   
-  if( check_literal(SAVE_I," UNTIL ") )
+  if( check_literal(SAVE_I," UNTIL") )
     { 
-      scan_literal(" UNTIL ");
-      return(1);
+      if( scan_literal(" UNTIL") )
+	{
+	  if( scan_expression() )
+	    {
+	      printf("\n%s: ret1", __FUNCTION__);
+	      return(1);	      
+	    }
+	}
+
+      printf("\n%s: ret0", __FUNCTION__);
+      return(0);
     }
-  
+
+  printf("\n%s: ret0", __FUNCTION__);
   return(0);    
 }
 
