@@ -27,6 +27,9 @@ int first_token = 1;
 NOBJ_VARTYPE exp_type_stack[MAX_EXP_TYPE_STACK];
 int exp_type_stack_ptr = 0;
 
+#define SAVE_I     1
+#define NO_SAVE_I  0
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Expression type is reset for each line and also for sub-lines separated by colons
@@ -286,8 +289,19 @@ OP_INFO  op_info[] =
    { "+%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
    { "-%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
   };
+
+
 //------------------------------------------------------------------------------
 //
+
+char cln[300];
+
+char *cline_now(void)
+{
+  sprintf(cln, "%s", &(cline[cline_i]));
+
+  return(cln);
+}
 
 void clear_exp_buffer(void)
 {
@@ -699,7 +713,7 @@ int scan_literal(char *lit)
 // Leading space means drop spaces before looking for the literal,
 // trailing mena sdrop spaces after finding it
 
-int check_literal(char *lit)
+int check_literal(int save, char *lit)
 {
   int save_cli = cline_i;
 
@@ -717,6 +731,10 @@ int check_literal(char *lit)
   if( cline[cline_i] == '\0' )
     {
       printf("\n  ret0 Empty test string");
+      if( save )
+	{
+	  cline_i = save_cli;
+	}
       return(0);
     }
   
@@ -726,8 +744,12 @@ int check_literal(char *lit)
 	{
 	  printf("\n  '%c' != '%c'", *lit, cline[cline_i]);
 	  // Not a match, fail
-	  cline_i = save_cli;
+
 	  printf("\nret0");
+	  if( save )
+	    {
+	      cline_i = save_cli;
+	    }
 	  return(0);
 	}
       lit++;
@@ -738,13 +760,19 @@ int check_literal(char *lit)
   
   if( cline[cline_i-1] == '\0' )
     {
-      cline_i = save_cli;
+      if( save)
+	{
+	  cline_i = save_cli;
+	}
       printf("\nret0");
       return(0);
     }
   
   // reached end of literal string , all ok
-  cline_i = save_cli;
+  if(save)
+    {
+      cline_i = save_cli;
+    }
   printf("\nret1");
   return(1);
 
@@ -759,7 +787,7 @@ int scan_vname(char *vname_dest)
   int vname_i = 0;
   char ch;
 
-  printf("\n%s:", __FUNCTION__);
+  printf("\n%s: '%s'", __FUNCTION__, &(cline[cline_i]));
 
   drop_space();
   
@@ -787,7 +815,7 @@ int scan_vname(char *vname_dest)
 
 // Checks for a variable name string part
 
-int check_vname(void)
+int check_vname(int save)
 {
   int save_cli = cline_i;
   printf("\n%s '%s':", __FUNCTION__, &(cline[cline_i]));
@@ -798,12 +826,20 @@ int check_vname(void)
       while( isalnum(cline[cline_i++]) )
 	{
 	}
-      
-      cline_i = save_cli;
+
+      if( save )
+	{
+	  cline_i = save_cli;
+	}
+      printf("\n%s ret1 '%s':", __FUNCTION__, &(cline[cline_i]));
       return(1);
     }
 
-  cline_i = save_cli;
+  if( save )
+    {
+      cline_i = save_cli;
+    }
+  printf("\n%s ret0 '%s':", __FUNCTION__, &(cline[cline_i]));
   return(0);
 }
 
@@ -855,7 +891,7 @@ int scan_variable(char *variable_dest)
 
       // Is it an array?
       printf("\n%s: Ary test '%s'", __FUNCTION__, &(cline[cline_i]));
-      if( check_literal("(") )
+      if( check_literal(SAVE_I,"(") )
 	{
 	  printf("\n%s: is array", __FUNCTION__);
 	  
@@ -866,7 +902,7 @@ int scan_variable(char *variable_dest)
 
 	  // Could be string array, which has two expressions in
 	  // the brackets
-	  if( check_literal(" , ") )
+	  if( check_literal(SAVE_I," , ") )
 	    {
 	      if( var_is_string )
 		{
@@ -901,9 +937,9 @@ int scan_variable(char *variable_dest)
   return(0);
 }
 
-int check_variable(void)
+int check_variable(int save)
 {
-  if( check_vname() )
+  if( check_vname(save) )
     {
       return(1);
     }
@@ -912,31 +948,59 @@ int check_variable(void)
 
 int check_operator(void)
 {
-  printf("\n%s:", __FUNCTION__);
+  int save_cli = cline_i;
+  
+  printf("\n%s: %s", __FUNCTION__, cline_now());
+
+  drop_space();
+  
+  if( check_literal(SAVE_I, ",") )
+    {
+      cline_i = save_cli;
+      return(scan_literal(","));
+    }
+
   for(int i=0; i<NUM_OPERATORS; i++)
     {
       if( strncmp(&(cline[cline_i]), op_info[i].name, strlen(op_info[i].name)) == 0 )
 	{
 	  // Match
+	  
+	  printf("\n%s: ret1", __FUNCTION__);
+	  cline_i = save_cli;
 	  return(1);
 	}
     }
 
+  printf("\n%s:ret0", __FUNCTION__);
+  cline_i = save_cli;
   return(0);
 }
 
 int scan_operator(void)
 {
-  printf("\n%s:", __FUNCTION__);
+  printf("\n%s: '%s'", __FUNCTION__, cline_now());
+
+  drop_space();
+  
+  if( check_literal(SAVE_I, ",") )
+    {
+      return(scan_literal(","));
+    }
+  
   for(int i=0; i<NUM_OPERATORS; i++)
     {
       if( strncmp(&(cline[cline_i]), op_info[i].name, strlen(op_info[i].name)) == 0 )
 	{
 	  // Match
 	  cline_i += strlen(op_info[i].name);
+	  printf("\n%s: ret1 '%s'", __FUNCTION__, cline_now());
 	  return(1);
 	}
     }
+
+  printf("\n%s: ret0 '%s'", __FUNCTION__, cline_now());
+  return(0);
 }
 
 int check_integer(void)
@@ -1048,11 +1112,14 @@ int scan_number(void)
 int check_sub_expr(void)
 {
   printf("\n%s:", __FUNCTION__);
-  if( check_literal(" ( ") )
+  
+  if( check_literal(SAVE_I," (") )
     {
+      printf("\n%s: ret1", __FUNCTION__);
       return(1);
     }
 
+  printf("\n%s: ret0", __FUNCTION__);
   return(0);
 }
 
@@ -1077,7 +1144,7 @@ int scan_sub_expr(void)
 int check_atom(void)
 {
   printf("\n%s:", __FUNCTION__);
-  if( check_literal(" \"") )
+  if( check_literal(SAVE_I," \"") )
     {
       // String
       return(1);
@@ -1089,7 +1156,7 @@ int check_atom(void)
       return(1);
     }
 
-  if( check_variable() )
+  if( check_variable(SAVE_I) )
     {
       // Variable
       return(1);
@@ -1138,7 +1205,7 @@ int scan_atom(void)
   char vname[300];
   printf("\n%s:", __FUNCTION__);
   
-  if( check_literal(" \"") )
+  if( check_literal(SAVE_I," \"") )
     {
       // String
       return(scan_string());
@@ -1150,7 +1217,7 @@ int scan_atom(void)
       return(scan_number());
     }
 
-  if( check_variable() )
+  if( check_variable(SAVE_I) )
     {
       // Variable
       return(scan_variable(vname));
@@ -1218,18 +1285,28 @@ int scan_eitem(void)
 
 int check_expression(void)
 {
+  int save_cli = cline_i;
+  
+  drop_space();
+  
   printf("\n%s: '%s'", __FUNCTION__, &(cline[cline_i]));
   if( check_eitem() )
     {
+      printf("\n%s:ret1 '%s'", __FUNCTION__, &(cline[cline_i]));
+      cline_i = save_cli;
       return(1);
     }
-  
+
+  printf("\n%s:ret0 '%s'", __FUNCTION__, &(cline[cline_i]));
+  cline_i = save_cli;
   return(0);
 }
 
 int scan_expression(void)
 {
   printf("\n%s: '%s'", __FUNCTION__, &(cline[cline_i]));
+
+  drop_space();
   
   while( check_eitem() )
     {
@@ -1240,9 +1317,12 @@ int scan_expression(void)
       else
 	{
 	  syntax_error("Expression error");
+	  printf("\n%s: ret0 '%s'", __FUNCTION__, &(cline[cline_i]));
 	  return(0);
 	}
     }
+
+  printf("\n%s: ret1 '%s'", __FUNCTION__, &(cline[cline_i]));
   return(1);
 }
 
@@ -1328,9 +1408,9 @@ int check_assignment(void)
   printf("\n%s:", __FUNCTION__);
   int save_cli = cline_i;
   
-  if( check_variable() )
+  if( check_variable(NO_SAVE_I) )
     {
-      if( check_literal(" = ") )
+      if( check_literal(NO_SAVE_I, " =") )
 	{
 	  if( check_expression() )
 	    {
@@ -1353,7 +1433,11 @@ int scan_assignment(void)
     {
       if( scan_literal(" =") )
 	{
-	  
+	  if( scan_expression() )
+	    {
+	      printf("\n%s: ret1", __FUNCTION__);
+	      return(1);
+	    }
 	}
     }
 
@@ -1377,47 +1461,47 @@ int check_line(void)
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(" LOCAL "))
+  if( check_literal(SAVE_I," LOCAL "))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(" GLOBAL "))
+  if( check_literal(SAVE_I," GLOBAL "))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(" IF "))
+  if( check_literal(SAVE_I," IF "))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(" ELSE "))
+  if( check_literal(SAVE_I," ELSE "))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(" ENDIF "))
+  if( check_literal(SAVE_I," ENDIF "))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(" DO "))
+  if( check_literal(SAVE_I," DO "))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(" WHILE "))
+  if( check_literal(SAVE_I," WHILE "))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(" REPEAT "))
+  if( check_literal(SAVE_I," REPEAT "))
     {
       cline_i = save_cli;
       return(1);
     }
-  if( check_literal(" UNTIL "))
+  if( check_literal(SAVE_I," UNTIL "))
     {
       cline_i = save_cli;
       return(1);
@@ -1444,55 +1528,55 @@ int scan_line()
       return(1);
     }
   
-  if( check_literal(" LOCAL ") )
+  if( check_literal(SAVE_I," LOCAL ") )
     {
       scan_literal(" LOCAL ");
       return(1);
     }
   
-  if( check_literal(" GLOBAL ") )
+  if( check_literal(SAVE_I," GLOBAL ") )
     {
       scan_literal(" GLOBAL ");
       return(1);
     }
   
-  if( check_literal(" IF ") )
+  if( check_literal(SAVE_I," IF ") )
     {
       scan_literal(" IF ");
       return(1);
     }
   
-  if( check_literal(" ELSE ") )
+  if( check_literal(SAVE_I," ELSE ") )
     {
       scan_literal(" ELSE ");
       return(1);
     }
   
-  if( check_literal(" ENDIF ") )
+  if( check_literal(SAVE_I," ENDIF ") )
     {
       scan_literal(" ENDIF ");
       return(1);
     }
   
-  if( check_literal(" DO ") )
+  if( check_literal(SAVE_I," DO ") )
     {
       scan_literal(" DO ");
       return(1);
     }
   
-  if( check_literal(" WHILE ") )
+  if( check_literal(SAVE_I," WHILE ") )
     {
       scan_literal(" WHILE ");
       return(1);
     }
   
-  if( check_literal(" REPEAT ") )
+  if( check_literal(SAVE_I," REPEAT ") )
     {
       scan_literal(" REPEAT ");
       return(1);
     }
   
-  if( check_literal(" UNTIL ") )
+  if( check_literal(SAVE_I," UNTIL ") )
     { 
       scan_literal(" UNTIL ");
       return(1);
@@ -1513,16 +1597,16 @@ int scan_cline()
   
   while( check_line() && (strlen(&(cline[cline_i])) > 0))
     {
-      printf("\n%s: Checked len=%d, '%s'", __FUNCTION__, strlen(&(cline[cline_i])), &(cline[cline_i]));
+      printf("\n%s: Checked len=%ld, '%s'", __FUNCTION__, strlen(&(cline[cline_i])), &(cline[cline_i]));
       if( !scan_line() )
       {
-	printf("\n%s: scan_line==0 len=%d '%s'", __FUNCTION__, strlen(&(cline[cline_i])), &(cline[cline_i]));
+	printf("\n%s: scan_line==0 len=%ld '%s'", __FUNCTION__, strlen(&(cline[cline_i])), &(cline[cline_i]));
 	return(0);
       }
       
       drop_space();
       
-      if ( check_literal(":") )
+      if ( check_literal(SAVE_I,":") )
 	{
 	  scan_literal(":");
 	}
@@ -1541,7 +1625,7 @@ int scan_cline()
       drop_space();
     }
 
-  printf("\n%s: after wh len=%d '%s'", __FUNCTION__, strlen(&(cline[cline_i])), &(cline[cline_i]));
+  printf("\n%s: after wh len=%ld '%s'", __FUNCTION__, strlen(&(cline[cline_i])), &(cline[cline_i]));
   if( strlen(&(cline[cline_i])) == 0 )
     {
       return(0);

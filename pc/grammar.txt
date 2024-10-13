@@ -22,4 +22,4 @@
 <assignment> : <variable> '=' <expression>
 <varlist>    : <variable>+
 <vname>      : <A-Z><A-Z0-9>*
-	      
+<operator>   : <operator-list-string>	      
