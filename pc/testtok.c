@@ -767,9 +767,10 @@ int scan_vname(char *vname_dest)
     {
       vname[vname_i++] = ch;
       
-      while( isalnum(ch = cline[cline_i++]) )
+      while( isalnum(ch = cline[cline_i]) )
 	{
 	vname[vname_i++] = ch;
+	cline_i++;
 	}
 
       vname[vname_i] = '\0';
@@ -809,6 +810,11 @@ int check_vname(void)
 // Scan variable reference
 // This puts a variable ref in the output stream. handles arrays
 // and puts appropriate codes for array indices in stream
+//
+// The variable name is captured and flags which specify the type.
+// The expressions that are array indices aren't captured.
+// They will be expressions on th estack and th etype flags will ensure an array
+// type qode is sed for the variable reference.
 
 int scan_variable(char *variable_dest)
 {
@@ -818,18 +824,22 @@ int scan_variable(char *variable_dest)
   int var_is_integer = 0;
   int var_is_float   = 0;
   int var_is_array   = 0;
-   printf("\n%s:", __FUNCTION__);
+
+  printf("\n%s:", __FUNCTION__);
  
   chstr[1] = '\0';
   
   if( scan_vname(vname) )
     {
+      printf("\n%s: '%s'", __FUNCTION__, &(cline[cline_i]));
+      
       // Could just be a vname
       switch( chstr[0] = cline[cline_i] )
 	{
 	case '%':
 	  var_is_integer = 1;
 	  strcat(vname, chstr);
+	  cline_i++;
 	  break;
 	  
 	case '$':
@@ -844,8 +854,11 @@ int scan_variable(char *variable_dest)
 	}
 
       // Is it an array?
-      if( check_literal(" ( ") )
+      printf("\n%s: Ary test '%s'", __FUNCTION__, &(cline[cline_i]));
+      if( check_literal("(") )
 	{
+	  printf("\n%s: is array", __FUNCTION__);
+	  
 	  var_is_array = 1;
 	  
 	  // Add token to output stream for index or indices
@@ -858,7 +871,7 @@ int scan_variable(char *variable_dest)
 	      if( var_is_string )
 		{
 		  // All OK, string array
-		  scan_literal(" , ");
+		  scan_literal(" ,");
 		  scan_expression();
 		}
 	      else
@@ -867,12 +880,20 @@ int scan_variable(char *variable_dest)
 		}
 	    }
 
-	  if( scan_literal(" ) ") )
+	  if( scan_literal(" )") )
 	    {
 	      return(1);
 	    }
 	  
 	}
+      
+      printf("\n%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
+	     vname,
+	     var_is_string,
+	     var_is_integer,
+	     var_is_float,
+	     var_is_array
+	     );
       return(1);
       
     }
@@ -1038,11 +1059,11 @@ int check_sub_expr(void)
 int scan_sub_expr(void)
 {
   printf("\n%s:", __FUNCTION__);
-  if( scan_literal(" ( ") )
+  if( scan_literal(" (") )
     {
       if( scan_expression() )
 	{
-	  if( scan_literal(" ) ") )
+	  if( scan_literal(" )") )
 	    {
 	      return(1);
 	    }
@@ -1330,7 +1351,7 @@ int scan_assignment(void)
   
   if( scan_variable(vname) )
     {
-      if( scan_literal(" = ") )
+      if( scan_literal(" =") )
 	{
 	  
 	}
