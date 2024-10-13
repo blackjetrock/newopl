@@ -40,6 +40,7 @@ int exp_type_stack_ptr = 0;
 NOBJ_VARTYPE expression_type = NOBJ_VARTYPE_UNKNOWN;
 
 char type_to_char(NOBJ_VARTYPE t);
+int check_expression(void);
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -813,7 +814,9 @@ int scan_vname(char *vname_dest)
   return(0);
 }
 
+//
 // Checks for a variable name string part
+//
 
 int check_vname(int save)
 {
@@ -821,16 +824,21 @@ int check_vname(int save)
   printf("\n%s '%s':", __FUNCTION__, &(cline[cline_i]));
 
   drop_space();
-  if( isalpha(cline[cline_i++]) )
+  
+  if( isalpha(cline[cline_i]) )
     {
-      while( isalnum(cline[cline_i++]) )
+      cline_i++;
+      
+      while( isalnum(cline[cline_i]) )
 	{
+	  cline_i++;
 	}
 
       if( save )
 	{
 	  cline_i = save_cli;
 	}
+
       printf("\n%s ret1 '%s':", __FUNCTION__, &(cline[cline_i]));
       return(1);
     }
@@ -839,6 +847,7 @@ int check_vname(int save)
     {
       cline_i = save_cli;
     }
+  
   printf("\n%s ret0 '%s':", __FUNCTION__, &(cline[cline_i]));
   return(0);
 }
@@ -849,8 +858,8 @@ int check_vname(int save)
 //
 // The variable name is captured and flags which specify the type.
 // The expressions that are array indices aren't captured.
-// They will be expressions on th estack and th etype flags will ensure an array
-// type qode is sed for the variable reference.
+// They will be expressions on the stack and the type flags will ensure an array
+// type qcode is set for the variable reference.
 
 int scan_variable(char *variable_dest)
 {
@@ -939,8 +948,117 @@ int scan_variable(char *variable_dest)
 
 int check_variable(int save)
 {
+  int save_cli = cline_i;
+  
+  char vname[300];
+  char chstr[2];
+  int var_is_string  = 0;
+  int var_is_integer = 0;
+  int var_is_float   = 0;
+  int var_is_array   = 0;
+
+  printf("\n%s:", __FUNCTION__);
+ 
+  chstr[1] = '\0';
+  
+  if( check_vname(NO_SAVE_I) )
+    {
+      printf("\n%s: '%s'", __FUNCTION__, &(cline[cline_i]));
+      
+      // Could just be a vname
+      switch( chstr[0] = cline[cline_i] )
+	{
+	case '%':
+	  var_is_integer = 1;
+	  strcat(vname, chstr);
+	  cline_i++;
+	  break;
+	  
+	case '$':
+	  var_is_string = 1;
+	  strcat(vname, chstr);
+	  cline_i++;
+	  break;
+
+	default:
+	  var_is_float = 1;
+	  break;
+	}
+
+      // Is it an array?
+      printf("\n%s: Ary test '%s'", __FUNCTION__, &(cline[cline_i]));
+      
+      if( check_literal(NO_SAVE_I,"(") )
+	{
+	  printf("\n%s: is array", __FUNCTION__);
+	  
+	  var_is_array = 1;
+	  
+	  // Add token to output stream for index or indices
+	  check_expression();
+
+	  // Could be string array, which has two expressions in
+	  // the brackets
+	  if( check_literal(NO_SAVE_I," , ") )
+	    {
+	      if( var_is_string )
+		{
+		  // All OK, string array
+		  if( check_literal(NO_SAVE_I, " ,") )
+		    {
+		      
+		      if( check_expression() )
+			{
+			  // All OK
+			}
+		      else
+			{
+			  cline_i = save_cli;
+			  return(0);
+			}
+		    }
+		  else
+		    {
+		      cline_i = save_cli;
+		      return(0);
+		    }
+		}
+	      else
+		{
+		  cline_i = save_cli;
+		  return(0);
+		}
+	    }
+	  
+	  if( check_literal(NO_SAVE_I, " )") )
+	    {
+	      cline_i = save_cli;
+	      return(1);
+	    }
+	  
+	}
+      
+      printf("\n%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
+	     vname,
+	     var_is_string,
+	     var_is_integer,
+	     var_is_float,
+	     var_is_array
+	     );
+      cline_i = save_cli;
+      return(1);
+      
+    }
+  
+  cline_i = save_cli;
+  return(0);
+}
+
+int check_variable2(int save)
+{
   if( check_vname(save) )
     {
+      
       return(1);
     }
   return(0);
