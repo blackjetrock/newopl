@@ -834,6 +834,7 @@ int check_vname(int save)
 	  cline_i++;
 	}
 
+      
       if( save )
 	{
 	  cline_i = save_cli;
@@ -1045,12 +1046,19 @@ int check_variable(int save)
 	     var_is_float,
 	     var_is_array
 	     );
-      cline_i = save_cli;
+      if(save)
+	{
+	  cline_i = save_cli;
+	}
+      
       return(1);
       
     }
-  
-  cline_i = save_cli;
+
+  if(save)
+    {
+      cline_i = save_cli;
+    }
   return(0);
 }
 
