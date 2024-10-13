@@ -16,6 +16,75 @@ FILE *fp;
 // reads next composite line into buffer
 char cline[MAX_NOPL_LINE];
 int cline_i = 0;
+FILE *ofp;
+FILE *chkfp;
+
+char current_expression[200];
+int first_token = 1;
+
+#define MAX_EXP_TYPE_STACK  20
+
+NOBJ_VARTYPE exp_type_stack[MAX_EXP_TYPE_STACK];
+int exp_type_stack_ptr = 0;
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Expression type is reset for each line and also for sub-lines separated by colons
+//
+// This is a global to avoid passing it down to every function in the translate call stack.
+// If translating is ever to be a parallel process then that will have to change.
+
+NOBJ_VARTYPE expression_type = NOBJ_VARTYPE_UNKNOWN;
+
+char type_to_char(NOBJ_VARTYPE t);
+
+////////////////////////////////////////////////////////////////////////////////
+
+#define MAX_EXP_BUFFER   200
+
+enum
+  {
+   EXP_BUFF_ID_TKN = 1,
+   EXP_BUFF_ID_SUB_START,
+   EXP_BUFF_ID_SUB_END,
+   EXP_BUFF_ID_VARIABLE,
+   EXP_BUFF_ID_INTEGER,
+   EXP_BUFF_ID_FLT,
+   EXP_BUFF_ID_STR,
+   EXP_BUFF_ID_FUNCTION,
+   EXP_BUFF_ID_OPERATOR,
+   EXP_BUFF_ID_AUTOCON,
+   EXP_BUFF_ID_COMMAND,
+   EXP_BUFF_ID_MAX,
+  };
+
+char *exp_buffer_id_str[] =
+  {
+   "EXP_BUFF_ID_???",
+   "EXP_BUFF_ID_TKN",
+   "EXP_BUFF_ID_SUB_START",
+   "EXP_BUFF_ID_SUB_END",
+   "EXP_BUFF_ID_VARIABLE",
+   "EXP_BUFF_ID_INTEGER",
+   "EXP_BUFF_ID_FLT",
+   "EXP_BUFF_ID_STR",
+   "EXP_BUFF_ID_FUNCTION",
+   "EXP_BUFF_ID_OPERATOR",
+   "EXP_BUFF_ID_AUTOCON",
+   "EXP_BUFF_ID_COMMAND",
+   "EXP_BUFF_ID_MAX",
+  };
+
+
+// Per-expression
+// Indices start at 1, 0 is 'no p'
+int node_id_index = 1;
+
+EXP_BUFFER_ENTRY exp_buffer[MAX_EXP_BUFFER];
+int exp_buffer_i = 0;
+
+EXP_BUFFER_ENTRY exp_buffer2[MAX_EXP_BUFFER];
+int exp_buffer2_i = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -160,6 +229,21 @@ struct _FN_INFO
 
 #define NUM_FUNCTIONS (sizeof(fn_info)/sizeof(struct _FN_INFO))
 
+int token_is_function(char *token, char **tokstr)
+{
+  for(int i=0; i<NUM_FUNCTIONS; i++)
+    {
+      if( strcmp(token, fn_info[i].name) == 0 )
+	{
+	  *tokstr = &(fn_info[i].name[0]);
+	  
+	  fprintf(ofp,"\n%s is function", token);
+	  return(1);
+	}
+    }
+  return(0);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Operator info
@@ -202,8 +286,301 @@ OP_INFO  op_info[] =
    { "+%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
    { "-%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
   };
+//------------------------------------------------------------------------------
+//
+
+void clear_exp_buffer(void)
+{
+  exp_buffer_i = 0;
+}
+
+void add_exp_buffer_entry(OP_STACK_ENTRY op, int id)
+{
+  exp_buffer[exp_buffer_i].op = op;
+  exp_buffer[exp_buffer_i].buf_id = id;
+  strcpy(&(exp_buffer[exp_buffer_i].name[0]), op.name);
+  exp_buffer_i++;
+}
+
+void add_exp_buffer2_entry(OP_STACK_ENTRY op, int id)
+{
+  exp_buffer2[exp_buffer2_i].op = op;
+  exp_buffer2[exp_buffer2_i].buf_id = id;
+  strcpy(&(exp_buffer2[exp_buffer2_i].name[0]), op.name);
+  exp_buffer2_i++;
+}
+
+void dump_exp_buffer(void)
+{
+  char *idstr;
+  
+  fprintf(ofp, "\nExpression buffer");
+  fprintf(ofp, "\n=================");
+  
+  for(int i=0; i<exp_buffer_i; i++)
+    {
+      EXP_BUFFER_ENTRY token = exp_buffer[i];
+      
+      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer[i].buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer[i].name);
+      
+      fprintf(ofp, "  %d:", token.p_idx);
+      for(int pi=0; pi<token.p_idx; pi++)
+	{
+	  fprintf(ofp, " %d", token.p[pi]);
+	}
+    }
+  
+  fprintf(ofp, "\n=================");
+}
+
+void dump_exp_buffer2(void)
+{
+  char *idstr;
+  
+  fprintf(ofp, "\nExpression buffer 2");
+  fprintf(ofp, "\n===================");
+  
+  for(int i=0; i<exp_buffer2_i; i++)
+    {
+      EXP_BUFFER_ENTRY token = exp_buffer2[i];
+
+      if( (exp_buffer2[i].buf_id < 0) || (exp_buffer2[i].buf_id > EXP_BUFF_ID_MAX) )
+	{
+	  printf("\nN%d buf_id invalid", token.node_id);
+	}
+      
+      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
+      
+      fprintf(ofp, "  %d:", token.p_idx);
+      for(int pi=0; pi<token.p_idx; pi++)
+	{
+	  fprintf(ofp, " %d", token.p[pi]);
+	}
+    }
+  fprintf(ofp, "\n=================");
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+char type_to_char(NOBJ_VARTYPE t)
+{
+  char c;
+  
+  switch(t)
+    {
+    case NOBJ_VARTYPE_INT:
+      c = 'i';
+      break;
+
+    case NOBJ_VARTYPE_FLT:
+      c = 'f';
+      break;
+
+    case NOBJ_VARTYPE_STR:
+      c = 's';
+      break;
+
+    case NOBJ_VARTYPE_INTARY:
+      c = 'I';
+      break;
+
+    case NOBJ_VARTYPE_FLTARY:
+      c = 'F';
+      break;
+
+    case NOBJ_VARTYPE_STRARY:
+      c = 'S';
+      break;
+
+    case NOBJ_VARTYPE_UNKNOWN:
+      c = 'U';
+      break;
+
+    case NOBJ_VARTYPE_VOID:
+      c = 'v';
+      break;
+      
+    default:
+      c = '?';
+      break;
+    }
+  
+  return(c);
+}
+
+NOBJ_VARTYPE char_to_type(char ch)
+{
+  NOBJ_VARTYPE ret_t = '?';
+  
+  switch(ch)
+    {
+    case 'i':
+      ret_t = NOBJ_VARTYPE_INT;
+      break;
+
+    case 'f':
+      ret_t = NOBJ_VARTYPE_FLT;
+      break;
+
+    case 's':
+      ret_t = NOBJ_VARTYPE_INT;
+      break;
+
+    case 'v':
+      ret_t = NOBJ_VARTYPE_VOID;
+      break;
+    }
+
+  return(ret_t);
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+// String display of type stack
+
+char tss[40];
+
+char *type_stack_str(void)
+{
+  char tmps[20];
+  
+  sprintf(tss, "[%c,(", type_to_char(expression_type));
+  
+  for(int i=0; i<exp_type_stack_ptr; i++)
+    {
+      sprintf(tmps, "%c ", type_to_char(exp_type_stack[i]));
+      strcat(tss, tmps);
+    }
+  strcat(tss, ")]");
+  return(tss);
+}
 
 #define NUM_OPERATORS (sizeof(op_info)/sizeof(struct _OP_INFO))
+void output_float(OP_STACK_ENTRY token)
+{
+  printf("\nop float");
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(token.type), type_to_char(token.req_type), token.name);
+  add_exp_buffer_entry(token, EXP_BUFF_ID_FLT);
+}
+
+void output_integer(OP_STACK_ENTRY token)
+{
+  printf("\nop integer");
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(token.type), type_to_char(token.req_type), token.name);
+  add_exp_buffer_entry(token, EXP_BUFF_ID_INTEGER);
+}
+
+void output_operator(OP_STACK_ENTRY op)
+{
+  char *tokptr;
+  
+  printf("\nop operator");
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
+  if( token_is_function(op.name, &tokptr) )
+    {
+      add_exp_buffer_entry(op, EXP_BUFF_ID_FUNCTION);
+    }
+  else
+    {
+      add_exp_buffer_entry(op, EXP_BUFF_ID_OPERATOR);
+    }
+}
+
+void output_function(OP_STACK_ENTRY op)
+{
+  printf("\nop function");
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
+  add_exp_buffer_entry(op, EXP_BUFF_ID_FUNCTION);
+}
+
+void output_variable(OP_STACK_ENTRY op)
+{
+  printf("\nop variable");
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
+  add_exp_buffer_entry(op, EXP_BUFF_ID_VARIABLE);
+}
+
+void output_string(OP_STACK_ENTRY op)
+{
+  printf("\nop string");
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  add_exp_buffer_entry(op, EXP_BUFF_ID_STR);
+}
+
+// Markers used as comments, and hints
+void output_marker(char *marker, ...)
+{
+  va_list valist;
+  char line[80];
+  
+  va_start(valist, marker);
+
+  vsprintf(line, marker, valist);
+  va_end(valist);
+
+  printf("\nop marker %s", line);
+  fprintf(ofp, "\n(%16s) %s", __FUNCTION__, line);
+}
+
+void output_sub_start(void)
+{
+#if 1
+  OP_STACK_ENTRY op;
+  
+  printf("\nSub expression start");
+  fprintf(ofp, "\n(%16s)", __FUNCTION__);
+
+  strcpy(op.name,  "");
+  op.type = NOBJ_VARTYPE_UNKNOWN;
+  add_exp_buffer_entry(op, EXP_BUFF_ID_SUB_START);
+#endif
+}
+
+void output_sub_end(void)
+{
+#if 1
+  OP_STACK_ENTRY op;
+  
+  printf("\nSub expression end");
+  fprintf(ofp, "\n(%16s)", __FUNCTION__);
+
+  strcpy(op.name, "");
+  op.type = NOBJ_VARTYPE_UNKNOWN;
+  add_exp_buffer_entry(op, EXP_BUFF_ID_SUB_END);
+#endif
+}
+
+void output_expression_start(char *expr)
+{
+  strcpy(current_expression, expr);
+  
+  if( strlen(expr) > 0 )
+    {
+      printf("\nExpression start");
+      fprintf(ofp, "\n========================================================");
+      fprintf(ofp, "\n%s", expr);
+      fprintf(chkfp, "\n\n\n%s", expr);
+      
+      fprintf(ofp, "\n========================================================");
+
+      fprintf(ofp, "\n(%16s)", __FUNCTION__);
+      
+      // We have a new expression, process the previous one which will be in the
+      // buffer
+      
+      //  expression_tree_process(expr);
+      
+    }
+  
+  // Clear the buffer ready for the new expression that has just come in
+  clear_exp_buffer();
+
+  first_token = 1;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -243,7 +620,8 @@ int next_composite_line(FILE *fp)
       cline_i = 0;
       return(0);
     }
-  
+
+  cline_i = 0;
   return(1);
 }
 
@@ -255,11 +633,12 @@ void drop_space()
     {
       cline_i++;
     }
-
+#if 0
   if( cline_i > 0 )
     {
       cline_i--;
     }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -271,6 +650,8 @@ void drop_space()
 int scan_literal(char *lit)
 {
   char *origlit = lit;
+
+  printf("\n%s:lit='%s' '%s'", __FUNCTION__, lit, &(cline[cline_i]));
   
   if( *lit == ' ' )
     {
@@ -278,19 +659,25 @@ int scan_literal(char *lit)
       drop_space();
     }
 
+  printf("\n%s:After drop space:%s", __FUNCTION__, &(cline[cline_i]));
+
   while( (*lit != '\0') && (*lit != ' ') )
     {
+      printf("\n%s:while loop:%s", __FUNCTION__, &(cline[cline_i]));
       if( cline[cline_i] == '\0' )
 	{
 	  syntax_error("Bad literal '%s'", origlit);
 	  return(0);
 	}
       
-      if( *lit == cline[cline_i++] )
+      if( *lit != cline[cline_i] )
 	{
 	  // Not a match, fail
 	  return(0);
 	}
+      
+      lit++;
+      cline_i++;
     }
   
   if( *lit == ' ' )
@@ -303,6 +690,8 @@ int scan_literal(char *lit)
   return(1);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 // Check for a literal string.
 // Leading space means drop spaces before looking for the literal,
 // trailing mena sdrop spaces after finding it
@@ -311,30 +700,49 @@ int check_literal(char *lit)
 {
   int save_cli = cline_i;
 
+  printf("\n%s:lit='%s' ' %s'", __FUNCTION__, lit, &(cline[cline_i]));
+
   if( *lit == ' ' )
     {
+      printf("\n    dropping space");
       lit++;
       drop_space();
+    }
+
+  printf("\n%s:After drop space:'%s' '%s'", __FUNCTION__, lit, &(cline[cline_i]));
+
+  if( cline[cline_i] == '\0' )
+    {
+      printf("\n  ret0 Empty test string");
+      return(0);
     }
   
   while( (*lit != '\0') && (cline[cline_i] != '\0'))
     {
-      if( *lit == cline[cline_i++] )
+      if( *lit != cline[cline_i] )
 	{
+	  printf("\n  '%c' != '%c'", *lit, cline[cline_i]);
 	  // Not a match, fail
 	  cline_i = save_cli;
+	  printf("\nret0");
 	  return(0);
 	}
+      lit++;
+      cline_i++;
     }
 
+  printf("\n%s:After while():%s", __FUNCTION__, &(cline[cline_i]));
+  
   if( cline[cline_i-1] == '\0' )
     {
       cline_i = save_cli;
+      printf("\nret0");
       return(0);
     }
   
   // reached end of literal string , all ok
   cline_i = save_cli;
+  printf("\nret1");
   return(1);
 
 }
@@ -347,6 +755,8 @@ int scan_vname(char *vname_dest)
   char vname[300];
   int vname_i = 0;
   char ch;
+
+  printf("\n%s:", __FUNCTION__);
   
   if( isalpha(ch = cline[cline_i++]) )
     {
@@ -370,6 +780,7 @@ int scan_vname(char *vname_dest)
 int check_vname(void)
 {
   int save_cli = cline_i;
+  printf("\n%s:", __FUNCTION__);
 
   if( isalpha(cline[cline_i++]) )
     {
@@ -397,7 +808,8 @@ int scan_variable(char *variable_dest)
   int var_is_integer = 0;
   int var_is_float   = 0;
   int var_is_array   = 0;
-  
+   printf("\n%s:", __FUNCTION__);
+ 
   chstr[1] = '\0';
   
   if( scan_vname(vname) )
@@ -469,6 +881,7 @@ int check_variable(void)
 
 int check_operator(void)
 {
+  printf("\n%s:", __FUNCTION__);
   for(int i=0; i<NUM_OPERATORS; i++)
     {
       if( strncmp(&(cline[cline_i]), op_info[i].name, strlen(op_info[i].name)) == 0 )
@@ -483,6 +896,7 @@ int check_operator(void)
 
 int scan_operator(void)
 {
+  printf("\n%s:", __FUNCTION__);
   for(int i=0; i<NUM_OPERATORS; i++)
     {
       if( strncmp(&(cline[cline_i]), op_info[i].name, strlen(op_info[i].name)) == 0 )
@@ -496,6 +910,7 @@ int scan_operator(void)
 
 int check_integer(void)
 {
+  printf("\n%s:", __FUNCTION__);
   if( isdigit(cline[cline_i]) )
     {
       return(1);
@@ -506,6 +921,7 @@ int check_integer(void)
 
 int scan_integer(char *intdest)
 {
+  printf("\n%s:", __FUNCTION__);
   char intval[20];
   char chstr[2];
 
@@ -522,6 +938,7 @@ int scan_integer(char *intdest)
 
 int isfloatdigit(char c)
 {
+  printf("\n%s:", __FUNCTION__);
   if( isdigit(c) || (c == '.') )
     {
       return(1);
@@ -532,6 +949,7 @@ int isfloatdigit(char c)
 
 int check_float(void)
 {
+  printf("\n%s:", __FUNCTION__);
   if( isfloatdigit(cline[cline_i]) )
     {
       return(1);
@@ -542,6 +960,7 @@ int check_float(void)
 
 int scan_float(char *fltdest)
 {
+  printf("\n%s:", __FUNCTION__);
   char intval[20];
   char chstr[2];
 
@@ -558,6 +977,7 @@ int scan_float(char *fltdest)
 
 int check_number(void)
 {
+  printf("\n%s:", __FUNCTION__);
   if( check_float() )
     {
       return(1);
@@ -573,6 +993,7 @@ int check_number(void)
 
 int scan_number(void)
 {
+  printf("\n%s:", __FUNCTION__);
   char fltval[40];
 
   if( check_float() )
@@ -595,6 +1016,7 @@ int scan_number(void)
 
 int check_sub_expr(void)
 {
+  printf("\n%s:", __FUNCTION__);
   if( check_literal(" ( ") )
     {
       return(1);
@@ -605,6 +1027,7 @@ int check_sub_expr(void)
 
 int scan_sub_expr(void)
 {
+  printf("\n%s:", __FUNCTION__);
   if( scan_literal(" ( ") )
     {
       if( scan_expression() )
@@ -622,6 +1045,7 @@ int scan_sub_expr(void)
 
 int check_atom(void)
 {
+  printf("\n%s:", __FUNCTION__);
   if( check_literal(" \"") )
     {
       // String
@@ -648,20 +1072,28 @@ int scan_string(void)
 {
   char chstr[2];
   char strval[300];
+  printf("\n%s:", __FUNCTION__);
 
   strval[0] = '\0';
   chstr[1] = '\0';
   
   if( scan_literal(" \"") )
     {
+      printf("\n  (in if) '%s'", &(cline[cline_i]));
+      
       while(((chstr[0] = cline[cline_i]) != '"') && (cline[cline_i] != '\0') )
 	{
+	  printf("\n  (in wh) '%s'", &(cline[cline_i]));
 	  strcat(strval, chstr);
 	  cline_i++;
+	  printf("\n  (in wh) '%s'", &(cline[cline_i]));
 	}
 
-      if( cline[cline_i-1] == '"' )
+      
+      if( cline[cline_i] == '"' )
 	{
+	  cline_i++;
+	  printf("\n%s: ret1", __FUNCTION__);
 	  return(1);
 	}
     }
@@ -673,6 +1105,7 @@ int scan_string(void)
 int scan_atom(void)
 {
   char vname[300];
+  printf("\n%s:", __FUNCTION__);
   
   if( check_literal(" \"") )
     {
@@ -698,20 +1131,34 @@ int scan_atom(void)
 
 int check_eitem(void)
 {
-  if( check_operator() ||
-      check_function() ||
-      check_atom() ||
-      check_sub_expr() )
+  printf("\n%s:", __FUNCTION__);
+  if( check_operator() )
     {
       return(1);
     }
-
+  
+  if( check_function() )
+    {
+      return(1);
+    }
+  
+  if( check_atom() )
+    {
+      return(1);
+    }
+  
+  if( check_sub_expr() )
+    {
+      return(1);
+    }
+  
   return(0);
 }
 
 int scan_eitem(void)
 {
   char fnval[40];
+  printf("\n%s:", __FUNCTION__);
   
   if( check_operator() )
     {
@@ -740,6 +1187,7 @@ int scan_eitem(void)
 
 int check_expression(void)
 {
+  printf("\n%s: '%s'", __FUNCTION__, &(cline[cline_i]));
   if( check_eitem() )
     {
       return(1);
@@ -750,6 +1198,8 @@ int check_expression(void)
 
 int scan_expression(void)
 {
+  printf("\n%s: '%s'", __FUNCTION__, &(cline[cline_i]));
+  
   while( check_eitem() )
     {
       if( scan_eitem() )
@@ -768,11 +1218,13 @@ int scan_expression(void)
 
 int check_command(void)
 {
+  printf("\n%s:", __FUNCTION__);
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
       if( fn_info[i].command && strncmp(&(cline[cline_i]), fn_info[i].name, strlen(fn_info[i].name)) == 0 )
 	{
 	  // Match
+	  printf("\n%s: ret1=> '%s'", __FUNCTION__, fn_info[i].name);
 	  return(1);
 	}
     }
@@ -782,6 +1234,8 @@ int check_command(void)
 
 int scan_command(char *cmd_dest)
 {
+  printf("\n%s:", __FUNCTION__);
+  
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
       if( fn_info[i].command && (strncmp(&(cline[cline_i]), fn_info[i].name, strlen(fn_info[i].name)) == 0) )
@@ -789,7 +1243,16 @@ int scan_command(char *cmd_dest)
 	  // Match
 	  strcpy(cmd_dest, fn_info[i].name);
 	  cline_i += strlen(fn_info[i].name);
-	  return(1);
+	  if( scan_expression() )
+	    {
+	      printf("\n%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
+	      return(1);
+	    }
+	  else
+	    {
+	      printf("\n%s: expression failed", __FUNCTION__);
+	      return(0);
+	    }
 	}
     }
 
@@ -813,6 +1276,7 @@ int check_function(void)
 
 int scan_function(char *cmd_dest)
 {
+  printf("\n%s:", __FUNCTION__);
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
       if( !(fn_info[i].command) && (strncmp(&(cline[cline_i]), fn_info[i].name, strlen(fn_info[i].name)) == 0) )
@@ -830,6 +1294,7 @@ int scan_function(char *cmd_dest)
 
 int check_assignment(void)
 {
+  printf("\n%s:", __FUNCTION__);
   int save_cli = cline_i;
   
   if( check_variable() )
@@ -851,6 +1316,7 @@ int check_assignment(void)
 int scan_assignment(void)
 {
   char vname[300];
+  printf("\n%s:", __FUNCTION__);
   
   if( scan_variable(vname) )
     {
@@ -866,27 +1332,74 @@ int scan_assignment(void)
 
 int check_line(void)
 {
-  if( check_assignment()   |
-      check_command()      |
-      check_literal(" LOCAL ") |
-      check_literal(" GLOBAL ") |
-      check_literal(" IF ") |
-      check_literal(" ELSE ") |
-      check_literal(" ENDIF ") |
-      check_literal(" DO ") |
-      check_literal(" WHILE ") |
-      check_literal(" REPEAT ") |
-      check_literal(" UNTIL ") )
+  int save_cli = cline_i;
+  
+  printf("\n%s:", __FUNCTION__);
+
+  if( check_assignment() )
     {
+      cline_i = save_cli;
       return(1);
     }
-  
-  return(0);
-}
+  if( check_command() )
+    {
+      cline_i = save_cli;
+      return(1);
+    }
+  if( check_literal(" LOCAL "))
+    {
+      cline_i = save_cli;
+      return(1);
+    }
+  if( check_literal(" GLOBAL "))
+    {
+      cline_i = save_cli;
+      return(1);
+    }
+  if( check_literal(" IF "))
+    {
+      cline_i = save_cli;
+      return(1);
+    }
+  if( check_literal(" ELSE "))
+    {
+      cline_i = save_cli;
+      return(1);
+    }
+  if( check_literal(" ENDIF "))
+    {
+      cline_i = save_cli;
+      return(1);
+    }
+  if( check_literal(" DO "))
+    {
+      cline_i = save_cli;
+      return(1);
+    }
+  if( check_literal(" WHILE "))
+    {
+      cline_i = save_cli;
+      return(1);
+    }
+  if( check_literal(" REPEAT "))
+    {
+      cline_i = save_cli;
+      return(1);
+    }
+  if( check_literal(" UNTIL "))
+    {
+      cline_i = save_cli;
+      return(1);
+    }
 
+  cline_i = save_cli;
+    return(0);
+}
+  
 int scan_line()
 {
   char cmdname[300];
+  printf("\n%s:", __FUNCTION__);
   
   if( check_assignment() )
     {
@@ -895,52 +1408,63 @@ int scan_line()
   
   if( check_command() )
     {
+      printf("\n%s:check_command:1 ", __FUNCTION__);
       scan_command(cmdname);
+      return(1);
     }
   
   if( check_literal(" LOCAL ") )
     {
       scan_literal(" LOCAL ");
+      return(1);
     }
   
   if( check_literal(" GLOBAL ") )
     {
       scan_literal(" GLOBAL ");
+      return(1);
     }
   
   if( check_literal(" IF ") )
     {
       scan_literal(" IF ");
+      return(1);
     }
   
   if( check_literal(" ELSE ") )
     {
       scan_literal(" ELSE ");
+      return(1);
     }
   
   if( check_literal(" ENDIF ") )
     {
       scan_literal(" ENDIF ");
+      return(1);
     }
   
   if( check_literal(" DO ") )
     {
       scan_literal(" DO ");
+      return(1);
     }
   
   if( check_literal(" WHILE ") )
     {
       scan_literal(" WHILE ");
+      return(1);
     }
   
   if( check_literal(" REPEAT ") )
     {
       scan_literal(" REPEAT ");
+      return(1);
     }
   
   if( check_literal(" UNTIL ") )
     { 
       scan_literal(" UNTIL ");
+      return(1);
     }
   
   return(0);    
@@ -952,25 +1476,39 @@ int scan_line()
 int scan_cline()
 {
   int ret = 0;
+  printf("\n%s:", __FUNCTION__);
   
   drop_space();
   
-  while( check_line() )
+  while( check_line() && (strlen(&(cline[cline_i])) > 0))
     {
-      if( scan_line() )
+      printf("\n%s: Checked len=%d, '%s'", __FUNCTION__, strlen(&(cline[cline_i])), &(cline[cline_i]));
+      if( !scan_line() )
       {
+	printf("\n%s: scan_line==0 len=%d '%s'", __FUNCTION__, strlen(&(cline[cline_i])), &(cline[cline_i]));
 	return(0);
       }
       
       drop_space();
-      if ( !scan_literal(":") )
+      if ( check_literal(":") )
 	{
-	  return(0);
+	  scan_literal(":");
 	}
+      else
+	{
+	  return(1);
+	}
+      
       drop_space();
     }
 
-  return(1);
+  printf("\n%s: after wh len=%d '%s'", __FUNCTION__, strlen(&(cline[cline_i])), &(cline[cline_i]));
+  if( strlen(&(cline[cline_i])) == 0 )
+    {
+      return(0);
+    }
+  
+  return(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -979,7 +1517,10 @@ int main(int argc, char *argv[])
 {
   char *line = argv[1];
   char varname[200];
-
+  int n_lines_ok  = 0;
+  int n_lines_bad = 0;
+  
+  ofp = fopen("testtok_op.txt", "w");
 
   fp = fopen(argv[1], "r");
 
@@ -989,28 +1530,33 @@ int main(int argc, char *argv[])
       exit(-1);
     }
 
-
   // read the file and tokenise each line
   while(!feof(fp) )
     {
-
       if( !next_composite_line(fp) )
 	{
 	  break;
 	}
 
+      printf("\n=======================cline==========================");
+      printf("\n==%s==", cline);
       // Recursive decent parse
       if( scan_cline(fp) )
 	{
+	  n_lines_ok++;
 	  printf("\ncline scanned OK");
 	  
 	}
       else
 	{
-	  printf("\ncline filed scan");
+	  n_lines_bad++;
+	  printf("\ncline failed scan");
 	}
-
     }
 
   printf("\n");
+  printf("\n %d lines scanned Ok", n_lines_ok);
+  printf("\n %d lines scanned failed", n_lines_bad);
+  fclose(ofp);
+
 }
