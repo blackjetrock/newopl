@@ -615,6 +615,8 @@ int scan_function(char *cmd_dest);
 
 int next_composite_line(FILE *fp)
 {
+  int all_spaces = 1;
+  
   if( fgets(cline, MAX_NOPL_LINE, fp) == NULL )
     {
       cline_i = 0;
@@ -622,6 +624,7 @@ int next_composite_line(FILE *fp)
     }
 
   cline_i = 0;
+
   return(1);
 }
 
@@ -757,6 +760,8 @@ int scan_vname(char *vname_dest)
   char ch;
 
   printf("\n%s:", __FUNCTION__);
+
+  drop_space();
   
   if( isalpha(ch = cline[cline_i++]) )
     {
@@ -767,10 +772,14 @@ int scan_vname(char *vname_dest)
 	vname[vname_i++] = ch;
 	}
 
+      vname[vname_i] = '\0';
+      
       strcpy(vname_dest, vname);
+      printf("\n%s: ret1 '%s'", __FUNCTION__, vname);
       return(1);
     }
 
+  printf("\n%s: ret0", __FUNCTION__);
   strcpy(vname_dest, "");
   return(0);
 }
@@ -780,8 +789,9 @@ int scan_vname(char *vname_dest)
 int check_vname(void)
 {
   int save_cli = cline_i;
-  printf("\n%s:", __FUNCTION__);
+  printf("\n%s '%s':", __FUNCTION__, &(cline[cline_i]));
 
+  drop_space();
   if( isalpha(cline[cline_i++]) )
     {
       while( isalnum(cline[cline_i++]) )
@@ -1490,13 +1500,21 @@ int scan_cline()
       }
       
       drop_space();
+      
       if ( check_literal(":") )
 	{
 	  scan_literal(":");
 	}
       else
 	{
-	  return(1);
+	  if( strlen(&(cline[cline_i])) == 0 )
+	    {
+	      return(1);
+	    }
+	  else
+	    {
+	      return(0);
+	    }
 	}
       
       drop_space();
@@ -1517,8 +1535,10 @@ int main(int argc, char *argv[])
 {
   char *line = argv[1];
   char varname[200];
-  int n_lines_ok  = 0;
-  int n_lines_bad = 0;
+  int all_spaces;
+  int n_lines_ok    = 0;
+  int n_lines_bad   = 0;
+  int n_lines_blank = 0;
   
   ofp = fopen("testtok_op.txt", "w");
 
@@ -1538,6 +1558,22 @@ int main(int argc, char *argv[])
 	  break;
 	}
 
+      // Check it's not a line full of spaces
+      all_spaces = 1;
+      for(int i=0; i<strlen(cline); i++)
+	{
+	  if( !isspace(cline[i]) )
+	    {
+	      all_spaces = 0;
+	    }
+	}
+      
+      if( all_spaces )
+	{
+	  n_lines_blank++;
+	  continue;
+	}
+      
       printf("\n=======================cline==========================");
       printf("\n==%s==", cline);
       // Recursive decent parse
@@ -1555,8 +1591,9 @@ int main(int argc, char *argv[])
     }
 
   printf("\n");
-  printf("\n %d lines scanned Ok", n_lines_ok);
-  printf("\n %d lines scanned failed", n_lines_bad);
+  printf("\n %d lines scanned Ok",       n_lines_ok);
+  printf("\n %d lines scanned failed",   n_lines_bad);
+  printf("\n %d lines blank",            n_lines_blank);
   fclose(ofp);
 
 }
