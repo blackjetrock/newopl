@@ -1,0 +1,423 @@
+
+=======================cline==========================
+==PRINT "abc"
+==
+scan_cline:
+check_line:
+check_assignment:
+check_vname:
+check_literal:lit=' = ' ' PRINT "abc"
+'
+    dropping space
+check_literal:After drop space:'= ' 'PRINT "abc"
+'
+  '=' != 'P'
+ret0
+check_command:
+check_command: ret1=> 'PRINT'
+scan_cline: Checked len=12, 'PRINT "abc"
+'
+scan_line:
+check_assignment:
+check_vname:
+check_literal:lit=' = ' ' PRINT "abc"
+'
+    dropping space
+check_literal:After drop space:'= ' 'PRINT "abc"
+'
+  '=' != 'P'
+ret0
+check_command:
+check_command: ret1=> 'PRINT'
+scan_line:check_command:1 
+scan_command:
+scan_expression: ' "abc"
+'
+check_eitem:
+check_operator:
+check_atom:
+check_literal:lit=' "' '  "abc"
+'
+    dropping space
+check_literal:After drop space:'"' '"abc"
+'
+check_literal:After while():abc"
+
+ret1
+scan_eitem:
+check_operator:
+check_atom:
+check_literal:lit=' "' '  "abc"
+'
+    dropping space
+check_literal:After drop space:'"' '"abc"
+'
+check_literal:After while():abc"
+
+ret1
+scan_atom:
+check_literal:lit=' "' '  "abc"
+'
+    dropping space
+check_literal:After drop space:'"' '"abc"
+'
+check_literal:After while():abc"
+
+ret1
+scan_string:
+scan_literal:lit=' "' ' "abc"
+'
+scan_literal:After drop space:"abc"
+
+scan_literal:while loop:"abc"
+
+  (in if) 'abc"
+'
+  (in wh) 'abc"
+'
+  (in wh) 'bc"
+'
+  (in wh) 'bc"
+'
+  (in wh) 'c"
+'
+  (in wh) 'c"
+'
+  (in wh) '"
+'
+scan_string: ret1
+check_eitem:
+check_operator:
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_integer:
+check_vname:
+check_sub_expr:
+check_literal:lit=' ( ' ' '
+    dropping space
+check_literal:After drop space:'( ' ''
+  ret0 Empty test string
+scan_command: ret1 =>'PRINT'
+check_literal:lit=':' ' '
+check_literal:After drop space:':' ''
+  ret0 Empty test string
+cline scanned OK
+=======================cline==========================
+==PRINT "asdfgh"
+==
+scan_cline:
+check_line:
+check_assignment:
+check_vname:
+check_literal:lit=' = ' ' PRINT "asdfgh"
+'
+    dropping space
+check_literal:After drop space:'= ' 'PRINT "asdfgh"
+'
+  '=' != 'P'
+ret0
+check_command:
+check_command: ret1=> 'PRINT'
+scan_cline: Checked len=15, 'PRINT "asdfgh"
+'
+scan_line:
+check_assignment:
+check_vname:
+check_literal:lit=' = ' ' PRINT "asdfgh"
+'
+    dropping space
+check_literal:After drop space:'= ' 'PRINT "asdfgh"
+'
+  '=' != 'P'
+ret0
+check_command:
+check_command: ret1=> 'PRINT'
+scan_line:check_command:1 
+scan_command:
+scan_expression: ' "asdfgh"
+'
+check_eitem:
+check_operator:
+check_atom:
+check_literal:lit=' "' '  "asdfgh"
+'
+    dropping space
+check_literal:After drop space:'"' '"asdfgh"
+'
+check_literal:After while():asdfgh"
+
+ret1
+scan_eitem:
+check_operator:
+check_atom:
+check_literal:lit=' "' '  "asdfgh"
+'
+    dropping space
+check_literal:After drop space:'"' '"asdfgh"
+'
+check_literal:After while():asdfgh"
+
+ret1
+scan_atom:
+check_literal:lit=' "' '  "asdfgh"
+'
+    dropping space
+check_literal:After drop space:'"' '"asdfgh"
+'
+check_literal:After while():asdfgh"
+
+ret1
+scan_string:
+scan_literal:lit=' "' ' "asdfgh"
+'
+scan_literal:After drop space:"asdfgh"
+
+scan_literal:while loop:"asdfgh"
+
+  (in if) 'asdfgh"
+'
+  (in wh) 'asdfgh"
+'
+  (in wh) 'sdfgh"
+'
+  (in wh) 'sdfgh"
+'
+  (in wh) 'dfgh"
+'
+  (in wh) 'dfgh"
+'
+  (in wh) 'fgh"
+'
+  (in wh) 'fgh"
+'
+  (in wh) 'gh"
+'
+  (in wh) 'gh"
+'
+  (in wh) 'h"
+'
+  (in wh) 'h"
+'
+  (in wh) '"
+'
+scan_string: ret1
+check_eitem:
+check_operator:
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_integer:
+check_vname:
+check_sub_expr:
+check_literal:lit=' ( ' ' '
+    dropping space
+check_literal:After drop space:'( ' ''
+  ret0 Empty test string
+scan_command: ret1 =>'PRINT'
+check_literal:lit=':' ' '
+check_literal:After drop space:':' ''
+  ret0 Empty test string
+cline scanned OK
+=======================cline==========================
+==   PRINT   "    abc    "
+==
+scan_cline:
+check_line:
+check_assignment:
+check_vname:
+check_literal:lit=' = ' ' PRINT   "    abc    "
+'
+    dropping space
+check_literal:After drop space:'= ' 'PRINT   "    abc    "
+'
+  '=' != 'P'
+ret0
+check_command:
+check_command: ret1=> 'PRINT'
+scan_cline: Checked len=22, 'PRINT   "    abc    "
+'
+scan_line:
+check_assignment:
+check_vname:
+check_literal:lit=' = ' ' PRINT   "    abc    "
+'
+    dropping space
+check_literal:After drop space:'= ' 'PRINT   "    abc    "
+'
+  '=' != 'P'
+ret0
+check_command:
+check_command: ret1=> 'PRINT'
+scan_line:check_command:1 
+scan_command:
+scan_expression: '   "    abc    "
+'
+check_eitem:
+check_operator:
+check_atom:
+check_literal:lit=' "' '    "    abc    "
+'
+    dropping space
+check_literal:After drop space:'"' '"    abc    "
+'
+check_literal:After while():    abc    "
+
+ret1
+scan_eitem:
+check_operator:
+check_atom:
+check_literal:lit=' "' '    "    abc    "
+'
+    dropping space
+check_literal:After drop space:'"' '"    abc    "
+'
+check_literal:After while():    abc    "
+
+ret1
+scan_atom:
+check_literal:lit=' "' '    "    abc    "
+'
+    dropping space
+check_literal:After drop space:'"' '"    abc    "
+'
+check_literal:After while():    abc    "
+
+ret1
+scan_string:
+scan_literal:lit=' "' '   "    abc    "
+'
+scan_literal:After drop space:"    abc    "
+
+scan_literal:while loop:"    abc    "
+
+  (in if) '    abc    "
+'
+  (in wh) '    abc    "
+'
+  (in wh) '   abc    "
+'
+  (in wh) '   abc    "
+'
+  (in wh) '  abc    "
+'
+  (in wh) '  abc    "
+'
+  (in wh) ' abc    "
+'
+  (in wh) ' abc    "
+'
+  (in wh) 'abc    "
+'
+  (in wh) 'abc    "
+'
+  (in wh) 'bc    "
+'
+  (in wh) 'bc    "
+'
+  (in wh) 'c    "
+'
+  (in wh) 'c    "
+'
+  (in wh) '    "
+'
+  (in wh) '    "
+'
+  (in wh) '   "
+'
+  (in wh) '   "
+'
+  (in wh) '  "
+'
+  (in wh) '  "
+'
+  (in wh) ' "
+'
+  (in wh) ' "
+'
+  (in wh) '"
+'
+scan_string: ret1
+check_eitem:
+check_operator:
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_integer:
+check_vname:
+check_sub_expr:
+check_literal:lit=' ( ' ' '
+    dropping space
+check_literal:After drop space:'( ' ''
+  ret0 Empty test string
+scan_command: ret1 =>'PRINT'
+check_literal:lit=':' ' '
+check_literal:After drop space:':' ''
+  ret0 Empty test string
+cline scanned OK
+=======================cline==========================
+==   ==
+scan_cline:
+check_line:
+check_assignment:
+check_vname:
+check_command:
+check_literal:lit=' LOCAL ' ' '
+    dropping space
+check_literal:After drop space:'LOCAL ' ''
+  ret0 Empty test string
+check_literal:lit=' GLOBAL ' ' '
+    dropping space
+check_literal:After drop space:'GLOBAL ' ''
+  ret0 Empty test string
+check_literal:lit=' IF ' ' '
+    dropping space
+check_literal:After drop space:'IF ' ''
+  ret0 Empty test string
+check_literal:lit=' ELSE ' ' '
+    dropping space
+check_literal:After drop space:'ELSE ' ''
+  ret0 Empty test string
+check_literal:lit=' ENDIF ' ' '
+    dropping space
+check_literal:After drop space:'ENDIF ' ''
+  ret0 Empty test string
+check_literal:lit=' DO ' ' '
+    dropping space
+check_literal:After drop space:'DO ' ''
+  ret0 Empty test string
+check_literal:lit=' WHILE ' ' '
+    dropping space
+check_literal:After drop space:'WHILE ' ''
+  ret0 Empty test string
+check_literal:lit=' REPEAT ' ' '
+    dropping space
+check_literal:After drop space:'REPEAT ' ''
+  ret0 Empty test string
+check_literal:lit=' UNTIL ' ' '
+    dropping space
+check_literal:After drop space:'UNTIL ' ''
+  ret0 Empty test string
+scan_cline: after wh len=0 ''
+cline failed scan
+
+ 3 lines scanned Ok
+ 1 lines scanned failed
