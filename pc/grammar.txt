@@ -6,13 +6,14 @@
 	       'GLOBAL' <varlist> |
                'IF' <expression> | 'ELSE' | 'ENDIF' |
 	       'DO' | 'WHILE' <expression> |
-	       'REPEAT' | 'UNTIL' <expression>
+	       'REPEAT' | 'UNTIL' <expression> |
+	       'GOTO' <label>
 <label>      : <string>'::'
 <onerr>      : ONERR <label> | ONERR OFF
 <string>     : '"'<textchar>*'"'
 <text>       : <textchar>*
 <number>     : <integer> | <float>
-<atom>       : <string> | <number> | <variable>	       
+<atom>       : <string> | <number> | <variable>	| %<character>       
 <sub_expr>   : '(' <expression> ')'
 <eitem>      : <operator> | <function> | <atom> | <sub_expr> 
 <expression> : <eitem>+

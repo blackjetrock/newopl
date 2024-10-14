@@ -1364,6 +1364,18 @@ int check_atom(int *index)
   printf("\n%s:", __FUNCTION__);
   
   idx = *index;
+  if( check_literal(&idx," %") )
+    {
+      // Character code
+      if( (cline[idx] != '\0') && (cline[idx] != ' ') )
+	{
+	  idx++; 
+	  *index = idx;
+	  return(1);
+	}
+    }
+
+  idx = *index;
   if( check_literal(&idx," \"") )
     {
       // String
@@ -1425,13 +1437,33 @@ int scan_string(void)
   return(0);
 }
 
+int scan_character(void)
+{
+  if( (cline[cline_i] != '\0') && (cline[cline_i] != ' ') )
+    {
+      return(1);
+    }
+  return(0);
+}
+
 int scan_atom(void)
 {
   int idx = cline_i;
   
   char vname[300];
   printf("\n%s:", __FUNCTION__);
-  
+
+  idx = cline_i;
+  if( check_literal(&idx," %") )
+    {
+      if( scan_literal(" %" ) )
+	{
+	  // String
+	  return(scan_character());
+	}
+    }
+
+  idx = cline_i;
   if( check_literal(&idx," \"") )
     {
       // String
@@ -1726,6 +1758,67 @@ int scan_assignment(void)
   return(0);
 }
 
+int check_textlabel(int *index)
+{
+  int idx = *index;
+
+  printf("\n%s:", __FUNCTION__);
+
+  while( (cline[idx] != ':') && (cline[idx] != '\0') )
+    {
+      idx++;
+    }
+
+  if( cline[idx] == ':' )
+    {
+      *index = idx;
+      printf("\n%s:ret1", __FUNCTION__);
+      return(1);
+    }
+  
+  printf("\n%s:ret0", __FUNCTION__);  
+  return(0);
+}
+
+int check_label(int *index)
+{
+  int idx = *index;
+
+  printf("\n%s:", __FUNCTION__);
+  if( check_textlabel(&idx))
+    {
+      if( check_literal(&idx, "::") )
+	{
+	  printf("\n%s:ret1", __FUNCTION__);
+	  *index = idx;
+	  return(1);
+	}
+    }
+  
+  printf("\n%s:ret0", __FUNCTION__);
+  return(0);
+}
+
+int scan_label(void)
+{
+  int idx = cline_i;
+
+  printf("\n%s:", __FUNCTION__);
+  if( check_textlabel(&idx))
+    {
+      cline_i = idx;
+      
+      if( scan_literal("::") )
+	{
+	  printf("\n%s:ret1", __FUNCTION__);
+	  return(1);
+	}
+    }
+  
+  printf("\n%s:ret0", __FUNCTION__);
+  return(0);
+}
+
 int check_line(int *index)
 {
   int idx = *index;
@@ -1736,6 +1829,8 @@ int check_line(int *index)
 
   if( check_assignment(&idx) )
     {
+      printf("\n%s:ret1", __FUNCTION__);
+  
       *index = idx;
       return(1);
     }
@@ -1744,6 +1839,7 @@ int check_line(int *index)
 
   if( check_command(&idx) )
     {
+      printf("\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -1751,6 +1847,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," LOCAL"))
     {
+      printf("\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -1758,6 +1855,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," GLOBAL"))
     {
+      printf("\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -1765,6 +1863,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," IF"))
     {
+      printf("\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -1772,6 +1871,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," ELSE"))
     {
+      printf("\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -1779,6 +1879,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," ENDIF"))
     {
+      printf("\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -1786,6 +1887,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," DO"))
     {
+      printf("\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -1793,6 +1895,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," WHILE"))
     {
+      printf("\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -1800,6 +1903,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," REPEAT"))
     {
+      printf("\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -1807,10 +1911,26 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," UNTIL"))
     {
-      *index = idx;
-      return(1);
+      if( check_expression(&idx) )
+	{
+	  printf("\n%s:ret1", __FUNCTION__);
+	  *index = idx;
+	  return(1);
+	}
+    }
+  
+  idx = cline_i;
+  if( check_literal(&idx," GOTO"))
+    {
+      if( check_label(&idx) )
+	{
+	  printf("\n%s:ret1", __FUNCTION__);
+	  *index = idx;
+	  return(1);
+	}
     }
 
+  printf("\n%s:ret1", __FUNCTION__);
   *index = idx;
   return(0);
 }
@@ -1845,30 +1965,43 @@ int scan_line()
       scan_literal(" LOCAL");
       return(1);
     }
+
   idx = cline_i;
   if( check_literal(&idx," GLOBAL") )
     {
       scan_literal(" GLOBAL");
       return(1);
     }
+  
   idx = cline_i;
   if( check_literal(&idx," IF") )
     {
-      scan_literal(" IF");
-      return(1);
+      if( scan_literal(" IF") )
+	{
+	  
+	  if( scan_expression() )
+	    {
+	      return(1);
+	    }
+	}
+      
+      return(0);
     }
+
   idx = cline_i;
   if( check_literal(&idx," ELSE") )
     {
       scan_literal(" ELSE");
       return(1);
     }
+
   idx = cline_i;
   if( check_literal(&idx," ENDIF") )
     {
       scan_literal(" ENDIF");
       return(1);
     }
+
   idx = cline_i;
   if( check_literal(&idx," DO") )
     {
@@ -1887,9 +2020,10 @@ int scan_line()
       scan_literal(" REPEAT");
       return(1);
     }
+  
   idx = cline_i;
   if( check_literal(&idx," UNTIL") )
-    { 
+    {
       if( scan_literal(" UNTIL") )
 	{
 	  if( scan_expression() )
@@ -1900,8 +2034,19 @@ int scan_line()
 	}
 
       printf("\n%s: ret0", __FUNCTION__);
-      cline_i = idx;
       return(0);
+    }
+  
+  idx = cline_i;
+  if( check_literal(&idx," GOTO"))
+    {
+      cline_i = idx;
+      
+      if( scan_label() )
+	{
+	  //	  *index = idx;
+	  return(1);
+	}
     }
 
   cline_i = idx;
