@@ -1,14 +1,16 @@
 <file>       : <procdef> <cline>*
 <cline>      : <line> | <line> ':' <cine>+
 <procdef>    : <string> ':'
-<line>       : <label> | <assignment> | <command> | TRAP <trapable_command> |
+<line>       : REM <text> | <onerr> | <label> | <assignment> | <command> | TRAP <trapable_command> |
                'LOCAL' <varlist> |
 	       'GLOBAL' <varlist> |
                'IF' <expression> | 'ELSE' | 'ENDIF' |
 	       'DO' | 'WHILE' <expression> |
 	       'REPEAT' | 'UNTIL' <expression>
-<label>      : <string>'::'	       
+<label>      : <string>'::'
+<onerr>      : ONERR <label> | ONERR OFF
 <string>     : '"'<textchar>*'"'
+<text>       : <textchar>*
 <number>     : <integer> | <float>
 <atom>       : <string> | <number> | <variable>	       
 <sub_expr>   : '(' <expression> ')'
