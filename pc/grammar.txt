@@ -1,7 +1,7 @@
 <file>       : <procdef> <cline>*
 <cline>      : <line> | <line> ':' <cine>+
 <procdef>    : <string> ':'
-<line>       : <label> | <assignment> | <command> | TRAP <trap_command> |
+<line>       : <label> | <assignment> | <command> | TRAP <trapable_command> |
                'LOCAL' <varlist> |
 	       'GLOBAL' <varlist> |
                'IF' <expression> | 'ELSE' | 'ENDIF' |
