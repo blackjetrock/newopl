@@ -5175,9 +5175,90 @@ check_literal:After drop space:'=' 'top::
 check_literal: ret0
 check_assignment:ret0
 check_command:
-check_command: ret1=> 'GOTO'
+check_literal:lit=' LOCAL' '  GOTO top::
+'
+    dropping space
+check_literal:After drop space:'LOCAL' 'GOTO top::
+'
+  'L' != 'G'
+check_literal: ret0
+check_literal:lit=' GLOBAL' '  GOTO top::
+'
+    dropping space
+check_literal:After drop space:'GLOBAL' 'GOTO top::
+'
+  'L' != 'O'
+check_literal: ret0
+check_literal:lit=' IF' '  GOTO top::
+'
+    dropping space
+check_literal:After drop space:'IF' 'GOTO top::
+'
+  'I' != 'G'
+check_literal: ret0
+check_literal:lit=' ELSE' '  GOTO top::
+'
+    dropping space
+check_literal:After drop space:'ELSE' 'GOTO top::
+'
+  'E' != 'G'
+check_literal: ret0
+check_literal:lit=' ENDIF' '  GOTO top::
+'
+    dropping space
+check_literal:After drop space:'ENDIF' 'GOTO top::
+'
+  'E' != 'G'
+check_literal: ret0
+check_literal:lit=' DO' '  GOTO top::
+'
+    dropping space
+check_literal:After drop space:'DO' 'GOTO top::
+'
+  'D' != 'G'
+check_literal: ret0
+check_literal:lit=' WHILE' '  GOTO top::
+'
+    dropping space
+check_literal:After drop space:'WHILE' 'GOTO top::
+'
+  'W' != 'G'
+check_literal: ret0
+check_literal:lit=' REPEAT' '  GOTO top::
+'
+    dropping space
+check_literal:After drop space:'REPEAT' 'GOTO top::
+'
+  'R' != 'G'
+check_literal: ret0
+check_literal:lit=' UNTIL' '  GOTO top::
+'
+    dropping space
+check_literal:After drop space:'UNTIL' 'GOTO top::
+'
+  'U' != 'G'
+check_literal: ret0
+check_literal:lit=' GOTO' '  GOTO top::
+'
+    dropping space
+check_literal:After drop space:'GOTO' 'GOTO top::
+'
+check_literal:After while(): top::
+
+check_literal:ret1 
+check_label:
+check_textlabel:
+check_textlabel:ret1
+check_literal:lit='::' ' ::
+'
+check_literal:After drop space:'::' '::
+'
+check_literal:After while():
+
+check_literal:ret1 
+check_label:ret1
 check_line:ret1
-scan_cline: Checked len=7, ' top::
+scan_cline: Checked len=1, '
 '
 scan_line:
 check_assignment:
@@ -5207,324 +5288,93 @@ check_literal:After drop space:'=' 'top::
 check_literal: ret0
 check_assignment:ret0
 check_command:
-check_command: ret1=> 'GOTO'
-scan_line:check_command: 
-scan_command:
-scan_expression: ' top::
-'
-check_eitem: 'top::
-'
-check_operator: top::
-
-check_literal:lit=',' ' top::
-'
-check_literal:After drop space:',' 'top::
-'
-  ',' != 't'
-check_literal: ret0
-check_operator:ret0
-check_function: 'top::
-'
-check_atom:
-check_literal:lit=' %' ' top::
+check_literal:lit=' LOCAL' ' GOTO top::
 '
     dropping space
-check_literal:After drop space:'%' 'top::
+check_literal:After drop space:'LOCAL' 'GOTO top::
 '
-  '%' != 't'
+  'L' != 'G'
 check_literal: ret0
-check_literal:lit=' "' ' top::
+check_literal:lit=' GLOBAL' ' GOTO top::
 '
     dropping space
-check_literal:After drop space:'"' 'top::
+check_literal:After drop space:'GLOBAL' 'GOTO top::
 '
-  '"' != 't'
+  'L' != 'O'
 check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'top::
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'top::
-':
-check_vname ret1 '::
-':
-check_variable: '::
-'
-check_variable: Ary test '::
-'
-check_literal:lit='(' ' ::
-'
-check_literal:After drop space:'(' '::
-'
-  '(' != ':'
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-check_eitem:ret1
-scan_eitem:
-check_operator: top::
-
-check_literal:lit=',' ' top::
-'
-check_literal:After drop space:',' 'top::
-'
-  ',' != 't'
-check_literal: ret0
-check_operator:ret0
-check_function: 'top::
-'
-check_atom:
-check_literal:lit=' %' ' top::
+check_literal:lit=' IF' ' GOTO top::
 '
     dropping space
-check_literal:After drop space:'%' 'top::
+check_literal:After drop space:'IF' 'GOTO top::
 '
-  '%' != 't'
+  'I' != 'G'
 check_literal: ret0
-check_literal:lit=' "' ' top::
+check_literal:lit=' ELSE' ' GOTO top::
 '
     dropping space
-check_literal:After drop space:'"' 'top::
+check_literal:After drop space:'ELSE' 'GOTO top::
 '
-  '"' != 't'
+  'E' != 'G'
 check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'top::
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'top::
-':
-check_vname ret1 '::
-':
-check_variable: '::
-'
-check_variable: Ary test '::
-'
-check_literal:lit='(' ' ::
-'
-check_literal:After drop space:'(' '::
-'
-  '(' != ':'
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' ' top::
+check_literal:lit=' ENDIF' ' GOTO top::
 '
     dropping space
-check_literal:After drop space:'%' 'top::
+check_literal:After drop space:'ENDIF' 'GOTO top::
 '
-  '%' != 't'
+  'E' != 'G'
 check_literal: ret0
-check_literal:lit=' "' ' top::
+check_literal:lit=' DO' ' GOTO top::
 '
     dropping space
-check_literal:After drop space:'"' 'top::
+check_literal:After drop space:'DO' 'GOTO top::
 '
-  '"' != 't'
+  'D' != 'G'
 check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'top::
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'top::
-':
-check_vname ret1 '::
-':
-check_variable: '::
-'
-check_variable: Ary test '::
-'
-check_literal:lit='(' ' ::
-'
-check_literal:After drop space:'(' '::
-'
-  '(' != ':'
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-scan_variable:
-scan_vname: 'top::
-'
-scan_vname: ret1 'top'
-scan_variable: '::
-'
-scan_variable: Ary test '::
-'
-check_literal:lit='(' ' ::
-'
-check_literal:After drop space:'(' '::
-'
-  '(' != ':'
-check_literal: ret0
-scan_variable:ret1 vname='top' is str:0 int:0 flt:1 ary:0
-check_eitem: '::
-'
-check_operator: ::
-
-check_literal:lit=',' ' ::
-'
-check_literal:After drop space:',' '::
-'
-  ',' != ':'
-check_literal: ret0
-check_operator:ret0
-check_function: '::
-'
-check_atom:
-check_literal:lit=' %' ' ::
+check_literal:lit=' WHILE' ' GOTO top::
 '
     dropping space
-check_literal:After drop space:'%' '::
+check_literal:After drop space:'WHILE' 'GOTO top::
 '
-  '%' != ':'
+  'W' != 'G'
 check_literal: ret0
-check_literal:lit=' "' ' ::
+check_literal:lit=' REPEAT' ' GOTO top::
 '
     dropping space
-check_literal:After drop space:'"' '::
+check_literal:After drop space:'REPEAT' 'GOTO top::
 '
-  '"' != ':'
+  'R' != 'G'
 check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: '::
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname '::
-':
-check_vname ret0 '::
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' ' ::
+check_literal:lit=' UNTIL' ' GOTO top::
 '
     dropping space
-check_literal:After drop space:'(' '::
+check_literal:After drop space:'UNTIL' 'GOTO top::
 '
-  '(' != ':'
+  'U' != 'G'
 check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-scan_expression: ret1 '::
+check_literal:lit=' GOTO' ' GOTO top::
 '
-scan_command: ret1 =>'GOTO'
-check_literal:lit=':' ' ::
+    dropping space
+check_literal:After drop space:'GOTO' 'GOTO top::
 '
-check_literal:After drop space:':' '::
-'
-check_literal:After while()::
+check_literal:After while(): top::
 
 check_literal:ret1 
-scan_literal:lit=':' '::
+scan_label:
+check_textlabel:
+check_textlabel:ret1
+scan_literal:lit='::' '::
 '
 scan_literal:After drop space:::
 
 scan_literal:while loop:::
 
-check_line:
-check_assignment:
-check_variable:
-check_vname ':
-':
-check_vname ret0 ':
-':
-check_variable:ret0 
-check_assignment:ret0
-check_command:
-check_literal:lit=' LOCAL' ' :
-'
-    dropping space
-check_literal:After drop space:'LOCAL' ':
-'
-  'L' != ':'
-check_literal: ret0
-check_literal:lit=' GLOBAL' ' :
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' ':
-'
-  'G' != ':'
-check_literal: ret0
-check_literal:lit=' IF' ' :
-'
-    dropping space
-check_literal:After drop space:'IF' ':
-'
-  'I' != ':'
-check_literal: ret0
-check_literal:lit=' ELSE' ' :
-'
-    dropping space
-check_literal:After drop space:'ELSE' ':
-'
-  'E' != ':'
-check_literal: ret0
-check_literal:lit=' ENDIF' ' :
-'
-    dropping space
-check_literal:After drop space:'ENDIF' ':
-'
-  'E' != ':'
-check_literal: ret0
-check_literal:lit=' DO' ' :
-'
-    dropping space
-check_literal:After drop space:'DO' ':
-'
-  'D' != ':'
-check_literal: ret0
-check_literal:lit=' WHILE' ' :
-'
-    dropping space
-check_literal:After drop space:'WHILE' ':
-'
-  'W' != ':'
-check_literal: ret0
-check_literal:lit=' REPEAT' ' :
-'
-    dropping space
-check_literal:After drop space:'REPEAT' ':
-'
-  'R' != ':'
-check_literal: ret0
-check_literal:lit=' UNTIL' ' :
-'
-    dropping space
-check_literal:After drop space:'UNTIL' ':
-'
-  'U' != ':'
-check_literal: ret0
-check_literal:lit=' GOTO' ' :
-'
-    dropping space
-check_literal:After drop space:'GOTO' ':
-'
-  'G' != ':'
-check_literal: ret0
-check_line:ret1
-scan_cline: after wh len=2 ':
-'
-cline failed scan
+scan_literal:while loop::
+
+scan_label:ret1
+check_literal:lit=':' ' '
+check_literal:After drop space:':' ''
+check_literal  ret0 Empty test string
+cline scanned OK
 =======================cline==========================
 ==ELSEIF key%=%N
 ==
@@ -5939,9 +5789,90 @@ check_literal:After drop space:'=' 'label::
 check_literal: ret0
 check_assignment:ret0
 check_command:
-check_command: ret1=> 'GOTO'
+check_literal:lit=' LOCAL' '  GOTO label::
+'
+    dropping space
+check_literal:After drop space:'LOCAL' 'GOTO label::
+'
+  'L' != 'G'
+check_literal: ret0
+check_literal:lit=' GLOBAL' '  GOTO label::
+'
+    dropping space
+check_literal:After drop space:'GLOBAL' 'GOTO label::
+'
+  'L' != 'O'
+check_literal: ret0
+check_literal:lit=' IF' '  GOTO label::
+'
+    dropping space
+check_literal:After drop space:'IF' 'GOTO label::
+'
+  'I' != 'G'
+check_literal: ret0
+check_literal:lit=' ELSE' '  GOTO label::
+'
+    dropping space
+check_literal:After drop space:'ELSE' 'GOTO label::
+'
+  'E' != 'G'
+check_literal: ret0
+check_literal:lit=' ENDIF' '  GOTO label::
+'
+    dropping space
+check_literal:After drop space:'ENDIF' 'GOTO label::
+'
+  'E' != 'G'
+check_literal: ret0
+check_literal:lit=' DO' '  GOTO label::
+'
+    dropping space
+check_literal:After drop space:'DO' 'GOTO label::
+'
+  'D' != 'G'
+check_literal: ret0
+check_literal:lit=' WHILE' '  GOTO label::
+'
+    dropping space
+check_literal:After drop space:'WHILE' 'GOTO label::
+'
+  'W' != 'G'
+check_literal: ret0
+check_literal:lit=' REPEAT' '  GOTO label::
+'
+    dropping space
+check_literal:After drop space:'REPEAT' 'GOTO label::
+'
+  'R' != 'G'
+check_literal: ret0
+check_literal:lit=' UNTIL' '  GOTO label::
+'
+    dropping space
+check_literal:After drop space:'UNTIL' 'GOTO label::
+'
+  'U' != 'G'
+check_literal: ret0
+check_literal:lit=' GOTO' '  GOTO label::
+'
+    dropping space
+check_literal:After drop space:'GOTO' 'GOTO label::
+'
+check_literal:After while(): label::
+
+check_literal:ret1 
+check_label:
+check_textlabel:
+check_textlabel:ret1
+check_literal:lit='::' ' ::
+'
+check_literal:After drop space:'::' '::
+'
+check_literal:After while():
+
+check_literal:ret1 
+check_label:ret1
 check_line:ret1
-scan_cline: Checked len=9, ' label::
+scan_cline: Checked len=1, '
 '
 scan_line:
 check_assignment:
@@ -5971,324 +5902,93 @@ check_literal:After drop space:'=' 'label::
 check_literal: ret0
 check_assignment:ret0
 check_command:
-check_command: ret1=> 'GOTO'
-scan_line:check_command: 
-scan_command:
-scan_expression: ' label::
-'
-check_eitem: 'label::
-'
-check_operator: label::
-
-check_literal:lit=',' ' label::
-'
-check_literal:After drop space:',' 'label::
-'
-  ',' != 'l'
-check_literal: ret0
-check_operator:ret0
-check_function: 'label::
-'
-check_atom:
-check_literal:lit=' %' ' label::
+check_literal:lit=' LOCAL' ' GOTO label::
 '
     dropping space
-check_literal:After drop space:'%' 'label::
+check_literal:After drop space:'LOCAL' 'GOTO label::
 '
-  '%' != 'l'
+  'L' != 'G'
 check_literal: ret0
-check_literal:lit=' "' ' label::
+check_literal:lit=' GLOBAL' ' GOTO label::
 '
     dropping space
-check_literal:After drop space:'"' 'label::
+check_literal:After drop space:'GLOBAL' 'GOTO label::
 '
-  '"' != 'l'
+  'L' != 'O'
 check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'label::
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'label::
-':
-check_vname ret1 '::
-':
-check_variable: '::
-'
-check_variable: Ary test '::
-'
-check_literal:lit='(' ' ::
-'
-check_literal:After drop space:'(' '::
-'
-  '(' != ':'
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-check_eitem:ret1
-scan_eitem:
-check_operator: label::
-
-check_literal:lit=',' ' label::
-'
-check_literal:After drop space:',' 'label::
-'
-  ',' != 'l'
-check_literal: ret0
-check_operator:ret0
-check_function: 'label::
-'
-check_atom:
-check_literal:lit=' %' ' label::
+check_literal:lit=' IF' ' GOTO label::
 '
     dropping space
-check_literal:After drop space:'%' 'label::
+check_literal:After drop space:'IF' 'GOTO label::
 '
-  '%' != 'l'
+  'I' != 'G'
 check_literal: ret0
-check_literal:lit=' "' ' label::
+check_literal:lit=' ELSE' ' GOTO label::
 '
     dropping space
-check_literal:After drop space:'"' 'label::
+check_literal:After drop space:'ELSE' 'GOTO label::
 '
-  '"' != 'l'
+  'E' != 'G'
 check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'label::
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'label::
-':
-check_vname ret1 '::
-':
-check_variable: '::
-'
-check_variable: Ary test '::
-'
-check_literal:lit='(' ' ::
-'
-check_literal:After drop space:'(' '::
-'
-  '(' != ':'
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' ' label::
+check_literal:lit=' ENDIF' ' GOTO label::
 '
     dropping space
-check_literal:After drop space:'%' 'label::
+check_literal:After drop space:'ENDIF' 'GOTO label::
 '
-  '%' != 'l'
+  'E' != 'G'
 check_literal: ret0
-check_literal:lit=' "' ' label::
+check_literal:lit=' DO' ' GOTO label::
 '
     dropping space
-check_literal:After drop space:'"' 'label::
+check_literal:After drop space:'DO' 'GOTO label::
 '
-  '"' != 'l'
+  'D' != 'G'
 check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'label::
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'label::
-':
-check_vname ret1 '::
-':
-check_variable: '::
-'
-check_variable: Ary test '::
-'
-check_literal:lit='(' ' ::
-'
-check_literal:After drop space:'(' '::
-'
-  '(' != ':'
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-scan_variable:
-scan_vname: 'label::
-'
-scan_vname: ret1 'label'
-scan_variable: '::
-'
-scan_variable: Ary test '::
-'
-check_literal:lit='(' ' ::
-'
-check_literal:After drop space:'(' '::
-'
-  '(' != ':'
-check_literal: ret0
-scan_variable:ret1 vname='label' is str:0 int:0 flt:1 ary:0
-check_eitem: '::
-'
-check_operator: ::
-
-check_literal:lit=',' ' ::
-'
-check_literal:After drop space:',' '::
-'
-  ',' != ':'
-check_literal: ret0
-check_operator:ret0
-check_function: '::
-'
-check_atom:
-check_literal:lit=' %' ' ::
+check_literal:lit=' WHILE' ' GOTO label::
 '
     dropping space
-check_literal:After drop space:'%' '::
+check_literal:After drop space:'WHILE' 'GOTO label::
 '
-  '%' != ':'
+  'W' != 'G'
 check_literal: ret0
-check_literal:lit=' "' ' ::
+check_literal:lit=' REPEAT' ' GOTO label::
 '
     dropping space
-check_literal:After drop space:'"' '::
+check_literal:After drop space:'REPEAT' 'GOTO label::
 '
-  '"' != ':'
+  'R' != 'G'
 check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: '::
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname '::
-':
-check_vname ret0 '::
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' ' ::
+check_literal:lit=' UNTIL' ' GOTO label::
 '
     dropping space
-check_literal:After drop space:'(' '::
+check_literal:After drop space:'UNTIL' 'GOTO label::
 '
-  '(' != ':'
+  'U' != 'G'
 check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-scan_expression: ret1 '::
+check_literal:lit=' GOTO' ' GOTO label::
 '
-scan_command: ret1 =>'GOTO'
-check_literal:lit=':' ' ::
+    dropping space
+check_literal:After drop space:'GOTO' 'GOTO label::
 '
-check_literal:After drop space:':' '::
-'
-check_literal:After while()::
+check_literal:After while(): label::
 
 check_literal:ret1 
-scan_literal:lit=':' '::
+scan_label:
+check_textlabel:
+check_textlabel:ret1
+scan_literal:lit='::' '::
 '
 scan_literal:After drop space:::
 
 scan_literal:while loop:::
 
-check_line:
-check_assignment:
-check_variable:
-check_vname ':
-':
-check_vname ret0 ':
-':
-check_variable:ret0 
-check_assignment:ret0
-check_command:
-check_literal:lit=' LOCAL' ' :
-'
-    dropping space
-check_literal:After drop space:'LOCAL' ':
-'
-  'L' != ':'
-check_literal: ret0
-check_literal:lit=' GLOBAL' ' :
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' ':
-'
-  'G' != ':'
-check_literal: ret0
-check_literal:lit=' IF' ' :
-'
-    dropping space
-check_literal:After drop space:'IF' ':
-'
-  'I' != ':'
-check_literal: ret0
-check_literal:lit=' ELSE' ' :
-'
-    dropping space
-check_literal:After drop space:'ELSE' ':
-'
-  'E' != ':'
-check_literal: ret0
-check_literal:lit=' ENDIF' ' :
-'
-    dropping space
-check_literal:After drop space:'ENDIF' ':
-'
-  'E' != ':'
-check_literal: ret0
-check_literal:lit=' DO' ' :
-'
-    dropping space
-check_literal:After drop space:'DO' ':
-'
-  'D' != ':'
-check_literal: ret0
-check_literal:lit=' WHILE' ' :
-'
-    dropping space
-check_literal:After drop space:'WHILE' ':
-'
-  'W' != ':'
-check_literal: ret0
-check_literal:lit=' REPEAT' ' :
-'
-    dropping space
-check_literal:After drop space:'REPEAT' ':
-'
-  'R' != ':'
-check_literal: ret0
-check_literal:lit=' UNTIL' ' :
-'
-    dropping space
-check_literal:After drop space:'UNTIL' ':
-'
-  'U' != ':'
-check_literal: ret0
-check_literal:lit=' GOTO' ' :
-'
-    dropping space
-check_literal:After drop space:'GOTO' ':
-'
-  'G' != ':'
-check_literal: ret0
-check_line:ret1
-scan_cline: after wh len=2 ':
-'
-cline failed scan
+scan_literal:while loop::
+
+scan_label:ret1
+check_literal:lit=':' ' '
+check_literal:After drop space:':' ''
+check_literal  ret0 Empty test string
+cline scanned OK
 =======================cline==========================
 ==ENDIF
 ==
@@ -6441,6 +6141,6 @@ check_literal:After drop space:':' ''
 check_literal  ret0 Empty test string
 cline scanned OK
 
- 15 lines scanned Ok
- 3 lines scanned failed
+ 17 lines scanned Ok
+ 1 lines scanned failed
  4 lines blank
