@@ -1,12 +1,13 @@
 <file>       : <procdef> <cline>*
 <cline>      : <line> | <line> ':' <cine>+
 <procdef>    : <string> ':'
-<line>       : <assignment> | <command> |
+<line>       : <label> | <assignment> | <command> | TRAP <trap_command> |
                'LOCAL' <varlist> |
 	       'GLOBAL' <varlist> |
                'IF' <expression> | 'ELSE' | 'ENDIF' |
 	       'DO' | 'WHILE' <expression> |
 	       'REPEAT' | 'UNTIL' <expression>
+<label>      : <string>'::'	       
 <string>     : '"'<textchar>*'"'
 <number>     : <integer> | <float>
 <atom>       : <string> | <number> | <variable>	       

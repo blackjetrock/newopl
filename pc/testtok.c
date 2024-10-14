@@ -1643,13 +1643,15 @@ int scan_command(char *cmd_dest)
 int check_function(int *index)
 {
   int idx = *index;
-  
+
+  printf("\n%s: '%s'", __FUNCTION__, &(cline[idx]));
+    
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
       if( (!fn_info[i].command) && strncmp(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name)) == 0 )
 	{
 	  // Match
-	  *index = idx;
+	  *index = idx+strlen(fn_info[i].name);
 	  return(1);
 	}
     }
