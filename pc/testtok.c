@@ -1593,6 +1593,8 @@ int scan_expression(void)
 int check_command(int *index)
 {
   int idx = *index;
+
+  drop_space(&idx);
   
   printf("\n%s:", __FUNCTION__);
   for(int i=0; i<NUM_FUNCTIONS; i++)
@@ -1610,8 +1612,10 @@ int check_command(int *index)
 
 int scan_command(char *cmd_dest)
 {
-  printf("\n%s:", __FUNCTION__);
+  drop_space(&cline_i);
   
+  printf("\n%s:", __FUNCTION__);
+
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
       if( fn_info[i].command && (strncmp(&(cline[cline_i]), fn_info[i].name, strlen(fn_info[i].name)) == 0) )
@@ -1720,6 +1724,8 @@ int scan_assignment(void)
 int check_line(int *index)
 {
   int idx = *index;
+
+  drop_space(&idx);
   
   printf("\n%s:", __FUNCTION__);
 
@@ -1809,6 +1815,9 @@ int scan_line()
   int idx = cline_i;
   
   char cmdname[300];
+
+  drop_space(&cline_i);
+  
   printf("\n%s:", __FUNCTION__);
   
   idx = cline_i;
