@@ -1869,6 +1869,17 @@ int check_line(int *index)
     }
 
   idx = cline_i;
+  if( check_literal(&idx," ELSEIF"))
+    {
+      if( check_expression(&idx) )
+	{
+	  printf("\n%s:ret1", __FUNCTION__);
+	  *index = idx;
+	  return(1);
+	}
+    }
+  
+  idx = cline_i;
   if( check_literal(&idx," ELSE"))
     {
       printf("\n%s:ret1", __FUNCTION__);
@@ -1989,11 +2000,24 @@ int scan_line()
     }
 
   idx = cline_i;
+  if( check_literal(&idx," ELSEIF") )
+    {
+      if( scan_literal(" ELSEIF") )
+	{
+	  if( scan_expression() )
+	    {
+	      return(1);
+	    }
+	}
+    }
+
+  idx = cline_i;
   if( check_literal(&idx," ELSE") )
     {
       scan_literal(" ELSE");
       return(1);
     }
+
 
   idx = cline_i;
   if( check_literal(&idx," ENDIF") )

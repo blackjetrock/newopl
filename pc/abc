@@ -948,6 +948,13 @@ check_literal:After drop space:'ELSE' 'DO
 '
   'E' != 'D'
 check_literal: ret0
+check_literal:lit=' ELSEIF' ' DO
+'
+    dropping space
+check_literal:After drop space:'ELSEIF' 'DO
+'
+  'E' != 'D'
+check_literal: ret0
 check_literal:lit=' ENDIF' ' DO
 '
     dropping space
@@ -1018,6 +1025,13 @@ check_literal:lit=' ELSE' ' DO
 '
     dropping space
 check_literal:After drop space:'ELSE' 'DO
+'
+  'E' != 'D'
+check_literal: ret0
+check_literal:lit=' ELSEIF' ' DO
+'
+    dropping space
+check_literal:After drop space:'ELSEIF' 'DO
 '
   'E' != 'D'
 check_literal: ret0
@@ -2169,6 +2183,13 @@ check_literal:After drop space:'ELSE' 'UNTIL KEY$="S"
 '
   'E' != 'U'
 check_literal: ret0
+check_literal:lit=' ELSEIF' ' UNTIL KEY$="S"
+'
+    dropping space
+check_literal:After drop space:'ELSEIF' 'UNTIL KEY$="S"
+'
+  'E' != 'U'
+check_literal: ret0
 check_literal:lit=' ENDIF' ' UNTIL KEY$="S"
 '
     dropping space
@@ -2445,6 +2466,13 @@ check_literal:lit=' ELSE' ' UNTIL KEY$="S"
 '
     dropping space
 check_literal:After drop space:'ELSE' 'UNTIL KEY$="S"
+'
+  'E' != 'U'
+check_literal: ret0
+check_literal:lit=' ELSEIF' ' UNTIL KEY$="S"
+'
+    dropping space
+check_literal:After drop space:'ELSEIF' 'UNTIL KEY$="S"
 '
   'E' != 'U'
 check_literal: ret0
@@ -5203,6 +5231,13 @@ check_literal:After drop space:'ELSE' 'GOTO top::
 '
   'E' != 'G'
 check_literal: ret0
+check_literal:lit=' ELSEIF' '  GOTO top::
+'
+    dropping space
+check_literal:After drop space:'ELSEIF' 'GOTO top::
+'
+  'E' != 'G'
+check_literal: ret0
 check_literal:lit=' ENDIF' '  GOTO top::
 '
     dropping space
@@ -5313,6 +5348,13 @@ check_literal:lit=' ELSE' ' GOTO top::
 '
     dropping space
 check_literal:After drop space:'ELSE' 'GOTO top::
+'
+  'E' != 'G'
+check_literal: ret0
+check_literal:lit=' ELSEIF' ' GOTO top::
+'
+    dropping space
+check_literal:After drop space:'ELSEIF' 'GOTO top::
 '
   'E' != 'G'
 check_literal: ret0
@@ -5817,6 +5859,13 @@ check_literal:After drop space:'ELSE' 'GOTO label::
 '
   'E' != 'G'
 check_literal: ret0
+check_literal:lit=' ELSEIF' '  GOTO label::
+'
+    dropping space
+check_literal:After drop space:'ELSEIF' 'GOTO label::
+'
+  'E' != 'G'
+check_literal: ret0
 check_literal:lit=' ENDIF' '  GOTO label::
 '
     dropping space
@@ -5927,6 +5976,13 @@ check_literal:lit=' ELSE' ' GOTO label::
 '
     dropping space
 check_literal:After drop space:'ELSE' 'GOTO label::
+'
+  'E' != 'G'
+check_literal: ret0
+check_literal:lit=' ELSEIF' ' GOTO label::
+'
+    dropping space
+check_literal:After drop space:'ELSEIF' 'GOTO label::
 '
   'E' != 'G'
 check_literal: ret0
@@ -6048,6 +6104,13 @@ check_literal:After drop space:'ELSE' 'ENDIF
 '
   'L' != 'N'
 check_literal: ret0
+check_literal:lit=' ELSEIF' ' ENDIF
+'
+    dropping space
+check_literal:After drop space:'ELSEIF' 'ENDIF
+'
+  'L' != 'N'
+check_literal: ret0
 check_literal:lit=' ENDIF' ' ENDIF
 '
     dropping space
@@ -6111,6 +6174,13 @@ check_literal:lit=' ELSE' ' ENDIF
 '
     dropping space
 check_literal:After drop space:'ELSE' 'ENDIF
+'
+  'L' != 'N'
+check_literal: ret0
+check_literal:lit=' ELSEIF' ' ENDIF
+'
+    dropping space
+check_literal:After drop space:'ELSEIF' 'ENDIF
 '
   'L' != 'N'
 check_literal: ret0
