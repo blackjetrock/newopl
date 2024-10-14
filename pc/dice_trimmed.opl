@@ -1,6 +1,6 @@
 
 KSTAT 1
-PRINT top::
+
 CLS :PRINT "****DICE ROLLING****"
 PRINT "PRESS S TO STOP"
 DO
@@ -10,7 +10,7 @@ CLS
 PRINT "********* ";dice%;" ********"
 BEEP 50,100
 AT 1,4 :PRINT "ROLL AGAIN Y/N"
-PRINT label::
+
 key%=GET
 IF key%=%Y
  GOTO top::

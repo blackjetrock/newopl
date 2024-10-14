@@ -48,35 +48,35 @@ int check_expression(int *index);
 
 enum
   {
-   EXP_BUFF_ID_TKN = 1,
-   EXP_BUFF_ID_SUB_START,
-   EXP_BUFF_ID_SUB_END,
-   EXP_BUFF_ID_VARIABLE,
-   EXP_BUFF_ID_INTEGER,
-   EXP_BUFF_ID_FLT,
-   EXP_BUFF_ID_STR,
-   EXP_BUFF_ID_FUNCTION,
-   EXP_BUFF_ID_OPERATOR,
-   EXP_BUFF_ID_AUTOCON,
-   EXP_BUFF_ID_COMMAND,
-   EXP_BUFF_ID_MAX,
+    EXP_BUFF_ID_TKN = 1,
+    EXP_BUFF_ID_SUB_START,
+    EXP_BUFF_ID_SUB_END,
+    EXP_BUFF_ID_VARIABLE,
+    EXP_BUFF_ID_INTEGER,
+    EXP_BUFF_ID_FLT,
+    EXP_BUFF_ID_STR,
+    EXP_BUFF_ID_FUNCTION,
+    EXP_BUFF_ID_OPERATOR,
+    EXP_BUFF_ID_AUTOCON,
+    EXP_BUFF_ID_COMMAND,
+    EXP_BUFF_ID_MAX,
   };
 
 char *exp_buffer_id_str[] =
   {
-   "EXP_BUFF_ID_???",
-   "EXP_BUFF_ID_TKN",
-   "EXP_BUFF_ID_SUB_START",
-   "EXP_BUFF_ID_SUB_END",
-   "EXP_BUFF_ID_VARIABLE",
-   "EXP_BUFF_ID_INTEGER",
-   "EXP_BUFF_ID_FLT",
-   "EXP_BUFF_ID_STR",
-   "EXP_BUFF_ID_FUNCTION",
-   "EXP_BUFF_ID_OPERATOR",
-   "EXP_BUFF_ID_AUTOCON",
-   "EXP_BUFF_ID_COMMAND",
-   "EXP_BUFF_ID_MAX",
+    "EXP_BUFF_ID_???",
+    "EXP_BUFF_ID_TKN",
+    "EXP_BUFF_ID_SUB_START",
+    "EXP_BUFF_ID_SUB_END",
+    "EXP_BUFF_ID_VARIABLE",
+    "EXP_BUFF_ID_INTEGER",
+    "EXP_BUFF_ID_FLT",
+    "EXP_BUFF_ID_STR",
+    "EXP_BUFF_ID_FUNCTION",
+    "EXP_BUFF_ID_OPERATOR",
+    "EXP_BUFF_ID_AUTOCON",
+    "EXP_BUFF_ID_COMMAND",
+    "EXP_BUFF_ID_MAX",
   };
 
 
@@ -102,134 +102,134 @@ struct _FN_INFO
   uint8_t qcode;
 }
   fn_info[] =
-    {
-      { "EOL",      0,  0, "ii",       "f", 0x00 },
-     //{ "=",      0,  0,   "ii",       "f", 0x00 },
-      { "ABS",      0,  0,  "f",       "f", 0x00 },
-      { "ACOS",     0,  0,  "f",       "f", 0x00 },
-      { "ADDR",     0,  0,  "ii",       "f", 0x00 },
-      { "APPEND",   1,  1,  "ii",       "f", 0x00 },
-      { "ASC",      0,  0,  "i",        "s", 0x00 },
-      { "ASIN",     0,  0,  "f",       "f", 0x00 },
-      { "AT",       1,  0,  "ii",       "f", 0x4C },
-      { "ATAN",     0,  0,  "f",       "f", 0x00 },
-      { "BACK",     1,  1,  "ii",       "f", 0x00 },
-      { "BEEP",     1,  0,  "ii",       "f", 0x00 },
-      { "BREAK",    1,  0,  "ii",       "f", 0x00 },
-      { "CHR$",     0,  0,  "s",        "i", 0x00 },
-      { "CLOCK",    0,  0,  "ii",       "f", 0x00 },
-      { "CLOSE",    1,  1,  "ii",       "f", 0x00 },
-      { "CLS",      1,  0,  "ii",       "f", 0x00 },
-      { "CONTINUE", 1,  0,  "ii",       "f", 0x00 },
-      { "COPY",     1,  1,  "ii",       "f", 0x00 },
-      { "COPYW",    1,  1,  "ii",       "f", 0x00 },
-      { "COS",      0,  0,  "f",        "f", 0x00 },
-      { "COUNT",    0,  0,  "ii",       "f", 0x00 },
-      { "CREATE",   1,  1,  "ii",       "f", 0x00 },
-      { "CURSOR",   1,  0,  "ii",       "f", 0x00 },
-      { "DATIM$",   0,  0,  "ii",       "f", 0x00 },
-      { "DAY",      0,  0,  "",         "i", 0x00 },
-      { "DAYNAME$", 0,  0,  "ii",       "f", 0x00 },
-      { "DAYS",     0,  0,  "ii",       "f", 0x00 },
-      { "DEG",      0,  0,  "ii",       "f", 0x00 },
-      { "DELETE",   1,  1,  "ii",       "f", 0x00 },
-      { "DELETEW",  1,  1,  "ii",       "f", 0x00 },
-      { "DIR$",     0,  0,  "ii",       "f", 0x00 },
-      { "DIRW$",    0,  0,  "ii",       "f", 0x00 },
-      { "DISP",     0,  0,  "ii",       "f", 0x00 },
-      { "DOW",      0,  0,  "ii",       "f", 0x00 },
-      { "EDIT",     1,  1,  "ii",       "f", 0x00 },
-      { "EOF",      0,  0,  "ii",       "f", 0x00 },
-      { "ERASE",    1,  1,  "ii",       "f", 0x00 },
-      { "ERR",      0,  0,  "ii",       "f", 0x00 },
-      { "ERR$",     0,  0,  "ii",       "f", 0x00 },
-      { "ESCAPE",   1,  0,  "ii",       "f", 0x00 },
-      { "EXIST",    0,  0,  "ii",       "f", 0x00 },
-      { "EXP",      0,  0,  "f",        "f", 0x00 },
-      { "FIND",     0,  0,  "ii",       "f", 0x00 },
-      { "FINDW",    0,  0,  "ii",       "f", 0x00 },
-      { "FIRST",    1,  1,  "ii",       "f", 0x00 },
-      { "FIX$",     0,  0,  "ii",       "f", 0x00 },
-      { "FLT",      0,  0,  "i",        "f", 0x00 },
-      { "FREE",     0,  0,  "ii",       "f", 0x00 },
-      { "GEN$",     0,  0,  "ii",       "f", 0x00 },
-      { "GET",      0,  0,  "ii",       "f", 0x00 },
-      { "GET$",     0,  0,  "ii",       "f", 0x00 },
-      { "GLOBAL",   1,  0,  "ii",       "f", 0x00 },
-      { "GOTO",     1,  0,  "ii",       "f", 0x00 },
-      { "HEX$",     0,  0,  "ii",       "f", 0x00 },
-      { "HOUR",     0,  0,  "",         "i", 0x00 },
-      { "IABS",     0,  0,  "i",        "i", 0x00 },
-      { "INPUT",    1,  1,  "ii",       "f", 0x00 },
-      { "INT",      0,  0,  "f",        "i", 0x00 },
-      { "INTF",     0,  0,  "ii",       "f", 0x00 },
-      { "KEY",      0,  0,  "ii",       "f", 0x00 },
-      { "KEY$",     0,  0,  "ii",       "f", 0x00 },
-      { "KSTAT",    1,  0,  "ii",       "f", 0x00 },
-      { "LAST",     1,  1,  "ii",       "f", 0x00 },
-      { "LEFT$",    0,  0,  "ii",       "f", 0x00 },
-      { "LEN",      0,  0,  "ii",       "f", 0x00 },
-      { "LN",       0,  0,  "f",         "f", 0x00 },
-      { "LOC",      0,  0,  "ii",       "f", 0x00 },
-      { "LOCAL",    1,  0,  "ii",       "f", 0x00 },
-      { "LOG",      0,  0,  "ii",       "f", 0x00 },
-      { "LOWER$",   0,  0,  "ii",       "f", 0x00 },
-      { "LPRINT",   1,  0,  "ii",       "f", 0x00 },
-      { "MAX",      0,  0,  "ii",        "f", 0x00 },
-      { "MEAN",     0,  0,  "ii",       "f", 0x00 },
-      { "MENU",     0,  0,  "ii",       "f", 0x00 },
-      { "MENUN",    0,  0,  "ii",       "f", 0x00 },
-      { "MID$",     0,  0,  "ii",       "f", 0x00 },
-      { "MIN",      0,  0,  "ii",       "f", 0x00 },
-      { "MINUTE",   0,  0,  "",         "i", 0x00 },
-      { "MONTH",    0,  0,  "",         "i", 0x00 },
-      { "MONTH$",   0,  0,  "ii",       "f", 0x00 },
-      { "NEXT",     0,  1,  "ii",       "f", 0x00 },
-      { "NUM$",     0,  0,  "ii",       "f", 0x00 },
-      { "OFF",      1,  0,  "ii",       "f", 0x00 },
-      { "OPEN",     1,  1,  "ii",       "f", 0x00 },
-      { "ONERR",    1,  0,  "ii",       "f", 0x00 },
-      { "PAUSE",    1,  0,  "ii",       "f", 0x00 },
-      { "PEEKB",    0,  0,  "ii",       "f", 0x00 },
-      { "PEEKW",    0,  0,  "ii",       "f", 0x00 },
-      { "PI",       0,  0,  "ii",       "f", 0x00 },
-      { "POKEB",    1,  0,  "ii",       "f", 0x00 },
-      { "POKEW",    1,  0,  "ii",       "f", 0x00 },
-      { "POS",      0,  0,  "ii",       "f", 0x00 },
-      { "POSITION", 1,  1,  "ii",       "f", 0x00 },
-      { "PRINT",    1,  0,  "i",        "v", 0x00 },
-      { "RAD",      0,  0,  "ii",       "f", 0x00 },
-      { "RAISE",    1,  0,  "ii",       "f", 0x00 },
-      { "RANDOMIZE",1,  0,  "ii",       "f", 0x00 },
-      { "RECSIZE",  0,  0,  "ii",       "f", 0x00 },
-      { "REM",      1,  0,  "ii",       "f", 0x00 },
-      { "RENAME",   1,  1,  "ii",       "f", 0x00 },
-      { "REPT$",    0,  0,  "ii",       "f", 0x00 },
-      { "RETURN",   1,  0,  "ii",       "f", 0x00 },
-      { "RIGHT$",   0,  0,  "ii",       "f", 0x00 },
-      { "RND",      0,  0,  "ii",       "f", 0x00 },
-      { "SCI$",     0,  0,  "ii",       "f", 0x00 },
-      { "SECOND",   0,  0,  "",         "i", 0x00 },
-      { "SIN",      0,  0,  "f",        "f", 0x00 },
-      { "SPACE",    0,  0,  "ii",       "f", 0x00 },
-      { "SQR",      0,  0,  "f",         "f", 0x00 },
-      { "STD",      0,  0,  "ii",        "f", 0x00 },
-      { "STOP",     1,  0,  "ii",        "f", 0x00 },
-      { "SUM",      0,  0,  "ii",        "f", 0x00 },
-      { "TAN",      0,  0,  "f",         "f", 0x00 },
-      { "TRAP",     1,  0,  "ii",        "f", 0x00 },
-      { "UDG",      1,  0,  "iiiiiiiii", "v", 0x00 },
-      { "UPDATE",   1,  1,  "ii",        "f", 0x00 },
-      { "UPPER$",   0,  0,  "ii",        "f", 0x00 },
-      { "USE",      1,  1,  "ii",        "f", 0x00 },
-      { "USR",      0,  0,  "ii",        "v", 0x00 },
-      { "USR$",     0,  0,  "ii",        "f", 0x00 },
-      { "VAL",      0,  0,  "ii",        "f", 0x00 },
-      { "VAR",      0,  0,  "ii",        "f", 0x00 },
-      { "VIEW",     0,  0,  "ii",        "f", 0x00 },
-      { "WEEK",     0,  0,  "ii",        "f", 0x00 },
-      { "YEAR",     0,  0,  "ii",        "f", 0x00 },
-    };
+  {
+    { "EOL",      0,  0, "ii",       "f", 0x00 },
+    //{ "=",      0,  0,   "ii",       "f", 0x00 },
+    { "ABS",      0,  0,  "f",       "f", 0x00 },
+    { "ACOS",     0,  0,  "f",       "f", 0x00 },
+    { "ADDR",     0,  0,  "ii",       "f", 0x00 },
+    { "APPEND",   1,  1,  "ii",       "f", 0x00 },
+    { "ASC",      0,  0,  "i",        "s", 0x00 },
+    { "ASIN",     0,  0,  "f",       "f", 0x00 },
+    { "AT",       1,  0,  "ii",       "f", 0x4C },
+    { "ATAN",     0,  0,  "f",       "f", 0x00 },
+    { "BACK",     1,  1,  "ii",       "f", 0x00 },
+    { "BEEP",     1,  0,  "ii",       "f", 0x00 },
+    { "BREAK",    1,  0,  "ii",       "f", 0x00 },
+    { "CHR$",     0,  0,  "s",        "i", 0x00 },
+    { "CLOCK",    0,  0,  "ii",       "f", 0x00 },
+    { "CLOSE",    1,  1,  "ii",       "f", 0x00 },
+    { "CLS",      1,  0,  "ii",       "f", 0x00 },
+    { "CONTINUE", 1,  0,  "ii",       "f", 0x00 },
+    { "COPY",     1,  1,  "ii",       "f", 0x00 },
+    { "COPYW",    1,  1,  "ii",       "f", 0x00 },
+    { "COS",      0,  0,  "f",        "f", 0x00 },
+    { "COUNT",    0,  0,  "ii",       "f", 0x00 },
+    { "CREATE",   1,  1,  "ii",       "f", 0x00 },
+    { "CURSOR",   1,  0,  "ii",       "f", 0x00 },
+    { "DATIM$",   0,  0,  "ii",       "f", 0x00 },
+    { "DAY",      0,  0,  "",         "i", 0x00 },
+    { "DAYNAME$", 0,  0,  "ii",       "f", 0x00 },
+    { "DAYS",     0,  0,  "ii",       "f", 0x00 },
+    { "DEG",      0,  0,  "ii",       "f", 0x00 },
+    { "DELETE",   1,  1,  "ii",       "f", 0x00 },
+    { "DELETEW",  1,  1,  "ii",       "f", 0x00 },
+    { "DIR$",     0,  0,  "ii",       "f", 0x00 },
+    { "DIRW$",    0,  0,  "ii",       "f", 0x00 },
+    { "DISP",     0,  0,  "ii",       "f", 0x00 },
+    { "DOW",      0,  0,  "ii",       "f", 0x00 },
+    { "EDIT",     1,  1,  "ii",       "f", 0x00 },
+    { "EOF",      0,  0,  "ii",       "f", 0x00 },
+    { "ERASE",    1,  1,  "ii",       "f", 0x00 },
+    { "ERR",      0,  0,  "ii",       "f", 0x00 },
+    { "ERR$",     0,  0,  "ii",       "f", 0x00 },
+    { "ESCAPE",   1,  0,  "ii",       "f", 0x00 },
+    { "EXIST",    0,  0,  "ii",       "f", 0x00 },
+    { "EXP",      0,  0,  "f",        "f", 0x00 },
+    { "FIND",     0,  0,  "ii",       "f", 0x00 },
+    { "FINDW",    0,  0,  "ii",       "f", 0x00 },
+    { "FIRST",    1,  1,  "ii",       "f", 0x00 },
+    { "FIX$",     0,  0,  "ii",       "f", 0x00 },
+    { "FLT",      0,  0,  "i",        "f", 0x00 },
+    { "FREE",     0,  0,  "ii",       "f", 0x00 },
+    { "GEN$",     0,  0,  "ii",       "f", 0x00 },
+    { "GET",      0,  0,  "ii",       "f", 0x00 },
+    { "GET$",     0,  0,  "ii",       "f", 0x00 },
+    { "GLOBAL",   1,  0,  "ii",       "f", 0x00 },
+    { "GOTO",     1,  0,  "ii",       "f", 0x00 },
+    { "HEX$",     0,  0,  "ii",       "f", 0x00 },
+    { "HOUR",     0,  0,  "",         "i", 0x00 },
+    { "IABS",     0,  0,  "i",        "i", 0x00 },
+    { "INPUT",    1,  1,  "ii",       "f", 0x00 },
+    { "INT",      0,  0,  "f",        "i", 0x00 },
+    { "INTF",     0,  0,  "ii",       "f", 0x00 },
+    { "KEY$",     0,  0,  "ii",       "f", 0x00 },
+    { "KEY",      0,  0,  "ii",       "f", 0x00 },
+    { "KSTAT",    1,  0,  "ii",       "f", 0x00 },
+    { "LAST",     1,  1,  "ii",       "f", 0x00 },
+    { "LEFT$",    0,  0,  "ii",       "f", 0x00 },
+    { "LEN",      0,  0,  "ii",       "f", 0x00 },
+    { "LN",       0,  0,  "f",         "f", 0x00 },
+    { "LOC",      0,  0,  "ii",       "f", 0x00 },
+    { "LOCAL",    1,  0,  "ii",       "f", 0x00 },
+    { "LOG",      0,  0,  "ii",       "f", 0x00 },
+    { "LOWER$",   0,  0,  "ii",       "f", 0x00 },
+    { "LPRINT",   1,  0,  "ii",       "f", 0x00 },
+    { "MAX",      0,  0,  "ii",        "f", 0x00 },
+    { "MEAN",     0,  0,  "ii",       "f", 0x00 },
+    { "MENU",     0,  0,  "ii",       "f", 0x00 },
+    { "MENUN",    0,  0,  "ii",       "f", 0x00 },
+    { "MID$",     0,  0,  "ii",       "f", 0x00 },
+    { "MIN",      0,  0,  "ii",       "f", 0x00 },
+    { "MINUTE",   0,  0,  "",         "i", 0x00 },
+    { "MONTH",    0,  0,  "",         "i", 0x00 },
+    { "MONTH$",   0,  0,  "ii",       "f", 0x00 },
+    { "NEXT",     0,  1,  "ii",       "f", 0x00 },
+    { "NUM$",     0,  0,  "ii",       "f", 0x00 },
+    { "OFF",      1,  0,  "ii",       "f", 0x00 },
+    { "OPEN",     1,  1,  "ii",       "f", 0x00 },
+    { "ONERR",    1,  0,  "ii",       "f", 0x00 },
+    { "PAUSE",    1,  0,  "ii",       "f", 0x00 },
+    { "PEEKB",    0,  0,  "ii",       "f", 0x00 },
+    { "PEEKW",    0,  0,  "ii",       "f", 0x00 },
+    { "PI",       0,  0,  "ii",       "f", 0x00 },
+    { "POKEB",    1,  0,  "ii",       "f", 0x00 },
+    { "POKEW",    1,  0,  "ii",       "f", 0x00 },
+    { "POS",      0,  0,  "ii",       "f", 0x00 },
+    { "POSITION", 1,  1,  "ii",       "f", 0x00 },
+    { "PRINT",    1,  0,  "i",        "v", 0x00 },
+    { "RAD",      0,  0,  "ii",       "f", 0x00 },
+    { "RAISE",    1,  0,  "ii",       "f", 0x00 },
+    { "RANDOMIZE",1,  0,  "ii",       "f", 0x00 },
+    { "RECSIZE",  0,  0,  "ii",       "f", 0x00 },
+    { "REM",      1,  0,  "ii",       "f", 0x00 },
+    { "RENAME",   1,  1,  "ii",       "f", 0x00 },
+    { "REPT$",    0,  0,  "ii",       "f", 0x00 },
+    { "RETURN",   1,  0,  "ii",       "f", 0x00 },
+    { "RIGHT$",   0,  0,  "ii",       "f", 0x00 },
+    { "RND",      0,  0,  "ii",       "f", 0x00 },
+    { "SCI$",     0,  0,  "ii",       "f", 0x00 },
+    { "SECOND",   0,  0,  "",         "i", 0x00 },
+    { "SIN",      0,  0,  "f",        "f", 0x00 },
+    { "SPACE",    0,  0,  "ii",       "f", 0x00 },
+    { "SQR",      0,  0,  "f",         "f", 0x00 },
+    { "STD",      0,  0,  "ii",        "f", 0x00 },
+    { "STOP",     1,  0,  "ii",        "f", 0x00 },
+    { "SUM",      0,  0,  "ii",        "f", 0x00 },
+    { "TAN",      0,  0,  "f",         "f", 0x00 },
+    { "TRAP",     1,  0,  "ii",        "f", 0x00 },
+    { "UDG",      1,  0,  "iiiiiiiii", "v", 0x00 },
+    { "UPDATE",   1,  1,  "ii",        "f", 0x00 },
+    { "UPPER$",   0,  0,  "ii",        "f", 0x00 },
+    { "USE",      1,  1,  "ii",        "f", 0x00 },
+    { "USR",      0,  0,  "ii",        "v", 0x00 },
+    { "USR$",     0,  0,  "ii",        "f", 0x00 },
+    { "VAL",      0,  0,  "ii",        "f", 0x00 },
+    { "VAR",      0,  0,  "ii",        "f", 0x00 },
+    { "VIEW",     0,  0,  "ii",        "f", 0x00 },
+    { "WEEK",     0,  0,  "ii",        "f", 0x00 },
+    { "YEAR",     0,  0,  "ii",        "f", 0x00 },
+  };
 
 
 #define NUM_FUNCTIONS (sizeof(fn_info)/sizeof(struct _FN_INFO))
@@ -275,21 +275,22 @@ typedef struct _OP_INFO
 OP_INFO  op_info[] =
   {
     // Array dereference internal operator
-   { "@",    9, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { "=",    1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { ":=",   1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { "+",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { "-",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { "*",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-   { "/",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-   { ">",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { "AND",  5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-   // (Handle bitwise on integer, logical on floats somewhere)
-   //{ ",",  0, 0 }, /// Not used?
+    { "@",    9, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "=",    1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { ":=",   1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "+",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "-",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "*",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    { "/",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    { ">",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "AND",  5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    { ";",    0, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    // (Handle bitwise on integer, logical on floats somewhere)
+    //{ ",",  0, 0 }, /// Not used?
     
-   // LZ only
-   { "+%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
-   { "-%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
+    // LZ only
+    { "+%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
+    { "-%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
   };
 
 
@@ -785,8 +786,8 @@ int scan_vname(char *vname_dest)
       
       while( isalnum(ch = cline[cline_i]) )
 	{
-	vname[vname_i++] = ch;
-	cline_i++;
+	  vname[vname_i++] = ch;
+	  cline_i++;
 	}
 
       vname[vname_i] = '\0';
@@ -1604,6 +1605,7 @@ int check_command(int *index)
 	{
 	  // Match
 	  printf("\n%s: ret1=> '%s'", __FUNCTION__, fn_info[i].name);
+	  *index = idx + strlen(fn_info[i].name);
 	  return(1);
 	}
     }
@@ -1734,7 +1736,7 @@ int check_line(int *index)
 
   if( check_assignment(&idx) )
     {
-      cline_i = idx;
+      *index = idx;
       return(1);
     }
 
@@ -1742,75 +1744,75 @@ int check_line(int *index)
 
   if( check_command(&idx) )
     {
-      cline_i = idx;
+      *index = idx;
       return(1);
     }
 
   idx = cline_i;
   if( check_literal(&idx," LOCAL"))
     {
-      cline_i = idx;
+      *index = idx;
       return(1);
     }
 
   idx = cline_i;
   if( check_literal(&idx," GLOBAL"))
     {
-      cline_i = idx;
+      *index = idx;
       return(1);
     }
 
   idx = cline_i;
   if( check_literal(&idx," IF"))
     {
-      cline_i = idx;
+      *index = idx;
       return(1);
     }
 
   idx = cline_i;
   if( check_literal(&idx," ELSE"))
     {
-      cline_i = idx;
+      *index = idx;
       return(1);
     }
 
   idx = cline_i;
   if( check_literal(&idx," ENDIF"))
     {
-      cline_i = idx;
+      *index = idx;
       return(1);
     }
 
   idx = cline_i;
   if( check_literal(&idx," DO"))
     {
-      cline_i = idx;
+      *index = idx;
       return(1);
     }
 
   idx = cline_i;
   if( check_literal(&idx," WHILE"))
     {
-      cline_i = idx;
+      *index = idx;
       return(1);
     }
 
   idx = cline_i;
   if( check_literal(&idx," REPEAT"))
     {
-      cline_i = idx;
+      *index = idx;
       return(1);
     }
 
   idx = cline_i;
   if( check_literal(&idx," UNTIL"))
     {
-      cline_i = idx;
+      *index = idx;
       return(1);
     }
 
-  cline_i = idx;
-    return(0);
+  *index = idx;
+  return(0);
 }
   
 int scan_line()
@@ -1832,7 +1834,7 @@ int scan_line()
   idx = cline_i;
   if( check_command(&idx) )
     {
-      printf("\n%s:check_command:1 ", __FUNCTION__);
+      printf("\n%s:check_command: ", __FUNCTION__);
       scan_command(cmdname);
       return(1);
     }
@@ -1922,13 +1924,13 @@ int scan_cline()
   while( check_line(&idx) && (strlen(&(cline[idx])) > 0))
     {
       printf("\n%s: Checked len=%ld, '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
-      cline_i = idx;
+      //cline_i = idx;
       
       if( !scan_line() )
-      {
-	printf("\n%s: scan_line==0 len=%ld '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
-	return(0);
-      }
+	{
+	  printf("\n%s: scan_line==0 len=%ld '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
+	  return(0);
+	}
 
       idx = cline_i;
       
@@ -1936,7 +1938,7 @@ int scan_cline()
       
       if ( check_literal(&idx,":") )
 	{
-	  cline_i = idx;
+	  //cline_i = idx;
 	  scan_literal(":");
 	}
       else
@@ -1951,9 +1953,9 @@ int scan_cline()
 	    }
 	}
 
-      idx = cline_i;
-      drop_space(&idx);
-      cline_i = idx;
+      //      idx = cline_i;
+      drop_space(&cline_i);
+      //cline_i = idx;
       
     }
 
