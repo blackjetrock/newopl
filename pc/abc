@@ -30,7 +30,7 @@ check_literal:After drop space:'=' '= A + (2*3+3*Z%-   ABC%*1.1)
 check_literal:After while(): A + (2*3+3*Z%-   ABC%*1.1)
 
 check_literal:ret1 
-check_expression:WW 'A + (2*3+3*Z%-   ABC%*1.1)
+check_expression: 'A + (2*3+3*Z%-   ABC%*1.1)
 '
 check_eitem: 'A + (2*3+3*Z%-   ABC%*1.1)
 '
@@ -54,7 +54,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A + (2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A + (2*3+3*Z%-   ABC%*1.1)
@@ -74,7 +77,371 @@ check_literal: ret0
 check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
 check_variable:ret1 
 check_eitem:ret1
-check_expression:ret1 ' + (2*3+3*Z%-   ABC%*1.1)
+check_eitem: ' + (2*3+3*Z%-   ABC%*1.1)
+'
+check_operator:  + (2*3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' + (2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '+ (2*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '+'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: ' (2*3+3*Z%-   ABC%*1.1)
+'
+check_operator:  (2*3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' (2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '(2*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '('
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '  (2*3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '(2*3+3*Z%-   ABC%*1.1)
+'
+  '"' != '('
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: '(2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '(2*3+3*Z%-   ABC%*1.1)
+':
+check_vname ret0 '(2*3+3*Z%-   ABC%*1.1)
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' '  (2*3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'(' '(2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After while():2*3+3*Z%-   ABC%*1.1)
+
+check_literal:ret1 
+check_sub_expr: ret1
+check_eitem:ret1
+check_eitem: '2*3+3*Z%-   ABC%*1.1)
+'
+check_operator: 2*3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' 2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '2*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '2'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 2*3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '2*3+3*Z%-   ABC%*1.1)
+'
+  '"' != '2'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '*3+3*Z%-   ABC%*1.1)
+'
+check_operator: *3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' *3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '*'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '3+3*Z%-   ABC%*1.1)
+'
+check_operator: 3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' 3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '3+3*Z%-   ABC%*1.1)
+'
+  ',' != '3'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '3+3*Z%-   ABC%*1.1)
+'
+  '"' != '3'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '+3*Z%-   ABC%*1.1)
+'
+check_operator: +3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' +3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '+3*Z%-   ABC%*1.1)
+'
+  ',' != '+'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '3*Z%-   ABC%*1.1)
+'
+check_operator: 3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' 3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '3*Z%-   ABC%*1.1)
+'
+  ',' != '3'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '3*Z%-   ABC%*1.1)
+'
+  '"' != '3'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '*Z%-   ABC%*1.1)
+'
+check_operator: *Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' *Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '*Z%-   ABC%*1.1)
+'
+  ',' != '*'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: 'Z%-   ABC%*1.1)
+'
+check_operator: Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' 'Z%-   ABC%*1.1)
+'
+  ',' != 'Z'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' 'Z%-   ABC%*1.1)
+'
+  '"' != 'Z'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: 'Z%-   ABC%*1.1)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname 'Z%-   ABC%*1.1)
+':
+check_vname ret1 '%-   ABC%*1.1)
+':
+check_variable: '%-   ABC%*1.1)
+'
+check_variable: Ary test '-   ABC%*1.1)
+'
+check_literal:lit='(' ' -   ABC%*1.1)
+'
+check_literal:After drop space:'(' '-   ABC%*1.1)
+'
+  '(' != '-'
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_eitem:ret1
+check_eitem: '-   ABC%*1.1)
+'
+check_operator: -   ABC%*1.1)
+
+check_literal:lit=',' ' -   ABC%*1.1)
+'
+check_literal:After drop space:',' '-   ABC%*1.1)
+'
+  ',' != '-'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '   ABC%*1.1)
+'
+check_operator:    ABC%*1.1)
+
+check_literal:lit=',' ' ABC%*1.1)
+'
+check_literal:After drop space:',' 'ABC%*1.1)
+'
+  ',' != 'A'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '    ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' 'ABC%*1.1)
+'
+  '"' != 'A'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: 'ABC%*1.1)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname 'ABC%*1.1)
+':
+check_vname ret1 '%*1.1)
+':
+check_variable: '%*1.1)
+'
+check_variable: Ary test '*1.1)
+'
+check_literal:lit='(' ' *1.1)
+'
+check_literal:After drop space:'(' '*1.1)
+'
+  '(' != '*'
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_eitem:ret1
+check_eitem: '*1.1)
+'
+check_operator: *1.1)
+
+check_literal:lit=',' ' *1.1)
+'
+check_literal:After drop space:',' '*1.1)
+'
+  ',' != '*'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '1.1)
+'
+check_operator: 1.1)
+
+check_literal:lit=',' ' 1.1)
+'
+check_literal:After drop space:',' '1.1)
+'
+  ',' != '1'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '1.1)
+'
+  '"' != '1'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: ')
+'
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
+'
+    dropping space
+check_literal:After drop space:'"' ')
+'
+  '"' != ')'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
+'
+    dropping space
+check_literal:After drop space:'(' ')
+'
+  '(' != ')'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
 '
 check_assignment:ret1
 scan_cline: Checked len=30, 'A= A + (2*3+3*Z%-   ABC%*1.1)
@@ -106,7 +473,7 @@ check_literal:After drop space:'=' '= A + (2*3+3*Z%-   ABC%*1.1)
 check_literal:After while(): A + (2*3+3*Z%-   ABC%*1.1)
 
 check_literal:ret1 
-check_expression:WW 'A + (2*3+3*Z%-   ABC%*1.1)
+check_expression: 'A + (2*3+3*Z%-   ABC%*1.1)
 '
 check_eitem: 'A + (2*3+3*Z%-   ABC%*1.1)
 '
@@ -130,7 +497,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A + (2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A + (2*3+3*Z%-   ABC%*1.1)
@@ -150,7 +520,371 @@ check_literal: ret0
 check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
 check_variable:ret1 
 check_eitem:ret1
-check_expression:ret1 ' + (2*3+3*Z%-   ABC%*1.1)
+check_eitem: ' + (2*3+3*Z%-   ABC%*1.1)
+'
+check_operator:  + (2*3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' + (2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '+ (2*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '+'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: ' (2*3+3*Z%-   ABC%*1.1)
+'
+check_operator:  (2*3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' (2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '(2*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '('
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '  (2*3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '(2*3+3*Z%-   ABC%*1.1)
+'
+  '"' != '('
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: '(2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '(2*3+3*Z%-   ABC%*1.1)
+':
+check_vname ret0 '(2*3+3*Z%-   ABC%*1.1)
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' '  (2*3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'(' '(2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After while():2*3+3*Z%-   ABC%*1.1)
+
+check_literal:ret1 
+check_sub_expr: ret1
+check_eitem:ret1
+check_eitem: '2*3+3*Z%-   ABC%*1.1)
+'
+check_operator: 2*3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' 2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '2*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '2'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 2*3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '2*3+3*Z%-   ABC%*1.1)
+'
+  '"' != '2'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '*3+3*Z%-   ABC%*1.1)
+'
+check_operator: *3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' *3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '*'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '3+3*Z%-   ABC%*1.1)
+'
+check_operator: 3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' 3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '3+3*Z%-   ABC%*1.1)
+'
+  ',' != '3'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '3+3*Z%-   ABC%*1.1)
+'
+  '"' != '3'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '+3*Z%-   ABC%*1.1)
+'
+check_operator: +3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' +3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '+3*Z%-   ABC%*1.1)
+'
+  ',' != '+'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '3*Z%-   ABC%*1.1)
+'
+check_operator: 3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' 3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '3*Z%-   ABC%*1.1)
+'
+  ',' != '3'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '3*Z%-   ABC%*1.1)
+'
+  '"' != '3'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '*Z%-   ABC%*1.1)
+'
+check_operator: *Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' *Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '*Z%-   ABC%*1.1)
+'
+  ',' != '*'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: 'Z%-   ABC%*1.1)
+'
+check_operator: Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' 'Z%-   ABC%*1.1)
+'
+  ',' != 'Z'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' 'Z%-   ABC%*1.1)
+'
+  '"' != 'Z'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: 'Z%-   ABC%*1.1)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname 'Z%-   ABC%*1.1)
+':
+check_vname ret1 '%-   ABC%*1.1)
+':
+check_variable: '%-   ABC%*1.1)
+'
+check_variable: Ary test '-   ABC%*1.1)
+'
+check_literal:lit='(' ' -   ABC%*1.1)
+'
+check_literal:After drop space:'(' '-   ABC%*1.1)
+'
+  '(' != '-'
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_eitem:ret1
+check_eitem: '-   ABC%*1.1)
+'
+check_operator: -   ABC%*1.1)
+
+check_literal:lit=',' ' -   ABC%*1.1)
+'
+check_literal:After drop space:',' '-   ABC%*1.1)
+'
+  ',' != '-'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '   ABC%*1.1)
+'
+check_operator:    ABC%*1.1)
+
+check_literal:lit=',' ' ABC%*1.1)
+'
+check_literal:After drop space:',' 'ABC%*1.1)
+'
+  ',' != 'A'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '    ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' 'ABC%*1.1)
+'
+  '"' != 'A'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: 'ABC%*1.1)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname 'ABC%*1.1)
+':
+check_vname ret1 '%*1.1)
+':
+check_variable: '%*1.1)
+'
+check_variable: Ary test '*1.1)
+'
+check_literal:lit='(' ' *1.1)
+'
+check_literal:After drop space:'(' '*1.1)
+'
+  '(' != '*'
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_eitem:ret1
+check_eitem: '*1.1)
+'
+check_operator: *1.1)
+
+check_literal:lit=',' ' *1.1)
+'
+check_literal:After drop space:',' '*1.1)
+'
+  ',' != '*'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '1.1)
+'
+check_operator: 1.1)
+
+check_literal:lit=',' ' 1.1)
+'
+check_literal:After drop space:',' '1.1)
+'
+  ',' != '1'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '1.1)
+'
+  '"' != '1'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: ')
+'
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
+'
+    dropping space
+check_literal:After drop space:'"' ')
+'
+  '"' != ')'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
+'
+    dropping space
+check_literal:After drop space:'(' ')
+'
+  '(' != ')'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
 '
 check_assignment:ret1
 scan_assignment:
@@ -162,11 +896,11 @@ scan_variable: '= A + (2*3+3*Z%-   ABC%*1.1)
 '
 scan_variable: Ary test '= A + (2*3+3*Z%-   ABC%*1.1)
 '
-check_literal:lit='(' ' A= A + (2*3+3*Z%-   ABC%*1.1)
+check_literal:lit='(' ' = A + (2*3+3*Z%-   ABC%*1.1)
 '
-check_literal:After drop space:'(' 'A= A + (2*3+3*Z%-   ABC%*1.1)
+check_literal:After drop space:'(' '= A + (2*3+3*Z%-   ABC%*1.1)
 '
-  '(' != 'A'
+  '(' != '='
 check_literal: ret0
 scan_variable:ret1 vname='A' is str:0 int:0 flt:1 ary:0
 scan_literal:lit=' =' '= A + (2*3+3*Z%-   ABC%*1.1)
@@ -199,7 +933,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A + (2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A + (2*3+3*Z%-   ABC%*1.1)
@@ -240,7 +977,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A + (2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A + (2*3+3*Z%-   ABC%*1.1)
@@ -270,7 +1010,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A + (2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A + (2*3+3*Z%-   ABC%*1.1)
@@ -297,11 +1040,11 @@ scan_variable: ' + (2*3+3*Z%-   ABC%*1.1)
 '
 scan_variable: Ary test ' + (2*3+3*Z%-   ABC%*1.1)
 '
-check_literal:lit='(' ' A + (2*3+3*Z%-   ABC%*1.1)
+check_literal:lit='(' '  + (2*3+3*Z%-   ABC%*1.1)
 '
-check_literal:After drop space:'(' 'A + (2*3+3*Z%-   ABC%*1.1)
+check_literal:After drop space:'(' ' + (2*3+3*Z%-   ABC%*1.1)
 '
-  '(' != 'A'
+  '(' != ' '
 check_literal: ret0
 scan_variable:ret1 vname='A' is str:0 int:0 flt:1 ary:0
 check_eitem: ' + (2*3+3*Z%-   ABC%*1.1)
@@ -358,7 +1101,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(2*3+3*Z%-   ABC%*1.1)
@@ -398,7 +1144,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(2*3+3*Z%-   ABC%*1.1)
@@ -447,6 +1196,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -470,6 +1224,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 2*3+3*Z%-   ABC%*1.1)
@@ -482,14 +1241,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: '*3+3*Z%-   ABC%*1.1)
 '
 check_operator: *3+3*Z%-   ABC%*1.1)
@@ -544,6 +1311,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -567,6 +1339,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 3+3*Z%-   ABC%*1.1)
@@ -579,14 +1356,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: '+3*Z%-   ABC%*1.1)
 '
 check_operator: +3*Z%-   ABC%*1.1)
@@ -641,6 +1426,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -664,6 +1454,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 3*Z%-   ABC%*1.1)
@@ -676,14 +1471,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: '*Z%-   ABC%*1.1)
 '
 check_operator: *Z%-   ABC%*1.1)
@@ -738,7 +1541,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Z%-   ABC%*1.1)
@@ -779,7 +1585,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Z%-   ABC%*1.1)
@@ -809,7 +1618,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Z%-   ABC%*1.1)
@@ -836,11 +1648,11 @@ scan_variable: '%-   ABC%*1.1)
 '
 scan_variable: Ary test '-   ABC%*1.1)
 '
-check_literal:lit='(' ' Z%-   ABC%*1.1)
+check_literal:lit='(' ' -   ABC%*1.1)
 '
-check_literal:After drop space:'(' 'Z%-   ABC%*1.1)
+check_literal:After drop space:'(' '-   ABC%*1.1)
 '
-  '(' != 'Z'
+  '(' != '-'
 check_literal: ret0
 scan_variable:ret1 vname='Z%' is str:0 int:1 flt:0 ary:0
 check_eitem: '-   ABC%*1.1)
@@ -897,7 +1709,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'ABC%*1.1)
@@ -938,7 +1753,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'ABC%*1.1)
@@ -968,7 +1786,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'ABC%*1.1)
@@ -995,11 +1816,11 @@ scan_variable: '%*1.1)
 '
 scan_variable: Ary test '*1.1)
 '
-check_literal:lit='(' '    ABC%*1.1)
+check_literal:lit='(' ' *1.1)
 '
-check_literal:After drop space:'(' '   ABC%*1.1)
+check_literal:After drop space:'(' '*1.1)
 '
-  '(' != ' '
+  '(' != '*'
 check_literal: ret0
 scan_variable:ret1 vname='ABC%' is str:0 int:1 flt:0 ary:0
 check_eitem: '*1.1)
@@ -1056,6 +1877,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -1079,6 +1904,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 1.1)
@@ -1091,16 +1920,21 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 scan_float:
 isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+scan_float: ret0
 check_eitem: ')
 '
 check_operator: )
@@ -1123,7 +1957,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname ')
@@ -1167,7 +2004,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -1219,7 +2058,7 @@ check_literal:After drop space:'=' '=2
 check_literal:After while():2
 
 check_literal:ret1 
-check_expression:WW '2
+check_expression: '2
 '
 check_eitem: '2
 '
@@ -1243,9 +2082,47 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '2
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' 
+'
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 '
 '
 check_assignment:ret1
 scan_cline: Checked len=5, 'X%=2
@@ -1277,7 +2154,7 @@ check_literal:After drop space:'=' '=2
 check_literal:After while():2
 
 check_literal:ret1 
-check_expression:WW '2
+check_expression: '2
 '
 check_eitem: '2
 '
@@ -1301,9 +2178,47 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '2
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' 
+'
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 '
 '
 check_assignment:ret1
 scan_assignment:
@@ -1315,11 +2230,11 @@ scan_variable: '%=2
 '
 scan_variable: Ary test '=2
 '
-check_literal:lit='(' ' X%=2
+check_literal:lit='(' ' =2
 '
-check_literal:After drop space:'(' 'X%=2
+check_literal:After drop space:'(' '=2
 '
-  '(' != 'X'
+  '(' != '='
 check_literal: ret0
 scan_variable:ret1 vname='X%' is str:0 int:1 flt:0 ary:0
 scan_literal:lit=' =' '=2
@@ -1352,6 +2267,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -1375,6 +2295,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 2
@@ -1387,47 +2312,52 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
-check_eitem: '
+check_float: ret0
+check_integer: '2
 '
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
+check_eitem: ''
 check_operator: 
-
 check_literal:lit=',' ' '
 check_literal:After drop space:',' ''
 check_literal  ret0 Empty test string
 check_operator:ret0
 check_atom:
-check_literal:lit=' "' ' 
-'
+check_literal:lit=' "' ' '
     dropping space
 check_literal:After drop space:'"' ''
 check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
 check_vname ret0 '':
 check_variable:ret0 
 check_sub_expr:
-check_literal:lit=' (' ' 
-'
+check_literal:lit=' (' ' '
     dropping space
 check_literal:After drop space:'(' ''
 check_literal  ret0 Empty test string
 check_sub_expr: ret0
 check_eitem:ret0
-scan_expression: ret1 '
-'
+scan_expression: ret1 ''
 scan_assignment: ret1
 check_literal:lit=':' ' '
 check_literal:After drop space:':' ''
@@ -1464,7 +2394,7 @@ check_literal:After drop space:'=' '=Y%
 check_literal:After while():Y%
 
 check_literal:ret1 
-check_expression:WW 'Y%
+check_expression: 'Y%
 '
 check_eitem: 'Y%
 '
@@ -1488,7 +2418,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Y%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Y%
@@ -1509,6 +2442,39 @@ check_literal: ret0
 check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
 check_variable:ret1 
 check_eitem:ret1
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' 
+'
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
 check_expression:ret1 '
 '
 check_assignment:ret1
@@ -1541,7 +2507,7 @@ check_literal:After drop space:'=' '=Y%
 check_literal:After while():Y%
 
 check_literal:ret1 
-check_expression:WW 'Y%
+check_expression: 'Y%
 '
 check_eitem: 'Y%
 '
@@ -1565,7 +2531,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Y%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Y%
@@ -1586,6 +2555,39 @@ check_literal: ret0
 check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
 check_variable:ret1 
 check_eitem:ret1
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' 
+'
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
 check_expression:ret1 '
 '
 check_assignment:ret1
@@ -1598,11 +2600,11 @@ scan_variable: '%=Y%
 '
 scan_variable: Ary test '=Y%
 '
-check_literal:lit='(' ' X%=Y%
+check_literal:lit='(' ' =Y%
 '
-check_literal:After drop space:'(' 'X%=Y%
+check_literal:After drop space:'(' '=Y%
 '
-  '(' != 'X'
+  '(' != '='
 check_literal: ret0
 scan_variable:ret1 vname='X%' is str:0 int:1 flt:0 ary:0
 scan_literal:lit=' =' '=Y%
@@ -1635,7 +2637,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Y%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Y%
@@ -1677,7 +2682,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Y%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Y%
@@ -1708,7 +2716,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Y%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Y%
@@ -1736,11 +2747,12 @@ scan_variable: '%
 '
 scan_variable: Ary test '
 '
-check_literal:lit='(' ' Y%
+check_literal:lit='(' ' 
 '
-check_literal:After drop space:'(' 'Y%
+check_literal:After drop space:'(' '
 '
-  '(' != 'Y'
+  '(' != '
+'
 check_literal: ret0
 scan_variable:ret1 vname='Y%' is str:0 int:1 flt:0 ary:0
 check_eitem: '
@@ -1760,7 +2772,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -1812,7 +2826,7 @@ check_literal:After drop space:'=' '= Z%
 check_literal:After while(): Z%
 
 check_literal:ret1 
-check_expression:WW 'Z%
+check_expression: 'Z%
 '
 check_eitem: 'Z%
 '
@@ -1836,7 +2850,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Z%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Z%
@@ -1857,6 +2874,39 @@ check_literal: ret0
 check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
 check_variable:ret1 
 check_eitem:ret1
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' 
+'
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
 check_expression:ret1 '
 '
 check_assignment:ret1
@@ -1889,7 +2939,7 @@ check_literal:After drop space:'=' '= Z%
 check_literal:After while(): Z%
 
 check_literal:ret1 
-check_expression:WW 'Z%
+check_expression: 'Z%
 '
 check_eitem: 'Z%
 '
@@ -1913,7 +2963,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Z%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Z%
@@ -1934,6 +2987,39 @@ check_literal: ret0
 check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
 check_variable:ret1 
 check_eitem:ret1
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' 
+'
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
 check_expression:ret1 '
 '
 check_assignment:ret1
@@ -1946,11 +3032,11 @@ scan_variable: '%= Z%
 '
 scan_variable: Ary test '= Z%
 '
-check_literal:lit='(' ' X%= Z%
+check_literal:lit='(' ' = Z%
 '
-check_literal:After drop space:'(' 'X%= Z%
+check_literal:After drop space:'(' '= Z%
 '
-  '(' != 'X'
+  '(' != '='
 check_literal: ret0
 scan_variable:ret1 vname='X%' is str:0 int:1 flt:0 ary:0
 scan_literal:lit=' =' '= Z%
@@ -1983,7 +3069,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Z%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Z%
@@ -2025,7 +3114,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Z%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Z%
@@ -2056,7 +3148,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Z%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Z%
@@ -2084,11 +3179,12 @@ scan_variable: '%
 '
 scan_variable: Ary test '
 '
-check_literal:lit='(' ' Z%
+check_literal:lit='(' ' 
 '
-check_literal:After drop space:'(' 'Z%
+check_literal:After drop space:'(' '
 '
-  '(' != 'Z'
+  '(' != '
+'
 check_literal: ret0
 scan_variable:ret1 vname='Z%' is str:0 int:1 flt:0 ary:0
 check_eitem: '
@@ -2108,7 +3204,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -2160,7 +3258,7 @@ check_literal:After drop space:'=' '= 1+2
 check_literal:After while(): 1+2
 
 check_literal:ret1 
-check_expression:WW '1+2
+check_expression: '1+2
 '
 check_eitem: '1+2
 '
@@ -2184,9 +3282,88 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1+2
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '1+2
+check_eitem: '+2
+'
+check_operator: +2
+
+check_literal:lit=',' ' +2
+'
+check_literal:After drop space:',' '+2
+'
+  ',' != '+'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '2
+'
+check_operator: 2
+
+check_literal:lit=',' ' 2
+'
+check_literal:After drop space:',' '2
+'
+  ',' != '2'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 2
+'
+    dropping space
+check_literal:After drop space:'"' '2
+'
+  '"' != '2'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' 
+'
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 '
 '
 check_assignment:ret1
 scan_cline: Checked len=9, 'A% = 1+2
@@ -2218,7 +3395,7 @@ check_literal:After drop space:'=' '= 1+2
 check_literal:After while(): 1+2
 
 check_literal:ret1 
-check_expression:WW '1+2
+check_expression: '1+2
 '
 check_eitem: '1+2
 '
@@ -2242,9 +3419,88 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1+2
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '1+2
+check_eitem: '+2
+'
+check_operator: +2
+
+check_literal:lit=',' ' +2
+'
+check_literal:After drop space:',' '+2
+'
+  ',' != '+'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '2
+'
+check_operator: 2
+
+check_literal:lit=',' ' 2
+'
+check_literal:After drop space:',' '2
+'
+  ',' != '2'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 2
+'
+    dropping space
+check_literal:After drop space:'"' '2
+'
+  '"' != '2'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' 
+'
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 '
 '
 check_assignment:ret1
 scan_assignment:
@@ -2256,11 +3512,11 @@ scan_variable: '% = 1+2
 '
 scan_variable: Ary test ' = 1+2
 '
-check_literal:lit='(' ' A% = 1+2
+check_literal:lit='(' '  = 1+2
 '
-check_literal:After drop space:'(' 'A% = 1+2
+check_literal:After drop space:'(' ' = 1+2
 '
-  '(' != 'A'
+  '(' != ' '
 check_literal: ret0
 scan_variable:ret1 vname='A%' is str:0 int:1 flt:0 ary:0
 scan_literal:lit=' =' ' = 1+2
@@ -2293,6 +3549,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1+2
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -2316,6 +3577,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1+2
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 1+2
@@ -2328,14 +3594,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1+2
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '1+2
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: '+2
 '
 check_operator: +2
@@ -2390,6 +3664,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -2413,6 +3692,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 2
@@ -2425,47 +3709,52 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
-check_eitem: '
+check_float: ret0
+check_integer: '2
 '
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
+check_eitem: ''
 check_operator: 
-
 check_literal:lit=',' ' '
 check_literal:After drop space:',' ''
 check_literal  ret0 Empty test string
 check_operator:ret0
 check_atom:
-check_literal:lit=' "' ' 
-'
+check_literal:lit=' "' ' '
     dropping space
 check_literal:After drop space:'"' ''
 check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
 check_vname ret0 '':
 check_variable:ret0 
 check_sub_expr:
-check_literal:lit=' (' ' 
-'
+check_literal:lit=' (' ' '
     dropping space
 check_literal:After drop space:'(' ''
 check_literal  ret0 Empty test string
 check_sub_expr: ret0
 check_eitem:ret0
-scan_expression: ret1 '
-'
+scan_expression: ret1 ''
 scan_assignment: ret1
 check_literal:lit=':' ' '
 check_literal:After drop space:':' ''
@@ -2502,7 +3791,7 @@ check_literal:After drop space:'=' '= B%
 check_literal:After while(): B%
 
 check_literal:ret1 
-check_expression:WW 'B%
+check_expression: 'B%
 '
 check_eitem: 'B%
 '
@@ -2526,7 +3815,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B%
@@ -2547,6 +3839,39 @@ check_literal: ret0
 check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
 check_variable:ret1 
 check_eitem:ret1
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' 
+'
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
 check_expression:ret1 '
 '
 check_assignment:ret1
@@ -2579,7 +3904,7 @@ check_literal:After drop space:'=' '= B%
 check_literal:After while(): B%
 
 check_literal:ret1 
-check_expression:WW 'B%
+check_expression: 'B%
 '
 check_eitem: 'B%
 '
@@ -2603,7 +3928,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B%
@@ -2624,6 +3952,39 @@ check_literal: ret0
 check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
 check_variable:ret1 
 check_eitem:ret1
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' 
+'
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
 check_expression:ret1 '
 '
 check_assignment:ret1
@@ -2636,11 +3997,11 @@ scan_variable: '% = B%
 '
 scan_variable: Ary test ' = B%
 '
-check_literal:lit='(' ' A% = B%
+check_literal:lit='(' '  = B%
 '
-check_literal:After drop space:'(' 'A% = B%
+check_literal:After drop space:'(' ' = B%
 '
-  '(' != 'A'
+  '(' != ' '
 check_literal: ret0
 scan_variable:ret1 vname='A%' is str:0 int:1 flt:0 ary:0
 scan_literal:lit=' =' ' = B%
@@ -2673,7 +4034,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B%
@@ -2715,7 +4079,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B%
@@ -2746,7 +4113,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B%
@@ -2774,11 +4144,12 @@ scan_variable: '%
 '
 scan_variable: Ary test '
 '
-check_literal:lit='(' ' B%
+check_literal:lit='(' ' 
 '
-check_literal:After drop space:'(' 'B%
+check_literal:After drop space:'(' '
 '
-  '(' != 'B'
+  '(' != '
+'
 check_literal: ret0
 scan_variable:ret1 vname='B%' is str:0 int:1 flt:0 ary:0
 check_eitem: '
@@ -2798,7 +4169,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -2850,7 +4223,7 @@ check_literal:After drop space:'=' '= A% + B%
 check_literal:After while(): A% + B%
 
 check_literal:ret1 
-check_expression:WW 'A% + B%
+check_expression: 'A% + B%
 '
 check_eitem: 'A% + B%
 '
@@ -2874,7 +4247,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A% + B%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A% + B%
@@ -2894,7 +4270,98 @@ check_literal: ret0
 check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
 check_variable:ret1 
 check_eitem:ret1
-check_expression:ret1 ' + B%
+check_eitem: ' + B%
+'
+check_operator:  + B%
+
+check_literal:lit=',' ' + B%
+'
+check_literal:After drop space:',' '+ B%
+'
+  ',' != '+'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: ' B%
+'
+check_operator:  B%
+
+check_literal:lit=',' ' B%
+'
+check_literal:After drop space:',' 'B%
+'
+  ',' != 'B'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '  B%
+'
+    dropping space
+check_literal:After drop space:'"' 'B%
+'
+  '"' != 'B'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: 'B%
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname 'B%
+':
+check_vname ret1 '%
+':
+check_variable: '%
+'
+check_variable: Ary test '
+'
+check_literal:lit='(' ' 
+'
+check_literal:After drop space:'(' '
+'
+  '(' != '
+'
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_eitem:ret1
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' 
+'
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 '
 '
 check_assignment:ret1
 scan_cline: Checked len=13, 'A% = A% + B%
@@ -2926,7 +4393,7 @@ check_literal:After drop space:'=' '= A% + B%
 check_literal:After while(): A% + B%
 
 check_literal:ret1 
-check_expression:WW 'A% + B%
+check_expression: 'A% + B%
 '
 check_eitem: 'A% + B%
 '
@@ -2950,7 +4417,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A% + B%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A% + B%
@@ -2970,7 +4440,98 @@ check_literal: ret0
 check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
 check_variable:ret1 
 check_eitem:ret1
-check_expression:ret1 ' + B%
+check_eitem: ' + B%
+'
+check_operator:  + B%
+
+check_literal:lit=',' ' + B%
+'
+check_literal:After drop space:',' '+ B%
+'
+  ',' != '+'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: ' B%
+'
+check_operator:  B%
+
+check_literal:lit=',' ' B%
+'
+check_literal:After drop space:',' 'B%
+'
+  ',' != 'B'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '  B%
+'
+    dropping space
+check_literal:After drop space:'"' 'B%
+'
+  '"' != 'B'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: 'B%
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname 'B%
+':
+check_vname ret1 '%
+':
+check_variable: '%
+'
+check_variable: Ary test '
+'
+check_literal:lit='(' ' 
+'
+check_literal:After drop space:'(' '
+'
+  '(' != '
+'
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_eitem:ret1
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' 
+'
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 '
 '
 check_assignment:ret1
 scan_assignment:
@@ -2982,11 +4543,11 @@ scan_variable: '% = A% + B%
 '
 scan_variable: Ary test ' = A% + B%
 '
-check_literal:lit='(' ' A% = A% + B%
+check_literal:lit='(' '  = A% + B%
 '
-check_literal:After drop space:'(' 'A% = A% + B%
+check_literal:After drop space:'(' ' = A% + B%
 '
-  '(' != 'A'
+  '(' != ' '
 check_literal: ret0
 scan_variable:ret1 vname='A%' is str:0 int:1 flt:0 ary:0
 scan_literal:lit=' =' ' = A% + B%
@@ -3019,7 +4580,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A% + B%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A% + B%
@@ -3060,7 +4624,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A% + B%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A% + B%
@@ -3090,7 +4657,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A% + B%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A% + B%
@@ -3117,11 +4687,11 @@ scan_variable: '% + B%
 '
 scan_variable: Ary test ' + B%
 '
-check_literal:lit='(' ' A% + B%
+check_literal:lit='(' '  + B%
 '
-check_literal:After drop space:'(' 'A% + B%
+check_literal:After drop space:'(' ' + B%
 '
-  '(' != 'A'
+  '(' != ' '
 check_literal: ret0
 scan_variable:ret1 vname='A%' is str:0 int:1 flt:0 ary:0
 check_eitem: ' + B%
@@ -3178,7 +4748,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B%
@@ -3220,7 +4793,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B%
@@ -3251,7 +4827,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B%
@@ -3279,11 +4858,12 @@ scan_variable: '%
 '
 scan_variable: Ary test '
 '
-check_literal:lit='(' '  B%
+check_literal:lit='(' ' 
 '
-check_literal:After drop space:'(' ' B%
+check_literal:After drop space:'(' '
 '
-  '(' != ' '
+  '(' != '
+'
 check_literal: ret0
 scan_variable:ret1 vname='B%' is str:0 int:1 flt:0 ary:0
 check_eitem: '
@@ -3303,7 +4883,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -3355,7 +4937,7 @@ check_literal:After drop space:'=' '= 2 + (A% * B%)
 check_literal:After while(): 2 + (A% * B%)
 
 check_literal:ret1 
-check_expression:WW '2 + (A% * B%)
+check_expression: '2 + (A% * B%)
 '
 check_eitem: '2 + (A% * B%)
 '
@@ -3379,9 +4961,215 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2 + (A% * B%)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '2 + (A% * B%)
+check_eitem: ' + (A% * B%)
+'
+check_operator:  + (A% * B%)
+
+check_literal:lit=',' ' + (A% * B%)
+'
+check_literal:After drop space:',' '+ (A% * B%)
+'
+  ',' != '+'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: ' (A% * B%)
+'
+check_operator:  (A% * B%)
+
+check_literal:lit=',' ' (A% * B%)
+'
+check_literal:After drop space:',' '(A% * B%)
+'
+  ',' != '('
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '  (A% * B%)
+'
+    dropping space
+check_literal:After drop space:'"' '(A% * B%)
+'
+  '"' != '('
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: '(A% * B%)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '(A% * B%)
+':
+check_vname ret0 '(A% * B%)
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' '  (A% * B%)
+'
+    dropping space
+check_literal:After drop space:'(' '(A% * B%)
+'
+check_literal:After while():A% * B%)
+
+check_literal:ret1 
+check_sub_expr: ret1
+check_eitem:ret1
+check_eitem: 'A% * B%)
+'
+check_operator: A% * B%)
+
+check_literal:lit=',' ' A% * B%)
+'
+check_literal:After drop space:',' 'A% * B%)
+'
+  ',' != 'A'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' A% * B%)
+'
+    dropping space
+check_literal:After drop space:'"' 'A% * B%)
+'
+  '"' != 'A'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: 'A% * B%)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname 'A% * B%)
+':
+check_vname ret1 '% * B%)
+':
+check_variable: '% * B%)
+'
+check_variable: Ary test ' * B%)
+'
+check_literal:lit='(' '  * B%)
+'
+check_literal:After drop space:'(' ' * B%)
+'
+  '(' != ' '
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_eitem:ret1
+check_eitem: ' * B%)
+'
+check_operator:  * B%)
+
+check_literal:lit=',' ' * B%)
+'
+check_literal:After drop space:',' '* B%)
+'
+  ',' != '*'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: ' B%)
+'
+check_operator:  B%)
+
+check_literal:lit=',' ' B%)
+'
+check_literal:After drop space:',' 'B%)
+'
+  ',' != 'B'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '  B%)
+'
+    dropping space
+check_literal:After drop space:'"' 'B%)
+'
+  '"' != 'B'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: 'B%)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname 'B%)
+':
+check_vname ret1 '%)
+':
+check_variable: '%)
+'
+check_variable: Ary test ')
+'
+check_literal:lit='(' ' )
+'
+check_literal:After drop space:'(' ')
+'
+  '(' != ')'
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_eitem:ret1
+check_eitem: ')
+'
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
+'
+    dropping space
+check_literal:After drop space:'"' ')
+'
+  '"' != ')'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
+'
+    dropping space
+check_literal:After drop space:'(' ')
+'
+  '(' != ')'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
 '
 check_assignment:ret1
 scan_cline: Checked len=19, 'A% = 2 + (A% * B%)
@@ -3413,7 +5201,7 @@ check_literal:After drop space:'=' '= 2 + (A% * B%)
 check_literal:After while(): 2 + (A% * B%)
 
 check_literal:ret1 
-check_expression:WW '2 + (A% * B%)
+check_expression: '2 + (A% * B%)
 '
 check_eitem: '2 + (A% * B%)
 '
@@ -3437,9 +5225,215 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2 + (A% * B%)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '2 + (A% * B%)
+check_eitem: ' + (A% * B%)
+'
+check_operator:  + (A% * B%)
+
+check_literal:lit=',' ' + (A% * B%)
+'
+check_literal:After drop space:',' '+ (A% * B%)
+'
+  ',' != '+'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: ' (A% * B%)
+'
+check_operator:  (A% * B%)
+
+check_literal:lit=',' ' (A% * B%)
+'
+check_literal:After drop space:',' '(A% * B%)
+'
+  ',' != '('
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '  (A% * B%)
+'
+    dropping space
+check_literal:After drop space:'"' '(A% * B%)
+'
+  '"' != '('
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: '(A% * B%)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '(A% * B%)
+':
+check_vname ret0 '(A% * B%)
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' '  (A% * B%)
+'
+    dropping space
+check_literal:After drop space:'(' '(A% * B%)
+'
+check_literal:After while():A% * B%)
+
+check_literal:ret1 
+check_sub_expr: ret1
+check_eitem:ret1
+check_eitem: 'A% * B%)
+'
+check_operator: A% * B%)
+
+check_literal:lit=',' ' A% * B%)
+'
+check_literal:After drop space:',' 'A% * B%)
+'
+  ',' != 'A'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' A% * B%)
+'
+    dropping space
+check_literal:After drop space:'"' 'A% * B%)
+'
+  '"' != 'A'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: 'A% * B%)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname 'A% * B%)
+':
+check_vname ret1 '% * B%)
+':
+check_variable: '% * B%)
+'
+check_variable: Ary test ' * B%)
+'
+check_literal:lit='(' '  * B%)
+'
+check_literal:After drop space:'(' ' * B%)
+'
+  '(' != ' '
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_eitem:ret1
+check_eitem: ' * B%)
+'
+check_operator:  * B%)
+
+check_literal:lit=',' ' * B%)
+'
+check_literal:After drop space:',' '* B%)
+'
+  ',' != '*'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: ' B%)
+'
+check_operator:  B%)
+
+check_literal:lit=',' ' B%)
+'
+check_literal:After drop space:',' 'B%)
+'
+  ',' != 'B'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '  B%)
+'
+    dropping space
+check_literal:After drop space:'"' 'B%)
+'
+  '"' != 'B'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: 'B%)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname 'B%)
+':
+check_vname ret1 '%)
+':
+check_variable: '%)
+'
+check_variable: Ary test ')
+'
+check_literal:lit='(' ' )
+'
+check_literal:After drop space:'(' ')
+'
+  '(' != ')'
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_eitem:ret1
+check_eitem: ')
+'
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
+'
+    dropping space
+check_literal:After drop space:'"' ')
+'
+  '"' != ')'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
+'
+    dropping space
+check_literal:After drop space:'(' ')
+'
+  '(' != ')'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
 '
 check_assignment:ret1
 scan_assignment:
@@ -3451,11 +5445,11 @@ scan_variable: '% = 2 + (A% * B%)
 '
 scan_variable: Ary test ' = 2 + (A% * B%)
 '
-check_literal:lit='(' ' A% = 2 + (A% * B%)
+check_literal:lit='(' '  = 2 + (A% * B%)
 '
-check_literal:After drop space:'(' 'A% = 2 + (A% * B%)
+check_literal:After drop space:'(' ' = 2 + (A% * B%)
 '
-  '(' != 'A'
+  '(' != ' '
 check_literal: ret0
 scan_variable:ret1 vname='A%' is str:0 int:1 flt:0 ary:0
 scan_literal:lit=' =' ' = 2 + (A% * B%)
@@ -3488,6 +5482,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2 + (A% * B%)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -3511,6 +5510,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2 + (A% * B%)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 2 + (A% * B%)
@@ -3523,17 +5527,25 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2 + (A% * B%)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
-check_eitem: ' + (A% * B%)
+check_float: ret0
+check_integer: '2 + (A% * B%)
 '
-check_operator:  + (A% * B%)
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
+check_eitem: '+ (A% * B%)
+'
+check_operator: + (A% * B%)
 
 check_literal:lit=',' ' + (A% * B%)
 '
@@ -3544,7 +5556,7 @@ check_literal: ret0
 check_operator: ret1
 check_eitem:ret1
 scan_eitem:
-check_operator:  + (A% * B%)
+check_operator: + (A% * B%)
 
 check_literal:lit=',' ' + (A% * B%)
 '
@@ -3553,7 +5565,7 @@ check_literal:After drop space:',' '+ (A% * B%)
   ',' != '+'
 check_literal: ret0
 check_operator: ret1
-scan_operator: ' + (A% * B%)
+scan_operator: '+ (A% * B%)
 '
 check_literal:lit=',' ' + (A% * B%)
 '
@@ -3585,7 +5597,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(A% * B%)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(A% * B%)
@@ -3625,7 +5640,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(A% * B%)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(A% * B%)
@@ -3674,7 +5692,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A% * B%)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A% * B%)
@@ -3715,7 +5736,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A% * B%)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A% * B%)
@@ -3745,7 +5769,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A% * B%)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A% * B%)
@@ -3772,11 +5799,11 @@ scan_variable: '% * B%)
 '
 scan_variable: Ary test ' * B%)
 '
-check_literal:lit='(' ' A% * B%)
+check_literal:lit='(' '  * B%)
 '
-check_literal:After drop space:'(' 'A% * B%)
+check_literal:After drop space:'(' ' * B%)
 '
-  '(' != 'A'
+  '(' != ' '
 check_literal: ret0
 scan_variable:ret1 vname='A%' is str:0 int:1 flt:0 ary:0
 check_eitem: ' * B%)
@@ -3833,7 +5860,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B%)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B%)
@@ -3874,7 +5904,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B%)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B%)
@@ -3904,7 +5937,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B%)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B%)
@@ -3931,11 +5967,11 @@ scan_variable: '%)
 '
 scan_variable: Ary test ')
 '
-check_literal:lit='(' '  B%)
+check_literal:lit='(' ' )
 '
-check_literal:After drop space:'(' ' B%)
+check_literal:After drop space:'(' ')
 '
-  '(' != ' '
+  '(' != ')'
 check_literal: ret0
 scan_variable:ret1 vname='B%' is str:0 int:1 flt:0 ary:0
 check_eitem: ')
@@ -3960,7 +5996,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname ')
@@ -4004,7 +6043,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -4056,7 +6097,7 @@ check_literal:After drop space:'=' '= A% + (2*3+3*Z%-   ABC%*1.1)
 check_literal:After while(): A% + (2*3+3*Z%-   ABC%*1.1)
 
 check_literal:ret1 
-check_expression:WW 'A% + (2*3+3*Z%-   ABC%*1.1)
+check_expression: 'A% + (2*3+3*Z%-   ABC%*1.1)
 '
 check_eitem: 'A% + (2*3+3*Z%-   ABC%*1.1)
 '
@@ -4080,7 +6121,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A% + (2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A% + (2*3+3*Z%-   ABC%*1.1)
@@ -4100,7 +6144,371 @@ check_literal: ret0
 check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
 check_variable:ret1 
 check_eitem:ret1
-check_expression:ret1 ' + (2*3+3*Z%-   ABC%*1.1)
+check_eitem: ' + (2*3+3*Z%-   ABC%*1.1)
+'
+check_operator:  + (2*3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' + (2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '+ (2*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '+'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: ' (2*3+3*Z%-   ABC%*1.1)
+'
+check_operator:  (2*3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' (2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '(2*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '('
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '  (2*3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '(2*3+3*Z%-   ABC%*1.1)
+'
+  '"' != '('
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: '(2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '(2*3+3*Z%-   ABC%*1.1)
+':
+check_vname ret0 '(2*3+3*Z%-   ABC%*1.1)
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' '  (2*3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'(' '(2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After while():2*3+3*Z%-   ABC%*1.1)
+
+check_literal:ret1 
+check_sub_expr: ret1
+check_eitem:ret1
+check_eitem: '2*3+3*Z%-   ABC%*1.1)
+'
+check_operator: 2*3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' 2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '2*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '2'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 2*3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '2*3+3*Z%-   ABC%*1.1)
+'
+  '"' != '2'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '*3+3*Z%-   ABC%*1.1)
+'
+check_operator: *3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' *3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '*'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '3+3*Z%-   ABC%*1.1)
+'
+check_operator: 3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' 3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '3+3*Z%-   ABC%*1.1)
+'
+  ',' != '3'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '3+3*Z%-   ABC%*1.1)
+'
+  '"' != '3'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '+3*Z%-   ABC%*1.1)
+'
+check_operator: +3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' +3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '+3*Z%-   ABC%*1.1)
+'
+  ',' != '+'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '3*Z%-   ABC%*1.1)
+'
+check_operator: 3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' 3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '3*Z%-   ABC%*1.1)
+'
+  ',' != '3'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '3*Z%-   ABC%*1.1)
+'
+  '"' != '3'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '*Z%-   ABC%*1.1)
+'
+check_operator: *Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' *Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '*Z%-   ABC%*1.1)
+'
+  ',' != '*'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: 'Z%-   ABC%*1.1)
+'
+check_operator: Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' 'Z%-   ABC%*1.1)
+'
+  ',' != 'Z'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' 'Z%-   ABC%*1.1)
+'
+  '"' != 'Z'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: 'Z%-   ABC%*1.1)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname 'Z%-   ABC%*1.1)
+':
+check_vname ret1 '%-   ABC%*1.1)
+':
+check_variable: '%-   ABC%*1.1)
+'
+check_variable: Ary test '-   ABC%*1.1)
+'
+check_literal:lit='(' ' -   ABC%*1.1)
+'
+check_literal:After drop space:'(' '-   ABC%*1.1)
+'
+  '(' != '-'
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_eitem:ret1
+check_eitem: '-   ABC%*1.1)
+'
+check_operator: -   ABC%*1.1)
+
+check_literal:lit=',' ' -   ABC%*1.1)
+'
+check_literal:After drop space:',' '-   ABC%*1.1)
+'
+  ',' != '-'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '   ABC%*1.1)
+'
+check_operator:    ABC%*1.1)
+
+check_literal:lit=',' ' ABC%*1.1)
+'
+check_literal:After drop space:',' 'ABC%*1.1)
+'
+  ',' != 'A'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '    ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' 'ABC%*1.1)
+'
+  '"' != 'A'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: 'ABC%*1.1)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname 'ABC%*1.1)
+':
+check_vname ret1 '%*1.1)
+':
+check_variable: '%*1.1)
+'
+check_variable: Ary test '*1.1)
+'
+check_literal:lit='(' ' *1.1)
+'
+check_literal:After drop space:'(' '*1.1)
+'
+  '(' != '*'
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_eitem:ret1
+check_eitem: '*1.1)
+'
+check_operator: *1.1)
+
+check_literal:lit=',' ' *1.1)
+'
+check_literal:After drop space:',' '*1.1)
+'
+  ',' != '*'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '1.1)
+'
+check_operator: 1.1)
+
+check_literal:lit=',' ' 1.1)
+'
+check_literal:After drop space:',' '1.1)
+'
+  ',' != '1'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '1.1)
+'
+  '"' != '1'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: ')
+'
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
+'
+    dropping space
+check_literal:After drop space:'"' ')
+'
+  '"' != ')'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
+'
+    dropping space
+check_literal:After drop space:'(' ')
+'
+  '(' != ')'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
 '
 check_assignment:ret1
 scan_cline: Checked len=32, 'A = A% + (2*3+3*Z%-   ABC%*1.1)
@@ -4132,7 +6540,7 @@ check_literal:After drop space:'=' '= A% + (2*3+3*Z%-   ABC%*1.1)
 check_literal:After while(): A% + (2*3+3*Z%-   ABC%*1.1)
 
 check_literal:ret1 
-check_expression:WW 'A% + (2*3+3*Z%-   ABC%*1.1)
+check_expression: 'A% + (2*3+3*Z%-   ABC%*1.1)
 '
 check_eitem: 'A% + (2*3+3*Z%-   ABC%*1.1)
 '
@@ -4156,7 +6564,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A% + (2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A% + (2*3+3*Z%-   ABC%*1.1)
@@ -4176,7 +6587,371 @@ check_literal: ret0
 check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
 check_variable:ret1 
 check_eitem:ret1
-check_expression:ret1 ' + (2*3+3*Z%-   ABC%*1.1)
+check_eitem: ' + (2*3+3*Z%-   ABC%*1.1)
+'
+check_operator:  + (2*3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' + (2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '+ (2*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '+'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: ' (2*3+3*Z%-   ABC%*1.1)
+'
+check_operator:  (2*3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' (2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '(2*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '('
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '  (2*3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '(2*3+3*Z%-   ABC%*1.1)
+'
+  '"' != '('
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: '(2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '(2*3+3*Z%-   ABC%*1.1)
+':
+check_vname ret0 '(2*3+3*Z%-   ABC%*1.1)
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' '  (2*3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'(' '(2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After while():2*3+3*Z%-   ABC%*1.1)
+
+check_literal:ret1 
+check_sub_expr: ret1
+check_eitem:ret1
+check_eitem: '2*3+3*Z%-   ABC%*1.1)
+'
+check_operator: 2*3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' 2*3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '2*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '2'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 2*3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '2*3+3*Z%-   ABC%*1.1)
+'
+  '"' != '2'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '*3+3*Z%-   ABC%*1.1)
+'
+check_operator: *3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' *3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '*3+3*Z%-   ABC%*1.1)
+'
+  ',' != '*'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '3+3*Z%-   ABC%*1.1)
+'
+check_operator: 3+3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' 3+3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '3+3*Z%-   ABC%*1.1)
+'
+  ',' != '3'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 3+3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '3+3*Z%-   ABC%*1.1)
+'
+  '"' != '3'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '+3*Z%-   ABC%*1.1)
+'
+check_operator: +3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' +3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '+3*Z%-   ABC%*1.1)
+'
+  ',' != '+'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '3*Z%-   ABC%*1.1)
+'
+check_operator: 3*Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' 3*Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '3*Z%-   ABC%*1.1)
+'
+  ',' != '3'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 3*Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '3*Z%-   ABC%*1.1)
+'
+  '"' != '3'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '*Z%-   ABC%*1.1)
+'
+check_operator: *Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' *Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' '*Z%-   ABC%*1.1)
+'
+  ',' != '*'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: 'Z%-   ABC%*1.1)
+'
+check_operator: Z%-   ABC%*1.1)
+
+check_literal:lit=',' ' Z%-   ABC%*1.1)
+'
+check_literal:After drop space:',' 'Z%-   ABC%*1.1)
+'
+  ',' != 'Z'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' Z%-   ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' 'Z%-   ABC%*1.1)
+'
+  '"' != 'Z'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: 'Z%-   ABC%*1.1)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname 'Z%-   ABC%*1.1)
+':
+check_vname ret1 '%-   ABC%*1.1)
+':
+check_variable: '%-   ABC%*1.1)
+'
+check_variable: Ary test '-   ABC%*1.1)
+'
+check_literal:lit='(' ' -   ABC%*1.1)
+'
+check_literal:After drop space:'(' '-   ABC%*1.1)
+'
+  '(' != '-'
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_eitem:ret1
+check_eitem: '-   ABC%*1.1)
+'
+check_operator: -   ABC%*1.1)
+
+check_literal:lit=',' ' -   ABC%*1.1)
+'
+check_literal:After drop space:',' '-   ABC%*1.1)
+'
+  ',' != '-'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '   ABC%*1.1)
+'
+check_operator:    ABC%*1.1)
+
+check_literal:lit=',' ' ABC%*1.1)
+'
+check_literal:After drop space:',' 'ABC%*1.1)
+'
+  ',' != 'A'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '    ABC%*1.1)
+'
+    dropping space
+check_literal:After drop space:'"' 'ABC%*1.1)
+'
+  '"' != 'A'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: 'ABC%*1.1)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname 'ABC%*1.1)
+':
+check_vname ret1 '%*1.1)
+':
+check_variable: '%*1.1)
+'
+check_variable: Ary test '*1.1)
+'
+check_literal:lit='(' ' *1.1)
+'
+check_literal:After drop space:'(' '*1.1)
+'
+  '(' != '*'
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_eitem:ret1
+check_eitem: '*1.1)
+'
+check_operator: *1.1)
+
+check_literal:lit=',' ' *1.1)
+'
+check_literal:After drop space:',' '*1.1)
+'
+  ',' != '*'
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+check_eitem: '1.1)
+'
+check_operator: 1.1)
+
+check_literal:lit=',' ' 1.1)
+'
+check_literal:After drop space:',' '1.1)
+'
+  ',' != '1'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 1.1)
+'
+    dropping space
+check_literal:After drop space:'"' '1.1)
+'
+  '"' != '1'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: ')
+'
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
+'
+    dropping space
+check_literal:After drop space:'"' ')
+'
+  '"' != ')'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
+'
+    dropping space
+check_literal:After drop space:'(' ')
+'
+  '(' != ')'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
 '
 check_assignment:ret1
 scan_assignment:
@@ -4188,11 +6963,11 @@ scan_variable: ' = A% + (2*3+3*Z%-   ABC%*1.1)
 '
 scan_variable: Ary test ' = A% + (2*3+3*Z%-   ABC%*1.1)
 '
-check_literal:lit='(' ' A = A% + (2*3+3*Z%-   ABC%*1.1)
+check_literal:lit='(' '  = A% + (2*3+3*Z%-   ABC%*1.1)
 '
-check_literal:After drop space:'(' 'A = A% + (2*3+3*Z%-   ABC%*1.1)
+check_literal:After drop space:'(' ' = A% + (2*3+3*Z%-   ABC%*1.1)
 '
-  '(' != 'A'
+  '(' != ' '
 check_literal: ret0
 scan_variable:ret1 vname='A' is str:0 int:0 flt:1 ary:0
 scan_literal:lit=' =' ' = A% + (2*3+3*Z%-   ABC%*1.1)
@@ -4225,7 +7000,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A% + (2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A% + (2*3+3*Z%-   ABC%*1.1)
@@ -4266,7 +7044,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A% + (2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A% + (2*3+3*Z%-   ABC%*1.1)
@@ -4296,7 +7077,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A% + (2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A% + (2*3+3*Z%-   ABC%*1.1)
@@ -4323,11 +7107,11 @@ scan_variable: '% + (2*3+3*Z%-   ABC%*1.1)
 '
 scan_variable: Ary test ' + (2*3+3*Z%-   ABC%*1.1)
 '
-check_literal:lit='(' ' A% + (2*3+3*Z%-   ABC%*1.1)
+check_literal:lit='(' '  + (2*3+3*Z%-   ABC%*1.1)
 '
-check_literal:After drop space:'(' 'A% + (2*3+3*Z%-   ABC%*1.1)
+check_literal:After drop space:'(' ' + (2*3+3*Z%-   ABC%*1.1)
 '
-  '(' != 'A'
+  '(' != ' '
 check_literal: ret0
 scan_variable:ret1 vname='A%' is str:0 int:1 flt:0 ary:0
 check_eitem: ' + (2*3+3*Z%-   ABC%*1.1)
@@ -4384,7 +7168,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(2*3+3*Z%-   ABC%*1.1)
@@ -4424,7 +7211,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(2*3+3*Z%-   ABC%*1.1)
@@ -4473,6 +7263,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -4496,6 +7291,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 2*3+3*Z%-   ABC%*1.1)
@@ -4508,14 +7308,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '2*3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: '*3+3*Z%-   ABC%*1.1)
 '
 check_operator: *3+3*Z%-   ABC%*1.1)
@@ -4570,6 +7378,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -4593,6 +7406,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 3+3*Z%-   ABC%*1.1)
@@ -4605,14 +7423,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '3+3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: '+3*Z%-   ABC%*1.1)
 '
 check_operator: +3*Z%-   ABC%*1.1)
@@ -4667,6 +7493,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -4690,6 +7521,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 3*Z%-   ABC%*1.1)
@@ -4702,14 +7538,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '3*Z%-   ABC%*1.1)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: '*Z%-   ABC%*1.1)
 '
 check_operator: *Z%-   ABC%*1.1)
@@ -4764,7 +7608,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Z%-   ABC%*1.1)
@@ -4805,7 +7652,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Z%-   ABC%*1.1)
@@ -4835,7 +7685,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'Z%-   ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'Z%-   ABC%*1.1)
@@ -4862,11 +7715,11 @@ scan_variable: '%-   ABC%*1.1)
 '
 scan_variable: Ary test '-   ABC%*1.1)
 '
-check_literal:lit='(' ' Z%-   ABC%*1.1)
+check_literal:lit='(' ' -   ABC%*1.1)
 '
-check_literal:After drop space:'(' 'Z%-   ABC%*1.1)
+check_literal:After drop space:'(' '-   ABC%*1.1)
 '
-  '(' != 'Z'
+  '(' != '-'
 check_literal: ret0
 scan_variable:ret1 vname='Z%' is str:0 int:1 flt:0 ary:0
 check_eitem: '-   ABC%*1.1)
@@ -4923,7 +7776,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'ABC%*1.1)
@@ -4964,7 +7820,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'ABC%*1.1)
@@ -4994,7 +7853,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'ABC%*1.1)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'ABC%*1.1)
@@ -5021,11 +7883,11 @@ scan_variable: '%*1.1)
 '
 scan_variable: Ary test '*1.1)
 '
-check_literal:lit='(' '    ABC%*1.1)
+check_literal:lit='(' ' *1.1)
 '
-check_literal:After drop space:'(' '   ABC%*1.1)
+check_literal:After drop space:'(' '*1.1)
 '
-  '(' != ' '
+  '(' != '*'
 check_literal: ret0
 scan_variable:ret1 vname='ABC%' is str:0 int:1 flt:0 ary:0
 check_eitem: '*1.1)
@@ -5082,6 +7944,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -5105,6 +7971,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 1.1)
@@ -5117,16 +7987,21 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 scan_float:
 isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+scan_float: ret0
 check_eitem: ')
 '
 check_operator: )
@@ -5149,7 +8024,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname ')
@@ -5193,7 +8071,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -5245,7 +8125,7 @@ check_literal:After drop space:'=' '= 20
 check_literal:After while(): 20
 
 check_literal:ret1 
-check_expression:WW '20
+check_expression: '20
 '
 check_eitem: '20
 '
@@ -5269,9 +8149,48 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '20
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '20
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' 
+'
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 '
 '
 check_assignment:ret1
 scan_cline: Checked len=8, 'A% = 20
@@ -5303,7 +8222,7 @@ check_literal:After drop space:'=' '= 20
 check_literal:After while(): 20
 
 check_literal:ret1 
-check_expression:WW '20
+check_expression: '20
 '
 check_eitem: '20
 '
@@ -5327,9 +8246,48 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '20
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '20
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 
+'
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' 
+'
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 '
 '
 check_assignment:ret1
 scan_assignment:
@@ -5341,11 +8299,11 @@ scan_variable: '% = 20
 '
 scan_variable: Ary test ' = 20
 '
-check_literal:lit='(' ' A% = 20
+check_literal:lit='(' '  = 20
 '
-check_literal:After drop space:'(' 'A% = 20
+check_literal:After drop space:'(' ' = 20
 '
-  '(' != 'A'
+  '(' != ' '
 check_literal: ret0
 scan_variable:ret1 vname='A%' is str:0 int:1 flt:0 ary:0
 scan_literal:lit=' =' ' = 20
@@ -5378,6 +8336,12 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '20
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -5401,6 +8365,12 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '20
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 20
@@ -5413,48 +8383,54 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '20
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
-check_eitem: '
+check_float: ret0
+check_integer: '20
 '
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
+check_eitem: ''
 check_operator: 
-
 check_literal:lit=',' ' '
 check_literal:After drop space:',' ''
 check_literal  ret0 Empty test string
 check_operator:ret0
 check_atom:
-check_literal:lit=' "' ' 
-'
+check_literal:lit=' "' ' '
     dropping space
 check_literal:After drop space:'"' ''
 check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
 check_vname ret0 '':
 check_variable:ret0 
 check_sub_expr:
-check_literal:lit=' (' ' 
-'
+check_literal:lit=' (' ' '
     dropping space
 check_literal:After drop space:'(' ''
 check_literal  ret0 Empty test string
 check_sub_expr: ret0
 check_eitem:ret0
-scan_expression: ret1 '
-'
+scan_expression: ret1 ''
 scan_assignment: ret1
 check_literal:lit=':' ' '
 check_literal:After drop space:':' ''
@@ -5616,7 +8592,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -5805,7 +8783,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -6014,7 +8994,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -6125,7 +9107,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A%
@@ -6167,7 +9152,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A%
@@ -6198,7 +9186,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A%
@@ -6226,11 +9217,12 @@ scan_variable: '%
 '
 scan_variable: Ary test '
 '
-check_literal:lit='(' ' A%
+check_literal:lit='(' ' 
 '
-check_literal:After drop space:'(' 'A%
+check_literal:After drop space:'(' '
 '
-  '(' != 'A'
+  '(' != '
+'
 check_literal: ret0
 scan_variable:ret1 vname='A%' is str:0 int:1 flt:0 ary:0
 check_eitem: '
@@ -6250,7 +9242,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -6361,7 +9355,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B
@@ -6403,7 +9400,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B
@@ -6434,7 +9434,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B
@@ -6462,11 +9465,12 @@ scan_variable: '
 '
 scan_variable: Ary test '
 '
-check_literal:lit='(' ' B
+check_literal:lit='(' ' 
 '
-check_literal:After drop space:'(' 'B
+check_literal:After drop space:'(' '
 '
-  '(' != 'B'
+  '(' != '
+'
 check_literal: ret0
 scan_variable:ret1 vname='B' is str:0 int:0 flt:1 ary:0
 check_eitem: '
@@ -6486,7 +9490,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -6597,7 +9603,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'ABC
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'ABC
@@ -6639,7 +9648,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'ABC
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'ABC
@@ -6670,7 +9682,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'ABC
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'ABC
@@ -6698,11 +9713,12 @@ scan_variable: '
 '
 scan_variable: Ary test '
 '
-check_literal:lit='(' ' ABC
+check_literal:lit='(' ' 
 '
-check_literal:After drop space:'(' 'ABC
+check_literal:After drop space:'(' '
 '
-  '(' != 'A'
+  '(' != '
+'
 check_literal: ret0
 scan_variable:ret1 vname='ABC' is str:0 int:0 flt:1 ary:0
 check_eitem: '
@@ -6722,7 +9738,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -6833,7 +9851,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'ABC%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'ABC%
@@ -6875,7 +9896,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'ABC%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'ABC%
@@ -6906,7 +9930,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'ABC%
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'ABC%
@@ -6934,11 +9961,12 @@ scan_variable: '%
 '
 scan_variable: Ary test '
 '
-check_literal:lit='(' ' ABC%
+check_literal:lit='(' ' 
 '
-check_literal:After drop space:'(' 'ABC%
+check_literal:After drop space:'(' '
 '
-  '(' != 'A'
+  '(' != '
+'
 check_literal: ret0
 scan_variable:ret1 vname='ABC%' is str:0 int:1 flt:0 ary:0
 check_eitem: '
@@ -6958,7 +9986,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -7069,7 +10099,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A$
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A$
@@ -7111,7 +10144,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A$
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A$
@@ -7142,7 +10178,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A$
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A$
@@ -7170,11 +10209,12 @@ scan_variable: '$
 '
 scan_variable: Ary test '
 '
-check_literal:lit='(' ' A$
+check_literal:lit='(' ' 
 '
-check_literal:After drop space:'(' 'A$
+check_literal:After drop space:'(' '
 '
-  '(' != 'A'
+  '(' != '
+'
 check_literal: ret0
 scan_variable:ret1 vname='A$' is str:1 int:0 flt:0 ary:0
 check_eitem: '
@@ -7194,7 +10234,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -7305,7 +10347,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'DEF$
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'DEF$
@@ -7347,7 +10392,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'DEF$
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'DEF$
@@ -7378,7 +10426,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'DEF$
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'DEF$
@@ -7406,11 +10457,12 @@ scan_variable: '$
 '
 scan_variable: Ary test '
 '
-check_literal:lit='(' ' DEF$
+check_literal:lit='(' ' 
 '
-check_literal:After drop space:'(' 'DEF$
+check_literal:After drop space:'(' '
 '
-  '(' != 'D'
+  '(' != '
+'
 check_literal: ret0
 scan_variable:ret1 vname='DEF$' is str:1 int:0 flt:0 ary:0
 check_eitem: '
@@ -7430,7 +10482,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -7541,7 +10595,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A(2)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A(2)
@@ -7560,7 +10617,7 @@ check_literal:After while():2)
 
 check_literal:ret1 
 check_variable: is array
-check_expression:WW '2)
+check_expression: '2)
 '
 check_eitem: '2)
 '
@@ -7584,25 +10641,73 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '2)
+check_eitem: ')
 '
-check_literal:lit=' ,' ' 2)
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
 '
     dropping space
-check_literal:After drop space:',' '2)
+check_literal:After drop space:'"' ')
 '
-  ',' != '2'
+  '"' != ')'
 check_literal: ret0
-check_literal:lit=' )' ' 2)
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
 '
     dropping space
-check_literal:After drop space:')' '2)
+check_literal:After drop space:'(' ')
 '
-  ')' != '2'
+  '(' != ')'
 check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:1
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
+'
+check_literal:lit=' ,' ' )
+'
+    dropping space
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_literal:lit=' )' ' )
+'
+    dropping space
+check_literal:After drop space:')' ')
+'
+check_literal:After while():
+
+check_literal:ret1 
 check_variable:ret1 
 check_eitem:ret1
 scan_eitem:
@@ -7626,7 +10731,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A(2)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A(2)
@@ -7645,7 +10753,7 @@ check_literal:After while():2)
 
 check_literal:ret1 
 check_variable: is array
-check_expression:WW '2)
+check_expression: '2)
 '
 check_eitem: '2)
 '
@@ -7669,25 +10777,73 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '2)
+check_eitem: ')
 '
-check_literal:lit=' ,' ' 2)
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
 '
     dropping space
-check_literal:After drop space:',' '2)
+check_literal:After drop space:'"' ')
 '
-  ',' != '2'
+  '"' != ')'
 check_literal: ret0
-check_literal:lit=' )' ' 2)
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
 '
     dropping space
-check_literal:After drop space:')' '2)
+check_literal:After drop space:'(' ')
 '
-  ')' != '2'
+  '(' != ')'
 check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:1
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
+'
+check_literal:lit=' ,' ' )
+'
+    dropping space
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_literal:lit=' )' ' )
+'
+    dropping space
+check_literal:After drop space:')' ')
+'
+check_literal:After while():
+
+check_literal:ret1 
 check_variable:ret1 
 scan_atom:
 check_literal:lit=' "' ' A(2)
@@ -7700,7 +10856,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'A(2)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'A(2)
@@ -7719,7 +10878,7 @@ check_literal:After while():2)
 
 check_literal:ret1 
 check_variable: is array
-check_expression:WW '2)
+check_expression: '2)
 '
 check_eitem: '2)
 '
@@ -7743,25 +10902,73 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '2)
+check_eitem: ')
 '
-check_literal:lit=' ,' ' 2)
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
 '
     dropping space
-check_literal:After drop space:',' '2)
+check_literal:After drop space:'"' ')
 '
-  ',' != '2'
+  '"' != ')'
 check_literal: ret0
-check_literal:lit=' )' ' 2)
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
 '
     dropping space
-check_literal:After drop space:')' '2)
+check_literal:After drop space:'(' ')
 '
-  ')' != '2'
+  '(' != ')'
 check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:1
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
+'
+check_literal:lit=' ,' ' )
+'
+    dropping space
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_literal:lit=' )' ' )
+'
+    dropping space
+check_literal:After drop space:')' ')
+'
+check_literal:After while():
+
+check_literal:ret1 
 check_variable:ret1 
 scan_variable:
 scan_vname: 'A(2)
@@ -7771,13 +10978,16 @@ scan_variable: '(2)
 '
 scan_variable: Ary test '(2)
 '
-check_literal:lit='(' ' A(2)
+check_literal:lit='(' ' (2)
 '
-check_literal:After drop space:'(' 'A(2)
+check_literal:After drop space:'(' '(2)
 '
-  '(' != 'A'
-check_literal: ret0
-scan_variable:ret1 vname='A' is str:0 int:0 flt:1 ary:0
+check_literal:After while():2)
+
+check_literal:ret1 
+scan_variable: is array
+scan_expression: '(2)
+'
 check_eitem: '(2)
 '
 check_operator: (2)
@@ -7800,7 +11010,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(2)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(2)
@@ -7840,7 +11053,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(2)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(2)
@@ -7889,6 +11105,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -7912,6 +11133,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 2)
@@ -7924,14 +11150,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '2)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ')
 '
 check_operator: )
@@ -7954,7 +11188,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname ')
@@ -7998,7 +11235,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -8014,6 +11253,51 @@ check_sub_expr: ret0
 check_eitem:ret0
 scan_expression: ret1 '
 '
+check_literal:lit=' ,' ' 
+'
+    dropping space
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+scan_literal:lit=' )' '
+'
+scan_literal:After drop space:
+scan_literal:while loop:
+PRINT A(2)
+
+          ^
+
+   Bad literal ' )'
+scan_variable:ret1 vname='A' is str:0 int:0 flt:1 ary:1
+check_eitem: ''
+check_operator: 
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' '
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' '
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+scan_expression: ret1 ''
 scan_command: ret1 =>'PRINT'
 check_literal:lit=':' ' '
 check_literal:After drop space:':' ''
@@ -8109,7 +11393,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B%(10)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B%(10)
@@ -8128,7 +11415,7 @@ check_literal:After while():10)
 
 check_literal:ret1 
 check_variable: is array
-check_expression:WW '10)
+check_expression: '10)
 '
 check_eitem: '10)
 '
@@ -8152,25 +11439,74 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '10)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '10)
+check_eitem: ')
 '
-check_literal:lit=' ,' ' 10)
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
 '
     dropping space
-check_literal:After drop space:',' '10)
+check_literal:After drop space:'"' ')
 '
-  ',' != '1'
+  '"' != ')'
 check_literal: ret0
-check_literal:lit=' )' ' 10)
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
 '
     dropping space
-check_literal:After drop space:')' '10)
+check_literal:After drop space:'(' ')
 '
-  ')' != '1'
+  '(' != ')'
 check_literal: ret0
-check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:1
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
+'
+check_literal:lit=' ,' ' )
+'
+    dropping space
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_literal:lit=' )' ' )
+'
+    dropping space
+check_literal:After drop space:')' ')
+'
+check_literal:After while():
+
+check_literal:ret1 
 check_variable:ret1 
 check_eitem:ret1
 scan_eitem:
@@ -8194,7 +11530,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B%(10)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B%(10)
@@ -8213,7 +11552,7 @@ check_literal:After while():10)
 
 check_literal:ret1 
 check_variable: is array
-check_expression:WW '10)
+check_expression: '10)
 '
 check_eitem: '10)
 '
@@ -8237,25 +11576,74 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '10)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '10)
+check_eitem: ')
 '
-check_literal:lit=' ,' ' 10)
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
 '
     dropping space
-check_literal:After drop space:',' '10)
+check_literal:After drop space:'"' ')
 '
-  ',' != '1'
+  '"' != ')'
 check_literal: ret0
-check_literal:lit=' )' ' 10)
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
 '
     dropping space
-check_literal:After drop space:')' '10)
+check_literal:After drop space:'(' ')
 '
-  ')' != '1'
+  '(' != ')'
 check_literal: ret0
-check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:1
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
+'
+check_literal:lit=' ,' ' )
+'
+    dropping space
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_literal:lit=' )' ' )
+'
+    dropping space
+check_literal:After drop space:')' ')
+'
+check_literal:After while():
+
+check_literal:ret1 
 check_variable:ret1 
 scan_atom:
 check_literal:lit=' "' ' B%(10)
@@ -8268,7 +11656,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'B%(10)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'B%(10)
@@ -8287,7 +11678,7 @@ check_literal:After while():10)
 
 check_literal:ret1 
 check_variable: is array
-check_expression:WW '10)
+check_expression: '10)
 '
 check_eitem: '10)
 '
@@ -8311,25 +11702,74 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '10)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '10)
+check_eitem: ')
 '
-check_literal:lit=' ,' ' 10)
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
 '
     dropping space
-check_literal:After drop space:',' '10)
+check_literal:After drop space:'"' ')
 '
-  ',' != '1'
+  '"' != ')'
 check_literal: ret0
-check_literal:lit=' )' ' 10)
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
 '
     dropping space
-check_literal:After drop space:')' '10)
+check_literal:After drop space:'(' ')
 '
-  ')' != '1'
+  '(' != ')'
 check_literal: ret0
-check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:1
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
+'
+check_literal:lit=' ,' ' )
+'
+    dropping space
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_literal:lit=' )' ' )
+'
+    dropping space
+check_literal:After drop space:')' ')
+'
+check_literal:After while():
+
+check_literal:ret1 
 check_variable:ret1 
 scan_variable:
 scan_vname: 'B%(10)
@@ -8339,13 +11779,16 @@ scan_variable: '%(10)
 '
 scan_variable: Ary test '(10)
 '
-check_literal:lit='(' ' B%(10)
+check_literal:lit='(' ' (10)
 '
-check_literal:After drop space:'(' 'B%(10)
+check_literal:After drop space:'(' '(10)
 '
-  '(' != 'B'
-check_literal: ret0
-scan_variable:ret1 vname='B%' is str:0 int:1 flt:0 ary:0
+check_literal:After while():10)
+
+check_literal:ret1 
+scan_variable: is array
+scan_expression: '(10)
+'
 check_eitem: '(10)
 '
 check_operator: (10)
@@ -8368,7 +11811,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(10)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(10)
@@ -8408,7 +11854,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(10)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(10)
@@ -8457,6 +11906,12 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '10)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -8480,6 +11935,12 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '10)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 10)
@@ -8492,15 +11953,24 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '10)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '10)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ')
 '
 check_operator: )
@@ -8523,7 +11993,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname ')
@@ -8567,7 +12040,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -8583,6 +12058,51 @@ check_sub_expr: ret0
 check_eitem:ret0
 scan_expression: ret1 '
 '
+check_literal:lit=' ,' ' 
+'
+    dropping space
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+scan_literal:lit=' )' '
+'
+scan_literal:After drop space:
+scan_literal:while loop:
+PRINT B%(10)
+
+            ^
+
+   Bad literal ' )'
+scan_variable:ret1 vname='B%' is str:0 int:1 flt:0 ary:1
+check_eitem: ''
+check_operator: 
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' '
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' '
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+scan_expression: ret1 ''
 scan_command: ret1 =>'PRINT'
 check_literal:lit=':' ' '
 check_literal:After drop space:':' ''
@@ -8678,7 +12198,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'D$(2)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'D$(2)
@@ -8697,7 +12220,7 @@ check_literal:After while():2)
 
 check_literal:ret1 
 check_variable: is array
-check_expression:WW '2)
+check_expression: '2)
 '
 check_eitem: '2)
 '
@@ -8721,25 +12244,73 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '2)
+check_eitem: ')
 '
-check_literal:lit=' ,' ' 2)
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
 '
     dropping space
-check_literal:After drop space:',' '2)
+check_literal:After drop space:'"' ')
 '
-  ',' != '2'
+  '"' != ')'
 check_literal: ret0
-check_literal:lit=' )' ' 2)
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
 '
     dropping space
-check_literal:After drop space:')' '2)
+check_literal:After drop space:'(' ')
 '
-  ')' != '2'
+  '(' != ')'
 check_literal: ret0
-check_variable:ret1 vname='$' is str:1 int:0 flt:0 ary:1
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
+'
+check_literal:lit=' ,' ' )
+'
+    dropping space
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_literal:lit=' )' ' )
+'
+    dropping space
+check_literal:After drop space:')' ')
+'
+check_literal:After while():
+
+check_literal:ret1 
 check_variable:ret1 
 check_eitem:ret1
 scan_eitem:
@@ -8763,7 +12334,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'D$(2)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'D$(2)
@@ -8782,7 +12356,7 @@ check_literal:After while():2)
 
 check_literal:ret1 
 check_variable: is array
-check_expression:WW '2)
+check_expression: '2)
 '
 check_eitem: '2)
 '
@@ -8806,25 +12380,73 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '2)
+check_eitem: ')
 '
-check_literal:lit=' ,' ' 2)
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
 '
     dropping space
-check_literal:After drop space:',' '2)
+check_literal:After drop space:'"' ')
 '
-  ',' != '2'
+  '"' != ')'
 check_literal: ret0
-check_literal:lit=' )' ' 2)
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
 '
     dropping space
-check_literal:After drop space:')' '2)
+check_literal:After drop space:'(' ')
 '
-  ')' != '2'
+  '(' != ')'
 check_literal: ret0
-check_variable:ret1 vname='$' is str:1 int:0 flt:0 ary:1
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
+'
+check_literal:lit=' ,' ' )
+'
+    dropping space
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_literal:lit=' )' ' )
+'
+    dropping space
+check_literal:After drop space:')' ')
+'
+check_literal:After while():
+
+check_literal:ret1 
 check_variable:ret1 
 scan_atom:
 check_literal:lit=' "' ' D$(2)
@@ -8837,7 +12459,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'D$(2)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'D$(2)
@@ -8856,7 +12481,7 @@ check_literal:After while():2)
 
 check_literal:ret1 
 check_variable: is array
-check_expression:WW '2)
+check_expression: '2)
 '
 check_eitem: '2)
 '
@@ -8880,25 +12505,73 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '2)
+check_eitem: ')
 '
-check_literal:lit=' ,' ' 2)
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
 '
     dropping space
-check_literal:After drop space:',' '2)
+check_literal:After drop space:'"' ')
 '
-  ',' != '2'
+  '"' != ')'
 check_literal: ret0
-check_literal:lit=' )' ' 2)
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
 '
     dropping space
-check_literal:After drop space:')' '2)
+check_literal:After drop space:'(' ')
 '
-  ')' != '2'
+  '(' != ')'
 check_literal: ret0
-check_variable:ret1 vname='$' is str:1 int:0 flt:0 ary:1
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
+'
+check_literal:lit=' ,' ' )
+'
+    dropping space
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_literal:lit=' )' ' )
+'
+    dropping space
+check_literal:After drop space:')' ')
+'
+check_literal:After while():
+
+check_literal:ret1 
 check_variable:ret1 
 scan_variable:
 scan_vname: 'D$(2)
@@ -8908,13 +12581,16 @@ scan_variable: '$(2)
 '
 scan_variable: Ary test '(2)
 '
-check_literal:lit='(' ' D$(2)
+check_literal:lit='(' ' (2)
 '
-check_literal:After drop space:'(' 'D$(2)
+check_literal:After drop space:'(' '(2)
 '
-  '(' != 'D'
-check_literal: ret0
-scan_variable:ret1 vname='D$' is str:1 int:0 flt:0 ary:0
+check_literal:After while():2)
+
+check_literal:ret1 
+scan_variable: is array
+scan_expression: '(2)
+'
 check_eitem: '(2)
 '
 check_operator: (2)
@@ -8937,7 +12613,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(2)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(2)
@@ -8977,7 +12656,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(2)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(2)
@@ -9026,6 +12708,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -9049,6 +12736,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 2)
@@ -9061,14 +12753,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '2)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ')
 '
 check_operator: )
@@ -9091,7 +12791,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname ')
@@ -9135,7 +12838,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -9151,6 +12856,51 @@ check_sub_expr: ret0
 check_eitem:ret0
 scan_expression: ret1 '
 '
+check_literal:lit=' ,' ' 
+'
+    dropping space
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+scan_literal:lit=' )' '
+'
+scan_literal:After drop space:
+scan_literal:while loop:
+PRINT D$(2)
+
+           ^
+
+   Bad literal ' )'
+scan_variable:ret1 vname='D$' is str:1 int:0 flt:0 ary:1
+check_eitem: ''
+check_operator: 
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' '
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' '
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+scan_expression: ret1 ''
 scan_command: ret1 =>'PRINT'
 check_literal:lit=':' ' '
 check_literal:After drop space:':' ''
@@ -9246,7 +12996,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'F$(10,12)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'F$(10,12)
@@ -9265,7 +13018,7 @@ check_literal:After while():10,12)
 
 check_literal:ret1 
 check_variable: is array
-check_expression:WW '10,12)
+check_expression: '10,12)
 '
 check_eitem: '10,12)
 '
@@ -9289,25 +13042,158 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '10,12)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '10,12)
+check_eitem: ',12)
 '
-check_literal:lit=' ,' ' 10,12)
+check_operator: ,12)
+
+check_literal:lit=',' ' ,12)
+'
+check_literal:After drop space:',' ',12)
+'
+check_literal:After while():12)
+
+check_literal:ret1 
+scan_literal:lit=',' 'F$(10,12)
+'
+scan_literal:After drop space:F$(10,12)
+
+scan_literal:while loop:F$(10,12)
+
+check_atom:
+check_literal:lit=' "' ' ,12)
 '
     dropping space
-check_literal:After drop space:',' '10,12)
+check_literal:After drop space:'"' ',12)
+'
+  '"' != ','
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ',12)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ',12)
+':
+check_vname ret0 ',12)
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' ,12)
+'
+    dropping space
+check_literal:After drop space:'(' ',12)
+'
+  '(' != ','
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ',12)
+'
+check_literal:lit=' ,' ' ,12)
+'
+    dropping space
+check_literal:After drop space:',' ',12)
+'
+check_literal:After while():12)
+
+check_literal:ret1 
+check_expression: '12)
+'
+check_eitem: '12)
+'
+check_operator: 12)
+
+check_literal:lit=',' ' 12)
+'
+check_literal:After drop space:',' '12)
 '
   ',' != '1'
 check_literal: ret0
-check_literal:lit=' )' ' 10,12)
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 12)
 '
     dropping space
-check_literal:After drop space:')' '10,12)
+check_literal:After drop space:'"' '12)
 '
-  ')' != '1'
+  '"' != '1'
 check_literal: ret0
-check_variable:ret1 vname='$' is str:1 int:0 flt:0 ary:1
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '12)
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: ')
+'
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
+'
+    dropping space
+check_literal:After drop space:'"' ')
+'
+  '"' != ')'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
+'
+    dropping space
+check_literal:After drop space:'(' ')
+'
+  '(' != ')'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
+'
+check_literal:lit=' )' ' )
+'
+    dropping space
+check_literal:After drop space:')' ')
+'
+check_literal:After while():
+
+check_literal:ret1 
 check_variable:ret1 
 check_eitem:ret1
 scan_eitem:
@@ -9331,7 +13217,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'F$(10,12)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'F$(10,12)
@@ -9350,7 +13239,7 @@ check_literal:After while():10,12)
 
 check_literal:ret1 
 check_variable: is array
-check_expression:WW '10,12)
+check_expression: '10,12)
 '
 check_eitem: '10,12)
 '
@@ -9374,25 +13263,158 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '10,12)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '10,12)
+check_eitem: ',12)
 '
-check_literal:lit=' ,' ' 10,12)
+check_operator: ,12)
+
+check_literal:lit=',' ' ,12)
+'
+check_literal:After drop space:',' ',12)
+'
+check_literal:After while():12)
+
+check_literal:ret1 
+scan_literal:lit=',' 'F$(10,12)
+'
+scan_literal:After drop space:F$(10,12)
+
+scan_literal:while loop:F$(10,12)
+
+check_atom:
+check_literal:lit=' "' ' ,12)
 '
     dropping space
-check_literal:After drop space:',' '10,12)
+check_literal:After drop space:'"' ',12)
+'
+  '"' != ','
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ',12)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ',12)
+':
+check_vname ret0 ',12)
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' ,12)
+'
+    dropping space
+check_literal:After drop space:'(' ',12)
+'
+  '(' != ','
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ',12)
+'
+check_literal:lit=' ,' ' ,12)
+'
+    dropping space
+check_literal:After drop space:',' ',12)
+'
+check_literal:After while():12)
+
+check_literal:ret1 
+check_expression: '12)
+'
+check_eitem: '12)
+'
+check_operator: 12)
+
+check_literal:lit=',' ' 12)
+'
+check_literal:After drop space:',' '12)
 '
   ',' != '1'
 check_literal: ret0
-check_literal:lit=' )' ' 10,12)
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 12)
 '
     dropping space
-check_literal:After drop space:')' '10,12)
+check_literal:After drop space:'"' '12)
 '
-  ')' != '1'
+  '"' != '1'
 check_literal: ret0
-check_variable:ret1 vname='$' is str:1 int:0 flt:0 ary:1
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '12)
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: ')
+'
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
+'
+    dropping space
+check_literal:After drop space:'"' ')
+'
+  '"' != ')'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
+'
+    dropping space
+check_literal:After drop space:'(' ')
+'
+  '(' != ')'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
+'
+check_literal:lit=' )' ' )
+'
+    dropping space
+check_literal:After drop space:')' ')
+'
+check_literal:After while():
+
+check_literal:ret1 
 check_variable:ret1 
 scan_atom:
 check_literal:lit=' "' ' F$(10,12)
@@ -9405,7 +13427,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: 'F$(10,12)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname 'F$(10,12)
@@ -9424,7 +13449,7 @@ check_literal:After while():10,12)
 
 check_literal:ret1 
 check_variable: is array
-check_expression:WW '10,12)
+check_expression: '10,12)
 '
 check_eitem: '10,12)
 '
@@ -9448,25 +13473,158 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '10,12)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '10,12)
+check_eitem: ',12)
 '
-check_literal:lit=' ,' ' 10,12)
+check_operator: ,12)
+
+check_literal:lit=',' ' ,12)
+'
+check_literal:After drop space:',' ',12)
+'
+check_literal:After while():12)
+
+check_literal:ret1 
+scan_literal:lit=',' 'F$(10,12)
+'
+scan_literal:After drop space:F$(10,12)
+
+scan_literal:while loop:F$(10,12)
+
+check_atom:
+check_literal:lit=' "' ' ,12)
 '
     dropping space
-check_literal:After drop space:',' '10,12)
+check_literal:After drop space:'"' ',12)
+'
+  '"' != ','
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ',12)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ',12)
+':
+check_vname ret0 ',12)
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' ,12)
+'
+    dropping space
+check_literal:After drop space:'(' ',12)
+'
+  '(' != ','
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ',12)
+'
+check_literal:lit=' ,' ' ,12)
+'
+    dropping space
+check_literal:After drop space:',' ',12)
+'
+check_literal:After while():12)
+
+check_literal:ret1 
+check_expression: '12)
+'
+check_eitem: '12)
+'
+check_operator: 12)
+
+check_literal:lit=',' ' 12)
+'
+check_literal:After drop space:',' '12)
 '
   ',' != '1'
 check_literal: ret0
-check_literal:lit=' )' ' 10,12)
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 12)
 '
     dropping space
-check_literal:After drop space:')' '10,12)
+check_literal:After drop space:'"' '12)
 '
-  ')' != '1'
+  '"' != '1'
 check_literal: ret0
-check_variable:ret1 vname='$' is str:1 int:0 flt:0 ary:1
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '12)
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: ')
+'
+check_operator: )
+
+check_literal:lit=',' ' )
+'
+check_literal:After drop space:',' ')
+'
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' )
+'
+    dropping space
+check_literal:After drop space:'"' ')
+'
+  '"' != ')'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ')
+':
+check_vname ret0 ')
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' )
+'
+    dropping space
+check_literal:After drop space:'(' ')
+'
+  '(' != ')'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ')
+'
+check_literal:lit=' )' ' )
+'
+    dropping space
+check_literal:After drop space:')' ')
+'
+check_literal:After while():
+
+check_literal:ret1 
 check_variable:ret1 
 scan_variable:
 scan_vname: 'F$(10,12)
@@ -9476,13 +13634,16 @@ scan_variable: '$(10,12)
 '
 scan_variable: Ary test '(10,12)
 '
-check_literal:lit='(' ' F$(10,12)
+check_literal:lit='(' ' (10,12)
 '
-check_literal:After drop space:'(' 'F$(10,12)
+check_literal:After drop space:'(' '(10,12)
 '
-  '(' != 'F'
-check_literal: ret0
-scan_variable:ret1 vname='F$' is str:1 int:0 flt:0 ary:0
+check_literal:After while():10,12)
+
+check_literal:ret1 
+scan_variable: is array
+scan_expression: '(10,12)
+'
 check_eitem: '(10,12)
 '
 check_operator: (10,12)
@@ -9505,7 +13666,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(10,12)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(10,12)
@@ -9545,7 +13709,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(10,12)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(10,12)
@@ -9594,6 +13761,12 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '10,12)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -9617,6 +13790,12 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '10,12)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 10,12)
@@ -9629,15 +13808,24 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '10,12)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '10,12)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',12)
 '
 check_operator: ,12)
@@ -9677,6 +13865,12 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '12)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 12)
@@ -9689,15 +13883,24 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '12)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '12)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ')
 '
 check_operator: )
@@ -9720,7 +13923,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname ')
@@ -9764,7 +13970,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -9780,6 +13988,51 @@ check_sub_expr: ret0
 check_eitem:ret0
 scan_expression: ret1 '
 '
+check_literal:lit=' ,' ' 
+'
+    dropping space
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+scan_literal:lit=' )' '
+'
+scan_literal:After drop space:
+scan_literal:while loop:
+PRINT F$(10,12)
+
+               ^
+
+   Bad literal ' )'
+scan_variable:ret1 vname='F$' is str:1 int:0 flt:0 ary:1
+check_eitem: ''
+check_operator: 
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' '
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' '
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+scan_expression: ret1 ''
 scan_command: ret1 =>'PRINT'
 check_literal:lit=':' ' '
 check_literal:After drop space:':' ''
@@ -9875,6 +14128,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1,2,3,4,5,6,7,8,9
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -9898,6 +14156,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1,2,3,4,5,6,7,8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 1,2,3,4,5,6,7,8,9
@@ -9910,14 +14173,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1,2,3,4,5,6,7,8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '1,2,3,4,5,6,7,8,9
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',2,3,4,5,6,7,8,9
 '
 check_operator: ,2,3,4,5,6,7,8,9
@@ -9957,6 +14228,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2,3,4,5,6,7,8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 2,3,4,5,6,7,8,9
@@ -9969,14 +14245,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2,3,4,5,6,7,8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '2,3,4,5,6,7,8,9
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',3,4,5,6,7,8,9
 '
 check_operator: ,3,4,5,6,7,8,9
@@ -10016,6 +14300,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3,4,5,6,7,8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 3,4,5,6,7,8,9
@@ -10028,14 +14317,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3,4,5,6,7,8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '3,4,5,6,7,8,9
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',4,5,6,7,8,9
 '
 check_operator: ,4,5,6,7,8,9
@@ -10075,6 +14372,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '4,5,6,7,8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 4,5,6,7,8,9
@@ -10087,14 +14389,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '4,5,6,7,8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '4,5,6,7,8,9
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',5,6,7,8,9
 '
 check_operator: ,5,6,7,8,9
@@ -10134,6 +14444,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '5,6,7,8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 5,6,7,8,9
@@ -10146,14 +14461,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '5,6,7,8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '5,6,7,8,9
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',6,7,8,9
 '
 check_operator: ,6,7,8,9
@@ -10193,6 +14516,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '6,7,8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 6,7,8,9
@@ -10205,14 +14533,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '6,7,8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '6,7,8,9
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',7,8,9
 '
 check_operator: ,7,8,9
@@ -10252,6 +14588,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '7,8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 7,8,9
@@ -10264,14 +14605,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '7,8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '7,8,9
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',8,9
 '
 check_operator: ,8,9
@@ -10311,6 +14660,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 8,9
@@ -10323,14 +14677,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '8,9
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '8,9
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',9
 '
 check_operator: ,9
@@ -10370,6 +14732,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '9
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 9
@@ -10382,47 +14749,52 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '9
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
-check_eitem: '
+check_float: ret0
+check_integer: '9
 '
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
+check_eitem: ''
 check_operator: 
-
 check_literal:lit=',' ' '
 check_literal:After drop space:',' ''
 check_literal  ret0 Empty test string
 check_operator:ret0
 check_atom:
-check_literal:lit=' "' ' 
-'
+check_literal:lit=' "' ' '
     dropping space
 check_literal:After drop space:'"' ''
 check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
 check_vname ret0 '':
 check_variable:ret0 
 check_sub_expr:
-check_literal:lit=' (' ' 
-'
+check_literal:lit=' (' ' '
     dropping space
 check_literal:After drop space:'(' ''
 check_literal  ret0 Empty test string
 check_sub_expr: ret0
 check_eitem:ret0
-scan_expression: ret1 '
-'
+scan_expression: ret1 ''
 scan_command: ret1 =>'UDG'
 check_literal:lit=':' ' '
 check_literal:After drop space:':' ''
@@ -10451,7 +14823,7 @@ check_literal:After while():1,2,3,4,5,6,7,8,9)
 
 check_literal:ret1 
 check_variable: is array
-check_expression:WW '1,2,3,4,5,6,7,8,9)
+check_expression: '1,2,3,4,5,6,7,8,9)
 '
 check_eitem: '1,2,3,4,5,6,7,8,9)
 '
@@ -10475,33 +14847,73 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1,2,3,4,5,6,7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '1,2,3,4,5,6,7,8,9)
+check_eitem: ',2,3,4,5,6,7,8,9)
 '
-check_literal:lit=' ,' ' 1,2,3,4,5,6,7,8,9)
+check_operator: ,2,3,4,5,6,7,8,9)
+
+check_literal:lit=',' ' ,2,3,4,5,6,7,8,9)
+'
+check_literal:After drop space:',' ',2,3,4,5,6,7,8,9)
+'
+check_literal:After while():2,3,4,5,6,7,8,9)
+
+check_literal:ret1 
+scan_literal:lit=',' 'UDG(1,2,3,4,5,6,7,8,9)
+'
+scan_literal:After drop space:UDG(1,2,3,4,5,6,7,8,9)
+
+scan_literal:while loop:UDG(1,2,3,4,5,6,7,8,9)
+
+check_atom:
+check_literal:lit=' "' ' ,2,3,4,5,6,7,8,9)
 '
     dropping space
-check_literal:After drop space:',' '1,2,3,4,5,6,7,8,9)
+check_literal:After drop space:'"' ',2,3,4,5,6,7,8,9)
 '
-  ',' != '1'
+  '"' != ','
 check_literal: ret0
-check_literal:lit=' )' ' 1,2,3,4,5,6,7,8,9)
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ',2,3,4,5,6,7,8,9)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ',2,3,4,5,6,7,8,9)
+':
+check_vname ret0 ',2,3,4,5,6,7,8,9)
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' ,2,3,4,5,6,7,8,9)
 '
     dropping space
-check_literal:After drop space:')' '1,2,3,4,5,6,7,8,9)
+check_literal:After drop space:'(' ',2,3,4,5,6,7,8,9)
 '
-  ')' != '1'
+  '(' != ','
 check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:1
-check_variable:ret1 
-check_literal:lit=' =' ' 1,2,3,4,5,6,7,8,9)
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ',2,3,4,5,6,7,8,9)
+'
+check_literal:lit=' ,' ' ,2,3,4,5,6,7,8,9)
 '
     dropping space
-check_literal:After drop space:'=' '1,2,3,4,5,6,7,8,9)
+check_literal:After drop space:',' ',2,3,4,5,6,7,8,9)
 '
-  '=' != '1'
-check_literal: ret0
+check_literal:After while():2,3,4,5,6,7,8,9)
+
+check_literal:ret1 
+check_variable:ret0 
 check_assignment:ret0
 check_command:
 check_command: ret1=> 'UDG'
@@ -10526,7 +14938,7 @@ check_literal:After while():1,2,3,4,5,6,7,8,9)
 
 check_literal:ret1 
 check_variable: is array
-check_expression:WW '1,2,3,4,5,6,7,8,9)
+check_expression: '1,2,3,4,5,6,7,8,9)
 '
 check_eitem: '1,2,3,4,5,6,7,8,9)
 '
@@ -10550,33 +14962,73 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1,2,3,4,5,6,7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '1,2,3,4,5,6,7,8,9)
+check_eitem: ',2,3,4,5,6,7,8,9)
 '
-check_literal:lit=' ,' ' 1,2,3,4,5,6,7,8,9)
+check_operator: ,2,3,4,5,6,7,8,9)
+
+check_literal:lit=',' ' ,2,3,4,5,6,7,8,9)
+'
+check_literal:After drop space:',' ',2,3,4,5,6,7,8,9)
+'
+check_literal:After while():2,3,4,5,6,7,8,9)
+
+check_literal:ret1 
+scan_literal:lit=',' 'UDG(1,2,3,4,5,6,7,8,9)
+'
+scan_literal:After drop space:UDG(1,2,3,4,5,6,7,8,9)
+
+scan_literal:while loop:UDG(1,2,3,4,5,6,7,8,9)
+
+check_atom:
+check_literal:lit=' "' ' ,2,3,4,5,6,7,8,9)
 '
     dropping space
-check_literal:After drop space:',' '1,2,3,4,5,6,7,8,9)
+check_literal:After drop space:'"' ',2,3,4,5,6,7,8,9)
 '
-  ',' != '1'
+  '"' != ','
 check_literal: ret0
-check_literal:lit=' )' ' 1,2,3,4,5,6,7,8,9)
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ',2,3,4,5,6,7,8,9)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ',2,3,4,5,6,7,8,9)
+':
+check_vname ret0 ',2,3,4,5,6,7,8,9)
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' ,2,3,4,5,6,7,8,9)
 '
     dropping space
-check_literal:After drop space:')' '1,2,3,4,5,6,7,8,9)
+check_literal:After drop space:'(' ',2,3,4,5,6,7,8,9)
 '
-  ')' != '1'
+  '(' != ','
 check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:1
-check_variable:ret1 
-check_literal:lit=' =' ' 1,2,3,4,5,6,7,8,9)
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ',2,3,4,5,6,7,8,9)
+'
+check_literal:lit=' ,' ' ,2,3,4,5,6,7,8,9)
 '
     dropping space
-check_literal:After drop space:'=' '1,2,3,4,5,6,7,8,9)
+check_literal:After drop space:',' ',2,3,4,5,6,7,8,9)
 '
-  '=' != '1'
-check_literal: ret0
+check_literal:After while():2,3,4,5,6,7,8,9)
+
+check_literal:ret1 
+check_variable:ret0 
 check_assignment:ret0
 check_command:
 check_command: ret1=> 'UDG'
@@ -10606,7 +15058,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(1,2,3,4,5,6,7,8,9)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(1,2,3,4,5,6,7,8,9)
@@ -10646,7 +15101,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: '(1,2,3,4,5,6,7,8,9)
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '(1,2,3,4,5,6,7,8,9)
@@ -10695,6 +15153,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1,2,3,4,5,6,7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -10718,6 +15181,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1,2,3,4,5,6,7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 1,2,3,4,5,6,7,8,9)
@@ -10730,14 +15198,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1,2,3,4,5,6,7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '1,2,3,4,5,6,7,8,9)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',2,3,4,5,6,7,8,9)
 '
 check_operator: ,2,3,4,5,6,7,8,9)
@@ -10777,6 +15253,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2,3,4,5,6,7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 2,3,4,5,6,7,8,9)
@@ -10789,14 +15270,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2,3,4,5,6,7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '2,3,4,5,6,7,8,9)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',3,4,5,6,7,8,9)
 '
 check_operator: ,3,4,5,6,7,8,9)
@@ -10836,6 +15325,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3,4,5,6,7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 3,4,5,6,7,8,9)
@@ -10848,14 +15342,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3,4,5,6,7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '3,4,5,6,7,8,9)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',4,5,6,7,8,9)
 '
 check_operator: ,4,5,6,7,8,9)
@@ -10895,6 +15397,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '4,5,6,7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 4,5,6,7,8,9)
@@ -10907,14 +15414,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '4,5,6,7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '4,5,6,7,8,9)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',5,6,7,8,9)
 '
 check_operator: ,5,6,7,8,9)
@@ -10954,6 +15469,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '5,6,7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 5,6,7,8,9)
@@ -10966,14 +15486,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '5,6,7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '5,6,7,8,9)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',6,7,8,9)
 '
 check_operator: ,6,7,8,9)
@@ -11013,6 +15541,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '6,7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 6,7,8,9)
@@ -11025,14 +15558,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '6,7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '6,7,8,9)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',7,8,9)
 '
 check_operator: ,7,8,9)
@@ -11072,6 +15613,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 7,8,9)
@@ -11084,14 +15630,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '7,8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '7,8,9)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',8,9)
 '
 check_operator: ,8,9)
@@ -11131,6 +15685,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 8,9)
@@ -11143,14 +15702,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '8,9)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '8,9)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',9)
 '
 check_operator: ,9)
@@ -11190,6 +15757,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '9)
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 9)
@@ -11202,14 +15774,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '9)
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '9)
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ')
 '
 check_operator: )
@@ -11232,7 +15812,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ')
+'
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname ')
@@ -11276,7 +15859,9 @@ check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
@@ -11387,6 +15972,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1,2.3, 3.4, 5.6, 7, 8, 9, 10
+'
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
 scan_eitem:
@@ -11410,6 +16000,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1,2.3, 3.4, 5.6, 7, 8, 9, 10
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 1,2.3, 3.4, 5.6, 7, 8, 9, 10
@@ -11422,14 +16017,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1,2.3, 3.4, 5.6, 7, 8, 9, 10
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '1,2.3, 3.4, 5.6, 7, 8, 9, 10
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ',2.3, 3.4, 5.6, 7, 8, 9, 10
 '
 check_operator: ,2.3, 3.4, 5.6, 7, 8, 9, 10
@@ -11469,6 +16072,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' ' 2.3, 3.4, 5.6, 7, 8, 9, 10
@@ -11481,16 +16088,21 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 scan_float:
 isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+scan_float: ret0
 check_eitem: ', 3.4, 5.6, 7, 8, 9, 10
 '
 check_operator: , 3.4, 5.6, 7, 8, 9, 10
@@ -11530,6 +16142,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' '  3.4, 5.6, 7, 8, 9, 10
@@ -11542,16 +16158,21 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 scan_float:
 isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+scan_float: ret0
 check_eitem: ', 5.6, 7, 8, 9, 10
 '
 check_operator: , 5.6, 7, 8, 9, 10
@@ -11591,6 +16212,10 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' '  5.6, 7, 8, 9, 10
@@ -11603,16 +16228,21 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret1
 scan_float:
 isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+scan_float: ret0
 check_eitem: ', 7, 8, 9, 10
 '
 check_operator: , 7, 8, 9, 10
@@ -11652,6 +16282,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '7, 8, 9, 10
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' '  7, 8, 9, 10
@@ -11664,14 +16299,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '7, 8, 9, 10
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '7, 8, 9, 10
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ', 8, 9, 10
 '
 check_operator: , 8, 9, 10
@@ -11711,6 +16354,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '8, 9, 10
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' '  8, 9, 10
@@ -11723,14 +16371,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '8, 9, 10
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '8, 9, 10
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ', 9, 10
 '
 check_operator: , 9, 10
@@ -11770,6 +16426,11 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '9, 10
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' '  9, 10
@@ -11782,14 +16443,22 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '9, 10
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
+check_float: ret0
+check_integer: '9, 10
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
 check_eitem: ', 10
 '
 check_operator: , 10
@@ -11829,6 +16498,12 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '10
+'
+check_integer:ret1
 check_number: ret1
 scan_atom:
 check_literal:lit=' "' '  10
@@ -11841,48 +16516,54 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '10
+'
+check_integer:ret1
 check_number: ret1
 scan_number:
 check_float:
 isfloatdigit:
-scan_float:
 isfloatdigit:
 isfloatdigit:
-isfloatdigit:
-scan_float: ret1
-check_eitem: '
+check_float: ret0
+check_integer: '10
 '
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
+check_eitem: ''
 check_operator: 
-
 check_literal:lit=',' ' '
 check_literal:After drop space:',' ''
 check_literal  ret0 Empty test string
 check_operator:ret0
 check_atom:
-check_literal:lit=' "' ' 
-'
+check_literal:lit=' "' ' '
     dropping space
 check_literal:After drop space:'"' ''
 check_literal  ret0 Empty test string
 check_number:
 check_float:
 isfloatdigit:
-check_integer:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
 check_number: ret0
 check_variable:
 check_vname '':
 check_vname ret0 '':
 check_variable:ret0 
 check_sub_expr:
-check_literal:lit=' (' ' 
-'
+check_literal:lit=' (' ' '
     dropping space
 check_literal:After drop space:'(' ''
 check_literal  ret0 Empty test string
 check_sub_expr: ret0
 check_eitem:ret0
-scan_expression: ret1 '
-'
+scan_expression: ret1 ''
 scan_command: ret1 =>'UDG'
 check_literal:lit=':' ' '
 check_literal:After drop space:':' ''
@@ -11903,7 +16584,7 @@ check_literal:After drop space:'(' '(2) = 6  '
 check_literal:After while():2) = 6  
 check_literal:ret1 
 check_variable: is array
-check_expression:WW '2) = 6  '
+check_expression: '2) = 6  '
 check_eitem: '2) = 6  '
 check_operator: 2) = 6  
 check_literal:lit=',' ' 2) = 6  '
@@ -11920,74 +16601,578 @@ check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2) = 6  '
+check_integer:ret1
 check_number: ret1
 check_eitem:ret1
-check_expression:ret1 '2) = 6  '
-check_literal:lit=' ,' ' 2) = 6  '
+check_eitem: ') = 6  '
+check_operator: ) = 6  
+check_literal:lit=',' ' ) = 6  '
+check_literal:After drop space:',' ') = 6  '
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' ) = 6  '
     dropping space
+check_literal:After drop space:'"' ') = 6  '
+  '"' != ')'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ') = 6  '
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ') = 6  ':
+check_vname ret0 ') = 6  ':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' ) = 6  '
+    dropping space
+check_literal:After drop space:'(' ') = 6  '
+  '(' != ')'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ') = 6  '
+check_literal:lit=' ,' ' ) = 6  '
+    dropping space
+check_literal:After drop space:',' ') = 6  '
+  ',' != ')'
+check_literal: ret0
+check_literal:lit=' )' ' ) = 6  '
+    dropping space
+check_literal:After drop space:')' ') = 6  '
+check_literal:After while(): = 6  
+check_literal:ret1 
+check_variable:ret1 
+check_literal:lit=' =' '  = 6  '
+    dropping space
+check_literal:After drop space:'=' '= 6  '
+check_literal:After while(): 6  
+check_literal:ret1 
+check_expression: '6  '
+check_eitem: '6  '
+check_operator: 6  
+check_literal:lit=',' ' 6  '
+check_literal:After drop space:',' '6  '
+  ',' != '6'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 6  '
+    dropping space
+check_literal:After drop space:'"' '6  '
+  '"' != '6'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '6  '
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '  '
+check_operator:   
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '   '
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' '   '
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 '  '
+check_assignment:ret1
+scan_cline: Checked len=11, 'A%(2) = 6  '
+scan_line:
+check_assignment:
+check_variable:
+check_vname 'A%(2) = 6  ':
+check_vname ret1 '%(2) = 6  ':
+check_variable: '%(2) = 6  '
+check_variable: Ary test '(2) = 6  '
+check_literal:lit='(' ' (2) = 6  '
+check_literal:After drop space:'(' '(2) = 6  '
+check_literal:After while():2) = 6  
+check_literal:ret1 
+check_variable: is array
+check_expression: '2) = 6  '
+check_eitem: '2) = 6  '
+check_operator: 2) = 6  
+check_literal:lit=',' ' 2) = 6  '
 check_literal:After drop space:',' '2) = 6  '
   ',' != '2'
 check_literal: ret0
-check_literal:lit=' )' ' 2) = 6  '
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 2) = 6  '
     dropping space
-check_literal:After drop space:')' '2) = 6  '
-  ')' != '2'
+check_literal:After drop space:'"' '2) = 6  '
+  '"' != '2'
 check_literal: ret0
-check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:1
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2) = 6  '
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: ') = 6  '
+check_operator: ) = 6  
+check_literal:lit=',' ' ) = 6  '
+check_literal:After drop space:',' ') = 6  '
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' ) = 6  '
+    dropping space
+check_literal:After drop space:'"' ') = 6  '
+  '"' != ')'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ') = 6  '
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ') = 6  ':
+check_vname ret0 ') = 6  ':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' ) = 6  '
+    dropping space
+check_literal:After drop space:'(' ') = 6  '
+  '(' != ')'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ') = 6  '
+check_literal:lit=' ,' ' ) = 6  '
+    dropping space
+check_literal:After drop space:',' ') = 6  '
+  ',' != ')'
+check_literal: ret0
+check_literal:lit=' )' ' ) = 6  '
+    dropping space
+check_literal:After drop space:')' ') = 6  '
+check_literal:After while(): = 6  
+check_literal:ret1 
 check_variable:ret1 
-check_literal:lit=' =' ' 2) = 6  '
+check_literal:lit=' =' '  = 6  '
     dropping space
-check_literal:After drop space:'=' '2) = 6  '
-  '=' != '2'
+check_literal:After drop space:'=' '= 6  '
+check_literal:After while(): 6  
+check_literal:ret1 
+check_expression: '6  '
+check_eitem: '6  '
+check_operator: 6  
+check_literal:lit=',' ' 6  '
+check_literal:After drop space:',' '6  '
+  ',' != '6'
 check_literal: ret0
-check_assignment:ret0
-check_command:
-check_literal:lit=' LOCAL' ' A%(2) = 6  '
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 6  '
     dropping space
-check_literal:After drop space:'LOCAL' 'A%(2) = 6  '
-  'L' != 'A'
+check_literal:After drop space:'"' '6  '
+  '"' != '6'
 check_literal: ret0
-check_literal:lit=' GLOBAL' ' A%(2) = 6  '
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '6  '
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '  '
+check_operator:   
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '   '
     dropping space
-check_literal:After drop space:'GLOBAL' 'A%(2) = 6  '
-  'G' != 'A'
-check_literal: ret0
-check_literal:lit=' IF' ' A%(2) = 6  '
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' '   '
     dropping space
-check_literal:After drop space:'IF' 'A%(2) = 6  '
-  'I' != 'A'
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 '  '
+check_assignment:ret1
+scan_assignment:
+scan_variable:
+scan_vname: 'A%(2) = 6  '
+scan_vname: ret1 'A'
+scan_variable: '%(2) = 6  '
+scan_variable: Ary test '(2) = 6  '
+check_literal:lit='(' ' (2) = 6  '
+check_literal:After drop space:'(' '(2) = 6  '
+check_literal:After while():2) = 6  
+check_literal:ret1 
+scan_variable: is array
+scan_expression: '(2) = 6  '
+check_eitem: '(2) = 6  '
+check_operator: (2) = 6  
+check_literal:lit=',' ' (2) = 6  '
+check_literal:After drop space:',' '(2) = 6  '
+  ',' != '('
 check_literal: ret0
-check_literal:lit=' ELSE' ' A%(2) = 6  '
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' (2) = 6  '
     dropping space
-check_literal:After drop space:'ELSE' 'A%(2) = 6  '
-  'E' != 'A'
+check_literal:After drop space:'"' '(2) = 6  '
+  '"' != '('
 check_literal: ret0
-check_literal:lit=' ENDIF' ' A%(2) = 6  '
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: '(2) = 6  '
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '(2) = 6  ':
+check_vname ret0 '(2) = 6  ':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' (2) = 6  '
     dropping space
-check_literal:After drop space:'ENDIF' 'A%(2) = 6  '
-  'E' != 'A'
+check_literal:After drop space:'(' '(2) = 6  '
+check_literal:After while():2) = 6  
+check_literal:ret1 
+check_sub_expr: ret1
+check_eitem:ret1
+scan_eitem:
+check_operator: (2) = 6  
+check_literal:lit=',' ' (2) = 6  '
+check_literal:After drop space:',' '(2) = 6  '
+  ',' != '('
 check_literal: ret0
-check_literal:lit=' DO' ' A%(2) = 6  '
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' (2) = 6  '
     dropping space
-check_literal:After drop space:'DO' 'A%(2) = 6  '
-  'D' != 'A'
+check_literal:After drop space:'"' '(2) = 6  '
+  '"' != '('
 check_literal: ret0
-check_literal:lit=' WHILE' ' A%(2) = 6  '
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: '(2) = 6  '
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '(2) = 6  ':
+check_vname ret0 '(2) = 6  ':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' (2) = 6  '
     dropping space
-check_literal:After drop space:'WHILE' 'A%(2) = 6  '
-  'W' != 'A'
+check_literal:After drop space:'(' '(2) = 6  '
+check_literal:After while():2) = 6  
+check_literal:ret1 
+check_sub_expr: ret1
+scan_sub_expr:
+scan_literal:lit=' (' '(2) = 6  '
+scan_literal:After drop space:(2) = 6  
+scan_literal:while loop:(2) = 6  
+scan_expression: '2) = 6  '
+check_eitem: '2) = 6  '
+check_operator: 2) = 6  
+check_literal:lit=',' ' 2) = 6  '
+check_literal:After drop space:',' '2) = 6  '
+  ',' != '2'
 check_literal: ret0
-check_literal:lit=' REPEAT' ' A%(2) = 6  '
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 2) = 6  '
     dropping space
-check_literal:After drop space:'REPEAT' 'A%(2) = 6  '
-  'R' != 'A'
+check_literal:After drop space:'"' '2) = 6  '
+  '"' != '2'
 check_literal: ret0
-check_literal:lit=' UNTIL' ' A%(2) = 6  '
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2) = 6  '
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+scan_eitem:
+check_operator: 2) = 6  
+check_literal:lit=',' ' 2) = 6  '
+check_literal:After drop space:',' '2) = 6  '
+  ',' != '2'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' 2) = 6  '
     dropping space
-check_literal:After drop space:'UNTIL' 'A%(2) = 6  '
-  'U' != 'A'
+check_literal:After drop space:'"' '2) = 6  '
+  '"' != '2'
 check_literal: ret0
-scan_cline: after wh len=11 'A%(2) = 6  '
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2) = 6  '
+check_integer:ret1
+check_number: ret1
+scan_atom:
+check_literal:lit=' "' ' 2) = 6  '
+    dropping space
+check_literal:After drop space:'"' '2) = 6  '
+  '"' != '2'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2) = 6  '
+check_integer:ret1
+check_number: ret1
+scan_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '2) = 6  '
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
+check_eitem: ') = 6  '
+check_operator: ) = 6  
+check_literal:lit=',' ' ) = 6  '
+check_literal:After drop space:',' ') = 6  '
+  ',' != ')'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' ) = 6  '
+    dropping space
+check_literal:After drop space:'"' ') = 6  '
+  '"' != ')'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ') = 6  '
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ') = 6  ':
+check_vname ret0 ') = 6  ':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' ) = 6  '
+    dropping space
+check_literal:After drop space:'(' ') = 6  '
+  '(' != ')'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+scan_expression: ret1 ') = 6  '
+scan_literal:lit=' )' ') = 6  '
+scan_literal:After drop space:) = 6  
+scan_literal:while loop:) = 6  
+scan_sub_expr:ret1
+check_eitem: ' = 6  '
+check_operator:  = 6  
+check_literal:lit=',' ' = 6  '
+check_literal:After drop space:',' '= 6  '
+  ',' != '='
+check_literal: ret0
+check_operator: ret1
+check_eitem:ret1
+scan_eitem:
+check_operator:  = 6  
+check_literal:lit=',' ' = 6  '
+check_literal:After drop space:',' '= 6  '
+  ',' != '='
+check_literal: ret0
+check_operator: ret1
+scan_operator: ' = 6  '
+check_literal:lit=',' ' = 6  '
+check_literal:After drop space:',' '= 6  '
+  ',' != '='
+check_literal: ret0
+scan_operator: ret1 ' 6  '
+check_eitem: ' 6  '
+check_operator:  6  
+check_literal:lit=',' ' 6  '
+check_literal:After drop space:',' '6  '
+  ',' != '6'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '  6  '
+    dropping space
+check_literal:After drop space:'"' '6  '
+  '"' != '6'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '6  '
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+scan_eitem:
+check_operator:  6  
+check_literal:lit=',' ' 6  '
+check_literal:After drop space:',' '6  '
+  ',' != '6'
+check_literal: ret0
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' '  6  '
+    dropping space
+check_literal:After drop space:'"' '6  '
+  '"' != '6'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '6  '
+check_integer:ret1
+check_number: ret1
+scan_atom:
+check_literal:lit=' "' '  6  '
+    dropping space
+check_literal:After drop space:'"' '6  '
+  '"' != '6'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '6  '
+check_integer:ret1
+check_number: ret1
+scan_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '6  '
+check_integer:ret1
+scan_integer:
+scan_integer:ret0
+check_eitem: ''
+check_operator: 
+check_literal:lit=',' ' '
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_atom:
+check_literal:lit=' "' ' '
+    dropping space
+check_literal:After drop space:'"' ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' ' '
+    dropping space
+check_literal:After drop space:'(' ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+scan_expression: ret1 ''
+check_literal:lit=' ,' ' '
+    dropping space
+check_literal:After drop space:',' ''
+check_literal  ret0 Empty test string
+scan_literal:lit=' )' ''
+scan_literal:After drop space:
+scan_literal:while loop:
+A%(2) = 6  
+          ^
+
+   Bad literal ' )'
+scan_variable:ret1 vname='A%' is str:0 int:1 flt:0 ary:1
+scan_literal:lit=' =' ''
+scan_literal:After drop space:
+scan_literal:while loop:
+A%(2) = 6  
+          ^
+
+   Bad literal ' ='
+A%(2) = 6  
+          ^
+
+   Assignment error
+scan_cline: scan_line==0 len=11 'A%(2) = 6  '
 cline failed scan
 
  26 lines scanned Ok

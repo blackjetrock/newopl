@@ -880,8 +880,16 @@ int scan_variable(char *variable_dest)
 
       // Is it an array?
       printf("\n%s: Ary test '%s'", __FUNCTION__, &(cline[cline_i]));
+      idx = cline_i;
+      
       if( check_literal(&idx,"(") )
 	{
+	  if( !scan_literal("(") )
+	    {
+	      syntax_error("Malformed array index");
+	      return(0);
+	    }
+	  
 	  printf("\n%s: is array", __FUNCTION__);
 	  
 	  var_is_array = 1;
@@ -891,6 +899,7 @@ int scan_variable(char *variable_dest)
 
 	  // Could be string array, which has two expressions in
 	  // the brackets
+	  idx = cline_i;
 	  if( check_literal(&idx," ,") )
 	    {
 	      if( var_is_string )
@@ -909,7 +918,6 @@ int scan_variable(char *variable_dest)
 	    {
 	      return(1);
 	    }
-	  
 	}
       
       printf("\n%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
@@ -920,7 +928,6 @@ int scan_variable(char *variable_dest)
 	     var_is_array
 	     );
       return(1);
-      
     }
   
   return(0);
@@ -985,23 +992,13 @@ int check_variable(int *index)
 	      if( var_is_string )
 		{
 		  // All OK, string array
-		  if( check_literal(&idx, " ,") )
+		  if( check_expression(&idx) )
 		    {
-		      
-		      if( check_expression(&idx) )
-			{
-			  // All OK
-			}
-		      else
-			{
-			  *index = idx;
-			  return(0);
-			}
+		      // All OK
 		    }
 		  else
 		    {
 		      *index = idx;
-		      printf("\n%s:ret0 ", __FUNCTION__);
 		      return(0);
 		    }
 		}
@@ -1019,7 +1016,6 @@ int check_variable(int *index)
 	      printf("\n%s:ret1 ", __FUNCTION__);
 	      return(1);
 	    }
-	  
 	}
       
       printf("\n%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
@@ -1076,6 +1072,7 @@ int check_operator(int *index)
 	  // Match
 	  
 	  printf("\n%s: ret1", __FUNCTION__);
+	  idx += strlen(op_info[i].name);
 	  *index = idx;
 	  return(1);
 	}
@@ -1120,23 +1117,44 @@ int scan_operator(void)
 int check_integer(int *index)
 {
   int idx = *index;
-  
-  printf("\n%s:", __FUNCTION__);
+  int num_digits = 0;
 
-  if( isdigit(cline[idx]) )
+  drop_space(&idx);
+  
+  printf("\n%s: '%s'", __FUNCTION__, &(cline[idx]));
+
+  char intval[20];
+  char chstr[2];
+
+  intval[0] = '\0';
+  
+  while( isdigit(chstr[0] = cline[idx]) )
     {
-      *index = idx;
+      strcat(intval, chstr);
+      idx++;
+      num_digits++;
+    }
+
+  *index = idx;
+  
+  if( num_digits > 0 )
+    {
+      printf("\n%s:ret1", __FUNCTION__);
       return(1);
     }
-  
-  *index = idx;  
+
+  printf("\n%s:ret0", __FUNCTION__);
   return(0);
 }
 
-
 int scan_integer(char *intdest)
 {
+  int num_digits = 0;
+
+  drop_space(&cline_i);
+  
   printf("\n%s:", __FUNCTION__);
+
   char intval[20];
   char chstr[2];
 
@@ -1146,9 +1164,19 @@ int scan_integer(char *intdest)
     {
       strcat(intval, chstr);
       cline_i++;
+      num_digits++;
     }
 
   strcpy(intdest, intval);
+  
+  if( num_digits > 0 )
+    {
+      printf("\n%s:ret1", __FUNCTION__);
+      return(1);
+    }
+
+  printf("\n%s:ret0", __FUNCTION__);
+  return(0);
 }
 
 int isfloatdigit(char c)
@@ -1165,41 +1193,72 @@ int isfloatdigit(char c)
 int check_float(int *index)
 {
   int idx = *index;
-    
-  printf("\n%s:", __FUNCTION__);
+  char chstr[2];
+  int decimal_present = 0;
+  int num_digits = 0;
 
+  printf("\n%s:", __FUNCTION__);
+  
   drop_space(&idx);
   
-  if( isfloatdigit(cline[idx]) )
+  while( isfloatdigit(chstr[0] = cline[idx]) )
     {
+      if( chstr[0] == '.' )
+	{
+	  decimal_present = 1;
+	}
+      
+      idx++;
+      num_digits++;
+    }
+
+
+  if( (num_digits > 0) &&  decimal_present )
+    {
+      printf("\n%s: ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
   
-  *index = idx;
+  printf("\n%s: ret0", __FUNCTION__);
+
   return(0);
 }
 
 int scan_float(char *fltdest)
 {
   printf("\n%s:", __FUNCTION__);
-  char intval[20];
+  char fltval[20];
   char chstr[2];
-
+  int decimal_present = 0;
+  int num_digits = 0;
+  
   drop_space(&cline_i);
   
-  intval[0] = '\0';
+  fltval[0] = '\0';
   
   while( isfloatdigit(chstr[0] = cline[cline_i]) )
     {
-      strcat(intval, chstr);
+      if( chstr[0] == '.' )
+	{
+	  decimal_present = 1;
+	}
+      
+      strcat(fltval, chstr);
       cline_i++;
+      num_digits++;
     }
 
-  strcpy(fltdest, intval);
-
-  printf("\n%s: ret1", __FUNCTION__);
-  return(1);
+  strcpy(fltdest, fltval);
+  if( (num_digits > 0) &&  decimal_present )
+    {
+      printf("\n%s: ret1", __FUNCTION__);
+      return(1);
+    }
+  
+  printf("\n%s: ret0", __FUNCTION__);
+  return(0);
+  
 }
 
 int check_number(int *index)
@@ -1225,7 +1284,6 @@ int check_number(int *index)
     }
 
   printf("\n%s: ret0", __FUNCTION__);
-  *index = idx;
   return(0);
 }
 
@@ -1478,11 +1536,17 @@ int scan_eitem(void)
 int check_expression(int *index)
 {
   int idx = *index;
+  int num_eitems = 0;
   
   drop_space(&idx);
   
   printf("\n%s: '%s'", __FUNCTION__, &(cline[idx]));
-  if( check_eitem(&idx) )
+  while( check_eitem(&idx) && (cline[idx] != '\0') )
+    {
+      num_eitems++;
+    }
+
+  if( num_eitems > 0 )
     {
       printf("\n%s:ret1 '%s'", __FUNCTION__, &(cline[idx]));
       *index = idx;
