@@ -623,6 +623,9 @@ void syntax_error(char *fmt, ...)
   printf("^");
   
   printf("\n\n   %s", line);
+  printf("\n");
+  
+  exit(-1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2308,6 +2311,7 @@ int scan_cline()
       if( !scan_line() )
 	{
 	  printf("\n%s: scan_line==0 len=%ld '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
+	  syntax_error("Syntax error in line");
 	  return(0);
 	}
 
@@ -2339,6 +2343,8 @@ int scan_cline()
     }
 
   printf("\n%s: after wh len=%ld '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
+  syntax_error("Syntax error in line");
+  
   if( strlen(&(cline[cline_i])) == 0 )
     {
       return(0);
@@ -2456,4 +2462,5 @@ int main(int argc, char *argv[])
   printf("\n %d lines blank",            n_lines_blank);
   fclose(ofp);
 
+  printf("\n");
 }
