@@ -45,7 +45,7 @@ DO
    UNTIL i%=30
    b%=b%+5 :a%=20 :x%=x%+2
    IF x%>20
-    CLS PRINT "GAME OVER"
+    CLS : PRINT "GAME OVER"
     PRINT "SCORE:",sc% :PAUSE 40
     WHILE KEY :ENDWH :REM Drain buffer
     GET :RETURN

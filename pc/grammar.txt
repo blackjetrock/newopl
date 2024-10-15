@@ -1,7 +1,9 @@
-<file>       : <procdef> <cline>*
+<file>       : <procdef> <declares> <cline>*
+<declare>    : <local> | <global>
+<declares>   : <declare>+
 <cline>      : <line> | <line> ':' <cine>+
 <procdef>    : <string> ':'
-<line>       : REM <text> | <proc_call> |
+<line>       : 'REM' <text> | <proc_call> |
                <onerr> | <label> | <assignment> | <command> |
 	       <function> <expression |
                TRAP <trapable_command> |
@@ -32,3 +34,21 @@
 <varlist>    : <variable>+
 <vname>      : <A-Z><A-Z0-9>*
 <operator>   : <operator-list-string>	      
+
+Notes:
+
+*  means zero or more occurrances
++  means  one or more occurrances
+
+No variable name can be a command or function. E.g.:
+
+LOCAL PRINT
+
+is a syntax error, but:
+
+LOCAL PRINT%
+
+is not.
+
+Variables in expressions have to be declared, or externals. External variable names cannot be command or function names.
+
