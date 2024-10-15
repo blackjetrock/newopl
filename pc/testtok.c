@@ -97,138 +97,139 @@ struct _FN_INFO
   char *name;
   int command;         // 1 if command, 0 if function
   int trapable;        // 1 if can be used with TRAP
+  char argparse;       // How to parse the args   O: scan_onoff
+                       //                         otherwise: scan_expression()
   char *argtypes;
   char *resulttype;
   uint8_t qcode;
 }
   fn_info[] =
   {
-    { "EOL",      0,  0, "ii",       "f", 0x00 },
+    { "EOL",      0,  0, ' ', "ii",       "f", 0x00 },
     //{ "=",      0,  0,   "ii",       "f", 0x00 },
-    { "ABS",      0,  0,  "f",       "f", 0x00 },
-    { "ACOS",     0,  0,  "f",       "f", 0x00 },
-    { "ADDR",     0,  0,  "ii",       "f", 0x00 },
-    { "APPEND",   1,  1,  "ii",       "f", 0x00 },
-    { "ASC",      0,  0,  "i",        "s", 0x00 },
-    { "ASIN",     0,  0,  "f",       "f", 0x00 },
-    { "AT",       1,  0,  "ii",       "f", 0x4C },
-    { "ATAN",     0,  0,  "f",       "f", 0x00 },
-    { "BACK",     1,  1,  "ii",       "f", 0x00 },
-    { "BEEP",     1,  0,  "ii",       "f", 0x00 },
-    { "BREAK",    1,  0,  "ii",       "f", 0x00 },
-    { "CHR$",     0,  0,  "s",        "i", 0x00 },
-    { "CLOCK",    0,  0,  "ii",       "f", 0x00 },
-    { "CLOSE",    1,  1,  "ii",       "f", 0x00 },
-    { "CLS",      1,  0,  "ii",       "f", 0x00 },
-    { "CONTINUE", 1,  0,  "ii",       "f", 0x00 },
-    { "COPY",     1,  1,  "ii",       "f", 0x00 },
-    { "COPYW",    1,  1,  "ii",       "f", 0x00 },
-    { "COS",      0,  0,  "f",        "f", 0x00 },
-    { "COUNT",    0,  0,  "ii",       "f", 0x00 },
-    { "CREATE",   1,  1,  "ii",       "f", 0x00 },
-    { "CURSOR",   1,  0,  "ii",       "f", 0x00 },
-    { "DATIM$",   0,  0,  "ii",       "f", 0x00 },
-    { "DAY",      0,  0,  "",         "i", 0x00 },
-    { "DAYNAME$", 0,  0,  "ii",       "f", 0x00 },
-    { "DAYS",     0,  0,  "ii",       "f", 0x00 },
-    { "DEG",      0,  0,  "ii",       "f", 0x00 },
-    { "DELETE",   1,  1,  "ii",       "f", 0x00 },
-    { "DELETEW",  1,  1,  "ii",       "f", 0x00 },
-    { "DIR$",     0,  0,  "ii",       "f", 0x00 },
-    { "DIRW$",    0,  0,  "ii",       "f", 0x00 },
-    { "DISP",     0,  0,  "ii",       "f", 0x00 },
-    { "DOW",      0,  0,  "ii",       "f", 0x00 },
-    { "EDIT",     1,  1,  "ii",       "f", 0x00 },
-    { "EOF",      0,  0,  "ii",       "f", 0x00 },
-    { "ERASE",    1,  1,  "ii",       "f", 0x00 },
-    { "ERR",      0,  0,  "ii",       "f", 0x00 },
-    { "ERR$",     0,  0,  "ii",       "f", 0x00 },
-    { "ESCAPE",   1,  0,  "ii",       "f", 0x00 },
-    { "EXIST",    0,  0,  "ii",       "f", 0x00 },
-    { "EXP",      0,  0,  "f",        "f", 0x00 },
-    { "FIND",     0,  0,  "ii",       "f", 0x00 },
-    { "FINDW",    0,  0,  "ii",       "f", 0x00 },
-    { "FIRST",    1,  1,  "ii",       "f", 0x00 },
-    { "FIX$",     0,  0,  "ii",       "f", 0x00 },
-    { "FLT",      0,  0,  "i",        "f", 0x00 },
-    { "FREE",     0,  0,  "ii",       "f", 0x00 },
-    { "GEN$",     0,  0,  "ii",       "f", 0x00 },
-    { "GET",      0,  0,  "ii",       "f", 0x00 },
-    { "GET$",     0,  0,  "ii",       "f", 0x00 },
-    { "GLOBAL",   1,  0,  "ii",       "f", 0x00 },
-    //{ "GOTO",     1,  0,  "ii",       "f", 0x00 },
-    { "HEX$",     0,  0,  "ii",       "f", 0x00 },
-    { "HOUR",     0,  0,  "",         "i", 0x00 },
-    { "IABS",     0,  0,  "i",        "i", 0x00 },
-    { "INPUT",    1,  1,  "ii",       "f", 0x00 },
-    { "INT",      0,  0,  "f",        "i", 0x00 },
-    { "INTF",     0,  0,  "ii",       "f", 0x00 },
-    { "KEY$",     0,  0,  "ii",       "f", 0x00 },
-    { "KEY",      0,  0,  "ii",       "f", 0x00 },
-    { "KSTAT",    1,  0,  "ii",       "f", 0x00 },
-    { "LAST",     1,  1,  "ii",       "f", 0x00 },
-    { "LEFT$",    0,  0,  "ii",       "f", 0x00 },
-    { "LEN",      0,  0,  "ii",       "f", 0x00 },
-    { "LN",       0,  0,  "f",         "f", 0x00 },
-    { "LOC",      0,  0,  "ii",       "f", 0x00 },
-    { "LOCAL",    1,  0,  "ii",       "f", 0x00 },
-    { "LOG",      0,  0,  "ii",       "f", 0x00 },
-    { "LOWER$",   0,  0,  "ii",       "f", 0x00 },
-    { "LPRINT",   1,  0,  "ii",       "f", 0x00 },
-    { "MAX",      0,  0,  "ii",        "f", 0x00 },
-    { "MEAN",     0,  0,  "ii",       "f", 0x00 },
-    { "MENU",     0,  0,  "ii",       "f", 0x00 },
-    { "MENUN",    0,  0,  "ii",       "f", 0x00 },
-    { "MID$",     0,  0,  "ii",       "f", 0x00 },
-    { "MIN",      0,  0,  "ii",       "f", 0x00 },
-    { "MINUTE",   0,  0,  "",         "i", 0x00 },
-    { "MONTH",    0,  0,  "",         "i", 0x00 },
-    { "MONTH$",   0,  0,  "ii",       "f", 0x00 },
-    { "NEXT",     0,  1,  "ii",       "f", 0x00 },
-    { "NUM$",     0,  0,  "ii",       "f", 0x00 },
-    { "OFF",      1,  0,  "ii",       "f", 0x00 },
-    { "OPEN",     1,  1,  "ii",       "f", 0x00 },
-    { "ONERR",    1,  0,  "ii",       "f", 0x00 },
-    { "PAUSE",    1,  0,  "ii",       "f", 0x00 },
-    { "PEEKB",    0,  0,  "ii",       "f", 0x00 },
-    { "PEEKW",    0,  0,  "ii",       "f", 0x00 },
-    { "PI",       0,  0,  "ii",       "f", 0x00 },
-    { "POKEB",    1,  0,  "ii",       "f", 0x00 },
-    { "POKEW",    1,  0,  "ii",       "f", 0x00 },
-    { "POS",      0,  0,  "ii",       "f", 0x00 },
-    { "POSITION", 1,  1,  "ii",       "f", 0x00 },
-    { "PRINT",    1,  0,  "i",        "v", 0x00 },
-    { "RAD",      0,  0,  "ii",       "f", 0x00 },
-    { "RAISE",    1,  0,  "ii",       "f", 0x00 },
-    { "RANDOMIZE",1,  0,  "ii",       "f", 0x00 },
-    { "RECSIZE",  0,  0,  "ii",       "f", 0x00 },
-    { "REM",      1,  0,  "ii",       "f", 0x00 },
-    { "RENAME",   1,  1,  "ii",       "f", 0x00 },
-    { "REPT$",    0,  0,  "ii",       "f", 0x00 },
-    { "RETURN",   1,  0,  "ii",       "f", 0x00 },
-    { "RIGHT$",   0,  0,  "ii",       "f", 0x00 },
-    { "RND",      0,  0,  "ii",       "f", 0x00 },
-    { "SCI$",     0,  0,  "ii",       "f", 0x00 },
-    { "SECOND",   0,  0,  "",         "i", 0x00 },
-    { "SIN",      0,  0,  "f",        "f", 0x00 },
-    { "SPACE",    0,  0,  "ii",       "f", 0x00 },
-    { "SQR",      0,  0,  "f",         "f", 0x00 },
-    { "STD",      0,  0,  "ii",        "f", 0x00 },
-    { "STOP",     1,  0,  "ii",        "f", 0x00 },
-    { "SUM",      0,  0,  "ii",        "f", 0x00 },
-    { "TAN",      0,  0,  "f",         "f", 0x00 },
-    { "TRAP",     1,  0,  "ii",        "f", 0x00 },
-    { "UDG",      1,  0,  "iiiiiiiii", "v", 0x00 },
-    { "UPDATE",   1,  1,  "ii",        "f", 0x00 },
-    { "UPPER$",   0,  0,  "ii",        "f", 0x00 },
-    { "USE",      1,  1,  "ii",        "f", 0x00 },
-    { "USR",      0,  0,  "ii",        "v", 0x00 },
-    { "USR$",     0,  0,  "ii",        "f", 0x00 },
-    { "VAL",      0,  0,  "ii",        "f", 0x00 },
-    { "VAR",      0,  0,  "ii",        "f", 0x00 },
-    { "VIEW",     0,  0,  "ii",        "f", 0x00 },
-    { "WEEK",     0,  0,  "ii",        "f", 0x00 },
-    { "YEAR",     0,  0,  "ii",        "f", 0x00 },
+    { "ABS",      0,  0, ' ',  "f",       "f", 0x00 },
+    { "ACOS",     0,  0, ' ',  "f",       "f", 0x00 },
+    { "ADDR",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "APPEND",   1,  1, ' ',  "ii",       "f", 0x00 },
+    { "ASC",      0,  0, ' ',  "i",        "s", 0x00 },
+    { "ASIN",     0,  0, ' ',  "f",       "f", 0x00 },
+    { "AT",       1,  0, ' ',  "ii",       "f", 0x4C },
+    { "ATAN",     0,  0, ' ',  "f",       "f", 0x00 },
+    { "BACK",     1,  1, ' ',  "ii",       "f", 0x00 },
+    { "BEEP",     1,  0, ' ',  "ii",       "f", 0x00 },
+    { "BREAK",    1,  0, ' ',  "ii",       "f", 0x00 },
+    { "CHR$",     0,  0, ' ',  "s",        "i", 0x00 },
+    { "CLOCK",    0,  0, ' ',  "ii",       "f", 0x00 },
+    { "CLOSE",    1,  1, ' ',  "ii",       "f", 0x00 },
+    { "CLS",      1,  0, ' ',  "ii",       "f", 0x00 },
+    { "CONTINUE", 1,  0, ' ',  "ii",       "f", 0x00 },
+    { "COPY",     1,  1, ' ',  "ii",       "f", 0x00 },
+    { "COPYW",    1,  1, ' ',  "ii",       "f", 0x00 },
+    { "COS",      0,  0, ' ',  "f",        "f", 0x00 },
+    { "COUNT",    0,  0, ' ',  "ii",       "f", 0x00 },
+    { "CREATE",   1,  1, ' ',  "ii",       "f", 0x00 },
+    { "CURSOR",   1,  0, 'O',  "ii",       "f", 0x00 },
+    { "DATIM$",   0,  0, ' ',  "ii",       "f", 0x00 },
+    { "DAY",      0,  0, ' ',  "",         "i", 0x00 },
+    { "DAYNAME$", 0,  0, ' ',  "ii",       "f", 0x00 },
+    { "DAYS",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "DEG",      0,  0, ' ',  "ii",       "f", 0x00 },
+    { "DELETE",   1,  1, ' ',  "ii",       "f", 0x00 },
+    { "DELETEW",  1,  1, ' ',  "ii",       "f", 0x00 },
+    { "DIR$",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "DIRW$",    0,  0, ' ',  "ii",       "f", 0x00 },
+    { "DISP",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "DOW",      0,  0, ' ',  "ii",       "f", 0x00 },
+    { "EDIT",     1,  1, ' ',  "ii",       "f", 0x00 },
+    { "EOF",      0,  0, ' ',  "ii",       "f", 0x00 },
+    { "ERASE",    1,  1, ' ',  "ii",       "f", 0x00 },
+    { "ERR",      0,  0, ' ',  "ii",       "f", 0x00 },
+    { "ERR$",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "ESCAPE",   1,  0, 'O',  "ii",       "f", 0x00 },
+    { "EXIST",    0,  0, ' ',  "ii",       "f", 0x00 },
+    { "EXP",      0,  0, ' ',  "f",        "f", 0x00 },
+    { "FIND",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "FINDW",    0,  0, ' ',  "ii",       "f", 0x00 },
+    { "FIRST",    1,  1, ' ',  "ii",       "f", 0x00 },
+    { "FIX$",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "FLT",      0,  0, ' ',  "i",        "f", 0x00 },
+    { "FREE",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "GEN$",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "GET",      0,  0, ' ',  "ii",       "f", 0x00 },
+    { "GET$",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "GLOBAL",   1,  0, ' ',  "ii",       "f", 0x00 },
+    { "HEX$",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "HOUR",     0,  0, ' ',  "",         "i", 0x00 },
+    { "IABS",     0,  0, ' ',  "i",        "i", 0x00 },
+    { "INPUT",    1,  1, ' ',  "ii",       "f", 0x00 },
+    { "INT",      0,  0, ' ',  "f",        "i", 0x00 },
+    { "INTF",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "KEY$",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "KEY",      0,  0, ' ',  "ii",       "f", 0x00 },
+    { "KSTAT",    1,  0, ' ',  "ii",       "f", 0x00 },
+    { "LAST",     1,  1, ' ',  "ii",       "f", 0x00 },
+    { "LEFT$",    0,  0, ' ',  "ii",       "f", 0x00 },
+    { "LEN",      0,  0, ' ',  "ii",       "f", 0x00 },
+    { "LN",       0,  0, ' ',  "f",         "f", 0x00 },
+    { "LOC",      0,  0, ' ',  "ii",       "f", 0x00 },
+    { "LOCAL",    1,  0, ' ',  "ii",       "f", 0x00 },
+    { "LOG",      0,  0, ' ',  "ii",       "f", 0x00 },
+    { "LOWER$",   0,  0, ' ',  "ii",       "f", 0x00 },
+    { "LPRINT",   1,  0, ' ',  "ii",       "f", 0x00 },
+    { "MAX",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "MEAN",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "MENU",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "MENUN",    0,  0, ' ',  "ii",       "f", 0x00 },
+    { "MID$",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "MIN",      0,  0, ' ',  "ii",       "f", 0x00 },
+    { "MINUTE",   0,  0, ' ',  "",         "i", 0x00 },
+    { "MONTH",    0,  0, ' ',  "",         "i", 0x00 },
+    { "MONTH$",   0,  0, ' ',  "ii",       "f", 0x00 },
+    { "NEXT",     0,  1, ' ',  "ii",       "f", 0x00 },
+    { "NUM$",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "OFF",      1,  0, ' ',  "ii",       "f", 0x00 },
+    { "OPEN",     1,  1, ' ',  "ii",       "f", 0x00 },
+    { "ONERR",    1,  0, ' ',  "ii",       "f", 0x00 },
+    { "PAUSE",    1,  0, ' ',  "ii",       "f", 0x00 },
+    { "PEEKB",    0,  0, ' ',  "ii",       "f", 0x00 },
+    { "PEEKW",    0,  0, ' ',  "ii",       "f", 0x00 },
+    { "PI",       0,  0, ' ',  "ii",       "f", 0x00 },
+    { "POKEB",    1,  0, ' ',  "ii",       "f", 0x00 },
+    { "POKEW",    1,  0, ' ',  "ii",       "f", 0x00 },
+    { "POS",      0,  0, ' ',  "ii",       "f", 0x00 },
+    { "POSITION", 1,  1, ' ',  "ii",       "f", 0x00 },
+    { "PRINT",    1,  0, ' ',  "i",        "v", 0x00 },
+    { "RAD",      0,  0, ' ',  "ii",       "f", 0x00 },
+    { "RAISE",    1,  0, ' ',  "ii",       "f", 0x00 },
+    { "RANDOMIZE",1,  0, ' ',  "ii",       "f", 0x00 },
+    { "RECSIZE",  0,  0, ' ',  "ii",       "f", 0x00 },
+    { "REM",      1,  0, ' ',  "ii",       "f", 0x00 },
+    { "RENAME",   1,  1, ' ',  "ii",       "f", 0x00 },
+    { "REPT$",    0,  0, ' ',  "ii",       "f", 0x00 },
+    { "RETURN",   1,  0, ' ',  "ii",       "f", 0x00 },
+    { "RIGHT$",   0,  0, ' ',  "ii",       "f", 0x00 },
+    { "RND",      0,  0, ' ',  "ii",       "f", 0x00 },
+    { "SCI$",     0,  0, ' ',  "ii",       "f", 0x00 },
+    { "SECOND",   0,  0, ' ',  "",         "i", 0x00 },
+    { "SIN",      0,  0, ' ',  "f",        "f", 0x00 },
+    { "SPACE",    0,  0, ' ',  "ii",       "f", 0x00 },
+    { "SQR",      0,  0, ' ',  "f",         "f", 0x00 },
+    { "STD",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "STOP",     1,  0, ' ',  "ii",        "f", 0x00 },
+    { "SUM",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "TAN",      0,  0, ' ',  "f",         "f", 0x00 },
+    { "TRAP",     1,  0, ' ',  "ii",        "f", 0x00 },
+    { "UDG",      1,  0, ' ',  "iiiiiiiii", "v", 0x00 },
+    { "UPDATE",   1,  1, ' ',  "ii",        "f", 0x00 },
+    { "UPPER$",   0,  0, ' ',  "ii",        "f", 0x00 },
+    { "USE",      1,  1, ' ',  "ii",        "f", 0x00 },
+    { "USR",      0,  0, ' ',  "ii",        "v", 0x00 },
+    { "USR$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "VAL",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "VAR",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "VIEW",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "WEEK",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "YEAR",     0,  0, ' ',  "ii",        "f", 0x00 },
   };
 
 
@@ -277,12 +278,14 @@ OP_INFO  op_info[] =
     // Array dereference internal operator
     { "@",    9, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "=",    1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "<>",   1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { ":=",   1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "+",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "-",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "*",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     { "/",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     { ">",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "<",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "AND",  5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     { ";",    0, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     // (Handle bitwise on integer, logical on floats somewhere)
@@ -718,7 +721,7 @@ int check_literal(int *index, char *lit)
 {
   int idx = *index;
   
-  printf("\n%s:lit='%s' ' %s'", __FUNCTION__, lit, &(cline[idx]));
+  printf("\n%s:lit='%s' idx=%d '%s'", __FUNCTION__, lit, idx, &(cline[idx]));
 
   if( *lit == ' ' )
     {
@@ -727,7 +730,7 @@ int check_literal(int *index, char *lit)
       drop_space(&idx);
     }
 
-  printf("\n%s:After drop space:'%s' '%s'", __FUNCTION__, lit, &(cline[idx]));
+  printf("\n%s:After drop space:'%s' idx=%d '%s'", __FUNCTION__, lit, idx, &(cline[idx]));
 
   if( cline[idx] == '\0' )
     {
@@ -1623,6 +1626,43 @@ int scan_expression(void)
   return(1);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+
+int scan_onoff(void)
+{
+  int idx = cline_i;
+  
+  printf("\n%s: '%s'", __FUNCTION__, &(cline[cline_i]));
+  
+  if( check_literal(&idx, " ON") )
+    {
+      scan_literal(" ON");
+      printf("\n%s:ret1", __FUNCTION__);
+      return(1);
+    }
+
+  idx = cline_i;
+  if( check_literal(&idx, " OFF") )
+    {
+      scan_literal(" OFF");
+      printf("\n%s:ret1", __FUNCTION__);
+      return(1);
+    }
+
+  printf("\n%s:ret0", __FUNCTION__);
+  return(0);
+  
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Command parsing
+//
+// We have an table of commands which also has various parse fields for each
+// command. these direct parsing of arguments, for instane on/off vs
+// expressions after the command name.
+//
 
 int check_command(int *index)
 {
@@ -1631,17 +1671,18 @@ int check_command(int *index)
   drop_space(&idx);
   
   printf("\n%s:", __FUNCTION__);
+  
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
       if( fn_info[i].command && strncmp(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name)) == 0 )
 	{
 	  // Match
-	  printf("\n%s: ret1=> '%s'", __FUNCTION__, fn_info[i].name);
+	  printf("\n%s: ret1 found=> '%s'", __FUNCTION__, fn_info[i].name);
 	  *index = idx + strlen(fn_info[i].name);
 	  return(1);
 	}
     }
-  
+  printf("\n%s: ret0", __FUNCTION__);
   return(0);
 }
 
@@ -1658,15 +1699,34 @@ int scan_command(char *cmd_dest)
 	  // Match
 	  strcpy(cmd_dest, fn_info[i].name);
 	  cline_i += strlen(fn_info[i].name);
-	  if( scan_expression() )
+	  switch(fn_info[i].argparse)
 	    {
-	      printf("\n%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
-	      return(1);
-	    }
-	  else
-	    {
-	      printf("\n%s: expression failed", __FUNCTION__);
-	      return(0);
+	      // ON/OFF
+	    case 'O':
+	      if( scan_onoff() )
+		{
+		  printf("\n%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
+		  return(1);
+		}
+	      else
+		{
+		  printf("\n%s: expression failed", __FUNCTION__);
+		  return(0);
+		}
+	      break;
+	      
+	    default:
+	      if( scan_expression() )
+		{
+		  printf("\n%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
+		  return(1);
+		}
+	      else
+		{
+		  printf("\n%s: expression failed", __FUNCTION__);
+		  return(0);
+		}
+	      break;
 	    }
 	}
     }
@@ -1679,6 +1739,8 @@ int check_function(int *index)
 {
   int idx = *index;
 
+  drop_space(&idx);
+  
   printf("\n%s: '%s'", __FUNCTION__, &(cline[idx]));
     
   for(int i=0; i<NUM_FUNCTIONS; i++)
@@ -1686,17 +1748,21 @@ int check_function(int *index)
       if( (!fn_info[i].command) && strncmp(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name)) == 0 )
 	{
 	  // Match
+	  printf("\n%s: ret1 Found fn=>'%s'", __FUNCTION__, fn_info[i].name);
 	  *index = idx+strlen(fn_info[i].name);
 	  return(1);
 	}
     }
   
+  printf("\n%s: ret0", __FUNCTION__);
   *index = idx;
   return(0);
 }
 
 int scan_function(char *cmd_dest)
 {
+  drop_space(&cline_i);
+  
   printf("\n%s:", __FUNCTION__);
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
@@ -1758,13 +1824,25 @@ int scan_assignment(void)
   return(0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 int check_textlabel(int *index)
 {
   int idx = *index;
 
-  printf("\n%s:", __FUNCTION__);
+  drop_space(&idx);
+  
+  printf("\n%s: '%s'", __FUNCTION__, &(cline[idx]));
 
-  while( (cline[idx] != ':') && (cline[idx] != '\0') )
+  // Just a colon is not a text label  
+  if( cline[idx] == ':' )
+    {
+      *index = idx;
+      printf("\n%s:ret0 (just colon)", __FUNCTION__);
+      return(0);
+    }
+
+  while( (cline[idx] != ':') && (cline[idx] != '\0') && (cline[idx] != ' ') )
     {
       idx++;
     }
@@ -1819,6 +1897,77 @@ int scan_label(void)
   return(0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+int check_proc_call(int *index)
+{
+  int idx = *index;
+
+  printf("\n%s:", __FUNCTION__);
+  if( check_textlabel(&idx))
+    {
+      if( check_literal(&idx, ":") )
+	{
+	  printf("\n%s:ret1", __FUNCTION__);
+	  *index = idx;
+	  return(1);
+	}
+
+      if( check_literal(&idx, "%:") )
+	{
+	  printf("\n%s:ret1", __FUNCTION__);
+	  *index = idx;
+	  return(1);
+	}
+
+      if( check_literal(&idx, "$:") )
+	{
+	  printf("\n%s:ret1", __FUNCTION__);
+	  *index = idx;
+	  return(1);
+	}
+    }
+  
+  printf("\n%s:ret0", __FUNCTION__);
+  return(0);
+}
+
+//------------------------------------------------------------------------------
+
+int scan_proc_call(void)
+{
+  int idx = cline_i;
+
+  printf("\n%s:", __FUNCTION__);
+  if( check_textlabel(&idx))
+    {
+      cline_i = idx;
+      
+      if( scan_literal(":") )
+	{
+	  printf("\n%s:ret1", __FUNCTION__);
+	  return(1);
+	}
+
+      if( scan_literal("%:") )
+	{
+	  printf("\n%s:ret1", __FUNCTION__);
+	  return(1);
+	}
+
+      if( scan_literal("$:") )
+	{
+	  printf("\n%s:ret1", __FUNCTION__);
+	  return(1);
+	}
+    }
+  
+  printf("\n%s:ret0", __FUNCTION__);
+  return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 int check_line(int *index)
 {
   int idx = *index;
@@ -1827,7 +1976,17 @@ int check_line(int *index)
   
   printf("\n%s:", __FUNCTION__);
 
+  idx = cline_i;
   if( check_assignment(&idx) )
+    {
+      printf("\n%s:ret1", __FUNCTION__);
+  
+      *index = idx;
+      return(1);
+    }
+
+  idx = cline_i;
+  if( check_proc_call(&idx) )
     {
       printf("\n%s:ret1", __FUNCTION__);
   
@@ -1838,6 +1997,15 @@ int check_line(int *index)
   idx = cline_i;
 
   if( check_command(&idx) )
+    {
+      printf("\n%s:ret1", __FUNCTION__);
+      *index = idx;
+      return(1);
+    }
+
+  idx = cline_i;
+
+  if( check_function(&idx) )
     {
       printf("\n%s:ret1", __FUNCTION__);
       *index = idx;
@@ -1912,6 +2080,14 @@ int check_line(int *index)
     }
 
   idx = cline_i;
+  if( check_literal(&idx," ENDWH"))
+    {
+      printf("\n%s:ret1", __FUNCTION__);
+      *index = idx;
+      return(1);
+    }
+
+  idx = cline_i;
   if( check_literal(&idx," REPEAT"))
     {
       printf("\n%s:ret1", __FUNCTION__);
@@ -1945,7 +2121,9 @@ int check_line(int *index)
   *index = idx;
   return(0);
 }
-  
+
+////////////////////////////////////////////////////////////////////////////////
+
 int scan_line()
 {
   int idx = cline_i;
@@ -1963,10 +2141,24 @@ int scan_line()
     }
 
   idx = cline_i;
+  if( check_proc_call(&idx) )
+    {
+      return(scan_proc_call());
+    }
+
+  idx = cline_i;
   if( check_command(&idx) )
     {
       printf("\n%s:check_command: ", __FUNCTION__);
       scan_command(cmdname);
+      return(1);
+    }
+
+  idx = cline_i;
+  if( check_function(&idx) )
+    {
+      printf("\n%s:check_command: ", __FUNCTION__);
+      scan_function(cmdname);
       return(1);
     }
 
@@ -2032,12 +2224,30 @@ int scan_line()
       scan_literal(" DO");
       return(1);
     }
+
   idx = cline_i;
   if( check_literal(&idx," WHILE") )
     {
-      scan_literal(" WHILE");
+      if( scan_literal(" WHILE") )
+	{
+	  if( scan_expression() )
+	    {
+	      printf("\n%s: ret1", __FUNCTION__);
+	      return(1);
+	    }
+	}
+      
+      printf("\n%s: ret0", __FUNCTION__);
+      return(0);
+    }
+
+  idx = cline_i;
+  if( check_literal(&idx," ENDWH") )
+    {
+      scan_literal(" ENDWH");
       return(1);
     }
+
   idx = cline_i;
   if( check_literal(&idx," REPEAT") )
     {
@@ -2107,7 +2317,7 @@ int scan_cline()
       
       if ( check_literal(&idx,":") )
 	{
-	  //cline_i = idx;
+	  cline_i = idx;
 	  scan_literal(":");
 	}
       else
@@ -2139,6 +2349,28 @@ int scan_cline()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+int scan_procdef(void)
+{
+  int idx = cline_i;
+
+  printf("\n%s:", __FUNCTION__);
+  if( check_textlabel(&idx))
+    {
+      cline_i = idx;
+      
+      if( scan_literal(":") )
+	{
+	  printf("\n%s:ret1", __FUNCTION__);
+	  return(1);
+	}
+    }
+  
+  printf("\n%s:ret0", __FUNCTION__);
+  return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 int main(int argc, char *argv[])
 {
   char *line = argv[1];
@@ -2147,6 +2379,7 @@ int main(int argc, char *argv[])
   int n_lines_ok    = 0;
   int n_lines_bad   = 0;
   int n_lines_blank = 0;
+  int scanned_procdef = 0;
   
   ofp = fopen("testtok_op.txt", "w");
 
@@ -2184,7 +2417,26 @@ int main(int argc, char *argv[])
       
       printf("\n=======================cline==========================");
       printf("\n==%s==", cline);
+
       // Recursive decent parse
+
+      if( !scanned_procdef )
+	{
+	  if( scan_procdef() )
+	    {
+	      scanned_procdef = 1;
+	      n_lines_ok++;
+	      printf("\ncline scanned OK");
+
+	      continue;
+	    }
+	  else
+	    {
+	      n_lines_bad++;
+	      printf("\ncline failed scan");
+	    }
+	}
+      
       if( scan_cline(fp) )
 	{
 	  n_lines_ok++;
