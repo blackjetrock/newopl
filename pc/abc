@@ -17,437 +17,40 @@ cline scanned OK
 =======================cline==========================
 ==LOCAL e$(2)
 ==
-scan_cline:
-check_line:
-check_assignment:
-check_variable:
-check_vname 'LOCAL e$(2)
-':
-check_vname ret1 ' e$(2)
-':
-check_variable: ' e$(2)
-'
-check_variable: Ary test ' e$(2)
-'
-check_literal:lit='(' idx=5 ' e$(2)
-'
-check_literal:After drop space:'(' idx=5 ' e$(2)
-'
-  '(' != ' '
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-check_literal:lit=' =' idx=5 ' e$(2)
+check_declare:
+check_literal:lit=' LOCAL' idx=0 'LOCAL e$(2)
 '
     dropping space
-check_literal:After drop space:'=' idx=6 'e$(2)
+check_literal:After drop space:'LOCAL' idx=0 'LOCAL e$(2)
 '
-  '=' != 'e'
-check_literal: ret0
-check_assignment:ret0
-check_proc_call:
-check_textlabel: 'LOCAL e$(2)
-'
-check_textlabel:ret0
-check_proc_call:ret0
-check_command:
-check_command: ret1 found=> 'LOCAL'
-check_line:ret1
-scan_cline: Checked len=7, ' e$(2)
-'
-scan_line:
-check_assignment:
-check_variable:
-check_vname 'LOCAL e$(2)
-':
-check_vname ret1 ' e$(2)
-':
-check_variable: ' e$(2)
-'
-check_variable: Ary test ' e$(2)
-'
-check_literal:lit='(' idx=5 ' e$(2)
-'
-check_literal:After drop space:'(' idx=5 ' e$(2)
-'
-  '(' != ' '
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-check_literal:lit=' =' idx=5 ' e$(2)
-'
-    dropping space
-check_literal:After drop space:'=' idx=6 'e$(2)
-'
-  '=' != 'e'
-check_literal: ret0
-check_assignment:ret0
-check_proc_call:
-check_textlabel: 'LOCAL e$(2)
-'
-check_textlabel:ret0
-check_proc_call:ret0
-check_command:
-check_command: ret1 found=> 'LOCAL'
-scan_line:check_command: 
-scan_command:
-scan_expression: ' e$(2)
-'
-check_eitem: 'e$(2)
-'
-check_operator: e$(2)
-
-check_literal:lit=',' idx=6 'e$(2)
-'
-check_literal:After drop space:',' idx=6 'e$(2)
-'
-  ',' != 'e'
-check_literal: ret0
-check_operator:ret0
-check_function: 'e$(2)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=6 'e$(2)
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 'e$(2)
-'
-  '%' != 'e'
-check_literal: ret0
-check_literal:lit=' "' idx=6 'e$(2)
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 'e$(2)
-'
-  '"' != 'e'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'e$(2)
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'e$(2)
-':
-check_vname ret1 '$(2)
-':
-check_variable: '$(2)
-'
-check_variable: Ary test '(2)
-'
-check_literal:lit='(' idx=8 '(2)
-'
-check_literal:After drop space:'(' idx=8 '(2)
-'
-check_literal:After while():2)
+check_literal:After while(): e$(2)
 
 check_literal:ret1 
-check_variable: is array
-check_expression: '2)
-'
-check_eitem: '2)
-'
-check_operator: 2)
-
-check_literal:lit=',' idx=9 '2)
-'
-check_literal:After drop space:',' idx=9 '2)
-'
-  ',' != '2'
-check_literal: ret0
-check_operator:ret0
-check_function: '2)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '2)
+check_declare:ret 1
+scan_declare:
+check_literal:lit=' LOCAL' idx=0 'LOCAL e$(2)
 '
     dropping space
-check_literal:After drop space:'%' idx=9 '2)
+check_literal:After drop space:'LOCAL' idx=0 'LOCAL e$(2)
 '
-  '%' != '2'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '2)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '2)
-'
-  '"' != '2'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '2)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-check_eitem: ')
-'
-check_operator: )
-
-check_literal:lit=',' idx=10 ')
-'
-check_literal:After drop space:',' idx=10 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_operator:ret0
-check_function: ')
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'%' idx=10 ')
-'
-  '%' != ')'
-check_literal: ret0
-check_literal:lit=' "' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'"' idx=10 ')
-'
-  '"' != ')'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ')
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ')
-':
-check_vname ret0 ')
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'(' idx=10 ')
-'
-  '(' != ')'
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-check_expression:ret1 ')
-'
-check_literal:lit=' ,' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:',' idx=10 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_literal:lit=' )' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:')' idx=10 ')
-'
-check_literal:After while():
+check_literal:After while(): e$(2)
 
 check_literal:ret1 
-check_variable:ret1 
-check_eitem:ret1
-scan_eitem:
-check_operator: e$(2)
+scan_local:
+scan_literal:lit=' LOCAL' 'LOCAL e$(2)
+'
+scan_literal:After drop space:LOCAL e$(2)
 
-check_literal:lit=',' idx=6 'e$(2)
-'
-check_literal:After drop space:',' idx=6 'e$(2)
-'
-  ',' != 'e'
-check_literal: ret0
-check_operator:ret0
-check_function: 'e$(2)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=6 'e$(2)
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 'e$(2)
-'
-  '%' != 'e'
-check_literal: ret0
-check_literal:lit=' "' idx=6 'e$(2)
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 'e$(2)
-'
-  '"' != 'e'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'e$(2)
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'e$(2)
-':
-check_vname ret1 '$(2)
-':
-check_variable: '$(2)
-'
-check_variable: Ary test '(2)
-'
-check_literal:lit='(' idx=8 '(2)
-'
-check_literal:After drop space:'(' idx=8 '(2)
-'
-check_literal:After while():2)
+scan_literal:while loop:LOCAL e$(2)
 
-check_literal:ret1 
-check_variable: is array
-check_expression: '2)
-'
-check_eitem: '2)
-'
-check_operator: 2)
+scan_literal:while loop:OCAL e$(2)
 
-check_literal:lit=',' idx=9 '2)
-'
-check_literal:After drop space:',' idx=9 '2)
-'
-  ',' != '2'
-check_literal: ret0
-check_operator:ret0
-check_function: '2)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '2)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '2)
-'
-  '%' != '2'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '2)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '2)
-'
-  '"' != '2'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '2)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-check_eitem: ')
-'
-check_operator: )
+scan_literal:while loop:CAL e$(2)
 
-check_literal:lit=',' idx=10 ')
-'
-check_literal:After drop space:',' idx=10 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_operator:ret0
-check_function: ')
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'%' idx=10 ')
-'
-  '%' != ')'
-check_literal: ret0
-check_literal:lit=' "' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'"' idx=10 ')
-'
-  '"' != ')'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ')
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ')
-':
-check_vname ret0 ')
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'(' idx=10 ')
-'
-  '(' != ')'
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-check_expression:ret1 ')
-'
-check_literal:lit=' ,' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:',' idx=10 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_literal:lit=' )' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:')' idx=10 ')
-'
-check_literal:After while():
+scan_literal:while loop:AL e$(2)
 
-check_literal:ret1 
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' idx=6 'e$(2)
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 'e$(2)
-'
-  '%' != 'e'
-check_literal: ret0
-check_literal:lit=' "' idx=6 'e$(2)
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 'e$(2)
-'
-  '"' != 'e'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'e$(2)
-'
-check_integer:ret0
-check_number: ret0
+scan_literal:while loop:L e$(2)
+
 check_variable:
 check_vname 'e$(2)
 ':
@@ -578,11 +181,11 @@ check_literal:After while():
 check_literal:ret1 
 check_variable:ret1 
 scan_variable:
-scan_vname: 'e$(2)
+scan_vname: ' e$(2)
 '
 scan_vname: ret1 'e'
 scan_variable: '$(2)
-'
+' vname='e'
 scan_variable: Ary test '(2)
 '
 check_literal:lit='(' idx=8 '(2)
@@ -779,263 +382,56 @@ scan_literal:After drop space:)
 
 scan_literal:while loop:)
 
-check_eitem: '
+scan_variable:ret1 vname='e$' is str:1 int:0 flt:0 ary:1
+scan_local: LOCAL variable:'e$'
+check_literal:lit=' ,' idx=11 '
 '
-check_operator: 
-
-check_literal:lit=',' idx=12 ''
+    dropping space
 check_literal:After drop space:',' idx=12 ''
 check_literal  ret0 Empty test string
-check_operator:ret0
-check_function: ''
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=11 '
-'
-    dropping space
-check_literal:After drop space:'%' idx=12 ''
-check_literal  ret0 Empty test string
-check_literal:lit=' "' idx=11 '
-'
-    dropping space
-check_literal:After drop space:'"' idx=12 ''
-check_literal  ret0 Empty test string
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ''
-check_integer:ret0
-check_number: ret0
 check_variable:
 check_vname '':
 check_vname ret0 '':
 check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=11 '
-'
-    dropping space
-check_literal:After drop space:'(' idx=12 ''
-check_literal  ret0 Empty test string
-check_sub_expr: ret0
-check_eitem:ret0
-scan_expression: ret1 '
-'
-scan_command: ret1 =>'LOCAL'
-check_literal:lit=':' idx=12 ''
-check_literal:After drop space:':' idx=12 ''
-check_literal  ret0 Empty test string
-cline scanned OK
+scan_local:ret1
+scan_declare:ret 1
 =======================cline==========================
 ==LOCAL a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
 ==
-scan_cline:
-check_line:
-check_assignment:
-check_variable:
-check_vname 'LOCAL a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-':
-check_vname ret1 ' a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-':
-check_variable: ' a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_variable: Ary test ' a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_literal:lit='(' idx=5 ' a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_literal:After drop space:'(' idx=5 ' a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '(' != ' '
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-check_literal:lit=' =' idx=5 ' a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
+check_declare:
+check_literal:lit=' LOCAL' idx=0 'LOCAL a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
 '
     dropping space
-check_literal:After drop space:'=' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
+check_literal:After drop space:'LOCAL' idx=0 'LOCAL a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
 '
-  '=' != 'a'
-check_literal: ret0
-check_assignment:ret0
-check_proc_call:
-check_textlabel: 'LOCAL a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_textlabel:ret0
-check_proc_call:ret0
-check_command:
-check_command: ret1 found=> 'LOCAL'
-check_line:ret1
-scan_cline: Checked len=31, ' a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-scan_line:
-check_assignment:
-check_variable:
-check_vname 'LOCAL a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-':
-check_vname ret1 ' a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-':
-check_variable: ' a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_variable: Ary test ' a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_literal:lit='(' idx=5 ' a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_literal:After drop space:'(' idx=5 ' a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '(' != ' '
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-check_literal:lit=' =' idx=5 ' a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'=' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '=' != 'a'
-check_literal: ret0
-check_assignment:ret0
-check_proc_call:
-check_textlabel: 'LOCAL a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_textlabel:ret0
-check_proc_call:ret0
-check_command:
-check_command: ret1 found=> 'LOCAL'
-scan_line:check_command: 
-scan_command:
-scan_expression: ' a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_eitem: 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_operator: a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
+check_literal:After while(): a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
 
-check_literal:lit=',' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_literal:After drop space:',' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  ',' != 'a'
-check_literal: ret0
-check_operator:ret0
-check_function: 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
+check_literal:ret1 
+check_declare:ret 1
+scan_declare:
+check_literal:lit=' LOCAL' idx=0 'LOCAL a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
 '
     dropping space
-check_literal:After drop space:'%' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
+check_literal:After drop space:'LOCAL' idx=0 'LOCAL a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
 '
-  '%' != 'a'
-check_literal: ret0
-check_literal:lit=' "' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '"' != 'a'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-':
-check_vname ret1 '%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-':
-check_variable: '%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_variable: Ary test ',b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_literal:lit='(' idx=8 ',b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_literal:After drop space:'(' idx=8 ',b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '(' != ','
-check_literal: ret0
-check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
-check_variable:ret1 
-check_eitem:ret1
-scan_eitem:
-check_operator: a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
+check_literal:After while(): a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
 
-check_literal:lit=',' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
+check_literal:ret1 
+scan_local:
+scan_literal:lit=' LOCAL' 'LOCAL a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
 '
-check_literal:After drop space:',' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  ',' != 'a'
-check_literal: ret0
-check_operator:ret0
-check_function: 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '%' != 'a'
-check_literal: ret0
-check_literal:lit=' "' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '"' != 'a'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-':
-check_vname ret1 '%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-':
-check_variable: '%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_variable: Ary test ',b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_literal:lit='(' idx=8 ',b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_literal:After drop space:'(' idx=8 ',b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '(' != ','
-check_literal: ret0
-check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '%' != 'a'
-check_literal: ret0
-check_literal:lit=' "' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '"' != 'a'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_integer:ret0
-check_number: ret0
+scan_literal:After drop space:LOCAL a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
+
+scan_literal:while loop:LOCAL a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
+
+scan_literal:while loop:OCAL a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
+
+scan_literal:while loop:CAL a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
+
+scan_literal:while loop:AL a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
+
+scan_literal:while loop:L a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
+
 check_variable:
 check_vname 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
 ':
@@ -1054,11 +450,11 @@ check_literal: ret0
 check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
 check_variable:ret1 
 scan_variable:
-scan_vname: 'a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
+scan_vname: ' a%,b%,b1%,c%,c1%,x%,y%,i%,sc%
 '
 scan_vname: ret1 'a'
 scan_variable: '%,b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
+' vname='a'
 scan_variable: Ary test ',b%,b1%,c%,c1%,x%,y%,i%,sc%
 '
 check_literal:lit='(' idx=8 ',b%,b1%,c%,c1%,x%,y%,i%,sc%
@@ -1068,100 +464,21 @@ check_literal:After drop space:'(' idx=8 ',b%,b1%,c%,c1%,x%,y%,i%,sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='a%' is str:0 int:1 flt:0 ary:0
-check_eitem: ',b%,b1%,c%,c1%,x%,y%,i%,sc%
+scan_local: LOCAL variable:'a%'
+check_literal:lit=' ,' idx=8 ',b%,b1%,c%,c1%,x%,y%,i%,sc%
 '
-check_operator: ,b%,b1%,c%,c1%,x%,y%,i%,sc%
-
-check_literal:lit=',' idx=8 ',b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
+    dropping space
 check_literal:After drop space:',' idx=8 ',b%,b1%,c%,c1%,x%,y%,i%,sc%
 '
 check_literal:After while():b%,b1%,c%,c1%,x%,y%,i%,sc%
 
 check_literal:ret1 
-scan_literal:lit=',' ',b%,b1%,c%,c1%,x%,y%,i%,sc%
+scan_literal:lit=' ,' ',b%,b1%,c%,c1%,x%,y%,i%,sc%
 '
 scan_literal:After drop space:,b%,b1%,c%,c1%,x%,y%,i%,sc%
 
 scan_literal:while loop:,b%,b1%,c%,c1%,x%,y%,i%,sc%
 
-check_eitem:ret1
-scan_eitem:
-check_operator: b%,b1%,c%,c1%,x%,y%,i%,sc%
-
-check_literal:lit=',' idx=9 'b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_literal:After drop space:',' idx=9 'b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  ',' != 'b'
-check_literal: ret0
-check_operator:ret0
-check_function: 'b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 'b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 'b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '%' != 'b'
-check_literal: ret0
-check_literal:lit=' "' idx=9 'b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 'b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '"' != 'b'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'b%,b1%,c%,c1%,x%,y%,i%,sc%
-':
-check_vname ret1 '%,b1%,c%,c1%,x%,y%,i%,sc%
-':
-check_variable: '%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_variable: Ary test ',b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_literal:lit='(' idx=11 ',b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_literal:After drop space:'(' idx=11 ',b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '(' != ','
-check_literal: ret0
-check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' idx=9 'b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 'b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '%' != 'b'
-check_literal: ret0
-check_literal:lit=' "' idx=9 'b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 'b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '"' != 'b'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'b%,b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_integer:ret0
-check_number: ret0
 check_variable:
 check_vname 'b%,b1%,c%,c1%,x%,y%,i%,sc%
 ':
@@ -1184,7 +501,7 @@ scan_vname: 'b%,b1%,c%,c1%,x%,y%,i%,sc%
 '
 scan_vname: ret1 'b'
 scan_variable: '%,b1%,c%,c1%,x%,y%,i%,sc%
-'
+' vname='b'
 scan_variable: Ary test ',b1%,c%,c1%,x%,y%,i%,sc%
 '
 check_literal:lit='(' idx=11 ',b1%,c%,c1%,x%,y%,i%,sc%
@@ -1194,100 +511,21 @@ check_literal:After drop space:'(' idx=11 ',b1%,c%,c1%,x%,y%,i%,sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='b%' is str:0 int:1 flt:0 ary:0
-check_eitem: ',b1%,c%,c1%,x%,y%,i%,sc%
+scan_local: LOCAL variable:'b%'
+check_literal:lit=' ,' idx=11 ',b1%,c%,c1%,x%,y%,i%,sc%
 '
-check_operator: ,b1%,c%,c1%,x%,y%,i%,sc%
-
-check_literal:lit=',' idx=11 ',b1%,c%,c1%,x%,y%,i%,sc%
-'
+    dropping space
 check_literal:After drop space:',' idx=11 ',b1%,c%,c1%,x%,y%,i%,sc%
 '
 check_literal:After while():b1%,c%,c1%,x%,y%,i%,sc%
 
 check_literal:ret1 
-scan_literal:lit=',' ',b1%,c%,c1%,x%,y%,i%,sc%
+scan_literal:lit=' ,' ',b1%,c%,c1%,x%,y%,i%,sc%
 '
 scan_literal:After drop space:,b1%,c%,c1%,x%,y%,i%,sc%
 
 scan_literal:while loop:,b1%,c%,c1%,x%,y%,i%,sc%
 
-check_eitem:ret1
-scan_eitem:
-check_operator: b1%,c%,c1%,x%,y%,i%,sc%
-
-check_literal:lit=',' idx=12 'b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_literal:After drop space:',' idx=12 'b1%,c%,c1%,x%,y%,i%,sc%
-'
-  ',' != 'b'
-check_literal: ret0
-check_operator:ret0
-check_function: 'b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=12 'b1%,c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=12 'b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '%' != 'b'
-check_literal: ret0
-check_literal:lit=' "' idx=12 'b1%,c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=12 'b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '"' != 'b'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'b1%,c%,c1%,x%,y%,i%,sc%
-':
-check_vname ret1 '%,c%,c1%,x%,y%,i%,sc%
-':
-check_variable: '%,c%,c1%,x%,y%,i%,sc%
-'
-check_variable: Ary test ',c%,c1%,x%,y%,i%,sc%
-'
-check_literal:lit='(' idx=15 ',c%,c1%,x%,y%,i%,sc%
-'
-check_literal:After drop space:'(' idx=15 ',c%,c1%,x%,y%,i%,sc%
-'
-  '(' != ','
-check_literal: ret0
-check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' idx=12 'b1%,c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=12 'b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '%' != 'b'
-check_literal: ret0
-check_literal:lit=' "' idx=12 'b1%,c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=12 'b1%,c%,c1%,x%,y%,i%,sc%
-'
-  '"' != 'b'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'b1%,c%,c1%,x%,y%,i%,sc%
-'
-check_integer:ret0
-check_number: ret0
 check_variable:
 check_vname 'b1%,c%,c1%,x%,y%,i%,sc%
 ':
@@ -1310,7 +548,7 @@ scan_vname: 'b1%,c%,c1%,x%,y%,i%,sc%
 '
 scan_vname: ret1 'b1'
 scan_variable: '%,c%,c1%,x%,y%,i%,sc%
-'
+' vname='b1'
 scan_variable: Ary test ',c%,c1%,x%,y%,i%,sc%
 '
 check_literal:lit='(' idx=15 ',c%,c1%,x%,y%,i%,sc%
@@ -1320,100 +558,21 @@ check_literal:After drop space:'(' idx=15 ',c%,c1%,x%,y%,i%,sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='b1%' is str:0 int:1 flt:0 ary:0
-check_eitem: ',c%,c1%,x%,y%,i%,sc%
+scan_local: LOCAL variable:'b1%'
+check_literal:lit=' ,' idx=15 ',c%,c1%,x%,y%,i%,sc%
 '
-check_operator: ,c%,c1%,x%,y%,i%,sc%
-
-check_literal:lit=',' idx=15 ',c%,c1%,x%,y%,i%,sc%
-'
+    dropping space
 check_literal:After drop space:',' idx=15 ',c%,c1%,x%,y%,i%,sc%
 '
 check_literal:After while():c%,c1%,x%,y%,i%,sc%
 
 check_literal:ret1 
-scan_literal:lit=',' ',c%,c1%,x%,y%,i%,sc%
+scan_literal:lit=' ,' ',c%,c1%,x%,y%,i%,sc%
 '
 scan_literal:After drop space:,c%,c1%,x%,y%,i%,sc%
 
 scan_literal:while loop:,c%,c1%,x%,y%,i%,sc%
 
-check_eitem:ret1
-scan_eitem:
-check_operator: c%,c1%,x%,y%,i%,sc%
-
-check_literal:lit=',' idx=16 'c%,c1%,x%,y%,i%,sc%
-'
-check_literal:After drop space:',' idx=16 'c%,c1%,x%,y%,i%,sc%
-'
-  ',' != 'c'
-check_literal: ret0
-check_operator:ret0
-check_function: 'c%,c1%,x%,y%,i%,sc%
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=16 'c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=16 'c%,c1%,x%,y%,i%,sc%
-'
-  '%' != 'c'
-check_literal: ret0
-check_literal:lit=' "' idx=16 'c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=16 'c%,c1%,x%,y%,i%,sc%
-'
-  '"' != 'c'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'c%,c1%,x%,y%,i%,sc%
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'c%,c1%,x%,y%,i%,sc%
-':
-check_vname ret1 '%,c1%,x%,y%,i%,sc%
-':
-check_variable: '%,c1%,x%,y%,i%,sc%
-'
-check_variable: Ary test ',c1%,x%,y%,i%,sc%
-'
-check_literal:lit='(' idx=18 ',c1%,x%,y%,i%,sc%
-'
-check_literal:After drop space:'(' idx=18 ',c1%,x%,y%,i%,sc%
-'
-  '(' != ','
-check_literal: ret0
-check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' idx=16 'c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=16 'c%,c1%,x%,y%,i%,sc%
-'
-  '%' != 'c'
-check_literal: ret0
-check_literal:lit=' "' idx=16 'c%,c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=16 'c%,c1%,x%,y%,i%,sc%
-'
-  '"' != 'c'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'c%,c1%,x%,y%,i%,sc%
-'
-check_integer:ret0
-check_number: ret0
 check_variable:
 check_vname 'c%,c1%,x%,y%,i%,sc%
 ':
@@ -1436,7 +595,7 @@ scan_vname: 'c%,c1%,x%,y%,i%,sc%
 '
 scan_vname: ret1 'c'
 scan_variable: '%,c1%,x%,y%,i%,sc%
-'
+' vname='c'
 scan_variable: Ary test ',c1%,x%,y%,i%,sc%
 '
 check_literal:lit='(' idx=18 ',c1%,x%,y%,i%,sc%
@@ -1446,100 +605,21 @@ check_literal:After drop space:'(' idx=18 ',c1%,x%,y%,i%,sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='c%' is str:0 int:1 flt:0 ary:0
-check_eitem: ',c1%,x%,y%,i%,sc%
+scan_local: LOCAL variable:'c%'
+check_literal:lit=' ,' idx=18 ',c1%,x%,y%,i%,sc%
 '
-check_operator: ,c1%,x%,y%,i%,sc%
-
-check_literal:lit=',' idx=18 ',c1%,x%,y%,i%,sc%
-'
+    dropping space
 check_literal:After drop space:',' idx=18 ',c1%,x%,y%,i%,sc%
 '
 check_literal:After while():c1%,x%,y%,i%,sc%
 
 check_literal:ret1 
-scan_literal:lit=',' ',c1%,x%,y%,i%,sc%
+scan_literal:lit=' ,' ',c1%,x%,y%,i%,sc%
 '
 scan_literal:After drop space:,c1%,x%,y%,i%,sc%
 
 scan_literal:while loop:,c1%,x%,y%,i%,sc%
 
-check_eitem:ret1
-scan_eitem:
-check_operator: c1%,x%,y%,i%,sc%
-
-check_literal:lit=',' idx=19 'c1%,x%,y%,i%,sc%
-'
-check_literal:After drop space:',' idx=19 'c1%,x%,y%,i%,sc%
-'
-  ',' != 'c'
-check_literal: ret0
-check_operator:ret0
-check_function: 'c1%,x%,y%,i%,sc%
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=19 'c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=19 'c1%,x%,y%,i%,sc%
-'
-  '%' != 'c'
-check_literal: ret0
-check_literal:lit=' "' idx=19 'c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=19 'c1%,x%,y%,i%,sc%
-'
-  '"' != 'c'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'c1%,x%,y%,i%,sc%
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'c1%,x%,y%,i%,sc%
-':
-check_vname ret1 '%,x%,y%,i%,sc%
-':
-check_variable: '%,x%,y%,i%,sc%
-'
-check_variable: Ary test ',x%,y%,i%,sc%
-'
-check_literal:lit='(' idx=22 ',x%,y%,i%,sc%
-'
-check_literal:After drop space:'(' idx=22 ',x%,y%,i%,sc%
-'
-  '(' != ','
-check_literal: ret0
-check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' idx=19 'c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=19 'c1%,x%,y%,i%,sc%
-'
-  '%' != 'c'
-check_literal: ret0
-check_literal:lit=' "' idx=19 'c1%,x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=19 'c1%,x%,y%,i%,sc%
-'
-  '"' != 'c'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'c1%,x%,y%,i%,sc%
-'
-check_integer:ret0
-check_number: ret0
 check_variable:
 check_vname 'c1%,x%,y%,i%,sc%
 ':
@@ -1562,7 +642,7 @@ scan_vname: 'c1%,x%,y%,i%,sc%
 '
 scan_vname: ret1 'c1'
 scan_variable: '%,x%,y%,i%,sc%
-'
+' vname='c1'
 scan_variable: Ary test ',x%,y%,i%,sc%
 '
 check_literal:lit='(' idx=22 ',x%,y%,i%,sc%
@@ -1572,100 +652,21 @@ check_literal:After drop space:'(' idx=22 ',x%,y%,i%,sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='c1%' is str:0 int:1 flt:0 ary:0
-check_eitem: ',x%,y%,i%,sc%
+scan_local: LOCAL variable:'c1%'
+check_literal:lit=' ,' idx=22 ',x%,y%,i%,sc%
 '
-check_operator: ,x%,y%,i%,sc%
-
-check_literal:lit=',' idx=22 ',x%,y%,i%,sc%
-'
+    dropping space
 check_literal:After drop space:',' idx=22 ',x%,y%,i%,sc%
 '
 check_literal:After while():x%,y%,i%,sc%
 
 check_literal:ret1 
-scan_literal:lit=',' ',x%,y%,i%,sc%
+scan_literal:lit=' ,' ',x%,y%,i%,sc%
 '
 scan_literal:After drop space:,x%,y%,i%,sc%
 
 scan_literal:while loop:,x%,y%,i%,sc%
 
-check_eitem:ret1
-scan_eitem:
-check_operator: x%,y%,i%,sc%
-
-check_literal:lit=',' idx=23 'x%,y%,i%,sc%
-'
-check_literal:After drop space:',' idx=23 'x%,y%,i%,sc%
-'
-  ',' != 'x'
-check_literal: ret0
-check_operator:ret0
-check_function: 'x%,y%,i%,sc%
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=23 'x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=23 'x%,y%,i%,sc%
-'
-  '%' != 'x'
-check_literal: ret0
-check_literal:lit=' "' idx=23 'x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=23 'x%,y%,i%,sc%
-'
-  '"' != 'x'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'x%,y%,i%,sc%
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'x%,y%,i%,sc%
-':
-check_vname ret1 '%,y%,i%,sc%
-':
-check_variable: '%,y%,i%,sc%
-'
-check_variable: Ary test ',y%,i%,sc%
-'
-check_literal:lit='(' idx=25 ',y%,i%,sc%
-'
-check_literal:After drop space:'(' idx=25 ',y%,i%,sc%
-'
-  '(' != ','
-check_literal: ret0
-check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' idx=23 'x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=23 'x%,y%,i%,sc%
-'
-  '%' != 'x'
-check_literal: ret0
-check_literal:lit=' "' idx=23 'x%,y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=23 'x%,y%,i%,sc%
-'
-  '"' != 'x'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'x%,y%,i%,sc%
-'
-check_integer:ret0
-check_number: ret0
 check_variable:
 check_vname 'x%,y%,i%,sc%
 ':
@@ -1688,7 +689,7 @@ scan_vname: 'x%,y%,i%,sc%
 '
 scan_vname: ret1 'x'
 scan_variable: '%,y%,i%,sc%
-'
+' vname='x'
 scan_variable: Ary test ',y%,i%,sc%
 '
 check_literal:lit='(' idx=25 ',y%,i%,sc%
@@ -1698,100 +699,21 @@ check_literal:After drop space:'(' idx=25 ',y%,i%,sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='x%' is str:0 int:1 flt:0 ary:0
-check_eitem: ',y%,i%,sc%
+scan_local: LOCAL variable:'x%'
+check_literal:lit=' ,' idx=25 ',y%,i%,sc%
 '
-check_operator: ,y%,i%,sc%
-
-check_literal:lit=',' idx=25 ',y%,i%,sc%
-'
+    dropping space
 check_literal:After drop space:',' idx=25 ',y%,i%,sc%
 '
 check_literal:After while():y%,i%,sc%
 
 check_literal:ret1 
-scan_literal:lit=',' ',y%,i%,sc%
+scan_literal:lit=' ,' ',y%,i%,sc%
 '
 scan_literal:After drop space:,y%,i%,sc%
 
 scan_literal:while loop:,y%,i%,sc%
 
-check_eitem:ret1
-scan_eitem:
-check_operator: y%,i%,sc%
-
-check_literal:lit=',' idx=26 'y%,i%,sc%
-'
-check_literal:After drop space:',' idx=26 'y%,i%,sc%
-'
-  ',' != 'y'
-check_literal: ret0
-check_operator:ret0
-check_function: 'y%,i%,sc%
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=26 'y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=26 'y%,i%,sc%
-'
-  '%' != 'y'
-check_literal: ret0
-check_literal:lit=' "' idx=26 'y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=26 'y%,i%,sc%
-'
-  '"' != 'y'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'y%,i%,sc%
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'y%,i%,sc%
-':
-check_vname ret1 '%,i%,sc%
-':
-check_variable: '%,i%,sc%
-'
-check_variable: Ary test ',i%,sc%
-'
-check_literal:lit='(' idx=28 ',i%,sc%
-'
-check_literal:After drop space:'(' idx=28 ',i%,sc%
-'
-  '(' != ','
-check_literal: ret0
-check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' idx=26 'y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=26 'y%,i%,sc%
-'
-  '%' != 'y'
-check_literal: ret0
-check_literal:lit=' "' idx=26 'y%,i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=26 'y%,i%,sc%
-'
-  '"' != 'y'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'y%,i%,sc%
-'
-check_integer:ret0
-check_number: ret0
 check_variable:
 check_vname 'y%,i%,sc%
 ':
@@ -1814,7 +736,7 @@ scan_vname: 'y%,i%,sc%
 '
 scan_vname: ret1 'y'
 scan_variable: '%,i%,sc%
-'
+' vname='y'
 scan_variable: Ary test ',i%,sc%
 '
 check_literal:lit='(' idx=28 ',i%,sc%
@@ -1824,100 +746,21 @@ check_literal:After drop space:'(' idx=28 ',i%,sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='y%' is str:0 int:1 flt:0 ary:0
-check_eitem: ',i%,sc%
+scan_local: LOCAL variable:'y%'
+check_literal:lit=' ,' idx=28 ',i%,sc%
 '
-check_operator: ,i%,sc%
-
-check_literal:lit=',' idx=28 ',i%,sc%
-'
+    dropping space
 check_literal:After drop space:',' idx=28 ',i%,sc%
 '
 check_literal:After while():i%,sc%
 
 check_literal:ret1 
-scan_literal:lit=',' ',i%,sc%
+scan_literal:lit=' ,' ',i%,sc%
 '
 scan_literal:After drop space:,i%,sc%
 
 scan_literal:while loop:,i%,sc%
 
-check_eitem:ret1
-scan_eitem:
-check_operator: i%,sc%
-
-check_literal:lit=',' idx=29 'i%,sc%
-'
-check_literal:After drop space:',' idx=29 'i%,sc%
-'
-  ',' != 'i'
-check_literal: ret0
-check_operator:ret0
-check_function: 'i%,sc%
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=29 'i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=29 'i%,sc%
-'
-  '%' != 'i'
-check_literal: ret0
-check_literal:lit=' "' idx=29 'i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=29 'i%,sc%
-'
-  '"' != 'i'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'i%,sc%
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'i%,sc%
-':
-check_vname ret1 '%,sc%
-':
-check_variable: '%,sc%
-'
-check_variable: Ary test ',sc%
-'
-check_literal:lit='(' idx=31 ',sc%
-'
-check_literal:After drop space:'(' idx=31 ',sc%
-'
-  '(' != ','
-check_literal: ret0
-check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' idx=29 'i%,sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=29 'i%,sc%
-'
-  '%' != 'i'
-check_literal: ret0
-check_literal:lit=' "' idx=29 'i%,sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=29 'i%,sc%
-'
-  '"' != 'i'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'i%,sc%
-'
-check_integer:ret0
-check_number: ret0
 check_variable:
 check_vname 'i%,sc%
 ':
@@ -1940,7 +783,7 @@ scan_vname: 'i%,sc%
 '
 scan_vname: ret1 'i'
 scan_variable: '%,sc%
-'
+' vname='i'
 scan_variable: Ary test ',sc%
 '
 check_literal:lit='(' idx=31 ',sc%
@@ -1950,101 +793,21 @@ check_literal:After drop space:'(' idx=31 ',sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='i%' is str:0 int:1 flt:0 ary:0
-check_eitem: ',sc%
+scan_local: LOCAL variable:'i%'
+check_literal:lit=' ,' idx=31 ',sc%
 '
-check_operator: ,sc%
-
-check_literal:lit=',' idx=31 ',sc%
-'
+    dropping space
 check_literal:After drop space:',' idx=31 ',sc%
 '
 check_literal:After while():sc%
 
 check_literal:ret1 
-scan_literal:lit=',' ',sc%
+scan_literal:lit=' ,' ',sc%
 '
 scan_literal:After drop space:,sc%
 
 scan_literal:while loop:,sc%
 
-check_eitem:ret1
-scan_eitem:
-check_operator: sc%
-
-check_literal:lit=',' idx=32 'sc%
-'
-check_literal:After drop space:',' idx=32 'sc%
-'
-  ',' != 's'
-check_literal: ret0
-check_operator:ret0
-check_function: 'sc%
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=32 'sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=32 'sc%
-'
-  '%' != 's'
-check_literal: ret0
-check_literal:lit=' "' idx=32 'sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=32 'sc%
-'
-  '"' != 's'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'sc%
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'sc%
-':
-check_vname ret1 '%
-':
-check_variable: '%
-'
-check_variable: Ary test '
-'
-check_literal:lit='(' idx=35 '
-'
-check_literal:After drop space:'(' idx=35 '
-'
-  '(' != '
-'
-check_literal: ret0
-check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' idx=32 'sc%
-'
-    dropping space
-check_literal:After drop space:'%' idx=32 'sc%
-'
-  '%' != 's'
-check_literal: ret0
-check_literal:lit=' "' idx=32 'sc%
-'
-    dropping space
-check_literal:After drop space:'"' idx=32 'sc%
-'
-  '"' != 's'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'sc%
-'
-check_integer:ret0
-check_number: ret0
 check_variable:
 check_vname 'sc%
 ':
@@ -2068,7 +831,7 @@ scan_vname: 'sc%
 '
 scan_vname: ret1 'sc'
 scan_variable: '%
-'
+' vname='sc'
 scan_variable: Ary test '
 '
 check_literal:lit='(' idx=35 '
@@ -2079,56 +842,37 @@ check_literal:After drop space:'(' idx=35 '
 '
 check_literal: ret0
 scan_variable:ret1 vname='sc%' is str:0 int:1 flt:0 ary:0
-check_eitem: '
+scan_local: LOCAL variable:'sc%'
+check_literal:lit=' ,' idx=35 '
 '
-check_operator: 
-
-check_literal:lit=',' idx=36 ''
+    dropping space
 check_literal:After drop space:',' idx=36 ''
 check_literal  ret0 Empty test string
-check_operator:ret0
-check_function: ''
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=35 '
-'
-    dropping space
-check_literal:After drop space:'%' idx=36 ''
-check_literal  ret0 Empty test string
-check_literal:lit=' "' idx=35 '
-'
-    dropping space
-check_literal:After drop space:'"' idx=36 ''
-check_literal  ret0 Empty test string
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ''
-check_integer:ret0
-check_number: ret0
 check_variable:
 check_vname '':
 check_vname ret0 '':
 check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=35 '
-'
-    dropping space
-check_literal:After drop space:'(' idx=36 ''
-check_literal  ret0 Empty test string
-check_sub_expr: ret0
-check_eitem:ret0
-scan_expression: ret1 '
-'
-scan_command: ret1 =>'LOCAL'
-check_literal:lit=':' idx=36 ''
-check_literal:After drop space:':' idx=36 ''
-check_literal  ret0 Empty test string
-cline scanned OK
+scan_local:ret1
+scan_declare:ret 1
 =======================cline==========================
 ==graphic: :CURSOR OFF
 ==
+check_declare:
+check_literal:lit=' LOCAL' idx=0 'graphic: :CURSOR OFF
+'
+    dropping space
+check_literal:After drop space:'LOCAL' idx=0 'graphic: :CURSOR OFF
+'
+  'L' != 'g'
+check_literal: ret0
+check_literal:lit=' GLOBAL' idx=0 'graphic: :CURSOR OFF
+'
+    dropping space
+check_literal:After drop space:'GLOBAL' idx=0 'graphic: :CURSOR OFF
+'
+  'G' != 'g'
+check_literal: ret0
+check_declare:ret 0
 scan_cline:
 check_line:
 check_assignment:
@@ -2740,7 +1484,7 @@ scan_vname: 'e$=CHR$(4)+CHR$(6)
 '
 scan_vname: ret1 'e'
 scan_variable: '$=CHR$(4)+CHR$(6)
-'
+' vname='e'
 scan_variable: Ary test '=CHR$(4)+CHR$(6)
 '
 check_literal:lit='(' idx=2 '=CHR$(4)+CHR$(6)
@@ -3732,7 +2476,7 @@ scan_vname: 'b%=20 :c%=12 :x%=3 :y%=1
 '
 scan_vname: ret1 'b'
 scan_variable: '%=20 :c%=12 :x%=3 :y%=1
-'
+' vname='b'
 scan_variable: Ary test '=20 :c%=12 :x%=3 :y%=1
 '
 check_literal:lit='(' idx=2 '=20 :c%=12 :x%=3 :y%=1
@@ -4192,7 +2936,7 @@ scan_vname: 'c%=12 :x%=3 :y%=1
 '
 scan_vname: ret1 'c'
 scan_variable: '%=12 :x%=3 :y%=1
-'
+' vname='c'
 scan_variable: Ary test '=12 :x%=3 :y%=1
 '
 check_literal:lit='(' idx=9 '=12 :x%=3 :y%=1
@@ -4650,7 +3394,7 @@ scan_vname: 'x%=3 :y%=1
 '
 scan_vname: ret1 'x'
 scan_variable: '%=3 :y%=1
-'
+' vname='x'
 scan_variable: Ary test '=3 :y%=1
 '
 check_literal:lit='(' idx=16 '=3 :y%=1
@@ -5078,7 +3822,7 @@ scan_vname: 'y%=1
 '
 scan_vname: ret1 'y'
 scan_variable: '%=1
-'
+' vname='y'
 scan_variable: Ary test '=1
 '
 check_literal:lit='(' idx=22 '=1
@@ -5287,20 +4031,6 @@ check_command: ret0
 check_function: 'DO
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 'DO
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=0 'DO
-'
-  'L' != 'D'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 'DO
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=0 'DO
-'
-  'G' != 'D'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 'DO
 '
     dropping space
@@ -5376,20 +4106,6 @@ check_command: ret0
 check_function: 'DO
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 'DO
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=0 'DO
-'
-  'L' != 'D'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 'DO
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=0 'DO
-'
-  'G' != 'D'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 'DO
 '
     dropping space
@@ -6562,7 +5278,7 @@ scan_vname: 'x%,y% :PRINT CHR$(7)
 '
 scan_vname: ret1 'x'
 scan_variable: '%,y% :PRINT CHR$(7)
-'
+' vname='x'
 scan_variable: Ary test ',y% :PRINT CHR$(7)
 '
 check_literal:lit='(' idx=6 ',y% :PRINT CHR$(7)
@@ -6688,7 +5404,7 @@ scan_vname: 'y% :PRINT CHR$(7)
 '
 scan_vname: ret1 'y'
 scan_variable: '% :PRINT CHR$(7)
-'
+' vname='y'
 scan_variable: Ary test ' :PRINT CHR$(7)
 '
 check_literal:lit='(' idx=9 ' :PRINT CHR$(7)
@@ -7466,7 +6182,7 @@ scan_vname: 'a%=1 :c%=1+RND*4
 '
 scan_vname: ret1 'a'
 scan_variable: '%=1 :c%=1+RND*4
-'
+' vname='a'
 scan_variable: Ary test '=1 :c%=1+RND*4
 '
 check_literal:lit='(' idx=3 '=1 :c%=1+RND*4
@@ -8050,7 +6766,7 @@ scan_vname: 'c%=1+RND*4
 '
 scan_vname: ret1 'c'
 scan_variable: '%=1+RND*4
-'
+' vname='c'
 scan_variable: Ary test '=1+RND*4
 '
 check_literal:lit='(' idx=9 '=1+RND*4
@@ -8463,20 +7179,6 @@ check_command: ret0
 check_function: 'DO :c1%=1+RND*4 :UNTIL c%<>c1%
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 ' DO :c1%=1+RND*4 :UNTIL c%<>c1%
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=1 'DO :c1%=1+RND*4 :UNTIL c%<>c1%
-'
-  'L' != 'D'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 ' DO :c1%=1+RND*4 :UNTIL c%<>c1%
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=1 'DO :c1%=1+RND*4 :UNTIL c%<>c1%
-'
-  'G' != 'D'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 ' DO :c1%=1+RND*4 :UNTIL c%<>c1%
 '
     dropping space
@@ -8553,20 +7255,6 @@ check_command: ret0
 check_function: 'DO :c1%=1+RND*4 :UNTIL c%<>c1%
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=1 'DO :c1%=1+RND*4 :UNTIL c%<>c1%
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=1 'DO :c1%=1+RND*4 :UNTIL c%<>c1%
-'
-  'L' != 'D'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=1 'DO :c1%=1+RND*4 :UNTIL c%<>c1%
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=1 'DO :c1%=1+RND*4 :UNTIL c%<>c1%
-'
-  'G' != 'D'
-check_literal: ret0
 check_literal:lit=' IF' idx=1 'DO :c1%=1+RND*4 :UNTIL c%<>c1%
 '
     dropping space
@@ -9037,7 +7725,7 @@ scan_vname: 'c1%=1+RND*4 :UNTIL c%<>c1%
 '
 scan_vname: ret1 'c1'
 scan_variable: '%=1+RND*4 :UNTIL c%<>c1%
-'
+' vname='c1'
 scan_variable: Ary test '=1+RND*4 :UNTIL c%<>c1%
 '
 check_literal:lit='(' idx=8 '=1+RND*4 :UNTIL c%<>c1%
@@ -9474,20 +8162,6 @@ check_command: ret0
 check_function: 'UNTIL c%<>c1%
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=18 'UNTIL c%<>c1%
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=18 'UNTIL c%<>c1%
-'
-  'L' != 'U'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=18 'UNTIL c%<>c1%
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=18 'UNTIL c%<>c1%
-'
-  'G' != 'U'
-check_literal: ret0
 check_literal:lit=' IF' idx=18 'UNTIL c%<>c1%
 '
     dropping space
@@ -9759,20 +8433,6 @@ check_command: ret0
 check_function: 'UNTIL c%<>c1%
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=18 'UNTIL c%<>c1%
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=18 'UNTIL c%<>c1%
-'
-  'L' != 'U'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=18 'UNTIL c%<>c1%
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=18 'UNTIL c%<>c1%
-'
-  'G' != 'U'
-check_literal: ret0
 check_literal:lit=' IF' idx=18 'UNTIL c%<>c1%
 '
     dropping space
@@ -10006,7 +8666,7 @@ scan_vname: 'c%<>c1%
 '
 scan_vname: ret1 'c'
 scan_variable: '%<>c1%
-'
+' vname='c'
 scan_variable: Ary test '<>c1%
 '
 check_literal:lit='(' idx=26 '<>c1%
@@ -10204,7 +8864,7 @@ scan_vname: 'c1%
 '
 scan_vname: ret1 'c1'
 scan_variable: '%
-'
+' vname='c1'
 scan_variable: Ary test '
 '
 check_literal:lit='(' idx=31 '
@@ -10302,20 +8962,6 @@ check_command: ret0
 check_function: 'DO
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 ' DO
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=1 'DO
-'
-  'L' != 'D'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 ' DO
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=1 'DO
-'
-  'G' != 'D'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 ' DO
 '
     dropping space
@@ -10391,20 +9037,6 @@ check_command: ret0
 check_function: 'DO
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=1 'DO
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=1 'DO
-'
-  'L' != 'D'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=1 'DO
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=1 'DO
-'
-  'G' != 'D'
-check_literal: ret0
 check_literal:lit=' IF' idx=1 'DO
 '
     dropping space
@@ -10685,7 +9317,7 @@ scan_vname: 'a%,c% :PRINT CHR$(0)
 '
 scan_vname: ret1 'a'
 scan_variable: '%,c% :PRINT CHR$(0)
-'
+' vname='a'
 scan_variable: Ary test ',c% :PRINT CHR$(0)
 '
 check_literal:lit='(' idx=7 ',c% :PRINT CHR$(0)
@@ -10811,7 +9443,7 @@ scan_vname: 'c% :PRINT CHR$(0)
 '
 scan_vname: ret1 'c'
 scan_variable: '% :PRINT CHR$(0)
-'
+' vname='c'
 scan_variable: Ary test ' :PRINT CHR$(0)
 '
 check_literal:lit='(' idx=10 ' :PRINT CHR$(0)
@@ -11560,7 +10192,7 @@ scan_vname: 'a%,c1% :PRINT CHR$(0) :BEEP b%,10*b%
 '
 scan_vname: ret1 'a'
 scan_variable: '%,c1% :PRINT CHR$(0) :BEEP b%,10*b%
-'
+' vname='a'
 scan_variable: Ary test ',c1% :PRINT CHR$(0) :BEEP b%,10*b%
 '
 check_literal:lit='(' idx=7 ',c1% :PRINT CHR$(0) :BEEP b%,10*b%
@@ -11686,7 +10318,7 @@ scan_vname: 'c1% :PRINT CHR$(0) :BEEP b%,10*b%
 '
 scan_vname: ret1 'c1'
 scan_variable: '% :PRINT CHR$(0) :BEEP b%,10*b%
-'
+' vname='c1'
 scan_variable: Ary test ' :PRINT CHR$(0) :BEEP b%,10*b%
 '
 check_literal:lit='(' idx=11 ' :PRINT CHR$(0) :BEEP b%,10*b%
@@ -12453,7 +11085,7 @@ scan_vname: 'b%,10*b%
 '
 scan_vname: ret1 'b'
 scan_variable: '%,10*b%
-'
+' vname='b'
 scan_variable: Ary test ',10*b%
 '
 check_literal:lit='(' idx=35 ',10*b%
@@ -12743,7 +11375,7 @@ scan_vname: 'b%
 '
 scan_vname: ret1 'b'
 scan_variable: '%
-'
+' vname='b'
 scan_variable: Ary test '
 '
 check_literal:lit='(' idx=41 '
@@ -13033,7 +11665,7 @@ scan_vname: 'a%,c% :PRINT CHR$(1)
 '
 scan_vname: ret1 'a'
 scan_variable: '%,c% :PRINT CHR$(1)
-'
+' vname='a'
 scan_variable: Ary test ',c% :PRINT CHR$(1)
 '
 check_literal:lit='(' idx=7 ',c% :PRINT CHR$(1)
@@ -13159,7 +11791,7 @@ scan_vname: 'c% :PRINT CHR$(1)
 '
 scan_vname: ret1 'c'
 scan_variable: '% :PRINT CHR$(1)
-'
+' vname='c'
 scan_variable: Ary test ' :PRINT CHR$(1)
 '
 check_literal:lit='(' idx=10 ' :PRINT CHR$(1)
@@ -13908,7 +12540,7 @@ scan_vname: 'a%,c1% :PRINT CHR$(1) :BEEP b%,10*b%
 '
 scan_vname: ret1 'a'
 scan_variable: '%,c1% :PRINT CHR$(1) :BEEP b%,10*b%
-'
+' vname='a'
 scan_variable: Ary test ',c1% :PRINT CHR$(1) :BEEP b%,10*b%
 '
 check_literal:lit='(' idx=7 ',c1% :PRINT CHR$(1) :BEEP b%,10*b%
@@ -14034,7 +12666,7 @@ scan_vname: 'c1% :PRINT CHR$(1) :BEEP b%,10*b%
 '
 scan_vname: ret1 'c1'
 scan_variable: '% :PRINT CHR$(1) :BEEP b%,10*b%
-'
+' vname='c1'
 scan_variable: Ary test ' :PRINT CHR$(1) :BEEP b%,10*b%
 '
 check_literal:lit='(' idx=11 ' :PRINT CHR$(1) :BEEP b%,10*b%
@@ -14801,7 +13433,7 @@ scan_vname: 'b%,10*b%
 '
 scan_vname: ret1 'b'
 scan_variable: '%,10*b%
-'
+' vname='b'
 scan_variable: Ary test ',10*b%
 '
 check_literal:lit='(' idx=35 ',10*b%
@@ -15091,7 +13723,7 @@ scan_vname: 'b%
 '
 scan_vname: ret1 'b'
 scan_variable: '%
-'
+' vname='b'
 scan_variable: Ary test '
 '
 check_literal:lit='(' idx=41 '
@@ -15381,7 +14013,7 @@ scan_vname: 'a%,c% :PRINT CHR$(2)
 '
 scan_vname: ret1 'a'
 scan_variable: '%,c% :PRINT CHR$(2)
-'
+' vname='a'
 scan_variable: Ary test ',c% :PRINT CHR$(2)
 '
 check_literal:lit='(' idx=7 ',c% :PRINT CHR$(2)
@@ -15507,7 +14139,7 @@ scan_vname: 'c% :PRINT CHR$(2)
 '
 scan_vname: ret1 'c'
 scan_variable: '% :PRINT CHR$(2)
-'
+' vname='c'
 scan_variable: Ary test ' :PRINT CHR$(2)
 '
 check_literal:lit='(' idx=10 ' :PRINT CHR$(2)
@@ -16256,7 +14888,7 @@ scan_vname: 'a%,c1% :PRINT CHR$(2) :BEEP b%,10*b%
 '
 scan_vname: ret1 'a'
 scan_variable: '%,c1% :PRINT CHR$(2) :BEEP b%,10*b%
-'
+' vname='a'
 scan_variable: Ary test ',c1% :PRINT CHR$(2) :BEEP b%,10*b%
 '
 check_literal:lit='(' idx=7 ',c1% :PRINT CHR$(2) :BEEP b%,10*b%
@@ -16382,7 +15014,7 @@ scan_vname: 'c1% :PRINT CHR$(2) :BEEP b%,10*b%
 '
 scan_vname: ret1 'c1'
 scan_variable: '% :PRINT CHR$(2) :BEEP b%,10*b%
-'
+' vname='c1'
 scan_variable: Ary test ' :PRINT CHR$(2) :BEEP b%,10*b%
 '
 check_literal:lit='(' idx=11 ' :PRINT CHR$(2) :BEEP b%,10*b%
@@ -17149,7 +15781,7 @@ scan_vname: 'b%,10*b%
 '
 scan_vname: ret1 'b'
 scan_variable: '%,10*b%
-'
+' vname='b'
 scan_variable: Ary test ',10*b%
 '
 check_literal:lit='(' idx=35 ',10*b%
@@ -17439,7 +16071,7 @@ scan_vname: 'b%
 '
 scan_vname: ret1 'b'
 scan_variable: '%
-'
+' vname='b'
 scan_variable: Ary test '
 '
 check_literal:lit='(' idx=41 '
@@ -17729,7 +16361,7 @@ scan_vname: 'a%,c% :PRINT CHR$(3)
 '
 scan_vname: ret1 'a'
 scan_variable: '%,c% :PRINT CHR$(3)
-'
+' vname='a'
 scan_variable: Ary test ',c% :PRINT CHR$(3)
 '
 check_literal:lit='(' idx=7 ',c% :PRINT CHR$(3)
@@ -17855,7 +16487,7 @@ scan_vname: 'c% :PRINT CHR$(3)
 '
 scan_vname: ret1 'c'
 scan_variable: '% :PRINT CHR$(3)
-'
+' vname='c'
 scan_variable: Ary test ' :PRINT CHR$(3)
 '
 check_literal:lit='(' idx=10 ' :PRINT CHR$(3)
@@ -18604,7 +17236,7 @@ scan_vname: 'a%,c1% :PRINT CHR$(3) :BEEP b%,10*b%
 '
 scan_vname: ret1 'a'
 scan_variable: '%,c1% :PRINT CHR$(3) :BEEP b%,10*b%
-'
+' vname='a'
 scan_variable: Ary test ',c1% :PRINT CHR$(3) :BEEP b%,10*b%
 '
 check_literal:lit='(' idx=7 ',c1% :PRINT CHR$(3) :BEEP b%,10*b%
@@ -18730,7 +17362,7 @@ scan_vname: 'c1% :PRINT CHR$(3) :BEEP b%,10*b%
 '
 scan_vname: ret1 'c1'
 scan_variable: '% :PRINT CHR$(3) :BEEP b%,10*b%
-'
+' vname='c1'
 scan_variable: Ary test ' :PRINT CHR$(3) :BEEP b%,10*b%
 '
 check_literal:lit='(' idx=11 ' :PRINT CHR$(3) :BEEP b%,10*b%
@@ -19497,7 +18129,7 @@ scan_vname: 'b%,10*b%
 '
 scan_vname: ret1 'b'
 scan_variable: '%,10*b%
-'
+' vname='b'
 scan_variable: Ary test ',10*b%
 '
 check_literal:lit='(' idx=35 ',10*b%
@@ -19787,7 +18419,7 @@ scan_vname: 'b%
 '
 scan_vname: ret1 'b'
 scan_variable: '%
-'
+' vname='b'
 scan_variable: Ary test '
 '
 check_literal:lit='(' idx=41 '
@@ -20077,7 +18709,7 @@ scan_vname: 'a%,c% :PRINT e$
 '
 scan_vname: ret1 'a'
 scan_variable: '%,c% :PRINT e$
-'
+' vname='a'
 scan_variable: Ary test ',c% :PRINT e$
 '
 check_literal:lit='(' idx=7 ',c% :PRINT e$
@@ -20203,7 +18835,7 @@ scan_vname: 'c% :PRINT e$
 '
 scan_vname: ret1 'c'
 scan_variable: '% :PRINT e$
-'
+' vname='c'
 scan_variable: Ary test ' :PRINT e$
 '
 check_literal:lit='(' idx=10 ' :PRINT e$
@@ -20513,7 +19145,7 @@ scan_vname: 'e$
 '
 scan_vname: ret1 'e'
 scan_variable: '$
-'
+' vname='e'
 scan_variable: Ary test '
 '
 check_literal:lit='(' idx=20 '
@@ -20803,7 +19435,7 @@ scan_vname: 'a%,c1% :PRINT e$ :BEEP b%,10*b%
 '
 scan_vname: ret1 'a'
 scan_variable: '%,c1% :PRINT e$ :BEEP b%,10*b%
-'
+' vname='a'
 scan_variable: Ary test ',c1% :PRINT e$ :BEEP b%,10*b%
 '
 check_literal:lit='(' idx=7 ',c1% :PRINT e$ :BEEP b%,10*b%
@@ -20929,7 +19561,7 @@ scan_vname: 'c1% :PRINT e$ :BEEP b%,10*b%
 '
 scan_vname: ret1 'c1'
 scan_variable: '% :PRINT e$ :BEEP b%,10*b%
-'
+' vname='c1'
 scan_variable: Ary test ' :PRINT e$ :BEEP b%,10*b%
 '
 check_literal:lit='(' idx=11 ' :PRINT e$ :BEEP b%,10*b%
@@ -21236,7 +19868,7 @@ scan_vname: 'e$ :BEEP b%,10*b%
 '
 scan_vname: ret1 'e'
 scan_variable: '$ :BEEP b%,10*b%
-'
+' vname='e'
 scan_variable: Ary test ' :BEEP b%,10*b%
 '
 check_literal:lit='(' idx=21 ' :BEEP b%,10*b%
@@ -21543,7 +20175,7 @@ scan_vname: 'b%,10*b%
 '
 scan_vname: ret1 'b'
 scan_variable: '%,10*b%
-'
+' vname='b'
 scan_variable: Ary test ',10*b%
 '
 check_literal:lit='(' idx=30 ',10*b%
@@ -21833,7 +20465,7 @@ scan_vname: 'b%
 '
 scan_vname: ret1 'b'
 scan_variable: '%
-'
+' vname='b'
 scan_variable: Ary test '
 '
 check_literal:lit='(' idx=36 '
@@ -22123,7 +20755,7 @@ scan_vname: 'a%,c% :PRINT CHR$(5)
 '
 scan_vname: ret1 'a'
 scan_variable: '%,c% :PRINT CHR$(5)
-'
+' vname='a'
 scan_variable: Ary test ',c% :PRINT CHR$(5)
 '
 check_literal:lit='(' idx=7 ',c% :PRINT CHR$(5)
@@ -22249,7 +20881,7 @@ scan_vname: 'c% :PRINT CHR$(5)
 '
 scan_vname: ret1 'c'
 scan_variable: '% :PRINT CHR$(5)
-'
+' vname='c'
 scan_variable: Ary test ' :PRINT CHR$(5)
 '
 check_literal:lit='(' idx=10 ' :PRINT CHR$(5)
@@ -22998,7 +21630,7 @@ scan_vname: 'a%,c1% :PRINT CHR$(5) :BEEP b%,10*b%
 '
 scan_vname: ret1 'a'
 scan_variable: '%,c1% :PRINT CHR$(5) :BEEP b%,10*b%
-'
+' vname='a'
 scan_variable: Ary test ',c1% :PRINT CHR$(5) :BEEP b%,10*b%
 '
 check_literal:lit='(' idx=7 ',c1% :PRINT CHR$(5) :BEEP b%,10*b%
@@ -23124,7 +21756,7 @@ scan_vname: 'c1% :PRINT CHR$(5) :BEEP b%,10*b%
 '
 scan_vname: ret1 'c1'
 scan_variable: '% :PRINT CHR$(5) :BEEP b%,10*b%
-'
+' vname='c1'
 scan_variable: Ary test ' :PRINT CHR$(5) :BEEP b%,10*b%
 '
 check_literal:lit='(' idx=11 ' :PRINT CHR$(5) :BEEP b%,10*b%
@@ -23891,7 +22523,7 @@ scan_vname: 'b%,10*b%
 '
 scan_vname: ret1 'b'
 scan_variable: '%,10*b%
-'
+' vname='b'
 scan_variable: Ary test ',10*b%
 '
 check_literal:lit='(' idx=35 ',10*b%
@@ -24181,7 +22813,7 @@ scan_vname: 'b%
 '
 scan_vname: ret1 'b'
 scan_variable: '%
-'
+' vname='b'
 scan_variable: Ary test '
 '
 check_literal:lit='(' idx=41 '
@@ -24471,7 +23103,7 @@ scan_vname: 'a%,c% :PRINT " " :AT a%,c1% :PRINT " "
 '
 scan_vname: ret1 'a'
 scan_variable: '%,c% :PRINT " " :AT a%,c1% :PRINT " "
-'
+' vname='a'
 scan_variable: Ary test ',c% :PRINT " " :AT a%,c1% :PRINT " "
 '
 check_literal:lit='(' idx=7 ',c% :PRINT " " :AT a%,c1% :PRINT " "
@@ -24597,7 +23229,7 @@ scan_vname: 'c% :PRINT " " :AT a%,c1% :PRINT " "
 '
 scan_vname: ret1 'c'
 scan_variable: '% :PRINT " " :AT a%,c1% :PRINT " "
-'
+' vname='c'
 scan_variable: Ary test ' :PRINT " " :AT a%,c1% :PRINT " "
 '
 check_literal:lit='(' idx=10 ' :PRINT " " :AT a%,c1% :PRINT " "
@@ -25138,7 +23770,7 @@ scan_vname: 'a%,c1% :PRINT " "
 '
 scan_vname: ret1 'a'
 scan_variable: '%,c1% :PRINT " "
-'
+' vname='a'
 scan_variable: Ary test ',c1% :PRINT " "
 '
 check_literal:lit='(' idx=28 ',c1% :PRINT " "
@@ -25264,7 +23896,7 @@ scan_vname: 'c1% :PRINT " "
 '
 scan_vname: ret1 'c1'
 scan_variable: '% :PRINT " "
-'
+' vname='c1'
 scan_variable: Ary test ' :PRINT " "
 '
 check_literal:lit='(' idx=32 ' :PRINT " "
@@ -25742,7 +24374,7 @@ scan_vname: 'i%=KEY
 '
 scan_vname: ret1 'i'
 scan_variable: '%=KEY
-'
+' vname='i'
 scan_variable: Ary test '=KEY
 '
 check_literal:lit='(' idx=4 '=KEY
@@ -25877,20 +24509,6 @@ check_command: ret0
 check_function: 'IF i%
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '  IF i%
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=2 'IF i%
-'
-  'L' != 'I'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '  IF i%
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=2 'IF i%
-'
-  'G' != 'I'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '  IF i%
 '
     dropping space
@@ -25939,20 +24557,6 @@ check_command: ret0
 check_function: 'IF i%
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=2 'IF i%
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=2 'IF i%
-'
-  'L' != 'I'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=2 'IF i%
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=2 'IF i%
-'
-  'G' != 'I'
-check_literal: ret0
 check_literal:lit=' IF' idx=2 'IF i%
 '
     dropping space
@@ -26127,7 +24731,7 @@ scan_vname: 'i%
 '
 scan_vname: ret1 'i'
 scan_variable: '%
-'
+' vname='i'
 scan_variable: Ary test '
 '
 check_literal:lit='(' idx=7 '
@@ -26225,20 +24829,6 @@ check_command: ret0
 check_function: 'IF i%=%S AND y%>1
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '   IF i%=%S AND y%>1
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'IF i%=%S AND y%>1
-'
-  'L' != 'I'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '   IF i%=%S AND y%>1
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'IF i%=%S AND y%>1
-'
-  'G' != 'I'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '   IF i%=%S AND y%>1
 '
     dropping space
@@ -26287,20 +24877,6 @@ check_command: ret0
 check_function: 'IF i%=%S AND y%>1
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=3 'IF i%=%S AND y%>1
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'IF i%=%S AND y%>1
-'
-  'L' != 'I'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=3 'IF i%=%S AND y%>1
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'IF i%=%S AND y%>1
-'
-  'G' != 'I'
-check_literal: ret0
 check_literal:lit=' IF' idx=3 'IF i%=%S AND y%>1
 '
     dropping space
@@ -26472,7 +25048,7 @@ scan_vname: 'i%=%S AND y%>1
 '
 scan_vname: ret1 'i'
 scan_variable: '%=%S AND y%>1
-'
+' vname='i'
 scan_variable: Ary test '=%S AND y%>1
 '
 check_literal:lit='(' idx=8 '=%S AND y%>1
@@ -26728,7 +25304,7 @@ scan_vname: 'S AND y%>1
 '
 scan_vname: ret1 'S'
 scan_variable: ' AND y%>1
-'
+' vname='S'
 scan_variable: Ary test ' AND y%>1
 '
 check_literal:lit='(' idx=11 ' AND y%>1
@@ -26923,7 +25499,7 @@ scan_vname: ' y%>1
 '
 scan_vname: ret1 'y'
 scan_variable: '%>1
-'
+' vname='y'
 scan_variable: Ary test '>1
 '
 check_literal:lit='(' idx=18 '>1
@@ -27347,7 +25923,7 @@ scan_vname: 'x%,y% :PRINT CHR$(158)
 '
 scan_vname: ret1 'x'
 scan_variable: '%,y% :PRINT CHR$(158)
-'
+' vname='x'
 scan_variable: Ary test ',y% :PRINT CHR$(158)
 '
 check_literal:lit='(' idx=9 ',y% :PRINT CHR$(158)
@@ -27473,7 +26049,7 @@ scan_vname: 'y% :PRINT CHR$(158)
 '
 scan_vname: ret1 'y'
 scan_variable: '% :PRINT CHR$(158)
-'
+' vname='y'
 scan_variable: Ary test ' :PRINT CHR$(158)
 '
 check_literal:lit='(' idx=12 ' :PRINT CHR$(158)
@@ -28393,7 +26969,7 @@ scan_vname: 'y%=y%-1 :AT x%,y% :PRINT CHR$(7)
 '
 scan_vname: ret1 'y'
 scan_variable: '%=y%-1 :AT x%,y% :PRINT CHR$(7)
-'
+' vname='y'
 scan_variable: Ary test '=y%-1 :AT x%,y% :PRINT CHR$(7)
 '
 check_literal:lit='(' idx=6 '=y%-1 :AT x%,y% :PRINT CHR$(7)
@@ -28564,7 +27140,7 @@ scan_vname: 'y%-1 :AT x%,y% :PRINT CHR$(7)
 '
 scan_vname: ret1 'y'
 scan_variable: '%-1 :AT x%,y% :PRINT CHR$(7)
-'
+' vname='y'
 scan_variable: Ary test '-1 :AT x%,y% :PRINT CHR$(7)
 '
 check_literal:lit='(' idx=9 '-1 :AT x%,y% :PRINT CHR$(7)
@@ -29013,7 +27589,7 @@ scan_vname: 'x%,y% :PRINT CHR$(7)
 '
 scan_vname: ret1 'x'
 scan_variable: '%,y% :PRINT CHR$(7)
-'
+' vname='x'
 scan_variable: Ary test ',y% :PRINT CHR$(7)
 '
 check_literal:lit='(' idx=18 ',y% :PRINT CHR$(7)
@@ -29139,7 +27715,7 @@ scan_vname: 'y% :PRINT CHR$(7)
 '
 scan_vname: ret1 'y'
 scan_variable: '% :PRINT CHR$(7)
-'
+' vname='y'
 scan_variable: Ary test ' :PRINT CHR$(7)
 '
 check_literal:lit='(' idx=21 ' :PRINT CHR$(7)
@@ -29696,20 +28272,6 @@ check_command: ret0
 check_function: 'ENDIF
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '   ENDIF
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'ENDIF
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '   ENDIF
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'ENDIF
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '   ENDIF
 '
     dropping space
@@ -29778,20 +28340,6 @@ check_command: ret0
 check_function: 'ENDIF
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=3 'ENDIF
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'ENDIF
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=3 'ENDIF
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'ENDIF
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=3 'ENDIF
 '
     dropping space
@@ -29880,20 +28428,6 @@ check_command: ret0
 check_function: 'IF i%=%X AND y%<4
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '   IF i%=%X AND y%<4
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'IF i%=%X AND y%<4
-'
-  'L' != 'I'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '   IF i%=%X AND y%<4
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'IF i%=%X AND y%<4
-'
-  'G' != 'I'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '   IF i%=%X AND y%<4
 '
     dropping space
@@ -29942,20 +28476,6 @@ check_command: ret0
 check_function: 'IF i%=%X AND y%<4
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=3 'IF i%=%X AND y%<4
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'IF i%=%X AND y%<4
-'
-  'L' != 'I'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=3 'IF i%=%X AND y%<4
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'IF i%=%X AND y%<4
-'
-  'G' != 'I'
-check_literal: ret0
 check_literal:lit=' IF' idx=3 'IF i%=%X AND y%<4
 '
     dropping space
@@ -30127,7 +28647,7 @@ scan_vname: 'i%=%X AND y%<4
 '
 scan_vname: ret1 'i'
 scan_variable: '%=%X AND y%<4
-'
+' vname='i'
 scan_variable: Ary test '=%X AND y%<4
 '
 check_literal:lit='(' idx=8 '=%X AND y%<4
@@ -30383,7 +28903,7 @@ scan_vname: 'X AND y%<4
 '
 scan_vname: ret1 'X'
 scan_variable: ' AND y%<4
-'
+' vname='X'
 scan_variable: Ary test ' AND y%<4
 '
 check_literal:lit='(' idx=11 ' AND y%<4
@@ -30578,7 +29098,7 @@ scan_vname: ' y%<4
 '
 scan_vname: ret1 'y'
 scan_variable: '%<4
-'
+' vname='y'
 scan_variable: Ary test '<4
 '
 check_literal:lit='(' idx=18 '<4
@@ -31002,7 +29522,7 @@ scan_vname: 'x%,y% :PRINT CHR$(158)
 '
 scan_vname: ret1 'x'
 scan_variable: '%,y% :PRINT CHR$(158)
-'
+' vname='x'
 scan_variable: Ary test ',y% :PRINT CHR$(158)
 '
 check_literal:lit='(' idx=9 ',y% :PRINT CHR$(158)
@@ -31128,7 +29648,7 @@ scan_vname: 'y% :PRINT CHR$(158)
 '
 scan_vname: ret1 'y'
 scan_variable: '% :PRINT CHR$(158)
-'
+' vname='y'
 scan_variable: Ary test ' :PRINT CHR$(158)
 '
 check_literal:lit='(' idx=12 ' :PRINT CHR$(158)
@@ -32048,7 +30568,7 @@ scan_vname: 'y%=y%+1 :AT x%,y% :PRINT CHR$(7)
 '
 scan_vname: ret1 'y'
 scan_variable: '%=y%+1 :AT x%,y% :PRINT CHR$(7)
-'
+' vname='y'
 scan_variable: Ary test '=y%+1 :AT x%,y% :PRINT CHR$(7)
 '
 check_literal:lit='(' idx=6 '=y%+1 :AT x%,y% :PRINT CHR$(7)
@@ -32219,7 +30739,7 @@ scan_vname: 'y%+1 :AT x%,y% :PRINT CHR$(7)
 '
 scan_vname: ret1 'y'
 scan_variable: '%+1 :AT x%,y% :PRINT CHR$(7)
-'
+' vname='y'
 scan_variable: Ary test '+1 :AT x%,y% :PRINT CHR$(7)
 '
 check_literal:lit='(' idx=9 '+1 :AT x%,y% :PRINT CHR$(7)
@@ -32668,7 +31188,7 @@ scan_vname: 'x%,y% :PRINT CHR$(7)
 '
 scan_vname: ret1 'x'
 scan_variable: '%,y% :PRINT CHR$(7)
-'
+' vname='x'
 scan_variable: Ary test ',y% :PRINT CHR$(7)
 '
 check_literal:lit='(' idx=18 ',y% :PRINT CHR$(7)
@@ -32794,7 +31314,7 @@ scan_vname: 'y% :PRINT CHR$(7)
 '
 scan_vname: ret1 'y'
 scan_variable: '% :PRINT CHR$(7)
-'
+' vname='y'
 scan_variable: Ary test ' :PRINT CHR$(7)
 '
 check_literal:lit='(' idx=21 ' :PRINT CHR$(7)
@@ -33351,20 +31871,6 @@ check_command: ret0
 check_function: 'ENDIF
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '   ENDIF
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'ENDIF
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '   ENDIF
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'ENDIF
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '   ENDIF
 '
     dropping space
@@ -33433,20 +31939,6 @@ check_command: ret0
 check_function: 'ENDIF
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=3 'ENDIF
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'ENDIF
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=3 'ENDIF
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'ENDIF
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=3 'ENDIF
 '
     dropping space
@@ -33534,20 +32026,6 @@ check_command: ret0
 check_function: 'ENDIF
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '  ENDIF
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=2 'ENDIF
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '  ENDIF
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=2 'ENDIF
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '  ENDIF
 '
     dropping space
@@ -33616,20 +32094,6 @@ check_command: ret0
 check_function: 'ENDIF
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=2 'ENDIF
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=2 'ENDIF
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=2 'ENDIF
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=2 'ENDIF
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=2 'ENDIF
 '
     dropping space
@@ -34046,7 +32510,7 @@ scan_vname: 'a%=a%+1
 '
 scan_vname: ret1 'a'
 scan_variable: '%=a%+1
-'
+' vname='a'
 scan_variable: Ary test '=a%+1
 '
 check_literal:lit='(' idx=4 '=a%+1
@@ -34217,7 +32681,7 @@ scan_vname: 'a%+1
 '
 scan_vname: ret1 'a'
 scan_variable: '%+1
-'
+' vname='a'
 scan_variable: Ary test '+1
 '
 check_literal:lit='(' idx=7 '+1
@@ -34451,20 +32915,6 @@ check_command: ret0
 check_function: 'IF a%=x% AND (c%=y% OR c1%=y%) :REM Hit
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '  IF a%=x% AND (c%=y% OR c1%=y%) :REM Hit
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=2 'IF a%=x% AND (c%=y% OR c1%=y%) :REM Hit
-'
-  'L' != 'I'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '  IF a%=x% AND (c%=y% OR c1%=y%) :REM Hit
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=2 'IF a%=x% AND (c%=y% OR c1%=y%) :REM Hit
-'
-  'G' != 'I'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '  IF a%=x% AND (c%=y% OR c1%=y%) :REM Hit
 '
     dropping space
@@ -34513,20 +32963,6 @@ check_command: ret0
 check_function: 'IF a%=x% AND (c%=y% OR c1%=y%) :REM Hit
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=2 'IF a%=x% AND (c%=y% OR c1%=y%) :REM Hit
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=2 'IF a%=x% AND (c%=y% OR c1%=y%) :REM Hit
-'
-  'L' != 'I'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=2 'IF a%=x% AND (c%=y% OR c1%=y%) :REM Hit
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=2 'IF a%=x% AND (c%=y% OR c1%=y%) :REM Hit
-'
-  'G' != 'I'
-check_literal: ret0
 check_literal:lit=' IF' idx=2 'IF a%=x% AND (c%=y% OR c1%=y%) :REM Hit
 '
     dropping space
@@ -34698,7 +33134,7 @@ scan_vname: 'a%=x% AND (c%=y% OR c1%=y%) :REM Hit
 '
 scan_vname: ret1 'a'
 scan_variable: '%=x% AND (c%=y% OR c1%=y%) :REM Hit
-'
+' vname='a'
 scan_variable: Ary test '=x% AND (c%=y% OR c1%=y%) :REM Hit
 '
 check_literal:lit='(' idx=7 '=x% AND (c%=y% OR c1%=y%) :REM Hit
@@ -34893,7 +33329,7 @@ scan_vname: 'x% AND (c%=y% OR c1%=y%) :REM Hit
 '
 scan_vname: ret1 'x'
 scan_variable: '% AND (c%=y% OR c1%=y%) :REM Hit
-'
+' vname='x'
 scan_variable: Ary test ' AND (c%=y% OR c1%=y%) :REM Hit
 '
 check_literal:lit='(' idx=10 ' AND (c%=y% OR c1%=y%) :REM Hit
@@ -35203,7 +33639,7 @@ scan_vname: 'c%=y% OR c1%=y%) :REM Hit
 '
 scan_vname: ret1 'c'
 scan_variable: '%=y% OR c1%=y%) :REM Hit
-'
+' vname='c'
 scan_variable: Ary test '=y% OR c1%=y%) :REM Hit
 '
 check_literal:lit='(' idx=18 '=y% OR c1%=y%) :REM Hit
@@ -35398,7 +33834,7 @@ scan_vname: 'y% OR c1%=y%) :REM Hit
 '
 scan_vname: ret1 'y'
 scan_variable: '% OR c1%=y%) :REM Hit
-'
+' vname='y'
 scan_variable: Ary test ' OR c1%=y%) :REM Hit
 '
 check_literal:lit='(' idx=21 ' OR c1%=y%) :REM Hit
@@ -35561,7 +33997,7 @@ scan_vname: ' OR c1%=y%) :REM Hit
 '
 scan_vname: ret1 'OR'
 scan_variable: ' c1%=y%) :REM Hit
-'
+' vname='OR'
 scan_variable: Ary test ' c1%=y%) :REM Hit
 '
 check_literal:lit='(' idx=24 ' c1%=y%) :REM Hit
@@ -35724,7 +34160,7 @@ scan_vname: ' c1%=y%) :REM Hit
 '
 scan_vname: ret1 'c1'
 scan_variable: '%=y%) :REM Hit
-'
+' vname='c1'
 scan_variable: Ary test '=y%) :REM Hit
 '
 check_literal:lit='(' idx=28 '=y%) :REM Hit
@@ -35919,7 +34355,7 @@ scan_vname: 'y%) :REM Hit
 '
 scan_vname: ret1 'y'
 scan_variable: '%) :REM Hit
-'
+' vname='y'
 scan_variable: Ary test ') :REM Hit
 '
 check_literal:lit='(' idx=31 ') :REM Hit
@@ -36290,7 +34726,7 @@ scan_vname: 'Hit
 '
 scan_vname: ret1 'Hit'
 scan_variable: '
-'
+' vname='Hit'
 scan_variable: Ary test '
 '
 check_literal:lit='(' idx=41 '
@@ -36583,7 +35019,7 @@ scan_vname: 'i%=0
 '
 scan_vname: ret1 'i'
 scan_variable: '%=0
-'
+' vname='i'
 scan_variable: Ary test '=0
 '
 check_literal:lit='(' idx=5 '=0
@@ -36792,20 +35228,6 @@ check_command: ret0
 check_function: 'DO
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '   DO
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'DO
-'
-  'L' != 'D'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '   DO
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'DO
-'
-  'G' != 'D'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '   DO
 '
     dropping space
@@ -36881,20 +35303,6 @@ check_command: ret0
 check_function: 'DO
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=3 'DO
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'DO
-'
-  'L' != 'D'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=3 'DO
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'DO
-'
-  'G' != 'D'
-check_literal: ret0
 check_literal:lit=' IF' idx=3 'DO
 '
     dropping space
@@ -37175,7 +35583,7 @@ scan_vname: 'x%,y% :PRINT CHR$(170+i%)
 '
 scan_vname: ret1 'x'
 scan_variable: '%,y% :PRINT CHR$(170+i%)
-'
+' vname='x'
 scan_variable: Ary test ',y% :PRINT CHR$(170+i%)
 '
 check_literal:lit='(' idx=9 ',y% :PRINT CHR$(170+i%)
@@ -37301,7 +35709,7 @@ scan_vname: 'y% :PRINT CHR$(170+i%)
 '
 scan_vname: ret1 'y'
 scan_variable: '% :PRINT CHR$(170+i%)
-'
+' vname='y'
 scan_variable: Ary test ' :PRINT CHR$(170+i%)
 '
 check_literal:lit='(' idx=12 ' :PRINT CHR$(170+i%)
@@ -37902,7 +36310,7 @@ scan_vname: 'i%)
 '
 scan_vname: ret1 'i'
 scan_variable: '%)
-'
+' vname='i'
 scan_variable: Ary test ')
 '
 check_literal:lit='(' idx=31 ')
@@ -38497,7 +36905,7 @@ scan_vname: 'i%
 '
 scan_vname: ret1 'i'
 scan_variable: '%
-'
+' vname='i'
 scan_variable: Ary test '
 '
 check_literal:lit='(' idx=18 '
@@ -38924,7 +37332,7 @@ scan_vname: 'i%=i%+1
 '
 scan_vname: ret1 'i'
 scan_variable: '%=i%+1
-'
+' vname='i'
 scan_variable: Ary test '=i%+1
 '
 check_literal:lit='(' idx=6 '=i%+1
@@ -39095,7 +37503,7 @@ scan_vname: 'i%+1
 '
 scan_vname: ret1 'i'
 scan_variable: '%+1
-'
+' vname='i'
 scan_variable: Ary test '+1
 '
 check_literal:lit='(' idx=9 '+1
@@ -39764,7 +38172,7 @@ scan_vname: 'i%
 '
 scan_vname: ret1 'i'
 scan_variable: '%
-'
+' vname='i'
 scan_variable: Ary test '
 '
 check_literal:lit='(' idx=18 '
@@ -39863,20 +38271,6 @@ check_command: ret0
 check_function: 'UNTIL i%=30
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '   UNTIL i%=30
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'UNTIL i%=30
-'
-  'L' != 'U'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '   UNTIL i%=30
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'UNTIL i%=30
-'
-  'G' != 'U'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '   UNTIL i%=30
 '
     dropping space
@@ -40132,20 +38526,6 @@ check_command: ret0
 check_function: 'UNTIL i%=30
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=3 'UNTIL i%=30
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'UNTIL i%=30
-'
-  'L' != 'U'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=3 'UNTIL i%=30
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'UNTIL i%=30
-'
-  'G' != 'U'
-check_literal: ret0
 check_literal:lit=' IF' idx=3 'UNTIL i%=30
 '
     dropping space
@@ -40379,7 +38759,7 @@ scan_vname: 'i%=30
 '
 scan_vname: ret1 'i'
 scan_variable: '%=30
-'
+' vname='i'
 scan_variable: Ary test '=30
 '
 check_literal:lit='(' idx=11 '=30
@@ -40971,7 +39351,7 @@ scan_vname: 'b%=b%+5 :a%=20 :x%=x%+2
 '
 scan_vname: ret1 'b'
 scan_variable: '%=b%+5 :a%=20 :x%=x%+2
-'
+' vname='b'
 scan_variable: Ary test '=b%+5 :a%=20 :x%=x%+2
 '
 check_literal:lit='(' idx=5 '=b%+5 :a%=20 :x%=x%+2
@@ -41142,7 +39522,7 @@ scan_vname: 'b%+5 :a%=20 :x%=x%+2
 '
 scan_vname: ret1 'b'
 scan_variable: '%+5 :a%=20 :x%=x%+2
-'
+' vname='b'
 scan_variable: Ary test '+5 :a%=20 :x%=x%+2
 '
 check_literal:lit='(' idx=8 '+5 :a%=20 :x%=x%+2
@@ -41622,7 +40002,7 @@ scan_vname: 'a%=20 :x%=x%+2
 '
 scan_vname: ret1 'a'
 scan_variable: '%=20 :x%=x%+2
-'
+' vname='a'
 scan_variable: Ary test '=20 :x%=x%+2
 '
 check_literal:lit='(' idx=14 '=20 :x%=x%+2
@@ -42188,7 +40568,7 @@ scan_vname: 'x%=x%+2
 '
 scan_vname: ret1 'x'
 scan_variable: '%=x%+2
-'
+' vname='x'
 scan_variable: Ary test '=x%+2
 '
 check_literal:lit='(' idx=21 '=x%+2
@@ -42359,7 +40739,7 @@ scan_vname: 'x%+2
 '
 scan_vname: ret1 'x'
 scan_variable: '%+2
-'
+' vname='x'
 scan_variable: Ary test '+2
 '
 check_literal:lit='(' idx=24 '+2
@@ -42593,20 +40973,6 @@ check_command: ret0
 check_function: 'IF x%>20
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '   IF x%>20
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'IF x%>20
-'
-  'L' != 'I'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '   IF x%>20
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'IF x%>20
-'
-  'G' != 'I'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '   IF x%>20
 '
     dropping space
@@ -42655,20 +41021,6 @@ check_command: ret0
 check_function: 'IF x%>20
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=3 'IF x%>20
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'IF x%>20
-'
-  'L' != 'I'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=3 'IF x%>20
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'IF x%>20
-'
-  'G' != 'I'
-check_literal: ret0
 check_literal:lit=' IF' idx=3 'IF x%>20
 '
     dropping space
@@ -42840,7 +41192,7 @@ scan_vname: 'x%>20
 '
 scan_vname: ret1 'x'
 scan_variable: '%>20
-'
+' vname='x'
 scan_variable: Ary test '>20
 '
 check_literal:lit='(' idx=8 '>20
@@ -43037,75 +41389,75 @@ check_literal:After drop space:':' idx=12 ''
 check_literal  ret0 Empty test string
 cline scanned OK
 =======================cline==========================
-==    CLS PRINT "GAME OVER"
+==    CLS : PRINT "GAME OVER"
 ==
 scan_cline:
 check_line:
 check_assignment:
 check_variable:
-check_vname 'CLS PRINT "GAME OVER"
+check_vname 'CLS : PRINT "GAME OVER"
 ':
-check_vname ret1 ' PRINT "GAME OVER"
+check_vname ret1 ' : PRINT "GAME OVER"
 ':
-check_variable: ' PRINT "GAME OVER"
+check_variable: ' : PRINT "GAME OVER"
 '
-check_variable: Ary test ' PRINT "GAME OVER"
+check_variable: Ary test ' : PRINT "GAME OVER"
 '
-check_literal:lit='(' idx=7 ' PRINT "GAME OVER"
+check_literal:lit='(' idx=7 ' : PRINT "GAME OVER"
 '
-check_literal:After drop space:'(' idx=7 ' PRINT "GAME OVER"
+check_literal:After drop space:'(' idx=7 ' : PRINT "GAME OVER"
 '
   '(' != ' '
 check_literal: ret0
 check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
 check_variable:ret1 
-check_literal:lit=' =' idx=7 ' PRINT "GAME OVER"
+check_literal:lit=' =' idx=7 ' : PRINT "GAME OVER"
 '
     dropping space
-check_literal:After drop space:'=' idx=8 'PRINT "GAME OVER"
+check_literal:After drop space:'=' idx=8 ': PRINT "GAME OVER"
 '
-  '=' != 'P'
+  '=' != ':'
 check_literal: ret0
 check_assignment:ret0
 check_proc_call:
-check_textlabel: 'CLS PRINT "GAME OVER"
+check_textlabel: 'CLS : PRINT "GAME OVER"
 '
 check_textlabel:ret0
 check_proc_call:ret0
 check_command:
 check_command: ret1 found=> 'CLS'
 check_line:ret1
-scan_cline: Checked len=19, ' PRINT "GAME OVER"
+scan_cline: Checked len=21, ' : PRINT "GAME OVER"
 '
 scan_line:
 check_assignment:
 check_variable:
-check_vname 'CLS PRINT "GAME OVER"
+check_vname 'CLS : PRINT "GAME OVER"
 ':
-check_vname ret1 ' PRINT "GAME OVER"
+check_vname ret1 ' : PRINT "GAME OVER"
 ':
-check_variable: ' PRINT "GAME OVER"
+check_variable: ' : PRINT "GAME OVER"
 '
-check_variable: Ary test ' PRINT "GAME OVER"
+check_variable: Ary test ' : PRINT "GAME OVER"
 '
-check_literal:lit='(' idx=7 ' PRINT "GAME OVER"
+check_literal:lit='(' idx=7 ' : PRINT "GAME OVER"
 '
-check_literal:After drop space:'(' idx=7 ' PRINT "GAME OVER"
+check_literal:After drop space:'(' idx=7 ' : PRINT "GAME OVER"
 '
   '(' != ' '
 check_literal: ret0
 check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
 check_variable:ret1 
-check_literal:lit=' =' idx=7 ' PRINT "GAME OVER"
+check_literal:lit=' =' idx=7 ' : PRINT "GAME OVER"
 '
     dropping space
-check_literal:After drop space:'=' idx=8 'PRINT "GAME OVER"
+check_literal:After drop space:'=' idx=8 ': PRINT "GAME OVER"
 '
-  '=' != 'P'
+  '=' != ':'
 check_literal: ret0
 check_assignment:ret0
 check_proc_call:
-check_textlabel: 'CLS PRINT "GAME OVER"
+check_textlabel: 'CLS : PRINT "GAME OVER"
 '
 check_textlabel:ret0
 check_proc_call:ret0
@@ -43113,178 +41465,159 @@ check_command:
 check_command: ret1 found=> 'CLS'
 scan_line:check_command: 
 scan_command:
-scan_expression: ' PRINT "GAME OVER"
+scan_expression: ' : PRINT "GAME OVER"
 '
-check_eitem: 'PRINT "GAME OVER"
+check_eitem: ': PRINT "GAME OVER"
 '
-check_operator: PRINT "GAME OVER"
+check_operator: : PRINT "GAME OVER"
 
-check_literal:lit=',' idx=8 'PRINT "GAME OVER"
+check_literal:lit=',' idx=8 ': PRINT "GAME OVER"
 '
-check_literal:After drop space:',' idx=8 'PRINT "GAME OVER"
+check_literal:After drop space:',' idx=8 ': PRINT "GAME OVER"
 '
-  ',' != 'P'
+  ',' != ':'
 check_literal: ret0
 check_operator:ret0
-check_function: 'PRINT "GAME OVER"
+check_function: ': PRINT "GAME OVER"
 '
 check_function: ret0
 check_atom:
-check_literal:lit=' %' idx=8 'PRINT "GAME OVER"
+check_literal:lit=' %' idx=8 ': PRINT "GAME OVER"
 '
     dropping space
-check_literal:After drop space:'%' idx=8 'PRINT "GAME OVER"
+check_literal:After drop space:'%' idx=8 ': PRINT "GAME OVER"
 '
-  '%' != 'P'
+  '%' != ':'
 check_literal: ret0
-check_literal:lit=' "' idx=8 'PRINT "GAME OVER"
+check_literal:lit=' "' idx=8 ': PRINT "GAME OVER"
 '
     dropping space
-check_literal:After drop space:'"' idx=8 'PRINT "GAME OVER"
+check_literal:After drop space:'"' idx=8 ': PRINT "GAME OVER"
 '
-  '"' != 'P'
+  '"' != ':'
 check_literal: ret0
 check_number:
 check_float:
 isfloatdigit:
 check_float: ret0
-check_integer: 'PRINT "GAME OVER"
+check_integer: ': PRINT "GAME OVER"
 '
 check_integer:ret0
 check_number: ret0
 check_variable:
-check_vname 'PRINT "GAME OVER"
+check_vname ': PRINT "GAME OVER"
 ':
-check_vname ret1 ' "GAME OVER"
+check_vname ret0 ': PRINT "GAME OVER"
 ':
-check_variable: ' "GAME OVER"
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' idx=8 ': PRINT "GAME OVER"
 '
-check_variable: Ary test ' "GAME OVER"
+    dropping space
+check_literal:After drop space:'(' idx=8 ': PRINT "GAME OVER"
 '
-check_literal:lit='(' idx=13 ' "GAME OVER"
-'
-check_literal:After drop space:'(' idx=13 ' "GAME OVER"
-'
-  '(' != ' '
+  '(' != ':'
 check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-check_eitem:ret1
-scan_eitem:
-check_operator: PRINT "GAME OVER"
+check_sub_expr: ret0
+check_eitem:ret0
+scan_expression: ret1 ': PRINT "GAME OVER"
+'
+scan_command: ret1 =>'CLS'
+check_literal:lit=':' idx=8 ': PRINT "GAME OVER"
+'
+check_literal:After drop space:':' idx=8 ': PRINT "GAME OVER"
+'
+check_literal:After while(): PRINT "GAME OVER"
 
-check_literal:lit=',' idx=8 'PRINT "GAME OVER"
+check_literal:ret1 
+scan_literal:lit=':' ' PRINT "GAME OVER"
 '
-check_literal:After drop space:',' idx=8 'PRINT "GAME OVER"
-'
-  ',' != 'P'
-check_literal: ret0
-check_operator:ret0
-check_function: 'PRINT "GAME OVER"
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=8 'PRINT "GAME OVER"
-'
-    dropping space
-check_literal:After drop space:'%' idx=8 'PRINT "GAME OVER"
-'
-  '%' != 'P'
-check_literal: ret0
-check_literal:lit=' "' idx=8 'PRINT "GAME OVER"
-'
-    dropping space
-check_literal:After drop space:'"' idx=8 'PRINT "GAME OVER"
-'
-  '"' != 'P'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'PRINT "GAME OVER"
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'PRINT "GAME OVER"
-':
-check_vname ret1 ' "GAME OVER"
-':
-check_variable: ' "GAME OVER"
-'
-check_variable: Ary test ' "GAME OVER"
-'
-check_literal:lit='(' idx=13 ' "GAME OVER"
-'
-check_literal:After drop space:'(' idx=13 ' "GAME OVER"
-'
-  '(' != ' '
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' idx=8 'PRINT "GAME OVER"
-'
-    dropping space
-check_literal:After drop space:'%' idx=8 'PRINT "GAME OVER"
-'
-  '%' != 'P'
-check_literal: ret0
-check_literal:lit=' "' idx=8 'PRINT "GAME OVER"
-'
-    dropping space
-check_literal:After drop space:'"' idx=8 'PRINT "GAME OVER"
-'
-  '"' != 'P'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'PRINT "GAME OVER"
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'PRINT "GAME OVER"
-':
-check_vname ret1 ' "GAME OVER"
-':
-check_variable: ' "GAME OVER"
-'
-check_variable: Ary test ' "GAME OVER"
-'
-check_literal:lit='(' idx=13 ' "GAME OVER"
-'
-check_literal:After drop space:'(' idx=13 ' "GAME OVER"
-'
-  '(' != ' '
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-scan_variable:
-scan_vname: 'PRINT "GAME OVER"
-'
-scan_vname: ret1 'PRINT'
-scan_variable: ' "GAME OVER"
-'
-scan_variable: Ary test ' "GAME OVER"
-'
-check_literal:lit='(' idx=13 ' "GAME OVER"
-'
-check_literal:After drop space:'(' idx=13 ' "GAME OVER"
-'
-  '(' != ' '
-check_literal: ret0
-scan_variable:ret1 vname='PRINT' is str:0 int:0 flt:1 ary:0
-check_eitem: ' "GAME OVER"
-'
-check_operator:  "GAME OVER"
+scan_literal:After drop space: PRINT "GAME OVER"
 
-check_literal:lit=',' idx=14 '"GAME OVER"
+scan_literal:while loop: PRINT "GAME OVER"
+
+check_line:
+check_assignment:
+check_variable:
+check_vname 'PRINT "GAME OVER"
+':
+check_vname ret1 ' "GAME OVER"
+':
+check_variable: ' "GAME OVER"
 '
-check_literal:After drop space:',' idx=14 '"GAME OVER"
+check_variable: Ary test ' "GAME OVER"
+'
+check_literal:lit='(' idx=15 ' "GAME OVER"
+'
+check_literal:After drop space:'(' idx=15 ' "GAME OVER"
+'
+  '(' != ' '
+check_literal: ret0
+check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
+check_variable:ret1 
+check_literal:lit=' =' idx=15 ' "GAME OVER"
+'
+    dropping space
+check_literal:After drop space:'=' idx=16 '"GAME OVER"
+'
+  '=' != '"'
+check_literal: ret0
+check_assignment:ret0
+check_proc_call:
+check_textlabel: 'PRINT "GAME OVER"
+'
+check_textlabel:ret0
+check_proc_call:ret0
+check_command:
+check_command: ret1 found=> 'PRINT'
+check_line:ret1
+scan_cline: Checked len=13, ' "GAME OVER"
+'
+scan_line:
+check_assignment:
+check_variable:
+check_vname 'PRINT "GAME OVER"
+':
+check_vname ret1 ' "GAME OVER"
+':
+check_variable: ' "GAME OVER"
+'
+check_variable: Ary test ' "GAME OVER"
+'
+check_literal:lit='(' idx=15 ' "GAME OVER"
+'
+check_literal:After drop space:'(' idx=15 ' "GAME OVER"
+'
+  '(' != ' '
+check_literal: ret0
+check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
+check_variable:ret1 
+check_literal:lit=' =' idx=15 ' "GAME OVER"
+'
+    dropping space
+check_literal:After drop space:'=' idx=16 '"GAME OVER"
+'
+  '=' != '"'
+check_literal: ret0
+check_assignment:ret0
+check_proc_call:
+check_textlabel: 'PRINT "GAME OVER"
+'
+check_textlabel:ret0
+check_proc_call:ret0
+check_command:
+check_command: ret1 found=> 'PRINT'
+scan_line:check_command: 
+scan_command:
+scan_expression: ' "GAME OVER"
+'
+check_eitem: '"GAME OVER"
+'
+check_operator: "GAME OVER"
+
+check_literal:lit=',' idx=16 '"GAME OVER"
+'
+check_literal:After drop space:',' idx=16 '"GAME OVER"
 '
   ',' != '"'
 check_literal: ret0
@@ -43293,28 +41626,28 @@ check_function: '"GAME OVER"
 '
 check_function: ret0
 check_atom:
-check_literal:lit=' %' idx=13 ' "GAME OVER"
+check_literal:lit=' %' idx=16 '"GAME OVER"
 '
     dropping space
-check_literal:After drop space:'%' idx=14 '"GAME OVER"
+check_literal:After drop space:'%' idx=16 '"GAME OVER"
 '
   '%' != '"'
 check_literal: ret0
-check_literal:lit=' "' idx=13 ' "GAME OVER"
+check_literal:lit=' "' idx=16 '"GAME OVER"
 '
     dropping space
-check_literal:After drop space:'"' idx=14 '"GAME OVER"
+check_literal:After drop space:'"' idx=16 '"GAME OVER"
 '
 check_literal:After while():GAME OVER"
 
 check_literal:ret1 
 check_eitem:ret1
 scan_eitem:
-check_operator:  "GAME OVER"
+check_operator: "GAME OVER"
 
-check_literal:lit=',' idx=14 '"GAME OVER"
+check_literal:lit=',' idx=16 '"GAME OVER"
 '
-check_literal:After drop space:',' idx=14 '"GAME OVER"
+check_literal:After drop space:',' idx=16 '"GAME OVER"
 '
   ',' != '"'
 check_literal: ret0
@@ -43323,39 +41656,39 @@ check_function: '"GAME OVER"
 '
 check_function: ret0
 check_atom:
-check_literal:lit=' %' idx=13 ' "GAME OVER"
+check_literal:lit=' %' idx=16 '"GAME OVER"
 '
     dropping space
-check_literal:After drop space:'%' idx=14 '"GAME OVER"
+check_literal:After drop space:'%' idx=16 '"GAME OVER"
 '
   '%' != '"'
 check_literal: ret0
-check_literal:lit=' "' idx=13 ' "GAME OVER"
+check_literal:lit=' "' idx=16 '"GAME OVER"
 '
     dropping space
-check_literal:After drop space:'"' idx=14 '"GAME OVER"
+check_literal:After drop space:'"' idx=16 '"GAME OVER"
 '
 check_literal:After while():GAME OVER"
 
 check_literal:ret1 
 scan_atom:
-check_literal:lit=' %' idx=13 ' "GAME OVER"
+check_literal:lit=' %' idx=16 '"GAME OVER"
 '
     dropping space
-check_literal:After drop space:'%' idx=14 '"GAME OVER"
+check_literal:After drop space:'%' idx=16 '"GAME OVER"
 '
   '%' != '"'
 check_literal: ret0
-check_literal:lit=' "' idx=13 ' "GAME OVER"
+check_literal:lit=' "' idx=16 '"GAME OVER"
 '
     dropping space
-check_literal:After drop space:'"' idx=14 '"GAME OVER"
+check_literal:After drop space:'"' idx=16 '"GAME OVER"
 '
 check_literal:After while():GAME OVER"
 
 check_literal:ret1 
 scan_string:
-scan_literal:lit=' "' ' "GAME OVER"
+scan_literal:lit=' "' '"GAME OVER"
 '
 scan_literal:After drop space:"GAME OVER"
 
@@ -43404,22 +41737,22 @@ check_eitem: '
 '
 check_operator: 
 
-check_literal:lit=',' idx=26 ''
-check_literal:After drop space:',' idx=26 ''
+check_literal:lit=',' idx=28 ''
+check_literal:After drop space:',' idx=28 ''
 check_literal  ret0 Empty test string
 check_operator:ret0
 check_function: ''
 check_function: ret0
 check_atom:
-check_literal:lit=' %' idx=25 '
+check_literal:lit=' %' idx=27 '
 '
     dropping space
-check_literal:After drop space:'%' idx=26 ''
+check_literal:After drop space:'%' idx=28 ''
 check_literal  ret0 Empty test string
-check_literal:lit=' "' idx=25 '
+check_literal:lit=' "' idx=27 '
 '
     dropping space
-check_literal:After drop space:'"' idx=26 ''
+check_literal:After drop space:'"' idx=28 ''
 check_literal  ret0 Empty test string
 check_number:
 check_float:
@@ -43433,18 +41766,18 @@ check_vname '':
 check_vname ret0 '':
 check_variable:ret0 
 check_sub_expr:
-check_literal:lit=' (' idx=25 '
+check_literal:lit=' (' idx=27 '
 '
     dropping space
-check_literal:After drop space:'(' idx=26 ''
+check_literal:After drop space:'(' idx=28 ''
 check_literal  ret0 Empty test string
 check_sub_expr: ret0
 check_eitem:ret0
 scan_expression: ret1 '
 '
-scan_command: ret1 =>'CLS'
-check_literal:lit=':' idx=26 ''
-check_literal:After drop space:':' idx=26 ''
+scan_command: ret1 =>'PRINT'
+check_literal:lit=':' idx=28 ''
+check_literal:After drop space:':' idx=28 ''
 check_literal  ret0 Empty test string
 cline scanned OK
 =======================cline==========================
@@ -43752,7 +42085,7 @@ scan_vname: 'sc% :PAUSE 40
 '
 scan_vname: ret1 'sc'
 scan_variable: '% :PAUSE 40
-'
+' vname='sc'
 scan_variable: Ary test ' :PAUSE 40
 '
 check_literal:lit='(' idx=22 ' :PAUSE 40
@@ -44102,20 +42435,6 @@ check_command: ret0
 check_function: 'WHILE KEY :ENDWH :REM Drain buffer
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '    WHILE KEY :ENDWH :REM Drain buffer
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=4 'WHILE KEY :ENDWH :REM Drain buffer
-'
-  'L' != 'W'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '    WHILE KEY :ENDWH :REM Drain buffer
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=4 'WHILE KEY :ENDWH :REM Drain buffer
-'
-  'G' != 'W'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '    WHILE KEY :ENDWH :REM Drain buffer
 '
     dropping space
@@ -44199,20 +42518,6 @@ check_command: ret0
 check_function: 'WHILE KEY :ENDWH :REM Drain buffer
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=4 'WHILE KEY :ENDWH :REM Drain buffer
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=4 'WHILE KEY :ENDWH :REM Drain buffer
-'
-  'L' != 'W'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=4 'WHILE KEY :ENDWH :REM Drain buffer
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=4 'WHILE KEY :ENDWH :REM Drain buffer
-'
-  'G' != 'W'
-check_literal: ret0
 check_literal:lit=' IF' idx=4 'WHILE KEY :ENDWH :REM Drain buffer
 '
     dropping space
@@ -44407,20 +42712,6 @@ check_command: ret0
 check_function: 'ENDWH :REM Drain buffer
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=15 'ENDWH :REM Drain buffer
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=15 'ENDWH :REM Drain buffer
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=15 'ENDWH :REM Drain buffer
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=15 'ENDWH :REM Drain buffer
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=15 'ENDWH :REM Drain buffer
 '
     dropping space
@@ -44511,20 +42802,6 @@ check_command: ret0
 check_function: 'ENDWH :REM Drain buffer
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=15 'ENDWH :REM Drain buffer
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=15 'ENDWH :REM Drain buffer
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=15 'ENDWH :REM Drain buffer
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=15 'ENDWH :REM Drain buffer
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=15 'ENDWH :REM Drain buffer
 '
     dropping space
@@ -44830,7 +43107,7 @@ scan_vname: 'Drain buffer
 '
 scan_vname: ret1 'Drain'
 scan_variable: ' buffer
-'
+' vname='Drain'
 scan_variable: Ary test ' buffer
 '
 check_literal:lit='(' idx=31 ' buffer
@@ -44996,7 +43273,7 @@ scan_vname: ' buffer
 '
 scan_vname: ret1 'buffer'
 scan_variable: '
-'
+' vname='buffer'
 scan_variable: Ary test '
 '
 check_literal:lit='(' idx=38 '
@@ -45304,20 +43581,6 @@ check_command: ret0
 check_function: 'ENDIF
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '   ENDIF
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'ENDIF
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '   ENDIF
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'ENDIF
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '   ENDIF
 '
     dropping space
@@ -45386,20 +43649,6 @@ check_command: ret0
 check_function: 'ENDIF
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=3 'ENDIF
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=3 'ENDIF
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=3 'ENDIF
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=3 'ENDIF
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=3 'ENDIF
 '
     dropping space
@@ -45487,20 +43736,6 @@ check_command: ret0
 check_function: 'ENDIF
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '  ENDIF
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=2 'ENDIF
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '  ENDIF
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=2 'ENDIF
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '  ENDIF
 '
     dropping space
@@ -45569,20 +43804,6 @@ check_command: ret0
 check_function: 'ENDIF
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=2 'ENDIF
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=2 'ENDIF
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=2 'ENDIF
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=2 'ENDIF
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=2 'ENDIF
 '
     dropping space
@@ -45671,20 +43892,6 @@ check_command: ret0
 check_function: 'UNTIL a%=20
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 ' UNTIL a%=20
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=1 'UNTIL a%=20
-'
-  'L' != 'U'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 ' UNTIL a%=20
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=1 'UNTIL a%=20
-'
-  'G' != 'U'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 ' UNTIL a%=20
 '
     dropping space
@@ -45940,20 +44147,6 @@ check_command: ret0
 check_function: 'UNTIL a%=20
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=1 'UNTIL a%=20
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=1 'UNTIL a%=20
-'
-  'L' != 'U'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=1 'UNTIL a%=20
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=1 'UNTIL a%=20
-'
-  'G' != 'U'
-check_literal: ret0
 check_literal:lit=' IF' idx=1 'UNTIL a%=20
 '
     dropping space
@@ -46187,7 +44380,7 @@ scan_vname: 'a%=20
 '
 scan_vname: ret1 'a'
 scan_variable: '%=20
-'
+' vname='a'
 scan_variable: Ary test '=20
 '
 check_literal:lit='(' idx=9 '=20
@@ -46753,7 +44946,7 @@ scan_vname: 'sc%=sc%+1
 '
 scan_vname: ret1 'sc'
 scan_variable: '%=sc%+1
-'
+' vname='sc'
 scan_variable: Ary test '=sc%+1
 '
 check_literal:lit='(' idx=4 '=sc%+1
@@ -46924,7 +45117,7 @@ scan_vname: 'sc%+1
 '
 scan_vname: ret1 'sc'
 scan_variable: '%+1
-'
+' vname='sc'
 scan_variable: Ary test '+1
 '
 check_literal:lit='(' idx=8 '+1
@@ -47158,20 +45351,6 @@ check_command: ret0
 check_function: 'IF b%>12
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 ' IF b%>12
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=1 'IF b%>12
-'
-  'L' != 'I'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 ' IF b%>12
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=1 'IF b%>12
-'
-  'G' != 'I'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 ' IF b%>12
 '
     dropping space
@@ -47220,20 +45399,6 @@ check_command: ret0
 check_function: 'IF b%>12
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=1 'IF b%>12
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=1 'IF b%>12
-'
-  'L' != 'I'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=1 'IF b%>12
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=1 'IF b%>12
-'
-  'G' != 'I'
-check_literal: ret0
 check_literal:lit=' IF' idx=1 'IF b%>12
 '
     dropping space
@@ -47405,7 +45570,7 @@ scan_vname: 'b%>12
 '
 scan_vname: ret1 'b'
 scan_variable: '%>12
-'
+' vname='b'
 scan_variable: Ary test '>12
 '
 check_literal:lit='(' idx=6 '>12
@@ -47970,7 +46135,7 @@ scan_vname: 'b%=b%-2
 '
 scan_vname: ret1 'b'
 scan_variable: '%=b%-2
-'
+' vname='b'
 scan_variable: Ary test '=b%-2
 '
 check_literal:lit='(' idx=4 '=b%-2
@@ -48141,7 +46306,7 @@ scan_vname: 'b%-2
 '
 scan_vname: ret1 'b'
 scan_variable: '%-2
-'
+' vname='b'
 scan_variable: Ary test '-2
 '
 check_literal:lit='(' idx=7 '-2
@@ -48375,20 +46540,6 @@ check_command: ret0
 check_function: 'ELSEIF b%<6
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 ' ELSEIF b%<6
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=1 'ELSEIF b%<6
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 ' ELSEIF b%<6
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=1 'ELSEIF b%<6
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 ' ELSEIF b%<6
 '
     dropping space
@@ -48594,20 +46745,6 @@ check_command: ret0
 check_function: 'ELSEIF b%<6
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=1 'ELSEIF b%<6
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=1 'ELSEIF b%<6
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=1 'ELSEIF b%<6
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=1 'ELSEIF b%<6
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=1 'ELSEIF b%<6
 '
     dropping space
@@ -48794,7 +46931,7 @@ scan_vname: 'b%<6
 '
 scan_vname: ret1 'b'
 scan_variable: '%<6
-'
+' vname='b'
 scan_variable: Ary test '<6
 '
 check_literal:lit='(' idx=10 '<6
@@ -49027,20 +47164,6 @@ check_command: ret0
 check_function: 'IF b1%
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '  IF b1%
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=2 'IF b1%
-'
-  'L' != 'I'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '  IF b1%
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=2 'IF b1%
-'
-  'G' != 'I'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '  IF b1%
 '
     dropping space
@@ -49089,20 +47212,6 @@ check_command: ret0
 check_function: 'IF b1%
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=2 'IF b1%
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=2 'IF b1%
-'
-  'L' != 'I'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=2 'IF b1%
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=2 'IF b1%
-'
-  'G' != 'I'
-check_literal: ret0
 check_literal:lit=' IF' idx=2 'IF b1%
 '
     dropping space
@@ -49277,7 +47386,7 @@ scan_vname: 'b1%
 '
 scan_vname: ret1 'b1'
 scan_variable: '%
-'
+' vname='b1'
 scan_variable: Ary test '
 '
 check_literal:lit='(' idx=8 '
@@ -49729,7 +47838,7 @@ scan_vname: 'b%=b%-1 :b1%=0
 '
 scan_vname: ret1 'b'
 scan_variable: '%=b%-1 :b1%=0
-'
+' vname='b'
 scan_variable: Ary test '=b%-1 :b1%=0
 '
 check_literal:lit='(' idx=5 '=b%-1 :b1%=0
@@ -49900,7 +48009,7 @@ scan_vname: 'b%-1 :b1%=0
 '
 scan_vname: ret1 'b'
 scan_variable: '%-1 :b1%=0
-'
+' vname='b'
 scan_variable: Ary test '-1 :b1%=0
 '
 check_literal:lit='(' idx=8 '-1 :b1%=0
@@ -50352,7 +48461,7 @@ scan_vname: 'b1%=0
 '
 scan_vname: ret1 'b1'
 scan_variable: '%=0
-'
+' vname='b1'
 scan_variable: Ary test '=0
 '
 check_literal:lit='(' idx=15 '=0
@@ -50561,20 +48670,6 @@ check_command: ret0
 check_function: 'ELSE
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '  ELSE
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=2 'ELSE
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '  ELSE
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=2 'ELSE
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '  ELSE
 '
     dropping space
@@ -50637,20 +48732,6 @@ check_command: ret0
 check_function: 'ELSE
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=2 'ELSE
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=2 'ELSE
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=2 'ELSE
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=2 'ELSE
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=2 'ELSE
 '
     dropping space
@@ -50925,7 +49006,7 @@ scan_vname: 'b1%=1
 '
 scan_vname: ret1 'b1'
 scan_variable: '%=1
-'
+' vname='b1'
 scan_variable: Ary test '=1
 '
 check_literal:lit='(' idx=6 '=1
@@ -51134,20 +49215,6 @@ check_command: ret0
 check_function: 'ENDIF
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 '  ENDIF
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=2 'ENDIF
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 '  ENDIF
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=2 'ENDIF
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 '  ENDIF
 '
     dropping space
@@ -51216,20 +49283,6 @@ check_command: ret0
 check_function: 'ENDIF
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=2 'ENDIF
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=2 'ENDIF
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=2 'ENDIF
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=2 'ENDIF
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=2 'ENDIF
 '
     dropping space
@@ -51317,20 +49370,6 @@ check_command: ret0
 check_function: 'ELSE
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 ' ELSE
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=1 'ELSE
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 ' ELSE
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=1 'ELSE
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 ' ELSE
 '
     dropping space
@@ -51393,20 +49432,6 @@ check_command: ret0
 check_function: 'ELSE
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=1 'ELSE
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=1 'ELSE
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=1 'ELSE
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=1 'ELSE
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=1 'ELSE
 '
     dropping space
@@ -51815,7 +49840,7 @@ scan_vname: 'b%=b%-1
 '
 scan_vname: ret1 'b'
 scan_variable: '%=b%-1
-'
+' vname='b'
 scan_variable: Ary test '=b%-1
 '
 check_literal:lit='(' idx=4 '=b%-1
@@ -51986,7 +50011,7 @@ scan_vname: 'b%-1
 '
 scan_vname: ret1 'b'
 scan_variable: '%-1
-'
+' vname='b'
 scan_variable: Ary test '-1
 '
 check_literal:lit='(' idx=7 '-1
@@ -52219,20 +50244,6 @@ check_command: ret0
 check_function: 'ENDIF
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 ' ENDIF
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=1 'ENDIF
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 ' ENDIF
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=1 'ENDIF
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 ' ENDIF
 '
     dropping space
@@ -52301,20 +50312,6 @@ check_command: ret0
 check_function: 'ENDIF
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=1 'ENDIF
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=1 'ENDIF
-'
-  'L' != 'E'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=1 'ENDIF
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=1 'ENDIF
-'
-  'G' != 'E'
-check_literal: ret0
 check_literal:lit=' IF' idx=1 'ENDIF
 '
     dropping space
@@ -52403,20 +50400,6 @@ check_command: ret0
 check_function: 'UNTIL 0
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 'UNTIL 0
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=0 'UNTIL 0
-'
-  'L' != 'U'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 'UNTIL 0
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=0 'UNTIL 0
-'
-  'G' != 'U'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 'UNTIL 0
 '
     dropping space
@@ -52604,20 +50587,6 @@ check_command: ret0
 check_function: 'UNTIL 0
 '
 check_function: ret0
-check_literal:lit=' LOCAL' idx=0 'UNTIL 0
-'
-    dropping space
-check_literal:After drop space:'LOCAL' idx=0 'UNTIL 0
-'
-  'L' != 'U'
-check_literal: ret0
-check_literal:lit=' GLOBAL' idx=0 'UNTIL 0
-'
-    dropping space
-check_literal:After drop space:'GLOBAL' idx=0 'UNTIL 0
-'
-  'G' != 'U'
-check_literal: ret0
 check_literal:lit=' IF' idx=0 'UNTIL 0
 '
     dropping space
@@ -52850,6 +50819,6 @@ check_literal:After drop space:':' idx=8 ''
 check_literal  ret0 Empty test string
 cline scanned OK
 
- 67 lines scanned Ok
+ 65 lines scanned Ok
  0 lines scanned failed
  0 lines blank

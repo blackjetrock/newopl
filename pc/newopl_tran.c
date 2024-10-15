@@ -694,7 +694,13 @@ int operator_left_assoc(char *token)
 
 typedef struct _VAR_INFO
 {
-  char *name;
+  char name[NOBJ_VARNAME_MAXLEN];
+  int is_array;
+  int is_integer;
+  int is_float;
+  int is_string;
+  int max_array;
+  int max_string;
   NOBJ_VARTYPE type;
   uint16_t offset;    // Offset from FP
 } VAR_INFO;

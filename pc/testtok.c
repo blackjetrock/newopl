@@ -848,8 +848,10 @@ int check_vname(int *index)
 // They will be expressions on the stack and the type flags will ensure an array
 // type qcode is set for the variable reference.
 
-int scan_variable(char *variable_dest)
+int scan_variable(char *variable_dest, NOBJ_VAR_INFO *var_info)
 {
+  NOBJ_VAR_INFO varinfo;
+  
   char vname[300];
   char chstr[2];
   int var_is_string  = 0;
@@ -857,6 +859,8 @@ int scan_variable(char *variable_dest)
   int var_is_float   = 0;
   int var_is_array   = 0;
   int idx = cline_i;
+  int max_array = 0;
+  int max_string = 0;
   
   printf("\n%s:", __FUNCTION__);
  
@@ -864,7 +868,7 @@ int scan_variable(char *variable_dest)
   
   if( scan_vname(vname) )
     {
-      printf("\n%s: '%s'", __FUNCTION__, &(cline[cline_i]));
+      printf("\n%s: '%s' vname='%s'", __FUNCTION__, &(cline[cline_i]), vname);
       
       // Could just be a vname
       switch( chstr[0] = cline[cline_i] )
@@ -924,6 +928,16 @@ int scan_variable(char *variable_dest)
 
 	  if( scan_literal(" )") )
 	    {
+	      printf("\n%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
+		     vname,
+		     var_is_string,
+		     var_is_integer,
+		     var_is_float,
+		     var_is_array
+		     );
+	      
+	      strcpy(variable_dest, vname);
+	      
 	      return(1);
 	    }
 	}
@@ -935,6 +949,8 @@ int scan_variable(char *variable_dest)
 	     var_is_float,
 	     var_is_array
 	     );
+      
+      strcpy(variable_dest, vname);
       return(1);
     }
   
@@ -952,6 +968,8 @@ int check_variable(int *index)
   int var_is_float   = 0;
   int var_is_array   = 0;
 
+  drop_space(&idx);
+  
   printf("\n%s:", __FUNCTION__);
 
   vname[0] = '\0';
@@ -2383,10 +2401,38 @@ int scan_procdef(void)
 
 int scan_local(void)
 {
+  int idx = cline_i;
+  char varname[NOBJ_VARNAME_MAXLEN+1];
+
+  printf("\n%s:", __FUNCTION__);
+  
   if( scan_literal(" LOCAL") )
     {
+      idx = cline_i;
+      
+      while( check_variable(&idx) )
+	{
+	  scan_variable(varname);
+
+	  printf("\n%s: LOCAL variable:'%s'", __FUNCTION__, varname);
+	  idx = cline_i;
+	  if( check_literal(&idx, " ,") )
+	    {
+	      scan_literal(" ,");
+	    }
+	}
+
+      drop_space(&cline_i);
+
+      if( cline[cline_i] == '\0' )
+	{
+	  printf("\n%s:ret1", __FUNCTION__);
+	  return(1);
+	}
     }
-  
+
+  printf("\n%s:ret0", __FUNCTION__);
+  return(0);
 }
 
 int scan_global(void)
@@ -2420,6 +2466,8 @@ int check_declare(int *index)
   *index = idx;
   return(0);
 }
+
+//------------------------------------------------------------------------------
 
 int scan_declare(void)
 {
@@ -2548,7 +2596,7 @@ int main(int argc, char *argv[])
 	  else
 	    {
 	      // Not a declaration so we are done with them
-	      done_declares = 0;
+	      done_declares = 1;
 	    }
 	}
       
