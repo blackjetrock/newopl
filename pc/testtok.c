@@ -157,7 +157,7 @@ struct _FN_INFO
     { "GEN$",     0,  0, ' ',  "ii",       "f", 0x00 },
     { "GET",      0,  0, ' ',  "ii",       "f", 0x00 },
     { "GET$",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "GLOBAL",   1,  0, ' ',  "ii",       "f", 0x00 },
+    //    { "GLOBAL",   1,  0, ' ',  "ii",       "f", 0x00 },
     { "HEX$",     0,  0, ' ',  "ii",       "f", 0x00 },
     { "HOUR",     0,  0, ' ',  "",         "i", 0x00 },
     { "IABS",     0,  0, ' ',  "i",        "i", 0x00 },
@@ -172,7 +172,7 @@ struct _FN_INFO
     { "LEN",      0,  0, ' ',  "ii",       "f", 0x00 },
     { "LN",       0,  0, ' ',  "f",         "f", 0x00 },
     { "LOC",      0,  0, ' ',  "ii",       "f", 0x00 },
-    { "LOCAL",    1,  0, ' ',  "ii",       "f", 0x00 },
+    //    { "LOCAL",    1,  0, ' ',  "ii",       "f", 0x00 },
     { "LOG",      0,  0, ' ',  "ii",       "f", 0x00 },
     { "LOWER$",   0,  0, ' ',  "ii",       "f", 0x00 },
     { "LPRINT",   1,  0, ' ',  "ii",       "f", 0x00 },
@@ -2015,6 +2015,7 @@ int check_line(int *index)
       return(1);
     }
 
+#if 0
   idx = cline_i;
   if( check_literal(&idx," LOCAL"))
     {
@@ -2030,7 +2031,8 @@ int check_line(int *index)
       *index = idx;
       return(1);
     }
-
+#endif
+  
   idx = cline_i;
   if( check_literal(&idx," IF"))
     {
@@ -2165,6 +2167,7 @@ int scan_line()
       return(1);
     }
 
+#if 0
   idx = cline_i;
   if( check_literal(&idx," LOCAL") )
     {
@@ -2178,6 +2181,7 @@ int scan_line()
       scan_literal(" GLOBAL");
       return(1);
     }
+#endif
   
   idx = cline_i;
   if( check_literal(&idx," IF") )
@@ -2377,6 +2381,86 @@ int scan_procdef(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+int scan_local(void)
+{
+  if( scan_literal(" LOCAL") )
+    {
+    }
+  
+}
+
+int scan_global(void)
+{
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+int check_declare(int *index)
+{
+  int idx = *index;
+
+  printf("\n%s:", __FUNCTION__);
+  
+  if( check_literal(&idx, " LOCAL") )
+    {
+      printf("\n%s:ret 1", __FUNCTION__);
+      *index = idx;
+      return(1);
+    }
+
+  if( check_literal(&idx, " GLOBAL") )
+    {
+      printf("\n%s:ret 1", __FUNCTION__);
+      *index = idx;
+      return(1);
+    }
+
+  printf("\n%s:ret 0", __FUNCTION__);
+  *index = idx;
+  return(0);
+}
+
+int scan_declare(void)
+{
+  int idx = cline_i;
+  
+  printf("\n%s:", __FUNCTION__);
+  
+  if( check_literal(&idx, " LOCAL") )
+    {
+      if( scan_local() )
+	{
+	  printf("\n%s:ret 1", __FUNCTION__);
+	  return(1);
+	}
+      else
+	{
+	  syntax_error("Bad LOCAL");
+	}
+    }
+
+  idx = cline_i;
+  
+  if( check_literal(&idx, " GLOBAL") )
+    {
+      if( scan_global() )
+	{
+	  printf("\n%s:ret 1", __FUNCTION__);
+	  return(1);
+	}
+      else
+	{
+	  syntax_error("Bad GLOBAL");
+	}
+    }
+
+  printf("\n%s:ret 0", __FUNCTION__);
+  return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 int main(int argc, char *argv[])
 {
   char *line = argv[1];
@@ -2386,6 +2470,7 @@ int main(int argc, char *argv[])
   int n_lines_bad   = 0;
   int n_lines_blank = 0;
   int scanned_procdef = 0;
+  int done_declares = 0;
   
   ofp = fopen("testtok_op.txt", "w");
 
@@ -2440,6 +2525,30 @@ int main(int argc, char *argv[])
 	    {
 	      n_lines_bad++;
 	      printf("\ncline failed scan");
+	    }
+	}
+
+      // Variable declarations
+      if( !done_declares )
+	{
+	  int idx = cline_i;
+	  
+	  if( check_declare(&idx) )
+	    {
+	      if( scan_declare() )
+		{
+		  // All OK
+		}
+	      else
+		{
+		  syntax_error("Bad declaration");
+		}
+	      continue;
+	    }
+	  else
+	    {
+	      // Not a declaration so we are done with them
+	      done_declares = 0;
 	    }
 	}
       
