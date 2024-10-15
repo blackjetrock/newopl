@@ -159,3 +159,18 @@ typedef struct _EXP_BUFFER_ENTRY
   int p[MAX_EXP_BUF_P];
   int nxt;
 } EXP_BUFFER_ENTRY;
+
+// Information about a variable
+
+typedef struct _NOBJ_VAR_INFO
+{
+  char name[NOBJ_VARNAME_MAXLEN];
+  int is_array;
+  int is_integer;
+  int is_float;
+  int is_string;
+  int max_array;
+  int max_string;
+  NOBJ_VARTYPE type;
+  uint16_t offset;    // Offset from FP
+} NOBJ_VAR_INFO;

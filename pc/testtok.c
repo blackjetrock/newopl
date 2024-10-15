@@ -839,6 +839,8 @@ int check_vname(int *index)
   return(0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
 // Scan variable reference
 // This puts a variable ref in the output stream. handles arrays
 // and puts appropriate codes for array indices in stream
@@ -847,20 +849,14 @@ int check_vname(int *index)
 // The expressions that are array indices aren't captured.
 // They will be expressions on the stack and the type flags will ensure an array
 // type qcode is set for the variable reference.
+//
+////////////////////////////////////////////////////////////////////////////////
 
-int scan_variable(char *variable_dest, NOBJ_VAR_INFO *var_info)
+int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi)
 {
-  NOBJ_VAR_INFO varinfo;
-  
   char vname[300];
   char chstr[2];
-  int var_is_string  = 0;
-  int var_is_integer = 0;
-  int var_is_float   = 0;
-  int var_is_array   = 0;
   int idx = cline_i;
-  int max_array = 0;
-  int max_string = 0;
   
   printf("\n%s:", __FUNCTION__);
  
@@ -874,19 +870,19 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *var_info)
       switch( chstr[0] = cline[cline_i] )
 	{
 	case '%':
-	  var_is_integer = 1;
+	  vi->is_integer = 1;
 	  strcat(vname, chstr);
 	  cline_i++;
 	  break;
 	  
 	case '$':
-	  var_is_string = 1;
+	  vi->is_string = 1;
 	  strcat(vname, chstr);
 	  cline_i++;
 	  break;
 
 	default:
-	  var_is_float = 1;
+	  vi->is_float = 1;
 	  break;
 	}
 
@@ -904,7 +900,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *var_info)
 	  
 	  printf("\n%s: is array", __FUNCTION__);
 	  
-	  var_is_array = 1;
+	  vi->is_array = 1;
 	  
 	  // Add token to output stream for index or indices
 	  scan_expression();
@@ -914,7 +910,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *var_info)
 	  idx = cline_i;
 	  if( check_literal(&idx," ,") )
 	    {
-	      if( var_is_string )
+	      if( vi->is_string )
 		{
 		  // All OK, string array
 		  scan_literal(" ,");
@@ -930,13 +926,13 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *var_info)
 	    {
 	      printf("\n%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
 		     vname,
-		     var_is_string,
-		     var_is_integer,
-		     var_is_float,
-		     var_is_array
+		     vi->is_string,
+		     vi->is_integer,
+		     vi->is_float,
+		     vi->is_array
 		     );
 	      
-	      strcpy(variable_dest, vname);
+	      strcpy(vi->name, vname);
 	      
 	      return(1);
 	    }
@@ -944,13 +940,13 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *var_info)
       
       printf("\n%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
 	     vname,
-	     var_is_string,
-	     var_is_integer,
-	     var_is_float,
-	     var_is_array
+	     vi->is_string,
+	     vi->is_integer,
+	     vi->is_float,
+	     vi->is_array
 	     );
       
-      strcpy(variable_dest, vname);
+      strcpy(vi->name, vname);
       return(1);
     }
   
@@ -1473,8 +1469,9 @@ int scan_character(void)
 int scan_atom(void)
 {
   int idx = cline_i;
-  
+  NOBJ_VAR_INFO vi;
   char vname[300];
+
   printf("\n%s:", __FUNCTION__);
 
   idx = cline_i;
@@ -1505,7 +1502,12 @@ int scan_atom(void)
   if( check_variable(&idx) )
     {
       // Variable
-      return(scan_variable(vname));
+      
+      if(scan_variable(vname, &vi))
+	{
+	  return(1);
+	}
+      return(0);
     }
 
   syntax_error("Not an atom");  
@@ -1827,9 +1829,11 @@ int check_assignment(int *index)
 int scan_assignment(void)
 {
   char vname[300];
+  NOBJ_VAR_INFO vi;
+  
   printf("\n%s:", __FUNCTION__);
   
-  if( scan_variable(vname) )
+  if( scan_variable(vname, &vi) )
     {
       if( scan_literal(" =") )
 	{
@@ -2403,7 +2407,8 @@ int scan_local(void)
 {
   int idx = cline_i;
   char varname[NOBJ_VARNAME_MAXLEN+1];
-
+  NOBJ_VAR_INFO vi;
+  
   printf("\n%s:", __FUNCTION__);
   
   if( scan_literal(" LOCAL") )
@@ -2412,7 +2417,7 @@ int scan_local(void)
       
       while( check_variable(&idx) )
 	{
-	  scan_variable(varname);
+	  scan_variable(varname, &vi);
 
 	  printf("\n%s: LOCAL variable:'%s'", __FUNCTION__, varname);
 	  idx = cline_i;
