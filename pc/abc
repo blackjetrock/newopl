@@ -383,7 +383,8 @@ scan_literal:After drop space:)
 scan_literal:while loop:)
 
 scan_variable:ret1 vname='e$' is str:1 int:0 flt:0 ary:1
-scan_local: LOCAL variable:'e$'
+scan_local: LOCAL variable:'τώ'
+VAR INFO: 'e$' int:0 flt:0 str:1 ary:1 max_ary:0 max_str:0
 check_literal:lit=' ,' idx=11 '
 '
     dropping space
@@ -464,7 +465,8 @@ check_literal:After drop space:'(' idx=8 ',b%,b1%,c%,c1%,x%,y%,i%,sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='a%' is str:0 int:1 flt:0 ary:0
-scan_local: LOCAL variable:'a%'
+scan_local: LOCAL variable:'τώ'
+VAR INFO: 'a%' int:1 flt:0 str:0 ary:0 max_ary:0 max_str:0
 check_literal:lit=' ,' idx=8 ',b%,b1%,c%,c1%,x%,y%,i%,sc%
 '
     dropping space
@@ -511,7 +513,8 @@ check_literal:After drop space:'(' idx=11 ',b1%,c%,c1%,x%,y%,i%,sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='b%' is str:0 int:1 flt:0 ary:0
-scan_local: LOCAL variable:'b%'
+scan_local: LOCAL variable:'τώ'
+VAR INFO: 'b%' int:1 flt:0 str:0 ary:0 max_ary:0 max_str:0
 check_literal:lit=' ,' idx=11 ',b1%,c%,c1%,x%,y%,i%,sc%
 '
     dropping space
@@ -558,7 +561,8 @@ check_literal:After drop space:'(' idx=15 ',c%,c1%,x%,y%,i%,sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='b1%' is str:0 int:1 flt:0 ary:0
-scan_local: LOCAL variable:'b1%'
+scan_local: LOCAL variable:'τώ'
+VAR INFO: 'b1%' int:1 flt:0 str:0 ary:0 max_ary:0 max_str:0
 check_literal:lit=' ,' idx=15 ',c%,c1%,x%,y%,i%,sc%
 '
     dropping space
@@ -605,7 +609,8 @@ check_literal:After drop space:'(' idx=18 ',c1%,x%,y%,i%,sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='c%' is str:0 int:1 flt:0 ary:0
-scan_local: LOCAL variable:'c%'
+scan_local: LOCAL variable:'τώ'
+VAR INFO: 'c%' int:1 flt:0 str:0 ary:0 max_ary:0 max_str:0
 check_literal:lit=' ,' idx=18 ',c1%,x%,y%,i%,sc%
 '
     dropping space
@@ -652,7 +657,8 @@ check_literal:After drop space:'(' idx=22 ',x%,y%,i%,sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='c1%' is str:0 int:1 flt:0 ary:0
-scan_local: LOCAL variable:'c1%'
+scan_local: LOCAL variable:'τώ'
+VAR INFO: 'c1%' int:1 flt:0 str:0 ary:0 max_ary:0 max_str:0
 check_literal:lit=' ,' idx=22 ',x%,y%,i%,sc%
 '
     dropping space
@@ -699,7 +705,8 @@ check_literal:After drop space:'(' idx=25 ',y%,i%,sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='x%' is str:0 int:1 flt:0 ary:0
-scan_local: LOCAL variable:'x%'
+scan_local: LOCAL variable:'τώ'
+VAR INFO: 'x%' int:1 flt:0 str:0 ary:0 max_ary:0 max_str:0
 check_literal:lit=' ,' idx=25 ',y%,i%,sc%
 '
     dropping space
@@ -746,7 +753,8 @@ check_literal:After drop space:'(' idx=28 ',i%,sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='y%' is str:0 int:1 flt:0 ary:0
-scan_local: LOCAL variable:'y%'
+scan_local: LOCAL variable:'τώ'
+VAR INFO: 'y%' int:1 flt:0 str:0 ary:0 max_ary:0 max_str:0
 check_literal:lit=' ,' idx=28 ',i%,sc%
 '
     dropping space
@@ -793,7 +801,8 @@ check_literal:After drop space:'(' idx=31 ',sc%
   '(' != ','
 check_literal: ret0
 scan_variable:ret1 vname='i%' is str:0 int:1 flt:0 ary:0
-scan_local: LOCAL variable:'i%'
+scan_local: LOCAL variable:'τώ'
+VAR INFO: 'i%' int:1 flt:0 str:0 ary:0 max_ary:0 max_str:0
 check_literal:lit=' ,' idx=31 ',sc%
 '
     dropping space
@@ -842,7 +851,8 @@ check_literal:After drop space:'(' idx=35 '
 '
 check_literal: ret0
 scan_variable:ret1 vname='sc%' is str:0 int:1 flt:0 ary:0
-scan_local: LOCAL variable:'sc%'
+scan_local: LOCAL variable:'τώ'
+VAR INFO: 'sc%' int:1 flt:0 str:0 ary:0 max_ary:0 max_str:0
 check_literal:lit=' ,' idx=35 '
 '
     dropping space

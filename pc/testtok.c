@@ -296,6 +296,31 @@ OP_INFO  op_info[] =
     { "-%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
   };
 
+////////////////////////////////////////////////////////////////////////////////
+
+void print_var_info(NOBJ_VAR_INFO *vi)
+{
+  printf("\nVAR INFO: '%s' int:%d flt:%d str:%d ary:%d max_ary:%d max_str:%d",
+ 	 vi->name,
+	 vi->is_integer,
+	 vi->is_float,
+	 vi->is_string,
+	 vi->is_array,
+	 vi->max_string,
+	 vi->max_array
+	 );
+}
+
+void init_var_info(NOBJ_VAR_INFO *vi)
+{
+  vi->name[0] = '\0';
+  vi->is_integer = 0;
+  vi->is_float = 0;
+  vi->is_string=0;
+  vi->is_array=0;
+  vi->max_string=0;
+  vi->max_array=0;
+}
 
 //------------------------------------------------------------------------------
 //
@@ -1472,6 +1497,7 @@ int scan_atom(void)
   NOBJ_VAR_INFO vi;
   char vname[300];
 
+  init_var_info(&vi);
   printf("\n%s:", __FUNCTION__);
 
   idx = cline_i;
@@ -1830,7 +1856,8 @@ int scan_assignment(void)
 {
   char vname[300];
   NOBJ_VAR_INFO vi;
-  
+
+  init_var_info(&vi);
   printf("\n%s:", __FUNCTION__);
   
   if( scan_variable(vname, &vi) )
@@ -2408,6 +2435,8 @@ int scan_local(void)
   int idx = cline_i;
   char varname[NOBJ_VARNAME_MAXLEN+1];
   NOBJ_VAR_INFO vi;
+
+  init_var_info(&vi);
   
   printf("\n%s:", __FUNCTION__);
   
@@ -2420,6 +2449,8 @@ int scan_local(void)
 	  scan_variable(varname, &vi);
 
 	  printf("\n%s: LOCAL variable:'%s'", __FUNCTION__, varname);
+	  print_var_info(&vi);
+	  
 	  idx = cline_i;
 	  if( check_literal(&idx, " ,") )
 	    {
