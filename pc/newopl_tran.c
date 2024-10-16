@@ -40,8 +40,7 @@ int exp_type_stack_ptr = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define MAX_EXP_BUFFER   200
-
+#if 0
 enum
   {
    EXP_BUFF_ID_TKN = 1,
@@ -74,6 +73,7 @@ char *exp_buffer_id_str[] =
    "EXP_BUFF_ID_COMMAND",
    "EXP_BUFF_ID_MAX",
   };
+#endif
 
 
 // Per-expression
@@ -158,6 +158,7 @@ void dbpf(const char *caller, char *fmt, ...)
 // The possible types for operators are listed here
 //
 
+#if 0
 #define MAX_OPERATOR_TYPES 3
 #define IMMUTABLE_TYPE     1
 #define   MUTABLE_TYPE     0
@@ -193,7 +194,8 @@ OP_INFO  op_info[] =
    { "-%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
   };
 
-#define NUM_OPERATORS (sizeof(op_info)/sizeof(struct _OP_INFO))
+#endif
+
 
 int find_op_info(char *name, OP_INFO *op)
 {
@@ -285,7 +287,7 @@ int token_is_integer(char *token)
   return(all_digits);
 }
 
-#if 0
+#if 1
 // Variable if it ends in $ or %
 // Variable if not a function name
 // Variables have to be only alpha or alpha followed by alphanum
@@ -2532,8 +2534,6 @@ void translate_file(FILE *fp, FILE *ofp)
   printf("\n %d lines scanned Ok",       n_lines_ok);
   printf("\n %d lines scanned failed",   n_lines_bad);
   printf("\n %d lines blank",            n_lines_blank);
-  fclose(ofp);
-
   printf("\n");
 
 }

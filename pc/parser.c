@@ -41,23 +41,6 @@ int exp_type_stack_ptr = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define MAX_EXP_BUFFER   200
-
-enum
-  {
-    EXP_BUFF_ID_TKN = 1,
-    EXP_BUFF_ID_SUB_START,
-    EXP_BUFF_ID_SUB_END,
-    EXP_BUFF_ID_VARIABLE,
-    EXP_BUFF_ID_INTEGER,
-    EXP_BUFF_ID_FLT,
-    EXP_BUFF_ID_STR,
-    EXP_BUFF_ID_FUNCTION,
-    EXP_BUFF_ID_OPERATOR,
-    EXP_BUFF_ID_AUTOCON,
-    EXP_BUFF_ID_COMMAND,
-    EXP_BUFF_ID_MAX,
-  };
 
 char *exp_buffer_id_str[] =
   {
@@ -77,6 +60,7 @@ char *exp_buffer_id_str[] =
   };
 
 
+#if 0
 // Per-expression
 // Indices start at 1, 0 is 'no p'
 int node_id_index = 1;
@@ -86,6 +70,7 @@ int exp_buffer_i = 0;
 
 EXP_BUFFER_ENTRY exp_buffer2[MAX_EXP_BUFFER];
 int exp_buffer2_i = 0;
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -308,20 +293,6 @@ NOBJ_VARTYPE function_arg_type_n(char *fname, int n)
 // The possible types for operators are listed here
 //
 
-#define MAX_OPERATOR_TYPES 3
-#define IMMUTABLE_TYPE     1
-#define   MUTABLE_TYPE     0
-
-typedef struct _OP_INFO
-{
-  char          *name;
-  int           precedence;
-  int           left_assoc;
-  int           immutable;                // Is the operator type mutable?
-  int           assignment;               // Special code for assignment
-  NOBJ_VARTYPE  type[MAX_OPERATOR_TYPES];
-  int           qcode;                     // Easily translatable qcodes
-} OP_INFO;
 
 OP_INFO  op_info[] =
   {
@@ -345,6 +316,14 @@ OP_INFO  op_info[] =
     { "+%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
     { "-%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
   };
+
+
+#define NUM_OPERATORS_VAL (sizeof(op_info)/sizeof(struct _OP_INFO))
+
+int num_operators(void)
+{
+  return(NUM_OPERATORS_VAL);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -389,6 +368,8 @@ char *cline_now(int idx)
 
   return(cln);
 }
+
+#if 0
 
 void clear_exp_buffer(void)
 {
@@ -461,10 +442,11 @@ void dump_exp_buffer2(void)
   fprintf(ofp, "\n=================");
 }
 
-
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#if 0
 char type_to_char(NOBJ_VARTYPE t)
 {
   char c;
@@ -510,6 +492,7 @@ char type_to_char(NOBJ_VARTYPE t)
   
   return(c);
 }
+#endif
 
 NOBJ_VARTYPE char_to_type(char ch)
 {
@@ -545,6 +528,7 @@ NOBJ_VARTYPE char_to_type(char ch)
 
 char tss[40];
 
+#if 0
 char *type_stack_str(void)
 {
   char tmps[20];
@@ -559,8 +543,7 @@ char *type_stack_str(void)
   strcat(tss, ")]");
   return(tss);
 }
-
-#define NUM_OPERATORS (sizeof(op_info)/sizeof(struct _OP_INFO))
+#endif
 
 #if 0
 void output_float(OP_STACK_ENTRY token)

@@ -4,7 +4,8 @@ int scan_function(char *cmd_dest);
 int next_composite_line(FILE *fp);
 int scan_procdef(void);
 int scan_cline(void);
-
+int scan_integer(int *intdest);
+int check_expression(int *index);
 int check_declare(int *index);
 int scan_declare(void);
 void syntax_error(char *fmt, ...);
@@ -30,3 +31,49 @@ extern FILE *chkfp;
 extern NOBJ_VARTYPE exp_type_stack[MAX_EXP_TYPE_STACK];
 extern int exp_type_stack_ptr;
 extern char current_expression[200];
+
+#define MAX_EXP_BUFFER   200
+enum
+  {
+    EXP_BUFF_ID_TKN = 1,
+    EXP_BUFF_ID_SUB_START,
+    EXP_BUFF_ID_SUB_END,
+    EXP_BUFF_ID_VARIABLE,
+    EXP_BUFF_ID_INTEGER,
+    EXP_BUFF_ID_FLT,
+    EXP_BUFF_ID_STR,
+    EXP_BUFF_ID_FUNCTION,
+    EXP_BUFF_ID_OPERATOR,
+    EXP_BUFF_ID_AUTOCON,
+    EXP_BUFF_ID_COMMAND,
+    EXP_BUFF_ID_MAX,
+  };
+
+extern char *exp_buffer_id_str[];
+
+extern int node_id_index;
+extern EXP_BUFFER_ENTRY exp_buffer[MAX_EXP_BUFFER];
+extern int exp_buffer_i;
+extern EXP_BUFFER_ENTRY exp_buffer2[MAX_EXP_BUFFER];
+extern int exp_buffer2_i;
+
+#define MAX_OPERATOR_TYPES 3
+#define IMMUTABLE_TYPE     1
+#define   MUTABLE_TYPE     0
+
+typedef struct _OP_INFO
+{
+  char          *name;
+  int           precedence;
+  int           left_assoc;
+  int           immutable;                // Is the operator type mutable?
+  int           assignment;               // Special code for assignment
+  NOBJ_VARTYPE  type[MAX_OPERATOR_TYPES];
+  int           qcode;                     // Easily translatable qcodes
+} OP_INFO;
+
+extern OP_INFO  op_info[];
+extern int num_operators(void);
+
+//#define NUM_OPERATORS (sizeof(op_info)/sizeof(struct _OP_INFO))
+#define NUM_OPERATORS num_operators()
