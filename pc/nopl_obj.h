@@ -171,6 +171,7 @@ typedef struct _NOBJ_VAR_INFO
   int is_string;
   int max_array;
   int max_string;
+  int num_indices;
   NOBJ_VARTYPE type;
   uint16_t offset;    // Offset from FP
 } NOBJ_VAR_INFO;

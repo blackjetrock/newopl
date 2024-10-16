@@ -30,6 +30,9 @@ int exp_type_stack_ptr = 0;
 #define SAVE_I     1
 #define NO_SAVE_I  0
 
+#define VAR_REF      1
+#define VAR_DECLARE  0
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Expression type is reset for each line and also for sub-lines separated by colons
@@ -41,6 +44,7 @@ NOBJ_VARTYPE expression_type = NOBJ_VARTYPE_UNKNOWN;
 
 char type_to_char(NOBJ_VARTYPE t);
 int check_expression(int *index);
+int scan_integer(int *intdest);
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -300,26 +304,28 @@ OP_INFO  op_info[] =
 
 void print_var_info(NOBJ_VAR_INFO *vi)
 {
-  printf("\nVAR INFO: '%s' int:%d flt:%d str:%d ary:%d max_ary:%d max_str:%d",
+  printf("\nVAR INFO: '%18s' int:%d flt:%d str:%d ary:%d max_str:%d max_ary:%d num_ind:%d",
  	 vi->name,
 	 vi->is_integer,
 	 vi->is_float,
 	 vi->is_string,
 	 vi->is_array,
 	 vi->max_string,
-	 vi->max_array
+	 vi->max_array,
+	 vi->num_indices
 	 );
 }
 
 void init_var_info(NOBJ_VAR_INFO *vi)
 {
-  vi->name[0] = '\0';
-  vi->is_integer = 0;
-  vi->is_float = 0;
-  vi->is_string=0;
-  vi->is_array=0;
-  vi->max_string=0;
-  vi->max_array=0;
+  vi->name[0]     = '\0';
+  vi->is_integer  = 0;
+  vi->is_float    = 0;
+  vi->is_string   = 0;
+  vi->is_array    = 0;
+  vi->max_string  = 0;
+  vi->max_array   = 0;
+  vi->num_indices = 0;
 }
 
 //------------------------------------------------------------------------------
@@ -866,7 +872,11 @@ int check_vname(int *index)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Scan variable reference
+// Scan variable
+//
+// The variable can be a reference, or a declaration.
+// Declarations have integers and not expressions in array brackets.
+//
 // This puts a variable ref in the output stream. handles arrays
 // and puts appropriate codes for array indices in stream
 //
@@ -877,14 +887,16 @@ int check_vname(int *index)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi)
+int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 {
   char vname[300];
   char chstr[2];
   int idx = cline_i;
   
   printf("\n%s:", __FUNCTION__);
- 
+
+  init_var_info(vi);
+  
   chstr[1] = '\0';
   
   if( scan_vname(vname) )
@@ -928,18 +940,48 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi)
 	  vi->is_array = 1;
 	  
 	  // Add token to output stream for index or indices
-	  scan_expression();
-
+	  (vi->num_indices)++;
+	  if( ref_ndeclare )
+	    {
+	      scan_expression();
+	    }
+	  else
+	    {
+	      //scan_integer(&(vi->max_array));
+	      if( vi->is_string )
+		{
+		  // Strings are arrays only if there are two indices
+		  vi->is_array = 0;
+		  scan_integer(&(vi->max_string));
+		}
+	      else
+		{
+		  scan_integer(&(vi->max_array));
+		}
+	    }
+	  
 	  // Could be string array, which has two expressions in
 	  // the brackets
 	  idx = cline_i;
 	  if( check_literal(&idx," ,") )
 	    {
+	      (vi->num_indices)++;
 	      if( vi->is_string )
 		{
 		  // All OK, string array
+		  vi->is_array = 1;
 		  scan_literal(" ,");
-		  scan_expression();
+
+		  if( ref_ndeclare )
+		    {
+		      scan_expression();
+		    }
+		  else
+		    {
+		      // Set the values correctly
+		      vi->max_array = vi->max_string;
+		      scan_integer(&(vi->max_string));
+		    }
 		}
 	      else
 		{
@@ -1161,6 +1203,8 @@ int scan_operator(void)
   return(0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 int check_integer(int *index)
 {
   int idx = *index;
@@ -1194,7 +1238,12 @@ int check_integer(int *index)
   return(0);
 }
 
-int scan_integer(char *intdest)
+//------------------------------------------------------------------------------
+//
+// Scan for integer and return it as an integer
+//
+
+int scan_integer(int *intdest)
 {
   int num_digits = 0;
 
@@ -1214,7 +1263,9 @@ int scan_integer(char *intdest)
       num_digits++;
     }
 
-  strcpy(intdest, intval);
+  // Convert to integer
+  sscanf(intval, "%d", intdest);
+  //x  strcpy(intdest, intval);
   
   if( num_digits > 0 )
     {
@@ -1354,9 +1405,9 @@ int scan_number(void)
   idx = cline_i;
   if( check_integer(&idx) )
     {
-      char intval[40];
+      int intval;
       cline_i = idx;
-      scan_integer(intval);
+      scan_integer(&intval);
       return(1);
     }
 
@@ -1529,7 +1580,7 @@ int scan_atom(void)
     {
       // Variable
       
-      if(scan_variable(vname, &vi))
+      if(scan_variable(vname, &vi, VAR_REF))
 	{
 	  return(1);
 	}
@@ -1860,7 +1911,7 @@ int scan_assignment(void)
   init_var_info(&vi);
   printf("\n%s:", __FUNCTION__);
   
-  if( scan_variable(vname, &vi) )
+  if( scan_variable(vname, &vi, VAR_REF) )
     {
       if( scan_literal(" =") )
 	{
@@ -2429,26 +2480,43 @@ int scan_procdef(void)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// Scans LOCAL and GLOBAL
+//
+#define SCAN_LOCAL   1
+#define SCAN_GLOBAL  0
 
-int scan_local(void)
+int scan_localglobal(int local_nglobal)
 {
   int idx = cline_i;
   char varname[NOBJ_VARNAME_MAXLEN+1];
   NOBJ_VAR_INFO vi;
+  char *keyword;
 
+  init_var_info(&vi);
+  
+  if( local_nglobal )
+    {
+      keyword = " LOCAL";
+    }
+  else
+    {
+      keyword = " GLOBAL";
+    }
+  
   init_var_info(&vi);
   
   printf("\n%s:", __FUNCTION__);
   
-  if( scan_literal(" LOCAL") )
+  if( scan_literal(keyword) )
     {
       idx = cline_i;
       
       while( check_variable(&idx) )
 	{
-	  scan_variable(varname, &vi);
+	  scan_variable(varname, &vi, VAR_DECLARE);
 
-	  printf("\n%s: LOCAL variable:'%s'", __FUNCTION__, varname);
+	  printf("\n%s:%s variable:'%s'", __FUNCTION__, keyword, varname);
 	  print_var_info(&vi);
 	  
 	  idx = cline_i;
@@ -2470,11 +2538,6 @@ int scan_local(void)
   printf("\n%s:ret0", __FUNCTION__);
   return(0);
 }
-
-int scan_global(void)
-{
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -2513,7 +2576,7 @@ int scan_declare(void)
   
   if( check_literal(&idx, " LOCAL") )
     {
-      if( scan_local() )
+      if( scan_localglobal(SCAN_LOCAL) )
 	{
 	  printf("\n%s:ret 1", __FUNCTION__);
 	  return(1);
@@ -2528,7 +2591,7 @@ int scan_declare(void)
   
   if( check_literal(&idx, " GLOBAL") )
     {
-      if( scan_global() )
+      if( scan_localglobal(SCAN_GLOBAL) )
 	{
 	  printf("\n%s:ret 1", __FUNCTION__);
 	  return(1);
