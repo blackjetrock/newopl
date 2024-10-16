@@ -18,16 +18,25 @@
 #include "newopl.h"
 #include "nopl_obj.h"
 
+#include "parser.h"
+
 FILE *ofp;
 FILE *chkfp;
+
+// Reads next composite line into buffer
 
 char current_expression[200];
 int first_token = 1;
 
-#define MAX_EXP_TYPE_STACK  20
 
 NOBJ_VARTYPE exp_type_stack[MAX_EXP_TYPE_STACK];
 int exp_type_stack_ptr = 0;
+
+#define SAVE_I     1
+#define NO_SAVE_I  0
+
+#define VAR_REF      1
+#define VAR_DECLARE  0
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -112,7 +121,7 @@ int exp_buffer2_i = 0;
 ////////////////////////////////////////////////////////////////////////////////
 
 int token_is_operator(char *token, char **tokstr);
-int token_is_function(char *token, char **tokstr);
+
 void modify_expression_type(NOBJ_VARTYPE t);
 void op_stack_display(void);
 void op_stack_print(void);
@@ -276,6 +285,7 @@ int token_is_integer(char *token)
   return(all_digits);
 }
 
+#if 0
 // Variable if it ends in $ or %
 // Variable if not a function name
 // Variables have to be only alpha or alpha followed by alphanum
@@ -338,12 +348,14 @@ int token_is_variable(char *token)
 
   return(1);
 }
+#endif
+
 
 int token_is_string(char *token)
 {
   return( *token == '"' );
 }
-
+#if 0
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Information about functions.
@@ -494,74 +506,10 @@ struct _FN_INFO
 
 
 #define NUM_FUNCTIONS (sizeof(fn_info)/sizeof(struct _FN_INFO))
+#endif
 
-int token_is_function(char *token, char **tokstr)
-{
-  for(int i=0; i<NUM_FUNCTIONS; i++)
-    {
-      if( strcmp(token, fn_info[i].name) == 0 )
-	{
-	  *tokstr = &(fn_info[i].name[0]);
-	  
-	  fprintf(ofp,"\n%s is function", token);
-	  return(1);
-	}
-    }
-  return(0);
-}
 
-// Return the function return value type
-NOBJ_VARTYPE function_return_type(char *fname)
-{
-  char *rtype;
-  
-  for(int i=0; i<NUM_FUNCTIONS; i++)
-    {
-      if( strcmp(fname, fn_info[i].name) == 0 )
-	{
-	  rtype = fn_info[i].resulttype;
-	  
-	  fprintf(ofp, "\n%s: '%s' =>%c", __FUNCTION__, fname, *rtype);
-
-	  return(char_to_type(*rtype));
-	}
-    }
-  
-  return(NOBJ_VARTYPE_UNKNOWN);
-}
-
-// Return the function return value type
-int function_num_args(char *fname)
-{
-
-  for(int i=0; i<NUM_FUNCTIONS; i++)
-    {
-      if( strcmp(fname, fn_info[i].name) == 0 )
-	{
-	  return(strlen(fn_info[i].argtypes));
-	}
-    }
-  return(0);
-}
-
-NOBJ_VARTYPE function_arg_type_n(char *fname, int n)
-{
-  char *atypes;
-  
-  for(int i=0; i<NUM_FUNCTIONS; i++)
-    {
-      if( strcmp(fname, fn_info[i].name) == 0 )
-	{
-	  atypes = fn_info[i].argtypes;
-	  
-	  //fprintf(ofp, "\n%s: n:%d at:'%s' =>%c", __FUNCTION__, n, atypes, *(atypes+n));	  
-	  return(char_to_type(*(atypes+n)));
-	}
-    }
-  
-  return(NOBJ_VARTYPE_UNKNOWN);
-}
-
+#if 0
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Is this line a command?
@@ -622,6 +570,7 @@ char *scan_command(char *line, char *command_name)
   return(line);
 }
 
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -629,7 +578,7 @@ char *scan_command(char *line, char *command_name)
 // to minimise memory usage.
 //
 ////////////////////////////////////////////////////////////////////////////////
-
+#if 1
 int token_is_operator(char *token, char **tokstr)
 {
   for(int i=0; i<NUM_OPERATORS; i++)
@@ -673,6 +622,7 @@ int operator_left_assoc(char *token)
   
   return(0);
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -875,6 +825,7 @@ char type_to_char(NOBJ_VARTYPE t)
   return(c);
 }
 
+#if 0
 NOBJ_VARTYPE char_to_type(char ch)
 {
   NOBJ_VARTYPE ret_t = '?';
@@ -900,6 +851,7 @@ NOBJ_VARTYPE char_to_type(char ch)
 
   return(ret_t);
 }
+#endif
 
 //------------------------------------------------------------------------------
 //
@@ -2458,146 +2410,6 @@ int is_delimiter(char ch)
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//
-// Scan an expression.
-//
-// The expression (a string) is tokenised and each token is sent for processing
-//
-// 
-//
-////////////////////////////////////////////////////////////////////////////////
-
-int  scan_expression(char *line)
-{
-  char token[NOPL_MAX_TOKEN+1];
-  int i;
-  int op_delimiter = 0;
-  char cap_string[NOPL_MAX_TOKEN+1];
-  int capture_string = 0;
-  char ss[2];
-  int end_cap_later = 0;
-
-  dbprintf("*********************************",0);
-  dbprintf("Scanning '%s'", line);
-  
-  output_expression_start(line);
-    
-  // The type of an expression is initially unknown
-  expression_type = NOBJ_VARTYPE_UNKNOWN;
-    
-  // The line is tokenised and treated as an expression.
-  // The expression is converted to RPN and that generates the
-  // QCode.
-    
-  token[0] = '\0';
-  cap_string[0] ='\0';
-  
-#define DB_EXP 1
-  
-  while( *line != '\0' )
-    {
-      dbprintf("%s:  Line:'%s'", __FUNCTION__, line);
-
-      // Strings within quotes need to be able to have spaces in them.
-      // Otherwise white space is removed.
-
-      dbprintf("CapStrOn:%d CapStr:'%s' token:'%s'", capture_string, cap_string, token);
-      
-      while( isspace(*line) )
-	{
-	  ss[1] = '\0';
-	  ss[0] = *line;
-	  if( capture_string )
-	    {
-	      strcat(cap_string, ss);
-	    }
-
-	  line++;
-	}
-
-      op_delimiter = 0;
-
-      
-      while((strlen(token) < NOPL_MAX_TOKEN) && !(is_delimiter(*line)) && (*line != '\0') )
-	{
-	  dbprintf("CapStrOn:%d CapStr:'%s' token:'%s'", capture_string, cap_string, token);
-	  
-	  ss[1] = '\0';
-	  ss[0] = *line;
-	  strcat(token, ss);
-
-	  if( capture_string )
-	    {
-	      strcat(cap_string, ss);
-	    }
-	  
-	  line++;
-	}
-
-      if( capture_string )
-	{
-	  ss[0] = *line;
-	  strcat(cap_string, ss);
-	}
-
-      // If we see a double quote then we start captuing a literal string.
-      if( (*line) == '\"' )
-	{
-	  if( capture_string )
-	    {
-	      // End of string
-	      capture_string = 1;
-	      end_cap_later = 1;
-	      process_token(cap_string);
-	    }
-	  else
-	    {
-	      // Start of string
-	      cap_string[0] = *line;
-	      cap_string[1] = '\0';
-	      capture_string = 1;
-	    }
-	}
-      
-      if( is_op_delimiter(*(line)) )
-	{
-	  ss[1] = '\0';
-	  ss[0] = *(line);
-	  
-	  op_delimiter = 1;
-	}
-
-      line++;
-      
-      if( strlen(token) > 0 )
-	{
-	  if( !capture_string )
-	    {
-	      process_token(token);
-	    }
-	  token[0] = '\0';
-	}
-
-      
-      if( op_delimiter )
-	{
-	  dbprintf("is op_delimiter token:'%s'", ss);
-	  if( !capture_string )
-	    {
-	      process_token(ss);
-	    }
-	  token[0] = '\0';
-	}
-
-      if( end_cap_later )
-	{
-	  capture_string = 0;
-	  end_cap_later = 0;
-	}
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
 
 void finalise_expression(void)
 {
@@ -2605,130 +2417,136 @@ void finalise_expression(void)
   op_stack_finalise();
 }
 
-
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-// Lines are either:
-//
-// blank
-// comment
-// LOCAL <varlist>
-// GLOBAL <varlist>
-// <variable> = <expression>
-// <command> <expression>*
-// <expression>
-//
-////////////////////////////////////////////////////////////////////////////////
-
-void process_line(char *line)
+void dummy(void)
 {
-  // Process any expressions
-
-  // Separate expressions are delimited by ':'
-
-
-  if( strstr(line, "GLOBAL") != NULL )
-    {
-      fprintf(ofp, "\n%s: Global", __FUNCTION__);
-      output_qcode_variable(line);
-      return;
-    }
-
-  if( strstr(line, "LOCAL") != NULL )
-    {
-      fprintf(ofp, "\n%s: Local", __FUNCTION__);
-      output_qcode_variable(line);
-      return;
-    }
-
-  // We could have a command
-
-  if( check_command(line) )
-    {
-      fprintf(ofp, "\n%s: Command", __FUNCTION__);
-      
-      char command_name[100];
-      EXP_BUFFER_ENTRY command_entry;
-
-      fprintf(ofp, "\n%s: Line='%s'", __FUNCTION__, line);
-      line = scan_command(line, command_name);
-
-      fprintf(ofp, "\n%s: Line='%s'", __FUNCTION__, line);
-
-      // process the expression
-      dbprintf("COMMAND scan exp",0);
-      scan_expression(line);
-      dbprintf("COMMAND finalise exp",0);
-      finalise_expression();
-      
-      dbprintf("COMMAND process token",0);
-      // Add the command that will process the arguments (expression)
-      process_token(command_name);
-      finalise_expression();
-      
-      dbprintf("COMMAND process exp types",0);
-      process_expression_types();
-
-#if 0
-      // Put command after expression
-      sprintf(command_entry.name, command_name);
-      command_entry.buf_id = EXP_BUFF_ID_COMMAND;
-      command_entry.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
-      command_entry.p_idx = 2;
-      command_entry.p[0] = 0;
-      command_entry.p[1] = 0;
-      command_entry.op.type      = function_return_type(command_entry.name);
-      command_entry.op.req_type  = function_return_type(command_entry.name);
-#endif
-      return;
-    }
-
   // Assignment can be done using an expression
-  scan_expression(line);
+  scan_expression();
   finalise_expression();
   process_expression_types();
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+
 void translate_file(FILE *fp, FILE *ofp)
 {
   char line[MAX_NOPL_LINE+1];
+  int all_spaces = 0;
+  int n_lines_ok    = 0;
+  int n_lines_bad   = 0;
+  int n_lines_blank = 0;
+  int scanned_procdef = 0;
+  int done_declares = 0;
   
   // Read lines from file and translate each line as a unit
   // Lines are separated by cr or ':'
   
+  // read the file and tokenise each line
   while(!feof(fp) )
     {
-      if( fgets(line, MAX_NOPL_LINE, fp) == NULL )
+      if( !next_composite_line(fp) )
 	{
 	  break;
 	}
 
-      //printf("\nL:'%s'", line);
-
-      // Remove trailing newline
-      while( isspace(line[strlen(line)-1]) )
+      // Check it's not a line full of spaces
+      all_spaces = 1;
+      for(int i=0; i<strlen(cline); i++)
 	{
-	  line[strlen(line)-1] = '\0';
+	  if( !isspace(cline[i]) )
+	    {
+	      all_spaces = 0;
+	    }
+	}
+      
+      if( all_spaces )
+	{
+	  n_lines_blank++;
+	  continue;
+	}
+      
+      printf("\n=======================cline==========================");
+      printf("\n==%s==", cline);
+
+      // Recursive decent parse
+
+      if( !scanned_procdef )
+	{
+	  if( scan_procdef() )
+	    {
+	      scanned_procdef = 1;
+	      n_lines_ok++;
+	      printf("\ncline scanned OK");
+
+	      continue;
+	    }
+	  else
+	    {
+	      n_lines_bad++;
+	      printf("\ncline failed scan");
+	    }
 	}
 
-      //printf("\nL:'%s'", line);
-
-
-      if( defline )
+      // Variable declarations
+      if( !done_declares )
 	{
-	  // This is the definition of the procedure
-	  printf("\nProcedure definition:'%s'", line);
-	  defline = 0;
+	  int idx = cline_i;
+	  
+	  if( check_declare(&idx) )
+	    {
+	      if( scan_declare() )
+		{
+		  // All OK
+		}
+	      else
+		{
+		  syntax_error("Bad declaration");
+		}
+	      continue;
+	    }
+	  else
+	    {
+	      // Not a declaration so we are done with them
+	      done_declares = 1;
+	    }
+	}
+      
+      if( scan_cline() )
+	{
+	  n_lines_ok++;
+	  printf("\ncline scanned OK");
+	  
 	}
       else
 	{
-	  // Process line
-	  process_line(line);
-	  //process_token("EOL");
+	  n_lines_bad++;
+	  printf("\ncline failed scan");
 	}
     }
+
+  printf("\n");
+  printf("\n %d lines scanned Ok",       n_lines_ok);
+  printf("\n %d lines scanned failed",   n_lines_bad);
+  printf("\n %d lines blank",            n_lines_blank);
+  fclose(ofp);
+
+  printf("\n");
+
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+//
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 
 
 int main(int argc, char *argv[])
