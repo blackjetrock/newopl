@@ -304,8 +304,10 @@ OP_INFO  op_info[] =
 
 void print_var_info(NOBJ_VAR_INFO *vi)
 {
-  printf("\nVAR INFO: '%18s' int:%d flt:%d str:%d ary:%d max_str:%d max_ary:%d num_ind:%d",
+  printf("\nVAR INFO: '%18s' gbl:%d ref:%d int:%d flt:%d str:%d ary:%d max_str:%d max_ary:%d num_ind:%d",
  	 vi->name,
+	 vi->is_global,
+	 vi->is_ref,
 	 vi->is_integer,
 	 vi->is_float,
 	 vi->is_string,
@@ -319,6 +321,8 @@ void print_var_info(NOBJ_VAR_INFO *vi)
 void init_var_info(NOBJ_VAR_INFO *vi)
 {
   vi->name[0]     = '\0';
+  vi->is_global   = 0;
+  vi->is_ref      = 0;
   vi->is_integer  = 0;
   vi->is_float    = 0;
   vi->is_string   = 0;
@@ -896,6 +900,10 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
   printf("\n%s:", __FUNCTION__);
 
   init_var_info(vi);
+  vi->is_ref = ref_ndeclare;
+
+  // Default to local, this can be overridden for global later.
+  vi->is_global = 0;
   
   chstr[1] = '\0';
   
@@ -1579,9 +1587,10 @@ int scan_atom(void)
   if( check_variable(&idx) )
     {
       // Variable
-      
+      init_var_info(&vi);
       if(scan_variable(vname, &vi, VAR_REF))
 	{
+	  print_var_info(&vi);
 	  return(1);
 	}
       return(0);
@@ -1910,9 +1919,11 @@ int scan_assignment(void)
 
   init_var_info(&vi);
   printf("\n%s:", __FUNCTION__);
-  
+
   if( scan_variable(vname, &vi, VAR_REF) )
     {
+      print_var_info(&vi);
+      
       if( scan_literal(" =") )
 	{
 	  if( scan_expression() )
@@ -2504,18 +2515,21 @@ int scan_localglobal(int local_nglobal)
       keyword = " GLOBAL";
     }
   
-  init_var_info(&vi);
-  
   printf("\n%s:", __FUNCTION__);
   
   if( scan_literal(keyword) )
     {
       idx = cline_i;
-      
+
+
       while( check_variable(&idx) )
 	{
+	  init_var_info(&vi);
+	  
 	  scan_variable(varname, &vi, VAR_DECLARE);
-
+	  vi.is_global = !local_nglobal;
+	  vi.is_ref = 0;
+	  
 	  printf("\n%s:%s variable:'%s'", __FUNCTION__, keyword, varname);
 	  print_var_info(&vi);
 	  

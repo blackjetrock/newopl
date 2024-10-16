@@ -165,6 +165,8 @@ typedef struct _EXP_BUFFER_ENTRY
 typedef struct _NOBJ_VAR_INFO
 {
   char name[NOBJ_VARNAME_MAXLEN];
+  int is_global;
+  int is_ref;
   int is_array;
   int is_integer;
   int is_float;
