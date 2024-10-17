@@ -730,12 +730,13 @@ void drop_space(int *index)
 
 // Scan for a literal
 // Leading space means drop spaces before looking for the literal,
-// trailing mena sdrop spaces after finding it
+// trailing means drop spaces after finding it
 
 int scan_literal(char *lit)
 {
   char *origlit = lit;
-
+  OP_STACK_ENTRY op;
+  
   printf("\n%s:lit='%s' '%s'", __FUNCTION__, lit, &(cline[cline_i]));
   
   if( *lit == ' ' )
@@ -772,6 +773,10 @@ int scan_literal(char *lit)
     }
   
   // reached end of literal string , all ok
+
+  strcpy(op.name, lit);
+  process_token(&op);
+  
   return(1);
 }
 
@@ -922,6 +927,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
   char vname[300];
   char chstr[2];
   int idx = cline_i;
+  OP_STACK_ENTRY op;
   
   printf("\n%s:", __FUNCTION__);
 
@@ -1034,7 +1040,8 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 		     );
 	      
 	      strcpy(vi->name, vname);
-	      
+	      strcpy(op.name, vname);
+	      process_token(&op);
 	      return(1);
 	    }
 	}
@@ -1048,6 +1055,9 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	     );
       
       strcpy(vi->name, vname);
+      strcpy(op.name, vname);
+      process_token(&op);
+      
       return(1);
     }
   
@@ -1210,6 +1220,7 @@ int check_operator(int *index)
 int scan_operator(void)
 {
   int idx = cline_i;
+  OP_STACK_ENTRY op;
   
   printf("\n%s: '%s'", __FUNCTION__, cline_now(idx));
 
@@ -1229,6 +1240,8 @@ int scan_operator(void)
 	  // Match
 	  cline_i += strlen(op_info[i].name);
 	  printf("\n%s: ret1 '%s'", __FUNCTION__, cline_now(cline_i));
+	  strcpy(op.name, op_info[i].name);
+	  process_token(&op);
 	  return(1);
 	}
     }
@@ -1280,7 +1293,8 @@ int check_integer(int *index)
 int scan_integer(int *intdest)
 {
   int num_digits = 0;
-
+  OP_STACK_ENTRY op;
+  
   drop_space(&cline_i);
   
   printf("\n%s:", __FUNCTION__);
@@ -1304,6 +1318,13 @@ int scan_integer(int *intdest)
   if( num_digits > 0 )
     {
       printf("\n%s:ret1", __FUNCTION__);
+
+      strcpy(op.name, intval);
+
+      op.integer = *intdest;
+      op.type = NOBJ_VARTYPE_INT;
+      process_token(&op);
+
       return(1);
     }
 
@@ -1364,6 +1385,7 @@ int scan_float(char *fltdest)
   char chstr[2];
   int decimal_present = 0;
   int num_digits = 0;
+  OP_STACK_ENTRY op;
   
   drop_space(&cline_i);
   
@@ -1385,6 +1407,8 @@ int scan_float(char *fltdest)
   if( (num_digits > 0) &&  decimal_present )
     {
       printf("\n%s: ret1", __FUNCTION__);
+      strcpy(op.name, fltval);
+      process_token(&op);
       return(1);
     }
   
@@ -1452,6 +1476,7 @@ int scan_number(void)
 int check_sub_expr(int *index)
 {
   int idx = *index;
+
   
   printf("\n%s:", __FUNCTION__);
   
@@ -1469,13 +1494,21 @@ int check_sub_expr(int *index)
 
 int scan_sub_expr(void)
 {
+  OP_STACK_ENTRY op;
+  
   printf("\n%s:", __FUNCTION__);
   if( scan_literal(" (") )
     {
+      strcpy(op.name, "(");
+      process_token(&op);
+      
       if( scan_expression() )
 	{
 	  if( scan_literal(" )") )
 	    {
+	      strcpy(op.name, ")");
+	      process_token(&op);
+	      
 	      printf("\n%s:ret1", __FUNCTION__);
 	      return(1);
 	    }
@@ -1673,7 +1706,8 @@ int scan_eitem(void)
 {
   int idx = cline_i;
   char fnval[40];
-
+  OP_STACK_ENTRY op;
+  
   printf("\n%s:", __FUNCTION__);
   
   if( check_operator(&idx) )
@@ -1896,6 +1930,8 @@ int check_function(int *index)
 
 int scan_function(char *cmd_dest)
 {
+  OP_STACK_ENTRY op;
+  
   drop_space(&cline_i);
   
   printf("\n%s:", __FUNCTION__);
@@ -1906,6 +1942,8 @@ int scan_function(char *cmd_dest)
 	  // Match
 	  strcpy(cmd_dest, fn_info[i].name);
 	  cline_i += strlen(fn_info[i].name);
+	  strcpy(op.name, fn_info[i].name);
+	  process_token(&op);
 	  return(1);
 	}
     }

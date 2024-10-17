@@ -142,6 +142,7 @@ typedef struct _NOBJ_MACHINE
 typedef struct _OP_STACK_ENTRY
 {
   char           name[30];
+  NOBJ_INT       integer;
   NOBJ_VARTYPE   type;       // Original type
   NOBJ_VARTYPE   req_type;   // Required type
 } OP_STACK_ENTRY;

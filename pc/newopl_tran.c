@@ -2098,7 +2098,7 @@ NOBJ_VARTYPE exp_type_pop(void)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-void process_token(char *token)
+void process_token(OP_STACK_ENTRY *token)
 {
   char *tokptr;
   OP_STACK_ENTRY o1;
@@ -2107,7 +2107,8 @@ void process_token(char *token)
   
   fprintf(ofp, "\n   Frst:%d T:'%s'", first_token, token);
 
-  strcpy(o1.name, token);
+  o1 = *token;
+  //strcpy(o1.name, token);
   o1.type = expression_type;
   
   // Another token has arrived, process it using the shunting algorithm
@@ -2417,6 +2418,7 @@ void finalise_expression(void)
 {
   // Now finalise the translation
   op_stack_finalise();
+  process_expression_types();
 }
 
 void dummy(void)
@@ -2478,12 +2480,13 @@ void translate_file(FILE *fp, FILE *ofp)
 
       if( !scanned_procdef )
 	{
+	  output_expression_start(cline);
 	  if( scan_procdef() )
 	    {
 	      scanned_procdef = 1;
 	      n_lines_ok++;
 	      printf("\ncline scanned OK");
-
+	      finalise_expression();
 	      continue;
 	    }
 	  else
@@ -2500,6 +2503,7 @@ void translate_file(FILE *fp, FILE *ofp)
 	  
 	  if( check_declare(&idx) )
 	    {
+	      output_expression_start(cline);
 	      if( scan_declare() )
 		{
 		  // All OK
@@ -2508,6 +2512,7 @@ void translate_file(FILE *fp, FILE *ofp)
 		{
 		  syntax_error("Bad declaration");
 		}
+	      finalise_expression();	      
 	      continue;
 	    }
 	  else
@@ -2516,7 +2521,8 @@ void translate_file(FILE *fp, FILE *ofp)
 	      done_declares = 1;
 	    }
 	}
-      
+
+      output_expression_start(cline);
       if( scan_cline() )
 	{
 	  n_lines_ok++;
@@ -2528,6 +2534,7 @@ void translate_file(FILE *fp, FILE *ofp)
 	  n_lines_bad++;
 	  printf("\ncline failed scan");
 	}
+      finalise_expression();
     }
 
   printf("\n");
@@ -2569,6 +2576,9 @@ int main(int argc, char *argv[])
   
   translate_file(fp, ofp);
 
+  dump_exp_buffer();
+  dump_exp_buffer2();
+  
   fclose(fp);
   fclose(ofp);
   fclose(chkfp);
