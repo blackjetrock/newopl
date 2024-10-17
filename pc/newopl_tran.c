@@ -671,12 +671,12 @@ void output_qcode(void)
     {
       EXP_BUFFER_ENTRY token = exp_buffer2[i];
 
-      if( (exp_buffer2[i].buf_id < 0) || (exp_buffer2[i].buf_id > EXP_BUFF_ID_MAX) )
+      if( (exp_buffer2[i].op.buf_id < 0) || (exp_buffer2[i].op.buf_id > EXP_BUFF_ID_MAX) )
 	{
-	  printf("\nN%d buf_id invalid", token.node_id);
+	  printf("\nN%d op.buf_id invalid", token.node_id);
 	}
       
-      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
+      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
       
       fprintf(ofp, "  %d:", token.p_idx);
       for(int pi=0; pi<token.p_idx; pi++)
@@ -1060,7 +1060,7 @@ void clear_exp_buffer(void)
 void add_exp_buffer_entry(OP_STACK_ENTRY op, int id)
 {
   exp_buffer[exp_buffer_i].op = op;
-  exp_buffer[exp_buffer_i].buf_id = id;
+  exp_buffer[exp_buffer_i].op.buf_id = id;
   strcpy(&(exp_buffer[exp_buffer_i].name[0]), op.name);
   exp_buffer_i++;
 }
@@ -1068,7 +1068,7 @@ void add_exp_buffer_entry(OP_STACK_ENTRY op, int id)
 void add_exp_buffer2_entry(OP_STACK_ENTRY op, int id)
 {
   exp_buffer2[exp_buffer2_i].op = op;
-  exp_buffer2[exp_buffer2_i].buf_id = id;
+  exp_buffer2[exp_buffer2_i].op.buf_id = id;
   strcpy(&(exp_buffer2[exp_buffer2_i].name[0]), op.name);
   exp_buffer2_i++;
 }
@@ -1084,7 +1084,7 @@ void dump_exp_buffer(void)
     {
       EXP_BUFFER_ENTRY token = exp_buffer[i];
       
-      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer[i].buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer[i].name);
+      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer[i].name);
       
       fprintf(ofp, "  %d:", token.p_idx);
       for(int pi=0; pi<token.p_idx; pi++)
@@ -1107,12 +1107,12 @@ void dump_exp_buffer2(void)
     {
       EXP_BUFFER_ENTRY token = exp_buffer2[i];
 
-      if( (exp_buffer2[i].buf_id < 0) || (exp_buffer2[i].buf_id > EXP_BUFF_ID_MAX) )
+      if( (exp_buffer2[i].op.buf_id < 0) || (exp_buffer2[i].op.buf_id > EXP_BUFF_ID_MAX) )
 	{
-	  printf("\nN%d buf_id invalid", token.node_id);
+	  printf("\nN%d op.buf_id invalid", token.node_id);
 	}
       
-      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
+      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
       
       fprintf(ofp, "  %d:", token.p_idx);
       for(int pi=0; pi<token.p_idx; pi++)
@@ -1269,7 +1269,7 @@ char *infix_from_rpn(void)
       
       be = exp_buffer2[i];
 
-      switch(be.buf_id)
+      switch(be.op.buf_id)
 	{
 	case EXP_BUFF_ID_VARIABLE:
 	case EXP_BUFF_ID_INTEGER:
@@ -1351,7 +1351,7 @@ void typecheck_expression(void)
   // differentiate it from the equality token.
 
   // If first token is a variable
-  if( exp_buffer[0].buf_id ==  EXP_BUFF_ID_VARIABLE)
+  if( exp_buffer[0].op.buf_id ==  EXP_BUFF_ID_VARIABLE)
     {
       // and the last token is an '=', then this is an assignment
       if( strcmp(exp_buffer[exp_buffer_i-1].name, "=") == 0 )
@@ -1374,7 +1374,7 @@ void typecheck_expression(void)
       
       fprintf(ofp, "\n BE:%s", be.name);
 		  
-      switch(be.buf_id)
+      switch(be.op.buf_id)
 	{
 	  // Not used
 	case EXP_BUFF_ID_TKN:
@@ -1411,7 +1411,7 @@ void typecheck_expression(void)
 	  
 	  // Now insert auto convert nodes if required
 
-	  autocon.buf_id = EXP_BUFF_ID_AUTOCON;
+	  autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
 
 	  autocon.p_idx = 0;
 	  //	  autocon.p[0] = op1.node_id;
@@ -1609,7 +1609,7 @@ void typecheck_expression(void)
 				  // Push dummy result
 				  
 				  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.req_type));
-				  autocon.buf_id = EXP_BUFF_ID_AUTOCON;
+				  autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
 				  autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
 				  autocon.p_idx = 2;
 				  autocon.p[0] = op1.node_id;
@@ -1667,7 +1667,7 @@ void typecheck_expression(void)
 			  
 			  // Now insert auto convert nodes if required
 			  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.req_type));
-			  autocon.buf_id = EXP_BUFF_ID_AUTOCON;
+			  autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
 			  autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
 			  autocon.p_idx = 2;
 			  autocon.p[0] = op1.node_id;
@@ -1723,7 +1723,7 @@ void typecheck_expression(void)
       if( !copied )
 	{
 	  exp_buffer2[exp_buffer2_i++] = be;
-	  //add_exp_buffer2_entry(be.op, be.buf_id);
+	  //add_exp_buffer2_entry(be.op, be.op.buf_id);
 	}
 
       type_check_stack_display();
@@ -1771,6 +1771,15 @@ char *type_stack_str(void)
     }
   strcat(tss, ")]");
   return(tss);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void init_op_stack_entry(OP_STACK_ENTRY *op)
+{
+  op->buf_id = EXP_BUFF_ID_NONE;
+  op->name[0] = '\0';
+  
 }
 
 void output_float(OP_STACK_ENTRY token)
@@ -1822,6 +1831,13 @@ void output_string(OP_STACK_ENTRY op)
   printf("\nop string");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_STR);
+}
+
+void output_proc_call(OP_STACK_ENTRY op)
+{
+  printf("\nop proc call");
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  add_exp_buffer_entry(op, EXP_BUFF_ID_PROC_CALL);
 }
 
 // Markers used as comments, and hints
@@ -2093,7 +2109,7 @@ NOBJ_VARTYPE exp_type_pop(void)
 //
 // This converts the infix expression (as in OPL) to an RPN expression.
 // All OPL statements are treated as expressions. This works well with the
-// QCode assignment operator, and OPL functions and statements (functions
+// QCode assignment operator, and OPL functions and commands (functions
 // with no return value)
 //
 ////////////////////////////////////////////////////////////////////////////////
@@ -2105,7 +2121,7 @@ void process_token(OP_STACK_ENTRY *token)
   OP_STACK_ENTRY o2;
   int opr1, opr2;
   
-  fprintf(ofp, "\n   Frst:%d T:'%s'", first_token, token);
+  fprintf(ofp, "\n   Frst:%d T:'%s'", first_token, token->name);
 
   o1 = *token;
   //strcpy(o1.name, token);
@@ -2229,6 +2245,17 @@ void process_token(OP_STACK_ENTRY *token)
       op_stack_push(o1);
       first_token = 0;
       return;
+    }
+
+  switch( o1.buf_id )
+    {
+    case EXP_BUFF_ID_PROC_CALL:
+
+      // Parser supplies type
+      o1.req_type = expression_type;
+      output_proc_call(o1);
+      break;
+      
     }
   
   if( token_is_float(o1.name) )
@@ -2436,13 +2463,14 @@ void dummy(void)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+int n_lines_ok    = 0;
+int n_lines_bad   = 0;
+int n_lines_blank = 0;
+
 void translate_file(FILE *fp, FILE *ofp)
 {
   char line[MAX_NOPL_LINE+1];
   int all_spaces = 0;
-  int n_lines_ok    = 0;
-  int n_lines_bad   = 0;
-  int n_lines_blank = 0;
   int scanned_procdef = 0;
   int done_declares = 0;
   
@@ -2480,13 +2508,13 @@ void translate_file(FILE *fp, FILE *ofp)
 
       if( !scanned_procdef )
 	{
-	  output_expression_start(cline);
+	  //output_expression_start(cline);
 	  if( scan_procdef() )
 	    {
 	      scanned_procdef = 1;
 	      n_lines_ok++;
 	      printf("\ncline scanned OK");
-	      finalise_expression();
+	      //finalise_expression();
 	      continue;
 	    }
 	  else
@@ -2503,7 +2531,7 @@ void translate_file(FILE *fp, FILE *ofp)
 	  
 	  if( check_declare(&idx) )
 	    {
-	      output_expression_start(cline);
+	      //output_expression_start(cline);
 	      if( scan_declare() )
 		{
 		  // All OK
@@ -2512,7 +2540,7 @@ void translate_file(FILE *fp, FILE *ofp)
 		{
 		  syntax_error("Bad declaration");
 		}
-	      finalise_expression();	      
+	      //finalise_expression();	      
 	      continue;
 	    }
 	  else
@@ -2522,7 +2550,7 @@ void translate_file(FILE *fp, FILE *ofp)
 	    }
 	}
 
-      output_expression_start(cline);
+
       if( scan_cline() )
 	{
 	  n_lines_ok++;
@@ -2534,14 +2562,9 @@ void translate_file(FILE *fp, FILE *ofp)
 	  n_lines_bad++;
 	  printf("\ncline failed scan");
 	}
-      finalise_expression();
+
     }
 
-  printf("\n");
-  printf("\n %d lines scanned Ok",       n_lines_ok);
-  printf("\n %d lines scanned failed",   n_lines_bad);
-  printf("\n %d lines blank",            n_lines_blank);
-  printf("\n");
 
 }
 
@@ -2561,6 +2584,8 @@ int main(int argc, char *argv[])
   FILE *fp;
   FILE *ofp;
 
+  parser_check();]
+  
   init_output();
   
   // Open file and process on a line by line basis
@@ -2584,6 +2609,12 @@ int main(int argc, char *argv[])
   fclose(chkfp);
   
   uninit_output();
+
+  printf("\n");
+  printf("\n %d lines scanned Ok",       n_lines_ok);
+  printf("\n %d lines scanned failed",   n_lines_bad);
+  printf("\n %d lines blank",            n_lines_blank);
+  printf("\n");
 
   printf("\n");
   

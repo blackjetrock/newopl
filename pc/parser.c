@@ -46,6 +46,7 @@ char *exp_buffer_id_str[] =
   {
     "EXP_BUFF_ID_???",
     "EXP_BUFF_ID_TKN",
+    "EXP_BUFF_ID_NONE",
     "EXP_BUFF_ID_SUB_START",
     "EXP_BUFF_ID_SUB_END",
     "EXP_BUFF_ID_VARIABLE",
@@ -56,8 +57,11 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_OPERATOR",
     "EXP_BUFF_ID_AUTOCON",
     "EXP_BUFF_ID_COMMAND",
+    "EXP_BUFF_ID_PROC_CALL",
     "EXP_BUFF_ID_MAX",
   };
+
+#define NUM_BUFF_ID (sizeof(exp_buffer_id_str) / sizeof(char *))
 
 
 #if 0
@@ -526,7 +530,7 @@ NOBJ_VARTYPE char_to_type(char ch)
 
 // String display of type stack
 
-char tss[40];
+//char tss[40];
 
 #if 0
 char *type_stack_str(void)
@@ -616,7 +620,7 @@ void output_sub_start(void)
 {
 #if 1
   OP_STACK_ENTRY op;
-  
+
   printf("\nSub expression start");
   fprintf(ofp, "\n(%16s)", __FUNCTION__);
 
@@ -736,6 +740,8 @@ int scan_literal(char *lit)
 {
   char *origlit = lit;
   OP_STACK_ENTRY op;
+
+  init_op_stack_entry(&op);
   
   printf("\n%s:lit='%s' '%s'", __FUNCTION__, lit, &(cline[cline_i]));
   
@@ -774,7 +780,7 @@ int scan_literal(char *lit)
   
   // reached end of literal string , all ok
 
-  strcpy(op.name, lit);
+  strcpy(op.name, origlit);
   process_token(&op);
   
   return(1);
@@ -928,6 +934,8 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
   char chstr[2];
   int idx = cline_i;
   OP_STACK_ENTRY op;
+
+  init_op_stack_entry(&op);
   
   printf("\n%s:", __FUNCTION__);
 
@@ -1221,6 +1229,8 @@ int scan_operator(void)
 {
   int idx = cline_i;
   OP_STACK_ENTRY op;
+
+  init_op_stack_entry(&op);
   
   printf("\n%s: '%s'", __FUNCTION__, cline_now(idx));
 
@@ -1294,6 +1304,8 @@ int scan_integer(int *intdest)
 {
   int num_digits = 0;
   OP_STACK_ENTRY op;
+
+  init_op_stack_entry(&op);
   
   drop_space(&cline_i);
   
@@ -1386,6 +1398,8 @@ int scan_float(char *fltdest)
   int decimal_present = 0;
   int num_digits = 0;
   OP_STACK_ENTRY op;
+
+  init_op_stack_entry(&op);
   
   drop_space(&cline_i);
   
@@ -1495,6 +1509,8 @@ int check_sub_expr(int *index)
 int scan_sub_expr(void)
 {
   OP_STACK_ENTRY op;
+
+  init_op_stack_entry(&op);
   
   printf("\n%s:", __FUNCTION__);
   if( scan_literal(" (") )
@@ -1570,6 +1586,10 @@ int scan_string(void)
 {
   char chstr[2];
   char strval[300];
+  OP_STACK_ENTRY op;
+
+  init_op_stack_entry(&op);
+  
   printf("\n%s:", __FUNCTION__);
 
   strval[0] = '\0';
@@ -1592,6 +1612,8 @@ int scan_string(void)
 	{
 	  cline_i++;
 	  printf("\n%s: ret1", __FUNCTION__);
+	  strcpy(op.name, strval);
+	  process_token(&op);
 	  return(1);
 	}
     }
@@ -1702,11 +1724,15 @@ int check_eitem(int *index)
   return(0);
 }
 
+//------------------------------------------------------------------------------
+
 int scan_eitem(void)
 {
   int idx = cline_i;
   char fnval[40];
   OP_STACK_ENTRY op;
+
+  init_op_stack_entry(&op);
   
   printf("\n%s:", __FUNCTION__);
   
@@ -1931,6 +1957,8 @@ int check_function(int *index)
 int scan_function(char *cmd_dest)
 {
   OP_STACK_ENTRY op;
+
+  init_op_stack_entry(&op);
   
   drop_space(&cline_i);
   
@@ -2004,10 +2032,15 @@ int scan_assignment(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int check_textlabel(int *index)
+int check_textlabel(int *index, char *label_dest)
 {
   int idx = *index;
+  char chstr[2];
 
+  chstr[1] = '\0';
+  
+  *label_dest = '\0';
+  
   drop_space(&idx);
   
   printf("\n%s: '%s'", __FUNCTION__, &(cline[idx]));
@@ -2022,6 +2055,8 @@ int check_textlabel(int *index)
 
   while( (cline[idx] != ':') && (cline[idx] != '\0') && (cline[idx] != ' ') )
     {
+      chstr[0] = cline[idx];
+      strcat(label_dest, chstr);
       idx++;
     }
 
@@ -2039,9 +2074,11 @@ int check_textlabel(int *index)
 int check_label(int *index)
 {
   int idx = *index;
-
+  char textlabel[NOBJ_VARNAME_MAXLEN+1];
+  
   printf("\n%s:", __FUNCTION__);
-  if( check_textlabel(&idx))
+  
+  if( check_textlabel(&idx, textlabel))
     {
       if( check_literal(&idx, "::") )
 	{
@@ -2058,9 +2095,10 @@ int check_label(int *index)
 int scan_label(void)
 {
   int idx = cline_i;
+  char textlabel[NOBJ_VARNAME_MAXLEN+1];
 
-  printf("\n%s:", __FUNCTION__);
-  if( check_textlabel(&idx))
+ printf("\n%s:", __FUNCTION__);
+  if( check_textlabel(&idx, textlabel))
     {
       cline_i = idx;
       
@@ -2080,9 +2118,10 @@ int scan_label(void)
 int check_proc_call(int *index)
 {
   int idx = *index;
+  char textlabel[NOBJ_VARNAME_MAXLEN+1];
 
   printf("\n%s:", __FUNCTION__);
-  if( check_textlabel(&idx))
+  if( check_textlabel(&idx, textlabel))
     {
       if( check_literal(&idx, ":") )
 	{
@@ -2115,27 +2154,40 @@ int check_proc_call(int *index)
 int scan_proc_call(void)
 {
   int idx = cline_i;
-
+  OP_STACK_ENTRY op;
+  char textlabel[NOBJ_VARNAME_MAXLEN+1];
+  
+  init_op_stack_entry(&op);
+  
   printf("\n%s:", __FUNCTION__);
-  if( check_textlabel(&idx))
+  if( check_textlabel(&idx, textlabel))
     {
       cline_i = idx;
       
       if( scan_literal(":") )
 	{
 	  printf("\n%s:ret1", __FUNCTION__);
+	  op.type = NOBJ_VARTYPE_FLT;
+	  strcpy(op.name, textlabel);
+	  process_token(&op);
 	  return(1);
 	}
 
       if( scan_literal("%:") )
 	{
 	  printf("\n%s:ret1", __FUNCTION__);
+	  op.type = NOBJ_VARTYPE_INT;
+	  strcpy(op.name, textlabel);
+	  process_token(&op);
 	  return(1);
 	}
 
       if( scan_literal("$:") )
 	{
 	  printf("\n%s:ret1", __FUNCTION__);
+	  op.type = NOBJ_VARTYPE_STR;
+	  strcpy(op.name, textlabel);
+	  process_token(&op);
 	  return(1);
 	}
     }
@@ -2289,6 +2341,8 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," GOTO"))
     {
+      char textlabel[NOBJ_VARNAME_MAXLEN+1];
+      
       if( check_label(&idx) )
 	{
 	  printf("\n%s:ret1", __FUNCTION__);
@@ -2486,14 +2540,19 @@ int scan_cline(void)
     {
       printf("\n%s: Checked len=%ld, '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
       //cline_i = idx;
-      
+
+      output_expression_start(cline);
       if( !scan_line() )
 	{
+	  finalise_expression();
+	  
 	  printf("\n%s: scan_line==0 len=%ld '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
 	  syntax_error("Syntax error in line");
 	  return(0);
 	}
 
+      finalise_expression();
+      
       idx = cline_i;
       
       drop_space(&idx);
@@ -2537,9 +2596,10 @@ int scan_cline(void)
 int scan_procdef(void)
 {
   int idx = cline_i;
-
+  char textlabel[NOBJ_VARNAME_MAXLEN+1];
+  
   printf("\n%s:", __FUNCTION__);
-  if( check_textlabel(&idx))
+  if( check_textlabel(&idx, textlabel))
     {
       cline_i = idx;
       
@@ -2684,3 +2744,7 @@ int scan_declare(void)
   return(0);
 }
 
+void parser_check(void)
+{
+  assert( NUM_BUFF_ID == EXP_BUF_ID_MAX);
+}

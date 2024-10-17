@@ -18,6 +18,11 @@ int token_is_integer(char *token);
 int token_is_variable(char *token);
 int token_is_string(char *token);
 
+void finalise_expression(void);
+void output_expression_start(char *expr);
+void process_token(OP_STACK_ENTRY *token);
+
+
 NOBJ_VARTYPE char_to_type(char ch);
 char type_to_char(NOBJ_VARTYPE t);
 extern NOBJ_VARTYPE expression_type;
@@ -36,6 +41,7 @@ extern char current_expression[200];
 enum
   {
     EXP_BUFF_ID_TKN = 1,
+    EXP_BUFF_ID_NONE,
     EXP_BUFF_ID_SUB_START,
     EXP_BUFF_ID_SUB_END,
     EXP_BUFF_ID_VARIABLE,
@@ -46,6 +52,7 @@ enum
     EXP_BUFF_ID_OPERATOR,
     EXP_BUFF_ID_AUTOCON,
     EXP_BUFF_ID_COMMAND,
+    EXP_BUFF_ID_PROC_CALL,
     EXP_BUFF_ID_MAX,
   };
 
@@ -77,3 +84,5 @@ extern int num_operators(void);
 
 //#define NUM_OPERATORS (sizeof(op_info)/sizeof(struct _OP_INFO))
 #define NUM_OPERATORS num_operators()
+
+void init_op_stack_entry(OP_STACK_ENTRY *op);

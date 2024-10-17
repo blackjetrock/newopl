@@ -142,6 +142,7 @@ typedef struct _NOBJ_MACHINE
 typedef struct _OP_STACK_ENTRY
 {
   char           name[30];
+  int            buf_id;
   NOBJ_INT       integer;
   NOBJ_VARTYPE   type;       // Original type
   NOBJ_VARTYPE   req_type;   // Required type
@@ -154,7 +155,6 @@ typedef struct _EXP_BUFFER_ENTRY
 {
   char name[40];
   OP_STACK_ENTRY op;
-  int buf_id;
   int node_id;
   int p_idx;
   int p[MAX_EXP_BUF_P];
