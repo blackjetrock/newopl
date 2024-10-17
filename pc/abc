@@ -253,7 +253,7 @@ init_get_name:'e$'
 init_get_name:'e$'
 get_name:gn:'e$'
 op variable
-scan_localglobal: LOCAL variable:'8tçü'
+scan_localglobal: LOCAL variable:''
 VAR INFO: '                e$' gbl:0 ref:0 int:0 flt:0 str:1 ary:0 max_str:2 max_ary:0 num_ind:1
 check_literal:lit=' ,' idx=11 '
 '
@@ -351,7 +351,7 @@ init_get_name:'a%'
 init_get_name:'a%'
 get_name:gn:'a%'
 op variable
-scan_localglobal: LOCAL variable:'8tçü'
+scan_localglobal: LOCAL variable:''
 VAR INFO: '                a%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=8 ',b%,b1%,c%,c1%,x%,y%,i%,sc%
 '
@@ -408,7 +408,7 @@ init_get_name:'b%'
 init_get_name:'b%'
 get_name:gn:'b%'
 op variable
-scan_localglobal: LOCAL variable:'8tçü'
+scan_localglobal: LOCAL variable:''
 VAR INFO: '                b%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=11 ',b1%,c%,c1%,x%,y%,i%,sc%
 '
@@ -465,7 +465,7 @@ init_get_name:'b1%'
 init_get_name:'b1%'
 get_name:gn:'b1%'
 op variable
-scan_localglobal: LOCAL variable:'8tçü'
+scan_localglobal: LOCAL variable:''
 VAR INFO: '               b1%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=15 ',c%,c1%,x%,y%,i%,sc%
 '
@@ -522,7 +522,7 @@ init_get_name:'c%'
 init_get_name:'c%'
 get_name:gn:'c%'
 op variable
-scan_localglobal: LOCAL variable:'8tçü'
+scan_localglobal: LOCAL variable:''
 VAR INFO: '                c%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=18 ',c1%,x%,y%,i%,sc%
 '
@@ -579,7 +579,7 @@ init_get_name:'c1%'
 init_get_name:'c1%'
 get_name:gn:'c1%'
 op variable
-scan_localglobal: LOCAL variable:'8tçü'
+scan_localglobal: LOCAL variable:''
 VAR INFO: '               c1%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=22 ',x%,y%,i%,sc%
 '
@@ -636,7 +636,7 @@ init_get_name:'x%'
 init_get_name:'x%'
 get_name:gn:'x%'
 op variable
-scan_localglobal: LOCAL variable:'8tçü'
+scan_localglobal: LOCAL variable:''
 VAR INFO: '                x%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=25 ',y%,i%,sc%
 '
@@ -693,7 +693,7 @@ init_get_name:'y%'
 init_get_name:'y%'
 get_name:gn:'y%'
 op variable
-scan_localglobal: LOCAL variable:'8tçü'
+scan_localglobal: LOCAL variable:''
 VAR INFO: '                y%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=28 ',i%,sc%
 '
@@ -750,7 +750,7 @@ init_get_name:'i%'
 init_get_name:'i%'
 get_name:gn:'i%'
 op variable
-scan_localglobal: LOCAL variable:'8tçü'
+scan_localglobal: LOCAL variable:''
 VAR INFO: '                i%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=31 ',sc%
 '
@@ -809,7 +809,7 @@ init_get_name:'sc%'
 init_get_name:'sc%'
 get_name:gn:'sc%'
 op variable
-scan_localglobal: LOCAL variable:'8tçü'
+scan_localglobal: LOCAL variable:''
 VAR INFO: '               sc%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=35 '
 '
@@ -1027,7 +1027,7 @@ scan_command:
 ------------------
 Operator Stack     (1)
 
-000: CURSOR type:63
+000: CURSOR type:17
 ------------------
 
 check_onoff: ' OFF
@@ -1071,7 +1071,7 @@ Type Check Stack     (0)
 ------------------
 Type Check Stack     (1)
 
-000: '000' type:63
+000: '000' type:17
 ------------------
 
 check_literal:lit=':' idx=17 'OFF
@@ -1797,7 +1797,9 @@ check_integer: '4)+CHR$(6)
 '
 check_integer:ret1
 scan_integer:
-scan_integer:ret0
+scan_integer:ret1
+op integer
+scan_integer:ret1  4
 check_eitem: ')+CHR$(6)
 '
 check_operator: )+CHR$(6)
@@ -2214,7 +2216,9 @@ check_integer: '6)
 '
 check_integer:ret1
 scan_integer:
-scan_integer:ret0
+scan_integer:ret1
+op integer
+scan_integer:ret1  6
 check_eitem: ')
 '
 check_operator: )
@@ -2370,6 +2374,589 @@ Type Check Stack     (1)
 ------------------
 
 ------------------
+Type Check Stack     (2)
+
+000: 'e$' type:2
+001: '4' type:0
+------------------
+
+------------------
+Type Check Stack     (1)
+
+000: 'e$' type:2
+------------------
+
+------------------
+Type Check Stack     (2)
+
+000: 'e$' type:2
+001: '000' type:0
+------------------
+
+------------------
+Type Check Stack     (3)
+
+000: 'e$' type:2
+001: '000' type:0
+002: '6' type:0
+------------------
+
+------------------
+Type Check Stack     (2)
+
+000: 'e$' type:2
+001: '000' type:0
+------------------
+
+------------------
+Type Check Stack     (3)
+
+000: 'e$' type:2
+001: '000' type:0
+002: '000' type:0
+------------------
+
+------------------
+Type Check Stack     (2)
+
+000: 'e$' type:2
+001: '000' type:0
+------------------
+
+------------------
+Type Check Stack     (1)
+
+000: 'e$' type:2
+------------------
+
+------------------
+Type Check Stack     (2)
+
+000: 'e$' type:2
+001: '000' type:0
+------------------
+
+------------------
+Type Check Stack     (1)
+
+000: 'e$' type:2
+------------------
+
+------------------
+Type Check Stack     (0)
+
+------------------
+
+------------------
+Type Check Stack     (1)
+
+000: '000' type:2
+------------------
+
+check_literal:lit=':' idx=19 ''
+check_literal:After drop space:':' idx=19 ''
+check_literal  ret0 Empty test string
+cline scanned OK
+=======================cline==========================
+==b%=20 :c%=12 :x%=3 :y%=1
+==
+scan_cline:
+check_line:
+check_assignment:
+check_variable:
+check_vname 'b%=20 :c%=12 :x%=3 :y%=1
+':
+check_vname ret1 '%=20 :c%=12 :x%=3 :y%=1
+':
+check_variable: '%=20 :c%=12 :x%=3 :y%=1
+'
+check_variable: Ary test '=20 :c%=12 :x%=3 :y%=1
+'
+check_literal:lit='(' idx=2 '=20 :c%=12 :x%=3 :y%=1
+'
+check_literal:After drop space:'(' idx=2 '=20 :c%=12 :x%=3 :y%=1
+'
+  '(' != '='
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_literal:lit=' =' idx=2 '=20 :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'=' idx=2 '=20 :c%=12 :x%=3 :y%=1
+'
+check_literal:After while():20 :c%=12 :x%=3 :y%=1
+
+check_literal:ret1 
+check_expression: '20 :c%=12 :x%=3 :y%=1
+'
+check_eitem: '20 :c%=12 :x%=3 :y%=1
+'
+check_operator: 20 :c%=12 :x%=3 :y%=1
+
+check_literal:lit=',' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+check_literal:After drop space:',' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+  ',' != '2'
+check_literal: ret0
+check_operator:ret0
+check_function: '20 :c%=12 :x%=3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+  '%' != '2'
+check_literal: ret0
+check_literal:lit=' "' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+  '"' != '2'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '20 :c%=12 :x%=3 :y%=1
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: ' :c%=12 :x%=3 :y%=1
+'
+check_operator:  :c%=12 :x%=3 :y%=1
+
+check_literal:lit=',' idx=6 ':c%=12 :x%=3 :y%=1
+'
+check_literal:After drop space:',' idx=6 ':c%=12 :x%=3 :y%=1
+'
+  ',' != ':'
+check_literal: ret0
+check_operator:ret0
+check_function: ':c%=12 :x%=3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=5 ' :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=6 ':c%=12 :x%=3 :y%=1
+'
+  '%' != ':'
+check_literal: ret0
+check_literal:lit=' "' idx=5 ' :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=6 ':c%=12 :x%=3 :y%=1
+'
+  '"' != ':'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ':c%=12 :x%=3 :y%=1
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ':c%=12 :x%=3 :y%=1
+':
+check_vname ret0 ':c%=12 :x%=3 :y%=1
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' idx=5 ' :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'(' idx=6 ':c%=12 :x%=3 :y%=1
+'
+  '(' != ':'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ' :c%=12 :x%=3 :y%=1
+'
+check_assignment:ret1
+check_line:ret1
+scan_cline: Checked len=20, ' :c%=12 :x%=3 :y%=1
+'
+Expression start
+scan_line:
+check_assignment:
+check_variable:
+check_vname 'b%=20 :c%=12 :x%=3 :y%=1
+':
+check_vname ret1 '%=20 :c%=12 :x%=3 :y%=1
+':
+check_variable: '%=20 :c%=12 :x%=3 :y%=1
+'
+check_variable: Ary test '=20 :c%=12 :x%=3 :y%=1
+'
+check_literal:lit='(' idx=2 '=20 :c%=12 :x%=3 :y%=1
+'
+check_literal:After drop space:'(' idx=2 '=20 :c%=12 :x%=3 :y%=1
+'
+  '(' != '='
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_literal:lit=' =' idx=2 '=20 :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'=' idx=2 '=20 :c%=12 :x%=3 :y%=1
+'
+check_literal:After while():20 :c%=12 :x%=3 :y%=1
+
+check_literal:ret1 
+check_expression: '20 :c%=12 :x%=3 :y%=1
+'
+check_eitem: '20 :c%=12 :x%=3 :y%=1
+'
+check_operator: 20 :c%=12 :x%=3 :y%=1
+
+check_literal:lit=',' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+check_literal:After drop space:',' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+  ',' != '2'
+check_literal: ret0
+check_operator:ret0
+check_function: '20 :c%=12 :x%=3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+  '%' != '2'
+check_literal: ret0
+check_literal:lit=' "' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+  '"' != '2'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '20 :c%=12 :x%=3 :y%=1
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: ' :c%=12 :x%=3 :y%=1
+'
+check_operator:  :c%=12 :x%=3 :y%=1
+
+check_literal:lit=',' idx=6 ':c%=12 :x%=3 :y%=1
+'
+check_literal:After drop space:',' idx=6 ':c%=12 :x%=3 :y%=1
+'
+  ',' != ':'
+check_literal: ret0
+check_operator:ret0
+check_function: ':c%=12 :x%=3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=5 ' :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=6 ':c%=12 :x%=3 :y%=1
+'
+  '%' != ':'
+check_literal: ret0
+check_literal:lit=' "' idx=5 ' :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=6 ':c%=12 :x%=3 :y%=1
+'
+  '"' != ':'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ':c%=12 :x%=3 :y%=1
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ':c%=12 :x%=3 :y%=1
+':
+check_vname ret0 ':c%=12 :x%=3 :y%=1
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' idx=5 ' :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'(' idx=6 ':c%=12 :x%=3 :y%=1
+'
+  '(' != ':'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ' :c%=12 :x%=3 :y%=1
+'
+check_assignment:ret1
+scan_assignment:
+scan_variable:
+scan_vname: 'b%=20 :c%=12 :x%=3 :y%=1
+'
+scan_vname: ret1 'b'
+scan_variable: '%=20 :c%=12 :x%=3 :y%=1
+' vname='b'
+scan_variable: Ary test '=20 :c%=12 :x%=3 :y%=1
+'
+check_literal:lit='(' idx=2 '=20 :c%=12 :x%=3 :y%=1
+'
+check_literal:After drop space:'(' idx=2 '=20 :c%=12 :x%=3 :y%=1
+'
+  '(' != '='
+check_literal: ret0
+scan_variable:ret1 vname='b%' is str:0 int:1 flt:0 ary:0
+A
+B
+C last:%
+D
+init_get_name:'b%'
+init_get_name:'b%'
+get_name:gn:'b%'
+op variable
+VAR INFO: '                b%' gbl:0 ref:1 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
+scan_literal:lit=' =' '=20 :c%=12 :x%=3 :y%=1
+'
+scan_literal:After drop space:=20 :c%=12 :x%=3 :y%=1
+
+scan_literal:while loop:=20 :c%=12 :x%=3 :y%=1
+
+= is operator
+Token is operator o1 name:= o2 name:
+opr1:1 opr2:0
+------------------
+Operator Stack     (1)
+
+000: = type:0
+------------------
+
+scan_expression: '20 :c%=12 :x%=3 :y%=1
+'
+check_eitem: '20 :c%=12 :x%=3 :y%=1
+'
+check_operator: 20 :c%=12 :x%=3 :y%=1
+
+check_literal:lit=',' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+check_literal:After drop space:',' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+  ',' != '2'
+check_literal: ret0
+check_operator:ret0
+check_function: '20 :c%=12 :x%=3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+  '%' != '2'
+check_literal: ret0
+check_literal:lit=' "' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+  '"' != '2'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '20 :c%=12 :x%=3 :y%=1
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+scan_eitem:
+check_operator: 20 :c%=12 :x%=3 :y%=1
+
+check_literal:lit=',' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+check_literal:After drop space:',' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+  ',' != '2'
+check_literal: ret0
+check_operator:ret0
+check_function: '20 :c%=12 :x%=3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+  '%' != '2'
+check_literal: ret0
+check_literal:lit=' "' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+  '"' != '2'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '20 :c%=12 :x%=3 :y%=1
+'
+check_integer:ret1
+check_number: ret1
+scan_atom:
+check_literal:lit=' %' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+  '%' != '2'
+check_literal: ret0
+check_literal:lit=' "' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=3 '20 :c%=12 :x%=3 :y%=1
+'
+  '"' != '2'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '20 :c%=12 :x%=3 :y%=1
+'
+check_integer:ret1
+check_number: ret1
+scan_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '20 :c%=12 :x%=3 :y%=1
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret1
+= is operator
+op integer
+scan_integer:ret1  20
+check_eitem: ' :c%=12 :x%=3 :y%=1
+'
+check_operator:  :c%=12 :x%=3 :y%=1
+
+check_literal:lit=',' idx=6 ':c%=12 :x%=3 :y%=1
+'
+check_literal:After drop space:',' idx=6 ':c%=12 :x%=3 :y%=1
+'
+  ',' != ':'
+check_literal: ret0
+check_operator:ret0
+check_function: ':c%=12 :x%=3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=5 ' :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=6 ':c%=12 :x%=3 :y%=1
+'
+  '%' != ':'
+check_literal: ret0
+check_literal:lit=' "' idx=5 ' :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=6 ':c%=12 :x%=3 :y%=1
+'
+  '"' != ':'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ':c%=12 :x%=3 :y%=1
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ':c%=12 :x%=3 :y%=1
+':
+check_vname ret0 ':c%=12 :x%=3 :y%=1
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' idx=5 ' :c%=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'(' idx=6 ':c%=12 :x%=3 :y%=1
+'
+  '(' != ':'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+scan_expression: ret1 ' :c%=12 :x%=3 :y%=1
+'
+scan_assignment: ret1
+------------------
+Operator Stack     (0)
+
+------------------
+
+op operator
+process_expression_types:
+------------------
+Type Check Stack     (1)
+
+000: 'b%' type:0
+------------------
+
+------------------
+Type Check Stack     (2)
+
+000: 'b%' type:0
+001: '20' type:0
+------------------
+
+------------------
+Type Check Stack     (1)
+
+000: 'b%' type:0
+------------------
+
+------------------
 Type Check Stack     (0)
 
 ------------------
@@ -2380,6 +2967,514 @@ Type Check Stack     (1)
 000: '000' type:0
 ------------------
 
+check_literal:lit=':' idx=6 ':c%=12 :x%=3 :y%=1
+'
+check_literal:After drop space:':' idx=6 ':c%=12 :x%=3 :y%=1
+'
+check_literal:After while():c%=12 :x%=3 :y%=1
+
+check_literal:ret1 
+scan_literal:lit=':' 'c%=12 :x%=3 :y%=1
+'
+scan_literal:After drop space:c%=12 :x%=3 :y%=1
+
+scan_literal:while loop:c%=12 :x%=3 :y%=1
+
+check_line:
+check_assignment:
+check_variable:
+check_vname 'c%=12 :x%=3 :y%=1
+':
+check_vname ret1 '%=12 :x%=3 :y%=1
+':
+check_variable: '%=12 :x%=3 :y%=1
+'
+check_variable: Ary test '=12 :x%=3 :y%=1
+'
+check_literal:lit='(' idx=9 '=12 :x%=3 :y%=1
+'
+check_literal:After drop space:'(' idx=9 '=12 :x%=3 :y%=1
+'
+  '(' != '='
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_literal:lit=' =' idx=9 '=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'=' idx=9 '=12 :x%=3 :y%=1
+'
+check_literal:After while():12 :x%=3 :y%=1
+
+check_literal:ret1 
+check_expression: '12 :x%=3 :y%=1
+'
+check_eitem: '12 :x%=3 :y%=1
+'
+check_operator: 12 :x%=3 :y%=1
+
+check_literal:lit=',' idx=10 '12 :x%=3 :y%=1
+'
+check_literal:After drop space:',' idx=10 '12 :x%=3 :y%=1
+'
+  ',' != '1'
+check_literal: ret0
+check_operator:ret0
+check_function: '12 :x%=3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=10 '12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=10 '12 :x%=3 :y%=1
+'
+  '%' != '1'
+check_literal: ret0
+check_literal:lit=' "' idx=10 '12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=10 '12 :x%=3 :y%=1
+'
+  '"' != '1'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '12 :x%=3 :y%=1
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: ' :x%=3 :y%=1
+'
+check_operator:  :x%=3 :y%=1
+
+check_literal:lit=',' idx=13 ':x%=3 :y%=1
+'
+check_literal:After drop space:',' idx=13 ':x%=3 :y%=1
+'
+  ',' != ':'
+check_literal: ret0
+check_operator:ret0
+check_function: ':x%=3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=12 ' :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=13 ':x%=3 :y%=1
+'
+  '%' != ':'
+check_literal: ret0
+check_literal:lit=' "' idx=12 ' :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=13 ':x%=3 :y%=1
+'
+  '"' != ':'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ':x%=3 :y%=1
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ':x%=3 :y%=1
+':
+check_vname ret0 ':x%=3 :y%=1
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' idx=12 ' :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'(' idx=13 ':x%=3 :y%=1
+'
+  '(' != ':'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ' :x%=3 :y%=1
+'
+check_assignment:ret1
+check_line:ret1
+scan_cline: Checked len=13, ' :x%=3 :y%=1
+'
+Expression start
+scan_line:
+check_assignment:
+check_variable:
+check_vname 'c%=12 :x%=3 :y%=1
+':
+check_vname ret1 '%=12 :x%=3 :y%=1
+':
+check_variable: '%=12 :x%=3 :y%=1
+'
+check_variable: Ary test '=12 :x%=3 :y%=1
+'
+check_literal:lit='(' idx=9 '=12 :x%=3 :y%=1
+'
+check_literal:After drop space:'(' idx=9 '=12 :x%=3 :y%=1
+'
+  '(' != '='
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_literal:lit=' =' idx=9 '=12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'=' idx=9 '=12 :x%=3 :y%=1
+'
+check_literal:After while():12 :x%=3 :y%=1
+
+check_literal:ret1 
+check_expression: '12 :x%=3 :y%=1
+'
+check_eitem: '12 :x%=3 :y%=1
+'
+check_operator: 12 :x%=3 :y%=1
+
+check_literal:lit=',' idx=10 '12 :x%=3 :y%=1
+'
+check_literal:After drop space:',' idx=10 '12 :x%=3 :y%=1
+'
+  ',' != '1'
+check_literal: ret0
+check_operator:ret0
+check_function: '12 :x%=3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=10 '12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=10 '12 :x%=3 :y%=1
+'
+  '%' != '1'
+check_literal: ret0
+check_literal:lit=' "' idx=10 '12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=10 '12 :x%=3 :y%=1
+'
+  '"' != '1'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '12 :x%=3 :y%=1
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: ' :x%=3 :y%=1
+'
+check_operator:  :x%=3 :y%=1
+
+check_literal:lit=',' idx=13 ':x%=3 :y%=1
+'
+check_literal:After drop space:',' idx=13 ':x%=3 :y%=1
+'
+  ',' != ':'
+check_literal: ret0
+check_operator:ret0
+check_function: ':x%=3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=12 ' :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=13 ':x%=3 :y%=1
+'
+  '%' != ':'
+check_literal: ret0
+check_literal:lit=' "' idx=12 ' :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=13 ':x%=3 :y%=1
+'
+  '"' != ':'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ':x%=3 :y%=1
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ':x%=3 :y%=1
+':
+check_vname ret0 ':x%=3 :y%=1
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' idx=12 ' :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'(' idx=13 ':x%=3 :y%=1
+'
+  '(' != ':'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ' :x%=3 :y%=1
+'
+check_assignment:ret1
+scan_assignment:
+scan_variable:
+scan_vname: 'c%=12 :x%=3 :y%=1
+'
+scan_vname: ret1 'c'
+scan_variable: '%=12 :x%=3 :y%=1
+' vname='c'
+scan_variable: Ary test '=12 :x%=3 :y%=1
+'
+check_literal:lit='(' idx=9 '=12 :x%=3 :y%=1
+'
+check_literal:After drop space:'(' idx=9 '=12 :x%=3 :y%=1
+'
+  '(' != '='
+check_literal: ret0
+scan_variable:ret1 vname='c%' is str:0 int:1 flt:0 ary:0
+A
+B
+C last:%
+D
+init_get_name:'c%'
+init_get_name:'c%'
+get_name:gn:'c%'
+op variable
+VAR INFO: '                c%' gbl:0 ref:1 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
+scan_literal:lit=' =' '=12 :x%=3 :y%=1
+'
+scan_literal:After drop space:=12 :x%=3 :y%=1
+
+scan_literal:while loop:=12 :x%=3 :y%=1
+
+= is operator
+Token is operator o1 name:= o2 name:
+opr1:1 opr2:0
+------------------
+Operator Stack     (1)
+
+000: = type:0
+------------------
+
+scan_expression: '12 :x%=3 :y%=1
+'
+check_eitem: '12 :x%=3 :y%=1
+'
+check_operator: 12 :x%=3 :y%=1
+
+check_literal:lit=',' idx=10 '12 :x%=3 :y%=1
+'
+check_literal:After drop space:',' idx=10 '12 :x%=3 :y%=1
+'
+  ',' != '1'
+check_literal: ret0
+check_operator:ret0
+check_function: '12 :x%=3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=10 '12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=10 '12 :x%=3 :y%=1
+'
+  '%' != '1'
+check_literal: ret0
+check_literal:lit=' "' idx=10 '12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=10 '12 :x%=3 :y%=1
+'
+  '"' != '1'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '12 :x%=3 :y%=1
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+scan_eitem:
+check_operator: 12 :x%=3 :y%=1
+
+check_literal:lit=',' idx=10 '12 :x%=3 :y%=1
+'
+check_literal:After drop space:',' idx=10 '12 :x%=3 :y%=1
+'
+  ',' != '1'
+check_literal: ret0
+check_operator:ret0
+check_function: '12 :x%=3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=10 '12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=10 '12 :x%=3 :y%=1
+'
+  '%' != '1'
+check_literal: ret0
+check_literal:lit=' "' idx=10 '12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=10 '12 :x%=3 :y%=1
+'
+  '"' != '1'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '12 :x%=3 :y%=1
+'
+check_integer:ret1
+check_number: ret1
+scan_atom:
+check_literal:lit=' %' idx=10 '12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=10 '12 :x%=3 :y%=1
+'
+  '%' != '1'
+check_literal: ret0
+check_literal:lit=' "' idx=10 '12 :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=10 '12 :x%=3 :y%=1
+'
+  '"' != '1'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '12 :x%=3 :y%=1
+'
+check_integer:ret1
+check_number: ret1
+scan_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '12 :x%=3 :y%=1
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret1
+= is operator
+op integer
+scan_integer:ret1  12
+check_eitem: ' :x%=3 :y%=1
+'
+check_operator:  :x%=3 :y%=1
+
+check_literal:lit=',' idx=13 ':x%=3 :y%=1
+'
+check_literal:After drop space:',' idx=13 ':x%=3 :y%=1
+'
+  ',' != ':'
+check_literal: ret0
+check_operator:ret0
+check_function: ':x%=3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=12 ' :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=13 ':x%=3 :y%=1
+'
+  '%' != ':'
+check_literal: ret0
+check_literal:lit=' "' idx=12 ' :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=13 ':x%=3 :y%=1
+'
+  '"' != ':'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ':x%=3 :y%=1
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ':x%=3 :y%=1
+':
+check_vname ret0 ':x%=3 :y%=1
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' idx=12 ' :x%=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'(' idx=13 ':x%=3 :y%=1
+'
+  '(' != ':'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+scan_expression: ret1 ' :x%=3 :y%=1
+'
+scan_assignment: ret1
+------------------
+Operator Stack     (0)
+
+------------------
+
+op operator
+process_expression_types:
+------------------
+Type Check Stack     (1)
+
+000: 'c%' type:0
+------------------
+
+------------------
+Type Check Stack     (2)
+
+000: 'c%' type:0
+001: '12' type:0
+------------------
+
+------------------
+Type Check Stack     (1)
+
+000: 'c%' type:0
+------------------
+
 ------------------
 Type Check Stack     (0)
 
@@ -2391,7 +3486,1322 @@ Type Check Stack     (1)
 000: '000' type:0
 ------------------
 
+check_literal:lit=':' idx=13 ':x%=3 :y%=1
+'
+check_literal:After drop space:':' idx=13 ':x%=3 :y%=1
+'
+check_literal:After while():x%=3 :y%=1
+
+check_literal:ret1 
+scan_literal:lit=':' 'x%=3 :y%=1
+'
+scan_literal:After drop space:x%=3 :y%=1
+
+scan_literal:while loop:x%=3 :y%=1
+
+check_line:
+check_assignment:
+check_variable:
+check_vname 'x%=3 :y%=1
+':
+check_vname ret1 '%=3 :y%=1
+':
+check_variable: '%=3 :y%=1
+'
+check_variable: Ary test '=3 :y%=1
+'
+check_literal:lit='(' idx=16 '=3 :y%=1
+'
+check_literal:After drop space:'(' idx=16 '=3 :y%=1
+'
+  '(' != '='
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_literal:lit=' =' idx=16 '=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'=' idx=16 '=3 :y%=1
+'
+check_literal:After while():3 :y%=1
+
+check_literal:ret1 
+check_expression: '3 :y%=1
+'
+check_eitem: '3 :y%=1
+'
+check_operator: 3 :y%=1
+
+check_literal:lit=',' idx=17 '3 :y%=1
+'
+check_literal:After drop space:',' idx=17 '3 :y%=1
+'
+  ',' != '3'
+check_literal: ret0
+check_operator:ret0
+check_function: '3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=17 '3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=17 '3 :y%=1
+'
+  '%' != '3'
+check_literal: ret0
+check_literal:lit=' "' idx=17 '3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=17 '3 :y%=1
+'
+  '"' != '3'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3 :y%=1
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: ' :y%=1
+'
+check_operator:  :y%=1
+
+check_literal:lit=',' idx=19 ':y%=1
+'
+check_literal:After drop space:',' idx=19 ':y%=1
+'
+  ',' != ':'
+check_literal: ret0
+check_operator:ret0
+check_function: ':y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=18 ' :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=19 ':y%=1
+'
+  '%' != ':'
+check_literal: ret0
+check_literal:lit=' "' idx=18 ' :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=19 ':y%=1
+'
+  '"' != ':'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ':y%=1
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ':y%=1
+':
+check_vname ret0 ':y%=1
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' idx=18 ' :y%=1
+'
+    dropping space
+check_literal:After drop space:'(' idx=19 ':y%=1
+'
+  '(' != ':'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ' :y%=1
+'
+check_assignment:ret1
+check_line:ret1
+scan_cline: Checked len=7, ' :y%=1
+'
+Expression start
+scan_line:
+check_assignment:
+check_variable:
+check_vname 'x%=3 :y%=1
+':
+check_vname ret1 '%=3 :y%=1
+':
+check_variable: '%=3 :y%=1
+'
+check_variable: Ary test '=3 :y%=1
+'
+check_literal:lit='(' idx=16 '=3 :y%=1
+'
+check_literal:After drop space:'(' idx=16 '=3 :y%=1
+'
+  '(' != '='
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_literal:lit=' =' idx=16 '=3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'=' idx=16 '=3 :y%=1
+'
+check_literal:After while():3 :y%=1
+
+check_literal:ret1 
+check_expression: '3 :y%=1
+'
+check_eitem: '3 :y%=1
+'
+check_operator: 3 :y%=1
+
+check_literal:lit=',' idx=17 '3 :y%=1
+'
+check_literal:After drop space:',' idx=17 '3 :y%=1
+'
+  ',' != '3'
+check_literal: ret0
+check_operator:ret0
+check_function: '3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=17 '3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=17 '3 :y%=1
+'
+  '%' != '3'
+check_literal: ret0
+check_literal:lit=' "' idx=17 '3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=17 '3 :y%=1
+'
+  '"' != '3'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3 :y%=1
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: ' :y%=1
+'
+check_operator:  :y%=1
+
+check_literal:lit=',' idx=19 ':y%=1
+'
+check_literal:After drop space:',' idx=19 ':y%=1
+'
+  ',' != ':'
+check_literal: ret0
+check_operator:ret0
+check_function: ':y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=18 ' :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=19 ':y%=1
+'
+  '%' != ':'
+check_literal: ret0
+check_literal:lit=' "' idx=18 ' :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=19 ':y%=1
+'
+  '"' != ':'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ':y%=1
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ':y%=1
+':
+check_vname ret0 ':y%=1
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' idx=18 ' :y%=1
+'
+    dropping space
+check_literal:After drop space:'(' idx=19 ':y%=1
+'
+  '(' != ':'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 ' :y%=1
+'
+check_assignment:ret1
+scan_assignment:
+scan_variable:
+scan_vname: 'x%=3 :y%=1
+'
+scan_vname: ret1 'x'
+scan_variable: '%=3 :y%=1
+' vname='x'
+scan_variable: Ary test '=3 :y%=1
+'
+check_literal:lit='(' idx=16 '=3 :y%=1
+'
+check_literal:After drop space:'(' idx=16 '=3 :y%=1
+'
+  '(' != '='
+check_literal: ret0
+scan_variable:ret1 vname='x%' is str:0 int:1 flt:0 ary:0
+A
+B
+C last:%
+D
+init_get_name:'x%'
+init_get_name:'x%'
+get_name:gn:'x%'
+op variable
+VAR INFO: '                x%' gbl:0 ref:1 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
+scan_literal:lit=' =' '=3 :y%=1
+'
+scan_literal:After drop space:=3 :y%=1
+
+scan_literal:while loop:=3 :y%=1
+
+= is operator
+Token is operator o1 name:= o2 name:
+opr1:1 opr2:0
+------------------
+Operator Stack     (1)
+
+000: = type:0
+------------------
+
+scan_expression: '3 :y%=1
+'
+check_eitem: '3 :y%=1
+'
+check_operator: 3 :y%=1
+
+check_literal:lit=',' idx=17 '3 :y%=1
+'
+check_literal:After drop space:',' idx=17 '3 :y%=1
+'
+  ',' != '3'
+check_literal: ret0
+check_operator:ret0
+check_function: '3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=17 '3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=17 '3 :y%=1
+'
+  '%' != '3'
+check_literal: ret0
+check_literal:lit=' "' idx=17 '3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=17 '3 :y%=1
+'
+  '"' != '3'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3 :y%=1
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+scan_eitem:
+check_operator: 3 :y%=1
+
+check_literal:lit=',' idx=17 '3 :y%=1
+'
+check_literal:After drop space:',' idx=17 '3 :y%=1
+'
+  ',' != '3'
+check_literal: ret0
+check_operator:ret0
+check_function: '3 :y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=17 '3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=17 '3 :y%=1
+'
+  '%' != '3'
+check_literal: ret0
+check_literal:lit=' "' idx=17 '3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=17 '3 :y%=1
+'
+  '"' != '3'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3 :y%=1
+'
+check_integer:ret1
+check_number: ret1
+scan_atom:
+check_literal:lit=' %' idx=17 '3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=17 '3 :y%=1
+'
+  '%' != '3'
+check_literal: ret0
+check_literal:lit=' "' idx=17 '3 :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=17 '3 :y%=1
+'
+  '"' != '3'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3 :y%=1
+'
+check_integer:ret1
+check_number: ret1
+scan_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '3 :y%=1
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret1
+= is operator
+op integer
+scan_integer:ret1  3
+check_eitem: ' :y%=1
+'
+check_operator:  :y%=1
+
+check_literal:lit=',' idx=19 ':y%=1
+'
+check_literal:After drop space:',' idx=19 ':y%=1
+'
+  ',' != ':'
+check_literal: ret0
+check_operator:ret0
+check_function: ':y%=1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=18 ' :y%=1
+'
+    dropping space
+check_literal:After drop space:'%' idx=19 ':y%=1
+'
+  '%' != ':'
+check_literal: ret0
+check_literal:lit=' "' idx=18 ' :y%=1
+'
+    dropping space
+check_literal:After drop space:'"' idx=19 ':y%=1
+'
+  '"' != ':'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ':y%=1
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ':y%=1
+':
+check_vname ret0 ':y%=1
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' idx=18 ' :y%=1
+'
+    dropping space
+check_literal:After drop space:'(' idx=19 ':y%=1
+'
+  '(' != ':'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+scan_expression: ret1 ' :y%=1
+'
+scan_assignment: ret1
+------------------
+Operator Stack     (0)
+
+------------------
+
+op operator
+process_expression_types:
+------------------
+Type Check Stack     (1)
+
+000: 'x%' type:0
+------------------
+
+------------------
+Type Check Stack     (2)
+
+000: 'x%' type:0
+001: '3' type:0
+------------------
+
+------------------
+Type Check Stack     (1)
+
+000: 'x%' type:0
+------------------
+
 ------------------
 Type Check Stack     (0)
 
 ------------------
+
+------------------
+Type Check Stack     (1)
+
+000: '000' type:0
+------------------
+
+check_literal:lit=':' idx=19 ':y%=1
+'
+check_literal:After drop space:':' idx=19 ':y%=1
+'
+check_literal:After while():y%=1
+
+check_literal:ret1 
+scan_literal:lit=':' 'y%=1
+'
+scan_literal:After drop space:y%=1
+
+scan_literal:while loop:y%=1
+
+check_line:
+check_assignment:
+check_variable:
+check_vname 'y%=1
+':
+check_vname ret1 '%=1
+':
+check_variable: '%=1
+'
+check_variable: Ary test '=1
+'
+check_literal:lit='(' idx=22 '=1
+'
+check_literal:After drop space:'(' idx=22 '=1
+'
+  '(' != '='
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_literal:lit=' =' idx=22 '=1
+'
+    dropping space
+check_literal:After drop space:'=' idx=22 '=1
+'
+check_literal:After while():1
+
+check_literal:ret1 
+check_expression: '1
+'
+check_eitem: '1
+'
+check_operator: 1
+
+check_literal:lit=',' idx=23 '1
+'
+check_literal:After drop space:',' idx=23 '1
+'
+  ',' != '1'
+check_literal: ret0
+check_operator:ret0
+check_function: '1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=23 '1
+'
+    dropping space
+check_literal:After drop space:'%' idx=23 '1
+'
+  '%' != '1'
+check_literal: ret0
+check_literal:lit=' "' idx=23 '1
+'
+    dropping space
+check_literal:After drop space:'"' idx=23 '1
+'
+  '"' != '1'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' idx=25 ''
+check_literal:After drop space:',' idx=25 ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_function: ''
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=24 '
+'
+    dropping space
+check_literal:After drop space:'%' idx=25 ''
+check_literal  ret0 Empty test string
+check_literal:lit=' "' idx=24 '
+'
+    dropping space
+check_literal:After drop space:'"' idx=25 ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' idx=24 '
+'
+    dropping space
+check_literal:After drop space:'(' idx=25 ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 '
+'
+check_assignment:ret1
+check_line:ret1
+scan_cline: Checked len=1, '
+'
+Expression start
+scan_line:
+check_assignment:
+check_variable:
+check_vname 'y%=1
+':
+check_vname ret1 '%=1
+':
+check_variable: '%=1
+'
+check_variable: Ary test '=1
+'
+check_literal:lit='(' idx=22 '=1
+'
+check_literal:After drop space:'(' idx=22 '=1
+'
+  '(' != '='
+check_literal: ret0
+check_variable:ret1 vname='%' is str:0 int:1 flt:0 ary:0
+check_variable:ret1 
+check_literal:lit=' =' idx=22 '=1
+'
+    dropping space
+check_literal:After drop space:'=' idx=22 '=1
+'
+check_literal:After while():1
+
+check_literal:ret1 
+check_expression: '1
+'
+check_eitem: '1
+'
+check_operator: 1
+
+check_literal:lit=',' idx=23 '1
+'
+check_literal:After drop space:',' idx=23 '1
+'
+  ',' != '1'
+check_literal: ret0
+check_operator:ret0
+check_function: '1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=23 '1
+'
+    dropping space
+check_literal:After drop space:'%' idx=23 '1
+'
+  '%' != '1'
+check_literal: ret0
+check_literal:lit=' "' idx=23 '1
+'
+    dropping space
+check_literal:After drop space:'"' idx=23 '1
+'
+  '"' != '1'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' idx=25 ''
+check_literal:After drop space:',' idx=25 ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_function: ''
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=24 '
+'
+    dropping space
+check_literal:After drop space:'%' idx=25 ''
+check_literal  ret0 Empty test string
+check_literal:lit=' "' idx=24 '
+'
+    dropping space
+check_literal:After drop space:'"' idx=25 ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' idx=24 '
+'
+    dropping space
+check_literal:After drop space:'(' idx=25 ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+check_expression:ret1 '
+'
+check_assignment:ret1
+scan_assignment:
+scan_variable:
+scan_vname: 'y%=1
+'
+scan_vname: ret1 'y'
+scan_variable: '%=1
+' vname='y'
+scan_variable: Ary test '=1
+'
+check_literal:lit='(' idx=22 '=1
+'
+check_literal:After drop space:'(' idx=22 '=1
+'
+  '(' != '='
+check_literal: ret0
+scan_variable:ret1 vname='y%' is str:0 int:1 flt:0 ary:0
+A
+B
+C last:%
+D
+init_get_name:'y%'
+init_get_name:'y%'
+get_name:gn:'y%'
+op variable
+VAR INFO: '                y%' gbl:0 ref:1 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
+scan_literal:lit=' =' '=1
+'
+scan_literal:After drop space:=1
+
+scan_literal:while loop:=1
+
+= is operator
+Token is operator o1 name:= o2 name:
+opr1:1 opr2:0
+------------------
+Operator Stack     (1)
+
+000: = type:0
+------------------
+
+scan_expression: '1
+'
+check_eitem: '1
+'
+check_operator: 1
+
+check_literal:lit=',' idx=23 '1
+'
+check_literal:After drop space:',' idx=23 '1
+'
+  ',' != '1'
+check_literal: ret0
+check_operator:ret0
+check_function: '1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=23 '1
+'
+    dropping space
+check_literal:After drop space:'%' idx=23 '1
+'
+  '%' != '1'
+check_literal: ret0
+check_literal:lit=' "' idx=23 '1
+'
+    dropping space
+check_literal:After drop space:'"' idx=23 '1
+'
+  '"' != '1'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1
+'
+check_integer:ret1
+check_number: ret1
+check_eitem:ret1
+scan_eitem:
+check_operator: 1
+
+check_literal:lit=',' idx=23 '1
+'
+check_literal:After drop space:',' idx=23 '1
+'
+  ',' != '1'
+check_literal: ret0
+check_operator:ret0
+check_function: '1
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=23 '1
+'
+    dropping space
+check_literal:After drop space:'%' idx=23 '1
+'
+  '%' != '1'
+check_literal: ret0
+check_literal:lit=' "' idx=23 '1
+'
+    dropping space
+check_literal:After drop space:'"' idx=23 '1
+'
+  '"' != '1'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1
+'
+check_integer:ret1
+check_number: ret1
+scan_atom:
+check_literal:lit=' %' idx=23 '1
+'
+    dropping space
+check_literal:After drop space:'%' idx=23 '1
+'
+  '%' != '1'
+check_literal: ret0
+check_literal:lit=' "' idx=23 '1
+'
+    dropping space
+check_literal:After drop space:'"' idx=23 '1
+'
+  '"' != '1'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1
+'
+check_integer:ret1
+check_number: ret1
+scan_number:
+check_float:
+isfloatdigit:
+isfloatdigit:
+check_float: ret0
+check_integer: '1
+'
+check_integer:ret1
+scan_integer:
+scan_integer:ret1
+= is operator
+op integer
+scan_integer:ret1  1
+check_eitem: '
+'
+check_operator: 
+
+check_literal:lit=',' idx=25 ''
+check_literal:After drop space:',' idx=25 ''
+check_literal  ret0 Empty test string
+check_operator:ret0
+check_function: ''
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=24 '
+'
+    dropping space
+check_literal:After drop space:'%' idx=25 ''
+check_literal  ret0 Empty test string
+check_literal:lit=' "' idx=24 '
+'
+    dropping space
+check_literal:After drop space:'"' idx=25 ''
+check_literal  ret0 Empty test string
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ''
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname '':
+check_vname ret0 '':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' idx=24 '
+'
+    dropping space
+check_literal:After drop space:'(' idx=25 ''
+check_literal  ret0 Empty test string
+check_sub_expr: ret0
+check_eitem:ret0
+scan_expression: ret1 '
+'
+scan_assignment: ret1
+------------------
+Operator Stack     (0)
+
+------------------
+
+op operator
+process_expression_types:
+------------------
+Type Check Stack     (1)
+
+000: 'y%' type:0
+------------------
+
+------------------
+Type Check Stack     (2)
+
+000: 'y%' type:0
+001: '1' type:0
+------------------
+
+------------------
+Type Check Stack     (1)
+
+000: 'y%' type:0
+------------------
+
+------------------
+Type Check Stack     (0)
+
+------------------
+
+------------------
+Type Check Stack     (1)
+
+000: '000' type:0
+------------------
+
+check_literal:lit=':' idx=25 ''
+check_literal:After drop space:':' idx=25 ''
+check_literal  ret0 Empty test string
+cline scanned OK
+=======================cline==========================
+==DO
+==
+scan_cline:
+check_line:
+check_assignment:
+check_variable:
+check_vname 'DO
+':
+check_vname ret1 '
+':
+check_variable: '
+'
+check_variable: Ary test '
+'
+check_literal:lit='(' idx=2 '
+'
+check_literal:After drop space:'(' idx=2 '
+'
+  '(' != '
+'
+check_literal: ret0
+check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
+check_variable:ret1 
+check_literal:lit=' =' idx=2 '
+'
+    dropping space
+check_literal:After drop space:'=' idx=3 ''
+check_literal  ret0 Empty test string
+check_assignment:ret0
+check_proc_call:
+check_textlabel: 'DO
+'
+check_textlabel:ret0
+check_proc_call:ret0
+check_command:
+check_command: ret0
+check_function: 'DO
+'
+check_function: ret0
+check_literal:lit=' IF' idx=0 'DO
+'
+    dropping space
+check_literal:After drop space:'IF' idx=0 'DO
+'
+  'I' != 'D'
+check_literal: ret0
+check_literal:lit=' ELSEIF' idx=0 'DO
+'
+    dropping space
+check_literal:After drop space:'ELSEIF' idx=0 'DO
+'
+  'E' != 'D'
+check_literal: ret0
+check_literal:lit=' ELSE' idx=0 'DO
+'
+    dropping space
+check_literal:After drop space:'ELSE' idx=0 'DO
+'
+  'E' != 'D'
+check_literal: ret0
+check_literal:lit=' ENDIF' idx=0 'DO
+'
+    dropping space
+check_literal:After drop space:'ENDIF' idx=0 'DO
+'
+  'E' != 'D'
+check_literal: ret0
+check_literal:lit=' DO' idx=0 'DO
+'
+    dropping space
+check_literal:After drop space:'DO' idx=0 'DO
+'
+check_literal:After while():
+
+check_literal:ret1 
+check_line:ret1
+scan_cline: Checked len=1, '
+'
+Expression start
+scan_line:
+check_assignment:
+check_variable:
+check_vname 'DO
+':
+check_vname ret1 '
+':
+check_variable: '
+'
+check_variable: Ary test '
+'
+check_literal:lit='(' idx=2 '
+'
+check_literal:After drop space:'(' idx=2 '
+'
+  '(' != '
+'
+check_literal: ret0
+check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
+check_variable:ret1 
+check_literal:lit=' =' idx=2 '
+'
+    dropping space
+check_literal:After drop space:'=' idx=3 ''
+check_literal  ret0 Empty test string
+check_assignment:ret0
+check_proc_call:
+check_textlabel: 'DO
+'
+check_textlabel:ret0
+check_proc_call:ret0
+check_command:
+check_command: ret0
+check_function: 'DO
+'
+check_function: ret0
+check_literal:lit=' IF' idx=0 'DO
+'
+    dropping space
+check_literal:After drop space:'IF' idx=0 'DO
+'
+  'I' != 'D'
+check_literal: ret0
+check_literal:lit=' ELSEIF' idx=0 'DO
+'
+    dropping space
+check_literal:After drop space:'ELSEIF' idx=0 'DO
+'
+  'E' != 'D'
+check_literal: ret0
+check_literal:lit=' ELSE' idx=0 'DO
+'
+    dropping space
+check_literal:After drop space:'ELSE' idx=0 'DO
+'
+  'E' != 'D'
+check_literal: ret0
+check_literal:lit=' ENDIF' idx=0 'DO
+'
+    dropping space
+check_literal:After drop space:'ENDIF' idx=0 'DO
+'
+  'E' != 'D'
+check_literal: ret0
+check_literal:lit=' DO' idx=0 'DO
+'
+    dropping space
+check_literal:After drop space:'DO' idx=0 'DO
+'
+check_literal:After while():
+
+check_literal:ret1 
+scan_literal:lit=' DO' 'DO
+'
+scan_literal:After drop space:DO
+
+scan_literal:while loop:DO
+
+scan_literal:while loop:O
+
+A
+B
+C last:O
+D
+init_get_name:'DO'
+init_get_name:'DO'
+get_name:gn:'DO'
+op variable
+process_expression_types:
+------------------
+Type Check Stack     (1)
+
+000: 'DO' type:1
+------------------
+
+check_literal:lit=':' idx=3 ''
+check_literal:After drop space:':' idx=3 ''
+check_literal  ret0 Empty test string
+cline scanned OK
+=======================cline==========================
+== CLS :PRINT REPT$(CHR$(158),80)
+==
+scan_cline:
+check_line:
+check_assignment:
+check_variable:
+check_vname 'CLS :PRINT REPT$(CHR$(158),80)
+':
+check_vname ret1 ' :PRINT REPT$(CHR$(158),80)
+':
+check_variable: ' :PRINT REPT$(CHR$(158),80)
+'
+check_variable: Ary test ' :PRINT REPT$(CHR$(158),80)
+'
+check_literal:lit='(' idx=4 ' :PRINT REPT$(CHR$(158),80)
+'
+check_literal:After drop space:'(' idx=4 ' :PRINT REPT$(CHR$(158),80)
+'
+  '(' != ' '
+check_literal: ret0
+check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
+check_variable:ret1 
+check_literal:lit=' =' idx=4 ' :PRINT REPT$(CHR$(158),80)
+'
+    dropping space
+check_literal:After drop space:'=' idx=5 ':PRINT REPT$(CHR$(158),80)
+'
+  '=' != ':'
+check_literal: ret0
+check_assignment:ret0
+check_proc_call:
+check_textlabel: 'CLS :PRINT REPT$(CHR$(158),80)
+'
+check_textlabel:ret0
+check_proc_call:ret0
+check_command:
+check_command: ret1 found=> 'CLS'
+check_line:ret1
+scan_cline: Checked len=28, ' :PRINT REPT$(CHR$(158),80)
+'
+Expression start
+scan_line:
+check_assignment:
+check_variable:
+check_vname 'CLS :PRINT REPT$(CHR$(158),80)
+':
+check_vname ret1 ' :PRINT REPT$(CHR$(158),80)
+':
+check_variable: ' :PRINT REPT$(CHR$(158),80)
+'
+check_variable: Ary test ' :PRINT REPT$(CHR$(158),80)
+'
+check_literal:lit='(' idx=4 ' :PRINT REPT$(CHR$(158),80)
+'
+check_literal:After drop space:'(' idx=4 ' :PRINT REPT$(CHR$(158),80)
+'
+  '(' != ' '
+check_literal: ret0
+check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
+check_variable:ret1 
+check_literal:lit=' =' idx=4 ' :PRINT REPT$(CHR$(158),80)
+'
+    dropping space
+check_literal:After drop space:'=' idx=5 ':PRINT REPT$(CHR$(158),80)
+'
+  '=' != ':'
+check_literal: ret0
+check_assignment:ret0
+check_proc_call:
+check_textlabel: 'CLS :PRINT REPT$(CHR$(158),80)
+'
+check_textlabel:ret0
+check_proc_call:ret0
+check_command:
+check_command: ret1 found=> 'CLS'
+scan_line:check_command: 
+scan_command:
+------------------
+Operator Stack     (1)
+
+000: CLS type:1
+------------------
+
+scan_expression: ' :PRINT REPT$(CHR$(158),80)
+'
+check_eitem: ':PRINT REPT$(CHR$(158),80)
+'
+check_operator: :PRINT REPT$(CHR$(158),80)
+
+check_literal:lit=',' idx=5 ':PRINT REPT$(CHR$(158),80)
+'
+check_literal:After drop space:',' idx=5 ':PRINT REPT$(CHR$(158),80)
+'
+  ',' != ':'
+check_literal: ret0
+check_operator:ret0
+check_function: ':PRINT REPT$(CHR$(158),80)
+'
+check_function: ret0
+check_atom:
+check_literal:lit=' %' idx=5 ':PRINT REPT$(CHR$(158),80)
+'
+    dropping space
+check_literal:After drop space:'%' idx=5 ':PRINT REPT$(CHR$(158),80)
+'
+  '%' != ':'
+check_literal: ret0
+check_literal:lit=' "' idx=5 ':PRINT REPT$(CHR$(158),80)
+'
+    dropping space
+check_literal:After drop space:'"' idx=5 ':PRINT REPT$(CHR$(158),80)
+'
+  '"' != ':'
+check_literal: ret0
+check_number:
+check_float:
+isfloatdigit:
+check_float: ret0
+check_integer: ':PRINT REPT$(CHR$(158),80)
+'
+check_integer:ret0
+check_number: ret0
+check_variable:
+check_vname ':PRINT REPT$(CHR$(158),80)
+':
+check_vname ret0 ':PRINT REPT$(CHR$(158),80)
+':
+check_variable:ret0 
+check_sub_expr:
+check_literal:lit=' (' idx=5 ':PRINT REPT$(CHR$(158),80)
+'
+    dropping space
+check_literal:After drop space:'(' idx=5 ':PRINT REPT$(CHR$(158),80)
+'
+  '(' != ':'
+check_literal: ret0
+check_sub_expr: ret0
+check_eitem:ret0
+scan_expression: ret1 ':PRINT REPT$(CHR$(158),80)
+'
+scan_command: ret1 =>'CLS'
+------------------
+Operator Stack     (0)
+
+------------------
+
+op operator
+process_expression_types:

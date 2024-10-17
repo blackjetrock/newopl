@@ -104,7 +104,7 @@ struct _FN_INFO
     { "BACK",     1,  1, ' ',  "ii",        "f", 0x00 },
     { "BEEP",     1,  0, ' ',  "ii",        "f", 0x00 },
     { "BREAK",    1,  0, ' ',  "ii",        "f", 0x00 },
-    { "CHR$",     0,  0, ' ',  "s",         "i", 0x00 },
+    { "CHR$",     0,  0, ' ',  "i",         "s", 0x00 },
     { "CLOCK",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "CLOSE",    1,  1, ' ',  "ii",        "f", 0x00 },
     { "CLS",      1,  0, ' ',  "ii",        "f", 0x00 },
@@ -114,7 +114,7 @@ struct _FN_INFO
     { "COS",      0,  0, ' ',  "f",         "f", 0x00 },
     { "COUNT",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "CREATE",   1,  1, ' ',  "ii",        "f", 0x00 },
-    { "CURSOR",   1,  0, 'O',  "i",          "", 0x00 },
+    { "CURSOR",   1,  0, 'O',  "i",         "v", 0x00 },
     { "DATIM$",   0,  0, ' ',  "ii",        "f", 0x00 },
     { "DAY",      0,  0, ' ',  "",          "i", 0x00 },
     { "DAYNAME$", 0,  0, ' ',  "ii",        "f", 0x00 },
@@ -1468,6 +1468,8 @@ int check_number(int *index)
   return(0);
 }
 
+//------------------------------------------------------------------------------
+
 int scan_number(void)
 {
   int idx = cline_i;
@@ -1475,13 +1477,11 @@ int scan_number(void)
   printf("\n%s:", __FUNCTION__);
   char fltval[40];
 
-  drop_space(&idx);
+  drop_space(&cline_i);
   
   if( check_float(&idx) )
     {
-      cline_i = idx;
       scan_float(fltval);
-      
       return(1);
     }
 
@@ -1489,7 +1489,6 @@ int scan_number(void)
   if( check_integer(&idx) )
     {
       int intval;
-      cline_i = idx;
       scan_integer(&intval);
       return(1);
     }
