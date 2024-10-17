@@ -28,6 +28,10 @@ FILE *chkfp;
 char current_expression[200];
 int first_token = 1;
 
+OP_STACK_ENTRY op_stack[NOPL_MAX_OP_STACK+1];
+
+int op_stack_ptr = 0;
+
 
 NOBJ_VARTYPE exp_type_stack[MAX_EXP_TYPE_STACK];
 int exp_type_stack_ptr = 0;
@@ -401,7 +405,7 @@ struct _FN_INFO
      { "COS",      0, "f",        "f", 0x00 },
      { "COUNT",    0, "ii",       "f", 0x00 },
      { "CREATE",   1, "ii",       "f", 0x00 },
-     { "CURSOR",   1, "ii",       "f", 0x00 },
+     { "CURSOR",   1, "i",        "",  0x00 },
      { "DATIM$",   0, "ii",       "f", 0x00 },
      { "DAY",      0, "",         "i", 0x00 },
      { "DAYNAME$", 0, "ii",       "f", 0x00 },
@@ -1311,7 +1315,17 @@ char *infix_from_rpn(void)
 	}
     }
 
-  infix_stack_pop(result);
+  // There may not be a result if there was just a command
+  result[0] = '\0';
+  
+  if( infix_stack_ptr != 0 )
+    {
+      infix_stack_pop(result);
+    }
+  else
+    {
+      fprintf(ofp, "\nInfix stack empty");
+    }
   return(result);
 }
 
@@ -1482,6 +1496,8 @@ void typecheck_expression(void)
 	case EXP_BUFF_ID_OPERATOR:
 	  // Check that the operands are correct, i.e. all of them are the same and in
 	  // the list of acceptable types
+	  fprintf(ofp, "\nBUFF_ID_OPERATOR");
+	  
 	  if( find_op_info(be.name, &op_info) )
 	    {
 	      fprintf(ofp, "\nFound operator %s", be.name);
@@ -1530,7 +1546,7 @@ void typecheck_expression(void)
 		  else
 		    {
 		      // Error
-		      printf("\nType of %s or %s is not %c", op1.name, op2.name, type_to_char(op_info.type[0]));
+		      fprintf(ofp, "\nType of %s or %s is not %c", op1.name, op2.name, type_to_char(op_info.type[0]));
 		      exit(-1);
 		    }
 		}
@@ -1626,8 +1642,8 @@ void typecheck_expression(void)
 				  
 				default:
 				  // No auto conversion is available, so this is an error
-				  printf("\nType is not the require dtype and no auto conversion available,");
-				  printf("\n Node N%d", be.node_id);
+				  fprintf(ofp, "\nType is not the require dtype and no auto conversion available,");
+				  fprintf(ofp, "\n Node N%d", be.node_id);
 				  exit(-1);
 				  break;
 				}
@@ -1716,7 +1732,10 @@ void typecheck_expression(void)
 	      // Error, not found
 	    }
 	  break;
-	    
+
+	default:
+	  fprintf(ofp, "\ndefault buf_id");
+	  break;
 	}
       
       // If entry not copied over, copy it
@@ -1904,6 +1923,9 @@ void output_expression_start(char *expr)
       //  expression_tree_process(expr);
       
     }
+
+  // Clear operator stack
+  op_stack_ptr = 0;
   
   // Clear the buffer ready for the new expression that has just come in
   clear_exp_buffer();
@@ -1917,9 +1939,6 @@ void output_expression_start(char *expr)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-OP_STACK_ENTRY op_stack[NOPL_MAX_OP_STACK+1];
-
-int op_stack_ptr = 0;
 
 void op_stack_push(OP_STACK_ENTRY entry)
 {
@@ -1932,7 +1951,7 @@ void op_stack_push(OP_STACK_ENTRY entry)
     }
   else
     {
-      printf("\n%s: Operator stack full", __FUNCTION__);
+      fprintf(ofp, "\n%s: Operator stack full", __FUNCTION__);
       exit(-1);
     }
   op_stack_print();
@@ -1947,7 +1966,7 @@ OP_STACK_ENTRY op_stack_pop(void)
   
   if( op_stack_ptr == 0 )
     {
-      printf("\n%s: Operator stack empty", __FUNCTION__);
+      fprintf(ofp, "\n%s: Operator stack empty", __FUNCTION__);
       exit(-1);
     }
   
@@ -2035,6 +2054,8 @@ void op_stack_finalise(void)
 void process_expression_types(void)
 {
   char *infix;
+
+  printf("\n%s:", __FUNCTION__);
   
   if( strlen(current_expression) > 0 )
     {
@@ -2085,7 +2106,7 @@ void exp_type_push(NOBJ_VARTYPE t)
     }
   else
     {
-      printf("\nSub expression stack full");
+      fprintf(ofp, "\nSub expression stack full");
       exit(-1);
     }
 }
@@ -2098,7 +2119,7 @@ NOBJ_VARTYPE exp_type_pop(void)
     }
   else
     {
-      printf("\nExp stack empty on pop");
+      fprintf(ofp, "\nExp stack empty on pop");
       exit(-1);
     }
 }
@@ -2250,10 +2271,12 @@ void process_token(OP_STACK_ENTRY *token)
   switch( o1.buf_id )
     {
     case EXP_BUFF_ID_PROC_CALL:
-
+      fprintf(ofp, "\nBuff id proc call");
+      
       // Parser supplies type
       o1.req_type = expression_type;
       output_proc_call(o1);
+      return;
       break;
       
     }
@@ -2279,6 +2302,24 @@ void process_token(OP_STACK_ENTRY *token)
       modify_expression_type(o1.type);
       o1.req_type = expression_type;
       output_integer(o1);
+      first_token = 0;
+      return;
+    }
+
+    if( token_is_function(o1.name, &tokptr) )
+    {
+      NOBJ_VARTYPE vt;
+     
+      // The type of the function is known, use that, not the expression type
+      // which is more of a hint.
+      strcpy(o1.name, tokptr);
+      vt = function_return_type(o1.name);
+
+      fprintf(ofp, "\n%s: '%s' t=>%c", __FUNCTION__, o1.name, type_to_char(vt));
+      
+      o1.type = vt;
+      o1.req_type = vt;
+      op_stack_push(o1);
       first_token = 0;
       return;
     }
@@ -2353,23 +2394,6 @@ void process_token(OP_STACK_ENTRY *token)
       return;
     }
   
-  if( token_is_function(o1.name, &tokptr) )
-    {
-      NOBJ_VARTYPE vt;
-     
-      // The type of the function is known, use that, not the expression type
-      // which is more of a hint.
-      strcpy(o1.name, tokptr);
-      vt = function_return_type(o1.name);
-
-      fprintf(ofp, "\n%s: '%s' t=>%c", __FUNCTION__, o1.name, type_to_char(vt));
-      
-      o1.type = vt;
-      o1.req_type = vt;
-      op_stack_push(o1);
-      first_token = 0;
-      return;
-    }
 
   first_token = 0;
 
@@ -2584,7 +2608,7 @@ int main(int argc, char *argv[])
   FILE *fp;
   FILE *ofp;
 
-  parser_check();]
+  parser_check();
   
   init_output();
   
@@ -2593,7 +2617,7 @@ int main(int argc, char *argv[])
 
   if( fp == NULL )
     {
-      printf("\nCould not open '%s'", argv[1]);
+      fprintf(ofp, "\nCould not open '%s'", argv[1]);
       exit(-1);
     }
 

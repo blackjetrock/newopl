@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -91,114 +92,111 @@ struct _FN_INFO
 }
   fn_info[] =
   {
-    { "EOL",      0,  0, ' ', "ii",       "f", 0x00 },
-    //{ "=",      0,  0,   "ii",       "f", 0x00 },
-    { "ABS",      0,  0, ' ',  "f",       "f", 0x00 },
-    { "ACOS",     0,  0, ' ',  "f",       "f", 0x00 },
-    { "ADDR",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "APPEND",   1,  1, ' ',  "ii",       "f", 0x00 },
-    { "ASC",      0,  0, ' ',  "i",        "s", 0x00 },
-    { "ASIN",     0,  0, ' ',  "f",       "f", 0x00 },
-    { "AT",       1,  0, ' ',  "ii",       "f", 0x4C },
-    { "ATAN",     0,  0, ' ',  "f",       "f", 0x00 },
-    { "BACK",     1,  1, ' ',  "ii",       "f", 0x00 },
-    { "BEEP",     1,  0, ' ',  "ii",       "f", 0x00 },
-    { "BREAK",    1,  0, ' ',  "ii",       "f", 0x00 },
-    { "CHR$",     0,  0, ' ',  "s",        "i", 0x00 },
-    { "CLOCK",    0,  0, ' ',  "ii",       "f", 0x00 },
-    { "CLOSE",    1,  1, ' ',  "ii",       "f", 0x00 },
-    { "CLS",      1,  0, ' ',  "ii",       "f", 0x00 },
-    { "CONTINUE", 1,  0, ' ',  "ii",       "f", 0x00 },
-    { "COPY",     1,  1, ' ',  "ii",       "f", 0x00 },
-    { "COPYW",    1,  1, ' ',  "ii",       "f", 0x00 },
-    { "COS",      0,  0, ' ',  "f",        "f", 0x00 },
-    { "COUNT",    0,  0, ' ',  "ii",       "f", 0x00 },
-    { "CREATE",   1,  1, ' ',  "ii",       "f", 0x00 },
-    { "CURSOR",   1,  0, 'O',  "ii",       "f", 0x00 },
-    { "DATIM$",   0,  0, ' ',  "ii",       "f", 0x00 },
-    { "DAY",      0,  0, ' ',  "",         "i", 0x00 },
-    { "DAYNAME$", 0,  0, ' ',  "ii",       "f", 0x00 },
-    { "DAYS",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "DEG",      0,  0, ' ',  "ii",       "f", 0x00 },
-    { "DELETE",   1,  1, ' ',  "ii",       "f", 0x00 },
-    { "DELETEW",  1,  1, ' ',  "ii",       "f", 0x00 },
-    { "DIR$",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "DIRW$",    0,  0, ' ',  "ii",       "f", 0x00 },
-    { "DISP",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "DOW",      0,  0, ' ',  "ii",       "f", 0x00 },
-    { "EDIT",     1,  1, ' ',  "ii",       "f", 0x00 },
-    { "EOF",      0,  0, ' ',  "ii",       "f", 0x00 },
-    { "ERASE",    1,  1, ' ',  "ii",       "f", 0x00 },
-    { "ERR",      0,  0, ' ',  "ii",       "f", 0x00 },
-    { "ERR$",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "ESCAPE",   1,  0, 'O',  "ii",       "f", 0x00 },
-    { "EXIST",    0,  0, ' ',  "ii",       "f", 0x00 },
-    { "EXP",      0,  0, ' ',  "f",        "f", 0x00 },
-    { "FIND",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "FINDW",    0,  0, ' ',  "ii",       "f", 0x00 },
-    { "FIRST",    1,  1, ' ',  "ii",       "f", 0x00 },
-    { "FIX$",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "FLT",      0,  0, ' ',  "i",        "f", 0x00 },
-    { "FREE",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "GEN$",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "GET",      0,  0, ' ',  "ii",       "f", 0x00 },
-    { "GET$",     0,  0, ' ',  "ii",       "f", 0x00 },
-    //    { "GLOBAL",   1,  0, ' ',  "ii",       "f", 0x00 },
-    { "HEX$",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "HOUR",     0,  0, ' ',  "",         "i", 0x00 },
-    { "IABS",     0,  0, ' ',  "i",        "i", 0x00 },
-    { "INPUT",    1,  1, ' ',  "ii",       "f", 0x00 },
-    { "INT",      0,  0, ' ',  "f",        "i", 0x00 },
-    { "INTF",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "KEY$",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "KEY",      0,  0, ' ',  "ii",       "f", 0x00 },
-    { "KSTAT",    1,  0, ' ',  "ii",       "f", 0x00 },
-    { "LAST",     1,  1, ' ',  "ii",       "f", 0x00 },
-    { "LEFT$",    0,  0, ' ',  "ii",       "f", 0x00 },
-    { "LEN",      0,  0, ' ',  "ii",       "f", 0x00 },
+    { "EOL",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "ABS",      0,  0, ' ',  "f",         "f", 0x00 },
+    { "ACOS",     0,  0, ' ',  "f",         "f", 0x00 },
+    { "ADDR",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "APPEND",   1,  1, ' ',  "ii",        "f", 0x00 },
+    { "ASC",      0,  0, ' ',  "i",         "s", 0x00 },
+    { "ASIN",     0,  0, ' ',  "f",         "f", 0x00 },
+    { "AT",       1,  0, ' ',  "ii",        "f", 0x4C },
+    { "ATAN",     0,  0, ' ',  "f",         "f", 0x00 },
+    { "BACK",     1,  1, ' ',  "ii",        "f", 0x00 },
+    { "BEEP",     1,  0, ' ',  "ii",        "f", 0x00 },
+    { "BREAK",    1,  0, ' ',  "ii",        "f", 0x00 },
+    { "CHR$",     0,  0, ' ',  "s",         "i", 0x00 },
+    { "CLOCK",    0,  0, ' ',  "ii",        "f", 0x00 },
+    { "CLOSE",    1,  1, ' ',  "ii",        "f", 0x00 },
+    { "CLS",      1,  0, ' ',  "ii",        "f", 0x00 },
+    { "CONTINUE", 1,  0, ' ',  "ii",        "f", 0x00 },
+    { "COPY",     1,  1, ' ',  "ii",        "f", 0x00 },
+    { "COPYW",    1,  1, ' ',  "ii",        "f", 0x00 },
+    { "COS",      0,  0, ' ',  "f",         "f", 0x00 },
+    { "COUNT",    0,  0, ' ',  "ii",        "f", 0x00 },
+    { "CREATE",   1,  1, ' ',  "ii",        "f", 0x00 },
+    { "CURSOR",   1,  0, 'O',  "i",          "", 0x00 },
+    { "DATIM$",   0,  0, ' ',  "ii",        "f", 0x00 },
+    { "DAY",      0,  0, ' ',  "",          "i", 0x00 },
+    { "DAYNAME$", 0,  0, ' ',  "ii",        "f", 0x00 },
+    { "DAYS",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "DEG",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "DELETE",   1,  1, ' ',  "ii",        "f", 0x00 },
+    { "DELETEW",  1,  1, ' ',  "ii",        "f", 0x00 },
+    { "DIR$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "DIRW$",    0,  0, ' ',  "ii",        "f", 0x00 },
+    { "DISP",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "DOW",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "EDIT",     1,  1, ' ',  "ii",        "f", 0x00 },
+    { "EOF",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "ERASE",    1,  1, ' ',  "ii",        "f", 0x00 },
+    { "ERR",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "ERR$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "ESCAPE",   1,  0, 'O',  "ii",        "f", 0x00 },
+    { "EXIST",    0,  0, ' ',  "ii",        "f", 0x00 },
+    { "EXP",      0,  0, ' ',  "f",         "f", 0x00 },
+    { "FIND",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "FINDW",    0,  0, ' ',  "ii",        "f", 0x00 },
+    { "FIRST",    1,  1, ' ',  "ii",        "f", 0x00 },
+    { "FIX$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "FLT",      0,  0, ' ',  "i",         "f", 0x00 },
+    { "FREE",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "GEN$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "GET",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "GET$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "HEX$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "HOUR",     0,  0, ' ',  "",          "i", 0x00 },
+    { "IABS",     0,  0, ' ',  "i",         "i", 0x00 },
+    { "INPUT",    1,  1, ' ',  "ii",        "f", 0x00 },
+    { "INT",      0,  0, ' ',  "f",         "i", 0x00 },
+    { "INTF",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "KEY$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "KEY",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "KSTAT",    1,  0, ' ',  "ii",        "f", 0x00 },
+    { "LAST",     1,  1, ' ',  "ii",        "f", 0x00 },
+    { "LEFT$",    0,  0, ' ',  "ii",        "f", 0x00 },
+    { "LEN",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "LN",       0,  0, ' ',  "f",         "f", 0x00 },
-    { "LOC",      0,  0, ' ',  "ii",       "f", 0x00 },
-    //    { "LOCAL",    1,  0, ' ',  "ii",       "f", 0x00 },
-    { "LOG",      0,  0, ' ',  "ii",       "f", 0x00 },
-    { "LOWER$",   0,  0, ' ',  "ii",       "f", 0x00 },
-    { "LPRINT",   1,  0, ' ',  "ii",       "f", 0x00 },
+    { "LOC",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "LOG",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "LOWER$",   0,  0, ' ',  "ii",        "f", 0x00 },
+    { "LPRINT",   1,  0, ' ',  "ii",        "f", 0x00 },
     { "MAX",      0,  0, ' ',  "ii",        "f", 0x00 },
-    { "MEAN",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "MENU",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "MENUN",    0,  0, ' ',  "ii",       "f", 0x00 },
-    { "MID$",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "MIN",      0,  0, ' ',  "ii",       "f", 0x00 },
-    { "MINUTE",   0,  0, ' ',  "",         "i", 0x00 },
-    { "MONTH",    0,  0, ' ',  "",         "i", 0x00 },
-    { "MONTH$",   0,  0, ' ',  "ii",       "f", 0x00 },
-    { "NEXT",     0,  1, ' ',  "ii",       "f", 0x00 },
-    { "NUM$",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "OFF",      1,  0, ' ',  "ii",       "f", 0x00 },
-    { "OPEN",     1,  1, ' ',  "ii",       "f", 0x00 },
-    { "ONERR",    1,  0, ' ',  "ii",       "f", 0x00 },
-    { "PAUSE",    1,  0, ' ',  "ii",       "f", 0x00 },
-    { "PEEKB",    0,  0, ' ',  "ii",       "f", 0x00 },
-    { "PEEKW",    0,  0, ' ',  "ii",       "f", 0x00 },
-    { "PI",       0,  0, ' ',  "ii",       "f", 0x00 },
-    { "POKEB",    1,  0, ' ',  "ii",       "f", 0x00 },
-    { "POKEW",    1,  0, ' ',  "ii",       "f", 0x00 },
-    { "POS",      0,  0, ' ',  "ii",       "f", 0x00 },
-    { "POSITION", 1,  1, ' ',  "ii",       "f", 0x00 },
-    { "PRINT",    1,  0, ' ',  "i",        "v", 0x00 },
-    { "RAD",      0,  0, ' ',  "ii",       "f", 0x00 },
-    { "RAISE",    1,  0, ' ',  "ii",       "f", 0x00 },
-    { "RANDOMIZE",1,  0, ' ',  "ii",       "f", 0x00 },
-    { "RECSIZE",  0,  0, ' ',  "ii",       "f", 0x00 },
-    { "REM",      1,  0, ' ',  "ii",       "f", 0x00 },
-    { "RENAME",   1,  1, ' ',  "ii",       "f", 0x00 },
-    { "REPT$",    0,  0, ' ',  "ii",       "f", 0x00 },
-    { "RETURN",   1,  0, ' ',  "ii",       "f", 0x00 },
-    { "RIGHT$",   0,  0, ' ',  "ii",       "f", 0x00 },
-    { "RND",      0,  0, ' ',  "ii",       "f", 0x00 },
-    { "SCI$",     0,  0, ' ',  "ii",       "f", 0x00 },
-    { "SECOND",   0,  0, ' ',  "",         "i", 0x00 },
-    { "SIN",      0,  0, ' ',  "f",        "f", 0x00 },
-    { "SPACE",    0,  0, ' ',  "ii",       "f", 0x00 },
+    { "MEAN",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "MENU",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "MENUN",    0,  0, ' ',  "ii",        "f", 0x00 },
+    { "MID$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "MIN",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "MINUTE",   0,  0, ' ',  "",          "i", 0x00 },
+    { "MONTH",    0,  0, ' ',  "",          "i", 0x00 },
+    { "MONTH$",   0,  0, ' ',  "ii",        "f", 0x00 },
+    { "NEXT",     0,  1, ' ',  "ii",        "f", 0x00 },
+    { "NUM$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "OFF",      1,  0, ' ',  "ii",        "f", 0x00 },
+    { "OPEN",     1,  1, ' ',  "ii",        "f", 0x00 },
+    { "ONERR",    1,  0, ' ',  "ii",        "f", 0x00 },
+    { "PAUSE",    1,  0, ' ',  "ii",        "f", 0x00 },
+    { "PEEKB",    0,  0, ' ',  "ii",        "f", 0x00 },
+    { "PEEKW",    0,  0, ' ',  "ii",        "f", 0x00 },
+    { "PI",       0,  0, ' ',  "ii",        "f", 0x00 },
+    { "POKEB",    1,  0, ' ',  "ii",        "f", 0x00 },
+    { "POKEW",    1,  0, ' ',  "ii",        "f", 0x00 },
+    { "POS",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "POSITION", 1,  1, ' ',  "ii",        "f", 0x00 },
+    { "PRINT",    1,  0, ' ',  "i",         "v", 0x00 },
+    { "RAD",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "RAISE",    1,  0, ' ',  "ii",        "f", 0x00 },
+    { "RANDOMIZE",1,  0, ' ',  "ii",        "f", 0x00 },
+    { "RECSIZE",  0,  0, ' ',  "ii",        "f", 0x00 },
+    { "REM",      1,  0, ' ',  "ii",        "f", 0x00 },
+    { "RENAME",   1,  1, ' ',  "ii",        "f", 0x00 },
+    { "REPT$",    0,  0, ' ',  "ii",        "f", 0x00 },
+    { "RETURN",   1,  0, ' ',  "ii",        "f", 0x00 },
+    { "RIGHT$",   0,  0, ' ',  "ii",        "f", 0x00 },
+    { "RND",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "SCI$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "SECOND",   0,  0, ' ',  "",          "i", 0x00 },
+    { "SIN",      0,  0, ' ',  "f",         "f", 0x00 },
+    { "SPACE",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "SQR",      0,  0, ' ',  "f",         "f", 0x00 },
     { "STD",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "STOP",     1,  0, ' ',  "ii",        "f", 0x00 },
@@ -223,9 +221,11 @@ struct _FN_INFO
 
 int token_is_function(char *token, char **tokstr)
 {
+  fprintf(ofp, "\n%s:", __FUNCTION__);
+  
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
-      if( strcmp(token, fn_info[i].name) == 0 )
+      if( (strcmp(token, fn_info[i].name) == 0) )
 	{
 	  *tokstr = &(fn_info[i].name[0]);
 	  
@@ -233,7 +233,9 @@ int token_is_function(char *token, char **tokstr)
 	  return(1);
 	}
     }
+  fprintf(ofp, "\n%s:%s is not function", __FUNCTION__, token);
   return(0);
+  
 }
 
 
@@ -780,7 +782,14 @@ int scan_literal(char *lit)
   
   // reached end of literal string , all ok
 
-  strcpy(op.name, origlit);
+  if( *origlit == ' ' )
+    {
+      strcpy(op.name, origlit+1);
+    }
+  else
+    {
+      strcpy(op.name, origlit);
+    }
   process_token(&op);
   
   return(1);
@@ -1337,6 +1346,8 @@ int scan_integer(int *intdest)
       op.type = NOBJ_VARTYPE_INT;
       process_token(&op);
 
+      printf("\n%s:ret1  %s", __FUNCTION__, intval);
+
       return(1);
     }
 
@@ -1824,15 +1835,18 @@ int scan_expression(void)
 ////////////////////////////////////////////////////////////////////////////////
 //
 
-int scan_onoff(void)
+// We do not scan on/off as we want to map them to 1/0
+// before sending to th eoutput stream.
+
+int check_onoff(int *index, int *onoff_val)
 {
-  int idx = cline_i;
+  int idx = *index;
   
   printf("\n%s: '%s'", __FUNCTION__, &(cline[cline_i]));
   
   if( check_literal(&idx, " ON") )
     {
-      scan_literal(" ON");
+      *onoff_val = 1;
       printf("\n%s:ret1", __FUNCTION__);
       return(1);
     }
@@ -1840,7 +1854,7 @@ int scan_onoff(void)
   idx = cline_i;
   if( check_literal(&idx, " OFF") )
     {
-      scan_literal(" OFF");
+      *onoff_val = 0;
       printf("\n%s:ret1", __FUNCTION__);
       return(1);
     }
@@ -1881,8 +1895,14 @@ int check_command(int *index)
   return(0);
 }
 
+//------------------------------------------------------------------------------
+
 int scan_command(char *cmd_dest)
 {
+  int onoff_val;
+  
+  OP_STACK_ENTRY op;
+  
   drop_space(&cline_i);
   
   printf("\n%s:", __FUNCTION__);
@@ -1894,12 +1914,21 @@ int scan_command(char *cmd_dest)
 	  // Match
 	  strcpy(cmd_dest, fn_info[i].name);
 	  cline_i += strlen(fn_info[i].name);
+
+	  // Send command to output stream
+	  strcpy(op.name, cmd_dest);
+	  process_token(&op);
+	  
 	  switch(fn_info[i].argparse)
 	    {
 	      // ON/OFF
 	    case 'O':
-	      if( scan_onoff() )
+	      if( check_onoff(&cline_i, &onoff_val) )
 		{
+		  // ON and off map to 1 and 0
+		  sprintf(op.name, "%d", onoff_val);
+		  process_token(&op);
+		  
 		  printf("\n%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
 		  return(1);
 		}
@@ -1909,7 +1938,8 @@ int scan_command(char *cmd_dest)
 		  return(0);
 		}
 	      break;
-	      
+
+	      // Expression scanning will push expression to output stream.
 	    default:
 	      if( scan_expression() )
 		{
@@ -2168,6 +2198,7 @@ int scan_proc_call(void)
 	{
 	  printf("\n%s:ret1", __FUNCTION__);
 	  op.type = NOBJ_VARTYPE_FLT;
+	  op.buf_id = EXP_BUFF_ID_PROC_CALL;
 	  strcpy(op.name, textlabel);
 	  process_token(&op);
 	  return(1);
@@ -2746,5 +2777,9 @@ int scan_declare(void)
 
 void parser_check(void)
 {
-  assert( NUM_BUFF_ID == EXP_BUF_ID_MAX);
+  printf("\nNUM_BUFF_ID    :%d", NUM_BUFF_ID);
+  printf("\nEXP_BUFF_ID_MAX:%d", EXP_BUFF_ID_MAX);
+  printf("\n");
+  
+  assert( NUM_BUFF_ID == (EXP_BUFF_ID_MAX +1));
 }
