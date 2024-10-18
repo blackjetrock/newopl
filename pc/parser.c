@@ -335,7 +335,7 @@ int num_operators(void)
 
 void print_var_info(NOBJ_VAR_INFO *vi)
 {
-  printf("\nVAR INFO: '%18s' gbl:%d ref:%d int:%d flt:%d str:%d ary:%d max_str:%d max_ary:%d num_ind:%d",
+  fprintf(ofp, "\nVAR INFO: '%18s' gbl:%d ref:%d int:%d flt:%d str:%d ary:%d max_str:%d max_ary:%d num_ind:%d",
  	 vi->name,
 	 vi->is_global,
 	 vi->is_ref,
@@ -434,7 +434,7 @@ void dump_exp_buffer2(void)
 
       if( (exp_buffer2[i].buf_id < 0) || (exp_buffer2[i].buf_id > EXP_BUFF_ID_MAX) )
 	{
-	  printf("\nN%d buf_id invalid", token.node_id);
+	  fprintf(ofp,"\nN%d buf_id invalid", token.node_id);
 	}
       
       fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
@@ -526,155 +526,6 @@ NOBJ_VARTYPE char_to_type(char ch)
   return(ret_t);
 }
 
-
-
-////////////////////////////////////////////////////////////////////////////////
-
-// String display of type stack
-
-//char tss[40];
-
-#if 0
-char *type_stack_str(void)
-{
-  char tmps[20];
-  
-  sprintf(tss, "[%c,(", type_to_char(expression_type));
-  
-  for(int i=0; i<exp_type_stack_ptr; i++)
-    {
-      sprintf(tmps, "%c ", type_to_char(exp_type_stack[i]));
-      strcat(tss, tmps);
-    }
-  strcat(tss, ")]");
-  return(tss);
-}
-#endif
-
-#if 0
-void output_float(OP_STACK_ENTRY token)
-{
-  printf("\nop float");
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(token.type), type_to_char(token.req_type), token.name);
-  add_exp_buffer_entry(token, EXP_BUFF_ID_FLT);
-}
-
-void output_integer(OP_STACK_ENTRY token)
-{
-  printf("\nop integer");
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(token.type), type_to_char(token.req_type), token.name);
-  add_exp_buffer_entry(token, EXP_BUFF_ID_INTEGER);
-}
-
-void output_operator(OP_STACK_ENTRY op)
-{
-  char *tokptr;
-  
-  printf("\nop operator");
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
-  if( token_is_function(op.name, &tokptr) )
-    {
-      add_exp_buffer_entry(op, EXP_BUFF_ID_FUNCTION);
-    }
-  else
-    {
-      add_exp_buffer_entry(op, EXP_BUFF_ID_OPERATOR);
-    }
-}
-
-void output_function(OP_STACK_ENTRY op)
-{
-  printf("\nop function");
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
-  add_exp_buffer_entry(op, EXP_BUFF_ID_FUNCTION);
-}
-
-void output_variable(OP_STACK_ENTRY op)
-{
-  printf("\nop variable");
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
-  add_exp_buffer_entry(op, EXP_BUFF_ID_VARIABLE);
-}
-
-void output_string(OP_STACK_ENTRY op)
-{
-  printf("\nop string");
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
-  add_exp_buffer_entry(op, EXP_BUFF_ID_STR);
-}
-
-// Markers used as comments, and hints
-void output_marker(char *marker, ...)
-{
-  va_list valist;
-  char line[80];
-  
-  va_start(valist, marker);
-
-  vsprintf(line, marker, valist);
-  va_end(valist);
-
-  printf("\nop marker %s", line);
-  fprintf(ofp, "\n(%16s) %s", __FUNCTION__, line);
-}
-
-void output_sub_start(void)
-{
-#if 1
-  OP_STACK_ENTRY op;
-
-  printf("\nSub expression start");
-  fprintf(ofp, "\n(%16s)", __FUNCTION__);
-
-  strcpy(op.name,  "");
-  op.type = NOBJ_VARTYPE_UNKNOWN;
-  add_exp_buffer_entry(op, EXP_BUFF_ID_SUB_START);
-#endif
-}
-
-void output_sub_end(void)
-{
-#if 1
-  OP_STACK_ENTRY op;
-  
-  printf("\nSub expression end");
-  fprintf(ofp, "\n(%16s)", __FUNCTION__);
-
-  strcpy(op.name, "");
-  op.type = NOBJ_VARTYPE_UNKNOWN;
-  add_exp_buffer_entry(op, EXP_BUFF_ID_SUB_END);
-#endif
-}
-
-void output_expression_start(char *expr)
-{
-  strcpy(current_expression, expr);
-  
-  if( strlen(expr) > 0 )
-    {
-      printf("\nExpression start");
-      fprintf(ofp, "\n========================================================");
-      fprintf(ofp, "\n%s", expr);
-      fprintf(chkfp, "\n\n\n%s", expr);
-      
-      fprintf(ofp, "\n========================================================");
-
-      fprintf(ofp, "\n(%16s)", __FUNCTION__);
-      
-      // We have a new expression, process the previous one which will be in the
-      // buffer
-      
-      //  expression_tree_process(expr);
-      
-    }
-  
-  // Clear the buffer ready for the new expression that has just come in
-  clear_exp_buffer();
-
-  //  first_token = 1;
-}
-#endif
-
 ////////////////////////////////////////////////////////////////////////////////
 
 void syntax_error(char *fmt, ...)
@@ -745,7 +596,7 @@ int scan_literal(char *lit)
 
   init_op_stack_entry(&op);
   
-  printf("\n%s:lit='%s' '%s'", __FUNCTION__, lit, &(cline[cline_i]));
+  fprintf(ofp,"\n%s:lit='%s' '%s'", __FUNCTION__, lit, &(cline[cline_i]));
   
   if( *lit == ' ' )
     {
@@ -753,11 +604,11 @@ int scan_literal(char *lit)
       drop_space(&cline_i);
     }
 
-  printf("\n%s:After drop space:%s", __FUNCTION__, &(cline[cline_i]));
+  fprintf(ofp,"\n%s:After drop space:%s", __FUNCTION__, &(cline[cline_i]));
 
   while( (*lit != '\0') && (*lit != ' ') )
     {
-      printf("\n%s:while loop:%s", __FUNCTION__, &(cline[cline_i]));
+      fprintf(ofp,"\n%s:while loop:%s", __FUNCTION__, &(cline[cline_i]));
       if( cline[cline_i] == '\0' )
 	{
 	  syntax_error("Bad literal '%s'", origlit);
@@ -805,20 +656,20 @@ int check_literal(int *index, char *lit)
 {
   int idx = *index;
   
-  printf("\n%s:lit='%s' idx=%d '%s'", __FUNCTION__, lit, idx, &(cline[idx]));
+  fprintf(ofp,"\n%s:lit='%s' idx=%d '%s'", __FUNCTION__, lit, idx, &(cline[idx]));
 
   if( *lit == ' ' )
     {
-      printf("\n    dropping space");
+      fprintf(ofp,"\n    dropping space");
       lit++;
       drop_space(&idx);
     }
 
-  printf("\n%s:After drop space:'%s' idx=%d '%s'", __FUNCTION__, lit, idx, &(cline[idx]));
+  fprintf(ofp,"\n%s:After drop space:'%s' idx=%d '%s'", __FUNCTION__, lit, idx, &(cline[idx]));
 
   if( cline[idx] == '\0' )
     {
-      printf("\n%s  ret0 Empty test string", __FUNCTION__);
+      fprintf(ofp,"\n%s  ret0 Empty test string", __FUNCTION__);
       *index = idx;
       return(0);
     }
@@ -827,10 +678,10 @@ int check_literal(int *index, char *lit)
     {
       if( *lit != cline[idx] )
 	{
-	  printf("\n  '%c' != '%c'", *lit, cline[idx]);
+	  fprintf(ofp,"\n  '%c' != '%c'", *lit, cline[idx]);
 	  // Not a match, fail
 
-	  printf("\n%s: ret0", __FUNCTION__);
+	  fprintf(ofp,"\n%s: ret0", __FUNCTION__);
 	  *index = idx;
 	  return(0);
 	}
@@ -838,19 +689,19 @@ int check_literal(int *index, char *lit)
       idx++;
     }
 
-  printf("\n%s:After while():%s", __FUNCTION__, &(cline[idx]));
+  fprintf(ofp,"\n%s:After while():%s", __FUNCTION__, &(cline[idx]));
   
   if( cline[idx-1] == '\0' )
     {
       *index = idx;
 
-      printf("\n%s: ret0", __FUNCTION__);
+      fprintf(ofp,"\n%s: ret0", __FUNCTION__);
       return(0);
     }
   
   // reached end of literal string , all ok
   *index = idx;
-  printf("\n%s:ret1 ", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret1 ", __FUNCTION__);
   return(1);
 
 }
@@ -863,7 +714,7 @@ int scan_vname(char *vname_dest)
   int vname_i = 0;
   char ch;
 
-  printf("\n%s: '%s'", __FUNCTION__, &(cline[cline_i]));
+  fprintf(ofp,"\n%s: '%s'", __FUNCTION__, &(cline[cline_i]));
 
   drop_space(&cline_i);
   
@@ -880,11 +731,11 @@ int scan_vname(char *vname_dest)
       vname[vname_i] = '\0';
       
       strcpy(vname_dest, vname);
-      printf("\n%s: ret1 '%s'", __FUNCTION__, vname);
+      fprintf(ofp,"\n%s: ret1 '%s'", __FUNCTION__, vname);
       return(1);
     }
 
-  printf("\n%s: ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s: ret0", __FUNCTION__);
   strcpy(vname_dest, "");
   return(0);
 }
@@ -899,7 +750,7 @@ int check_vname(int *index)
 
   drop_space(&idx);
 
-  printf("\n%s '%s':", __FUNCTION__, &(cline[idx]));
+  fprintf(ofp,"\n%s '%s':", __FUNCTION__, &(cline[idx]));
   
   if( isalpha(cline[idx]) )
     {
@@ -910,12 +761,12 @@ int check_vname(int *index)
 	  idx++;
 	}
 
-      printf("\n%s ret1 '%s':", __FUNCTION__, &(cline[idx]));
+      fprintf(ofp,"\n%s ret1 '%s':", __FUNCTION__, &(cline[idx]));
       *index = idx;
       return(1);
     }
 
-  printf("\n%s ret0 '%s':", __FUNCTION__, &(cline[idx]));
+  fprintf(ofp,"\n%s ret0 '%s':", __FUNCTION__, &(cline[idx]));
   *index = idx;
   return(0);
 }
@@ -937,6 +788,44 @@ int check_vname(int *index)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+void set_op_var_type(OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
+{
+  if( vi->is_array )
+    {
+      if( vi->is_integer )
+	{
+	  op->type = NOBJ_VARTYPE_INTARY;
+	}
+      
+      if( vi->is_float )
+	{
+	  op->type = NOBJ_VARTYPE_FLTARY;
+	}
+      
+      if( vi->is_string )
+	{
+	  op->type = NOBJ_VARTYPE_STRARY;
+	}
+    }
+  else
+    {  
+      if( vi->is_integer )
+	{
+	  op->type = NOBJ_VARTYPE_INT;
+	}
+      
+      if( vi->is_float )
+	{
+	  op->type = NOBJ_VARTYPE_FLT;
+	}
+      
+      if( vi->is_string )
+	{
+	  op->type = NOBJ_VARTYPE_STR;
+	}
+    }
+}
+
 int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 {
   char vname[300];
@@ -946,7 +835,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 
   init_op_stack_entry(&op);
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
 
   init_var_info(vi);
   vi->is_ref = ref_ndeclare;
@@ -958,7 +847,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
   
   if( scan_vname(vname) )
     {
-      printf("\n%s: '%s' vname='%s'", __FUNCTION__, &(cline[cline_i]), vname);
+      fprintf(ofp,"\n%s: '%s' vname='%s'", __FUNCTION__, &(cline[cline_i]), vname);
       
       // Could just be a vname
       switch( chstr[0] = cline[cline_i] )
@@ -981,7 +870,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	}
 
       // Is it an array?
-      printf("\n%s: Ary test '%s'", __FUNCTION__, &(cline[cline_i]));
+      fprintf(ofp,"\n%s: Ary test '%s'", __FUNCTION__, &(cline[cline_i]));
       idx = cline_i;
       
       if( check_literal(&idx,"(") )
@@ -992,7 +881,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	      return(0);
 	    }
 	  
-	  printf("\n%s: is array", __FUNCTION__);
+	  fprintf(ofp,"\n%s: is array", __FUNCTION__);
 	  
 	  vi->is_array = 1;
 	  
@@ -1048,7 +937,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 
 	  if( scan_literal(" )") )
 	    {
-	      printf("\n%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
+	      fprintf(ofp,"\n%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
 		     vname,
 		     vi->is_string,
 		     vi->is_integer,
@@ -1058,12 +947,13 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	      
 	      strcpy(vi->name, vname);
 	      strcpy(op.name, vname);
+	      set_op_var_type(&op, vi);
 	      process_token(&op);
 	      return(1);
 	    }
 	}
       
-      printf("\n%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
+      fprintf(ofp,"\n%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
 	     vname,
 	     vi->is_string,
 	     vi->is_integer,
@@ -1073,6 +963,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
       
       strcpy(vi->name, vname);
       strcpy(op.name, vname);
+      set_op_var_type(&op, vi);
       process_token(&op);
       
       return(1);
@@ -1094,14 +985,14 @@ int check_variable(int *index)
 
   drop_space(&idx);
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
 
   vname[0] = '\0';
   chstr[1] = '\0';
   
   if( check_vname(&idx) )
     {
-      printf("\n%s: '%s'", __FUNCTION__, &(cline[idx]));
+      fprintf(ofp,"\n%s: '%s'", __FUNCTION__, &(cline[idx]));
       
       // Could just be a vname
       switch( chstr[0] = cline[idx] )
@@ -1124,11 +1015,11 @@ int check_variable(int *index)
 	}
 
       // Is it an array?
-      printf("\n%s: Ary test '%s'", __FUNCTION__, &(cline[idx]));
+      fprintf(ofp,"\n%s: Ary test '%s'", __FUNCTION__, &(cline[idx]));
       
       if( check_literal(&idx, "(") )
 	{
-	  printf("\n%s: is array", __FUNCTION__);
+	  fprintf(ofp,"\n%s: is array", __FUNCTION__);
 	  
 	  var_is_array = 1;
 	  
@@ -1155,7 +1046,7 @@ int check_variable(int *index)
 	      else
 		{
 		  *index = idx;
-		  printf("\n%s:ret0 ", __FUNCTION__);
+		  fprintf(ofp,"\n%s:ret0 ", __FUNCTION__);
 		  return(0);
 		}
 	    }
@@ -1163,12 +1054,12 @@ int check_variable(int *index)
 	  if( check_literal(&idx, " )") )
 	    {
 	      *index = idx;
-	      printf("\n%s:ret1 ", __FUNCTION__);
+	      fprintf(ofp,"\n%s:ret1 ", __FUNCTION__);
 	      return(1);
 	    }
 	}
       
-      printf("\n%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
+      fprintf(ofp,"\n%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
 	     vname,
 	     var_is_string,
 	     var_is_integer,
@@ -1177,13 +1068,13 @@ int check_variable(int *index)
 	     );
       
       *index = idx;
-      printf("\n%s:ret1 ", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1 ", __FUNCTION__);
       return(1);
       
     }
 
   *index = idx;
-  printf("\n%s:ret0 ", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret0 ", __FUNCTION__);
   return(0);
 }
 
@@ -1205,7 +1096,7 @@ int check_operator(int *index)
 {
   int idx = *index;
   
-  printf("\n%s: %s", __FUNCTION__, cline_now(idx));
+  fprintf(ofp,"\n%s: %s", __FUNCTION__, cline_now(idx));
 
   drop_space(&idx);
   
@@ -1221,14 +1112,14 @@ int check_operator(int *index)
 	{
 	  // Match
 	  
-	  printf("\n%s: ret1", __FUNCTION__);
+	  fprintf(ofp,"\n%s: ret1", __FUNCTION__);
 	  idx += strlen(op_info[i].name);
 	  *index = idx;
 	  return(1);
 	}
     }
 
-  printf("\n%s:ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret0", __FUNCTION__);
 
   *index = idx;
   return(0);
@@ -1241,7 +1132,7 @@ int scan_operator(void)
 
   init_op_stack_entry(&op);
   
-  printf("\n%s: '%s'", __FUNCTION__, cline_now(idx));
+  fprintf(ofp,"\n%s: '%s'", __FUNCTION__, cline_now(idx));
 
   drop_space(&idx);
 
@@ -1258,14 +1149,14 @@ int scan_operator(void)
 	{
 	  // Match
 	  cline_i += strlen(op_info[i].name);
-	  printf("\n%s: ret1 '%s'", __FUNCTION__, cline_now(cline_i));
+	  fprintf(ofp,"\n%s: ret1 '%s'", __FUNCTION__, cline_now(cline_i));
 	  strcpy(op.name, op_info[i].name);
 	  process_token(&op);
 	  return(1);
 	}
     }
 
-  printf("\n%s: ret0 '%s'", __FUNCTION__, cline_now(cline_i));
+  fprintf(ofp,"\n%s: ret0 '%s'", __FUNCTION__, cline_now(cline_i));
   return(0);
 }
 
@@ -1278,7 +1169,7 @@ int check_integer(int *index)
 
   drop_space(&idx);
   
-  printf("\n%s: '%s'", __FUNCTION__, &(cline[idx]));
+  fprintf(ofp,"\n%s: '%s'", __FUNCTION__, &(cline[idx]));
 
   char intval[20];
   char chstr[2];
@@ -1296,11 +1187,11 @@ int check_integer(int *index)
   
   if( num_digits > 0 )
     {
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       return(1);
     }
 
-  printf("\n%s:ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret0", __FUNCTION__);
   return(0);
 }
 
@@ -1318,7 +1209,7 @@ int scan_integer(int *intdest)
   
   drop_space(&cline_i);
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
 
   char intval[20];
   char chstr[2];
@@ -1338,7 +1229,7 @@ int scan_integer(int *intdest)
   
   if( num_digits > 0 )
     {
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 
       strcpy(op.name, intval);
 
@@ -1346,18 +1237,18 @@ int scan_integer(int *intdest)
       op.type = NOBJ_VARTYPE_INT;
       process_token(&op);
 
-      printf("\n%s:ret1  %s", __FUNCTION__, intval);
+      fprintf(ofp,"\n%s:ret1  %s", __FUNCTION__, intval);
 
       return(1);
     }
 
-  printf("\n%s:ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret0", __FUNCTION__);
   return(0);
 }
 
 int isfloatdigit(char c)
 {
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   if( isdigit(c) || (c == '.') )
     {
       return(1);
@@ -1373,7 +1264,7 @@ int check_float(int *index)
   int decimal_present = 0;
   int num_digits = 0;
 
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   
   drop_space(&idx);
   
@@ -1391,19 +1282,19 @@ int check_float(int *index)
 
   if( (num_digits > 0) &&  decimal_present )
     {
-      printf("\n%s: ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s: ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
   
-  printf("\n%s: ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s: ret0", __FUNCTION__);
 
   return(0);
 }
 
 int scan_float(char *fltdest)
 {
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   char fltval[20];
   char chstr[2];
   int decimal_present = 0;
@@ -1431,13 +1322,13 @@ int scan_float(char *fltdest)
   strcpy(fltdest, fltval);
   if( (num_digits > 0) &&  decimal_present )
     {
-      printf("\n%s: ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s: ret1", __FUNCTION__);
       strcpy(op.name, fltval);
       process_token(&op);
       return(1);
     }
   
-  printf("\n%s: ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s: ret0", __FUNCTION__);
   return(0);
   
 }
@@ -1446,25 +1337,25 @@ int check_number(int *index)
 {
   int idx = *index;
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
 
   drop_space(&idx);
 	     
   if( check_float(&idx) )
     {
-      printf("\n%s: ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s: ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
 
   if( check_integer(&idx) )
     {
-      printf("\n%s: ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s: ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
 
-  printf("\n%s: ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s: ret0", __FUNCTION__);
   return(0);
 }
 
@@ -1474,7 +1365,7 @@ int scan_number(void)
 {
   int idx = cline_i;
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   char fltval[40];
 
   drop_space(&cline_i);
@@ -1502,16 +1393,16 @@ int check_sub_expr(int *index)
   int idx = *index;
 
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   
   if( check_literal(&idx," (") )
     {
-      printf("\n%s: ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s: ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
 
-  printf("\n%s: ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s: ret0", __FUNCTION__);
   *index = idx;
   return(0);
 }
@@ -1522,7 +1413,7 @@ int scan_sub_expr(void)
 
   init_op_stack_entry(&op);
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   if( scan_literal(" (") )
     {
       strcpy(op.name, "(");
@@ -1535,13 +1426,13 @@ int scan_sub_expr(void)
 	      strcpy(op.name, ")");
 	      process_token(&op);
 	      
-	      printf("\n%s:ret1", __FUNCTION__);
+	      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 	      return(1);
 	    }
 	}
     }
 
-  printf("\n%s:ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret0", __FUNCTION__);
   syntax_error("Expression error");
   return(0);
 }
@@ -1550,7 +1441,7 @@ int check_atom(int *index)
 {
   int idx = *index;
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   
   idx = *index;
   if( check_literal(&idx," %") )
@@ -1600,28 +1491,28 @@ int scan_string(void)
 
   init_op_stack_entry(&op);
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
 
   strval[0] = '\0';
   chstr[1] = '\0';
   
   if( scan_literal(" \"") )
     {
-      printf("\n  (in if) '%s'", &(cline[cline_i]));
+      fprintf(ofp,"\n  (in if) '%s'", &(cline[cline_i]));
       
       while(((chstr[0] = cline[cline_i]) != '"') && (cline[cline_i] != '\0') )
 	{
-	  printf("\n  (in wh) '%s'", &(cline[cline_i]));
+	  fprintf(ofp,"\n  (in wh) '%s'", &(cline[cline_i]));
 	  strcat(strval, chstr);
 	  cline_i++;
-	  printf("\n  (in wh) '%s'", &(cline[cline_i]));
+	  fprintf(ofp,"\n  (in wh) '%s'", &(cline[cline_i]));
 	}
 
       
       if( cline[cline_i] == '"' )
 	{
 	  cline_i++;
-	  printf("\n%s: ret1", __FUNCTION__);
+	  fprintf(ofp,"\n%s: ret1", __FUNCTION__);
 	  strcpy(op.name, strval);
 	  process_token(&op);
 	  return(1);
@@ -1648,7 +1539,7 @@ int scan_atom(void)
   char vname[300];
 
   init_var_info(&vi);
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
 
   idx = cline_i;
   if( check_literal(&idx," %") )
@@ -1696,12 +1587,12 @@ int check_eitem(int *index)
 {
   int idx = *index;
   
-  printf("\n%s: '%s'", __FUNCTION__, &(cline[idx]));
+  fprintf(ofp,"\n%s: '%s'", __FUNCTION__, &(cline[idx]));
   
   if( check_operator(&idx) )
     {
       *index = idx;
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       return(1);
     }
 
@@ -1709,7 +1600,7 @@ int check_eitem(int *index)
   if( check_function(&idx) )
     {
       *index = idx;
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       return(1);
     }
 
@@ -1717,7 +1608,7 @@ int check_eitem(int *index)
   if( check_atom(&idx) )
     {
       *index = idx;
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       return(1);
     }
 
@@ -1725,12 +1616,12 @@ int check_eitem(int *index)
   if( check_sub_expr(&idx) )
     {
       *index = idx;
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       return(1);
     }
   
   idx = *index;
-  printf("\n%s:ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret0", __FUNCTION__);
   return(0);
 }
 
@@ -1744,7 +1635,7 @@ int scan_eitem(void)
 
   init_op_stack_entry(&op);
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   
   if( check_operator(&idx) )
     {
@@ -1782,7 +1673,7 @@ int check_expression(int *index)
   
   drop_space(&idx);
   
-  printf("\n%s: '%s'", __FUNCTION__, &(cline[idx]));
+  fprintf(ofp,"\n%s: '%s'", __FUNCTION__, &(cline[idx]));
   while( check_eitem(&idx) && (cline[idx] != '\0') )
     {
       num_eitems++;
@@ -1790,12 +1681,12 @@ int check_expression(int *index)
 
   if( num_eitems > 0 )
     {
-      printf("\n%s:ret1 '%s'", __FUNCTION__, &(cline[idx]));
+      fprintf(ofp,"\n%s:ret1 '%s'", __FUNCTION__, &(cline[idx]));
       *index = idx;
       return(1);
     }
 
-  printf("\n%s:ret0 '%s'", __FUNCTION__, &(cline[idx]));
+  fprintf(ofp,"\n%s:ret0 '%s'", __FUNCTION__, &(cline[idx]));
   *index = idx;
   
   return(0);
@@ -1807,7 +1698,7 @@ int scan_expression(void)
 {
   int idx = cline_i;
   
-  printf("\n%s: '%s'", __FUNCTION__, &(cline[idx]));
+  fprintf(ofp,"\n%s: '%s'", __FUNCTION__, &(cline[idx]));
 
   drop_space(&idx);
   cline_i = idx;
@@ -1821,13 +1712,13 @@ int scan_expression(void)
       else
 	{
 	  syntax_error("Expression error");
-	  printf("\n%s: ret0 '%s'", __FUNCTION__, &(cline[cline_i]));
+	  fprintf(ofp,"\n%s: ret0 '%s'", __FUNCTION__, &(cline[cline_i]));
 	  return(0);
 	}
       idx = cline_i;
     }
 
-  printf("\n%s: ret1 '%s'", __FUNCTION__, &(cline[cline_i]));
+  fprintf(ofp,"\n%s: ret1 '%s'", __FUNCTION__, &(cline[cline_i]));
   return(1);
 }
 
@@ -1841,12 +1732,12 @@ int check_onoff(int *index, int *onoff_val)
 {
   int idx = *index;
   
-  printf("\n%s: '%s'", __FUNCTION__, &(cline[cline_i]));
+  fprintf(ofp,"\n%s: '%s'", __FUNCTION__, &(cline[cline_i]));
   
   if( check_literal(&idx, " ON") )
     {
       *onoff_val = 1;
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       return(1);
     }
 
@@ -1854,11 +1745,11 @@ int check_onoff(int *index, int *onoff_val)
   if( check_literal(&idx, " OFF") )
     {
       *onoff_val = 0;
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       return(1);
     }
 
-  printf("\n%s:ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret0", __FUNCTION__);
   return(0);
   
 }
@@ -1878,19 +1769,19 @@ int check_command(int *index)
 
   drop_space(&idx);
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
       if( fn_info[i].command && strncmp(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name)) == 0 )
 	{
 	  // Match
-	  printf("\n%s: ret1 found=> '%s'", __FUNCTION__, fn_info[i].name);
+	  fprintf(ofp,"\n%s: ret1 found=> '%s'", __FUNCTION__, fn_info[i].name);
 	  *index = idx + strlen(fn_info[i].name);
 	  return(1);
 	}
     }
-  printf("\n%s: ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s: ret0", __FUNCTION__);
   return(0);
 }
 
@@ -1904,7 +1795,7 @@ int scan_command(char *cmd_dest)
   
   drop_space(&cline_i);
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
 
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
@@ -1928,12 +1819,12 @@ int scan_command(char *cmd_dest)
 		  sprintf(op.name, "%d", onoff_val);
 		  process_token(&op);
 		  
-		  printf("\n%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
+		  fprintf(ofp,"\n%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
 		  return(1);
 		}
 	      else
 		{
-		  printf("\n%s: expression failed", __FUNCTION__);
+		  fprintf(ofp,"\n%s: expression failed", __FUNCTION__);
 		  return(0);
 		}
 	      break;
@@ -1942,12 +1833,12 @@ int scan_command(char *cmd_dest)
 	    default:
 	      if( scan_expression() )
 		{
-		  printf("\n%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
+		  fprintf(ofp,"\n%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
 		  return(1);
 		}
 	      else
 		{
-		  printf("\n%s: expression failed", __FUNCTION__);
+		  fprintf(ofp,"\n%s: expression failed", __FUNCTION__);
 		  return(0);
 		}
 	      break;
@@ -1965,20 +1856,20 @@ int check_function(int *index)
 
   drop_space(&idx);
   
-  printf("\n%s: '%s'", __FUNCTION__, &(cline[idx]));
+  fprintf(ofp,"\n%s: '%s'", __FUNCTION__, &(cline[idx]));
     
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
       if( (!fn_info[i].command) && strncmp(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name)) == 0 )
 	{
 	  // Match
-	  printf("\n%s: ret1 Found fn=>'%s'", __FUNCTION__, fn_info[i].name);
+	  fprintf(ofp,"\n%s: ret1 Found fn=>'%s'", __FUNCTION__, fn_info[i].name);
 	  *index = idx+strlen(fn_info[i].name);
 	  return(1);
 	}
     }
   
-  printf("\n%s: ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s: ret0", __FUNCTION__);
   *index = idx;
   return(0);
 }
@@ -1991,7 +1882,7 @@ int scan_function(char *cmd_dest)
   
   drop_space(&cline_i);
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
       if( !(fn_info[i].command) && (strncmp(&(cline[cline_i]), fn_info[i].name, strlen(fn_info[i].name)) == 0) )
@@ -2013,7 +1904,7 @@ int check_assignment(int *index)
 {
   int idx = *index;
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   
   if( check_variable(&idx) )
     {
@@ -2022,13 +1913,13 @@ int check_assignment(int *index)
 	  if( check_expression(&idx) )
 	    {
 	      *index = idx;
-	      printf("\n%s:ret1", __FUNCTION__);
+	      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 	      return(1);
 	    }
 	}
     }
 
-  printf("\n%s:ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret0", __FUNCTION__);
   *index = idx;
   return(0);
 }
@@ -2039,7 +1930,7 @@ int scan_assignment(void)
   NOBJ_VAR_INFO vi;
 
   init_var_info(&vi);
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
 
   if( scan_variable(vname, &vi, VAR_REF) )
     {
@@ -2049,7 +1940,7 @@ int scan_assignment(void)
 	{
 	  if( scan_expression() )
 	    {
-	      printf("\n%s: ret1", __FUNCTION__);
+	      fprintf(ofp,"\n%s: ret1", __FUNCTION__);
 	      return(1);
 	    }
 	}
@@ -2072,13 +1963,13 @@ int check_textlabel(int *index, char *label_dest)
   
   drop_space(&idx);
   
-  printf("\n%s: '%s'", __FUNCTION__, &(cline[idx]));
+  fprintf(ofp,"\n%s: '%s'", __FUNCTION__, &(cline[idx]));
 
   // Just a colon is not a text label  
   if( cline[idx] == ':' )
     {
       *index = idx;
-      printf("\n%s:ret0 (just colon)", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret0 (just colon)", __FUNCTION__);
       return(0);
     }
 
@@ -2092,11 +1983,11 @@ int check_textlabel(int *index, char *label_dest)
   if( cline[idx] == ':' )
     {
       *index = idx;
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       return(1);
     }
   
-  printf("\n%s:ret0", __FUNCTION__);  
+  fprintf(ofp,"\n%s:ret0", __FUNCTION__);  
   return(0);
 }
 
@@ -2105,19 +1996,19 @@ int check_label(int *index)
   int idx = *index;
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   
   if( check_textlabel(&idx, textlabel))
     {
       if( check_literal(&idx, "::") )
 	{
-	  printf("\n%s:ret1", __FUNCTION__);
+	  fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 	  *index = idx;
 	  return(1);
 	}
     }
   
-  printf("\n%s:ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret0", __FUNCTION__);
   return(0);
 }
 
@@ -2126,19 +2017,19 @@ int scan_label(void)
   int idx = cline_i;
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
 
- printf("\n%s:", __FUNCTION__);
+ fprintf(ofp,"\n%s:", __FUNCTION__);
   if( check_textlabel(&idx, textlabel))
     {
       cline_i = idx;
       
       if( scan_literal("::") )
 	{
-	  printf("\n%s:ret1", __FUNCTION__);
+	  fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 	  return(1);
 	}
     }
   
-  printf("\n%s:ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret0", __FUNCTION__);
   return(0);
 }
 
@@ -2149,32 +2040,32 @@ int check_proc_call(int *index)
   int idx = *index;
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
 
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   if( check_textlabel(&idx, textlabel))
     {
       if( check_literal(&idx, ":") )
 	{
-	  printf("\n%s:ret1", __FUNCTION__);
+	  fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 	  *index = idx;
 	  return(1);
 	}
 
       if( check_literal(&idx, "%:") )
 	{
-	  printf("\n%s:ret1", __FUNCTION__);
+	  fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 	  *index = idx;
 	  return(1);
 	}
 
       if( check_literal(&idx, "$:") )
 	{
-	  printf("\n%s:ret1", __FUNCTION__);
+	  fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 	  *index = idx;
 	  return(1);
 	}
     }
   
-  printf("\n%s:ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret0", __FUNCTION__);
   return(0);
 }
 
@@ -2188,14 +2079,14 @@ int scan_proc_call(void)
   
   init_op_stack_entry(&op);
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   if( check_textlabel(&idx, textlabel))
     {
       cline_i = idx;
       
       if( scan_literal(":") )
 	{
-	  printf("\n%s:ret1", __FUNCTION__);
+	  fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 	  op.type = NOBJ_VARTYPE_FLT;
 	  op.buf_id = EXP_BUFF_ID_PROC_CALL;
 	  strcpy(op.name, textlabel);
@@ -2205,7 +2096,7 @@ int scan_proc_call(void)
 
       if( scan_literal("%:") )
 	{
-	  printf("\n%s:ret1", __FUNCTION__);
+	  fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 	  op.type = NOBJ_VARTYPE_INT;
 	  strcpy(op.name, textlabel);
 	  process_token(&op);
@@ -2214,7 +2105,7 @@ int scan_proc_call(void)
 
       if( scan_literal("$:") )
 	{
-	  printf("\n%s:ret1", __FUNCTION__);
+	  fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 	  op.type = NOBJ_VARTYPE_STR;
 	  strcpy(op.name, textlabel);
 	  process_token(&op);
@@ -2222,7 +2113,7 @@ int scan_proc_call(void)
 	}
     }
   
-  printf("\n%s:ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret0", __FUNCTION__);
   return(0);
 }
 
@@ -2234,12 +2125,12 @@ int check_line(int *index)
 
   drop_space(&idx);
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
 
   idx = cline_i;
   if( check_assignment(&idx) )
     {
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
   
       *index = idx;
       return(1);
@@ -2248,7 +2139,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_proc_call(&idx) )
     {
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
   
       *index = idx;
       return(1);
@@ -2258,7 +2149,7 @@ int check_line(int *index)
 
   if( check_command(&idx) )
     {
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -2267,7 +2158,7 @@ int check_line(int *index)
 
   if( check_function(&idx) )
     {
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -2276,7 +2167,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," LOCAL"))
     {
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -2284,7 +2175,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," GLOBAL"))
     {
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -2293,7 +2184,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," IF"))
     {
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -2303,7 +2194,7 @@ int check_line(int *index)
     {
       if( check_expression(&idx) )
 	{
-	  printf("\n%s:ret1", __FUNCTION__);
+	  fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 	  *index = idx;
 	  return(1);
 	}
@@ -2312,7 +2203,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," ELSE"))
     {
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -2320,7 +2211,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," ENDIF"))
     {
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -2328,7 +2219,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," DO"))
     {
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -2336,7 +2227,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," WHILE"))
     {
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -2344,7 +2235,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," ENDWH"))
     {
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -2352,7 +2243,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," REPEAT"))
     {
-      printf("\n%s:ret1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
@@ -2362,7 +2253,7 @@ int check_line(int *index)
     {
       if( check_expression(&idx) )
 	{
-	  printf("\n%s:ret1", __FUNCTION__);
+	  fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 	  *index = idx;
 	  return(1);
 	}
@@ -2375,13 +2266,13 @@ int check_line(int *index)
       
       if( check_label(&idx) )
 	{
-	  printf("\n%s:ret1", __FUNCTION__);
+	  fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 	  *index = idx;
 	  return(1);
 	}
     }
 
-  printf("\n%s:ret1", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret1", __FUNCTION__);
   *index = idx;
   return(0);
 }
@@ -2396,7 +2287,7 @@ int scan_line()
 
   drop_space(&cline_i);
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   
   idx = cline_i;
   if( check_assignment(&idx) )
@@ -2413,7 +2304,7 @@ int scan_line()
   idx = cline_i;
   if( check_command(&idx) )
     {
-      printf("\n%s:check_command: ", __FUNCTION__);
+      fprintf(ofp,"\n%s:check_command: ", __FUNCTION__);
       scan_command(cmdname);
       return(1);
     }
@@ -2421,7 +2312,7 @@ int scan_line()
   idx = cline_i;
   if( check_function(&idx) )
     {
-      printf("\n%s:check_command: ", __FUNCTION__);
+      fprintf(ofp,"\n%s:check_command: ", __FUNCTION__);
       scan_function(cmdname);
       return(1);
     }
@@ -2498,12 +2389,12 @@ int scan_line()
 	{
 	  if( scan_expression() )
 	    {
-	      printf("\n%s: ret1", __FUNCTION__);
+	      fprintf(ofp,"\n%s: ret1", __FUNCTION__);
 	      return(1);
 	    }
 	}
       
-      printf("\n%s: ret0", __FUNCTION__);
+      fprintf(ofp,"\n%s: ret0", __FUNCTION__);
       return(0);
     }
 
@@ -2528,12 +2419,12 @@ int scan_line()
 	{
 	  if( scan_expression() )
 	    {
-	      printf("\n%s: ret1", __FUNCTION__);
+	      fprintf(ofp,"\n%s: ret1", __FUNCTION__);
 	      return(1);	      
 	    }
 	}
 
-      printf("\n%s: ret0", __FUNCTION__);
+      fprintf(ofp,"\n%s: ret0", __FUNCTION__);
       return(0);
     }
   
@@ -2550,7 +2441,7 @@ int scan_line()
     }
 
   cline_i = idx;
-  printf("\n%s: ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s: ret0", __FUNCTION__);
   return(0);    
 }
 
@@ -2562,13 +2453,13 @@ int scan_cline(void)
   int idx = cline_i;
   
   int ret = 0;
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   
   drop_space(&idx);
   
   while( check_line(&idx) && (strlen(&(cline[idx])) > 0))
     {
-      printf("\n%s: Checked len=%ld, '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
+      fprintf(ofp,"\n%s: Checked len=%ld, '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
       //cline_i = idx;
 
       output_expression_start(cline);
@@ -2576,7 +2467,7 @@ int scan_cline(void)
 	{
 	  finalise_expression();
 	  
-	  printf("\n%s: scan_line==0 len=%ld '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
+	  fprintf(ofp,"\n%s: scan_line==0 len=%ld '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
 	  syntax_error("Syntax error in line");
 	  return(0);
 	}
@@ -2610,7 +2501,7 @@ int scan_cline(void)
       
     }
 
-  printf("\n%s: after wh len=%ld '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
+  fprintf(ofp,"\n%s: after wh len=%ld '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
   syntax_error("Syntax error in line");
   
   if( strlen(&(cline[cline_i])) == 0 )
@@ -2628,19 +2519,19 @@ int scan_procdef(void)
   int idx = cline_i;
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   if( check_textlabel(&idx, textlabel))
     {
       cline_i = idx;
       
       if( scan_literal(":") )
 	{
-	  printf("\n%s:ret1", __FUNCTION__);
+	  fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 	  return(1);
 	}
     }
   
-  printf("\n%s:ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret0", __FUNCTION__);
   return(0);
 }
 
@@ -2669,7 +2560,7 @@ int scan_localglobal(int local_nglobal)
       keyword = " GLOBAL";
     }
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   
   if( scan_literal(keyword) )
     {
@@ -2684,7 +2575,7 @@ int scan_localglobal(int local_nglobal)
 	  vi.is_global = !local_nglobal;
 	  vi.is_ref = 0;
 	  
-	  printf("\n%s:%s variable:'%s'", __FUNCTION__, keyword, varname);
+	  fprintf(ofp,"\n%s:%s variable:'%s'", __FUNCTION__, keyword, varname);
 	  print_var_info(&vi);
 	  
 	  idx = cline_i;
@@ -2698,12 +2589,12 @@ int scan_localglobal(int local_nglobal)
 
       if( cline[cline_i] == '\0' )
 	{
-	  printf("\n%s:ret1", __FUNCTION__);
+	  fprintf(ofp,"\n%s:ret1", __FUNCTION__);
 	  return(1);
 	}
     }
 
-  printf("\n%s:ret0", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret0", __FUNCTION__);
   return(0);
 }
 
@@ -2713,23 +2604,23 @@ int check_declare(int *index)
 {
   int idx = *index;
 
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   
   if( check_literal(&idx, " LOCAL") )
     {
-      printf("\n%s:ret 1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret 1", __FUNCTION__);
       *index = idx;
       return(1);
     }
 
   if( check_literal(&idx, " GLOBAL") )
     {
-      printf("\n%s:ret 1", __FUNCTION__);
+      fprintf(ofp,"\n%s:ret 1", __FUNCTION__);
       *index = idx;
       return(1);
     }
 
-  printf("\n%s:ret 0", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret 0", __FUNCTION__);
   *index = idx;
   return(0);
 }
@@ -2740,13 +2631,13 @@ int scan_declare(void)
 {
   int idx = cline_i;
   
-  printf("\n%s:", __FUNCTION__);
+  fprintf(ofp,"\n%s:", __FUNCTION__);
   
   if( check_literal(&idx, " LOCAL") )
     {
       if( scan_localglobal(SCAN_LOCAL) )
 	{
-	  printf("\n%s:ret 1", __FUNCTION__);
+	  fprintf(ofp,"\n%s:ret 1", __FUNCTION__);
 	  return(1);
 	}
       else
@@ -2761,7 +2652,7 @@ int scan_declare(void)
     {
       if( scan_localglobal(SCAN_GLOBAL) )
 	{
-	  printf("\n%s:ret 1", __FUNCTION__);
+	  fprintf(ofp,"\n%s:ret 1", __FUNCTION__);
 	  return(1);
 	}
       else
@@ -2770,15 +2661,15 @@ int scan_declare(void)
 	}
     }
 
-  printf("\n%s:ret 0", __FUNCTION__);
+  fprintf(ofp,"\n%s:ret 0", __FUNCTION__);
   return(0);
 }
 
 void parser_check(void)
 {
-  printf("\nNUM_BUFF_ID    :%d", NUM_BUFF_ID);
-  printf("\nEXP_BUFF_ID_MAX:%d", EXP_BUFF_ID_MAX);
-  printf("\n");
+  fprintf(ofp,"\nNUM_BUFF_ID    :%d", NUM_BUFF_ID);
+  fprintf(ofp,"\nEXP_BUFF_ID_MAX:%d", EXP_BUFF_ID_MAX);
+  fprintf(ofp,"\n");
   
   assert( NUM_BUFF_ID == (EXP_BUFF_ID_MAX +1));
 }

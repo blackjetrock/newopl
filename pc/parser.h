@@ -1,3 +1,7 @@
+#define dbprintf(fmt...) dbpf(__FUNCTION__, fmt)
+void dbpf(const char *caller, char *fmt, ...);
+
+
 int scan_expression(void);
 int check_function(int *index);
 int scan_function(char *cmd_dest);
