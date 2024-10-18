@@ -79,6 +79,26 @@ init_get_name:'LOCAL'
 get_name:gn:'LOCAL'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:f Outtype:f
+   Frst:0 T:'@' exptype:f
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:
+(process_token) 
+opr1:9 opr2:0
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (1)
+
+(op_stack_print) 
+000: @ type:1
+(op_stack_print) 
+------------------
+
 ( output_variable) [f,()] f f LOCAL
 check_variable:
 check_vname 'A, B,C,D , E  ,  F   ,    G
@@ -113,6 +133,8 @@ check_literal:After drop space:'(' idx=7 ', B,C,D , E  ,  F   ,    G
 check_literal: ret0
 scan_variable:ret1 vname='A' is str:0 int:0 flt:1 ary:0
    Frst:0 T:'A' exptype:f
+(operator_precedence) 
+@ is operator
 token_is_function:
 token_is_function:A is not function
 token_is_variable: tok:'A'
@@ -127,7 +149,7 @@ get_name:gn:'A'
 process_token:type:f req_type:i
 modify_expression_type:Inittype:f Intype:f Outtype:f
 ( output_variable) [f,()] f f A
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                 A' gbl:0 ref:0 int:0 flt:1 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=7 ', B,C,D , E  ,  F   ,    G
 '
@@ -144,6 +166,22 @@ scan_literal:After drop space:, B,C,D , E  ,  F   ,    G
 scan_literal:while loop:, B,C,D , E  ,  F   ,    G
 
    Frst:0 T:',' exptype:f
+(operator_precedence) 
+@ is operator
+(process_token) 
+Pop 2
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (0)
+
+(op_stack_print) 
+------------------
+
+( output_operator) [f,()] f f @
+token_is_function:
+token_is_function:@ is not function
 (output_sub_start)
 check_variable:
 check_vname 'B,C,D , E  ,  F   ,    G
@@ -192,7 +230,7 @@ get_name:gn:'B'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:f Outtype:f
 ( output_variable) [f,()] f f B
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                 B' gbl:0 ref:0 int:0 flt:1 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=10 ',C,D , E  ,  F   ,    G
 '
@@ -257,7 +295,7 @@ get_name:gn:'C'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:f Outtype:f
 ( output_variable) [f,()] f f C
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                 C' gbl:0 ref:0 int:0 flt:1 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=12 ',D , E  ,  F   ,    G
 '
@@ -322,7 +360,7 @@ get_name:gn:'D'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:f Outtype:f
 ( output_variable) [f,()] f f D
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                 D' gbl:0 ref:0 int:0 flt:1 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=14 ' , E  ,  F   ,    G
 '
@@ -387,7 +425,7 @@ get_name:gn:'E'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:f Outtype:f
 ( output_variable) [f,()] f f E
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                 E' gbl:0 ref:0 int:0 flt:1 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=18 '  ,  F   ,    G
 '
@@ -452,7 +490,7 @@ get_name:gn:'F'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:f Outtype:f
 ( output_variable) [f,()] f f F
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                 F' gbl:0 ref:0 int:0 flt:1 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=24 '   ,    G
 '
@@ -519,7 +557,7 @@ get_name:gn:'G'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:f Outtype:f
 ( output_variable) [f,()] f f G
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                 G' gbl:0 ref:0 int:0 flt:1 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=33 '
 '
@@ -585,6 +623,26 @@ init_get_name:'LOCAL'
 get_name:gn:'LOCAL'
 process_token:type:f req_type:i
 modify_expression_type:Inittype:f Intype:f Outtype:f
+   Frst:0 T:'@' exptype:f
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:
+(process_token) 
+opr1:9 opr2:0
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (1)
+
+(op_stack_print) 
+000: @ type:1
+(op_stack_print) 
+------------------
+
 ( output_variable) [f,()] f f LOCAL
 check_variable:
 check_vname 'A%
@@ -621,6 +679,8 @@ check_literal:After drop space:'(' idx=8 '
 check_literal: ret0
 scan_variable:ret1 vname='A%' is str:0 int:1 flt:0 ary:0
    Frst:0 T:'A%' exptype:f
+(operator_precedence) 
+@ is operator
 token_is_function:
 token_is_function:A% is not function
 token_is_variable: tok:'A%'
@@ -635,7 +695,7 @@ get_name:gn:'A%'
 process_token:type:f req_type:i
 modify_expression_type:Inittype:f Intype:i Outtype:f
 ( output_variable) [f,()] f f A%
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                A%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=8 '
 '
@@ -688,6 +748,8 @@ scan_literal:while loop:AL A%(10)
 scan_literal:while loop:L A%(10)
 
    Frst:0 T:'LOCAL' exptype:f
+(operator_precedence) 
+@ is operator
 token_is_function:
 token_is_function:LOCAL is not function
 token_is_variable: tok:'LOCAL'
@@ -701,6 +763,36 @@ init_get_name:'LOCAL'
 get_name:gn:'LOCAL'
 process_token:type:f req_type:i
 modify_expression_type:Inittype:f Intype:f Outtype:f
+   Frst:0 T:'@' exptype:f
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:@
+(process_token) 
+opr1:9 opr2:9
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+(operator_left_assoc) 
+@ is operator
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (2)
+
+(op_stack_print) 
+000: @ type:1
+(op_stack_print) 
+001: @ type:1
+(op_stack_print) 
+------------------
+
 ( output_variable) [f,()] f f LOCAL
 check_variable:
 check_vname 'A%(10)
@@ -854,15 +946,21 @@ scan_literal:After drop space:(10)
 scan_literal:while loop:(10)
 
    Frst:0 T:'(' exptype:f
+(operator_precedence) 
+@ is operator
 (output_sub_start)
  Push:'('
 (op_stack_print) 
 ------------------
 (op_stack_print) 
-Operator Stack     (1)
+Operator Stack     (3)
 
 (op_stack_print) 
-000: ( type:16
+000: @ type:1
+(op_stack_print) 
+001: @ type:1
+(op_stack_print) 
+002: ( type:16
 (op_stack_print) 
 ------------------
 
@@ -892,17 +990,23 @@ Pop '('
 (op_stack_print) 
 ------------------
 (op_stack_print) 
-Operator Stack     (0)
+Operator Stack     (2)
 
+(op_stack_print) 
+000: @ type:1
+(op_stack_print) 
+001: @ type:1
 (op_stack_print) 
 ------------------
 
 (  output_sub_end)
 token_is_function:
-token_is_function: is not function
+token_is_function:@ is not function
 (  output_sub_end)
 scan_variable:ret1 vname='A%' is str:0 int:1 flt:0 ary:1
    Frst:0 T:'A%' exptype:f
+(operator_precedence) 
+@ is operator
 token_is_function:
 token_is_function:A% is not function
 token_is_variable: tok:'A%'
@@ -916,8 +1020,40 @@ init_get_name:'A%'
 get_name:gn:'A%'
 process_token:type:f req_type:i
 modify_expression_type:Inittype:f Intype:i Outtype:f
+   Frst:0 T:'@' exptype:f
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:@
+(process_token) 
+opr1:9 opr2:9
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+(operator_left_assoc) 
+@ is operator
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (3)
+
+(op_stack_print) 
+000: @ type:1
+(op_stack_print) 
+001: @ type:1
+(op_stack_print) 
+002: @ type:1
+(op_stack_print) 
+------------------
+
 ( output_variable) [f,()] f f A%
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                A%' gbl:0 ref:0 int:1 flt:0 str:0 ary:1 max_str:0 max_ary:10 num_ind:1
 check_literal:lit=' ,' idx=12 '
 '
@@ -970,6 +1106,8 @@ scan_literal:while loop:AL A%,B%
 scan_literal:while loop:L A%,B%
 
    Frst:0 T:'LOCAL' exptype:f
+(operator_precedence) 
+@ is operator
 token_is_function:
 token_is_function:LOCAL is not function
 token_is_variable: tok:'LOCAL'
@@ -983,6 +1121,40 @@ init_get_name:'LOCAL'
 get_name:gn:'LOCAL'
 process_token:type:f req_type:i
 modify_expression_type:Inittype:f Intype:f Outtype:f
+   Frst:0 T:'@' exptype:f
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:@
+(process_token) 
+opr1:9 opr2:9
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+(operator_left_assoc) 
+@ is operator
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (4)
+
+(op_stack_print) 
+000: @ type:1
+(op_stack_print) 
+001: @ type:1
+(op_stack_print) 
+002: @ type:1
+(op_stack_print) 
+003: @ type:1
+(op_stack_print) 
+------------------
+
 ( output_variable) [f,()] f f LOCAL
 check_variable:
 check_vname 'A%,B%
@@ -1017,6 +1189,8 @@ check_literal:After drop space:'(' idx=8 ',B%
 check_literal: ret0
 scan_variable:ret1 vname='A%' is str:0 int:1 flt:0 ary:0
    Frst:0 T:'A%' exptype:f
+(operator_precedence) 
+@ is operator
 token_is_function:
 token_is_function:A% is not function
 token_is_variable: tok:'A%'
@@ -1031,7 +1205,7 @@ get_name:gn:'A%'
 process_token:type:f req_type:i
 modify_expression_type:Inittype:f Intype:i Outtype:f
 ( output_variable) [f,()] f f A%
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                A%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=8 ',B%
 '
@@ -1048,6 +1222,76 @@ scan_literal:After drop space:,B%
 scan_literal:while loop:,B%
 
    Frst:0 T:',' exptype:f
+(operator_precedence) 
+@ is operator
+(process_token) 
+Pop 2
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (3)
+
+(op_stack_print) 
+000: @ type:1
+(op_stack_print) 
+001: @ type:1
+(op_stack_print) 
+002: @ type:1
+(op_stack_print) 
+------------------
+
+( output_operator) [f,()] f f @
+token_is_function:
+token_is_function:@ is not function
+(process_token) 
+Pop 2
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (2)
+
+(op_stack_print) 
+000: @ type:1
+(op_stack_print) 
+001: @ type:1
+(op_stack_print) 
+------------------
+
+( output_operator) [f,()] f f @
+token_is_function:
+token_is_function:@ is not function
+(process_token) 
+Pop 2
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (1)
+
+(op_stack_print) 
+000: @ type:1
+(op_stack_print) 
+------------------
+
+( output_operator) [f,()] f f @
+token_is_function:
+token_is_function:@ is not function
+(process_token) 
+Pop 2
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (0)
+
+(op_stack_print) 
+------------------
+
+( output_operator) [f,()] f f @
+token_is_function:
+token_is_function:@ is not function
 (output_sub_start)
 check_variable:
 check_vname 'B%
@@ -1098,7 +1342,7 @@ get_name:gn:'B%'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:i Outtype:i
 ( output_variable) [i,()] i i B%
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                B%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=11 '
 '
@@ -1164,6 +1408,26 @@ init_get_name:'LOCAL'
 get_name:gn:'LOCAL'
 process_token:type:i req_type:i
 modify_expression_type:Inittype:i Intype:f Outtype:f
+   Frst:0 T:'@' exptype:f
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:
+(process_token) 
+opr1:9 opr2:0
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (1)
+
+(op_stack_print) 
+000: @ type:1
+(op_stack_print) 
+------------------
+
 ( output_variable) [f,()] f f LOCAL
 check_variable:
 check_vname 'A%(1),B%(2),  A%(1000),    B%(2000)
@@ -1316,15 +1580,19 @@ scan_literal:After drop space:(1),B%(2),  A%(1000),    B%(2000)
 scan_literal:while loop:(1),B%(2),  A%(1000),    B%(2000)
 
    Frst:0 T:'(' exptype:f
+(operator_precedence) 
+@ is operator
 (output_sub_start)
  Push:'('
 (op_stack_print) 
 ------------------
 (op_stack_print) 
-Operator Stack     (1)
+Operator Stack     (2)
 
 (op_stack_print) 
-000: ( type:16
+000: @ type:1
+(op_stack_print) 
+001: ( type:16
 (op_stack_print) 
 ------------------
 
@@ -1354,17 +1622,21 @@ Pop '('
 (op_stack_print) 
 ------------------
 (op_stack_print) 
-Operator Stack     (0)
+Operator Stack     (1)
 
+(op_stack_print) 
+000: @ type:1
 (op_stack_print) 
 ------------------
 
 (  output_sub_end)
 token_is_function:
-token_is_function: is not function
+token_is_function:@ is not function
 (  output_sub_end)
 scan_variable:ret1 vname='A%' is str:0 int:1 flt:0 ary:1
    Frst:0 T:'A%' exptype:f
+(operator_precedence) 
+@ is operator
 token_is_function:
 token_is_function:A% is not function
 token_is_variable: tok:'A%'
@@ -1378,8 +1650,38 @@ init_get_name:'A%'
 get_name:gn:'A%'
 process_token:type:f req_type:i
 modify_expression_type:Inittype:f Intype:i Outtype:f
+   Frst:0 T:'@' exptype:f
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:@
+(process_token) 
+opr1:9 opr2:9
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+(operator_left_assoc) 
+@ is operator
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (2)
+
+(op_stack_print) 
+000: @ type:1
+(op_stack_print) 
+001: @ type:1
+(op_stack_print) 
+------------------
+
 ( output_variable) [f,()] f f A%
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                A%' gbl:0 ref:0 int:1 flt:0 str:0 ary:1 max_str:0 max_ary:1 num_ind:1
 check_literal:lit=' ,' idx=11 ',B%(2),  A%(1000),    B%(2000)
 '
@@ -1396,6 +1698,38 @@ scan_literal:After drop space:,B%(2),  A%(1000),    B%(2000)
 scan_literal:while loop:,B%(2),  A%(1000),    B%(2000)
 
    Frst:0 T:',' exptype:f
+(operator_precedence) 
+@ is operator
+(process_token) 
+Pop 2
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (1)
+
+(op_stack_print) 
+000: @ type:1
+(op_stack_print) 
+------------------
+
+( output_operator) [f,()] f f @
+token_is_function:
+token_is_function:@ is not function
+(process_token) 
+Pop 2
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (0)
+
+(op_stack_print) 
+------------------
+
+( output_operator) [f,()] f f @
+token_is_function:
+token_is_function:@ is not function
 (output_sub_start)
 check_variable:
 check_vname 'B%(2),  A%(1000),    B%(2000)
@@ -1610,8 +1944,28 @@ init_get_name:'B%'
 get_name:gn:'B%'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:i Outtype:i
+   Frst:0 T:'@' exptype:i
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:
+(process_token) 
+opr1:9 opr2:0
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (1)
+
+(op_stack_print) 
+000: @ type:0
+(op_stack_print) 
+------------------
+
 ( output_variable) [i,()] i i B%
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                B%' gbl:0 ref:0 int:1 flt:0 str:0 ary:1 max_str:0 max_ary:2 num_ind:1
 check_literal:lit=' ,' idx=17 ',  A%(1000),    B%(2000)
 '
@@ -1628,6 +1982,22 @@ scan_literal:After drop space:,  A%(1000),    B%(2000)
 scan_literal:while loop:,  A%(1000),    B%(2000)
 
    Frst:0 T:',' exptype:i
+(operator_precedence) 
+@ is operator
+(process_token) 
+Pop 2
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (0)
+
+(op_stack_print) 
+------------------
+
+( output_operator) [i,()] i i @
+token_is_function:
+token_is_function:@ is not function
 (output_sub_start)
 check_variable:
 check_vname 'A%(1000),    B%(2000)
@@ -1845,8 +2215,28 @@ init_get_name:'A%'
 get_name:gn:'A%'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:i Outtype:i
+   Frst:0 T:'@' exptype:i
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:
+(process_token) 
+opr1:9 opr2:0
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (1)
+
+(op_stack_print) 
+000: @ type:0
+(op_stack_print) 
+------------------
+
 ( output_variable) [i,()] i i A%
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                A%' gbl:0 ref:0 int:1 flt:0 str:0 ary:1 max_str:0 max_ary:1000 num_ind:1
 check_literal:lit=' ,' idx=28 ',    B%(2000)
 '
@@ -1863,6 +2253,22 @@ scan_literal:After drop space:,    B%(2000)
 scan_literal:while loop:,    B%(2000)
 
    Frst:0 T:',' exptype:i
+(operator_precedence) 
+@ is operator
+(process_token) 
+Pop 2
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (0)
+
+(op_stack_print) 
+------------------
+
+( output_operator) [i,()] i i @
+token_is_function:
+token_is_function:@ is not function
 (output_sub_start)
 check_variable:
 check_vname 'B%(2000)
@@ -2080,8 +2486,28 @@ init_get_name:'B%'
 get_name:gn:'B%'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:i Outtype:i
+   Frst:0 T:'@' exptype:i
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:
+(process_token) 
+opr1:9 opr2:0
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (1)
+
+(op_stack_print) 
+000: @ type:0
+(op_stack_print) 
+------------------
+
 ( output_variable) [i,()] i i B%
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                B%' gbl:0 ref:0 int:1 flt:0 str:0 ary:1 max_str:0 max_ary:2000 num_ind:1
 check_literal:lit=' ,' idx=41 '
 '
@@ -2134,6 +2560,8 @@ scan_literal:while loop:AL A$(10),B$(1,2)
 scan_literal:while loop:L A$(10),B$(1,2)
 
    Frst:0 T:'LOCAL' exptype:i
+(operator_precedence) 
+@ is operator
 token_is_function:
 token_is_function:LOCAL is not function
 token_is_variable: tok:'LOCAL'
@@ -2147,6 +2575,36 @@ init_get_name:'LOCAL'
 get_name:gn:'LOCAL'
 process_token:type:i req_type:i
 modify_expression_type:Inittype:i Intype:f Outtype:f
+   Frst:0 T:'@' exptype:f
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:@
+(process_token) 
+opr1:9 opr2:9
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+(operator_left_assoc) 
+@ is operator
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (2)
+
+(op_stack_print) 
+000: @ type:0
+(op_stack_print) 
+001: @ type:1
+(op_stack_print) 
+------------------
+
 ( output_variable) [f,()] f f LOCAL
 check_variable:
 check_vname 'A$(10),B$(1,2)
@@ -2300,15 +2758,21 @@ scan_literal:After drop space:(10),B$(1,2)
 scan_literal:while loop:(10),B$(1,2)
 
    Frst:0 T:'(' exptype:f
+(operator_precedence) 
+@ is operator
 (output_sub_start)
  Push:'('
 (op_stack_print) 
 ------------------
 (op_stack_print) 
-Operator Stack     (1)
+Operator Stack     (3)
 
 (op_stack_print) 
-000: ( type:16
+000: @ type:0
+(op_stack_print) 
+001: @ type:1
+(op_stack_print) 
+002: ( type:16
 (op_stack_print) 
 ------------------
 
@@ -2338,17 +2802,23 @@ Pop '('
 (op_stack_print) 
 ------------------
 (op_stack_print) 
-Operator Stack     (0)
+Operator Stack     (2)
 
+(op_stack_print) 
+000: @ type:0
+(op_stack_print) 
+001: @ type:1
 (op_stack_print) 
 ------------------
 
 (  output_sub_end)
 token_is_function:
-token_is_function: is not function
+token_is_function:@ is not function
 (  output_sub_end)
 scan_variable:ret1 vname='A$' is str:1 int:0 flt:0 ary:0
    Frst:0 T:'A$' exptype:f
+(operator_precedence) 
+@ is operator
 token_is_function:
 token_is_function:A$ is not function
 token_is_variable: tok:'A$'
@@ -2363,7 +2833,7 @@ get_name:gn:'A$'
 process_token:type:f req_type:i
 modify_expression_type:Inittype:f Intype:s Outtype:f
 ( output_variable) [f,()] f f A$
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                A$' gbl:0 ref:0 int:0 flt:0 str:1 ary:0 max_str:10 max_ary:0 num_ind:1
 check_literal:lit=' ,' idx=12 ',B$(1,2)
 '
@@ -2380,6 +2850,38 @@ scan_literal:After drop space:,B$(1,2)
 scan_literal:while loop:,B$(1,2)
 
    Frst:0 T:',' exptype:f
+(operator_precedence) 
+@ is operator
+(process_token) 
+Pop 2
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (1)
+
+(op_stack_print) 
+000: @ type:0
+(op_stack_print) 
+------------------
+
+( output_operator) [f,()] f f @
+token_is_function:
+token_is_function:@ is not function
+(process_token) 
+Pop 2
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (0)
+
+(op_stack_print) 
+------------------
+
+( output_operator) [f,()] i i @
+token_is_function:
+token_is_function:@ is not function
 (output_sub_start)
 check_variable:
 check_vname 'B$(1,2)
@@ -2712,8 +3214,28 @@ init_get_name:'B$'
 get_name:gn:'B$'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:s Outtype:s
+   Frst:0 T:'@' exptype:s
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:
+(process_token) 
+opr1:9 opr2:0
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (1)
+
+(op_stack_print) 
+000: @ type:2
+(op_stack_print) 
+------------------
+
 ( output_variable) [s,()] s s B$
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '                B$' gbl:0 ref:0 int:0 flt:0 str:1 ary:1 max_str:2 max_ary:1 num_ind:2
 check_literal:lit=' ,' idx=20 '
 '
@@ -2766,6 +3288,8 @@ scan_literal:while loop:AL STR$(12 , 34)
 scan_literal:while loop:L STR$(12 , 34)
 
    Frst:0 T:'LOCAL' exptype:s
+(operator_precedence) 
+@ is operator
 token_is_function:
 token_is_function:LOCAL is not function
 token_is_variable: tok:'LOCAL'
@@ -2779,6 +3303,36 @@ init_get_name:'LOCAL'
 get_name:gn:'LOCAL'
 process_token:type:s req_type:i
 modify_expression_type:Inittype:s Intype:f Outtype:s
+   Frst:0 T:'@' exptype:s
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:@
+(process_token) 
+opr1:9 opr2:9
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+(operator_left_assoc) 
+@ is operator
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (2)
+
+(op_stack_print) 
+000: @ type:2
+(op_stack_print) 
+001: @ type:2
+(op_stack_print) 
+------------------
+
 ( output_variable) [s,()] s s LOCAL
 check_variable:
 check_vname 'STR$(12 , 34)
@@ -3036,15 +3590,21 @@ scan_literal:After drop space:(12 , 34)
 scan_literal:while loop:(12 , 34)
 
    Frst:0 T:'(' exptype:s
+(operator_precedence) 
+@ is operator
 (output_sub_start)
  Push:'('
 (op_stack_print) 
 ------------------
 (op_stack_print) 
-Operator Stack     (1)
+Operator Stack     (3)
 
 (op_stack_print) 
-000: ( type:16
+000: @ type:2
+(op_stack_print) 
+001: @ type:2
+(op_stack_print) 
+002: ( type:16
 (op_stack_print) 
 ------------------
 
@@ -3089,17 +3649,23 @@ Pop '('
 (op_stack_print) 
 ------------------
 (op_stack_print) 
-Operator Stack     (0)
+Operator Stack     (2)
 
+(op_stack_print) 
+000: @ type:2
+(op_stack_print) 
+001: @ type:2
 (op_stack_print) 
 ------------------
 
 (  output_sub_end)
 token_is_function:
-token_is_function: is not function
+token_is_function:@ is not function
 (  output_sub_end)
 scan_variable:ret1 vname='STR$' is str:1 int:0 flt:0 ary:1
    Frst:0 T:'STR$' exptype:s
+(operator_precedence) 
+@ is operator
 token_is_function:
 token_is_function:STR$ is not function
 token_is_variable: tok:'STR$'
@@ -3113,8 +3679,40 @@ init_get_name:'STR$'
 get_name:gn:'STR$'
 process_token:type:s req_type:i
 modify_expression_type:Inittype:s Intype:s Outtype:s
+   Frst:0 T:'@' exptype:s
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:@
+(process_token) 
+opr1:9 opr2:9
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+(operator_left_assoc) 
+@ is operator
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (3)
+
+(op_stack_print) 
+000: @ type:2
+(op_stack_print) 
+001: @ type:2
+(op_stack_print) 
+002: @ type:2
+(op_stack_print) 
+------------------
+
 ( output_variable) [s,()] s s STR$
-scan_localglobal: LOCAL variable:''
+scan_localglobal: LOCAL variable:'S–Gþ'
 VAR INFO: '              STR$' gbl:0 ref:0 int:0 flt:0 str:1 ary:1 max_str:34 max_ary:12 num_ind:2
 check_literal:lit=' ,' idx=19 '
 '
@@ -3183,6 +3781,8 @@ scan_literal:while loop:AL A%,B,C$(5),D$(20,40)
 scan_literal:while loop:L A%,B,C$(5),D$(20,40)
 
    Frst:0 T:'GLOBAL' exptype:s
+(operator_precedence) 
+@ is operator
 token_is_function:
 token_is_function:GLOBAL is not function
 token_is_variable: tok:'GLOBAL'
@@ -3196,6 +3796,40 @@ init_get_name:'GLOBAL'
 get_name:gn:'GLOBAL'
 process_token:type:s req_type:i
 modify_expression_type:Inittype:s Intype:f Outtype:s
+   Frst:0 T:'@' exptype:s
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:@
+(process_token) 
+opr1:9 opr2:9
+(operator_precedence) 
+@ is operator
+(operator_precedence) 
+@ is operator
+(operator_left_assoc) 
+@ is operator
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (4)
+
+(op_stack_print) 
+000: @ type:2
+(op_stack_print) 
+001: @ type:2
+(op_stack_print) 
+002: @ type:2
+(op_stack_print) 
+003: @ type:2
+(op_stack_print) 
+------------------
+
 ( output_variable) [s,()] s s GLOBAL
 check_variable:
 check_vname 'A%,B,C$(5),D$(20,40)
@@ -3230,6 +3864,8 @@ check_literal:After drop space:'(' idx=9 ',B,C$(5),D$(20,40)
 check_literal: ret0
 scan_variable:ret1 vname='A%' is str:0 int:1 flt:0 ary:0
    Frst:0 T:'A%' exptype:s
+(operator_precedence) 
+@ is operator
 token_is_function:
 token_is_function:A% is not function
 token_is_variable: tok:'A%'
@@ -3244,7 +3880,7 @@ get_name:gn:'A%'
 process_token:type:s req_type:i
 modify_expression_type:Inittype:s Intype:i Outtype:s
 ( output_variable) [s,()] s s A%
-scan_localglobal: GLOBAL variable:''
+scan_localglobal: GLOBAL variable:'S–Gþ'
 VAR INFO: '                A%' gbl:1 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=9 ',B,C$(5),D$(20,40)
 '
@@ -3261,6 +3897,76 @@ scan_literal:After drop space:,B,C$(5),D$(20,40)
 scan_literal:while loop:,B,C$(5),D$(20,40)
 
    Frst:0 T:',' exptype:s
+(operator_precedence) 
+@ is operator
+(process_token) 
+Pop 2
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (3)
+
+(op_stack_print) 
+000: @ type:2
+(op_stack_print) 
+001: @ type:2
+(op_stack_print) 
+002: @ type:2
+(op_stack_print) 
+------------------
+
+( output_operator) [s,()] s s @
+token_is_function:
+token_is_function:@ is not function
+(process_token) 
+Pop 2
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (2)
+
+(op_stack_print) 
+000: @ type:2
+(op_stack_print) 
+001: @ type:2
+(op_stack_print) 
+------------------
+
+( output_operator) [s,()] s s @
+token_is_function:
+token_is_function:@ is not function
+(process_token) 
+Pop 2
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (1)
+
+(op_stack_print) 
+000: @ type:2
+(op_stack_print) 
+------------------
+
+( output_operator) [s,()] s s @
+token_is_function:
+token_is_function:@ is not function
+(process_token) 
+Pop 2
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (0)
+
+(op_stack_print) 
+------------------
+
+( output_operator) [s,()] s s @
+token_is_function:
+token_is_function:@ is not function
 (output_sub_start)
 check_variable:
 check_vname 'B,C$(5),D$(20,40)
@@ -3309,7 +4015,7 @@ get_name:gn:'B'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:f Outtype:f
 ( output_variable) [f,()] f f B
-scan_localglobal: GLOBAL variable:''
+scan_localglobal: GLOBAL variable:'S–Gþ'
 VAR INFO: '                 B' gbl:1 ref:0 int:0 flt:1 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 check_literal:lit=' ,' idx=11 ',C$(5),D$(20,40)
 '
@@ -3541,7 +4247,7 @@ get_name:gn:'C$'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:s Outtype:s
 ( output_variable) [s,()] s s C$
-scan_localglobal: GLOBAL variable:''
+scan_localglobal: GLOBAL variable:'S–Gþ'
 VAR INFO: '                C$' gbl:1 ref:0 int:0 flt:0 str:1 ary:0 max_str:5 max_ary:0 num_ind:1
 check_literal:lit=' ,' idx=17 ',D$(20,40)
 '
@@ -3892,8 +4598,28 @@ init_get_name:'D$'
 get_name:gn:'D$'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:s Outtype:s
+   Frst:0 T:'@' exptype:s
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:
+(process_token) 
+opr1:9 opr2:0
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (1)
+
+(op_stack_print) 
+000: @ type:2
+(op_stack_print) 
+------------------
+
 ( output_variable) [s,()] s s D$
-scan_localglobal: GLOBAL variable:''
+scan_localglobal: GLOBAL variable:'S–Gþ'
 VAR INFO: '                D$' gbl:1 ref:0 int:0 flt:0 str:1 ary:1 max_str:40 max_ary:20 num_ind:2
 check_literal:lit=' ,' idx=27 '
 '
@@ -6913,7 +7639,7 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:f   0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
@@ -7309,7 +8035,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -7327,7 +8053,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -7413,7 +8139,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -7436,7 +8162,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -7517,7 +8243,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -7547,7 +8273,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -7703,7 +8429,7 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:f   0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
@@ -7727,7 +8453,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -7789,7 +8515,7 @@ infix_stack_pop: '(A := (A + ((2 * 3) + ((3 * Z%) - (ABC% * 1.1)))))'
 (    output_qcode) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (    output_qcode) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (    output_qcode) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(    output_qcode) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(    output_qcode) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (    output_qcode) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (    output_qcode) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (    output_qcode) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -11391,7 +12117,7 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:f   0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
@@ -11787,7 +12513,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -11805,7 +12531,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -11891,7 +12617,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -11914,7 +12640,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -11995,7 +12721,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -12025,7 +12751,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -12181,7 +12907,7 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:f   0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     i rq:i *  0:
@@ -12205,7 +12931,7 @@ Expression buffer 2
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -12267,7 +12993,7 @@ infix_stack_pop: '(A := (A + ((2 * 3) + ((3 * Z%) - (ABC% * 1.1)))))'
 (    output_qcode) N1 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (    output_qcode) N2 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
 (    output_qcode) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(    output_qcode) N4 EXP_BUFF_ID_SUB_START    U rq:f   0:
+(    output_qcode) N4 EXP_BUFF_ID_SUB_START    U rq:i   0:
 (    output_qcode) N5 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
 (    output_qcode) N6 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
 (    output_qcode) N7 EXP_BUFF_ID_OPERATOR     i rq:i *  2: 6 5
@@ -23717,6 +24443,7 @@ scan_command:
 token_is_function:
 PRINT is function
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
 process_token: 'PRINT' t=>v
  Push:'PRINT'
 (op_stack_print) 
@@ -23820,7 +24547,7 @@ token_is_function:" is not function
 token_is_variable: tok:'"'
 token_is_function:
 token_is_function:" is not function
-(   output_string) [U,()] s i "
+(   output_string) [U,()] s v "
 modify_expression_type:Inittype:U Intype:s Outtype:s
   (in if) 'abc"
 '
@@ -23849,7 +24576,7 @@ init_get_name:'abc'
 init_get_name:'abc'
 (get_name) 
 get_name:gn:'abc'
-process_token:type:s req_type:?
+process_token:type:s req_type:i
 modify_expression_type:Inittype:s Intype:f Outtype:s
 ( output_variable) [s,()] s s abc
 check_eitem: '
@@ -23912,7 +24639,7 @@ PRINT is function
 process_expression_types:
 Expression buffer
 =================
-( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:i "  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:v "  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     s rq:s abc  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     s rq:s PRINT  0:
 =================
@@ -23954,6 +24681,8 @@ Type Check Stack (2)
  BE:PRINT
 FN: 1 args
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
+ret_type;17 v
 typecheck_expression:Ret type of PRINT : v
 type_check_stack_pop: 'abc'
 (type_check_stack_print) 
@@ -23987,13 +24716,13 @@ Type Check Stack (2)
 001: '000' type:v (17)
 Expression buffer
 =================
-( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:i "  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:v "  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     s rq:s abc  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     s rq:s PRINT  0:
 =================
 Expression buffer 2
 ===================
-(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:i "  0:
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:v "  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     s rq:s abc  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
 =================
@@ -24009,7 +24738,7 @@ infix_stack_pop: 'PRINT(abc )'
 (process_expression_types) 
 
 
-(    output_qcode) N1 EXP_BUFF_ID_STR          s rq:i "  0:
+(    output_qcode) N1 EXP_BUFF_ID_STR          s rq:v "  0:
 (    output_qcode) N2 EXP_BUFF_ID_VARIABLE     s rq:s abc  0:
 (    output_qcode) N3 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
 check_literal:lit=':' idx=12 ''
@@ -24105,6 +24834,7 @@ scan_command:
 token_is_function:
 PRINT is function
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
 process_token: 'PRINT' t=>v
  Push:'PRINT'
 (op_stack_print) 
@@ -24208,7 +24938,7 @@ token_is_function:" is not function
 token_is_variable: tok:'"'
 token_is_function:
 token_is_function:" is not function
-(   output_string) [U,()] s i "
+(   output_string) [U,()] s v "
 modify_expression_type:Inittype:U Intype:s Outtype:s
   (in if) 'asdfgh"
 '
@@ -24249,7 +24979,7 @@ init_get_name:'asdfgh'
 init_get_name:'asdfgh'
 (get_name) 
 get_name:gn:'asdfgh'
-process_token:type:s req_type:?
+process_token:type:s req_type:i
 modify_expression_type:Inittype:s Intype:f Outtype:s
 ( output_variable) [s,()] s s asdfgh
 check_eitem: '
@@ -24312,7 +25042,7 @@ PRINT is function
 process_expression_types:
 Expression buffer
 =================
-( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:i "  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:v "  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     s rq:s asdfgh  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     s rq:s PRINT  0:
 =================
@@ -24354,6 +25084,8 @@ Type Check Stack (2)
  BE:PRINT
 FN: 1 args
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
+ret_type;17 v
 typecheck_expression:Ret type of PRINT : v
 type_check_stack_pop: 'asdfgh'
 (type_check_stack_print) 
@@ -24387,13 +25119,13 @@ Type Check Stack (2)
 001: '000' type:v (17)
 Expression buffer
 =================
-( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:i "  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:v "  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     s rq:s asdfgh  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     s rq:s PRINT  0:
 =================
 Expression buffer 2
 ===================
-(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:i "  0:
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:v "  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     s rq:s asdfgh  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
 =================
@@ -24409,7 +25141,7 @@ infix_stack_pop: 'PRINT(asdfgh )'
 (process_expression_types) 
 
 
-(    output_qcode) N1 EXP_BUFF_ID_STR          s rq:i "  0:
+(    output_qcode) N1 EXP_BUFF_ID_STR          s rq:v "  0:
 (    output_qcode) N2 EXP_BUFF_ID_VARIABLE     s rq:s asdfgh  0:
 (    output_qcode) N3 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
 check_literal:lit=':' idx=15 ''
@@ -24505,6 +25237,7 @@ scan_command:
 token_is_function:
 PRINT is function
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
 process_token: 'PRINT' t=>v
  Push:'PRINT'
 (op_stack_print) 
@@ -24608,7 +25341,7 @@ token_is_function:" is not function
 token_is_variable: tok:'"'
 token_is_function:
 token_is_function:" is not function
-(   output_string) [U,()] s i "
+(   output_string) [U,()] s v "
 modify_expression_type:Inittype:U Intype:s Outtype:s
   (in if) '    abc    "
 '
@@ -24723,7 +25456,7 @@ PRINT is function
 process_expression_types:
 Expression buffer
 =================
-( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:i "  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:v "  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     s rq:s PRINT  0:
 =================
  BE:"
@@ -24745,6 +25478,8 @@ Type Check Stack (1)
  BE:PRINT
 FN: 1 args
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
+ret_type;17 v
 typecheck_expression:Ret type of PRINT : v
 type_check_stack_pop: '"'
 (type_check_stack_print) 
@@ -24773,12 +25508,12 @@ Type Check Stack (1)
 000: '000' type:v (17)
 Expression buffer
 =================
-( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:i "  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_STR          s rq:v "  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     s rq:s PRINT  0:
 =================
 Expression buffer 2
 ===================
-(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:i "  0:
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:v "  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
 =================
 (process_expression_types) 
@@ -24792,7 +25527,7 @@ infix_stack_pop: 'PRINT(" )'
 (process_expression_types) 
 
 
-(    output_qcode) N1 EXP_BUFF_ID_STR          s rq:i "  0:
+(    output_qcode) N1 EXP_BUFF_ID_STR          s rq:v "  0:
 (    output_qcode) N2 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
 check_literal:lit=':' idx=22 ''
 check_literal:After drop space:':' idx=22 ''
@@ -24887,6 +25622,7 @@ scan_command:
 token_is_function:
 PRINT is function
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
 process_token: 'PRINT' t=>v
  Push:'PRINT'
 (op_stack_print) 
@@ -25166,6 +25902,8 @@ Type Check Stack (1)
  BE:PRINT
 FN: 1 args
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
+ret_type;17 v
 typecheck_expression:Ret type of PRINT : v
 type_check_stack_pop: 'A%'
 (type_check_stack_print) 
@@ -25308,6 +26046,7 @@ scan_command:
 token_is_function:
 PRINT is function
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
 process_token: 'PRINT' t=>v
  Push:'PRINT'
 (op_stack_print) 
@@ -25587,6 +26326,8 @@ Type Check Stack (1)
  BE:PRINT
 FN: 1 args
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
+ret_type;17 v
 typecheck_expression:Ret type of PRINT : v
 type_check_stack_pop: 'B'
 (type_check_stack_print) 
@@ -25742,6 +26483,7 @@ scan_command:
 token_is_function:
 PRINT is function
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
 process_token: 'PRINT' t=>v
  Push:'PRINT'
 (op_stack_print) 
@@ -26021,6 +26763,8 @@ Type Check Stack (1)
  BE:PRINT
 FN: 1 args
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
+ret_type;17 v
 typecheck_expression:Ret type of PRINT : v
 type_check_stack_pop: 'ABC'
 (type_check_stack_print) 
@@ -26176,6 +26920,7 @@ scan_command:
 token_is_function:
 PRINT is function
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
 process_token: 'PRINT' t=>v
  Push:'PRINT'
 (op_stack_print) 
@@ -26455,6 +27200,8 @@ Type Check Stack (1)
  BE:PRINT
 FN: 1 args
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
+ret_type;17 v
 typecheck_expression:Ret type of PRINT : v
 type_check_stack_pop: 'ABC%'
 (type_check_stack_print) 
@@ -26597,6 +27344,7 @@ scan_command:
 token_is_function:
 PRINT is function
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
 process_token: 'PRINT' t=>v
  Push:'PRINT'
 (op_stack_print) 
@@ -26876,6 +27624,8 @@ Type Check Stack (1)
  BE:PRINT
 FN: 1 args
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
+ret_type;17 v
 typecheck_expression:Ret type of PRINT : v
 type_check_stack_pop: 'A$'
 (type_check_stack_print) 
@@ -27018,6 +27768,7 @@ scan_command:
 token_is_function:
 PRINT is function
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
 process_token: 'PRINT' t=>v
  Push:'PRINT'
 (op_stack_print) 
@@ -27297,6 +28048,8 @@ Type Check Stack (1)
  BE:PRINT
 FN: 1 args
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
+ret_type;17 v
 typecheck_expression:Ret type of PRINT : v
 type_check_stack_pop: 'DEF$'
 (type_check_stack_print) 
@@ -27439,6 +28192,7 @@ scan_command:
 token_is_function:
 PRINT is function
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
 process_token: 'PRINT' t=>v
  Push:'PRINT'
 (op_stack_print) 
@@ -28201,6 +28955,26 @@ init_get_name:'A'
 get_name:gn:'A'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:f Outtype:f
+   Frst:0 T:'@' exptype:f
+(operator_precedence) 
+@ is operator
+'@' is operator
+(process_token) 
+Token is operator o1 name:@ o2 name:
+(process_token) 
+opr1:9 opr2:0
+Push 1
+ Push:'@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (1)
+
+(op_stack_print) 
+000: @ type:1
+(op_stack_print) 
+------------------
+
 ( output_variable) [f,()] f f A
 VAR INFO: '                 A' gbl:0 ref:1 int:0 flt:1 str:0 ary:1 max_str:0 max_ary:0 num_ind:1
 check_eitem: '
@@ -28247,6 +29021,18 @@ scan_expression: ret1 '
 '
 scan_command: ret1 =>'PRINT'
 Finalise stack
+Pop '@'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (0)
+
+(op_stack_print) 
+------------------
+
+( output_operator) [f,()] f f @
+token_is_function:
+token_is_function:@ is not function
 (process_expression_types) 
 process_expression_types:
 Expression buffer
@@ -28257,6 +29043,7 @@ Expression buffer
 ( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
 ( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_OPERATOR     f rq:f @  0:
 =================
  BE:
 
@@ -28286,6 +29073,8 @@ Type Check Stack (1)
  BE:PRINT
 FN: 1 args
 function_return_type: 'PRINT' =>v
+function_return_type: 'PRINT' =>17
+ret_type;17 v
 typecheck_expression:Ret type of PRINT : v
 type_check_stack_pop: '2'
 (type_check_stack_print) 
@@ -28336,991 +29125,21 @@ Type Check Stack (2)
 
 000: '000' type:v (17)
 001: 'A' type:f (1)
-Expression buffer
-=================
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
-=================
-Expression buffer 2
-===================
-(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
-(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
-=================
-(process_expression_types) 
-==INFIX==
-
-infix_stack_push: '2'
-infix_stack_pop: '2'
-infix_stack_push: 'PRINT(2 )'
-infix_stack_push: 'A'
-infix_stack_pop: 'A'
-(process_expression_types) ==A==
-(process_expression_types) 
-
-
-(    output_qcode) N1 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(    output_qcode) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
-(    output_qcode) N3 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(    output_qcode) N4 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
-(    output_qcode) N5 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(    output_qcode) N6 EXP_BUFF_ID_VARIABLE     f rq:f A  0:
-check_literal:lit=':' idx=11 ''
-check_literal:After drop space:':' idx=11 ''
-check_literal  ret0 Empty test string
-(translate_file) 
-cline scanned OK
-(translate_file) 
-=======================cline==========================
-(translate_file) 
-==PRINT B%(10)
-==
-scan_cline:
-check_line:
-check_assignment:
-check_variable:
-check_vname 'PRINT B%(10)
-':
-check_vname ret1 ' B%(10)
-':
-check_variable: ' B%(10)
-'
-check_variable: Ary test ' B%(10)
-'
-check_literal:lit='(' idx=5 ' B%(10)
-'
-check_literal:After drop space:'(' idx=5 ' B%(10)
-'
-  '(' != ' '
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-check_literal:lit=' =' idx=5 ' B%(10)
-'
-    dropping space
-check_literal:After drop space:'=' idx=6 'B%(10)
-'
-  '=' != 'B'
-check_literal: ret0
-check_assignment:ret0
-check_proc_call:
-check_textlabel: 'PRINT B%(10)
-'
-check_textlabel:ret0
-check_proc_call:ret0
-check_command:
-check_command: ret1 found=> 'PRINT'
-check_line:ret1
-scan_cline: Checked len=8, ' B%(10)
-'
-========================================================
-PRINT B%(10)
-
-========================================================
-(output_expression_start)
-scan_line:
-check_assignment:
-check_variable:
-check_vname 'PRINT B%(10)
-':
-check_vname ret1 ' B%(10)
-':
-check_variable: ' B%(10)
-'
-check_variable: Ary test ' B%(10)
-'
-check_literal:lit='(' idx=5 ' B%(10)
-'
-check_literal:After drop space:'(' idx=5 ' B%(10)
-'
-  '(' != ' '
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-check_literal:lit=' =' idx=5 ' B%(10)
-'
-    dropping space
-check_literal:After drop space:'=' idx=6 'B%(10)
-'
-  '=' != 'B'
-check_literal: ret0
-check_assignment:ret0
-check_proc_call:
-check_textlabel: 'PRINT B%(10)
-'
-check_textlabel:ret0
-check_proc_call:ret0
-check_command:
-check_command: ret1 found=> 'PRINT'
-scan_line:check_command: 
-scan_command:
-   Frst:1 T:'PRINT' exptype:U
-token_is_function:
-PRINT is function
-function_return_type: 'PRINT' =>v
-process_token: 'PRINT' t=>v
- Push:'PRINT'
-(op_stack_print) 
-------------------
-(op_stack_print) 
-Operator Stack     (1)
-
-(op_stack_print) 
-000: PRINT type:17
-(op_stack_print) 
-------------------
-
-scan_expression: ' B%(10)
-'
-check_eitem: 'B%(10)
-'
-check_operator: B%(10)
-
-check_literal:lit=',' idx=6 'B%(10)
-'
-check_literal:After drop space:',' idx=6 'B%(10)
-'
-  ',' != 'B'
-check_literal: ret0
-check_operator:ret0
-check_function: 'B%(10)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=6 'B%(10)
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 'B%(10)
-'
-  '%' != 'B'
-check_literal: ret0
-check_literal:lit=' "' idx=6 'B%(10)
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 'B%(10)
-'
-  '"' != 'B'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'B%(10)
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'B%(10)
-':
-check_vname ret1 '%(10)
-':
-check_variable: '%(10)
-'
-check_variable: Ary test '(10)
-'
-check_literal:lit='(' idx=8 '(10)
-'
-check_literal:After drop space:'(' idx=8 '(10)
-'
-check_literal:After while():10)
-
-check_literal:ret1 
-check_variable: is array
-check_expression: '10)
-'
-check_eitem: '10)
-'
-check_operator: 10)
-
-check_literal:lit=',' idx=9 '10)
-'
-check_literal:After drop space:',' idx=9 '10)
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '10)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '10)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '10)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '10)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '10)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '10)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-check_eitem: ')
-'
-check_operator: )
-
-check_literal:lit=',' idx=11 ')
-'
-check_literal:After drop space:',' idx=11 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_operator:ret0
-check_function: ')
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:'%' idx=11 ')
-'
-  '%' != ')'
-check_literal: ret0
-check_literal:lit=' "' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:'"' idx=11 ')
-'
-  '"' != ')'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ')
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ')
-':
-check_vname ret0 ')
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:'(' idx=11 ')
-'
-  '(' != ')'
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-check_expression:ret1 ')
-'
-check_literal:lit=' ,' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:',' idx=11 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_literal:lit=' )' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:')' idx=11 ')
-'
-check_literal:After while():
-
-check_literal:ret1 
-check_variable:ret1 
-check_eitem:ret1
-scan_eitem:
-check_operator: B%(10)
-
-check_literal:lit=',' idx=6 'B%(10)
-'
-check_literal:After drop space:',' idx=6 'B%(10)
-'
-  ',' != 'B'
-check_literal: ret0
-check_operator:ret0
-check_function: 'B%(10)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=6 'B%(10)
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 'B%(10)
-'
-  '%' != 'B'
-check_literal: ret0
-check_literal:lit=' "' idx=6 'B%(10)
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 'B%(10)
-'
-  '"' != 'B'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'B%(10)
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'B%(10)
-':
-check_vname ret1 '%(10)
-':
-check_variable: '%(10)
-'
-check_variable: Ary test '(10)
-'
-check_literal:lit='(' idx=8 '(10)
-'
-check_literal:After drop space:'(' idx=8 '(10)
-'
-check_literal:After while():10)
-
-check_literal:ret1 
-check_variable: is array
-check_expression: '10)
-'
-check_eitem: '10)
-'
-check_operator: 10)
-
-check_literal:lit=',' idx=9 '10)
-'
-check_literal:After drop space:',' idx=9 '10)
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '10)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '10)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '10)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '10)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '10)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '10)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-check_eitem: ')
-'
-check_operator: )
-
-check_literal:lit=',' idx=11 ')
-'
-check_literal:After drop space:',' idx=11 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_operator:ret0
-check_function: ')
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:'%' idx=11 ')
-'
-  '%' != ')'
-check_literal: ret0
-check_literal:lit=' "' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:'"' idx=11 ')
-'
-  '"' != ')'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ')
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ')
-':
-check_vname ret0 ')
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:'(' idx=11 ')
-'
-  '(' != ')'
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-check_expression:ret1 ')
-'
-check_literal:lit=' ,' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:',' idx=11 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_literal:lit=' )' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:')' idx=11 ')
-'
-check_literal:After while():
-
-check_literal:ret1 
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' idx=6 'B%(10)
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 'B%(10)
-'
-  '%' != 'B'
-check_literal: ret0
-check_literal:lit=' "' idx=6 'B%(10)
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 'B%(10)
-'
-  '"' != 'B'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'B%(10)
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'B%(10)
-':
-check_vname ret1 '%(10)
-':
-check_variable: '%(10)
-'
-check_variable: Ary test '(10)
-'
-check_literal:lit='(' idx=8 '(10)
-'
-check_literal:After drop space:'(' idx=8 '(10)
-'
-check_literal:After while():10)
-
-check_literal:ret1 
-check_variable: is array
-check_expression: '10)
-'
-check_eitem: '10)
-'
-check_operator: 10)
-
-check_literal:lit=',' idx=9 '10)
-'
-check_literal:After drop space:',' idx=9 '10)
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '10)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '10)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '10)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '10)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '10)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '10)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-check_eitem: ')
-'
-check_operator: )
-
-check_literal:lit=',' idx=11 ')
-'
-check_literal:After drop space:',' idx=11 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_operator:ret0
-check_function: ')
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:'%' idx=11 ')
-'
-  '%' != ')'
-check_literal: ret0
-check_literal:lit=' "' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:'"' idx=11 ')
-'
-  '"' != ')'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ')
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ')
-':
-check_vname ret0 ')
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:'(' idx=11 ')
-'
-  '(' != ')'
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-check_expression:ret1 ')
-'
-check_literal:lit=' ,' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:',' idx=11 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_literal:lit=' )' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:')' idx=11 ')
-'
-check_literal:After while():
-
-check_literal:ret1 
-check_variable:ret1 
-scan_variable:
-scan_vname: 'B%(10)
-'
-scan_vname: ret1 'B'
-scan_variable: '%(10)
-' vname='B'
-scan_variable: Ary test '(10)
-'
-check_literal:lit='(' idx=8 '(10)
-'
-check_literal:After drop space:'(' idx=8 '(10)
-'
-check_literal:After while():10)
-
-check_literal:ret1 
-scan_literal:lit='(' '(10)
-'
-scan_literal:After drop space:(10)
-
-scan_literal:while loop:(10)
-
-   Frst:0 T:'(' exptype:U
-(output_sub_start)
- Push:'('
-(op_stack_print) 
-------------------
-(op_stack_print) 
-Operator Stack     (2)
-
-(op_stack_print) 
-000: PRINT type:17
-(op_stack_print) 
-001: ( type:16
-(op_stack_print) 
-------------------
-
-scan_variable: is array
-scan_expression: '10)
-'
-check_eitem: '10)
-'
-check_operator: 10)
-
-check_literal:lit=',' idx=9 '10)
-'
-check_literal:After drop space:',' idx=9 '10)
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '10)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '10)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '10)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '10)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '10)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '10)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-scan_eitem:
-check_operator: 10)
-
-check_literal:lit=',' idx=9 '10)
-'
-check_literal:After drop space:',' idx=9 '10)
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '10)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '10)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '10)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '10)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '10)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '10)
-'
-check_integer:ret1
-check_number: ret1
-scan_atom:
-check_literal:lit=' %' idx=9 '10)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '10)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '10)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '10)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '10)
-'
-check_integer:ret1
-check_number: ret1
-scan_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '10)
-'
-check_integer:ret1
-scan_integer:
-scan_integer:ret1
-   Frst:0 T:'10' exptype:U
-modify_expression_type:Inittype:U Intype:i Outtype:i
-(  output_integer) [i,(U )] i i 10
-scan_integer:ret1  10
-check_eitem: ')
-'
-check_operator: )
-
-check_literal:lit=',' idx=11 ')
-'
-check_literal:After drop space:',' idx=11 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_operator:ret0
-check_function: ')
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:'%' idx=11 ')
-'
-  '%' != ')'
-check_literal: ret0
-check_literal:lit=' "' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:'"' idx=11 ')
-'
-  '"' != ')'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ')
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ')
-':
-check_vname ret0 ')
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:'(' idx=11 ')
-'
-  '(' != ')'
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-scan_expression: ret1 ')
-'
-check_literal:lit=' ,' idx=11 ')
-'
-    dropping space
-check_literal:After drop space:',' idx=11 ')
-'
-  ',' != ')'
-check_literal: ret0
-scan_literal:lit=' )' ')
-'
-scan_literal:After drop space:)
-
-scan_literal:while loop:)
-
-   Frst:0 T:')' exptype:i
-Pop 4
-Pop '('
-(op_stack_print) 
-------------------
-(op_stack_print) 
-Operator Stack     (1)
-
-(op_stack_print) 
-000: PRINT type:17
-(op_stack_print) 
-------------------
-
-(  output_sub_end)
-token_is_function:
-PRINT is function
-Pop 5
-Pop 'PRINT'
-(op_stack_print) 
-------------------
-(op_stack_print) 
-Operator Stack     (0)
-
-(op_stack_print) 
-------------------
-
-( output_function) [i,(U )] v v PRINT
-(  output_sub_end)
-scan_variable:ret1 vname='B%' is str:0 int:1 flt:0 ary:1
-   Frst:0 T:'B%' exptype:U
-token_is_function:
-token_is_function:B% is not function
-token_is_variable: tok:'B%'
-token_is_function:
-token_is_function:B% is not function
-(init_get_name) 
-init_get_name:'B%'
-(init_get_name) 
-init_get_name:'B%'
-(get_name) 
-get_name:gn:'B%'
-process_token:type:U req_type:i
-modify_expression_type:Inittype:U Intype:i Outtype:i
-( output_variable) [i,()] i i B%
-VAR INFO: '                B%' gbl:0 ref:1 int:1 flt:0 str:0 ary:1 max_str:0 max_ary:0 num_ind:1
-check_eitem: '
-'
-check_operator: 
-
-check_literal:lit=',' idx=13 ''
-check_literal:After drop space:',' idx=13 ''
-check_literal  ret0 Empty test string
-check_operator:ret0
-check_function: ''
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=12 '
-'
-    dropping space
-check_literal:After drop space:'%' idx=13 ''
-check_literal  ret0 Empty test string
-check_literal:lit=' "' idx=12 '
-'
-    dropping space
-check_literal:After drop space:'"' idx=13 ''
-check_literal  ret0 Empty test string
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ''
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname '':
-check_vname ret0 '':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=12 '
-'
-    dropping space
-check_literal:After drop space:'(' idx=13 ''
-check_literal  ret0 Empty test string
-check_sub_expr: ret0
-check_eitem:ret0
-scan_expression: ret1 '
-'
-scan_command: ret1 =>'PRINT'
-Finalise stack
-(process_expression_types) 
-process_expression_types:
-Expression buffer
-=================
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 10  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i B%  0:
-=================
- BE:
-
-Type Check Stack (0)
-
- BE:10
-type_check_stack_push: '10'
+ BE:@
+BUFF_ID_OPERATOR
+Found operator @
+type_check_stack_pop: 'A'
 (type_check_stack_print) 
 ------------------
 (type_check_stack_print) 
 Type Check Stack     (1)
 
 (type_check_stack_print) 
-000: '10' type:0
+000: '000' type:17
 (type_check_stack_print) 
 ------------------
 
-
-Type Check Stack (1)
-
-000: '10' type:i (0)
- BE:
-
-Type Check Stack (1)
-
-000: '10' type:i (0)
- BE:PRINT
-FN: 1 args
-function_return_type: 'PRINT' =>v
-typecheck_expression:Ret type of PRINT : v
-type_check_stack_pop: '10'
+type_check_stack_pop: '000'
 (type_check_stack_print) 
 ------------------
 (type_check_stack_print) 
@@ -29329,3684 +29148,5 @@ Type Check Stack     (0)
 (type_check_stack_print) 
 ------------------
 
-FN ARG 0 ri 10 0(i)  Arg ok
-type_check_stack_push: '000'
-(type_check_stack_print) 
-------------------
-(type_check_stack_print) 
-Type Check Stack     (1)
-
-(type_check_stack_print) 
-000: '000' type:17
-(type_check_stack_print) 
-------------------
-
-
-Type Check Stack (1)
-
-000: '000' type:v (17)
- BE:
-
-Type Check Stack (1)
-
-000: '000' type:v (17)
- BE:B%
-type_check_stack_push: 'B%'
-(type_check_stack_print) 
-------------------
-(type_check_stack_print) 
-Type Check Stack     (2)
-
-(type_check_stack_print) 
-000: '000' type:17
-(type_check_stack_print) 
-001: 'B%' type:0
-(type_check_stack_print) 
-------------------
-
-
-Type Check Stack (2)
-
-000: '000' type:v (17)
-001: 'B%' type:i (0)
-Expression buffer
-=================
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 10  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     i rq:i B%  0:
-=================
-Expression buffer 2
-===================
-(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 10  0:
-(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i B%  0:
-=================
-(process_expression_types) 
-==INFIX==
-
-infix_stack_push: '10'
-infix_stack_pop: '10'
-infix_stack_push: 'PRINT(10 )'
-infix_stack_push: 'B%'
-infix_stack_pop: 'B%'
-(process_expression_types) ==B%==
-(process_expression_types) 
-
-
-(    output_qcode) N1 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(    output_qcode) N2 EXP_BUFF_ID_INTEGER      i rq:i 10  0:
-(    output_qcode) N3 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(    output_qcode) N4 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
-(    output_qcode) N5 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(    output_qcode) N6 EXP_BUFF_ID_VARIABLE     i rq:i B%  0:
-check_literal:lit=':' idx=13 ''
-check_literal:After drop space:':' idx=13 ''
-check_literal  ret0 Empty test string
-(translate_file) 
-cline scanned OK
-(translate_file) 
-=======================cline==========================
-(translate_file) 
-==PRINT D$(2)
-==
-scan_cline:
-check_line:
-check_assignment:
-check_variable:
-check_vname 'PRINT D$(2)
-':
-check_vname ret1 ' D$(2)
-':
-check_variable: ' D$(2)
-'
-check_variable: Ary test ' D$(2)
-'
-check_literal:lit='(' idx=5 ' D$(2)
-'
-check_literal:After drop space:'(' idx=5 ' D$(2)
-'
-  '(' != ' '
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-check_literal:lit=' =' idx=5 ' D$(2)
-'
-    dropping space
-check_literal:After drop space:'=' idx=6 'D$(2)
-'
-  '=' != 'D'
-check_literal: ret0
-check_assignment:ret0
-check_proc_call:
-check_textlabel: 'PRINT D$(2)
-'
-check_textlabel:ret0
-check_proc_call:ret0
-check_command:
-check_command: ret1 found=> 'PRINT'
-check_line:ret1
-scan_cline: Checked len=7, ' D$(2)
-'
-========================================================
-PRINT D$(2)
-
-========================================================
-(output_expression_start)
-scan_line:
-check_assignment:
-check_variable:
-check_vname 'PRINT D$(2)
-':
-check_vname ret1 ' D$(2)
-':
-check_variable: ' D$(2)
-'
-check_variable: Ary test ' D$(2)
-'
-check_literal:lit='(' idx=5 ' D$(2)
-'
-check_literal:After drop space:'(' idx=5 ' D$(2)
-'
-  '(' != ' '
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-check_literal:lit=' =' idx=5 ' D$(2)
-'
-    dropping space
-check_literal:After drop space:'=' idx=6 'D$(2)
-'
-  '=' != 'D'
-check_literal: ret0
-check_assignment:ret0
-check_proc_call:
-check_textlabel: 'PRINT D$(2)
-'
-check_textlabel:ret0
-check_proc_call:ret0
-check_command:
-check_command: ret1 found=> 'PRINT'
-scan_line:check_command: 
-scan_command:
-   Frst:1 T:'PRINT' exptype:U
-token_is_function:
-PRINT is function
-function_return_type: 'PRINT' =>v
-process_token: 'PRINT' t=>v
- Push:'PRINT'
-(op_stack_print) 
-------------------
-(op_stack_print) 
-Operator Stack     (1)
-
-(op_stack_print) 
-000: PRINT type:17
-(op_stack_print) 
-------------------
-
-scan_expression: ' D$(2)
-'
-check_eitem: 'D$(2)
-'
-check_operator: D$(2)
-
-check_literal:lit=',' idx=6 'D$(2)
-'
-check_literal:After drop space:',' idx=6 'D$(2)
-'
-  ',' != 'D'
-check_literal: ret0
-check_operator:ret0
-check_function: 'D$(2)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=6 'D$(2)
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 'D$(2)
-'
-  '%' != 'D'
-check_literal: ret0
-check_literal:lit=' "' idx=6 'D$(2)
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 'D$(2)
-'
-  '"' != 'D'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'D$(2)
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'D$(2)
-':
-check_vname ret1 '$(2)
-':
-check_variable: '$(2)
-'
-check_variable: Ary test '(2)
-'
-check_literal:lit='(' idx=8 '(2)
-'
-check_literal:After drop space:'(' idx=8 '(2)
-'
-check_literal:After while():2)
-
-check_literal:ret1 
-check_variable: is array
-check_expression: '2)
-'
-check_eitem: '2)
-'
-check_operator: 2)
-
-check_literal:lit=',' idx=9 '2)
-'
-check_literal:After drop space:',' idx=9 '2)
-'
-  ',' != '2'
-check_literal: ret0
-check_operator:ret0
-check_function: '2)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '2)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '2)
-'
-  '%' != '2'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '2)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '2)
-'
-  '"' != '2'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '2)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-check_eitem: ')
-'
-check_operator: )
-
-check_literal:lit=',' idx=10 ')
-'
-check_literal:After drop space:',' idx=10 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_operator:ret0
-check_function: ')
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'%' idx=10 ')
-'
-  '%' != ')'
-check_literal: ret0
-check_literal:lit=' "' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'"' idx=10 ')
-'
-  '"' != ')'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ')
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ')
-':
-check_vname ret0 ')
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'(' idx=10 ')
-'
-  '(' != ')'
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-check_expression:ret1 ')
-'
-check_literal:lit=' ,' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:',' idx=10 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_literal:lit=' )' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:')' idx=10 ')
-'
-check_literal:After while():
-
-check_literal:ret1 
-check_variable:ret1 
-check_eitem:ret1
-scan_eitem:
-check_operator: D$(2)
-
-check_literal:lit=',' idx=6 'D$(2)
-'
-check_literal:After drop space:',' idx=6 'D$(2)
-'
-  ',' != 'D'
-check_literal: ret0
-check_operator:ret0
-check_function: 'D$(2)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=6 'D$(2)
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 'D$(2)
-'
-  '%' != 'D'
-check_literal: ret0
-check_literal:lit=' "' idx=6 'D$(2)
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 'D$(2)
-'
-  '"' != 'D'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'D$(2)
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'D$(2)
-':
-check_vname ret1 '$(2)
-':
-check_variable: '$(2)
-'
-check_variable: Ary test '(2)
-'
-check_literal:lit='(' idx=8 '(2)
-'
-check_literal:After drop space:'(' idx=8 '(2)
-'
-check_literal:After while():2)
-
-check_literal:ret1 
-check_variable: is array
-check_expression: '2)
-'
-check_eitem: '2)
-'
-check_operator: 2)
-
-check_literal:lit=',' idx=9 '2)
-'
-check_literal:After drop space:',' idx=9 '2)
-'
-  ',' != '2'
-check_literal: ret0
-check_operator:ret0
-check_function: '2)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '2)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '2)
-'
-  '%' != '2'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '2)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '2)
-'
-  '"' != '2'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '2)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-check_eitem: ')
-'
-check_operator: )
-
-check_literal:lit=',' idx=10 ')
-'
-check_literal:After drop space:',' idx=10 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_operator:ret0
-check_function: ')
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'%' idx=10 ')
-'
-  '%' != ')'
-check_literal: ret0
-check_literal:lit=' "' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'"' idx=10 ')
-'
-  '"' != ')'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ')
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ')
-':
-check_vname ret0 ')
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'(' idx=10 ')
-'
-  '(' != ')'
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-check_expression:ret1 ')
-'
-check_literal:lit=' ,' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:',' idx=10 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_literal:lit=' )' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:')' idx=10 ')
-'
-check_literal:After while():
-
-check_literal:ret1 
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' idx=6 'D$(2)
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 'D$(2)
-'
-  '%' != 'D'
-check_literal: ret0
-check_literal:lit=' "' idx=6 'D$(2)
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 'D$(2)
-'
-  '"' != 'D'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'D$(2)
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'D$(2)
-':
-check_vname ret1 '$(2)
-':
-check_variable: '$(2)
-'
-check_variable: Ary test '(2)
-'
-check_literal:lit='(' idx=8 '(2)
-'
-check_literal:After drop space:'(' idx=8 '(2)
-'
-check_literal:After while():2)
-
-check_literal:ret1 
-check_variable: is array
-check_expression: '2)
-'
-check_eitem: '2)
-'
-check_operator: 2)
-
-check_literal:lit=',' idx=9 '2)
-'
-check_literal:After drop space:',' idx=9 '2)
-'
-  ',' != '2'
-check_literal: ret0
-check_operator:ret0
-check_function: '2)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '2)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '2)
-'
-  '%' != '2'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '2)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '2)
-'
-  '"' != '2'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '2)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-check_eitem: ')
-'
-check_operator: )
-
-check_literal:lit=',' idx=10 ')
-'
-check_literal:After drop space:',' idx=10 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_operator:ret0
-check_function: ')
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'%' idx=10 ')
-'
-  '%' != ')'
-check_literal: ret0
-check_literal:lit=' "' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'"' idx=10 ')
-'
-  '"' != ')'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ')
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ')
-':
-check_vname ret0 ')
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'(' idx=10 ')
-'
-  '(' != ')'
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-check_expression:ret1 ')
-'
-check_literal:lit=' ,' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:',' idx=10 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_literal:lit=' )' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:')' idx=10 ')
-'
-check_literal:After while():
-
-check_literal:ret1 
-check_variable:ret1 
-scan_variable:
-scan_vname: 'D$(2)
-'
-scan_vname: ret1 'D'
-scan_variable: '$(2)
-' vname='D'
-scan_variable: Ary test '(2)
-'
-check_literal:lit='(' idx=8 '(2)
-'
-check_literal:After drop space:'(' idx=8 '(2)
-'
-check_literal:After while():2)
-
-check_literal:ret1 
-scan_literal:lit='(' '(2)
-'
-scan_literal:After drop space:(2)
-
-scan_literal:while loop:(2)
-
-   Frst:0 T:'(' exptype:U
-(output_sub_start)
- Push:'('
-(op_stack_print) 
-------------------
-(op_stack_print) 
-Operator Stack     (2)
-
-(op_stack_print) 
-000: PRINT type:17
-(op_stack_print) 
-001: ( type:16
-(op_stack_print) 
-------------------
-
-scan_variable: is array
-scan_expression: '2)
-'
-check_eitem: '2)
-'
-check_operator: 2)
-
-check_literal:lit=',' idx=9 '2)
-'
-check_literal:After drop space:',' idx=9 '2)
-'
-  ',' != '2'
-check_literal: ret0
-check_operator:ret0
-check_function: '2)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '2)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '2)
-'
-  '%' != '2'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '2)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '2)
-'
-  '"' != '2'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '2)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-scan_eitem:
-check_operator: 2)
-
-check_literal:lit=',' idx=9 '2)
-'
-check_literal:After drop space:',' idx=9 '2)
-'
-  ',' != '2'
-check_literal: ret0
-check_operator:ret0
-check_function: '2)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '2)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '2)
-'
-  '%' != '2'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '2)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '2)
-'
-  '"' != '2'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '2)
-'
-check_integer:ret1
-check_number: ret1
-scan_atom:
-check_literal:lit=' %' idx=9 '2)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '2)
-'
-  '%' != '2'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '2)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '2)
-'
-  '"' != '2'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '2)
-'
-check_integer:ret1
-check_number: ret1
-scan_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '2)
-'
-check_integer:ret1
-scan_integer:
-scan_integer:ret1
-   Frst:0 T:'2' exptype:U
-modify_expression_type:Inittype:U Intype:i Outtype:i
-(  output_integer) [i,(U )] i i 2
-scan_integer:ret1  2
-check_eitem: ')
-'
-check_operator: )
-
-check_literal:lit=',' idx=10 ')
-'
-check_literal:After drop space:',' idx=10 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_operator:ret0
-check_function: ')
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'%' idx=10 ')
-'
-  '%' != ')'
-check_literal: ret0
-check_literal:lit=' "' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'"' idx=10 ')
-'
-  '"' != ')'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ')
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ')
-':
-check_vname ret0 ')
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:'(' idx=10 ')
-'
-  '(' != ')'
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-scan_expression: ret1 ')
-'
-check_literal:lit=' ,' idx=10 ')
-'
-    dropping space
-check_literal:After drop space:',' idx=10 ')
-'
-  ',' != ')'
-check_literal: ret0
-scan_literal:lit=' )' ')
-'
-scan_literal:After drop space:)
-
-scan_literal:while loop:)
-
-   Frst:0 T:')' exptype:i
-Pop 4
-Pop '('
-(op_stack_print) 
-------------------
-(op_stack_print) 
-Operator Stack     (1)
-
-(op_stack_print) 
-000: PRINT type:17
-(op_stack_print) 
-------------------
-
-(  output_sub_end)
-token_is_function:
-PRINT is function
-Pop 5
-Pop 'PRINT'
-(op_stack_print) 
-------------------
-(op_stack_print) 
-Operator Stack     (0)
-
-(op_stack_print) 
-------------------
-
-( output_function) [i,(U )] v v PRINT
-(  output_sub_end)
-scan_variable:ret1 vname='D$' is str:1 int:0 flt:0 ary:1
-   Frst:0 T:'D$' exptype:U
-token_is_function:
-token_is_function:D$ is not function
-token_is_variable: tok:'D$'
-token_is_function:
-token_is_function:D$ is not function
-(init_get_name) 
-init_get_name:'D$'
-(init_get_name) 
-init_get_name:'D$'
-(get_name) 
-get_name:gn:'D$'
-process_token:type:U req_type:i
-modify_expression_type:Inittype:U Intype:s Outtype:s
-( output_variable) [s,()] s s D$
-VAR INFO: '                D$' gbl:0 ref:1 int:0 flt:0 str:1 ary:1 max_str:0 max_ary:0 num_ind:1
-check_eitem: '
-'
-check_operator: 
-
-check_literal:lit=',' idx=12 ''
-check_literal:After drop space:',' idx=12 ''
-check_literal  ret0 Empty test string
-check_operator:ret0
-check_function: ''
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=11 '
-'
-    dropping space
-check_literal:After drop space:'%' idx=12 ''
-check_literal  ret0 Empty test string
-check_literal:lit=' "' idx=11 '
-'
-    dropping space
-check_literal:After drop space:'"' idx=12 ''
-check_literal  ret0 Empty test string
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ''
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname '':
-check_vname ret0 '':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=11 '
-'
-    dropping space
-check_literal:After drop space:'(' idx=12 ''
-check_literal  ret0 Empty test string
-check_sub_expr: ret0
-check_eitem:ret0
-scan_expression: ret1 '
-'
-scan_command: ret1 =>'PRINT'
-Finalise stack
-(process_expression_types) 
-process_expression_types:
-Expression buffer
-=================
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     s rq:s D$  0:
-=================
- BE:
-
-Type Check Stack (0)
-
- BE:2
-type_check_stack_push: '2'
-(type_check_stack_print) 
-------------------
-(type_check_stack_print) 
-Type Check Stack     (1)
-
-(type_check_stack_print) 
-000: '2' type:0
-(type_check_stack_print) 
-------------------
-
-
-Type Check Stack (1)
-
-000: '2' type:i (0)
- BE:
-
-Type Check Stack (1)
-
-000: '2' type:i (0)
- BE:PRINT
-FN: 1 args
-function_return_type: 'PRINT' =>v
-typecheck_expression:Ret type of PRINT : v
-type_check_stack_pop: '2'
-(type_check_stack_print) 
-------------------
-(type_check_stack_print) 
-Type Check Stack     (0)
-
-(type_check_stack_print) 
-------------------
-
-FN ARG 0 ri 2 0(i)  Arg ok
-type_check_stack_push: '000'
-(type_check_stack_print) 
-------------------
-(type_check_stack_print) 
-Type Check Stack     (1)
-
-(type_check_stack_print) 
-000: '000' type:17
-(type_check_stack_print) 
-------------------
-
-
-Type Check Stack (1)
-
-000: '000' type:v (17)
- BE:
-
-Type Check Stack (1)
-
-000: '000' type:v (17)
- BE:D$
-type_check_stack_push: 'D$'
-(type_check_stack_print) 
-------------------
-(type_check_stack_print) 
-Type Check Stack     (2)
-
-(type_check_stack_print) 
-000: '000' type:17
-(type_check_stack_print) 
-001: 'D$' type:2
-(type_check_stack_print) 
-------------------
-
-
-Type Check Stack (2)
-
-000: '000' type:v (17)
-001: 'D$' type:s (2)
-Expression buffer
-=================
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     s rq:s D$  0:
-=================
-Expression buffer 2
-===================
-(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
-(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     s rq:s D$  0:
-=================
-(process_expression_types) 
-==INFIX==
-
-infix_stack_push: '2'
-infix_stack_pop: '2'
-infix_stack_push: 'PRINT(2 )'
-infix_stack_push: 'D$'
-infix_stack_pop: 'D$'
-(process_expression_types) ==D$==
-(process_expression_types) 
-
-
-(    output_qcode) N1 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(    output_qcode) N2 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
-(    output_qcode) N3 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(    output_qcode) N4 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
-(    output_qcode) N5 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(    output_qcode) N6 EXP_BUFF_ID_VARIABLE     s rq:s D$  0:
-check_literal:lit=':' idx=12 ''
-check_literal:After drop space:':' idx=12 ''
-check_literal  ret0 Empty test string
-(translate_file) 
-cline scanned OK
-(translate_file) 
-=======================cline==========================
-(translate_file) 
-==PRINT F$(10,12)
-==
-scan_cline:
-check_line:
-check_assignment:
-check_variable:
-check_vname 'PRINT F$(10,12)
-':
-check_vname ret1 ' F$(10,12)
-':
-check_variable: ' F$(10,12)
-'
-check_variable: Ary test ' F$(10,12)
-'
-check_literal:lit='(' idx=5 ' F$(10,12)
-'
-check_literal:After drop space:'(' idx=5 ' F$(10,12)
-'
-  '(' != ' '
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-check_literal:lit=' =' idx=5 ' F$(10,12)
-'
-    dropping space
-check_literal:After drop space:'=' idx=6 'F$(10,12)
-'
-  '=' != 'F'
-check_literal: ret0
-check_assignment:ret0
-check_proc_call:
-check_textlabel: 'PRINT F$(10,12)
-'
-check_textlabel:ret0
-check_proc_call:ret0
-check_command:
-check_command: ret1 found=> 'PRINT'
-check_line:ret1
-scan_cline: Checked len=11, ' F$(10,12)
-'
-========================================================
-PRINT F$(10,12)
-
-========================================================
-(output_expression_start)
-scan_line:
-check_assignment:
-check_variable:
-check_vname 'PRINT F$(10,12)
-':
-check_vname ret1 ' F$(10,12)
-':
-check_variable: ' F$(10,12)
-'
-check_variable: Ary test ' F$(10,12)
-'
-check_literal:lit='(' idx=5 ' F$(10,12)
-'
-check_literal:After drop space:'(' idx=5 ' F$(10,12)
-'
-  '(' != ' '
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-check_literal:lit=' =' idx=5 ' F$(10,12)
-'
-    dropping space
-check_literal:After drop space:'=' idx=6 'F$(10,12)
-'
-  '=' != 'F'
-check_literal: ret0
-check_assignment:ret0
-check_proc_call:
-check_textlabel: 'PRINT F$(10,12)
-'
-check_textlabel:ret0
-check_proc_call:ret0
-check_command:
-check_command: ret1 found=> 'PRINT'
-scan_line:check_command: 
-scan_command:
-   Frst:1 T:'PRINT' exptype:U
-token_is_function:
-PRINT is function
-function_return_type: 'PRINT' =>v
-process_token: 'PRINT' t=>v
- Push:'PRINT'
-(op_stack_print) 
-------------------
-(op_stack_print) 
-Operator Stack     (1)
-
-(op_stack_print) 
-000: PRINT type:17
-(op_stack_print) 
-------------------
-
-scan_expression: ' F$(10,12)
-'
-check_eitem: 'F$(10,12)
-'
-check_operator: F$(10,12)
-
-check_literal:lit=',' idx=6 'F$(10,12)
-'
-check_literal:After drop space:',' idx=6 'F$(10,12)
-'
-  ',' != 'F'
-check_literal: ret0
-check_operator:ret0
-check_function: 'F$(10,12)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=6 'F$(10,12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 'F$(10,12)
-'
-  '%' != 'F'
-check_literal: ret0
-check_literal:lit=' "' idx=6 'F$(10,12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 'F$(10,12)
-'
-  '"' != 'F'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'F$(10,12)
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'F$(10,12)
-':
-check_vname ret1 '$(10,12)
-':
-check_variable: '$(10,12)
-'
-check_variable: Ary test '(10,12)
-'
-check_literal:lit='(' idx=8 '(10,12)
-'
-check_literal:After drop space:'(' idx=8 '(10,12)
-'
-check_literal:After while():10,12)
-
-check_literal:ret1 
-check_variable: is array
-check_expression: '10,12)
-'
-check_eitem: '10,12)
-'
-check_operator: 10,12)
-
-check_literal:lit=',' idx=9 '10,12)
-'
-check_literal:After drop space:',' idx=9 '10,12)
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '10,12)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '10,12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '10,12)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '10,12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '10,12)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '10,12)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-check_eitem: ',12)
-'
-check_operator: ,12)
-
-check_literal:lit=',' idx=11 ',12)
-'
-check_literal:After drop space:',' idx=11 ',12)
-'
-check_literal:After while():12)
-
-check_literal:ret1 
-scan_literal:lit=',' 'F$(10,12)
-'
-scan_literal:After drop space:F$(10,12)
-
-scan_literal:while loop:F$(10,12)
-
-check_function: ',12)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=11 ',12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=11 ',12)
-'
-  '%' != ','
-check_literal: ret0
-check_literal:lit=' "' idx=11 ',12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=11 ',12)
-'
-  '"' != ','
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ',12)
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ',12)
-':
-check_vname ret0 ',12)
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=11 ',12)
-'
-    dropping space
-check_literal:After drop space:'(' idx=11 ',12)
-'
-  '(' != ','
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-check_expression:ret1 ',12)
-'
-check_literal:lit=' ,' idx=11 ',12)
-'
-    dropping space
-check_literal:After drop space:',' idx=11 ',12)
-'
-check_literal:After while():12)
-
-check_literal:ret1 
-check_expression: '12)
-'
-check_eitem: '12)
-'
-check_operator: 12)
-
-check_literal:lit=',' idx=12 '12)
-'
-check_literal:After drop space:',' idx=12 '12)
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '12)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=12 '12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=12 '12)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=12 '12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=12 '12)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '12)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-check_eitem: ')
-'
-check_operator: )
-
-check_literal:lit=',' idx=14 ')
-'
-check_literal:After drop space:',' idx=14 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_operator:ret0
-check_function: ')
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:'%' idx=14 ')
-'
-  '%' != ')'
-check_literal: ret0
-check_literal:lit=' "' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:'"' idx=14 ')
-'
-  '"' != ')'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ')
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ')
-':
-check_vname ret0 ')
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:'(' idx=14 ')
-'
-  '(' != ')'
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-check_expression:ret1 ')
-'
-check_literal:lit=' )' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:')' idx=14 ')
-'
-check_literal:After while():
-
-check_literal:ret1 
-check_variable:ret1 
-check_eitem:ret1
-scan_eitem:
-check_operator: F$(10,12)
-
-check_literal:lit=',' idx=6 'F$(10,12)
-'
-check_literal:After drop space:',' idx=6 'F$(10,12)
-'
-  ',' != 'F'
-check_literal: ret0
-check_operator:ret0
-check_function: 'F$(10,12)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=6 'F$(10,12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 'F$(10,12)
-'
-  '%' != 'F'
-check_literal: ret0
-check_literal:lit=' "' idx=6 'F$(10,12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 'F$(10,12)
-'
-  '"' != 'F'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'F$(10,12)
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'F$(10,12)
-':
-check_vname ret1 '$(10,12)
-':
-check_variable: '$(10,12)
-'
-check_variable: Ary test '(10,12)
-'
-check_literal:lit='(' idx=8 '(10,12)
-'
-check_literal:After drop space:'(' idx=8 '(10,12)
-'
-check_literal:After while():10,12)
-
-check_literal:ret1 
-check_variable: is array
-check_expression: '10,12)
-'
-check_eitem: '10,12)
-'
-check_operator: 10,12)
-
-check_literal:lit=',' idx=9 '10,12)
-'
-check_literal:After drop space:',' idx=9 '10,12)
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '10,12)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '10,12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '10,12)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '10,12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '10,12)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '10,12)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-check_eitem: ',12)
-'
-check_operator: ,12)
-
-check_literal:lit=',' idx=11 ',12)
-'
-check_literal:After drop space:',' idx=11 ',12)
-'
-check_literal:After while():12)
-
-check_literal:ret1 
-scan_literal:lit=',' 'F$(10,12)
-'
-scan_literal:After drop space:F$(10,12)
-
-scan_literal:while loop:F$(10,12)
-
-check_function: ',12)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=11 ',12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=11 ',12)
-'
-  '%' != ','
-check_literal: ret0
-check_literal:lit=' "' idx=11 ',12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=11 ',12)
-'
-  '"' != ','
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ',12)
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ',12)
-':
-check_vname ret0 ',12)
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=11 ',12)
-'
-    dropping space
-check_literal:After drop space:'(' idx=11 ',12)
-'
-  '(' != ','
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-check_expression:ret1 ',12)
-'
-check_literal:lit=' ,' idx=11 ',12)
-'
-    dropping space
-check_literal:After drop space:',' idx=11 ',12)
-'
-check_literal:After while():12)
-
-check_literal:ret1 
-check_expression: '12)
-'
-check_eitem: '12)
-'
-check_operator: 12)
-
-check_literal:lit=',' idx=12 '12)
-'
-check_literal:After drop space:',' idx=12 '12)
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '12)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=12 '12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=12 '12)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=12 '12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=12 '12)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '12)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-check_eitem: ')
-'
-check_operator: )
-
-check_literal:lit=',' idx=14 ')
-'
-check_literal:After drop space:',' idx=14 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_operator:ret0
-check_function: ')
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:'%' idx=14 ')
-'
-  '%' != ')'
-check_literal: ret0
-check_literal:lit=' "' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:'"' idx=14 ')
-'
-  '"' != ')'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ')
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ')
-':
-check_vname ret0 ')
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:'(' idx=14 ')
-'
-  '(' != ')'
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-check_expression:ret1 ')
-'
-check_literal:lit=' )' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:')' idx=14 ')
-'
-check_literal:After while():
-
-check_literal:ret1 
-check_variable:ret1 
-scan_atom:
-check_literal:lit=' %' idx=6 'F$(10,12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 'F$(10,12)
-'
-  '%' != 'F'
-check_literal: ret0
-check_literal:lit=' "' idx=6 'F$(10,12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 'F$(10,12)
-'
-  '"' != 'F'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: 'F$(10,12)
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname 'F$(10,12)
-':
-check_vname ret1 '$(10,12)
-':
-check_variable: '$(10,12)
-'
-check_variable: Ary test '(10,12)
-'
-check_literal:lit='(' idx=8 '(10,12)
-'
-check_literal:After drop space:'(' idx=8 '(10,12)
-'
-check_literal:After while():10,12)
-
-check_literal:ret1 
-check_variable: is array
-check_expression: '10,12)
-'
-check_eitem: '10,12)
-'
-check_operator: 10,12)
-
-check_literal:lit=',' idx=9 '10,12)
-'
-check_literal:After drop space:',' idx=9 '10,12)
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '10,12)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '10,12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '10,12)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '10,12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '10,12)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '10,12)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-check_eitem: ',12)
-'
-check_operator: ,12)
-
-check_literal:lit=',' idx=11 ',12)
-'
-check_literal:After drop space:',' idx=11 ',12)
-'
-check_literal:After while():12)
-
-check_literal:ret1 
-scan_literal:lit=',' 'F$(10,12)
-'
-scan_literal:After drop space:F$(10,12)
-
-scan_literal:while loop:F$(10,12)
-
-check_function: ',12)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=11 ',12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=11 ',12)
-'
-  '%' != ','
-check_literal: ret0
-check_literal:lit=' "' idx=11 ',12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=11 ',12)
-'
-  '"' != ','
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ',12)
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ',12)
-':
-check_vname ret0 ',12)
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=11 ',12)
-'
-    dropping space
-check_literal:After drop space:'(' idx=11 ',12)
-'
-  '(' != ','
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-check_expression:ret1 ',12)
-'
-check_literal:lit=' ,' idx=11 ',12)
-'
-    dropping space
-check_literal:After drop space:',' idx=11 ',12)
-'
-check_literal:After while():12)
-
-check_literal:ret1 
-check_expression: '12)
-'
-check_eitem: '12)
-'
-check_operator: 12)
-
-check_literal:lit=',' idx=12 '12)
-'
-check_literal:After drop space:',' idx=12 '12)
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '12)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=12 '12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=12 '12)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=12 '12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=12 '12)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '12)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-check_eitem: ')
-'
-check_operator: )
-
-check_literal:lit=',' idx=14 ')
-'
-check_literal:After drop space:',' idx=14 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_operator:ret0
-check_function: ')
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:'%' idx=14 ')
-'
-  '%' != ')'
-check_literal: ret0
-check_literal:lit=' "' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:'"' idx=14 ')
-'
-  '"' != ')'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ')
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ')
-':
-check_vname ret0 ')
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:'(' idx=14 ')
-'
-  '(' != ')'
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-check_expression:ret1 ')
-'
-check_literal:lit=' )' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:')' idx=14 ')
-'
-check_literal:After while():
-
-check_literal:ret1 
-check_variable:ret1 
-scan_variable:
-scan_vname: 'F$(10,12)
-'
-scan_vname: ret1 'F'
-scan_variable: '$(10,12)
-' vname='F'
-scan_variable: Ary test '(10,12)
-'
-check_literal:lit='(' idx=8 '(10,12)
-'
-check_literal:After drop space:'(' idx=8 '(10,12)
-'
-check_literal:After while():10,12)
-
-check_literal:ret1 
-scan_literal:lit='(' '(10,12)
-'
-scan_literal:After drop space:(10,12)
-
-scan_literal:while loop:(10,12)
-
-   Frst:0 T:'(' exptype:U
-(output_sub_start)
- Push:'('
-(op_stack_print) 
-------------------
-(op_stack_print) 
-Operator Stack     (2)
-
-(op_stack_print) 
-000: PRINT type:17
-(op_stack_print) 
-001: ( type:16
-(op_stack_print) 
-------------------
-
-scan_variable: is array
-scan_expression: '10,12)
-'
-check_eitem: '10,12)
-'
-check_operator: 10,12)
-
-check_literal:lit=',' idx=9 '10,12)
-'
-check_literal:After drop space:',' idx=9 '10,12)
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '10,12)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '10,12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '10,12)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '10,12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '10,12)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '10,12)
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-scan_eitem:
-check_operator: 10,12)
-
-check_literal:lit=',' idx=9 '10,12)
-'
-check_literal:After drop space:',' idx=9 '10,12)
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '10,12)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=9 '10,12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '10,12)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '10,12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '10,12)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '10,12)
-'
-check_integer:ret1
-check_number: ret1
-scan_atom:
-check_literal:lit=' %' idx=9 '10,12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=9 '10,12)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=9 '10,12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=9 '10,12)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '10,12)
-'
-check_integer:ret1
-check_number: ret1
-scan_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '10,12)
-'
-check_integer:ret1
-scan_integer:
-scan_integer:ret1
-   Frst:0 T:'10' exptype:U
-modify_expression_type:Inittype:U Intype:i Outtype:i
-(  output_integer) [i,(U )] i i 10
-scan_integer:ret1  10
-check_eitem: ',12)
-'
-check_operator: ,12)
-
-check_literal:lit=',' idx=11 ',12)
-'
-check_literal:After drop space:',' idx=11 ',12)
-'
-check_literal:After while():12)
-
-check_literal:ret1 
-scan_literal:lit=',' ',12)
-'
-scan_literal:After drop space:,12)
-
-scan_literal:while loop:,12)
-
-   Frst:0 T:',' exptype:i
-(output_sub_start)
-check_eitem:ret1
-scan_eitem:
-check_operator: 12)
-
-check_literal:lit=',' idx=12 '12)
-'
-check_literal:After drop space:',' idx=12 '12)
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '12)
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=12 '12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=12 '12)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=12 '12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=12 '12)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '12)
-'
-check_integer:ret1
-check_number: ret1
-scan_atom:
-check_literal:lit=' %' idx=12 '12)
-'
-    dropping space
-check_literal:After drop space:'%' idx=12 '12)
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=12 '12)
-'
-    dropping space
-check_literal:After drop space:'"' idx=12 '12)
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '12)
-'
-check_integer:ret1
-check_number: ret1
-scan_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '12)
-'
-check_integer:ret1
-scan_integer:
-scan_integer:ret1
-   Frst:0 T:'12' exptype:U
-modify_expression_type:Inittype:U Intype:i Outtype:i
-(  output_integer) [i,(U )] i i 12
-scan_integer:ret1  12
-check_eitem: ')
-'
-check_operator: )
-
-check_literal:lit=',' idx=14 ')
-'
-check_literal:After drop space:',' idx=14 ')
-'
-  ',' != ')'
-check_literal: ret0
-check_operator:ret0
-check_function: ')
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:'%' idx=14 ')
-'
-  '%' != ')'
-check_literal: ret0
-check_literal:lit=' "' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:'"' idx=14 ')
-'
-  '"' != ')'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ')
-'
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname ')
-':
-check_vname ret0 ')
-':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:'(' idx=14 ')
-'
-  '(' != ')'
-check_literal: ret0
-check_sub_expr: ret0
-check_eitem:ret0
-scan_expression: ret1 ')
-'
-check_literal:lit=' ,' idx=14 ')
-'
-    dropping space
-check_literal:After drop space:',' idx=14 ')
-'
-  ',' != ')'
-check_literal: ret0
-scan_literal:lit=' )' ')
-'
-scan_literal:After drop space:)
-
-scan_literal:while loop:)
-
-   Frst:0 T:')' exptype:i
-Pop 4
-Pop '('
-(op_stack_print) 
-------------------
-(op_stack_print) 
-Operator Stack     (1)
-
-(op_stack_print) 
-000: PRINT type:17
-(op_stack_print) 
-------------------
-
-(  output_sub_end)
-token_is_function:
-PRINT is function
-Pop 5
-Pop 'PRINT'
-(op_stack_print) 
-------------------
-(op_stack_print) 
-Operator Stack     (0)
-
-(op_stack_print) 
-------------------
-
-( output_function) [i,(U )] v v PRINT
-(  output_sub_end)
-scan_variable:ret1 vname='F$' is str:1 int:0 flt:0 ary:1
-   Frst:0 T:'F$' exptype:U
-token_is_function:
-token_is_function:F$ is not function
-token_is_variable: tok:'F$'
-token_is_function:
-token_is_function:F$ is not function
-(init_get_name) 
-init_get_name:'F$'
-(init_get_name) 
-init_get_name:'F$'
-(get_name) 
-get_name:gn:'F$'
-process_token:type:U req_type:i
-modify_expression_type:Inittype:U Intype:s Outtype:s
-( output_variable) [s,()] s s F$
-VAR INFO: '                F$' gbl:0 ref:1 int:0 flt:0 str:1 ary:1 max_str:0 max_ary:0 num_ind:1
-check_eitem: '
-'
-check_operator: 
-
-check_literal:lit=',' idx=16 ''
-check_literal:After drop space:',' idx=16 ''
-check_literal  ret0 Empty test string
-check_operator:ret0
-check_function: ''
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=15 '
-'
-    dropping space
-check_literal:After drop space:'%' idx=16 ''
-check_literal  ret0 Empty test string
-check_literal:lit=' "' idx=15 '
-'
-    dropping space
-check_literal:After drop space:'"' idx=16 ''
-check_literal  ret0 Empty test string
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ''
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname '':
-check_vname ret0 '':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=15 '
-'
-    dropping space
-check_literal:After drop space:'(' idx=16 ''
-check_literal  ret0 Empty test string
-check_sub_expr: ret0
-check_eitem:ret0
-scan_expression: ret1 '
-'
-scan_command: ret1 =>'PRINT'
-Finalise stack
-(process_expression_types) 
-process_expression_types:
-Expression buffer
-=================
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 10  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 12  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     s rq:s F$  0:
-=================
- BE:
-
-Type Check Stack (0)
-
- BE:10
-type_check_stack_push: '10'
-(type_check_stack_print) 
-------------------
-(type_check_stack_print) 
-Type Check Stack     (1)
-
-(type_check_stack_print) 
-000: '10' type:0
-(type_check_stack_print) 
-------------------
-
-
-Type Check Stack (1)
-
-000: '10' type:i (0)
- BE:
-
-Type Check Stack (1)
-
-000: '10' type:i (0)
- BE:12
-type_check_stack_push: '12'
-(type_check_stack_print) 
-------------------
-(type_check_stack_print) 
-Type Check Stack     (2)
-
-(type_check_stack_print) 
-000: '10' type:0
-(type_check_stack_print) 
-001: '12' type:0
-(type_check_stack_print) 
-------------------
-
-
-Type Check Stack (2)
-
-000: '10' type:i (0)
-001: '12' type:i (0)
- BE:
-
-Type Check Stack (2)
-
-000: '10' type:i (0)
-001: '12' type:i (0)
- BE:PRINT
-FN: 1 args
-function_return_type: 'PRINT' =>v
-typecheck_expression:Ret type of PRINT : v
-type_check_stack_pop: '12'
-(type_check_stack_print) 
-------------------
-(type_check_stack_print) 
-Type Check Stack     (1)
-
-(type_check_stack_print) 
-000: '10' type:0
-(type_check_stack_print) 
-------------------
-
-FN ARG 0 ri 12 0(i)  Arg ok
-type_check_stack_push: '000'
-(type_check_stack_print) 
-------------------
-(type_check_stack_print) 
-Type Check Stack     (2)
-
-(type_check_stack_print) 
-000: '10' type:0
-(type_check_stack_print) 
-001: '000' type:17
-(type_check_stack_print) 
-------------------
-
-
-Type Check Stack (2)
-
-000: '10' type:i (0)
-001: '000' type:v (17)
- BE:
-
-Type Check Stack (2)
-
-000: '10' type:i (0)
-001: '000' type:v (17)
- BE:F$
-type_check_stack_push: 'F$'
-(type_check_stack_print) 
-------------------
-(type_check_stack_print) 
-Type Check Stack     (3)
-
-(type_check_stack_print) 
-000: '10' type:0
-(type_check_stack_print) 
-001: '000' type:17
-(type_check_stack_print) 
-002: 'F$' type:2
-(type_check_stack_print) 
-------------------
-
-
-Type Check Stack (3)
-
-000: '10' type:i (0)
-001: '000' type:v (17)
-002: 'F$' type:s (2)
-Expression buffer
-=================
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 10  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 12  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_VARIABLE     s rq:s F$  0:
-=================
-Expression buffer 2
-===================
-(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i 10  0:
-(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i 12  0:
-(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
-(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(dump_exp_buffer2) N8 EXP_BUFF_ID_VARIABLE     s rq:s F$  0:
-=================
-(process_expression_types) 
-==INFIX==
-
-infix_stack_push: '10'
-infix_stack_push: '12'
-infix_stack_pop: '12'
-infix_stack_push: 'PRINT(12 )'
-infix_stack_push: 'F$'
-infix_stack_pop: 'F$'
-(process_expression_types) ==F$==
-(process_expression_types) 
-
-
-(    output_qcode) N1 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(    output_qcode) N2 EXP_BUFF_ID_INTEGER      i rq:i 10  0:
-(    output_qcode) N3 EXP_BUFF_ID_SUB_START    U rq:i   0:
-(    output_qcode) N4 EXP_BUFF_ID_INTEGER      i rq:i 12  0:
-(    output_qcode) N5 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(    output_qcode) N6 EXP_BUFF_ID_FUNCTION     v rq:v PRINT  0:
-(    output_qcode) N7 EXP_BUFF_ID_SUB_END      U rq:i   0:
-(    output_qcode) N8 EXP_BUFF_ID_VARIABLE     s rq:s F$  0:
-check_literal:lit=':' idx=16 ''
-check_literal:After drop space:':' idx=16 ''
-check_literal  ret0 Empty test string
-(translate_file) 
-cline scanned OK
-(translate_file) 
-=======================cline==========================
-(translate_file) 
-==UDG 1,2,3,4,5,6,7,8,9
-==
-scan_cline:
-check_line:
-check_assignment:
-check_variable:
-check_vname 'UDG 1,2,3,4,5,6,7,8,9
-':
-check_vname ret1 ' 1,2,3,4,5,6,7,8,9
-':
-check_variable: ' 1,2,3,4,5,6,7,8,9
-'
-check_variable: Ary test ' 1,2,3,4,5,6,7,8,9
-'
-check_literal:lit='(' idx=3 ' 1,2,3,4,5,6,7,8,9
-'
-check_literal:After drop space:'(' idx=3 ' 1,2,3,4,5,6,7,8,9
-'
-  '(' != ' '
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-check_literal:lit=' =' idx=3 ' 1,2,3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'=' idx=4 '1,2,3,4,5,6,7,8,9
-'
-  '=' != '1'
-check_literal: ret0
-check_assignment:ret0
-check_proc_call:
-check_textlabel: 'UDG 1,2,3,4,5,6,7,8,9
-'
-check_textlabel:ret0
-check_proc_call:ret0
-check_command:
-check_command: ret1 found=> 'UDG'
-check_line:ret1
-scan_cline: Checked len=19, ' 1,2,3,4,5,6,7,8,9
-'
-========================================================
-UDG 1,2,3,4,5,6,7,8,9
-
-========================================================
-(output_expression_start)
-scan_line:
-check_assignment:
-check_variable:
-check_vname 'UDG 1,2,3,4,5,6,7,8,9
-':
-check_vname ret1 ' 1,2,3,4,5,6,7,8,9
-':
-check_variable: ' 1,2,3,4,5,6,7,8,9
-'
-check_variable: Ary test ' 1,2,3,4,5,6,7,8,9
-'
-check_literal:lit='(' idx=3 ' 1,2,3,4,5,6,7,8,9
-'
-check_literal:After drop space:'(' idx=3 ' 1,2,3,4,5,6,7,8,9
-'
-  '(' != ' '
-check_literal: ret0
-check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
-check_variable:ret1 
-check_literal:lit=' =' idx=3 ' 1,2,3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'=' idx=4 '1,2,3,4,5,6,7,8,9
-'
-  '=' != '1'
-check_literal: ret0
-check_assignment:ret0
-check_proc_call:
-check_textlabel: 'UDG 1,2,3,4,5,6,7,8,9
-'
-check_textlabel:ret0
-check_proc_call:ret0
-check_command:
-check_command: ret1 found=> 'UDG'
-scan_line:check_command: 
-scan_command:
-   Frst:1 T:'UDG' exptype:U
-token_is_function:
-UDG is function
-function_return_type: 'UDG' =>v
-process_token: 'UDG' t=>v
- Push:'UDG'
-(op_stack_print) 
-------------------
-(op_stack_print) 
-Operator Stack     (1)
-
-(op_stack_print) 
-000: UDG type:17
-(op_stack_print) 
-------------------
-
-scan_expression: ' 1,2,3,4,5,6,7,8,9
-'
-check_eitem: '1,2,3,4,5,6,7,8,9
-'
-check_operator: 1,2,3,4,5,6,7,8,9
-
-check_literal:lit=',' idx=4 '1,2,3,4,5,6,7,8,9
-'
-check_literal:After drop space:',' idx=4 '1,2,3,4,5,6,7,8,9
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '1,2,3,4,5,6,7,8,9
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=4 '1,2,3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=4 '1,2,3,4,5,6,7,8,9
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=4 '1,2,3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=4 '1,2,3,4,5,6,7,8,9
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '1,2,3,4,5,6,7,8,9
-'
-check_integer:ret1
-check_number: ret1
-check_eitem:ret1
-scan_eitem:
-check_operator: 1,2,3,4,5,6,7,8,9
-
-check_literal:lit=',' idx=4 '1,2,3,4,5,6,7,8,9
-'
-check_literal:After drop space:',' idx=4 '1,2,3,4,5,6,7,8,9
-'
-  ',' != '1'
-check_literal: ret0
-check_operator:ret0
-check_function: '1,2,3,4,5,6,7,8,9
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=4 '1,2,3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=4 '1,2,3,4,5,6,7,8,9
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=4 '1,2,3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=4 '1,2,3,4,5,6,7,8,9
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '1,2,3,4,5,6,7,8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_atom:
-check_literal:lit=' %' idx=4 '1,2,3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=4 '1,2,3,4,5,6,7,8,9
-'
-  '%' != '1'
-check_literal: ret0
-check_literal:lit=' "' idx=4 '1,2,3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=4 '1,2,3,4,5,6,7,8,9
-'
-  '"' != '1'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '1,2,3,4,5,6,7,8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '1,2,3,4,5,6,7,8,9
-'
-check_integer:ret1
-scan_integer:
-scan_integer:ret1
-   Frst:0 T:'1' exptype:U
-modify_expression_type:Inittype:U Intype:i Outtype:i
-(  output_integer) [i,()] i i 1
-scan_integer:ret1  1
-check_eitem: ',2,3,4,5,6,7,8,9
-'
-check_operator: ,2,3,4,5,6,7,8,9
-
-check_literal:lit=',' idx=5 ',2,3,4,5,6,7,8,9
-'
-check_literal:After drop space:',' idx=5 ',2,3,4,5,6,7,8,9
-'
-check_literal:After while():2,3,4,5,6,7,8,9
-
-check_literal:ret1 
-scan_literal:lit=',' ',2,3,4,5,6,7,8,9
-'
-scan_literal:After drop space:,2,3,4,5,6,7,8,9
-
-scan_literal:while loop:,2,3,4,5,6,7,8,9
-
-   Frst:0 T:',' exptype:i
-(process_token) 
-Pop 2
-Pop 'UDG'
-(op_stack_print) 
-------------------
-(op_stack_print) 
-Operator Stack     (0)
-
-(op_stack_print) 
-------------------
-
-( output_operator) [i,()] v v UDG
-token_is_function:
-UDG is function
-(output_sub_start)
-check_eitem:ret1
-scan_eitem:
-check_operator: 2,3,4,5,6,7,8,9
-
-check_literal:lit=',' idx=6 '2,3,4,5,6,7,8,9
-'
-check_literal:After drop space:',' idx=6 '2,3,4,5,6,7,8,9
-'
-  ',' != '2'
-check_literal: ret0
-check_operator:ret0
-check_function: '2,3,4,5,6,7,8,9
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=6 '2,3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 '2,3,4,5,6,7,8,9
-'
-  '%' != '2'
-check_literal: ret0
-check_literal:lit=' "' idx=6 '2,3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 '2,3,4,5,6,7,8,9
-'
-  '"' != '2'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '2,3,4,5,6,7,8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_atom:
-check_literal:lit=' %' idx=6 '2,3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=6 '2,3,4,5,6,7,8,9
-'
-  '%' != '2'
-check_literal: ret0
-check_literal:lit=' "' idx=6 '2,3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=6 '2,3,4,5,6,7,8,9
-'
-  '"' != '2'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '2,3,4,5,6,7,8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '2,3,4,5,6,7,8,9
-'
-check_integer:ret1
-scan_integer:
-scan_integer:ret1
-   Frst:0 T:'2' exptype:U
-modify_expression_type:Inittype:U Intype:i Outtype:i
-(  output_integer) [i,()] i i 2
-scan_integer:ret1  2
-check_eitem: ',3,4,5,6,7,8,9
-'
-check_operator: ,3,4,5,6,7,8,9
-
-check_literal:lit=',' idx=7 ',3,4,5,6,7,8,9
-'
-check_literal:After drop space:',' idx=7 ',3,4,5,6,7,8,9
-'
-check_literal:After while():3,4,5,6,7,8,9
-
-check_literal:ret1 
-scan_literal:lit=',' ',3,4,5,6,7,8,9
-'
-scan_literal:After drop space:,3,4,5,6,7,8,9
-
-scan_literal:while loop:,3,4,5,6,7,8,9
-
-   Frst:0 T:',' exptype:i
-(output_sub_start)
-check_eitem:ret1
-scan_eitem:
-check_operator: 3,4,5,6,7,8,9
-
-check_literal:lit=',' idx=8 '3,4,5,6,7,8,9
-'
-check_literal:After drop space:',' idx=8 '3,4,5,6,7,8,9
-'
-  ',' != '3'
-check_literal: ret0
-check_operator:ret0
-check_function: '3,4,5,6,7,8,9
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=8 '3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=8 '3,4,5,6,7,8,9
-'
-  '%' != '3'
-check_literal: ret0
-check_literal:lit=' "' idx=8 '3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=8 '3,4,5,6,7,8,9
-'
-  '"' != '3'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '3,4,5,6,7,8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_atom:
-check_literal:lit=' %' idx=8 '3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=8 '3,4,5,6,7,8,9
-'
-  '%' != '3'
-check_literal: ret0
-check_literal:lit=' "' idx=8 '3,4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=8 '3,4,5,6,7,8,9
-'
-  '"' != '3'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '3,4,5,6,7,8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '3,4,5,6,7,8,9
-'
-check_integer:ret1
-scan_integer:
-scan_integer:ret1
-   Frst:0 T:'3' exptype:U
-modify_expression_type:Inittype:U Intype:i Outtype:i
-(  output_integer) [i,()] i i 3
-scan_integer:ret1  3
-check_eitem: ',4,5,6,7,8,9
-'
-check_operator: ,4,5,6,7,8,9
-
-check_literal:lit=',' idx=9 ',4,5,6,7,8,9
-'
-check_literal:After drop space:',' idx=9 ',4,5,6,7,8,9
-'
-check_literal:After while():4,5,6,7,8,9
-
-check_literal:ret1 
-scan_literal:lit=',' ',4,5,6,7,8,9
-'
-scan_literal:After drop space:,4,5,6,7,8,9
-
-scan_literal:while loop:,4,5,6,7,8,9
-
-   Frst:0 T:',' exptype:i
-(output_sub_start)
-check_eitem:ret1
-scan_eitem:
-check_operator: 4,5,6,7,8,9
-
-check_literal:lit=',' idx=10 '4,5,6,7,8,9
-'
-check_literal:After drop space:',' idx=10 '4,5,6,7,8,9
-'
-  ',' != '4'
-check_literal: ret0
-check_operator:ret0
-check_function: '4,5,6,7,8,9
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=10 '4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=10 '4,5,6,7,8,9
-'
-  '%' != '4'
-check_literal: ret0
-check_literal:lit=' "' idx=10 '4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=10 '4,5,6,7,8,9
-'
-  '"' != '4'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '4,5,6,7,8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_atom:
-check_literal:lit=' %' idx=10 '4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=10 '4,5,6,7,8,9
-'
-  '%' != '4'
-check_literal: ret0
-check_literal:lit=' "' idx=10 '4,5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=10 '4,5,6,7,8,9
-'
-  '"' != '4'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '4,5,6,7,8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '4,5,6,7,8,9
-'
-check_integer:ret1
-scan_integer:
-scan_integer:ret1
-   Frst:0 T:'4' exptype:U
-modify_expression_type:Inittype:U Intype:i Outtype:i
-(  output_integer) [i,()] i i 4
-scan_integer:ret1  4
-check_eitem: ',5,6,7,8,9
-'
-check_operator: ,5,6,7,8,9
-
-check_literal:lit=',' idx=11 ',5,6,7,8,9
-'
-check_literal:After drop space:',' idx=11 ',5,6,7,8,9
-'
-check_literal:After while():5,6,7,8,9
-
-check_literal:ret1 
-scan_literal:lit=',' ',5,6,7,8,9
-'
-scan_literal:After drop space:,5,6,7,8,9
-
-scan_literal:while loop:,5,6,7,8,9
-
-   Frst:0 T:',' exptype:i
-(output_sub_start)
-check_eitem:ret1
-scan_eitem:
-check_operator: 5,6,7,8,9
-
-check_literal:lit=',' idx=12 '5,6,7,8,9
-'
-check_literal:After drop space:',' idx=12 '5,6,7,8,9
-'
-  ',' != '5'
-check_literal: ret0
-check_operator:ret0
-check_function: '5,6,7,8,9
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=12 '5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=12 '5,6,7,8,9
-'
-  '%' != '5'
-check_literal: ret0
-check_literal:lit=' "' idx=12 '5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=12 '5,6,7,8,9
-'
-  '"' != '5'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '5,6,7,8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_atom:
-check_literal:lit=' %' idx=12 '5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=12 '5,6,7,8,9
-'
-  '%' != '5'
-check_literal: ret0
-check_literal:lit=' "' idx=12 '5,6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=12 '5,6,7,8,9
-'
-  '"' != '5'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '5,6,7,8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '5,6,7,8,9
-'
-check_integer:ret1
-scan_integer:
-scan_integer:ret1
-   Frst:0 T:'5' exptype:U
-modify_expression_type:Inittype:U Intype:i Outtype:i
-(  output_integer) [i,()] i i 5
-scan_integer:ret1  5
-check_eitem: ',6,7,8,9
-'
-check_operator: ,6,7,8,9
-
-check_literal:lit=',' idx=13 ',6,7,8,9
-'
-check_literal:After drop space:',' idx=13 ',6,7,8,9
-'
-check_literal:After while():6,7,8,9
-
-check_literal:ret1 
-scan_literal:lit=',' ',6,7,8,9
-'
-scan_literal:After drop space:,6,7,8,9
-
-scan_literal:while loop:,6,7,8,9
-
-   Frst:0 T:',' exptype:i
-(output_sub_start)
-check_eitem:ret1
-scan_eitem:
-check_operator: 6,7,8,9
-
-check_literal:lit=',' idx=14 '6,7,8,9
-'
-check_literal:After drop space:',' idx=14 '6,7,8,9
-'
-  ',' != '6'
-check_literal: ret0
-check_operator:ret0
-check_function: '6,7,8,9
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=14 '6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=14 '6,7,8,9
-'
-  '%' != '6'
-check_literal: ret0
-check_literal:lit=' "' idx=14 '6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=14 '6,7,8,9
-'
-  '"' != '6'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '6,7,8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_atom:
-check_literal:lit=' %' idx=14 '6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=14 '6,7,8,9
-'
-  '%' != '6'
-check_literal: ret0
-check_literal:lit=' "' idx=14 '6,7,8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=14 '6,7,8,9
-'
-  '"' != '6'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '6,7,8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '6,7,8,9
-'
-check_integer:ret1
-scan_integer:
-scan_integer:ret1
-   Frst:0 T:'6' exptype:U
-modify_expression_type:Inittype:U Intype:i Outtype:i
-(  output_integer) [i,()] i i 6
-scan_integer:ret1  6
-check_eitem: ',7,8,9
-'
-check_operator: ,7,8,9
-
-check_literal:lit=',' idx=15 ',7,8,9
-'
-check_literal:After drop space:',' idx=15 ',7,8,9
-'
-check_literal:After while():7,8,9
-
-check_literal:ret1 
-scan_literal:lit=',' ',7,8,9
-'
-scan_literal:After drop space:,7,8,9
-
-scan_literal:while loop:,7,8,9
-
-   Frst:0 T:',' exptype:i
-(output_sub_start)
-check_eitem:ret1
-scan_eitem:
-check_operator: 7,8,9
-
-check_literal:lit=',' idx=16 '7,8,9
-'
-check_literal:After drop space:',' idx=16 '7,8,9
-'
-  ',' != '7'
-check_literal: ret0
-check_operator:ret0
-check_function: '7,8,9
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=16 '7,8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=16 '7,8,9
-'
-  '%' != '7'
-check_literal: ret0
-check_literal:lit=' "' idx=16 '7,8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=16 '7,8,9
-'
-  '"' != '7'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '7,8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_atom:
-check_literal:lit=' %' idx=16 '7,8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=16 '7,8,9
-'
-  '%' != '7'
-check_literal: ret0
-check_literal:lit=' "' idx=16 '7,8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=16 '7,8,9
-'
-  '"' != '7'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '7,8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '7,8,9
-'
-check_integer:ret1
-scan_integer:
-scan_integer:ret1
-   Frst:0 T:'7' exptype:U
-modify_expression_type:Inittype:U Intype:i Outtype:i
-(  output_integer) [i,()] i i 7
-scan_integer:ret1  7
-check_eitem: ',8,9
-'
-check_operator: ,8,9
-
-check_literal:lit=',' idx=17 ',8,9
-'
-check_literal:After drop space:',' idx=17 ',8,9
-'
-check_literal:After while():8,9
-
-check_literal:ret1 
-scan_literal:lit=',' ',8,9
-'
-scan_literal:After drop space:,8,9
-
-scan_literal:while loop:,8,9
-
-   Frst:0 T:',' exptype:i
-(output_sub_start)
-check_eitem:ret1
-scan_eitem:
-check_operator: 8,9
-
-check_literal:lit=',' idx=18 '8,9
-'
-check_literal:After drop space:',' idx=18 '8,9
-'
-  ',' != '8'
-check_literal: ret0
-check_operator:ret0
-check_function: '8,9
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=18 '8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=18 '8,9
-'
-  '%' != '8'
-check_literal: ret0
-check_literal:lit=' "' idx=18 '8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=18 '8,9
-'
-  '"' != '8'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_atom:
-check_literal:lit=' %' idx=18 '8,9
-'
-    dropping space
-check_literal:After drop space:'%' idx=18 '8,9
-'
-  '%' != '8'
-check_literal: ret0
-check_literal:lit=' "' idx=18 '8,9
-'
-    dropping space
-check_literal:After drop space:'"' idx=18 '8,9
-'
-  '"' != '8'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '8,9
-'
-check_integer:ret1
-check_number: ret1
-scan_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '8,9
-'
-check_integer:ret1
-scan_integer:
-scan_integer:ret1
-   Frst:0 T:'8' exptype:U
-modify_expression_type:Inittype:U Intype:i Outtype:i
-(  output_integer) [i,()] i i 8
-scan_integer:ret1  8
-check_eitem: ',9
-'
-check_operator: ,9
-
-check_literal:lit=',' idx=19 ',9
-'
-check_literal:After drop space:',' idx=19 ',9
-'
-check_literal:After while():9
-
-check_literal:ret1 
-scan_literal:lit=',' ',9
-'
-scan_literal:After drop space:,9
-
-scan_literal:while loop:,9
-
-   Frst:0 T:',' exptype:i
-(output_sub_start)
-check_eitem:ret1
-scan_eitem:
-check_operator: 9
-
-check_literal:lit=',' idx=20 '9
-'
-check_literal:After drop space:',' idx=20 '9
-'
-  ',' != '9'
-check_literal: ret0
-check_operator:ret0
-check_function: '9
-'
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=20 '9
-'
-    dropping space
-check_literal:After drop space:'%' idx=20 '9
-'
-  '%' != '9'
-check_literal: ret0
-check_literal:lit=' "' idx=20 '9
-'
-    dropping space
-check_literal:After drop space:'"' idx=20 '9
-'
-  '"' != '9'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '9
-'
-check_integer:ret1
-check_number: ret1
-scan_atom:
-check_literal:lit=' %' idx=20 '9
-'
-    dropping space
-check_literal:After drop space:'%' idx=20 '9
-'
-  '%' != '9'
-check_literal: ret0
-check_literal:lit=' "' idx=20 '9
-'
-    dropping space
-check_literal:After drop space:'"' idx=20 '9
-'
-  '"' != '9'
-check_literal: ret0
-check_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '9
-'
-check_integer:ret1
-check_number: ret1
-scan_number:
-check_float:
-isfloatdigit:
-isfloatdigit:
-check_float: ret0
-check_integer: '9
-'
-check_integer:ret1
-scan_integer:
-scan_integer:ret1
-   Frst:0 T:'9' exptype:U
-modify_expression_type:Inittype:U Intype:i Outtype:i
-(  output_integer) [i,()] i i 9
-scan_integer:ret1  9
-check_eitem: '
-'
-check_operator: 
-
-check_literal:lit=',' idx=22 ''
-check_literal:After drop space:',' idx=22 ''
-check_literal  ret0 Empty test string
-check_operator:ret0
-check_function: ''
-check_function: ret0
-check_atom:
-check_literal:lit=' %' idx=21 '
-'
-    dropping space
-check_literal:After drop space:'%' idx=22 ''
-check_literal  ret0 Empty test string
-check_literal:lit=' "' idx=21 '
-'
-    dropping space
-check_literal:After drop space:'"' idx=22 ''
-check_literal  ret0 Empty test string
-check_number:
-check_float:
-isfloatdigit:
-check_float: ret0
-check_integer: ''
-check_integer:ret0
-check_number: ret0
-check_variable:
-check_vname '':
-check_vname ret0 '':
-check_variable:ret0 
-check_sub_expr:
-check_literal:lit=' (' idx=21 '
-'
-    dropping space
-check_literal:After drop space:'(' idx=22 ''
-check_literal  ret0 Empty test string
-check_sub_expr: ret0
-check_eitem:ret0
-scan_expression: ret1 '
-'
-scan_command: ret1 =>'UDG'
-Finalise stack
-(process_expression_types) 
-process_expression_types:
-Expression buffer
-=================
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 1  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v UDG  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 2  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 3  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 4  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 5  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 6  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 7  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 8  0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i   0:
-( dump_exp_buffer) N0 EXP_BUFF_ID_INTEGER      i rq:i 9  0:
-=================
- BE:1
-type_check_stack_push: '1'
-(type_check_stack_print) 
-------------------
-(type_check_stack_print) 
-Type Check Stack     (1)
-
-(type_check_stack_print) 
-000: '1' type:0
-(type_check_stack_print) 
-------------------
-
-
-Type Check Stack (1)
-
-000: '1' type:i (0)
- BE:UDG
-FN: 9 args
-function_return_type: 'UDG' =>v
-typecheck_expression:Ret type of UDG : v
-type_check_stack_pop: '1'
-(type_check_stack_print) 
-------------------
-(type_check_stack_print) 
-Type Check Stack     (0)
-
-(type_check_stack_print) 
-------------------
-
-FN ARG 8 ri 1 0(i)  Arg ok
-type_check_stack_pop: Operator stack empty
+ Mutable type 1 17
+typecheck_expression:Syntax error at node N7

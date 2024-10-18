@@ -96,47 +96,47 @@ struct _FN_INFO
     { "ABS",      0,  0, ' ',  "f",         "f", 0x00 },
     { "ACOS",     0,  0, ' ',  "f",         "f", 0x00 },
     { "ADDR",     0,  0, ' ',  "ii",        "f", 0x00 },
-    { "APPEND",   1,  1, ' ',  "ii",        "f", 0x00 },
+    { "APPEND",   1,  1, ' ',  "ii",        "v", 0x00 },
     { "ASC",      0,  0, ' ',  "i",         "s", 0x00 },
     { "ASIN",     0,  0, ' ',  "f",         "f", 0x00 },
-    { "AT",       1,  0, ' ',  "ii",        "f", 0x4C },
+    { "AT",       1,  0, ' ',  "ii",        "v", 0x4C },
     { "ATAN",     0,  0, ' ',  "f",         "f", 0x00 },
-    { "BACK",     1,  1, ' ',  "ii",        "f", 0x00 },
-    { "BEEP",     1,  0, ' ',  "ii",        "f", 0x00 },
-    { "BREAK",    1,  0, ' ',  "ii",        "f", 0x00 },
+    { "BACK",     1,  1, ' ',  "ii",        "v", 0x00 },
+    { "BEEP",     1,  0, ' ',  "ii",        "v", 0x00 },
+    { "BREAK",    1,  0, ' ',  "ii",        "v", 0x00 },
     { "CHR$",     0,  0, ' ',  "i",         "s", 0x00 },
     { "CLOCK",    0,  0, ' ',  "ii",        "f", 0x00 },
-    { "CLOSE",    1,  1, ' ',  "ii",        "f", 0x00 },
-    { "CLS",      1,  0, ' ',  "ii",        "f", 0x00 },
-    { "CONTINUE", 1,  0, ' ',  "ii",        "f", 0x00 },
-    { "COPY",     1,  1, ' ',  "ii",        "f", 0x00 },
-    { "COPYW",    1,  1, ' ',  "ii",        "f", 0x00 },
+    { "CLOSE",    1,  1, ' ',  "ii",        "v", 0x00 },
+    { "CLS",      1,  0, ' ',  "",          "v", 0x00 },
+    { "CONTINUE", 1,  0, ' ',  "ii",        "v", 0x00 },
+    { "COPY",     1,  1, ' ',  "ii",        "v", 0x00 },
+    { "COPYW",    1,  1, ' ',  "ii",        "v", 0x00 },
     { "COS",      0,  0, ' ',  "f",         "f", 0x00 },
     { "COUNT",    0,  0, ' ',  "ii",        "f", 0x00 },
-    { "CREATE",   1,  1, ' ',  "ii",        "f", 0x00 },
+    { "CREATE",   1,  1, ' ',  "ii",        "v", 0x00 },
     { "CURSOR",   1,  0, 'O',  "i",         "v", 0x00 },
     { "DATIM$",   0,  0, ' ',  "ii",        "f", 0x00 },
     { "DAY",      0,  0, ' ',  "",          "i", 0x00 },
     { "DAYNAME$", 0,  0, ' ',  "ii",        "f", 0x00 },
     { "DAYS",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "DEG",      0,  0, ' ',  "ii",        "f", 0x00 },
-    { "DELETE",   1,  1, ' ',  "ii",        "f", 0x00 },
-    { "DELETEW",  1,  1, ' ',  "ii",        "f", 0x00 },
+    { "DELETE",   1,  1, ' ',  "ii",        "v", 0x00 },
+    { "DELETEW",  1,  1, ' ',  "ii",        "v", 0x00 },
     { "DIR$",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "DIRW$",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "DISP",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "DOW",      0,  0, ' ',  "ii",        "f", 0x00 },
-    { "EDIT",     1,  1, ' ',  "ii",        "f", 0x00 },
+    { "EDIT",     1,  1, ' ',  "ii",        "v", 0x00 },
     { "EOF",      0,  0, ' ',  "ii",        "f", 0x00 },
-    { "ERASE",    1,  1, ' ',  "ii",        "f", 0x00 },
+    { "ERASE",    1,  1, ' ',  "ii",        "v", 0x00 },
     { "ERR",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "ERR$",     0,  0, ' ',  "ii",        "f", 0x00 },
-    { "ESCAPE",   1,  0, 'O',  "ii",        "f", 0x00 },
+    { "ESCAPE",   1,  0, 'O',  "ii",        "v", 0x00 },
     { "EXIST",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "EXP",      0,  0, ' ',  "f",         "f", 0x00 },
     { "FIND",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "FINDW",    0,  0, ' ',  "ii",        "f", 0x00 },
-    { "FIRST",    1,  1, ' ',  "ii",        "f", 0x00 },
+    { "FIRST",    1,  1, ' ',  "ii",        "v", 0x00 },
     { "FIX$",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "FLT",      0,  0, ' ',  "i",         "f", 0x00 },
     { "FREE",     0,  0, ' ',  "ii",        "f", 0x00 },
@@ -146,20 +146,20 @@ struct _FN_INFO
     { "HEX$",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "HOUR",     0,  0, ' ',  "",          "i", 0x00 },
     { "IABS",     0,  0, ' ',  "i",         "i", 0x00 },
-    { "INPUT",    1,  1, ' ',  "ii",        "f", 0x00 },
+    { "INPUT",    1,  1, ' ',  "ii",        "v", 0x00 },
     { "INT",      0,  0, ' ',  "f",         "i", 0x00 },
     { "INTF",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "KEY$",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "KEY",      0,  0, ' ',  "ii",        "f", 0x00 },
-    { "KSTAT",    1,  0, ' ',  "ii",        "f", 0x00 },
-    { "LAST",     1,  1, ' ',  "ii",        "f", 0x00 },
+    { "KSTAT",    1,  0, ' ',  "ii",        "v", 0x00 },
+    { "LAST",     1,  1, ' ',  "ii",        "v", 0x00 },
     { "LEFT$",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "LEN",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "LN",       0,  0, ' ',  "f",         "f", 0x00 },
     { "LOC",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "LOG",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "LOWER$",   0,  0, ' ',  "ii",        "f", 0x00 },
-    { "LPRINT",   1,  0, ' ',  "ii",        "f", 0x00 },
+    { "LPRINT",   1,  0, ' ',  "ii",        "v", 0x00 },
     { "MAX",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "MEAN",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "MENU",     0,  0, ' ',  "ii",        "f", 0x00 },
@@ -171,26 +171,26 @@ struct _FN_INFO
     { "MONTH$",   0,  0, ' ',  "ii",        "f", 0x00 },
     { "NEXT",     0,  1, ' ',  "ii",        "f", 0x00 },
     { "NUM$",     0,  0, ' ',  "ii",        "f", 0x00 },
-    { "OFF",      1,  0, ' ',  "ii",        "f", 0x00 },
-    { "OPEN",     1,  1, ' ',  "ii",        "f", 0x00 },
-    { "ONERR",    1,  0, ' ',  "ii",        "f", 0x00 },
-    { "PAUSE",    1,  0, ' ',  "ii",        "f", 0x00 },
+    { "OFF",      1,  0, ' ',  "ii",        "v", 0x00 },
+    { "OPEN",     1,  1, ' ',  "ii",        "v", 0x00 },
+    { "ONERR",    1,  0, ' ',  "ii",        "v", 0x00 },
+    { "PAUSE",    1,  0, ' ',  "ii",        "v", 0x00 },
     { "PEEKB",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "PEEKW",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "PI",       0,  0, ' ',  "ii",        "f", 0x00 },
-    { "POKEB",    1,  0, ' ',  "ii",        "f", 0x00 },
-    { "POKEW",    1,  0, ' ',  "ii",        "f", 0x00 },
+    { "POKEB",    1,  0, ' ',  "ii",        "v", 0x00 },
+    { "POKEW",    1,  0, ' ',  "ii",        "v", 0x00 },
     { "POS",      0,  0, ' ',  "ii",        "f", 0x00 },
-    { "POSITION", 1,  1, ' ',  "ii",        "f", 0x00 },
+    { "POSITION", 1,  1, ' ',  "ii",        "v", 0x00 },
     { "PRINT",    1,  0, ' ',  "i",         "v", 0x00 },
     { "RAD",      0,  0, ' ',  "ii",        "f", 0x00 },
-    { "RAISE",    1,  0, ' ',  "ii",        "f", 0x00 },
-    { "RANDOMIZE",1,  0, ' ',  "ii",        "f", 0x00 },
+    { "RAISE",    1,  0, ' ',  "ii",        "v", 0x00 },
+    { "RANDOMIZE",1,  0, ' ',  "ii",        "v", 0x00 },
     { "RECSIZE",  0,  0, ' ',  "ii",        "f", 0x00 },
-    { "REM",      1,  0, ' ',  "ii",        "f", 0x00 },
-    { "RENAME",   1,  1, ' ',  "ii",        "f", 0x00 },
+    { "REM",      1,  0, ' ',  "ii",        "v", 0x00 },
+    { "RENAME",   1,  1, ' ',  "ii",        "v", 0x00 },
     { "REPT$",    0,  0, ' ',  "ii",        "f", 0x00 },
-    { "RETURN",   1,  0, ' ',  "ii",        "f", 0x00 },
+    { "RETURN",   1,  0, ' ',  "ii",        "v", 0x00 },
     { "RIGHT$",   0,  0, ' ',  "ii",        "f", 0x00 },
     { "RND",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "SCI$",     0,  0, ' ',  "ii",        "f", 0x00 },
@@ -199,14 +199,14 @@ struct _FN_INFO
     { "SPACE",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "SQR",      0,  0, ' ',  "f",         "f", 0x00 },
     { "STD",      0,  0, ' ',  "ii",        "f", 0x00 },
-    { "STOP",     1,  0, ' ',  "ii",        "f", 0x00 },
+    { "STOP",     1,  0, ' ',  "ii",        "v", 0x00 },
     { "SUM",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "TAN",      0,  0, ' ',  "f",         "f", 0x00 },
-    { "TRAP",     1,  0, ' ',  "ii",        "f", 0x00 },
+    { "TRAP",     1,  0, ' ',  "ii",        "v", 0x00 },
     { "UDG",      1,  0, ' ',  "iiiiiiiii", "v", 0x00 },
-    { "UPDATE",   1,  1, ' ',  "ii",        "f", 0x00 },
+    { "UPDATE",   1,  1, ' ',  "ii",        "v", 0x00 },
     { "UPPER$",   0,  0, ' ',  "ii",        "f", 0x00 },
-    { "USE",      1,  1, ' ',  "ii",        "f", 0x00 },
+    { "USE",      1,  1, ' ',  "ii",        "v", 0x00 },
     { "USR",      0,  0, ' ',  "ii",        "v", 0x00 },
     { "USR$",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "VAL",      0,  0, ' ',  "ii",        "f", 0x00 },
@@ -243,16 +243,22 @@ int token_is_function(char *token, char **tokstr)
 NOBJ_VARTYPE function_return_type(char *fname)
 {
   char *rtype;
+  char rt;
+  NOBJ_VARTYPE vt;
   
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
       if( strcmp(fname, fn_info[i].name) == 0 )
 	{
 	  rtype = fn_info[i].resulttype;
+	  rt = *rtype;
 	  
-	  fprintf(ofp, "\n%s: '%s' =>%c", __FUNCTION__, fname, *rtype);
+	  fprintf(ofp, "\n%s: '%s' =>%c", __FUNCTION__, fname, rt);
 
-	  return(char_to_type(*rtype));
+	  vt = char_to_type(rt);
+	  fprintf(ofp, "\n%s: '%s' =>%d", __FUNCTION__, fname, vt);
+	  return(vt);
+	  
 	}
     }
   
@@ -515,7 +521,7 @@ NOBJ_VARTYPE char_to_type(char ch)
       break;
 
     case 's':
-      ret_t = NOBJ_VARTYPE_INT;
+      ret_t = NOBJ_VARTYPE_STR;
       break;
 
     case 'v':
@@ -948,6 +954,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	      strcpy(vi->name, vname);
 	      strcpy(op.name, vname);
 	      set_op_var_type(&op, vi);
+	      op.vi = *vi;
 	      process_token(&op);
 	      return(1);
 	    }
@@ -964,6 +971,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
       strcpy(vi->name, vname);
       strcpy(op.name, vname);
       set_op_var_type(&op, vi);
+      op.vi = *vi;
       process_token(&op);
       
       return(1);

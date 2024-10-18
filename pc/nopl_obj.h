@@ -139,6 +139,26 @@ typedef struct _NOBJ_MACHINE
 // It is needed for tokens like '=' to be selected correctly, as there are
 // different tokens for string = and int =
 //
+//
+// Information about a variable
+//
+////////////////////////////////////////////////////////////////////////////////
+
+typedef struct _NOBJ_VAR_INFO
+{
+  char name[NOBJ_VARNAME_MAXLEN];
+  int is_global;
+  int is_ref;
+  int is_array;
+  int is_integer;
+  int is_float;
+  int is_string;
+  int max_array;
+  int max_string;
+  int num_indices;
+  NOBJ_VARTYPE type;
+  uint16_t offset;    // Offset from FP
+} NOBJ_VAR_INFO;
 
 typedef struct _OP_STACK_ENTRY
 {
@@ -163,20 +183,3 @@ typedef struct _EXP_BUFFER_ENTRY
   int nxt;
 } EXP_BUFFER_ENTRY;
 
-// Information about a variable
-
-typedef struct _NOBJ_VAR_INFO
-{
-  char name[NOBJ_VARNAME_MAXLEN];
-  int is_global;
-  int is_ref;
-  int is_array;
-  int is_integer;
-  int is_float;
-  int is_string;
-  int max_array;
-  int max_string;
-  int num_indices;
-  NOBJ_VARTYPE type;
-  uint16_t offset;    // Offset from FP
-} NOBJ_VAR_INFO;

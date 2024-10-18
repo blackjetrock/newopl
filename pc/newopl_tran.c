@@ -601,33 +601,6 @@ char type_to_char(NOBJ_VARTYPE t)
   return(c);
 }
 
-#if 0
-NOBJ_VARTYPE char_to_type(char ch)
-{
-  NOBJ_VARTYPE ret_t = '?';
-  
-  switch(ch)
-    {
-    case 'i':
-      ret_t = NOBJ_VARTYPE_INT;
-      break;
-
-    case 'f':
-      ret_t = NOBJ_VARTYPE_FLT;
-      break;
-
-    case 's':
-      ret_t = NOBJ_VARTYPE_INT;
-      break;
-
-    case 'v':
-      ret_t = NOBJ_VARTYPE_VOID;
-      break;
-    }
-
-  return(ret_t);
-}
-#endif
 
 //------------------------------------------------------------------------------
 //
@@ -1194,6 +1167,7 @@ void typecheck_expression(void)
 	  
 	  // Set up the function return value
 	  ret_type = function_return_type(be.name);
+	  fprintf(ofp, "\nret_type;%d %c", ret_type, type_to_char(ret_type));
 	  fprintf(ofp, "\n%s:Ret type of %s : %c", __FUNCTION__, be.name, type_to_char(ret_type));
 	  
 	  // Now insert auto convert nodes if required
@@ -2157,13 +2131,8 @@ void process_token(OP_STACK_ENTRY *token)
 	{
 	  // Syntax error
 	}
-      
-      // The type of the variable will affect the expression type
-      
-      output_variable(o1);
-      first_token = 0;
 
-      if( o1.vi.is_array )
+            if( o1.vi.is_array )
 	{
 #if 1
 	  OP_STACK_ENTRY ob;
@@ -2171,13 +2140,20 @@ void process_token(OP_STACK_ENTRY *token)
 	  init_op_stack_entry(&ob);
 	  ob.req_type = o1.req_type;
 	  ob.type = o1.type;
-	  ob.name = "@";
+	  strcpy(ob.name, "@");
+	  
 	  // Array index calculations will follow, we use an operator to
 	  // bind them to the variable reference
 	  //	  output_operator(ob);
 #endif
 	  process_token(&ob);	  
 	}
+
+      // The type of the variable will affect the expression type
+      
+      output_variable(o1);
+      first_token = 0;
+
       
       return;
     }
@@ -2191,7 +2167,6 @@ void process_token(OP_STACK_ENTRY *token)
       return;
     }
   
-
   first_token = 0;
 
 }
