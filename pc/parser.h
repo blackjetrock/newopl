@@ -42,7 +42,7 @@ extern NOBJ_VARTYPE exp_type_stack[MAX_EXP_TYPE_STACK];
 extern int exp_type_stack_ptr;
 extern char current_expression[200];
 
-#define MAX_EXP_BUFFER   200
+#define MAX_EXP_BUFFER   2000
 enum
   {
     EXP_BUFF_ID_TKN = 1,

@@ -2134,7 +2134,7 @@ void process_token(OP_STACK_ENTRY *token)
 
             if( o1.vi.is_array )
 	{
-#if 1
+#if 0
 	  OP_STACK_ENTRY ob;
 
 	  init_op_stack_entry(&ob);
@@ -2145,8 +2145,9 @@ void process_token(OP_STACK_ENTRY *token)
 	  // Array index calculations will follow, we use an operator to
 	  // bind them to the variable reference
 	  //	  output_operator(ob);
-#endif
+
 	  process_token(&ob);	  
+#endif
 	}
 
       // The type of the variable will affect the expression type

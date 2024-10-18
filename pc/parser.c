@@ -1800,6 +1800,8 @@ int scan_command(char *cmd_dest)
   int onoff_val;
   
   OP_STACK_ENTRY op;
+
+  init_op_stack_entry(&op);
   
   drop_space(&cline_i);
   
@@ -1816,6 +1818,11 @@ int scan_command(char *cmd_dest)
 	  // Send command to output stream
 	  strcpy(op.name, cmd_dest);
 	  process_token(&op);
+
+	  // The arguments have to be in a sub expression.
+	  fprintf(ofp, "\nSTARTEXP");
+	  sprintf(op.name, "(");
+	  process_token(&op);
 	  
 	  switch(fn_info[i].argparse)
 	    {
@@ -1828,6 +1835,10 @@ int scan_command(char *cmd_dest)
 		  process_token(&op);
 		  
 		  fprintf(ofp,"\n%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
+		  fprintf(ofp, "\nENDEXP");
+		  sprintf(op.name, ")");
+		  process_token(&op);
+
 		  return(1);
 		}
 	      else
@@ -1842,6 +1853,10 @@ int scan_command(char *cmd_dest)
 	      if( scan_expression() )
 		{
 		  fprintf(ofp,"\n%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
+		  fprintf(ofp, "\nENDEXP");
+		  sprintf(op.name, ")");
+		  process_token(&op);
+		  
 		  return(1);
 		}
 	      else
@@ -1851,6 +1866,8 @@ int scan_command(char *cmd_dest)
 		}
 	      break;
 	    }
+
+
 	}
     }
 
@@ -2090,6 +2107,9 @@ int scan_proc_call(void)
   fprintf(ofp,"\n%s:", __FUNCTION__);
   if( check_textlabel(&idx, textlabel))
     {
+      fprintf(ofp,"\n%s:*** '%s'", __FUNCTION__, textlabel);
+      fflush(ofp);
+      
       cline_i = idx;
       
       if( scan_literal(":") )
