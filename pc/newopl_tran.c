@@ -834,7 +834,7 @@ void dump_exp_buffer(void)
     {
       EXP_BUFFER_ENTRY token = exp_buffer[i];
       
-      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer[i].name);
+      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c '%s'", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer[i].name);
       
       fprintf(ofp, "  %d:", token.p_idx);
       for(int pi=0; pi<token.p_idx; pi++)
@@ -862,7 +862,7 @@ void dump_exp_buffer2(void)
 	  printf("\nN%d op.buf_id invalid", token.node_id);
 	}
       
-      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
+      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c '%s'", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
       
       fprintf(ofp, "  %d:", token.p_idx);
       for(int pi=0; pi<token.p_idx; pi++)
@@ -963,8 +963,8 @@ NOBJ_VARTYPE type_with_least_conversion_from(NOBJ_VARTYPE t1, NOBJ_VARTYPE t2)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#define MAX_INFIX_STACK 50
-#define MAX_INFIX_STR   40
+#define MAX_INFIX_STACK 500
+#define MAX_INFIX_STR   400
 
 char infix_stack[MAX_INFIX_STACK][MAX_INFIX_STR];
 int infix_stack_ptr = 0;
@@ -1009,6 +1009,7 @@ char *infix_from_rpn(void)
   EXP_BUFFER_ENTRY be;
   char op1[MAX_INFIX_STR], op2[MAX_INFIX_STR];
   char newstr[MAX_INFIX_STR*20+5];
+
   char newstr2[MAX_INFIX_STR*20+5];
   int numarg;
   
@@ -1022,10 +1023,42 @@ char *infix_from_rpn(void)
       switch(be.op.buf_id)
 	{
 	case EXP_BUFF_ID_VARIABLE:
+	  fprintf(ofp, "\nVar: %s ary:%d", be.name, be.op.vi.is_array);
+
+	  if( be.op.vi.is_array )
+	    {
+	      // Pop the number of array indices the variable has off the stack
+	      // and build the variable name plus indices.
+	      strcpy(newstr2, be.name);
+	      strcat(newstr2, "(");
+
+	      for(int i=0; i<be.op.vi.num_indices; i++)
+		{
+		  infix_stack_pop(op1);
+		  strcat(newstr2, op1);
+		  if( i != (i<be.op.vi.num_indices)-1 )
+		    {
+		      strcat(newstr2, ",");
+		    }
+		}
+	      strcat(newstr2, ")");
+	      infix_stack_push(newstr2);
+	    }
+	  else
+	    {
+	      // Non array variables are just pushed on the stack
+	      infix_stack_push(be.name);
+	    }
+	  break;
+	  
 	case EXP_BUFF_ID_INTEGER:
 	case EXP_BUFF_ID_FLT:
-	case EXP_BUFF_ID_STR:
 	  infix_stack_push(be.name);
+	  break;
+	  
+	case EXP_BUFF_ID_STR:
+	  sprintf(newstr2, "\"%s\"", be.name);
+	  infix_stack_push(newstr2);
 	  break;
 
 	case EXP_BUFF_ID_COMMAND:
