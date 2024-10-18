@@ -128,6 +128,7 @@ typedef struct _NOBJ_MACHINE
     int rta_fp;
 } NOBJ_MACHINE;
 
+
 ////////////////////////////////////////////////////////////////////////////////
 // Shunting algorithm operator stack
 // Name is the token string
@@ -146,6 +147,7 @@ typedef struct _OP_STACK_ENTRY
   NOBJ_INT       integer;
   NOBJ_VARTYPE   type;       // Original type
   NOBJ_VARTYPE   req_type;   // Required type
+  struct _NOBJ_VAR_INFO  vi;
 } OP_STACK_ENTRY;
 
 #define MAX_EXP_BUF_P   12
