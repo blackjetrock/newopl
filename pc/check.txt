@@ -210,3 +210,159 @@ PRINT(" " )
 
 
   i%=KEY 
+(i% := KEY())
+
+
+  IF i% 
+i%
+
+
+   IF i%=%S AND y%>1 
+(i% := ((S AND y%) > 1))
+
+
+    AT x%,y% :PRINT CHR$(158) 
+AT(x% y% )
+
+
+    AT x%,y% :PRINT CHR$(158) 
+PRINT(CHR$(158 ) )
+
+
+    y%=y%-1 :AT x%,y% :PRINT CHR$(7) 
+(y% := (y% - 1))
+
+
+    y%=y%-1 :AT x%,y% :PRINT CHR$(7) 
+AT(x% y% )
+
+
+    y%=y%-1 :AT x%,y% :PRINT CHR$(7) 
+PRINT(CHR$(7 ) )
+
+
+   ENDIF 
+ENDIF()
+
+
+   IF i%=%X AND y%<4 
+(i% := ((X AND y%) < 4))
+
+
+    AT x%,y% :PRINT CHR$(158) 
+AT(x% y% )
+
+
+    AT x%,y% :PRINT CHR$(158) 
+PRINT(CHR$(158 ) )
+
+
+    y%=y%+1 :AT x%,y% :PRINT CHR$(7) 
+(y% := (y% + 1))
+
+
+    y%=y%+1 :AT x%,y% :PRINT CHR$(7) 
+AT(x% y% )
+
+
+    y%=y%+1 :AT x%,y% :PRINT CHR$(7) 
+PRINT(CHR$(7 ) )
+
+
+   ENDIF 
+ENDIF()
+
+
+  ENDIF 
+ENDIF()
+
+
+  a%=a%+1 
+(a% := (a% + 1))
+
+
+  IF a%=x% AND (c%=y% OR c1%=y%) :REM Hit 
+(c% := (y% AND (OR = (c1% = y%))))
+
+
+  IF a%=x% AND (c%=y% OR c1%=y%) :REM Hit 
+REM()
+
+
+   i%=0 
+(i% := 0)
+
+
+   DO 
+DO()
+
+
+    AT x%,y% :PRINT CHR$(170+i%) 
+AT(x% y% )
+
+
+    AT x%,y% :PRINT CHR$(170+i%) 
+PRINT(CHR$((170 + i%) ) )
+
+
+    BEEP 10,100+i% 
+BEEP(10 (100 + i%) )
+
+
+    i%=i%+1 
+(i% := (i% + 1))
+
+
+    BEEP 10,100-i% 
+BEEP(10 (100 - i%) )
+
+
+   UNTIL i%=30 
+(i% := 30)
+
+
+   b%=b%+5 :a%=20 :x%=x%+2 
+(b% := (b% + 5))
+
+
+   b%=b%+5 :a%=20 :x%=x%+2 
+(a% := 20)
+
+
+   b%=b%+5 :a%=20 :x%=x%+2 
+(x% := (x% + 2))
+
+
+   IF x%>20 
+(x% > 20)
+
+
+    CLS : PRINT "GAME OVER" 
+CLS()
+
+
+    CLS : PRINT "GAME OVER" 
+PRINT("GAME OVER" )
+
+
+    PRINT "SCORE:",sc% :PAUSE 40 
+PRINT(sc% )
+
+
+    PRINT "SCORE:",sc% :PAUSE 40 
+PAUSE(40 )
+
+
+    WHILE KEY :ENDWH :REM Drain buffer 
+KEY()
+
+
+    WHILE KEY :ENDWH :REM Drain buffer 
+ENDWH()
+
+
+    WHILE KEY :ENDWH :REM Drain buffer 
+REM()
+
+
+    GET :RETURN 
