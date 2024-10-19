@@ -869,7 +869,7 @@ void dump_exp_buffer(void)
     {
       EXP_BUFFER_ENTRY token = exp_buffer[i];
       
-      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c '%s'", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer[i].name);
+      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c '%s' nidx:%d", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer[i].name, token.op.vi.num_indices);
       
       fprintf(ofp, "  %d:", token.p_idx);
       for(int pi=0; pi<token.p_idx; pi++)
@@ -1058,7 +1058,9 @@ char *infix_from_rpn(void)
       switch(be.op.buf_id)
 	{
 	case EXP_BUFF_ID_VARIABLE:
-	  fprintf(ofp, "\nVar: %s ary:%d", be.name, be.op.vi.is_array);
+	  fprintf(ofp, "\nVar: %s ary:%d NumIdx:%d", be.name,
+		  be.op.vi.is_array,
+		  be.op.vi.num_indices);
 
 	  if( be.op.vi.is_array )
 	    {
@@ -1067,15 +1069,22 @@ char *infix_from_rpn(void)
 	      strcpy(newstr2, be.name);
 	      strcat(newstr2, "(");
 
-	      for(int i=0; i<be.op.vi.num_indices; i++)
+	      switch(be.op.vi.num_indices)
 		{
+		case 1:
 		  infix_stack_pop(op1);
 		  strcat(newstr2, op1);
-		  if( i != (i<be.op.vi.num_indices)-1 )
-		    {
-		      strcat(newstr2, ",");
-		    }
+		  break;
+
+		case 2:
+		  infix_stack_pop(op1);
+		  infix_stack_pop(op2);
+		  strcat(newstr2, op2);
+		  strcat(newstr2, ",");
+		  strcat(newstr2, op1);
+		  break;
 		}
+	      
 	      strcat(newstr2, ")");
 	      infix_stack_push(newstr2);
 	    }
@@ -2335,8 +2344,10 @@ void finalise_expression(void)
 
 void dummy(void)
 {
+  int num_commas;
+  
   // Assignment can be done using an expression
-  scan_expression();
+  scan_expression(&num_commas);
   finalise_expression();
   process_expression_types();
 }

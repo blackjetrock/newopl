@@ -2,7 +2,7 @@
 void dbpf(const char *caller, char *fmt, ...);
 
 
-int scan_expression(void);
+int scan_expression(int *num_commas);
 int check_function(int *index);
 int scan_function(char *cmd_dest);
 int next_composite_line(FILE *fp);
