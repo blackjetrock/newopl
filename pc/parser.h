@@ -26,6 +26,7 @@ void finalise_expression(void);
 void output_expression_start(char *expr);
 void process_token(OP_STACK_ENTRY *token);
 void parser_check(void);
+void indent_more(void);
 
 
 NOBJ_VARTYPE char_to_type(char ch);

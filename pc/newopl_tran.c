@@ -139,19 +139,54 @@ NOBJ_VARTYPE char_to_type(char ch);
 ////////////////////////////////////////////////////////////////////////////////
 
 //#define dbprintf(fmt,...) dbpf(__FUNCTION__, fmt, ...)
+#define MAX_INDENT 30
 
+int indent_level = 0;
+char indent_str[MAX_INDENT+1];
+
+void indent_none(void)
+{
+  indent_level = 0;
+}
+
+void indent_more(void)
+{
+  if( indent_level <(MAX_INDENT-1) )
+    {
+      indent_level++;
+    }
+  fprintf(ofp, "\n");
+}
+
+#define MAX_DBPF_LINE 160
 
 void dbpf(const char *caller, char *fmt, ...)
 {
   va_list valist;
-  char line[80];
+  char line[MAX_DBPF_LINE];
   
   va_start(valist, fmt);
 
-  vsprintf(line, fmt, valist);
+  vsnprintf(line,  MAX_DBPF_LINE, fmt, valist);
   va_end(valist);
+  
+  indent_str[0] = '\0';
+  
+  for(int i=0; i<indent_level; i++)
+    {
+      strcat(indent_str, " ");
+    }
+  
+  fprintf(ofp, "\n%s(%s) %s", indent_str, caller, line);
 
-  fprintf(ofp, "\n(%s) %s", caller, line);
+    if( (strstr(line, "ret0") != NULL) || (strstr(line, "ret1") != NULL) )
+    {
+
+      if( indent_level != 0 )
+	{
+	  indent_level--;
+	}
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1057,7 +1092,7 @@ char *infix_from_rpn(void)
 	  break;
 	  
 	case EXP_BUFF_ID_STR:
-	  sprintf(newstr2, "\"%s\"", be.name);
+	  sprintf(newstr2, "%s", be.name);
 	  infix_stack_push(newstr2);
 	  break;
 
@@ -2330,10 +2365,27 @@ void translate_file(FILE *fp, FILE *ofp)
 	  n_lines_blank++;
 	  continue;
 	}
-      
-      dbprintf("\n=======================cline==========================");
-      dbprintf("\n==%s==", cline);
 
+      ////////////////
+      
+      fprintf(ofp, "\n");
+      for(int i=0; i<strlen(cline)+4; i++)
+	{
+	  fprintf(ofp, "*");
+	}
+
+      fprintf(ofp, "\n**%s**", cline);
+
+      fprintf(ofp, "\n");
+
+      for(int i=0; i<strlen(cline)+4; i++)
+	{
+	  fprintf(ofp, "*");
+	}
+      fprintf(ofp, "\n");
+
+      indent_none();
+      
       // Recursive decent parse
 
       if( !scanned_procdef )
@@ -2380,7 +2432,8 @@ void translate_file(FILE *fp, FILE *ofp)
 	    }
 	}
 
-
+      indent_none();
+      
       if( scan_cline() )
 	{
 	  n_lines_ok++;
@@ -2392,10 +2445,7 @@ void translate_file(FILE *fp, FILE *ofp)
 	  n_lines_bad++;
 	  dbprintf("\ncline failed scan");
 	}
-
     }
-
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2412,7 +2462,6 @@ void translate_file(FILE *fp, FILE *ofp)
 int main(int argc, char *argv[])
 {
   FILE *fp;
-  FILE *ofp;
   
   init_output();
   
@@ -2425,7 +2474,7 @@ int main(int argc, char *argv[])
       exit(-1);
     }
 
-  ofp = fopen("out.opl.tran", "w");
+  //ofp = fopen("out.opl.tran", "w");
 
   parser_check();
   
@@ -2435,10 +2484,10 @@ int main(int argc, char *argv[])
   dump_exp_buffer2();
   
   fclose(fp);
-  fclose(ofp);
+
   fclose(chkfp);
   
-  uninit_output();
+
 
   dbprintf("\n");
   dbprintf("\n %d lines scanned Ok",       n_lines_ok);
@@ -2454,6 +2503,7 @@ int main(int argc, char *argv[])
   printf("\n");
 
   printf("\n");
-  
+  //  fclose(ofp);
+  uninit_output();  
 }
 
