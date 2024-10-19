@@ -46,6 +46,7 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_AUTOCON",
     "EXP_BUFF_ID_COMMAND",
     "EXP_BUFF_ID_PROC_CALL",
+    "EXP_BUFF_ID_ASSIGN",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -581,10 +582,81 @@ void drop_space(int *index)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// The '=' in an assignment needs to be a different token to the '='
+// of equality
 
+int scan_assignment_equals(void)
+{
+  char *lit = " =";
+  char *origlit = lit;
+  OP_STACK_ENTRY op;
+  
+  indent_more();
+  
+  init_op_stack_entry(&op);
+  
+  dbprintf("%s:lit='%s' '%s'", __FUNCTION__, lit, &(cline[cline_i]));
+  
+  if( *lit == ' ' )
+    {
+      lit++;
+      drop_space(&cline_i);
+    }
+
+  dbprintf("%s:After drop space:'%s'", __FUNCTION__, &(cline[cline_i]));
+
+  while( (*lit != '\0') && (*lit != ' ') )
+    {
+      dbprintf("%s:while loop:%s", __FUNCTION__, &(cline[cline_i]));
+      if( cline[cline_i] == '\0' )
+	{
+	  syntax_error("Bad literal '%s'", origlit);
+	  return(0);
+	}
+      
+      if( *lit != cline[cline_i] )
+	{
+	  // Not a match, fail
+	  dbprintf("%s:ret1", __FUNCTION__);  
+	  return(0);
+	}
+      
+      lit++;
+      cline_i++;
+    }
+  
+  if( *lit == ' ' )
+    {
+      lit++;
+      drop_space(&cline_i);
+    }
+  
+  // reached end of literal string , all ok
+
+  if( *origlit == ' ' )
+    {
+      strcpy(op.name, origlit+1);
+    }
+  else
+    {
+      strcpy(op.name, origlit);
+    }
+
+  strcpy(op.name, ":=");
+  process_token(&op);
+  
+  dbprintf("%s:ret1", __FUNCTION__);  
+  return(1);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
 // Scan for a literal
 // Leading space means drop spaces before looking for the literal,
 // trailing means drop spaces after finding it
+//
+////////////////////////////////////////////////////////////////////////////////
 
 int scan_literal(char *lit)
 {
@@ -602,7 +674,7 @@ int scan_literal(char *lit)
       drop_space(&cline_i);
     }
 
-  dbprintf("%s:After drop space:%s", __FUNCTION__, &(cline[cline_i]));
+  dbprintf("%s:After drop space:'%s'", __FUNCTION__, &(cline[cline_i]));
 
   while( (*lit != '\0') && (*lit != ' ') )
     {
@@ -1112,10 +1184,10 @@ int check_operator(int *index)
 
   drop_space(&idx);
   
-  if( check_literal(&idx, ",") )
+  if( check_literal(&idx, " ,") )
     {
       *index = idx;
-      return(scan_literal(","));
+      return(scan_literal(" ,"));
     }
 
   for(int i=0; i<NUM_OPERATORS; i++)
@@ -1152,9 +1224,9 @@ int scan_operator(void)
 
   cline_i = idx;
   
-  if( check_literal(&idx, ",") )
+  if( check_literal(&idx, " ,") )
     {
-      return(scan_literal(","));
+      return(scan_literal(" ,"));
     }
   
   for(int i=0; i<NUM_OPERATORS; i++)
@@ -2034,7 +2106,7 @@ int scan_assignment(void)
     {
       print_var_info(&vi);
       
-      if( scan_literal(" =") )
+      if( scan_assignment_equals() )
 	{
 	  if( scan_expression() )
 	    {

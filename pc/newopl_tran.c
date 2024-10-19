@@ -1673,6 +1673,16 @@ void output_proc_call(OP_STACK_ENTRY op)
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_PROC_CALL);
 }
+#if 0
+void output_assign(OP_STACK_ENTRY op)
+{
+  printf("\nop operator");
+  strcpy(op.name, ":=");
+  
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  add_exp_buffer_entry(op, EXP_BUFF_ID_OPERATOR);
+}
+#endif
 
 // Markers used as comments, and hints
 void output_marker(char *marker, ...)
@@ -2055,6 +2065,28 @@ void process_token(OP_STACK_ENTRY *token)
       return;
     }
 
+    switch( o1.buf_id )
+    {
+    case EXP_BUFF_ID_PROC_CALL:
+      fprintf(ofp, "\nBuff id proc call");
+      
+      // Parser supplies type
+      o1.req_type = expression_type;
+      output_proc_call(o1);
+      return;
+      break;
+#if 0
+    case EXP_BUFF_ID_ASSIGN:
+      fprintf(ofp, "\nBuff id assign");
+      
+      // Parser supplies type
+      o1.req_type = expression_type;
+      output_assign(o1);
+      return;
+      break;
+#endif 
+    }
+
 #define OP_PREC(OP) (operator_precedence(OP.name))
   
   if( token_is_operator(o1.name, &(tokptr)) )
@@ -2085,18 +2117,6 @@ void process_token(OP_STACK_ENTRY *token)
       return;
     }
 
-  switch( o1.buf_id )
-    {
-    case EXP_BUFF_ID_PROC_CALL:
-      fprintf(ofp, "\nBuff id proc call");
-      
-      // Parser supplies type
-      o1.req_type = expression_type;
-      output_proc_call(o1);
-      return;
-      break;
-      
-    }
   
   if( token_is_float(o1.name) )
     {
