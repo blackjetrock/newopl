@@ -20,6 +20,7 @@
 
 #include "parser.h"
 
+FILE *icfp;
 FILE *ofp;
 FILE *chkfp;
 
@@ -881,12 +882,12 @@ void dump_exp_buffer(void)
   fprintf(ofp, "\n=================");
 }
 
-void dump_exp_buffer2(void)
+void dump_exp_buffer2(FILE *fp)
 {
   char *idstr;
   
-  fprintf(ofp, "\nExpression buffer 2");
-  fprintf(ofp, "\n===================");
+  fprintf(fp, "\nExpression buffer 2");
+  fprintf(fp, "\n===================");
   
   for(int i=0; i<exp_buffer2_i; i++)
     {
@@ -894,18 +895,18 @@ void dump_exp_buffer2(void)
 
       if( (exp_buffer2[i].op.buf_id < 0) || (exp_buffer2[i].op.buf_id > EXP_BUFF_ID_MAX) )
 	{
-	  printf("\nN%d op.buf_id invalid", token.node_id);
+	  fprintf(fp, "\nN%d op.buf_id invalid", token.node_id);
 	}
       
-      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c '%s'", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
+      fprintf(fp, "\n(%16s) N%d %-24s %c rq:%c '%s'", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
       
-      fprintf(ofp, "  %d:", token.p_idx);
+      fprintf(fp, "  %d:", token.p_idx);
       for(int pi=0; pi<token.p_idx; pi++)
 	{
-	  fprintf(ofp, " %d", token.p[pi]);
+	  fprintf(fp, " %d", token.p[pi]);
 	}
     }
-  fprintf(ofp, "\n=================");
+  fprintf(fp, "\n=================");
 }
 
 
@@ -927,7 +928,7 @@ int insert_buf2_entry_after_node_id(int node_id, EXP_BUFFER_ENTRY e)
 {
   int j;
 
-  dump_exp_buffer2();
+  dump_exp_buffer2(ofp);
   
   // Find the entry with the given node_id
   fprintf(ofp, "\n Insert after %d exp_buffer2_i:%d", node_id, exp_buffer2_i);
@@ -948,7 +949,7 @@ int insert_buf2_entry_after_node_id(int node_id, EXP_BUFFER_ENTRY e)
 	  exp_buffer2[i+1] = e;
 	  exp_buffer2_i++;
 
-	  dump_exp_buffer2();
+	  dump_exp_buffer2(ofp);
 	  return(1);	  
 	}
     }
@@ -1592,7 +1593,8 @@ void expression_tree_process(char *expr)
   dump_exp_buffer();
   typecheck_expression();
   dump_exp_buffer();
-  dump_exp_buffer2();
+  dump_exp_buffer2(ofp);
+  dump_exp_buffer2(icfp);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1913,13 +1915,14 @@ void init_output(void)
 {
   ofp = fopen("output.txt", "w");
   chkfp = fopen("check.txt", "w");
-  
+  icfp = fopen("intcode.txt", "w");
 }
 
 void uninit_output(void)
 {
   op_stack_display();
   fclose(ofp);
+  fclose(icfp);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2512,7 +2515,7 @@ int main(int argc, char *argv[])
   translate_file(fp, ofp);
 
   dump_exp_buffer();
-  dump_exp_buffer2();
+  dump_exp_buffer2(ofp);
   
   fclose(fp);
 

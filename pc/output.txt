@@ -292,7 +292,7 @@ get_name:gn:'e$'
 process_token:type:f req_type:i
 modify_expression_type:Inittype:f Intype:s Outtype:f
 ( output_variable) [f,()] f f e$
-  (scan_localglobal) scan_localglobal: LOCAL variable:'¸¡'
+  (scan_localglobal) scan_localglobal: LOCAL variable:'žþ'
   (print_var_info) 
 VAR INFO: '                e$' gbl:0 ref:0 int:0 flt:0 str:1 ary:0 max_str:2 max_ary:0 num_ind:0
 
@@ -405,7 +405,7 @@ get_name:gn:'a%'
 process_token:type:f req_type:i
 modify_expression_type:Inittype:f Intype:i Outtype:f
 ( output_variable) [f,()] f f a%
-  (scan_localglobal) scan_localglobal: LOCAL variable:'¸¡'
+  (scan_localglobal) scan_localglobal: LOCAL variable:'žþ'
   (print_var_info) 
 VAR INFO: '                a%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 
@@ -467,7 +467,7 @@ get_name:gn:'b%'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:i Outtype:i
 ( output_variable) [i,()] i i b%
- (scan_localglobal) scan_localglobal: LOCAL variable:'¸¡'
+ (scan_localglobal) scan_localglobal: LOCAL variable:'žþ'
  (print_var_info) 
 VAR INFO: '                b%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 
@@ -529,7 +529,7 @@ get_name:gn:'b1%'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:i Outtype:i
 ( output_variable) [i,()] i i b1%
-(scan_localglobal) scan_localglobal: LOCAL variable:'¸¡'
+(scan_localglobal) scan_localglobal: LOCAL variable:'žþ'
 (print_var_info) 
 VAR INFO: '               b1%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 
@@ -591,7 +591,7 @@ get_name:gn:'c%'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:i Outtype:i
 ( output_variable) [i,()] i i c%
-(scan_localglobal) scan_localglobal: LOCAL variable:'¸¡'
+(scan_localglobal) scan_localglobal: LOCAL variable:'žþ'
 (print_var_info) 
 VAR INFO: '                c%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 
@@ -653,7 +653,7 @@ get_name:gn:'c1%'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:i Outtype:i
 ( output_variable) [i,()] i i c1%
-(scan_localglobal) scan_localglobal: LOCAL variable:'¸¡'
+(scan_localglobal) scan_localglobal: LOCAL variable:'žþ'
 (print_var_info) 
 VAR INFO: '               c1%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 
@@ -715,7 +715,7 @@ get_name:gn:'x%'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:i Outtype:i
 ( output_variable) [i,()] i i x%
-(scan_localglobal) scan_localglobal: LOCAL variable:'¸¡'
+(scan_localglobal) scan_localglobal: LOCAL variable:'žþ'
 (print_var_info) 
 VAR INFO: '                x%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 
@@ -777,7 +777,7 @@ get_name:gn:'y%'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:i Outtype:i
 ( output_variable) [i,()] i i y%
-(scan_localglobal) scan_localglobal: LOCAL variable:'¸¡'
+(scan_localglobal) scan_localglobal: LOCAL variable:'žþ'
 (print_var_info) 
 VAR INFO: '                y%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 
@@ -839,7 +839,7 @@ get_name:gn:'i%'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:i Outtype:i
 ( output_variable) [i,()] i i i%
-(scan_localglobal) scan_localglobal: LOCAL variable:'¸¡'
+(scan_localglobal) scan_localglobal: LOCAL variable:'žþ'
 (print_var_info) 
 VAR INFO: '                i%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 
@@ -901,7 +901,7 @@ get_name:gn:'sc%'
 process_token:type:U req_type:i
 modify_expression_type:Inittype:U Intype:i Outtype:i
 ( output_variable) [i,()] i i sc%
-(scan_localglobal) scan_localglobal: LOCAL variable:'¸¡'
+(scan_localglobal) scan_localglobal: LOCAL variable:'žþ'
 (print_var_info) 
 VAR INFO: '               sc%' gbl:0 ref:0 int:1 flt:0 str:0 ary:0 max_str:0 max_ary:0 num_ind:0
 
@@ -74437,10 +74437,10 @@ cline scanned OK
 token_is_function:
  (token_is_function) GET is function
  (function_return_type) 
-function_return_type: 'GET' =>f
+function_return_type: 'GET' =>i
  (function_return_type) 
-function_return_type: 'GET' =>1
-process_token: 'GET' t=>f
+function_return_type: 'GET' =>0
+process_token: 'GET' t=>i
  Push:'GET'
  (op_stack_print) 
 ------------------
@@ -74448,11 +74448,44 @@ process_token: 'GET' t=>f
 Operator Stack     (1)
 
  (op_stack_print) 
-000: GET type:1
+000: GET type:0
  (op_stack_print) 
 ------------------
 
-Finalise stack
+Dummy argument expression added
+   Frst:0 T:'(' exptype:U
+(output_sub_start)
+ Push:'('
+ (op_stack_print) 
+------------------
+ (op_stack_print) 
+Operator Stack     (2)
+
+ (op_stack_print) 
+000: GET type:0
+ (op_stack_print) 
+001: ( type:16
+ (op_stack_print) 
+------------------
+
+   Frst:0 T:')' exptype:U
+Pop 4
+Pop '('
+ (op_stack_print) 
+------------------
+ (op_stack_print) 
+Operator Stack     (1)
+
+ (op_stack_print) 
+000: GET type:0
+ (op_stack_print) 
+------------------
+
+(  output_sub_end)
+ (token_is_function) 
+token_is_function:
+ (token_is_function) GET is function
+Pop 5
 Pop 'GET'
  (op_stack_print) 
 ------------------
@@ -74462,22 +74495,313 @@ Operator Stack     (0)
  (op_stack_print) 
 ------------------
 
-( output_operator) [U,()] U U GET
- (token_is_function) 
-token_is_function:
- (token_is_function) GET is function
+( output_function) [U,(U )] i i GET
+(  output_sub_end)
+Finalise stack
  (process_expression_types) 
 process_expression_types:
 Expression buffer
 =================
-( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     U rq:U 'GET' nidx:1030644992  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i '' nidx:1768711007  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i '' nidx:0  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     i rq:i 'GET' nidx:1030644992  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i '' nidx:1768711007  0:
 =================
+ BE:
+
+Type Check Stack (0)
+
+ BE:
+
+Type Check Stack (0)
+
  BE:GET
-FN: 2 args
+FN: 0 args
  (function_return_type) 
-function_return_type: 'GET' =>f
+function_return_type: 'GET' =>i
  (function_return_type) 
-function_return_type: 'GET' =>1
-ret_type;1 f
-typecheck_expression:Ret type of GET : f
+function_return_type: 'GET' =>0
+ret_type;0 i
+typecheck_expression:Ret type of GET : i
+type_check_stack_push: '000'
+ (type_check_stack_print) 
+------------------
+ (type_check_stack_print) 
+Type Check Stack     (1)
+
+ (type_check_stack_print) 
+000: '000' type:0
+ (type_check_stack_print) 
+------------------
+
+
+Type Check Stack (1)
+
+000: '000' type:i (0)
+ BE:
+
+Type Check Stack (1)
+
+000: '000' type:i (0)
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i '' nidx:1768711007  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i '' nidx:0  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     i rq:i 'GET' nidx:1030644992  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i '' nidx:1768711007  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     i rq:i 'GET'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+ (process_expression_types) 
+==INFIX==
+
+infix_stack_push: 'GET()'
+infix_stack_pop: 'GET()'
+ (process_expression_types) ==GET()==
+ (process_expression_types) 
+
+
+(    output_qcode) N1 EXP_BUFF_ID_SUB_START    U rq:i   0:
+(    output_qcode) N2 EXP_BUFF_ID_SUB_END      U rq:i   0:
+(    output_qcode) N3 EXP_BUFF_ID_FUNCTION     i rq:i GET  0:
+(    output_qcode) N4 EXP_BUFF_ID_SUB_END      U rq:i   0:
+
+  (check_literal) check_literal:lit=':' idx=8 ':RETURN '
+  (check_literal) check_literal:After drop space:':' idx=8 ':RETURN '
+  (check_literal) check_literal:After while():RETURN 
+  (check_literal) check_literal:ret1 
+
+  (scan_literal) scan_literal:lit=':' 'RETURN '
+  (scan_literal) scan_literal:After drop space:'RETURN '
+  (scan_literal) scan_literal:while loop:RETURN 
+  (scan_literal) scan_literal:ret1
+
+  (check_line) check_line:
+
+   (check_assignment) check_assignment:
+
+    (check_variable) check_variable:
+
+     (check_vname) check_vname 'RETURN ':
+     (check_vname) check_vname ret1 ' ':
+    (check_variable) check_variable: ' '
+    (check_variable) check_variable: Ary test ' '
+
+     (check_literal) check_literal:lit='(' idx=15 ' '
+     (check_literal) check_literal:After drop space:'(' idx=15 ' '
+     (check_literal)   '(' != ' '
+     (check_literal) check_literal: ret0
+    (check_variable) check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
+   (check_variable) check_variable:ret1 
+
+   (check_literal) check_literal:lit=' =' idx=15 ' '
+   (check_literal) dropping space
+   (check_literal) check_literal:After drop space:'=' idx=16 ''
+   (check_literal) check_literal  ret0 Empty test string
+  (check_assignment) check_assignment:ret0
+
+  (check_proc_call) check_proc_call:
+
+   (check_textlabel) check_textlabel: 'RETURN '
+   (check_textlabel) check_textlabel:ret0
+  (check_proc_call) check_proc_call:ret0
+
+  (check_command) check_command:
+  (check_command) check_command: ret1 found=> 'RETURN'
+ (check_line) check_line:ret1
+(scan_cline) scan_cline: Checked len=1, ' '
+========================================================
+    GET :RETURN 
+========================================================
+(output_expression_start)
+
+ (scan_line) scan_line:
+
+  (check_assignment) check_assignment:
+
+   (check_variable) check_variable:
+
+    (check_vname) check_vname 'RETURN ':
+    (check_vname) check_vname ret1 ' ':
+   (check_variable) check_variable: ' '
+   (check_variable) check_variable: Ary test ' '
+
+    (check_literal) check_literal:lit='(' idx=15 ' '
+    (check_literal) check_literal:After drop space:'(' idx=15 ' '
+    (check_literal)   '(' != ' '
+    (check_literal) check_literal: ret0
+   (check_variable) check_variable:ret1 vname='' is str:0 int:0 flt:1 ary:0
+  (check_variable) check_variable:ret1 
+
+  (check_literal) check_literal:lit=' =' idx=15 ' '
+  (check_literal) dropping space
+  (check_literal) check_literal:After drop space:'=' idx=16 ''
+  (check_literal) check_literal  ret0 Empty test string
+ (check_assignment) check_assignment:ret0
+
+ (check_proc_call) check_proc_call:
+
+  (check_textlabel) check_textlabel: 'RETURN '
+  (check_textlabel) check_textlabel:ret0
+ (check_proc_call) check_proc_call:ret0
+
+ (check_command) check_command:
+ (check_command) check_command: ret1 found=> 'RETURN'
+(scan_line) scan_line:check_command: 
+
+ (scan_command) scan_command:
+   Frst:1 T:'RETURN' exptype:U
+ (token_is_function) 
+token_is_function:
+ (token_is_function) RETURN is function
+ (function_return_type) 
+function_return_type: 'RETURN' =>v
+ (function_return_type) 
+function_return_type: 'RETURN' =>17
+process_token: 'RETURN' t=>v
+ Push:'RETURN'
+ (op_stack_print) 
+------------------
+ (op_stack_print) 
+Operator Stack     (1)
+
+ (op_stack_print) 
+000: RETURN type:17
+ (op_stack_print) 
+------------------
+
+ (scan_command) 
+STARTEXP
+   Frst:0 T:'(' exptype:U
+(output_sub_start)
+ Push:'('
+ (op_stack_print) 
+------------------
+ (op_stack_print) 
+Operator Stack     (2)
+
+ (op_stack_print) 
+000: RETURN type:17
+ (op_stack_print) 
+001: ( type:16
+ (op_stack_print) 
+------------------
+
+
+  (scan_expression) scan_expression: ' '
+
+   (check_eitem) check_eitem: ''
+
+    (check_operator) check_operator: 
+
+     (check_literal) check_literal:lit=' ,' idx=16 ''
+     (check_literal) dropping space
+     (check_literal) check_literal:After drop space:',' idx=16 ''
+     (check_literal) check_literal  ret0 Empty test string
+    (check_operator) ret0:is comma: 0
+
+    (check_function) check_function: ''
+    (check_function) check_function: ret0
+
+    (check_atom) check_atom:
+
+     (check_literal) check_literal:lit=' %' idx=16 ''
+     (check_literal) dropping space
+     (check_literal) check_literal:After drop space:'%' idx=16 ''
+     (check_literal) check_literal  ret0 Empty test string
+
+     (check_literal) check_literal:lit=' "' idx=16 ''
+     (check_literal) dropping space
+     (check_literal) check_literal:After drop space:'"' idx=16 ''
+     (check_literal) check_literal  ret0 Empty test string
+
+     (check_number) check_number:
+
+      (check_float) check_float:
+      (isfloatdigit) isfloatdigit:
+      (check_float) check_float: ret0
+
+      (check_integer) check_integer: ''
+      (check_integer) check_integer:ret0
+     (check_number) check_number: ret0
+
+     (check_variable) check_variable:
+
+      (check_vname) check_vname '':
+      (check_vname) check_vname ret0 '':
+     (check_variable) check_variable:ret0 
+    (check_atom) check_atom:ret1
+
+    (check_sub_expr) check_sub_expr:
+
+     (check_literal) check_literal:lit=' (' idx=16 ''
+     (check_literal) dropping space
+     (check_literal) check_literal:After drop space:'(' idx=16 ''
+     (check_literal) check_literal  ret0 Empty test string
+    (check_sub_expr) check_sub_expr: ret0
+   (check_eitem) check_eitem:ret0
+  (scan_expression) scan_expression: ret1 '' commas:0
+ (scan_command) scan_command: ret1 =>'RETURN'
+(scan_command) 
+ENDEXP
+   Frst:0 T:')' exptype:U
+Pop 4
+Pop '('
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (1)
+
+(op_stack_print) 
+000: RETURN type:17
+(op_stack_print) 
+------------------
+
+(  output_sub_end)
+(token_is_function) 
+token_is_function:
+(token_is_function) RETURN is function
+Pop 5
+Pop 'RETURN'
+(op_stack_print) 
+------------------
+(op_stack_print) 
+Operator Stack     (0)
+
+(op_stack_print) 
+------------------
+
+( output_function) [U,(U )] v v RETURN
+(  output_sub_end)
+Finalise stack
+(process_expression_types) 
+process_expression_types:
+Expression buffer
+=================
+( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_START    U rq:i '' nidx:32766  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i '' nidx:0  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_FUNCTION     v rq:v 'RETURN' nidx:1768711007  0:
+( dump_exp_buffer) N0 EXP_BUFF_ID_SUB_END      U rq:i '' nidx:32766  0:
+=================
+ BE:
+
+Type Check Stack (0)
+
+ BE:
+
+Type Check Stack (0)
+
+ BE:RETURN
+FN: 1 args
+(function_return_type) 
+function_return_type: 'RETURN' =>v
+(function_return_type) 
+function_return_type: 'RETURN' =>17
+ret_type;17 v
+typecheck_expression:Ret type of RETURN : v
 type_check_stack_pop: Operator stack empty
