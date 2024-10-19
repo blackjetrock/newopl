@@ -1,9 +1,212 @@
 
 
 
-C% = 1 + RND * 4 
-(C% := ((1 * 4) + RND()))
+graphic: :CURSOR OFF 
 
 
-C% = 1 + RND() * 4 
-(C% := (1 + (RND() * 4)))
+
+graphic: :CURSOR OFF 
+CURSOR(0 )
+
+
+e$=CHR$(4)+CHR$(6) 
+(e$ := (CHR$(4 ) + CHR$(6 )))
+
+
+b%=20 :c%=12 :x%=3 :y%=1 
+(b% := 20)
+
+
+b%=20 :c%=12 :x%=3 :y%=1 
+(c% := 12)
+
+
+b%=20 :c%=12 :x%=3 :y%=1 
+(x% := 3)
+
+
+b%=20 :c%=12 :x%=3 :y%=1 
+(y% := 1)
+
+
+DO 
+DO
+
+
+ CLS :PRINT REPT$(CHR$(158),80) 
+CLS()
+
+
+ CLS :PRINT REPT$(CHR$(158),80) 
+PRINT(REPT$(CHR$(158 ) 80 ) )
+
+
+ AT x%,y% :PRINT CHR$(7) 
+AT(x% y% )
+
+
+ AT x%,y% :PRINT CHR$(7) 
+PRINT(CHR$(7 ) )
+
+
+ a%=1 :c%=1+RND*4 
+(a% := 1)
+
+
+ a%=1 :c%=1+RND*4 
+(c% := (1 + (RND() * 4)))
+
+
+ DO :c1%=1+RND*4 :UNTIL c%<>c1% 
+DO()
+
+
+ DO :c1%=1+RND*4 :UNTIL c%<>c1% 
+(c1% := (1 + (RND() * 4)))
+
+
+ DO :c1%=1+RND*4 :UNTIL c%<>c1% 
+(c% <> c1%)
+
+
+ DO 
+DO()
+
+
+  AT a%,c% :PRINT CHR$(0) 
+AT(a% c% )
+
+
+  AT a%,c% :PRINT CHR$(0) 
+PRINT(CHR$(0 ) )
+
+
+  AT a%,c1% :PRINT CHR$(0) :BEEP b%,10*b% 
+AT(a% c1% )
+
+
+  AT a%,c1% :PRINT CHR$(0) :BEEP b%,10*b% 
+PRINT(CHR$(0 ) )
+
+
+  AT a%,c1% :PRINT CHR$(0) :BEEP b%,10*b% 
+BEEP(b% (10 * b%) )
+
+
+  AT a%,c% :PRINT CHR$(1) 
+AT(a% c% )
+
+
+  AT a%,c% :PRINT CHR$(1) 
+PRINT(CHR$(1 ) )
+
+
+  AT a%,c1% :PRINT CHR$(1) :BEEP b%,10*b% 
+AT(a% c1% )
+
+
+  AT a%,c1% :PRINT CHR$(1) :BEEP b%,10*b% 
+PRINT(CHR$(1 ) )
+
+
+  AT a%,c1% :PRINT CHR$(1) :BEEP b%,10*b% 
+BEEP(b% (10 * b%) )
+
+
+  AT a%,c% :PRINT CHR$(2) 
+AT(a% c% )
+
+
+  AT a%,c% :PRINT CHR$(2) 
+PRINT(CHR$(2 ) )
+
+
+  AT a%,c1% :PRINT CHR$(2) :BEEP b%,10*b% 
+AT(a% c1% )
+
+
+  AT a%,c1% :PRINT CHR$(2) :BEEP b%,10*b% 
+PRINT(CHR$(2 ) )
+
+
+  AT a%,c1% :PRINT CHR$(2) :BEEP b%,10*b% 
+BEEP(b% (10 * b%) )
+
+
+  AT a%,c% :PRINT CHR$(3) 
+AT(a% c% )
+
+
+  AT a%,c% :PRINT CHR$(3) 
+PRINT(CHR$(3 ) )
+
+
+  AT a%,c1% :PRINT CHR$(3) :BEEP b%,10*b% 
+AT(a% c1% )
+
+
+  AT a%,c1% :PRINT CHR$(3) :BEEP b%,10*b% 
+PRINT(CHR$(3 ) )
+
+
+  AT a%,c1% :PRINT CHR$(3) :BEEP b%,10*b% 
+BEEP(b% (10 * b%) )
+
+
+  AT a%,c% :PRINT e$ 
+AT(a% c% )
+
+
+  AT a%,c% :PRINT e$ 
+PRINT(e$ )
+
+
+  AT a%,c1% :PRINT e$ :BEEP b%,10*b% 
+AT(a% c1% )
+
+
+  AT a%,c1% :PRINT e$ :BEEP b%,10*b% 
+PRINT(e$ )
+
+
+  AT a%,c1% :PRINT e$ :BEEP b%,10*b% 
+BEEP(b% (10 * b%) )
+
+
+  AT a%,c% :PRINT CHR$(5) 
+AT(a% c% )
+
+
+  AT a%,c% :PRINT CHR$(5) 
+PRINT(CHR$(5 ) )
+
+
+  AT a%,c1% :PRINT CHR$(5) :BEEP b%,10*b% 
+AT(a% c1% )
+
+
+  AT a%,c1% :PRINT CHR$(5) :BEEP b%,10*b% 
+PRINT(CHR$(5 ) )
+
+
+  AT a%,c1% :PRINT CHR$(5) :BEEP b%,10*b% 
+BEEP(b% (10 * b%) )
+
+
+  AT a%,c% :PRINT " " :AT a%,c1% :PRINT " " 
+AT(a% c% )
+
+
+  AT a%,c% :PRINT " " :AT a%,c1% :PRINT " " 
+PRINT(" " )
+
+
+  AT a%,c% :PRINT " " :AT a%,c1% :PRINT " " 
+AT(a% c1% )
+
+
+  AT a%,c% :PRINT " " :AT a%,c1% :PRINT " " 
+PRINT(" " )
+
+
+  i%=KEY 

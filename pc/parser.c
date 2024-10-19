@@ -2136,6 +2136,17 @@ int scan_function(char *cmd_dest)
 	  cline_i += strlen(fn_info[i].name);
 	  strcpy(op.name, fn_info[i].name);
 	  process_token(&op);
+
+	  // If the function has no arguments, add a dummy empty expression after it
+	  // as the shunting algorithm has to have brackets after a function
+	  if( strlen(fn_info[i].argtypes) == 0 )
+	    {
+	      fprintf(ofp, "\nDummy argument expression added");
+	      strcpy(op.name, "(");
+	      process_token(&op);
+	      strcpy(op.name, ")");
+	      process_token(&op);
+	    }
 	  return(1);
 	}
     }
