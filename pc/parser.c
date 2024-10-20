@@ -47,6 +47,8 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_COMMAND",
     "EXP_BUFF_ID_PROC_CALL",
     "EXP_BUFF_ID_ASSIGN",
+    "EXP_BUFF_ID_CONDITIONAL",
+    "EXP_BUFF_ID_RETURN",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -2297,6 +2299,82 @@ int scan_label(void)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// RETURN
+//
+// This keyword can have either nothing after it  or an expression
+//
+// An expression is a an extension from the original which could only have
+// a variable after RETURN, or nothing.
+//
+
+int check_return(int *index)
+{
+  int idx = *index;
+  char textlabel[NOBJ_VARNAME_MAXLEN+1];
+  indent_more();
+  
+  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
+  
+  if( check_literal(&idx, " RETURN"))
+    {
+      dbprintf("%s:ret1", __FUNCTION__);
+      *index = idx;
+      return(1);
+    }
+  
+  dbprintf("%s:ret0", __FUNCTION__);
+  return(0);
+}
+
+//------------------------------------------------------------------------------
+
+int scan_return(void)
+{
+  int idx = cline_i;
+  OP_STACK_ENTRY op;
+  char v[NOBJ_VARNAME_MAXLEN+1];
+
+  indent_more();
+  
+  init_op_stack_entry(&op);
+  
+  dbprintf("%s:", __FUNCTION__);
+  
+  if( scan_literal(" RETURN"))
+    {
+      // We may or may not have an expression after the 
+      if(check_expression(&idx))
+	{
+	  int num_subexpr;
+	  
+	  if( scan_expression(&num_subexpr) )
+	    {
+	      dbprintf("%s:ret1 Expression present", __FUNCTION__);
+
+	      //	      op.type = NOBJ_VARTY;
+	      op.buf_id = EXP_BUFF_ID_RETURN;
+	      strcpy(op.name, "RETURN");
+	      process_token(&op);
+	      return(1);
+	    }
+	}
+      else
+	{
+	  // No expression after the RETURN, this is valid
+	  dbprintf("%s:ret1 Expression not present", __FUNCTION__);
+	  op.buf_id = EXP_BUFF_ID_RETURN;
+	  strcpy(op.name, "RETURN");
+	  process_token(&op);
+	  return(1);
+	}
+    }
+  
+  dbprintf("%s:ret0", __FUNCTION__);
+  return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 int check_proc_call(int *index)
 {
@@ -2389,7 +2467,11 @@ int scan_proc_call(void)
 
 int check_line(int *index)
 {
+  OP_STACK_ENTRY op;
   int idx = *index;
+
+  init_op_stack_entry(&op);
+  
   indent_more();
   
   drop_space(&idx);
@@ -2398,6 +2480,15 @@ int check_line(int *index)
 
   idx = cline_i;
   if( check_assignment(&idx) )
+    {
+      dbprintf("%s:ret1", __FUNCTION__);
+  
+      *index = idx;
+      return(1);
+    }
+
+  idx = cline_i;
+  if( check_return(&idx) )
     {
       dbprintf("%s:ret1", __FUNCTION__);
   
@@ -2453,6 +2544,8 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," IF"))
     {
+      strcpy(op.name, "IF");
+
       dbprintf("%s:ret1", __FUNCTION__);
       *index = idx;
       return(1);
@@ -2569,6 +2662,12 @@ int scan_line()
   if( check_proc_call(&idx) )
     {
       return(scan_proc_call());
+    }
+
+  idx = cline_i;
+  if( check_return(&idx) )
+    {
+      return(scan_return());
     }
 
   idx = cline_i;

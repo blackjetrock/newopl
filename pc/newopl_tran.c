@@ -45,42 +45,6 @@ int exp_type_stack_ptr = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if 0
-enum
-  {
-   EXP_BUFF_ID_TKN = 1,
-   EXP_BUFF_ID_SUB_START,
-   EXP_BUFF_ID_SUB_END,
-   EXP_BUFF_ID_VARIABLE,
-   EXP_BUFF_ID_INTEGER,
-   EXP_BUFF_ID_FLT,
-   EXP_BUFF_ID_STR,
-   EXP_BUFF_ID_FUNCTION,
-   EXP_BUFF_ID_OPERATOR,
-   EXP_BUFF_ID_AUTOCON,
-   EXP_BUFF_ID_COMMAND,
-   EXP_BUFF_ID_MAX,
-  };
-
-char *exp_buffer_id_str[] =
-  {
-   "EXP_BUFF_ID_???",
-   "EXP_BUFF_ID_TKN",
-   "EXP_BUFF_ID_SUB_START",
-   "EXP_BUFF_ID_SUB_END",
-   "EXP_BUFF_ID_VARIABLE",
-   "EXP_BUFF_ID_INTEGER",
-   "EXP_BUFF_ID_FLT",
-   "EXP_BUFF_ID_STR",
-   "EXP_BUFF_ID_FUNCTION",
-   "EXP_BUFF_ID_OPERATOR",
-   "EXP_BUFF_ID_AUTOCON",
-   "EXP_BUFF_ID_COMMAND",
-   "EXP_BUFF_ID_MAX",
-  };
-#endif
-
-
 // Per-expression
 // Indices start at 1, 0 is 'no p'
 int node_id_index = 1;

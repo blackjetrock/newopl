@@ -160,6 +160,13 @@ typedef struct _NOBJ_VAR_INFO
   uint16_t offset;    // Offset from FP
 } NOBJ_VAR_INFO;
 
+typedef struct _NOBJ_COND_INFO
+{
+  char name[NOBJ_VARNAME_MAXLEN];
+  int cond_type;              // Type of conditional
+  int cond_idx;               // Index of conditional (label)
+} NOBJ_COND_INFO;
+
 typedef struct _OP_STACK_ENTRY
 {
   char           name[30];
@@ -168,6 +175,7 @@ typedef struct _OP_STACK_ENTRY
   NOBJ_VARTYPE   type;       // Original type
   NOBJ_VARTYPE   req_type;   // Required type
   struct _NOBJ_VAR_INFO  vi;
+  struct _NOBJ_COND_INFO ci;
 } OP_STACK_ENTRY;
 
 #define MAX_EXP_BUF_P   12

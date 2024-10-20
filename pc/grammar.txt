@@ -13,7 +13,9 @@
 	       'DO' | 'WHILE' <expression> |
 	       'WHILE' <expression> | 'ENDWH' |
 	       'REPEAT' | 'UNTIL' <expression> |
-	       'GOTO' <label> 
+	       'GOTO' <label> |
+	       <return>
+<return>     : 'RETURN' | 'RETURN' <variable>	       
 <proc_call>  : <vname>':' | <vname>'%:' | <vname>'$:'
 <label>      : <string>'::'
 <onerr>      : ONERR <label> | ONERR OFF

@@ -1,4 +1,4 @@
-cc -g newopl_tran.c       newopl_lib.c newopl_types.c parser.c -o newopl_tran -lm
-cc -g newopl_exec.c       newopl_lib.c newopl_types.c qcode.c  -o newopl_exec -lm
-cc -g newopl_objdump.c    newopl_lib.c newopl_types.c          -o newopl_objdump -lm
-cc -g newopl_types_test.c newopl_lib.c newopl_types.c          -o newopl_types_test -lm
+cc -g -Wno-format-truncation -Wno-format-overflow newopl_tran.c       newopl_lib.c newopl_types.c parser.c -o newopl_tran -lm
+cc -g -Wno-format-truncation -Wno-format-overflow newopl_exec.c       newopl_lib.c newopl_types.c qcode.c  -o newopl_exec -lm
+cc -g -Wno-format-truncation -Wno-format-overflow newopl_objdump.c    newopl_lib.c newopl_types.c          -o newopl_objdump -lm
+cc -g -Wno-format-truncation -Wno-format-overflow newopl_types_test.c newopl_lib.c newopl_types.c          -o newopl_types_test -lm
