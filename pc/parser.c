@@ -714,6 +714,7 @@ int scan_literal(char *lit)
     {
       strcpy(op.name, origlit);
     }
+  
   process_token(&op);
   
   dbprintf("%s:ret1", __FUNCTION__);  
@@ -2341,7 +2342,7 @@ int scan_return(void)
   
   dbprintf("%s:", __FUNCTION__);
   
-  if( scan_literal(" RETURN"))
+  if( check_literal(&idx, " RETURN"))
     {
       // We may or may not have an expression after the 
       if(check_expression(&idx))

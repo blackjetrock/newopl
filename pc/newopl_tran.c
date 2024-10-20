@@ -2043,6 +2043,17 @@ void process_token(OP_STACK_ENTRY *token)
 
     switch( o1.buf_id )
     {
+    case EXP_BUFF_ID_RETURN:
+      fprintf(ofp, "\nBuff id return");
+
+      // RETURN needs to change depending on the type of the epression we are to return.
+      // The type of that expression must aso match that of the proedure we are translating
+      
+
+      o1.req_type = expression_type;
+      output_proc_call(o1);
+      break;
+      
     case EXP_BUFF_ID_PROC_CALL:
       fprintf(ofp, "\nBuff id proc call");
       
@@ -2093,7 +2104,6 @@ void process_token(OP_STACK_ENTRY *token)
       return;
     }
 
-  
   if( token_is_float(o1.name) )
     {
 
