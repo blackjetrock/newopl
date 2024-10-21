@@ -370,3 +370,72 @@ GET()
 
 
     GET :RETURN 
+
+
+
+   ENDIF 
+ENDIF()
+
+
+  ENDIF 
+ENDIF()
+
+
+ UNTIL a%=20 
+(a% := 20)
+
+
+ sc%=sc%+1 
+(sc% := (sc% + 1))
+
+
+ IF b%>12 
+(b% > 12)
+
+
+  b%=b%-2 
+(b% := (b% - 2))
+
+
+ ELSEIF b%<6 
+(b% < 6)
+
+
+  IF b1% 
+b1%
+
+
+   b%=b%-1 :b1%=0 
+(b% := (b% - 1))
+
+
+   b%=b%-1 :b1%=0 
+(b1% := 0)
+
+
+  ELSE 
+ELSE()
+
+
+   b1%=1 
+(b1% := 1)
+
+
+  ENDIF 
+ENDIF()
+
+
+ ELSE 
+ELSE()
+
+
+  b%=b%-1 
+(b% := (b% - 1))
+
+
+ ENDIF 
+ENDIF()
+
+
+UNTIL 0 
+0

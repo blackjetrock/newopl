@@ -26,6 +26,7 @@ int cline_i = 0;
 #define VAR_REF      1
 #define VAR_DECLARE  0
 
+char procedure_name[NOBJ_VARNAME_MAXLEN+1];
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -2353,6 +2354,9 @@ int scan_return(void)
 	    {
 	      dbprintf("%s:ret1 Expression present", __FUNCTION__);
 
+	      // The expression we just scanned needs to be the same type as the procedure we
+	      // are translating.
+	      
 	      //	      op.type = NOBJ_VARTY;
 	      op.buf_id = EXP_BUFF_ID_RETURN;
 	      strcpy(op.name, "RETURN");
@@ -2363,8 +2367,11 @@ int scan_return(void)
       else
 	{
 	  // No expression after the RETURN, this is valid
+	  // The type is void
+	  
 	  dbprintf("%s:ret1 Expression not present", __FUNCTION__);
 	  op.buf_id = EXP_BUFF_ID_RETURN;
+	  op.type = NOBJ_VARTYPE_VOID;
 	  strcpy(op.name, "RETURN");
 	  process_token(&op);
 	  return(1);
@@ -2905,6 +2912,8 @@ int scan_procdef(void)
       if( scan_literal(":") )
 	{
 	  dbprintf("%s:ret1", __FUNCTION__);
+	  strcpy(procedure_name, textlabel);
+	  
 	  return(1);
 	}
     }

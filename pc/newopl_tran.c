@@ -1642,12 +1642,20 @@ void output_string(OP_STACK_ENTRY op)
   add_exp_buffer_entry(op, EXP_BUFF_ID_STR);
 }
 
+void output_return(OP_STACK_ENTRY op)
+{
+  printf("\nop return");
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  add_exp_buffer_entry(op, EXP_BUFF_ID_RETURN);
+}
+
 void output_proc_call(OP_STACK_ENTRY op)
 {
   printf("\nop proc call");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_PROC_CALL);
 }
+
 #if 0
 void output_assign(OP_STACK_ENTRY op)
 {
@@ -1989,7 +1997,7 @@ void process_token(OP_STACK_ENTRY *token)
       
       op_stack_push(o);
 
-      // Sub expression, push the expression type and process the sub expression
+      // Sub expression, push (save) the expression type and process the sub expression
       // as a new one
       exp_type_push(expression_type);
       expression_type = NOBJ_VARTYPE_UNKNOWN;
@@ -2046,12 +2054,13 @@ void process_token(OP_STACK_ENTRY *token)
     case EXP_BUFF_ID_RETURN:
       fprintf(ofp, "\nBuff id return");
 
-      // RETURN needs to change depending on the type of the epression we are to return.
-      // The type of that expression must aso match that of the proedure we are translating
+      // RETURN needs to change depending on the type of the expression we are to return.
+      // The type of that expression must also match that of the procedure we are translating
       
 
       o1.req_type = expression_type;
-      output_proc_call(o1);
+      output_return(o1);
+      return;
       break;
       
     case EXP_BUFF_ID_PROC_CALL:

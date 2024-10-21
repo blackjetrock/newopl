@@ -1,22 +1,23 @@
 <file>       : <procdef> <declares> <cline>*
 <declare>    : <local> | <global>
+<local>      : 'LOCAL' <decvarlist>
+<global>     : 'GLOBAL' <decvarlist>
 <declares>   : <declare>+
 <cline>      : <line> | <line> ':' <cine>+
-<procdef>    : <string> ':'
+<procdef>    : <proc_name> <param_list>
 <line>       : 'REM' <text> | <proc_call> |
                <onerr> | <label> | <assignment> | <command> |
 	       <function> <expression |
                TRAP <trapable_command> |
-               'LOCAL' <varlist> |
-	       'GLOBAL' <varlist> |
                'IF' <expression> | 'ELSE' | 'ENDIF' |
 	       'DO' | 'WHILE' <expression> |
 	       'WHILE' <expression> | 'ENDWH' |
 	       'REPEAT' | 'UNTIL' <expression> |
 	       'GOTO' <label> |
 	       <return>
-<return>     : 'RETURN' | 'RETURN' <variable>	       
-<proc_call>  : <vname>':' | <vname>'%:' | <vname>'$:'
+<return>     : 'RETURN' | 'RETURN' <variable>
+<proc_name>  :  <vname>':' | <vname>'%:' | <vname>'$:'
+<proc_call>  : <proc_name> <expression>
 <label>      : <string>'::'
 <onerr>      : ONERR <label> | ONERR OFF
 <string>     : '"'<textchar>*'"'
@@ -29,11 +30,17 @@
 <variable>   : <vname> | <vname>'%' | <vname>'$' |
                <vname>'(' <expression> ')' |
 	       <vname>'%''(' <expression> ')' |
+	       <vname>'$''(' <expression> ')'
+<decvar>     : <vname> | <vname>'%' | <vname>'$' |
+               <vname>'(' <expression> ')' |
+	       <vname>'%''(' <expression> ')' |
 	       <vname>'$''(' <expression> ')' |
 	       <vname>'$''(' <expression ',' <expression> ')'
+<parameter>  : <vname> | <vname>'%' | <vname>'$'
 <command>    : <command-list-name-entry> <expression>
 <assignment> : <variable> '=' <expression>
 <varlist>    : <variable>+
+<param_list> : '(' <parameter>+ ')'
 <vname>      : <A-Z><A-Z0-9>*
 <operator>   : <operator-list-string>	      
 
@@ -54,3 +61,12 @@ is not.
 
 Variables in expressions have to be declared, or externals. External variable names cannot be command or function names.
 
+Procedure parameters cannot be arrays?
+
+Parameters differ from variables in that you cannot assign values to them. They have an external value passed to them from the calling procedure and it is then illegal to assign another value by saying, in the above example, p=p+1.
+
+This:
+
+q:(a$)
+
+is a valid procedure definition. The size of the string is not used when defining a string paramter.
