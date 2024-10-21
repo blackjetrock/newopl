@@ -1,0 +1,23 @@
+TTTTEST%:(Q%)
+LOCAL A%,C%,E%
+
+C%=B%(Q%)
+A%=LEN(S$(Q%))
+WHILE A%>=1
+ E%=ASC(MID$(S$(Q%),A%,1))
+ IF B%(ASC(MID$(F$(E%),2,1)))=C%
+  IF B%(ASC(MID$(F$(E%),3,1)))=C%
+   IF B%(ASC(MID$(F$(E%),4,1)))=C%
+    IF B%(ASC(MID$(F$(E%),5,1)))=C%
+     RETURN E%
+    ENDIF
+   ENDIF
+  ENDIF
+ ENDIF
+ A%=A%-1
+ENDWH
+
+IF M%<=64
+ RETURN 0
+ENDIF
+RETURN -2

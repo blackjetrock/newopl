@@ -1,0 +1,6 @@
+bcalz%:(d3mod)
+rem
+rem Calculates each curve.
+rem Normalised 1-18 to fit into one line in the display
+rem
+return INT(((SIN(((d3mod)-INT(d3mod))*2*pi)+1)*9)+1)

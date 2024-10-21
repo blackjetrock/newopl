@@ -1,0 +1,15 @@
+aload:(FN$,AD%)
+rem
+rem Loads the OB3-file FN$ into the array at address AD%
+rem Make sure, that the array is big enough! No check of
+rem the array size is made! Using the same array as when
+rem calling ASAVE to save it will be an easy way to be sure...
+rem
+local u%(8),f$(10),i%
+f$=fn$
+i%=addr(u%())
+u%(1)=$de59 :u%(2)=$3f24 :u%(3)=$2506 :u%(4)=$ce1a
+u%(5)=$003f :u%(6)=$5e5f :u%(7)=$4f18 :u%(8)=$3939
+pokew i%+7,ad%
+pokew $59,addr(f$)
+return usr(i%,$83)   :rem $83 means OB3-file

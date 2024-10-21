@@ -1,0 +1,81 @@
+TICCOM:
+LOCAL A%,B%,S%(9),T%,A$(9)
+
+REM First check for exceptional moves
+REM that normal method would do wrong.
+
+IF M%=1
+ A%=RND*4
+ A%=1+2*(A%-(A%>1))
+ELSEIF M%=3
+ IF BD%(5)=1
+  IF BD%(1)
+   A%=9
+  ELSEIF BD%(3)
+   A%=7
+  ELSEIF BD%(7)
+   A%=3
+  ELSEIF BD%(9)
+   A%=1
+  ENDIF
+ ELSEIF BD%(1)+BD%(3)+BD%(7)+BD%(9)=11
+  IF BD%(1) AND BD%(3)<>0
+   A%=7+2*INT(RND*2)
+  ELSEIF BD%(3) AND BD%(9)<>0
+   A%=1+6*INT(RND*2)
+  ELSEIF BD%(9) AND BD%(7)<>0
+   A%=1+2*INT(RND*2)
+  ELSEIF BD%(7) AND BD%(1)<>0
+   A%=3+6*INT(RND*2)
+  ENDIF
+ ENDIF
+REM The following 4 lines would make it unbeatable.
+REM ELSEIF M%=4
+REM  IF BD%(5)=10 AND (BD%(1) AND BD%(9)) OR (BD%(3) AND BD%(7))
+REM   A%=2+2*INT(RND*4)
+REM  ENDIF
+ENDIF
+IF A%
+ GOTO M::
+ENDIF
+
+A%=1
+DO
+ B%=BD%(W%(A%))+BD%(W%(A%+1))+BD%(W%(A%+2))
+ IF B%=20
+  T%=625
+ ELSEIF B%=2
+  T%=125
+ ELSEIF B%=10
+  T%=25
+ ELSEIF B%=1
+  T%=5
+ ELSEIF B%=0
+  T%=1
+ ELSE
+  T%=0
+ ENDIF
+ S%(W%(A%))=S%(W%(A%))+T%
+ S%(W%(A%+1))=S%(W%(A%+1))+T%
+ S%(W%(A%+2))=S%(W%(A%+2))+T%
+ A%=A%+3
+UNTIL A%>24
+
+T%=-1
+A%=1
+DO
+ IF BD%(A%)=0
+  IF S%(A%)>T%
+   T%=S%(A%)
+   A$=""
+  ENDIF
+  IF S%(A%)=T%
+   A$=A$+CHR$(A%)
+  ENDIF
+ ENDIF
+ A%=A%+1
+UNTIL A%=10
+
+A%=ASC(MID$(A$,RND*LEN(A$)+1,1))
+M::
+TICMOV:(A%)

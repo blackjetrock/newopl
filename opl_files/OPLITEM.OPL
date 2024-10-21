@@ -1,0 +1,13 @@
+OPLITEM:(i$)
+local a%,e%,s%,item$(8),tlmi$(8)
+item$=upper$(i$)
+a%=peekw($2002)
+e%=peekw($2004)-2
+s%=$1839
+do
+  tlmi$=upper$(usr$(addr(s%),a%))
+  if tlmi$=item$
+    pokew(a%+len(tlmi$)+1),0 :return -1
+  endif
+  a%=a%+len(tlmi$)+3
+until a%>=e%

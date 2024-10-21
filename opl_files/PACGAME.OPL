@@ -1,0 +1,300 @@
+PACGAME:
+REM *********************************************************************
+REM * PACGAME comprises the main part of PACman.                        *
+REM * Variable usage :-                                                 *
+REM * K% and K$(1)  ... used primarily as keyboard entry variables but  *
+REM *                   also used as work variables.                    *
+REM * X% and Y%     ... are the current PACman co-ordinates             *
+REM * X1% and Y1%   ... the previous co-ordinates of the PACman         *
+REM * F%            ... current PACman fill character                   *
+REM * D%            ... current direction of PACman (key value used)    *
+REM * S%            ... game speed 2, 1 or 0. 0 being fastest.          *
+REM * MAP$(80)      ... current screen map                              *
+REM * MC$(1)        ... curent character of screen map (when used)      *
+REM * MAPS$(5,80)   ... [GLOBAL] the five screens used for this game    *
+REM * M%            ... current screen selector (1 to 5)                *
+REM * GX%(3),GY%(3) ... current positions for each of upto 3 GHOSTS     *
+REM * G1% and G2%   ... previous position of the current GHOST          *
+REM * G% and C%     ... current maximum no of GHOSTs / GHOST counter    *
+REM * DOT%          ... number of dots on current screen                *
+REM * PWR%          ... current power pill level                        *
+REM * SC%, B%, LV%  ... current score, bonus and lives respectively     *
+REM * RIGHT% LEFT%                                                      *
+REM *    UP% DOWN%  ... each contain the key code used for a direction  *
+REM *********************************************************************
+REM
+LOCAL K%,K$(1)
+LOCAL X%,Y%,X1%,Y1%
+LOCAL F%,D%,S%
+LOCAL M%,MAP$(80),MC$(1)
+GLOBAL MAPS$(5,80)
+LOCAL C%,G%,G1%,G2%,GX%(3),GY%(3)
+LOCAL PWR%,DOT%,SC%,LV%,B%
+LOCAL RIGHT%,LEFT%,UP%,DOWN%
+
+REM * Define GHOSTS *
+UDG 0,14,31,21,31,17,31,21,10
+UDG 1,14,31,21,31,17,31,10,21
+
+REM * Define PACman fill characters LEFT/RIGHT and UP/DOWN *
+UDG 3,14,31,31,31,31,31,14,0
+UDG 4,0,14,31,31,31,31,14,0
+
+REM * Perform game initialisation *
+init::
+RIGHT%=6 : LEFT%=5 : UP%=3 : DOWN%=4   : REM * Use cursor keys for direction *
+SC%=0 : LV%=4 : B%=0                   : REM * SCORE and BONUS = 0 / 4 LIVES *
+G%=1 : S%=2 : M%=1                     : REM * 1 GHOST / SPEED 2 / SCREEN 1  *
+REM * Define default screen maps *
+MAPS$(1)="....................*./..////..////../..../..////..////../......................"
+MAPS$(2)=".........//.........././././...././././*././././...././././..........//........."
+MAPS$(3)="..///..........///......../..//../............/....../........///..........///.*"
+MAPS$(4)="..////........////......./../../../...*.../...../../...../....////........////.."
+MAPS$(5)="...................../*/././..../././*/..././././.././././......................"
+
+IF(CONFIG%<>0) : REM * If a configuration is specified then read it *
+ PACSETUP:
+ENDIF
+
+REM * Start the game *
+start::
+MAP$=MAPS$(M%)  : REM * Copy the requied screen map *
+
+restart::
+REM * Display the current score information *
+CLS
+PRINT "   --- SCORES ---"
+PRINT "LIVES = ";LV%
+PRINT "SCORE = ";SC%
+IF(B%<>0)
+ PRINT "BONUS = ";B%;" points";
+ SC%=SC%+B%
+ B%=0
+ENDIF
+PAUSE -100
+K%=KEY
+
+REM * If the <MODE> key has been pressed then redefine the direction keys *
+IF(K%=2)
+ CLS
+ PRINT " Define PACman Keys"
+ AT 1,2 : PRINT "RIGHT > "; : RIGHT%=GET
+ AT 1,2 : PRINT " LEFT > "; : LEFT%=GET
+ AT 1,2 : PRINT "   UP > "; : UP%=GET
+ AT 1,2 : PRINT " DOWN > "; : DOWN%=GET
+ENDIF
+
+REM * Setup the screen etc. ready to go *
+CLS
+UDG 2,14,31,30,28,30,31,14,0   : REM * Define PACman right character *
+PWR%=0
+X%=1:Y%=1:F%=3:D%=RIGHT%       : REM * Put the PACman in the top left *
+
+REM * Position the GHOSTs *
+C%=1
+WHILE(C%<=G%)
+ GX%(C%)=20 : GY%(C%)=4
+ C%=C%+1
+ENDWH
+
+REM * Display the screen map with translation *
+REM * (.)dot --- (*)power pill --- (/)block   *
+K%=1
+DOT%=0
+WHILE(K%<=4)
+ C%=1
+ WHILE(C%<=20)
+  MC$=MID$(MAP$,((K%-1)*20)+C%,1)
+  IF(MC$="/")
+   PRINT CHR$(255);
+  ELSE
+   IF((MC$=".")OR(MC$="*"))
+    DOT%=DOT%+1
+   ENDIF
+   PRINT MC$;
+  ENDIF
+  C%=C%+1
+ ENDWH
+ K%=K%+1
+ENDWH
+
+REM * Main game loop *
+loop::
+REM * PACman display *
+X1%=X% : Y1%=Y%
+AT X%,Y% : PRINT CHR$(F%);
+
+REM * GHOST display *
+C%=1
+WHILE(C%<=G%)
+ AT GX%(C%),GY%(C%)
+ PRINT CHR$(0);
+ C%=C%+1
+ENDWH
+IF(S%) : PAUSE -S% : ENDIF
+
+REM * PACman display (alternate) *
+AT X%,Y% : PRINT CHR$(2);
+
+REM * GHOST display (alternate) *
+C%=1
+WHILE(C%<=G%)
+ AT GX%(C%),GY%(C%)
+ PRINT CHR$(1);
+ C%=C%+1
+ENDWH
+IF(S%) : PAUSE -S% : ENDIF
+
+REM * Get a directional key press *
+K%=KEY : K$=CHR$(K%)
+IF(K%=0) : K%=D% : ENDIF
+
+IF(K%=RIGHT%)     : REM * Process RIGHT movement *
+ X%=X%+1 : F%=3
+ IF(D%<>K%)
+  D%=K%
+  UDG 2,14,31,30,28,30,31,14,0
+ ENDIF
+ELSEIF (K%=LEFT%) : REM * Process LEFT movement *
+ X%=X%-1 : F%=3
+ IF(D%<>K%)
+  D%=K%
+  UDG 2,14,31,15,7,15,31,14,0
+ ENDIF
+ELSEIF (K%=UP%)   : REM * Process UP movement *
+ Y%=Y%-1 : F%=4
+ IF(D%<>K%)
+  D%=K%
+  UDG 2,0,10,27,27,31,31,14,0
+ ENDIF
+ELSEIF (K%=DOWN%) : REM * Process DOWN movement *
+ Y%=Y%+1 : F%=4
+ IF(D%<>K%)
+  D%=K%
+  UDG 2,0,14,31,31,27,27,10,0
+ ENDIF
+ENDIF
+
+REM * PACman Range Checking *
+IF(X%<1) : X%=1 : ENDIF
+IF(X%>20): X%=20: ENDIF
+IF(Y%<1) : Y%=1 : ENDIF
+IF(Y%>4) : Y%=4 : ENDIF
+MC$=MID$(MAP$,((Y%-1)*20)+X%,1)
+IF(MC$="/") : X%=X1% : Y%=Y1% : ENDIF
+IF(MC$="." OR MC$="*")
+ MAP$=MID$(MAP$,1,((Y%-1)*20)+X%-1)+" "+MID$(MAP$,((Y%-1)*20)+X%+1,80)
+ DOT%=DOT%-1   : REM * Munch a dot *
+ SC%=SC%+1     : REM * Increment the score *
+ IF((FLT(SC%)/200)=(SC%/200))  : REM * Give a bonus life every 200 points *
+  LV%=LV%+1
+ ENDIF
+ BEEP 5,500  : REM * Make an eating noise *
+ IF(MC$="*") : REM * Action power pills *
+  PWR%=PWR%+(M%*G%*5)
+ ENDIF
+ENDIF
+
+REM * Check for completed screen *
+IF(DOT%=0)
+ M%=M%+1
+ IF(M%>5)
+  M%=1 : S%=S%-1
+  G%=G%+1
+ ENDIF
+
+ IF(G%>3)
+  CLS
+  PRINT "********************"
+  PRINT "*  CONGRADULATIONS  *"
+  PRINT "********************"
+  PRINT "FINAL SCORE = ";SC%;
+  WHILE KEY : GET : ENDWH
+  GET
+  RETURN
+ ENDIF
+
+ BEEP 50,100
+ BEEP 50,200
+ BEEP 50,300
+
+ B%=LV%*(M%-1)*G%   : REM * Calculate BONUS *
+ LV%=LV%+1          : REM * Give an extra life *
+ GOTO start::
+ENDIF
+
+REM * Ghost Movement *
+IF(PWR%=0)
+ C%=1
+ WHILE(C%<=G%)
+  G1%=GX%(C%) : G2%=GY%(C%)
+  REM * Home in on PACman *
+  IF GX%(C%)<X% : K%=1
+  ELSEIF GX%(C%)>X% : K%=-1
+  ELSE K%=0
+  ENDIF
+  REM * Movement *
+  GX%(C%)=GX%(C%)+(K%*INT(RND*2))
+  GY%(C%)=GY%(C%)+INT(RND*3.0)-1
+  REM * Range checking *
+  IF(GX%(C%)<1) : GX%(C%)=1 : ENDIF
+  IF(GX%(C%)>20): GX%(C%)=20 : ENDIF
+  IF(GY%(C%)<1) : GY%(C%)=1 : ENDIF
+  IF(GY%(C%)>4) : GY%(C%)=4 : ENDIF
+  REM * Not allowed on blocks *
+  IF(MID$(MAP$,((GY%(C%)-1)*20)+GX%(C%),1)="/")
+   GX%(C%)=G1% : GY%(C%)=G2%
+  ENDIF
+  REM * Redisplay the background *
+  AT G1%,G2%
+  MC$=MID$(MAP$,((G2%-1)*20)+G1%,1)
+  PRINT MC$;
+  C%=C%+1
+ ENDWH
+ENDIF
+
+REM * PACman background redisplay *
+REm *** This code is here for speed reasons ***
+IF((X%<>X1%)OR(Y%<>Y1%))
+ BEEP 1,50
+ AT X1%,Y1%
+ PRINT MID$(MAP$,((Y1%-1)*20)+X1%,1);
+ENDIF
+
+REM * Collision Checking *
+IF(PWR%=0)
+ REM * Check for collision with each GHOST *
+ C%=1
+ WHILE(C%<=G%)
+  REM * We got slimed! *
+  IF((X%=GX%(C%))AND(Y%=GY%(C%)))
+   K%=100
+   REM * Scream a bit *
+   WHILE(K%<300)
+    BEEP 1,K%
+    K%=K%+1
+   ENDWH
+   LV%=LV%-1  : REM * Less one life, let's hope theres more *
+   IF(LV%=0)  : REM * Oh well, you can't win the all *
+    CLS
+    PRINT "**** GAME OVER ****"
+    AT 1,3
+    PRINT "SCORE = ";SC%
+    WHILE KEY : GET : ENDWH    : REM * Drain the keyboard buffer *
+    GET
+    RETURN
+   ENDIF
+   GOTO restart::  : REM * Give it another go *
+  ENDIF
+  C%=C%+1
+ ENDWH
+ELSE
+ PWR%=PWR%-1       : REM * Decrement power *
+ENDIF
+
+GOTO loop::  : REM * Continue the game *
+
+PRINT "(C)1989 Lawrence L.Blanchard"
+RETURN
+
+

@@ -1,0 +1,34 @@
+WTIMESEL:
+LOCAL p$(2)
+CLS
+PRINT"Select...UP/DOWN"
+DO
+IF a.t%>0 :p$=" +"
+ELSE p$=" "
+ENDIF
+v%=view(2,(a.c$+p$+NUM$(a.t%,3)))
+IF v%=3
+IF POS>1 :BACK
+ELSE LAST
+ENDIF
+ELSEIF v%=4
+NEXT
+IF EOF :FIRST
+ENDIF
+ENDIF
+UNTIL v%=1 OR v%=8 OR v%=13
+IF v%=13
+M0=POS
+RETURN
+ELSEIF v%=1
+RETURN
+ELSEIF v%=8 AND POS<>1
+PRINT CHR$(14)+"DELETE Y/N";
+IF UPPER$(GET$)="Y"
+ERASE :BACK
+LAST
+M0=POS
+ENDIF
+wtimesel:
+ENDIF
+

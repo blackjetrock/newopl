@@ -1,0 +1,74 @@
+NIM2COMP:
+REM LZ procedure
+REM Old globals: C%,A%(),L%,P%,G%
+LOCAL X%,NIMSUM%,NOPAIR%,B%
+
+C%=1
+X%=52
+DO
+ IF A%(C%)<X% AND A%(C%)>0
+  X%=A%(C%)
+ ENDIF
+ C%=C%+1
+UNTIL C%=5
+X%=MAX(A%(1),A%(2),A%(3),A%(4))
+NIMSUM%=A%(1)
+C%=2
+DO
+ NIMSUM%=(NIMSUM% OR A%(C%))-(NIMSUM% AND A%(C%))
+ C%=C%+1
+UNTIL C%=5
+NOPAIR%=A%(1)<>A%(2) AND A%(1)<>A%(3) AND A%(1)<>A%(4) AND A%(2)<>A%(3) AND A%(2)<>A%(4) AND A%(3)<>A%(4)
+B%=(A%(1) AND A%(2) AND A%(3) AND A%(4))<>0
+
+IF NIMSUM%=0 OR (L%=1 AND NOPAIR%) OR (L%=2 AND NOPAIR% AND B% AND X%<11) OR (L%=3 AND NOPAIR% AND B%)
+ C%=0
+ DO
+  DO
+   P%=RND*4+1
+  UNTIL A%(P%)<>0
+  G%=RND*A%(P%)
+  C%=C%+1
+ UNTIL G%<>A%(1) AND G%<>A%(2) AND G%<>A%(3) AND G%<>A%(4) OR C%=20
+ELSEIF NOPAIR%=0 AND L%<>4 AND (L%<>3 OR B%=0)
+ G%=1
+ P%=4
+ IF A%(1)=A%(2)
+  G%=3
+ ELSEIF A%(1)=A%(3)
+  G%=2
+ ELSEIF A%(1)=A%(4)
+  G%=2
+  P%=3
+ ELSEIF A%(2)=A%(4)
+  P%=3
+ ELSEIF A%(3)=A%(4)
+  P%=2
+ ENDIF
+ IF A%(P%)<A%(G%)
+  X%=P%
+  P%=G%
+  G%=X%
+ ENDIF
+ G%=A%(G%)
+ELSE
+ G%=64
+ DO
+  G%=G%/2
+ UNTIL (NIMSUM% AND G%)<>0
+  C%=0
+ DO
+  C%=C%+1
+ UNTIL (A%(C%) AND G%)<>0
+ P%=C%
+ G%=(A%(C%) OR NIMSUM%)-(A%(C%) AND NIMSUM%)
+ENDIF
+DO
+ A%(P%)=A%(P%)-1
+ AT 1,P%
+ PRINT GEN$(A%(P%),-2);
+ AT 4+A%(P%)/3,P%
+ X%=A%(P%)-A%(P%)/3*3
+ PRINT CHR$(X%-1+(33 AND X%=0));
+ PAUSE 1
+UNTIL A%(P%)=G%

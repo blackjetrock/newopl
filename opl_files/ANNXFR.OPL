@@ -1,0 +1,43 @@
+annxfr:
+REM Source: ANNXFR.OPL
+REM Version 1.1
+REM Sends dbase$ to PC, REPLACES remote$ by dbase$
+REM (C) OCT 1998 LRS
+REM L.R.Sluijk@student.utwente.nl
+
+REM& EXTERNAL dbase$
+LOCAL remote$(255)
+
+remote$="C:/PSION/LRS/ODB/ANNIV.ODB" :REM PC path and filename, change if necessary
+REBOOT: :REM Boot CL software into memory
+
+PRINT "Sending...",dbase$
+PRINT "to"
+AT 1,4
+IF LEN(remote$) > 20
+ PRINT LEFT$(remote$,3);"...";RIGHT$(remote$,14)
+ELSE
+ PRINT remote$
+ENDIF
+IF COUNT=0
+ CLS :PRINT CHR$(16);dbase$,"is empty"
+ PRINT "Nothing to send"
+ KEY:(4)
+ RETURN
+ENDIF
+
+ONERR nocomms::
+XTSEND:(remote$,dbase$,0)
+CLEXIT: :REM Exit CL on PC
+RETURN
+
+nocomms::
+ONERR OFF
+IF ERR=194
+ RAISE ERR
+ELSE
+ CLS :PRINT CHR$(16);"No CL attached"
+ PRINT "Unable to send"
+ KEY:(4)
+ RETURN
+ENDIF

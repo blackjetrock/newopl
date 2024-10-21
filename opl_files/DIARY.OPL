@@ -1,0 +1,39 @@
+diary:
+local base%,i%
+base%=peekw($2004)
+a::
+if peekb(base%)=0
+ cls :print " End of Diary"
+ print " Press Any Key"
+ lprint chr$(12)
+ get
+ return
+endif
+print ".";
+i%=peekb(base%+3)+1
+if i%<10 :lprint "0"; :endif
+lprint i%;"/";
+i%=peekb(base%+2)+1
+if i%<10 :lprint "0"; :endif
+lprint i%;"/";
+i%=peekb(base%+1)
+if i%<10 :lprint "0"; :endif
+lprint i%,
+i%=peekb(base%+4)
+if i%<10 :lprint "0"; :endif
+lprint i%;":";
+if peekb(base%+5)
+ lprint "30",
+else
+ lprint "00",
+endif
+i%=peekb(base%)
+base%=base%+7
+lprint " ";
+while i%
+ lprint chr$(peekb(base%));
+ i%=i%-1
+ base%=base%+1
+endwh
+lprint
+goto a::

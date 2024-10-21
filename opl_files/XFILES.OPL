@@ -1,0 +1,257 @@
+XFILES:
+LOCAL M%,MC%(57),P$(19),F$(10),F0$(8),P%,F1$(10),F2$(10),T%,K%,C$(255)
+ESCAPE OFF
+
+MC%(1)=$7F21
+MC%(2)=$8718
+MC%(3)=$4F5F
+MC%(4)=$3F68
+MC%(5)=$2506
+MC%(6)=$8681
+MC%(7)=$9742
+MC%(8)=$3F7B
+MC%(9)=$3918
+
+MC%(10)=$4FE6
+MC%(11)=$005C
+MC%(12)=$DD41
+MC%(13)=$CC21
+MC%(14)=$873F
+MC%(15)=$6DCE
+MC%(16)=ADDR(P$)
+MC%(17)=$CC00
+MC%(18)=$083F
+MC%(19)=$68CE
+MC%(20)=$2187
+MC%(21)=$2404
+MC%(22)=$6F00
+MC%(23)=$2017
+MC%(24)=$3CE6
+MC%(25)=$005C
+MC%(26)=$5CE7
+MC%(27)=$004F
+MC%(28)=$DD41
+MC%(29)=$CC21
+MC%(30)=$893F
+MC%(31)=$6D38
+MC%(32)=$CC41
+MC%(33)=$3A9B
+MC%(34)=$A2ED
+MC%(35)=$0139
+
+MC%(36)=$183C
+MC%(37)=$E600
+MC%(38)=$4F18
+MC%(39)=$08DF
+MC%(40)=$4138
+MC%(41)=$3CCC
+MC%(42)=$2187
+MC%(43)=$3F6D
+MC%(44)=$CC01
+MC%(45)=$FF3F
+MC%(46)=$1C38
+MC%(47)=$375A
+MC%(48)=$270D
+MC%(49)=$F621
+MC%(50)=$874F
+MC%(51)=$1808
+MC%(52)=$DF41
+MC%(53)=$CE21
+MC%(54)=$873F
+MC%(55)=$6D4F
+MC%(56)=$3318
+MC%(57)=$3900
+
+
+P%=PEEKB($A2)
+F0$="MAIN"
+F$=CHR$(65+P%)+":"+F0$
+
+L::
+ONERR E::
+
+DO
+M%=MENU("FIND,SAVE,ERASE,DIR,OPEN,NEW,REMOVE,PRINT,SORT,COPY")
+IF M%=1 OR M%=3
+ REM FIND/ERASE
+ OPEN F$,A,A$
+ CLS
+ IF M%=1
+  PRINT "Find ";
+ ELSE
+  PRINT "Erase ";
+ ENDIF
+ PRINT F$;":";
+ TRAP INPUT C$
+ IF ERR<>206
+  DO
+   T%=FIND(C$)
+   IF T%=0
+    PRINT CHR$(11);REPT$("*",18);"END OF PACK***";
+    DO
+     K%=ASC(UPPER$(GET$))
+    UNTIL K%=13 OR K%=1
+    FIRST
+   ELSE 
+    K%=DISP(-1,"")
+    WHILE K%<>13 AND K%<>2 AND K%<>1 AND (K%<>8 OR M%=1)
+     K%=DISP(0,"")
+    ENDWH
+    NEXT
+   ENDIF
+   IF K%=1
+    BREAK
+   ELSEIF K%=2
+    REM SAVE
+    POSITION T%
+    CLS
+    PRINT "Save:";F$;":";
+    IF USR(ADDR(MC%())+70,PEEKW($2016))=13
+     UPDATE
+    ENDIF
+    K%=1
+   ELSEIF K%=8
+    REM ERASE
+    POSITION T%
+    PRINT CHR$(15);"DELETE Y/N";
+    DO
+     K%=ASC(UPPER$(GET$))
+    UNTIL K%=%Y OR K%=%N OR K%=1
+    IF K%=%Y
+     ERASE
+    ENDIF
+   ENDIF
+  UNTIL K%=1
+ ENDIF
+ CLOSE
+ELSEIF M%=2
+ REM SAVE
+ OPEN F$,A,A$
+ POKEB PEEKW($2016),0
+ CLS
+ PRINT "Save:";F$;":";
+ IF USR(ADDR(MC%())+70,PEEKW($2016))=13
+  APPEND
+ ENDIF
+ CLOSE
+ELSEIF M%=4
+ REM DIR
+ P$="Dir"
+ USR(ADDR(MC%()),ADDR(P$))
+ELSEIF M%=5
+ REM OPEN
+ P$="Open"
+ P$=USR$(ADDR(MC%())+17,ADDR(F0$))
+ IF P$<>""
+  OPEN P$,A,A$
+  CLOSE
+  F$=P$
+  F0$=MID$(F$,3,255)
+  P%=PEEKB($A2)
+ ENDIF
+ELSEIF M%=6
+ REM NEW
+ P$="New"
+ POKEB $2187,0
+ P$=USR$(ADDR(MC%())+29,0)
+ IF P$<>""
+  CREATE P$,A,A$
+  CLOSE
+  F$=P$
+  F0$=MID$(F$,3,255)
+  P%=PEEKB($A2)
+ ENDIF
+ELSEIF M%=7
+ REM REMOVE
+ P$="Remove"
+ P$=USR$(ADDR(MC%())+17,ADDR(F0$))
+ IF P$<>""
+  IF MID$(P$,2,255)=":MAIN"
+   OPEN P$,A,A$
+   WHILE NOT EOF
+    ERASE
+   ENDWH
+   CLOSE
+  ELSE
+   DELETE P$
+  ENDIF
+ ENDIF
+ELSEIF M%=8
+ REM PRINT
+ P$="Print"
+ P$=USR$(ADDR(MC%())+17,ADDR(F0$))
+ IF P$<>""
+  OPEN P$,A,A$
+  F$=P$
+  F0$=MID$(F$,3,255)
+  P%=PEEKB($A2)
+  T%=$1839
+  WHILE NOT(EOF)
+   LPRINT USR$(ADDR(T%),PEEKW($2016))
+   NEXT
+  ENDWH
+  CLOSE
+ ENDIF
+ELSEIF M%=9
+ REM SORT
+ P$="Sort"
+ P$=USR$(ADDR(MC%())+17,ADDR(F0$))
+ IF P$<>""
+  OPEN P$,A,A$
+  F$=P$
+  F0$=MID$(F$,3,255)
+  P%=PEEKB($A2)
+  CLS
+  PRINT "Sorting ";F$;
+  K%=COUNT
+  IF K%>1
+   DO
+    FIRST :T%=1
+    C$=UPPER$(A.A$)
+    WHILE POS<K%
+     NEXT
+     IF UPPER$(A.A$)<C$
+      C$=UPPER$(A.A$) :T%=POS
+     ENDIF
+    ENDWH
+    POSITION T%
+    PRINT CHR$(15);LEFT$(C$,16);
+    UPDATE :K%=K%-1
+   UNTIL K%=0
+  ENDIF
+  CLOSE
+ ENDIF
+ELSEIF M%=10
+ REM COPY
+ P$="Copy"
+ F1$=USR$(ADDR(MC%())+17,ADDR(F0$))
+ IF F1$<>""
+  P$=P$+" "+F1$+CHR$(10)+CHR$(13)+"to"
+  POKEB $2187,0
+  F2$=USR$(ADDR(MC%())+29,0)
+  IF F2$<>""
+   CLS
+   PRINT "Copying...";
+   COPY F1$,F2$
+  ENDIF
+ ENDIF
+ENDIF
+
+UNTIL M%=0
+ESCAPE ON
+RETURN
+
+E::
+ONERR OFF
+CLS
+PRINT ERR$(ERR);CHR$(16)
+IF ERR=194
+ PAUSE 20
+ OFF
+ELSE
+ PRINT "press space key";
+ DO
+ UNTIL GET=32
+ENDIF
+GOTO L::
+

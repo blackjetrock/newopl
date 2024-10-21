@@ -1,0 +1,70 @@
+pigen$:(nDigits%)
+REM Source PIGEN$.OPL
+REM Version 1.3
+REM Pi generator algorithm
+REM Taken from the HPcalc archive
+REM http://www.hpcalc.org
+REM Originally an HP28S program
+REM (C) APR 1999 LRS
+REM Sluykie@hotmail.com
+
+LOCAL a$(10),b$(255),c$(255)
+LOCAL d%,h%,j%,m%,n%,newj%,q%,t,x%
+LOCAL k%,i% :REM counters for loops
+
+REM *** initialise values ***
+n%=nDigits% :d%=4 :t=0 :q%=0 :h%=0
+j%=0 :newj%=0 :m%=0 :i%=0 :k%=0 :x%=0
+a$="A:PITEMP99" :REM *** file name to immitate an array of lenght m% ***
+b$="" :c$=""
+
+IF EXIST(a$) :DELETE a$ :ENDIF
+CREATE a$,B,Elem$,v%
+
+REM *** Go for it ***
+n%=n%+2
+REM n%=(4-MOD%:(n%,4)+n%)/4
+n%=(4-(n%-4*INTF(n%/4))+n%)/4
+m%=INT(n%*d%*3.3219+1)
+newj%=INT(2*m%-1)
+REM *** fill a$ with m% 2's ***
+i%=0
+WHILE i%<=m%
+ i%=i%+1
+ AT 1,1 :PRINT "Filling array",i%
+ B.Elem$=RIGHT$("000"+NUM$(i%,4),4)
+ B.v%=2
+ APPEND
+ENDWH
+
+k%=1
+DO
+ AT 1,1 :PRINT k%;"/";n%;CHR$(26) :REM *** progression indicator ***
+ q%=0
+ j%=newj%
+ i%=m%
+  DO
+   REM *** searching with "0001..." makes the ***
+   REM *** need for elements to be in order obsolete ***
+   FIRST :FIND(RIGHT$("000"+NUM$(i%,4),4))
+   t=INTF(1E4*B.v%+FLT(i%)*q%+0.5)
+   q%=INTF(t/j%)
+   B.v%=t-q%*FLT(j%) :UPDATE :REM *** update the i%th element in original array ***
+   j%=j%-2
+   i%=i%-1
+  UNTIL i%<1
+ b$=NUM$(INT(q%/1E4+h%),12)
+ x%=LEN(b$)
+  WHILE x%<4
+   b$="0"+b$
+   x%=x%+1
+  ENDWH
+ c$=c$+b$
+REM PRINT MID$(c$,LEN(c$)-22,LEN(c$))
+ h%=q%-(INT(1E4*INT(q%/1E4)+0.5))
+ k%=k%+1
+UNTIL k%>n%
+CLOSE :DELETE(a$) :REM *** close array & delete ***
+
+c$=MID$(c$,4,LEN(c$))
+RETURN c$

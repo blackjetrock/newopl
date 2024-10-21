@@ -1,0 +1,123 @@
+EXPLCOMP:
+REM LZ procedure
+REM Externals: K%,F%(),O%,C%(),S1%,S2%
+LOCAL L1%,L2%,L3%,L4%(16),L5%(16),L6%,L7%,L8%,L9%,L10%,L11%,L12%,L13%
+
+L12%=-9999
+L13%=0
+L8%=1
+DO
+ L9%=1
+ DO
+  L10%=L8%*K%+L9%-K%
+  IF F%(L10%)*O%<0
+  ELSE
+   L6%=1
+   DO
+    C%(L6%)=F%(L6%)
+    L4%(L6%)=0
+    L5%(L6%)=0
+    L6%=L6%+1
+   UNTIL L6%>16
+   C%(L10%)=C%(L10%)+O%
+   L1%=-(L8%>1)-(L9%>1)-(L9%<K%)-(L8%<K%)
+   IF ABS(C%(L10%))<L1%
+    GOTO Lab1::
+   ENDIF
+   L5%(L10%)=1
+   DO
+    L2%=K%*K%
+    DO
+     IF L5%(L2%)
+      L5%(L2%)=0
+      L6%=(L2%-1)/K%
+      L7%=L2%-L6%*K%
+      L6%=L6%+1
+      L1%=(L6%>1)+(L7%>1)+(L6%<K%)+(L7%<K%)
+      C%(L2%)=C%(L2%)+L1%*O%
+      IF L6%>1
+       C%(L2%-K%)=O%*ABS(C%(L2%-K%))+O%
+      ENDIF
+      IF L6%<K%
+       C%(L2%+K%)=O%*ABS(C%(L2%+K%))+O%
+      ENDIF
+      IF L7%>1
+       C%(L2%-1)=O%*ABS(C%(L2%-1))+O%
+      ENDIF
+      IF L7%<K%
+       C%(L2%+1)=O%*ABS(C%(L2%+1))+O%
+      ENDIF
+     ENDIF
+     L2%=L2%-1
+    UNTIL L2%=0
+    L3%=0
+    L2%=1
+    L6%=1
+    DO
+     L7%=1
+     DO
+      IF ABS(C%(L2%))>=-(L6%>1)-(L7%>1)-(L6%<K%)-(L7%<K%)
+       L3%=1
+       L5%(L2%)=1
+       L4%(L2%)=1
+      ENDIF
+      L2%=L2%+1
+      L7%=L7%+1
+     UNTIL L7%>K%
+     L6%=L6%+1
+    UNTIL L6%>K%
+    L2%=K%*K%
+    L6%=0
+    DO
+     L6%=L6%+L4%(L2%)
+     L2%=L2%-1
+    UNTIL L2%=0
+    IF L6%=K%*K%
+     RETURN EXPLMOV:(L8%,L9%,O%)
+    ENDIF
+   UNTIL L3%=0
+Lab1::
+   L11%=0
+   L2%=1
+   L6%=1
+   DO
+    L7%=1
+    DO
+     L11%=L11%+O%*C%(L2%)
+     L1%=-(L6%>1)-(L6%<K%)-(L7%>1)-(L7%<K%)
+     IF O%*C%(L2%)=L1%-1
+      L11%=L11%+1
+      IF L6%<>K%
+       L1%=-(L6%+1>1)-(L6%+1<K%)-(L7%>1)-(L7%<K%)
+       L11%=L11%+(S1% AND -O%*C%(L2%+K%)=L1%-1)+(S2% AND O%*C%(L2%+K%)=L1%-1)
+      ENDIF
+      IF L6%<>1
+       L1%=-(L6%-1>1)-(L6%-1<K%)-(L7%>1)-(L7%<K%)
+       L11%=L11%+(S1% AND -O%*C%(L2%-K%)=L1%-1)+(S2% AND O%*C%(L2%-K%)=L1%-1)
+      ENDIF
+      IF L7%<>K%
+       L1%=-(L6%>1)-(L6%<K%)-(L7%+1>1)-(L7%+1<K%)
+       L11%=L11%+(S1% AND -O%*C%(L2%+1)=L1%-1)+(S2% AND O%*C%(L2%+1)=L1%-1)
+      ENDIF
+      IF L7%<>1
+       L1%=-(L6%>1)-(L6%<K%)-(L7%-1>1)-(L7%-1<K%)
+       L11%=L11%+(S1% AND -O%*C%(L2%-1)=L1%-1)+(S2% AND O%*C%(L2%-1)=L1%-1)
+      ENDIF
+     ENDIF
+     L2%=L2%+1
+     L7%=L7%+1
+    UNTIL L7%>K%
+    L6%=L6%+1
+   UNTIL L6%>K%
+   IF L11%>L12% OR (L11%=L12% AND RND<0.7)
+    L12%=L11%
+    L13%=L8%*K%+L9%-K%
+   ENDIF
+  ENDIF
+  L9%=L9%+1
+ UNTIL L9%>K%
+ L8%=L8%+1
+UNTIL L8%>K%
+L8%=(L13%-1)/K%+1
+L9%=L13%-K%*L8%+K%
+RETURN EXPLMOV:(L8%,L9%,O%)

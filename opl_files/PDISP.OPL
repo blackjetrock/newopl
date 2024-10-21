@@ -1,0 +1,18 @@
+pdisp:
+Local D$(255)
+Local Z%
+If Peekb(121)=0
+Z%=175
+Else Z%=3
+Endif
+IF len(a.nam$)>20 or len(a.no$)>20
+D$="Name: "+A.Nam$+" "+CHR$(Z%)+" Phone Number: "+A.No$
+D$=D$+"  -oOo-"
+CLS :Print" View Database"
+D%=View(2,d$)
+Else
+Cls :Print A.Nam$
+at 1,2 :Print A.No$
+d%=get
+EndIf
+Return

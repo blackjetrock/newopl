@@ -1,0 +1,49 @@
+JUGGEN:(B%,L%)
+LOCAL T%(20),NH%,A$(20)
+LOCAL A%,C%,D%,E%
+
+NH%=0
+DO
+ A%=1
+ WHILE T%(A%)=B%
+  NH%=NH%-1
+  T%(A%)=0
+  A%=A%+1
+  IF A%>L%
+   GOTO E::
+  ENDIF
+ ENDWH
+ T%(A%)=T%(A%)+1
+ IF T%(A%)=B%
+  NH%=NH%+1
+ ENDIF
+ IF NH%
+  A$=""
+  A%=1
+  DO
+   C%=A%
+   D%=T%(A%)
+   IF D%
+    E%=0
+    DO
+     C%=C%+1-(L% AND C%=L%)
+     IF T%(C%)>=D%
+      D%=D%-1
+     ENDIF
+     E%=E%+1
+    UNTIL D%=0
+    A$=A$+CHR$(48+E%+(7 AND E%>9))
+   ELSE
+    A$=A$+"0"
+   ENDIF
+   A%=A%+1
+  UNTIL A%>L%
+  CLS
+  PRINT A$
+  PRINT JUGPRE$:(A$,B%),JUGPOST$:(A$,B%);
+  IF GET=1
+   RETURN
+  ENDIF
+ ENDIF
+UNTIL 0
+E::

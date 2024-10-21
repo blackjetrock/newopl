@@ -1,0 +1,125 @@
+PHONE:
+Rem Phone Dbase Vers 1.1
+Rem (c) Dave Woolnough - 01/95
+Global A$(15),D$(255),E$(10)
+Global D%
+LOCAL A%,b%(8),I
+LOCAL G$(1)
+
+POKEB $180,88
+b%(1)=0 :b%(2)=0 :b%(3)=0 :b%(4)=8
+b%(5)=21 :b%(6)=2 :b%(7)=0 :b%(8)=0
+a%=1 :DO
+POKEB $181,b%(a%)
+a%=a%+1
+UNTIL a%>8
+
+CLS :PRINT"Phone - Vers 1.1" :AT 1,2 :PRINT"(c) DJW - 01/95"
+Pause -50 :key
+
+Rem Set DBase
+IF NOT EXIST("A:Pdata")
+CLS :AT 2,1 :PRINT"  Please Wait" :AT 2,2 :PRINT"Creating File"
+CREATE "A:Pdata",A,Nam$,No$
+ELSE
+OPEN "A:Pdata",A,Nam$,No$
+Bep:(2)
+ENDIF
+
+START::
+
+CLS :A%=MENU("Update,View,Sear,Del,Info,Ed,Quit")
+
+REM *** SEARCH ***
+if a%=3
+
+PSREC:
+GOTO START::
+
+REM *** VIEW ***
+ELSEIF A%=2
+
+FIRST
+LOOK::
+E$="Disp"
+PDisp:
+
+Rem Quit
+IF D%=1 OR D%=%Q :bep:(1) :GOTO START::
+
+Rem Forward
+ELSEIF D%=%F or D%=13
+NEXT
+IF EOF :FIRST :ENDIF
+
+Rem Back
+ELSEIF D%=%B
+BACK
+IF POS=1 :LAST :ENDIF
+
+Rem First
+ElseIf D%=4
+First
+
+Rem Last
+ElseIf D%=3
+Last
+
+ENDIF
+GOTO LOOK::
+
+REM *** QUIT ***
+ELSEIF A%=7
+Bep:(3)
+CLOSE :RETURN
+
+REM *** UPDATE ***
+ELSEIF A%=1
+
+UPDATE::
+
+Rem Name
+I1:: :CLS :PRINT"Name" :INPUT A.Nam$
+IF A.Nam$="" :GOTO start:: :ENDIF
+
+Rem Phone Number
+I2:: :Cls :Print"Phone Number" : at 1,2 :KSTAT 3 :Input A.No$ :KSTAT 1
+If A.No$="" :Goto I1:: : Endif
+
+APPEND
+GOTO START::
+
+REM *** DELETE ***
+ELSEIF A%=4
+
+Last
+E$="Del" :PDisp:
+CLS :AT 2,1 :PRINT"Del Last Entry" :AT 6,2 :PRINT"(Y/N)"
+G$=GET$
+IF G$<>"Y" :GOTO START:: :ENDIF
+LAST :ERASE
+
+GOTO START::
+
+REM *** INFO
+ELSEIF A%=5
+
+LAST
+CLS
+PRINT"       bytes"
+AT 1,2 :PRINT"Records: "
+FIRST :I=0 :DO
+I=I+RECSIZE
+AT 1,1 :PRINT I :AT 10,2 :PRINT POS
+NEXT
+UNTIL EOF
+GET :GOTO START::
+
+Rem *** Edit Entry
+ELSEIF A%=6
+
+PRECED:
+GOTO START::
+
+ENDIF
+

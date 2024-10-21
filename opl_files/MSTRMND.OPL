@@ -1,0 +1,52 @@
+MSTRMND:
+GLOBAL SC%,NC%,SM%,NM%,CL%,HL%,GS%
+LOCAL M%,P$(130)
+ESCAPE OFF
+DEFUDG:(0,0,4,14,21,4,4,28,0)
+DEFUDG:(1,0,28,4,4,21,14,4,0)
+
+HL%=4
+CL%=5
+GS%=8
+M::
+SC%=0
+SM%=0
+NC%=0
+NM%=0
+DO
+CLS
+P$="---MASTERMIND---"+CHR$(9)
+IF NC%+NM% 
+P$="me:"
+IF NC%=0
+ P$=P$+"*.*"
+ELSE
+ P$=P$+GEN$(SC%/NC%,2)+"."+CHR$(SC%*10/NC%-SC%/NC%*10+48)
+ENDIF
+P$=P$+" you:"
+IF NM%=0
+ P$=P$+"*.*"
+ELSE P$=P$+GEN$(SM%/NM%,2)+"."+CHR$(SM%*10/NM%-SM%/NM%*10+48)
+ENDIF
+P$=P$+CHR$(9)
+ENDIF
+P$=P$+"Press P/H/B for psion/human/both to play a game, S to change settings, or ON to quit."+CHR$(9)
+P$=P$+"Cols:"+GEN$(CL%+1,2)+" Hls:"+CHR$(hl%+48)+" Gss:"+GEN$(GS%,2)
+KSTAT 1
+M%=ASC(UPPER$(CHR$(DISP(1,P$))))
+WHILE M%<>1 AND LOC("PHBS",CHR$(M%))=0
+ M%=ASC(UPPER$(CHR$(DISP(0,""))))
+ENDWH
+
+IF M%=%P
+ MSTRPSN:
+ELSEIF M%=%H
+ MSTRHUM:
+ELSEIF M%=%B
+ MSTRPLAY:
+ELSEIF M%=%S
+ MSTRSET:
+ENDIF
+UNTIL M%=1
+
+ESCAPE ON

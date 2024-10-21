@@ -1,0 +1,8 @@
+INSTINFO:
+CLS
+IF OPLITEM:("INFO")
+ PRINT "INFO activated."
+ELSE
+ PRINT "INFO not found."
+ENDIF
+PAUSE -10

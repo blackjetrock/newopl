@@ -1,0 +1,32 @@
+INPDOMN:
+REM BEHEER DE EmailDOMAIN NAMEN
+LOCAL found%, g$(1)
+found%= 0
+USE C
+rem FIRST
+rem DO
+rem   PRINT "Is",C.domain$
+rem   PRINT "Juist j/N?"
+rem   g$=  GET$
+rem   IF g$="j" Or g$="J"
+rem      found%= -1
+rem      BREAK
+rem   ENDIF
+rem   NEXT
+rem UNTIL EOF AND found%=-1
+rem IF found%
+rem   PRINT C.domain$
+rem   GET
+rem ELSE
+   CLS
+   PRINT"Voer Nieuw domain in";
+   PRINT "Email Domain?"
+   KSTAT 2 : REM ZET KEYBOARD IN KLEINE LETTERS
+   INPUT C.domain$
+   USE D
+   D.uid%= D.uid%+1
+   UPDATE
+   USE C
+   C.uid%= D.uid%
+   APPEND
+rem ENDIF

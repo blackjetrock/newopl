@@ -1,0 +1,204 @@
+SNOWBRD:
+GLOBAL MC1$(117),MC2$(207),MC%
+GLOBAL S$(16,8),F$(2,8)
+LOCAL A$(110),K%,X%,G%,GX%,GY%,GZ%,PAR%
+LOCAL VX%,VY%,V%,F%,S%,M%,T%
+SNOWINIT:
+PAR%=ADDR(A$)
+
+STRT::
+CLS
+PRINT "Press a key to start";
+WHILE KEY
+ENDWH
+GET
+X%=0
+GZ%=1
+GY%=10
+GX%=42
+VY%=0
+VX%=0
+V%=0
+G%=0
+S%=0
+F%=1
+M%=0
+POKEW $20CB,0
+LP::
+ DO
+  A$=LEFT$(GEN$(G%,4)+REPT$(" ",80),80)+CHR$(8)+CHR$(50)+S$(X%+4)
+  IF M%
+   IF GX%>-52
+    A$=A$+CHR$(GY%)+CHR$(GX%+52)+F$(GZ%)
+    IF GX%>0
+     A$=A$+CHR$(GY%)+CHR$(GX%)+F$(GZ%)
+    ENDIF
+   ENDIF
+  ELSE
+   IF GX%>-17
+    A$=A$+CHR$(GY%)+CHR$(GX%+17)+F$(GZ%)
+    IF GX%>0
+     A$=A$+CHR$(GY%)+CHR$(GX%)+F$(GZ%)
+    ENDIF
+   ENDIF
+  ENDIF
+  USR(MC%,PAR%)
+  
+  IF GY%<8 AND F%=0
+   F%=-1
+   IF X%<4
+    IF (GX%<49 AND GX%>33 AND M%=0) OR (GX%<49 AND GX%>-2 AND M%=1) 
+     BEEP 20,800
+     BEEP 20,300
+    ELSEIF GX%=49 OR GX%=50 OR ((GX%=32 OR GX%=33) AND M%=0) OR ((GX%=-2 OR GX%=-3) AND M%=1)
+     X%=6
+    ELSEIF M%=0
+     BEEP 20,1500
+     BEEP 20,2500
+     S%=S%+1
+    ENDIF
+    G%=G%+1
+   ENDIF
+  ENDIF
+  
+  IF X%=4 OR X%=5
+   X%=9-X%
+  ELSEIF X%>5
+   X%=X%+1
+   IF X%>11
+    X%=6
+   ENDIF
+  ELSE
+   K%=KEY
+   IF K%=6
+    X%=X%-(X%<3)
+   ELSEIF K%=5
+    X%=X%+(X%>-3)
+   ENDIF
+  ENDIF
+  
+  IF X%=0
+   V%=V%+3
+   VY%=VY%+5*V%
+  ELSEIF X%>0
+   IF X%=3
+    V%=V%-2
+    IF V%<0
+     V%=0
+    ENDIF
+    VY%=VY%+V%
+    VX%=VX%+5*V%
+   ELSEIF X%=2
+    V%=V%-1
+    IF V%<0
+     V%=0
+    ENDIF
+    VY%=VY%+3*V%
+    VX%=VX%+4*V%
+   ELSEIF X%=1
+    V%=V%+1
+    VY%=VY%+4*V%
+    VX%=VX%+2*V%
+   ELSEIF X%=4 OR X%=5
+    V%=V%-4
+    IF V%<=0
+     GOTO END::
+    ENDIF
+    VY%=VY%+5*V%
+   ELSEIF X%>5
+    V%=V%-2
+    IF V%<=0
+     V%=0
+    ENDIF
+    VY%=VY%+5*V%
+    IF V%=0 AND X%=10
+     GOTO END::
+    ENDIF
+   ENDIF
+  ELSE
+   IF X%=-3
+    V%=V%-2
+    IF V%<0
+     V%=0
+    ENDIF
+    VY%=VY%+V%
+    VX%=VX%-5*V%
+   ELSEIF X%=-2
+    V%=V%-1
+    IF V%<0
+     V%=0
+    ENDIF
+    VY%=VY%+3*V%
+    VX%=VX%-4*V%
+   ELSEIF X%=-1
+    V%=V%+1
+    VY%=VY%+4*V%
+    VX%=VX%-2*V%
+   ENDIF
+  ENDIF
+  IF V%>100
+   X%=6
+  ENDIF
+  WHILE VY%>=100
+   VY%=VY%-100
+   GY%=GY%-1
+  ENDWH
+  WHILE VX%<=100
+   GX%=GX%+1
+   VX%=VX%+100
+  ENDWH
+  WHILE VX%>=100
+   GX%=GX%-1
+   VX%=VX%-100
+  ENDWH
+ 
+ UNTIL GY%<=0
+ IF G%>=30
+  M%=M%+1
+  IF M%=2
+   X%=4
+   T%=PEEKW($20CB)
+  ENDIF
+ ENDIF
+ F%=0
+ GY%=40
+ IF M%=0
+  IF GZ%=1
+   GX%=GX%-45
+   GZ%=2
+  ELSE
+   GX%=GX%+45
+   GZ%=1
+  ENDIF
+ ELSEIF M%=1
+  GX%=30
+ ENDIF
+GOTO LP::
+END::
+WHILE KEY :ENDWH
+PAUSE -10
+KEY
+AT 1,2
+IF X%<6
+ IF S%>0
+  PRINT "Missed ";S%;" gates.";
+ ELSE
+  PRINT "Course completed.";
+ ENDIF
+ GX%=T%/20
+ T%=(T%-20*GX%)*5
+ GY%=GX%/60
+ GX%=GX%-60*GY%
+ AT 1,3
+ PRINT "Time:";GY%;":";RIGHT$("0"+GEN$(GX%,2),2);".";RIGHT$("0"+GEN$(T%,2),2);
+ELSE
+ PRINT "You fell, and missed";S%;" of the ";G%;" gates.";
+ENDIF
+AT 1,4
+PRINT "Another game ";CHR$(63);" (Y/N)";
+DO
+ K%=ASC(UPPER$(GET$))
+UNTIL K%=%Y OR K%=%N
+IF K%=%Y
+ GOTO STRT::
+ENDIF

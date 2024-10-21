@@ -1,0 +1,16 @@
+utils:
+rem A.Grieve - 1988
+local opt%
+opt%=1
+while opt%<>0
+ opt%=menu("DIR,CRE,DEL,REN")
+ if opt%=1
+  fdir:
+ elseif opt%=2
+  create:
+ elseif opt%=3
+  delete:
+ elseif opt%=4
+  rename:
+ endif
+endwh

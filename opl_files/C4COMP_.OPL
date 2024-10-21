@@ -1,0 +1,266 @@
+C4COMP%:
+LOCAL SF%(69),S%(42)
+LOCAL A%,C%,D%,E%,F%,G%,R%,H%(4),L%,N%,O%,K%
+LOCAL D$(28),GD%,BD%,IM%
+
+AT 11,4
+PRINT "Thinking 1";
+
+REM examine fours
+A%=1
+R%=1
+DO
+C%=1
+DO
+ D%=LEN(S$(A%))
+ DO
+  F%=ASC(MID$(S$(A%),D%,1))
+  IF B%(A%)=I%
+   SF%(F%)=SF%(F%)+1
+  ELSEIF B%(A%)
+   SF%(F%)=SF%(F%)+4
+  ELSEIF A%>35 OR ASC(F$(F%))=1
+   SF%(F%)=SF%(F%)+1024
+  ELSEIF B%(A%+7)
+   SF%(F%)=SF%(F%)+1024
+  ELSEIF (R%+I%) AND 1
+   SF%(F%)=SF%(F%)+16
+  ELSE
+   SF%(F%)=SF%(F%)+128
+  ENDIF
+  D%=D%-1
+ UNTIL D%=0
+A%=A%+1
+C%=C%+1
+UNTIL C%>7
+R%=R%+1
+UNTIL R%>6
+
+AT 20,4
+PRINT "2";
+
+REM check forces
+E%=0
+C%=1
+DO
+ IF B%(C%)=0
+  A%=C%+35
+  WHILE B%(A%)<>0
+   A%=A%-7
+  ENDWH
+  G%=0
+  D%=LEN(S$(A%))
+  DO
+   F%=SF%(ASC(MID$(S$(A%),D%,1)))
+   IF F%=1027
+    IF E%<4
+     E%=4
+     D$=""
+    ENDIF
+    IF E%=4
+     D$=D$+CHR$(C%)
+     BREAK
+    ENDIF
+   ELSEIF F%=1036
+    IF E%<3
+     D$=""
+     E%=3
+    ENDIF
+    IF E%=3
+     D$=D$+CHR$(C%)
+    ENDIF
+   ELSEIF F%=2050
+    IF G% AND 1
+     IF E%<2
+      D$=""
+      E%=2
+     ENDIF
+     IF E%=2
+      D$=CHR$(C%)+D$
+     ENDIF
+    ELSE
+     G%=G% OR 1
+    ENDIF
+   ELSEIF F%=2056
+    IF G% AND 2
+     IF E%<1
+      D$=""
+      E%=1
+     ENDIF
+     IF E%=1
+      D$=D$+CHR$(C%)
+     ENDIF
+    ELSE
+     G%=G% OR 2
+    ENDIF
+   ENDIF
+   D%=D%-1
+  UNTIL D%=0
+ ENDIF
+C%=C%+1
+UNTIL C%>7
+IF D$<>""
+ C%=ASC(MID$(D$,INT(RND*LEN(D$))+1,1))
+ GOTO MV::
+ENDIF
+
+AT 20,4
+PRINT "3";
+
+REM flag threats
+F%=1
+DO
+ G%=0
+ IF (SF%(F%) AND 15)=3
+  G%=4
+ ELSEIF (SF%(F%) AND 15)=12
+  G%=8
+ ENDIF
+ IF G%
+  E%=2
+  DO
+   D%=ASC(MID$(F$(F%),E%,1))
+   IF (B%(D%) AND 3)=0
+    B%(D%)=B%(D%) OR G%
+   ENDIF
+   E%=E%+1
+  UNTIL E%>5
+ ENDIF
+ F%=F%+1
+UNTIL F%>69
+
+AT 20,4
+PRINT "4";
+
+REM Calculate scores
+A%=1
+R%=1
+DO
+ C%=1
+ DO
+  IF (B%(A%) AND 3)=0
+   IF A%<=28
+    IF (B%(A%+14) AND 3)=0
+     A%=A%+1
+     C%=C%+1
+     CONTINUE
+    ENDIF
+   ENDIF
+   H%(1)=0
+   H%(2)=0
+   H%(3)=0
+   H%(4)=0
+   E%=LEN(S$(A%))
+   DO
+    F%=ASC(MID$(S$(A%),E%,1))
+    D%=0
+    IF (SF%(F%) AND 12)=0
+     D%=SF%(F%) AND 3
+     IF D%<>3
+      D%=D%+D%+1
+      G%=0
+     ELSE
+      D%=0
+     ENDIF
+    ELSEIF (SF%(F%) AND 3)=0
+     D%=(SF%(F%) AND 12)/2
+     IF D%<>6
+      D%=D%+7
+      G%=1
+     ELSE
+      D%=0
+     ENDIF
+    ENDIF
+    IF D%
+     GD%=(SF%(F%) AND 112)/16
+     BD%=(SF%(F%) AND 896)/128
+     IM%=(SF%(F%) AND 7168)/1024
+     IF A%>35
+      IM%=IM%-1
+     ELSEIF B%(A%+7) AND 3
+      IM%=IM%-1
+     ELSEIF (R%+I%) AND 1
+      GD%=GD%-1
+     ELSE
+      BD%=BD%-1
+     ENDIF
+     L%=ASC(F$(F%))
+     N%=SA%(D%+1-G%)*GD%+SA%(D%+G%)*BD%+SA%(D%)*IM%
+     IF H%(L%)<N%
+      H%(L%)=N%
+     ENDIF
+    ENDIF
+    E%=E%-1
+   UNTIL E%=0
+   S%(A%)=H%(1)+H%(2)+H%(3)+H%(4)
+  ENDIF
+  A%=A%+1
+  C%=C%+1
+ UNTIL C%>7
+ R%=R%+1
+UNTIL R%>6
+
+AT 20,4
+PRINT "5";
+
+REM Compare moves 
+D$=""
+G%=-32768
+C%=1
+DO
+ IF (B%(C%) AND 3)=0
+  A%=C%+35
+  WHILE (B%(A%) AND 3)<>0
+   A%=A%-7
+  ENDWH
+  F%=2*S%(A%)
+  IF A%>7
+   F%=F%-S%(A%-7)
+   IF B%(A%-7) AND 8
+    F%=F%-20000
+   ELSEIF B%(A%-7) AND 4
+    F%=F%-10000
+    IF A%>14
+     IF B%(A%) AND 4
+      F%=F%+20000
+     ENDIF
+    ENDIF
+   ENDIF
+  ENDIF
+  IF F%>G%
+   G%=F%
+   D$=""
+  ENDIF
+  IF F%=G%
+   D$=D$+CHR$(C%)
+  ENDIF
+ ENDIF
+ C%=C%+1
+UNTIL C%>7
+C%=INT(RND*LEN(D$))+1
+C%=ASC(MID$(D$,C%,1))
+
+AT 20,4
+PRINT "6";
+
+REM Reset flags
+A%=1
+DO
+ B%(A%)=B%(A%) AND 3
+ A%=A%+1
+UNTIL A%>42
+
+DO
+ K%=ASC(UPPER$(KEY$))
+ IF K%=%H
+  J%=3
+ ELSEIF K%=%M OR K%=%B
+  J%=I%
+ ELSEIF K%=%A
+  AN%=NOT AN%
+ ELSEIF K%=%S
+  SN%=NOT SN%
+ ENDIF
+UNTIL K%=0
+MV::
+RETURN C4MOVE%:(C%)

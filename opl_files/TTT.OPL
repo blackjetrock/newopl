@@ -1,0 +1,27 @@
+TTT:
+GLOBAL F$(76,5),S$(64,7)
+GLOBAL A$(2,19),B%(64)
+GLOBAL SA%(5),I%,J%,SN%
+GLOBAL M$(64),M%,P%
+LOCAL A%
+
+TTTINIT1:
+DO
+ TTTINIT2:
+ I%=1
+ J%=1
+ L::
+ DO
+  TTTPRT:
+  IF I% AND J%
+   A%=TTTHUM%:
+  ELSE
+   A%=TTTCOMP%:
+  ENDIF
+ UNTIL A%
+ A%=TTTEND%:(A%)
+ IF A%=2
+  TTTUNMOV:
+  GOTO L::
+ ENDIF
+UNTIL A%=0

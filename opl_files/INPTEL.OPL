@@ -1,0 +1,53 @@
+INPTEL:
+REM VOER TELEFOON NUMMER IN EN CONTROLER OP LENGTE
+REM ZET ER <SPATIES> TUSSEN VOOR BETERE LEESBAARHEID
+LOCAL tel, lengte%, tel$(18)
+lengte%=9
+DO
+   CLS
+   PRINT "**TELEFOON NUMMER***";
+   IF lengte%<>8 AND lengte%<>9 AND lengte%<>11 AND lengte%<>12
+      PRINT "AANTAL CIJFERS FOUT"
+   ENDIF
+   PRINT "TEL# "+CHR$(63)
+   INPUT tel
+   tel$=NUM$(tel,18)
+   lengte%=LEN(tel$)
+UNTIL lengte%>=7 AND lengte%<=11
+REM waarschijnlijk is maximum lengte van 10 voldoende
+
+A.tel$=GEN$(tel,11)
+
+
+REM is het geen tijdsverspilling van de waarden telkens na het invoeren te tonen?
+REM misschien kunnen onderstaande lijnen beter verwijderd worden
+IF lengte%=7 : REM 0x/XX XX XX
+   tel$= "0"+tel$
+   tel$= LEFT$(tel$,2)+" "+RIGHT$(tel$,6)
+   tel$= LEFT$(tel$,5)+" "+RIGHT$(tel$,4)
+   tel$= LEFT$(tel$,8)+" "+RIGHT$(tel$,2)
+ELSEIF lengte%=8 : REM 0x/xxx xx xx
+  tel$= "0"+tel$
+  tel$= LEFT$(tel$,2)+" "+RIGHT$(tel$,7)
+  tel$= LEFT$(tel$,6)+" "+RIGHT$(tel$,4)
+  tel$= LEFT$(tel$,9)+" "+RIGHT$(tel$,2)
+ELSEIF lengte%=9 : REM 00xx/ x xx xx xx
+  tel$= "+"+tel$
+  tel$= LEFT$(tel$,3)+" "+RIGHT$(tel$,7)
+  tel$= LEFT$(tel$,5)+" "+RIGHT$(tel$,6)
+  tel$= LEFT$(tel$,8)+" "+RIGHT$(tel$,4)
+  tel$= LEFT$(tel$,11)+" "+RIGHT$(tel$,2)
+ELSEIF lengte%=10 : REM 00xx/0xx/xx xx xx
+  tel$= "+"+tel$
+  tel$= LEFT$(tel$,3)+" "+RIGHT$(tel$,8)
+  tel$= LEFT$(tel$,5)+" "+RIGHT$(tel$,7)
+  tel$= LEFT$(tel$,9)+" "+RIGHT$(tel$,4)
+  tel$= LEFT$(tel$,12)+" "+RIGHT$(tel$,2)
+ELSE : REM lengte%=11 REM 00xx/x xxx xx xx
+  tel$= "+"+tel$
+  tel$= LEFT$(tel$,3)+" "+RIGHT$(tel$,10)
+  tel$= LEFT$(tel$,7)+" "+RIGHT$(tel$,7)
+  tel$= LEFT$(tel$,10)+" "+RIGHT$(tel$,4)
+  tel$= LEFT$(tel$,13)+" "+RIGHT$(tel$,2)
+
+ENDIF

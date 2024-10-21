@@ -1,0 +1,38 @@
+KEYCHG:
+LOCAL R%,K%,A%,C%,N%
+R%=PEEKW($2065)
+CLS
+WHILE PEEKW(R%)=$4D52 AND PEEKW(R%+2)<>$4B79
+ R%=R%+PEEKW(R%+4)
+ENDWH
+IF PEEKW(R%)=$4D52 AND PEEKW(R%+2)=$4B79
+ K%=0
+ DO
+  CLS
+  IF K%=0
+   PRINT "Key to change";CHR$(63)
+   PRINT "ON to quit.";
+  ELSE
+   C%=PEEKB(R%+A%+12)
+   PRINT "Key:";CHR$(K%);" Chr:";CHR$(C%),C%
+   PRINT "MODE to change.";
+  ENDIF
+  N%=ASC(UPPER$(GET$))
+  IF N%=2 AND K%<>0
+   PRINT CHR$(15);"ASCII code:";
+   TRAP INPUT C%
+   IF C%>=32 AND C%<=255
+    POKEB R%+A%+12,C%
+   ENDIF
+  ELSEIF N%<>1
+   C%=LOC("H NE  CDLXMRZFTSAGB",CHR$(N%))
+   IF C%<>0 AND N%<>32
+    A%=C%
+    K%=N%
+   ENDIF
+  ENDIF
+ UNTIL N%=1
+ RETURN
+ENDIF
+PRINT "TSR not found";CHR$(16);
+GET

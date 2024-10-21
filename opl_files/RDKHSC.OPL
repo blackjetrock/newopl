@@ -1,0 +1,17 @@
+rdkhsc:(TITLE$,N1$,N2$,FN$,SC%)
+REM LZ procedure
+LOCAL K%
+
+IF SC%>=0
+ K%=HISCOR:(FN$,SC%)
+ENDIF
+loop::
+IF K%=1 OR K%=%S
+ RETURN K%
+ENDIF
+K%=REDKEY:(TITLE$,N1$,N2$)
+IF K%=1 OR K%=%S
+ RETURN K%
+ENDIF
+K%=HISCOR:(FN$,-1)
+GOTO loop::

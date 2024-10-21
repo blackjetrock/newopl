@@ -1,0 +1,26 @@
+list:
+rem A.Grieve - 1988
+global array%,opt%,file$(20,10),menu$(200)
+array%=1
+menu$=dir$("a")
+while menu$<>""
+ file$(array%)=mid$(menu$,3,len(menu$)-2)
+ if menu$<>"A:MAIN"
+  array%=array%+1
+ endif
+ menu$=dir$("")
+endwh
+opt%=1
+while opt%<array%
+ menu$=menu$+file$(opt%)+","
+ opt%=opt%+1
+endwh
+menu$=menu$+"OFF"
+while opt%<>0
+ opt%=menu(menu$)
+ if opt%=array%
+  off
+ elseif opt%<>0
+  edit:(file$(opt%))
+ endif
+endwh

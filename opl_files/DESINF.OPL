@@ -1,0 +1,9 @@
+DESINF:
+LOCAL A$(5),INF1$(255),INF2$(255)
+A$="  "+CHR$(1)+CHR$(2)+CHR$(1)
+CLS :PRINT"-UDG Help file-"
+INF1$="Cursor keys move Cursor - MODE: Pixel set/reset - C: Clear UDG - D: Save/Load UDG - F: Flip North/South - H: Help - I: Invert pixels set to reset, reset to set -"
+INF2$=" M: Mirror flip East/West - N: Display byte values - Q: QUIT"+A$
+VIEW(2,INF1$+INF2$)
+CLS :PRINT CHR$(N%)
+RETURN

@@ -1,0 +1,46 @@
+ALTER:
+LOCAL m%, g$(1), d$(1), found%
+DO
+   CLS
+   m%= MENUN(2,"NAAM,FIRMA,GSM,TEL,EMAIL,XMAIL,ADRES,VERJ,OPM,UPDATE")
+   IF m%=1
+      CLS
+      PRINT "*****Edit Naam******"
+      EDIT A.naam$
+   ELSEIF m%=2
+      CLS
+      PRINT"*Edit Bedrijfsnaam**"
+      EDIT A.bedrijf$   
+   ELSEIF m%=3
+      CLS
+      PRINT "**Edit GSM nummer***"
+      EDIT A.gsm$
+   ELSEIF m%=4
+      CLS
+      PRINT "**Edit tel nummer***"
+      EDIT A.tel$
+   ELSEIF m%=5
+      inpeml:
+   ELSEIF m%=6
+      inpxml:
+   ELSEIF m%=7
+      CLS
+      PRINT "*****Edit Adres*****";
+      PRINT "Edit Straat en Nr"
+      EDIT A.straat$
+      inppcde:
+   ELSEIF m%=8
+      CLS
+      PRINT "** Edit Verjaardag**";
+      PRINT "Formaat jjjjmmdd"
+      EDIT A.verjrdg$
+   ELSEIF m%=9
+      CLS
+      PRINT "**Edit opmerkingen**"
+      EDIT A.opm$
+   ELSEIF m%=10
+      USE A
+      UPDATE
+   ENDIF
+   CLS
+UNTIL m%=10 OR m%=0 

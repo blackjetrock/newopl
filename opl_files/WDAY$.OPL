@@ -1,0 +1,2 @@
+wday$:(d%)
+return strip$:(mid$("Mon   Tues  WednesThurs Fri   Satur Sun   ",d%*6+1,6))

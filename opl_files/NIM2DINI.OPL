@@ -1,0 +1,24 @@
+NIM2DINI:
+LOCAL A%,B$(3,3),B%,C%
+B$(1)=CHR$(14)+CHR$(17)+CHR$(14)
+B$(2)=CHR$(14)+CHR$(31)+CHR$(14)
+B$(3)=CHR$(0)+CHR$(0)+CHR$(0)
+A%=0
+DO
+ POKEB $180,64+8*A%
+ B%=INT(A%/3)+1
+ C%=1
+ DO
+  POKEB $181,ASC(MID$(B$(B%),C%,1))
+  C%=C%+1
+ UNTIL C%=4
+ POKEB $181,0
+ B%=A%-(B%-1)*3+1
+ C%=1
+ DO
+  POKEB $181,ASC(MID$(B$(B%),C%,1))
+  C%=C%+1
+ UNTIL C%=4
+ POKEB $181,0
+ A%=A%+1
+UNTIL A%=8

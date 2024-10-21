@@ -1,0 +1,67 @@
+C4END%:(E%)
+LOCAL B$(3,7),A%,C%,R%,D%
+UDG 2,14,17,14,0,0,0,0,0
+UDG 5,14,31,14,0,0,0,0,0
+B$(1)=A$(1)
+B$(2)=A$(2)
+B$(3)=A$(3)
+AT 12,3
+IF E%=-2
+ PRINT " Draw";
+ELSEIF E%>0
+
+PRINT CHR$(3+(4 AND I%=1));" won"
+A%=2
+DO
+ D%=ASC(MID$(F$(E%),A%,1))
+ R%=(D%+6)/7
+ C%=D%-7*(R%-1)
+ IF R% AND 1
+  R%=(R%+1)/2
+  D%=ASC(MID$(B$(R%),C%,1))
+  D%=D%-D%/3*3
+ ELSE
+  R%=(R%+1)/2
+  D%=ASC(MID$(B$(R%),C%,1))
+  IF D%<2
+   D%=32
+  ELSE
+   D%=D%/3*3-1
+  ENDIF
+ ENDIF
+ B$(R%)=LEFT$(B$(R%),C%-1)+CHR$(D%)+RIGHT$(B$(R%),7-C%)
+ A%=A%+1
+UNTIL A%>5
+ENDIF
+
+A%=0
+DO
+ AT 10,4
+ IF A%
+  PRINT "Again (Y/N)";
+  AT 2,1
+  PRINT A$(1);
+  AT 2,2
+  PRINT A$(2);
+  AT 2,3
+  PRINT A$(3);
+ ELSE
+  PRINT "           ";
+  AT 2,1
+  PRINT B$(1);
+  AT 2,2
+  PRINT B$(2);
+  AT 2,3
+  PRINT B$(3);
+ ENDIF
+ PAUSE 2
+ IF A%
+  C%=ASC(UPPER$(KEY$))
+ ENDIF
+ IF SN% 
+  BEEP 5,1000+500*A%
+ ENDIF
+ A%=NOT A%
+UNTIL C%=%Y OR C%=%N OR C%=1 OR C%=%B
+
+RETURN (1 AND C%=%Y)+(2 AND C%=%B)

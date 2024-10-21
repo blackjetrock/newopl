@@ -1,0 +1,97 @@
+PRECED:
+Global A$(30)
+GLOBAL P%
+LOCAL G$(20)
+LOCAL G%,X%,Z%
+
+REM OPEN "A:Pdata",A,Nam$,No$
+FIRST
+
+NXREC::
+CLS
+
+E$="Ed"
+PDisp:
+
+Rem Edit
+IF D%=%E
+P%=POS
+PEDITR:
+
+GOTO NXREC::
+
+Rem Next
+ELSEIF D%=%F or D%=13
+NEXT :REM Bep:(2)
+IF EOF :FIRST :ENDIF
+GOTO NXREC::
+
+Rem Back
+ELSEIF D%=%B
+Back
+IF POS=1 :LAST :ENDIF
+GOTO NXREC::
+
+Rem First
+ELSEIF D%=4
+FIRST
+GOTO NXREC::
+
+Rem Last
+ELSEIF D%=3
+LAST
+GOTO NXREC::
+
+Rem Search
+ELSEIF D%=%S
+SEAR::
+CLS :FIRST :G$=""
+PRINT"Search Item: ";CHR$(63)
+AT 1,2 :INPUT G$
+IF G$="" :GOTO NXREC:: :ENDIF
+NXSEA::
+G%=FIND(G$)
+
+Rem Item Not Found
+IF G%=0
+CLS :PRINT"Item ";G$ :AT 1,2 :PRINT"Not Found";CHR$(33)
+KEY:(2)
+FIRST
+LP2::
+
+Rem Re Search
+CLS :PRINT"New Search (Y/N)"
+G%=GET :IF G%=%Y :GOTO SEAR:: :ELSE GOTO NXREC:: :ENDIF
+
+ELSE
+IF A$<>A.Nam$
+PDisp:
+Cls :Print A.Nam$
+at 1,2 :PRINT"Ed Record (Y/N)";CHR$(63)
+G%=GET
+IF G%=%Y
+PEDITR:
+Endif :ENDIF :ENDIF
+
+Rem Continue Search
+CLS :PRINT"Continue Search"
+at 6,2 : Print"(Y/N)"
+G%=GET
+
+
+Rem Dont Search
+IF G%=%N
+GOTO LP2::
+ENDIF
+
+NEXT
+GOTO NXSEA::
+
+Rem Quit
+ELSEIF D%=1 OR D%=%Q
+REM CLOSE
+RETURN
+EndIf
+
+Rem Loop Again
+Goto NxRec::

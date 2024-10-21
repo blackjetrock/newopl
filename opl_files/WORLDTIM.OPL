@@ -1,0 +1,27 @@
+WORLDTIM:
+GLOBAL c$(20),n$(1),t%,hr%,x%,v%
+IF EXIST ("a:tim")
+OPEN "a:tim",A,c$,t%
+ELSE CREATE "a:tim",A,c$,t%
+FIRST
+a.c$="UK TIME"
+a.t%=0
+APPEND
+ENDIF
+CLS
+LAST
+IF M0>POS OR M0<1
+BEEP 50,100
+PRINT"M0 Out of Range"
+PRINT"OVERRIDE Y/N";
+IF UPPER$(GET$)="Y"
+M0=1
+ELSE CLOSE :RETURN
+ENDIF
+ENDIF
+REM *Display*
+POSITION (M0)
+wtimedis:
+CLOSE
+RETURN
+

@@ -1,0 +1,39 @@
+MSTRSET:
+LOCAL M%,A%
+NM%=0
+NC%=0
+SC%=0
+SM%=0
+A%=2
+DO
+ CLS
+ PRINT " Cl:";LEFT$("0123456789",CL%+1);LEFT$("        ",9-CL%)
+ PRINT " Hl:";LEFT$("123456",HL%);LEFT$("     ",6-HL%);
+ PRINT " Gs:";GS%;
+
+ IF A%=3
+  AT 11,2
+ ELSE
+  AT 1,A%
+ ENDIF
+ PRINT CHR$(126);
+ M%=GET
+ IF M%>=3 AND M%<=4
+  A%=A%+(M%=3)-(M%=4)
+  A%=A%+(3 AND A%=0)-(3 AND A%=4)
+ ELSEIF M%=5
+  IF A%=1
+   CL%=CL%-1+(9 AND CL%=1)
+  ELSEIF A%=3
+   GS%=GS%-1+(18 AND GS%=3)
+  ELSE HL%=HL%-1+(5 AND HL%=2)
+  ENDIF
+ ELSEIF M%=6
+  IF A%=1
+   CL%=CL%+1-(9 AND CL%=9)
+  ELSEIF A%=3
+   GS%=GS%+1-(18 AND GS%=20)
+  ELSE HL%=HL%+1-(5 AND HL%=6)
+  ENDIF
+ ENDIF
+UNTIL M%=1 OR M%=13

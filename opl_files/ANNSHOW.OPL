@@ -1,0 +1,28 @@
+annshow:
+REM Source: ANNSHOW.OPL
+REM Version 1.1
+REM Shows all entries in dbase$ in a neat way
+REM (C) OCT 1998 LRS
+REM L.R.Sluijk@student.utwente.nl
+
+REM& EXTERNAL dbase$
+LOCAL rec%,j%,k%,l%
+
+rec%=1 :k%=-1
+WHILE (k%<>1) AND (COUNT)
+ POSITION rec% :j%=2
+ DO
+  l%=MIN(13,LOC(A.event$,"(")-2)
+  IF l%<1 :l%=13 :ENDIF
+  AT 1,j% :PRINT CHR$(26);LEFT$(A.event$,l%)
+  IF NOT EOF :AT 15,j% :PRINT MID$(A.date$,7,2),UPPER$(MONTH$(VAL(MID$(A.date$,5,2)))) :ENDIF
+  NEXT :j%=j%+1
+ UNTIL j%>4 REM OR EOF
+ k%=GET
+ IF k%=3 :rec%=rec%-1
+ ELSEIF k%=4 AND rec%<COUNT :rec%=rec%+1
+ ELSEIF k%=5 :rec%=rec%-3
+ ELSEIF k%=6 :rec%=rec%+3
+ ENDIF
+ IF rec%<1 :rec%=1 :ELSEIF rec%>COUNT :rec%=rec%+(k%=4)+3*(k%=6) :ENDIF
+ENDWH

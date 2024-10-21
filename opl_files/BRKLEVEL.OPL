@@ -1,0 +1,76 @@
+brklevel:(LV%)
+REM LZ procedure
+REM Old globals: A$(),P%,B%,Q%,T%
+LOCAL A%,X%,Y%,C$(2,1),B$(80)
+
+A%=%A-1
+DO
+ A%=A%+1
+ IF A%=%D
+  CLS
+  PRINT "NO FILE ""BREAKOUT""";CHR$(16)
+  GET
+  RETURN 1
+ ENDIF
+UNTIL EXIST(CHR$(A%)+":BREAKOUT")
+OPEN CHR$(A%)+":BREAKOUT",A,N$,A$,B$,C$,D$,E$,F$,G$,H$,P%,B%,Q%,T%
+IF LV%>COUNT
+ CLOSE
+ RETURN 1
+ENDIF
+CLS
+AT 7,2
+PRINT "LEVEL",LV%
+POSITION LV%
+A$(1)=A.A$
+A$(2)=A.B$
+A$(3)=A.C$
+A$(4)=A.D$
+A$(5)=A.E$
+A$(6)=A.F$
+A$(7)=A.G$
+A$(8)=A.H$
+Y%=1
+DO
+ A$(Y%)=A$(Y%)+REPT$(" ",20-LEN(A$(Y%)))
+ Y%=Y%+1
+UNTIL Y%=9
+Y%=1
+DO
+ X%=1
+ DO
+  C$(1)=MID$(A$(Y%),X%,1)
+  C$(2)=MID$(A$(Y%+1),X%,1)
+  IF C$(1)>="0" AND C$(1)<="9"
+   B$=B$+C$(2)
+   A$(Y%)=LEFT$(A$(Y%),X%-1)+CHR$(65-98+(24 AND C$(1)="0")+2*ASC(C$(1)))+RIGHT$(A$(Y%),20-X%)
+   A$(Y%+1)=LEFT$(A$(Y%+1),X%-1)+CHR$(66+(24 AND C$(1)="0")-98+2*ASC(C$(1)))+RIGHT$(A$(Y%+1),20-X%)
+  ELSE
+   IF C$(1)>="a"
+    C$(1)=" "
+   ENDIF
+   IF C$(2)>="a"
+    C$(2)=" "
+   ENDIF
+   C$(1)=CHR$(97 AND ASC(C$(1)))
+   C$(2)=CHR$(97 AND ASC(C$(2)))
+   A%=LOC(CHR$(64)+"A"+CHR$(64)+"  A",C$(1)+C$(2))
+   IF A%=0
+    CLS
+    PRINT "ERROR.  ";C$(1);C$(2),ASC(C$(1)),ASC(C$(2))
+    GET
+    STOP
+   ENDIF
+   B$=B$+MID$(CHR$(1)+CHR$(0)+CHR$(3)+" "+CHR$(2),A%,1)
+  ENDIF
+  X%=X%+1
+ UNTIL X%=21
+ Y%=Y%+2
+UNTIL Y%=9
+P%=A.P%
+B%=A.B%
+Q%=A.Q%
+T%=A.T%
+CLOSE
+CLS
+PRINT B$;

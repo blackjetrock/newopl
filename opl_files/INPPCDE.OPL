@@ -1,0 +1,42 @@
+INPPCDE:
+REM INPUT POSTCODE AND CITYNAME IN B.pcode$ en B.gemeent$
+REM CREATE NEW IF NOT EXISTS
+
+LOCAL pcode$(6), found%, g$(1)
+CLS
+PRINT "******POSTCODE******";
+PRINT "Postcode"+CHR$(63)
+KSTAT 3
+INPUT pcode$
+USE B
+FIRST
+IF FIND(pcode$)
+   CLS
+   A.pcode$= B.pcode$
+   PRINT "Is "+B.pcode$+" "
+   PRINT B.gemeent$
+   PRINT "Juist J/n"+CHR$(63)
+   g$= GET$
+   IF g$="n" OR g$="N"
+      REM POSTCODE# CAN BE WRONG
+      CLS
+      PRINT "******POSTCODE******":
+      PRINT "Input postcode"
+      INPUT B.pcode$
+      A.pcode$ = B.pcode$
+      CLS
+      PRINT "******GEMEENTE******";
+      INPUT B.gemeent$
+   ENDIF
+ELSE
+   CLS
+   KSTAT 2
+   PRINT "******POSTCODE******";
+   PRINT "Voer gemeente in"
+   INPUT input$
+   uplowchr:
+   B.gemeent$= input$
+   B.pcode$= pcode$
+   A.pcode$= pcode$
+   APPEND
+ENDIF

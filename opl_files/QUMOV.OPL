@@ -1,0 +1,24 @@
+QUMOV:
+IF MID$(A$,P%,1)<>"O" OR P%=1
+ RETURN -1
+ENDIF
+IF MID$(A$,P%-1,1)<>"O"
+ A$=LEFT$(A$,P%-2)+"O"+MID$(A$,P%-1,1)+RIGHT$(A$,16-P%)
+ P%=P%-1
+ GOTO PR::
+ENDIF
+IF P%=2
+ RETURN -1
+ENDIF
+IF MID$(A$,P%-2,1)="O"
+ RETURN -1
+ENDIF
+A$=LEFT$(A$,P%-3)+"OO"+MID$(A$,P%-2,1)+RIGHT$(A$,16-P%)
+P%=P%-2
+S%=NOT(S%)
+PR::
+CLS
+PRINT A$
+AT P%,2
+PRINT CHR$(94);
+RETURN 0

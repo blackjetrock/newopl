@@ -1,0 +1,194 @@
+BOMBER:
+LOCAL H%(20),A$(4,20),U%,X%,Y%,XB%,YB%,UB%,S%,P%
+LOCAL A%,B%,C%,G%(8),A
+
+UDG 0,0,0,0,0,0,0,31,21
+UDG 1,0,0,0,0,31,21,31,21
+UDG 2,0,0,31,21,31,21,31,21
+UDG 3,31,21,31,21,31,21,31,21
+
+DO
+S%=0
+P%=8
+AG::
+A$(1)=""
+A$(2)=""
+A$(3)=""
+A$(4)=""
+CLS
+PRINT
+PRINT "Generating cityscape";
+AT 5,4
+PRINT "Please wait"
+IF S%
+ AT 7,3
+ PRINT "Score:";S%
+ENDIF
+A%=1
+DO
+ IF A%>1
+  A=RND
+  H%(A%)=(A*A)*13
+ ELSE
+  H%(A%)=0
+ ENDIF
+ B%=H%(A%)
+ C%=4
+ WHILE B%>=4
+  A$(C%)=A$(C%)+CHR$(3)
+  C%=C%-1
+  B%=B%-4
+ ENDWH
+ IF B%>0
+  A$(C%)=A$(C%)+CHR$(B%-1)
+  C%=C%-1
+ ENDIF
+ WHILE C%>=1
+  A$(C%)=A$(C%)+" "
+  C%=C%-1
+ ENDWH
+ A%=A%+1
+UNTIL A%=21
+
+PRINT A$(1);A$(2);A$(3);A$(4);CHR$(14);"Press a key to start";
+WHILE KEY :ENDWH
+GET
+PRINT CHR$(14);A$(1);
+X%=20
+XB%=0
+Y%=1
+U%=-1
+DO
+ PAUSE P%
+ IF KEY
+  IF XB%=0
+   XB%=X%
+   YB%=Y%
+   UB%=U%
+  ENDIF
+ ENDIF
+ AT X%,Y%
+ PRINT MID$(A$(Y%),X%,1);
+ X%=X%+1
+ IF X%>20 
+  X%=1
+  U%=U%+1
+  IF U%>3
+   U%=0
+   Y%=Y%+1
+   IF Y%=5
+    P%=P%+(P%>2)
+    S%=S%+100
+    GOTO AG::
+   ENDIF
+  ENDIF
+ ENDIF
+ A%=H%(X%)-4*(4-Y%)
+ IF A%>0
+  G%(8)=21
+  G%(7)=31
+ ELSE
+  G%(8)=0
+  G%(7)=0
+ ENDIF
+ IF A%>1
+  G%(6)=21
+  G%(5)=31
+ ELSE
+  G%(6)=0
+  G%(5)=0
+ ENDIF
+ IF A%>2
+  G%(4)=21
+  G%(3)=31
+ ELSE
+  G%(4)=0
+  G%(3)=0
+ ENDIF   
+ IF A%>3
+  G%(2)=21
+  G%(1)=31
+ ELSE
+  G%(2)=0
+  G%(1)=0
+ ENDIF
+ G%(U%+U%+1)=22
+ G%(U%+U%+2)=31
+ UDG 4,G%(1),G%(2),G%(3),G%(4),G%(5),G%(6),G%(7),G%(8)
+ AT X%,Y%
+ PRINT CHR$(4);
+
+ IF XB%
+  AT XB%,YB%
+  PRINT MID$(A$(YB%),XB%,1);
+  UB%=UB%+1
+  IF UB%>3
+   UB%=0
+   YB%=YB%+1
+  ENDIF
+  IF H%(XB%)+YB%*4+UB%>=20
+   IF H%(XB%)<>0
+    H%(XB%)=H%(XB%)-1
+    AT XB%,YB%
+    IF H%(XB%) AND 3
+     A%=(H%(XB%) AND 3)-1
+    ELSE A%=32
+    ENDIF
+    PRINT CHR$(A%);
+    A$(YB%)=LEFT$(A$(YB%),XB%-1)+CHR$(A%)+RIGHT$(A$(YB%),20-XB%)
+    S%=S%+1
+   ENDIF
+   XB%=0
+  ELSE
+   A%=H%(XB%)-4*(4-YB%)
+   IF A%>0
+    G%(8)=21
+    G%(7)=31
+   ELSE
+    G%(8)=0
+    G%(7)=0
+   ENDIF
+   IF A%>1
+    G%(6)=21
+    G%(5)=31
+   ELSE
+    G%(6)=0
+    G%(5)=0
+   ENDIF
+   IF A%>2
+    G%(4)=21
+    G%(3)=31
+   ELSE
+    G%(4)=0
+    G%(3)=0
+   ENDIF   
+   IF A%>3
+    G%(2)=21
+    G%(1)=31
+   ELSE
+    G%(2)=0
+    G%(1)=0
+   ENDIF
+   G%(UB%+UB%+1)=14
+   G%(UB%+UB%+2)=0
+   UDG 5,G%(1),G%(2),G%(3),G%(4),G%(5),G%(6),G%(7),G%(8)
+   AT XB%,YB%
+   PRINT CHR$(5);
+  ENDIF
+ ENDIF
+UNTIL Y%*4+U%+H%(X%)>=20
+AT 1,1
+PRINT "Again? Y/N Score:";S%
+PAUSE 5
+WHILE KEY :ENDWH
+DO
+ PAUSE 3
+ AT X%,Y%
+ PRINT MID$(A$(Y%),X%,1);
+ PAUSE 3
+ AT X%,Y%
+ PRINT CHR$(4);
+ A%=KEY
+UNTIL A%=%Y OR A%=%N
+CLS
+UNTIL A%<>%Y

@@ -1,0 +1,99 @@
+EXPLMOV:(MR%,MC%,PL%)
+REM LZ procedure
+REM Externals: K%,F%()
+LOCAL NN%,I%,EF%,HE%(16),E%(16),R%,C%,CHN%
+
+I%=MR%*K%+MC%-K%
+F%(I%)=F%(I%)+PL%
+NN%=-(MR%>1)-(MC%>1)-(MC%<K%)-(MR%<K%)
+IF ABS(F%(I%))<NN%
+ EXPLPR:
+ RETURN
+ENDIF
+E%(I%)=1
+CHN%=0
+DO
+ EXPLPR:
+ PAUSE 5
+ REM Flash exploding squares
+ R%=1
+ DO
+  I%=1
+  DO
+   IF E%(I%)<>0
+    AT I%-(I%-1)/K%*K%,(I%-1)/K%+1
+    PRINT " ";
+   ENDIF
+   I%=I%+1
+  UNTIL I%>K%*K%
+  EXPLPR:
+  R%=R%+1
+ UNTIL R%=6
+ REM Distribute exploding squares
+ I%=1
+ DO
+  IF E%(I%)
+   E%(I%)=0
+   R%=(I%-1)/K%
+   C%=I%-R%*K%
+   R%=R%+1
+   NN%=(R%>1)+(C%>1)+(R%<K%)+(C%<K%)
+   F%(I%)=PL%*(ABS(F%(I%))+NN%)
+   IF R%>1
+    F%(I%-K%)=PL%*ABS(F%(I%-K%))+PL%
+   ENDIF
+   IF R%<K%
+    F%(I%+K%)=PL%*ABS(F%(I%+K%))+PL%
+   ENDIF
+   IF C%>1
+    F%(I%-1)=PL%*ABS(F%(I%-1))+PL%
+   ENDIF
+   IF C%<K%
+    F%(I%+1)=PL%*ABS(F%(I%+1))+PL%
+   ENDIF
+  ENDIF
+  I%=I%+1
+ UNTIL I%>16
+ REM Find new exploding squares
+ EF%=0
+ R%=1
+ I%=1
+ DO
+  C%=1
+  DO
+   IF ABS(F%(I%))>=-(R%>1)-(C%>1)-(R%<K%)-(C%<K%)
+    EF%=1
+    E%(I%)=1
+    HE%(I%)=1
+   ENDIF
+   I%=I%+1
+   C%=C%+1
+  UNTIL C%>K%
+  R%=R%+1
+ UNTIL R%>K%
+ REM Check for chain reaction
+ IF CHN%=0
+  I%=1
+  R%=0
+  DO
+   R%=R%+HE%(I%)
+   I%=I%+1
+  UNTIL I%>K%*K%
+  CHN%=(5 AND R%=K%*K%)
+ ELSE
+  CHN%=CHN%-1
+ ENDIF
+UNTIL CHN%=1 OR EF%=0
+IF CHN%=1
+ RETURN 1
+ENDIF
+EXPLPR:
+REM Check if opponent wiped out
+I%=1
+DO
+ IF PL%*F%(I%)>-1
+  RETURN 0
+ ENDIF
+ I%=I%+1
+UNTIL I%=17
+RETURN 2

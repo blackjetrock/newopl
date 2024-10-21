@@ -1,0 +1,65 @@
+annupd:
+REM Source: ANNUPD.OPL
+REM Version 1.3
+REM Updates anniversary entries in file A:ANNIV to selected year
+REM (C) NOV 1997 LRS
+REM L.R.Sluijk@student.utwente.nl
+REM Revised OCT 1998
+
+REM& EXTERNAL dbase$
+LOCAL c%,i%,d%,m%,f%,yr%,del$(9)
+
+REM Find mother's/father's day in dbase$ and delete if found
+FIRST :i%=0 :del$="Moederdag" :REM Change string if necessary
+WHILE NOT (EOF OR i%=2)
+ f%=FIND(del$)
+ IF f% :i%=i%+1 :ERASE :BACK :del$="Vaderdag" :REM Change string if necessary
+ ELSE :NEXT
+ ENDIF
+ENDWH
+
+REM Ask user for year
+FIRST :i%=0 :c%=COUNT :yr%=YEAR
+PRINT "Updating database"
+PRINT "to year"
+AT 12,4 :PRINT "^"
+DO
+ AT 9,3 :PRINT yr%
+ f%=GET
+ IF f%=1 :RETURN :ENDIF
+ yr%=yr%-(f%=3)+(f%=4)
+ IF yr%<1900 :yr%=2155 :ELSEIF yr%>2155 :yr%=1900 :ENDIF
+UNTIL f%=13
+
+REM Start update
+AT 1,3 :PRINT "Record no.   /";c%
+WHILE i%<c%
+ i%=i%+1
+ AT 12,3 :PRINT NUM$(i%,-2)
+ AT 1,4 :PRINT LEFT$(A.event$,20);CHR$(26)
+ A.date$=NUM$(yr%,4)+MID$(A.date$,5,12)
+ UPDATE :FIRST
+ENDWH
+
+REM Calculate Mother's & Father's day
+REM Mother's day is 2nd Sunday in May (i%=2 (2nd Sunday), m%=5 (May))
+REM Father's day is 3rd Sunday in June (i%=3 (3rd Sunday), m%=6 (June))
+CLS :CLOCK(1) :PRINT CHR$(0);REPT$(CHR$(2),13)
+i%=0 :d%=1 :m%=5
+DO
+ AT 1,2 :PRINT "Calc",MID$("mofa",-(m%=5)-3*(m%=6),2);"ther's day"
+ IF DOW(d%,m%,yr%)=7
+  i%=i%+1
+  IF i%=2 AND m%=5 :REM Mother's day
+   A.date$=NUM$(yr%,4)+"05"+REPT$("0",-(d%<10))+NUM$(d%,2)+"07000100" :REM Change time, interval, alarm if necessary
+   A.event$="Moederdag" :REM Change string if necessary
+   APPEND
+   i%=0 :d%=0 :m%=6
+  ELSEIF i%=3 AND m%=6 :REM Father's day
+   A.date$=NUM$(yr%,4)+"06"+REPT$("0",-(d%<10))+NUM$(d%,2)+"07000100" :REM Change time, interval, alarm if necessary
+   A.event$="Vaderdag" :REM Change string if necessary
+   APPEND
+  ENDIF
+ ENDIF
+ d%=d%+1
+UNTIL i%>=3

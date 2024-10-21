@@ -1,0 +1,23 @@
+PRTFILE:
+LOCAL T%,A$(255),A%
+
+OPEN "A:MAIN",A,X$
+T%=$1839
+WHILE NOT(EOF)
+ A$=USR$(ADDR(T%),PEEKW($2016))
+ A%=LOC(A$,CHR$(9))
+ WHILE A%
+  LPRINT LEFT$(A$,A%-1);
+  LPRINT   :REM end of field here
+  A$=MID$(A$,A%+1,255)
+  A%=LOC(A$,CHR$(9))
+ ENDWH
+ IF A$<>""
+  LPRINT A$;
+  LPRINT   :REM end of final field here
+ ENDIF
+ LPRINT   :REM end of record here
+ NEXT
+ENDWH
+CLOSE
+LPRINT CHR$(26);  :REM end of file here

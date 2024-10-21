@@ -1,0 +1,4 @@
+DIST:(LAT1,LON1,LAT2,LON2)
+local temp
+temp=lon2-lon1
+RETURN 60*acos:(SIN(RAD(LAT1))*SIN(RAD(LAT2))+COS(RAD(LAT1))*COS(RAD(LAT2))*COS(RAD(temp)))

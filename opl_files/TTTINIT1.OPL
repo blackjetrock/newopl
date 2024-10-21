@@ -1,0 +1,71 @@
+TTTINIT1:
+LOCAL X%,Y%,F%
+LOCAL A1%,A2%,A3%
+
+CLS
+PRINT "Please wait...."
+
+F%=1
+A1%=1
+A2%=1
+A3%=1
+Y%=1
+DO
+X%=1
+DO
+ F$(F%)=CHR$(2)+CHR$(A1%)+CHR$(A1%+16)+CHR$(A1%+32)+CHR$(A1%+48)
+ F$(F%+1)=CHR$(2)+CHR$(A2%)+CHR$(A2%+4)+CHR$(A2%+8)+CHR$(A2%+12)
+ F$(F%+2)=CHR$(2)+CHR$(A3%)+CHR$(A3%+1)+CHR$(A3%+2)+CHR$(A3%+3)
+ F%=F%+3
+ A1%=A1%+1
+ A2%=A2%+1
+ A3%=A3%+4
+X%=X%+1
+UNTIL X%>4
+A2%=A2%+12
+Y%=Y%+1
+UNTIL Y%>4
+
+A1%=1
+A2%=1
+A3%=1
+X%=1
+DO
+ F$(F%)=CHR$(1)+CHR$(A1%)+CHR$(A1%+20)+CHR$(A1%+40)+CHR$(A1%+60)
+ F$(F%+1)=CHR$(1)+CHR$(A1%+12)+CHR$(A1%+24)+CHR$(A1%+36)+CHR$(A1%+48)
+ F$(F%+2)=CHR$(1)+CHR$(A2%)+CHR$(A2%+17)+CHR$(A2%+34)+CHR$(A2%+51)
+ F$(F%+3)=CHR$(1)+CHR$(A2%+3)+CHR$(A2%+18)+CHR$(A2%+33)+CHR$(A2%+48)
+ F$(F%+4)=CHR$(1)+CHR$(A3%)+CHR$(A3%+5)+CHR$(A3%+10)+CHR$(A3%+15)
+ F$(F%+5)=CHR$(1)+CHR$(A3%+3)+CHR$(A3%+6)+CHR$(A3%+9)+CHR$(A3%+12)
+ F%=F%+6
+ A1%=A1%+1
+ A2%=A2%+4
+ A3%=A3%+16
+ X%=X%+1
+UNTIL X%>4
+
+F$(F%)=CHR$(0)+CHR$(1)+CHR$(22)+CHR$(43)+CHR$(64)
+F$(F%+1)=CHR$(0)+CHR$(4)+CHR$(23)+CHR$(42)+CHR$(61)
+F$(F%+2)=CHR$(0)+CHR$(13)+CHR$(26)+CHR$(39)+CHR$(52)
+F$(F%+3)=CHR$(0)+CHR$(16)+CHR$(27)+CHR$(38)+CHR$(49)
+F%=F%+3
+
+A1%=F%
+DO
+Y%=2
+DO
+ X%=ASC(MID$(F$(A1%),Y%,1))
+ S$(X%)=S$(X%)+CHR$(A1%)
+Y%=Y%+1
+UNTIL Y%>5
+A1%=A1%-1
+UNTIL A1%=0
+
+UDG:
+SA%(1)=1
+SA%(2)=20
+SA%(3)=35
+SA%(4)=15
+SA%(5)=25
+SN%=-1
+CLS

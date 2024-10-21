@@ -1,0 +1,41 @@
+FILES:
+Rem Files XP is a sophisticated File
+Rem examination program which provides
+Rem function not built into the Psion XP.
+Rem Updated 08/96!
+LOCAL A%,D%,N%,A$(1),B$(1),C$(10),D$(10),E$(1),f$(255),G$(3)
+A%=1 :G$="ABC"
+DO
+BEEP 100,200
+A$=MID$(G$,A%,1) :B$=A$
+E$=A$
+LP1::
+f$=""
+CLS :PRINT"Pack ";
+ONERR NOPAK::
+D$=DIR$(A$)
+IF D$<>""
+PRINT D$ :at 1,2 :Print"Working!"
+C$=RIGHT$(D$,LEN(D$)-2)
+OPEN E$+":"+C$,A,M$
+LAST
+D%=POS :N%=0 :DO
+N%=N%+RECSIZE
+AT 1,2 :Print chr$(15);"Size: ";N%
+BACK
+D%=D%-1 :UNTIL D%=0 :Last
+F$=f$+"No. records: "+Num$(POS,4)+" - File size: "+Num$(N%,7)+" bytes.  -oOo-"
+view(2,f$)
+CLOSE
+A$=""
+GOTO LP1::
+ENDIF
+LP2::
+A%=A%+1
+UNTIL A%>len(g$)
+RETURN
+NOPAK::
+IF ERR=246
+CLS :PRINT"Pack ";A$;" absent";CHR$(33)
+GET :A$="" :GOTO LP2::
+ENDIF

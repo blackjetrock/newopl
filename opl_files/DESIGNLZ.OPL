@@ -1,0 +1,154 @@
+DESIGN:
+GLOBAL U$(26,64),U%,BT%(5)
+LOCAL K%,M%,AU%,A%,B%,C%,X%,Y%
+ESCAPE OFF
+DESINIT:
+M%=4
+AU%=ADDR(U$())+1
+C%=0
+X%=1
+Y%=0
+U%=1
+DESDEF:
+L::
+CLS
+IF M%=2
+ PRINT CHR$(0);CHR$(1);CHR$(255)
+ PRINT CHR$(2);CHR$(3);CHR$(255)
+ PRINT CHR$(4);CHR$(5);CHR$(255)
+ PRINT CHR$(6);CHR$(7);CHR$(255)
+ELSEIF M%=3
+ PRINT CHR$(0);CHR$(1);CHR$(2);CHR$(255)
+ PRINT CHR$(3);CHR$(4);CHR$(5);CHR$(255)
+ PRINT CHR$(6);CHR$(7);CHR$(255);CHR$(255)
+ PRINT CHR$(255);CHR$(255);CHR$(255);
+ELSEIF M%=4
+ PRINT CHR$(0);CHR$(1);CHR$(2);CHR$(3);CHR$(255)
+ PRINT CHR$(4);CHR$(5);CHR$(6);CHR$(7);CHR$(255)
+ PRINT CHR$(255);CHR$(255);CHR$(255);CHR$(255);CHR$(255);
+ENDIF
+
+A%=0
+DO
+ AT 6+A%*3,2
+ PRINT PEEKB(AU%+A%);
+ AT 6+A%*3,3
+ PRINT PEEKB(AU%+A%+4);
+A%=A%+1
+UNTIL A%=4
+
+DO
+ A%=2
+ DO
+  B%=PEEKB(AU%+Y%)
+  B%=(B% OR BT%(X%))-(B% AND BT%(X%))
+  POKEB AU%+Y%,B%
+  UDG C%,PEEKB(AU%),PEEKB(AU%+1),PEEKB(AU%+2),PEEKB(AU%+3),PEEKB(AU%+4),PEEKB(AU%+5),PEEKB(AU%+6),PEEKB(AU%+7)
+  A%=A%-1
+ UNTIL A%=0
+ AT 6,1
+ PRINT X%,Y%,C%,CHR$(%A+U%-1);
+ 
+ K%=KEY
+ IF K%=3
+  IF Y%>0
+   Y%=Y%-1
+  ELSE
+   Y%=7
+   C%=C%-M%
+   AU%=AU%-8*M%
+   IF C%<0
+    IF M%<>3
+     C%=C%+8
+     AU%=AU%+64
+    ELSEIF C%=-1
+     C%=C%+6
+     AU%=AU%+48
+    ELSE
+     C%=C%+9
+     AU%=AU%+72
+    ENDIF
+   ENDIF
+   GOTO L::
+  ENDIF
+ ELSEIF K%=4
+  IF Y%<7
+   Y%=Y%+1
+  ELSE
+   Y%=0
+   C%=C%+M%
+   AU%=AU%+8*M%
+   IF C%>7
+    IF M%<>3
+     C%=C%-8
+     AU%=AU%-64
+    ELSEIF C%=8
+     C%=C%-6
+     AU%=AU%-48
+    ELSE
+     C%=C%-9
+     AU%=AU%-72
+    ENDIF
+   ENDIF
+   GOTO L::
+  ENDIF
+ ELSEIF K%=5
+  IF X%>1
+   X%=X%-1
+  ELSE
+   X%=5
+   IF C%/M%*M%<>C%
+    C%=C%-1
+    AU%=AU%-8
+   ELSEIF M%<>3
+    C%=C%+M%-1
+    AU%=AU%+(M%-1)*8
+   ELSEIF C%=6
+    C%=7
+    AU%=AU%+8
+   ELSE
+    C%=C%+2
+    AU%=AU%+16
+   ENDIF
+   GOTO L::
+  ENDIF
+ ELSEIF K%=6
+  IF X%<5
+   X%=X%+1
+  ELSE
+   X%=1
+   C%=C%+1
+   AU%=AU%+8
+   IF C%/M%*M%=C%
+    C%=C%-M%
+    AU%=AU%-M%*8
+   ELSEIF C%=8
+    C%=6
+    AU%=AU%-16
+   ENDIF
+   GOTO L::
+  ENDIF
+ ELSEIF K%=2
+  M%=M%+1-(3 AND M%=4)
+  GOTO L::
+ ELSEIF K%=13
+  B%=PEEKB(AU%+Y%)
+  B%=(B% OR BT%(X%))-(B% AND BT%(X%))
+  POKEB AU%+Y%,B%
+  GOTO L::
+ ELSEIF K%>=%A AND K%<=%Z
+  U%=K%-64
+  AU%=ADDR(U$())+65*U%-64
+  DESDEF:
+  GOTO L::
+ ELSEIF K%
+  B%=LOC("<>()%/="+CHR$(34)+"789*,$456-;:123+0.",CHR$(K%))
+  IF B%
+   U$(U%)=U$(B%)
+   DESDEF:
+   GOTO L::
+  ENDIF
+ ENDIF
+UNTIL K%=1
+DESOUTIT:
+ESCAPE ON

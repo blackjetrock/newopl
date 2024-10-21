@@ -1,0 +1,59 @@
+INPVRJD:
+REM VOER VERJAARDAG in A.verjrdg$
+LOCAL d%, m%, j, dmax%, verj$(20), g%, inp$(2)
+j=0
+
+DO
+   CLS
+   PRINT "*****VERJAARDAG*****";
+   PRINT "Geboortejaar"+CHR$(63)+" of 0"
+   INPUT j
+UNTIL j<=YEAR 
+A.verjrdg$= GEN$(j,4)
+
+DO
+   CLS
+   PRINT "*****VERJAARDAG*****"   
+   PRINT "Maand 1-12"+CHR$(63)
+   INPUT m%
+UNTIL m%>0 AND m%<=12
+inp$= GEN$(m%,2)
+IF LEN(inp$) = 1
+   inp$= "0"+inp$
+ENDIF
+A.verjrdg$= A.verjrdg$+inp$
+
+REM BEPAAL MAX AANTAL DAGEN IN MAAND
+IF     m%=1 OR m%=3 OR m%=5 OR m%=7 OR m%=8 OR m%=10 OR m%=12
+   dmax%=31
+ELSEIF m%=4 OR m%=6 OR m%=9 OR m%=11
+   dmax%=30
+ELSE
+   IF    (j/4)>INT(j/4)
+      dmax%=28
+   ELSE 
+      dmax%=29
+   ENDIF
+ENDIF
+REM inp$= GEN$(d%,2)
+REM IF LEN(inp$) = 1
+REM    inp$= "0"+inp$
+REM ENDIF
+REM A.verjrdg$= A.verjrdg$+inp$
+
+DO
+   CLS
+   PRINT "*****VERJAARDAG*****"
+   PRINT "Dag 1-"+GEN$(dmax%,2)+CHR$(63)
+   INPUT d%
+UNTIL d%>0 AND d%<=dmax%
+inp$=GEN$(d%,2)
+IF LEN(inp$)=1
+   inp$= "0"+inp$
+ENDIF
+A.verjrdg$= A.verjrdg$+inp$
+
+CLS
+PRINT
+PRINT "*****VERJAARDAG*****"
+verj$= GEN$(d%,2)+"/"+GEN$(m%,2)+"/"+GEN$(j,4)

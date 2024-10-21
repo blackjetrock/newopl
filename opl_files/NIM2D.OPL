@@ -1,0 +1,37 @@
+NIM2D:
+GLOBAL A$(4,4),M$(1),P$(1),S%
+AGN::
+NIM2DINI:
+P$="X"
+M$="O"
+A$(1)=REPT$(P$,4)
+A$(2)=A$(1)
+A$(3)=A$(2)
+A$(4)=A$(3)
+S%=16
+NIM2DBRD:
+L::
+AT 6,1
+PRINT "Player1";
+NIM2DHUM:
+IF S%=0
+ CLS
+ PRINT "Player 1 wins";
+ GOTO END::
+ENDIF
+AT 6,1
+PRINT "Player2";
+NIM2DHUM:
+IF S%<>0
+ GOTO L::
+ENDIF
+CLS
+PRINT "Player 2 wins";
+END::
+PRINT CHR$(15);"Again? (Y/N)";
+DO
+ S%=ASC(UPPER$(GET$))
+ IF S%=%Y
+  GOTO AGN::
+ ENDIF
+UNTIL S%=%N OR S%=1

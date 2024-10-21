@@ -1,0 +1,85 @@
+HXCLEVL:(X,O%,A$)
+LOCAL B,A%,B$(255),C%,D%,E%,O1%,X1
+O1%=O%
+X1=X
+IF A$=""
+ RAISE 228
+ENDIF
+B$=UPPER$(A$)
+WHILE B$<>""
+ WHILE LEFT$(B$,2)="--"
+  B$=RIGHT$(B$,LEN(B$)-2)
+ ENDWH
+ A%=1
+ IF LEFT$(B$,1)="-"
+  A%=2
+ ENDIF
+ E%=A%
+ IF MID$(B$,A%,1)="("
+  D%=0
+  WHILE A%<=LEN(B$)
+   C%=ASC(MID$(B$,A%,1))
+   IF C%=%(
+    D%=D%+1
+   ELSEIF C%=%)
+    D%=D%-1
+    IF D%=0
+     BREAK
+    ENDIF
+   ENDIF
+   A%=A%+1
+  ENDWH
+  IF D%<>0
+   RAISE 227
+  ENDIF
+  B=HXCLEVL:(0.,%+,MID$(B$,E%+1,A%-E%-1))
+  IF E%>1
+   B=-B
+  ENDIF
+  A%=A%+1
+ ELSE
+  WHILE A%<=LEN(B$)
+   C%=ASC(MID$(B$,A%,1))
+   IF (C%>=%0 AND C%<=%9) OR (M% AND C%>=%A AND C%<=%F)
+    A%=A%+1
+   ELSE
+    BREAK
+   ENDIF
+  ENDWH
+  IF A%=E%
+   RAISE 228
+  ENDIF
+  IF M%
+   B=HXVAL:(LEFT$(B$,A%-1))
+  ELSE
+   B=VAL(LEFT$(B$,A%-1))
+  ENDIF
+ ENDIF
+ IF A%<LEN(B$)
+  C%=ASC(MID$(B$,A%,1))
+  IF (C%=%* OR C%=%/) AND (O1%=%+ OR O1%=%-)
+   B=HXCLEVL:(B,C%,RIGHT$(B$,LEN(B$)-A%))
+   A%=LEN(B$)
+  ENDIF
+ ELSEIF A%=LEN(B$)+1
+  A%=LEN(B$)
+ ELSE
+  RAISE 228
+ ENDIF
+ IF O1%=%+
+  X1=X1+B
+ ELSEIF O1%=%-
+  X1=X1-B
+ ELSEIF O1%=%*
+  X1=X1*B
+ ELSEIF O1%=%/
+  X1=INTF(X1/B)
+ ELSEIF O1%=%)
+  RAISE 227
+ ELSE
+  RAISE 228
+ ENDIF
+ B$=RIGHT$(B$,LEN(B$)-A%)
+ O1%=C%
+ENDWH
+RETURN X1

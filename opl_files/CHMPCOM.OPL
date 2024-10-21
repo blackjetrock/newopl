@@ -1,0 +1,56 @@
+CHMPCOM:
+LOCAL A%,B%,C%,D%,E%
+
+A%=CHMPEVL%:
+B%=A% AND 31
+A%=A%/32
+
+D%=B%(4)+3+(17-B%(4) AND B%(4)>17)
+E%=D%+1
+DO
+ E%=E%-1
+ C%=1
+ DO
+  AT E%,C%
+  PRINT CHR$(255);
+  C%=C%+1
+ UNTIL C%>A%
+ PAUSE 3
+UNTIL E%=B%
+
+C%=1
+DO
+ IF B%(C%)>=B%
+  B%(C%)=B%-1
+ ENDIF
+ C%=C%+1
+UNTIL C%>A%
+
+B$(1)=""
+IF B%(1)>0
+B$(1)=REPT$(CHR$(0),B%(1)-1)+CHR$(1)
+ENDIF
+C%=2
+DO
+ B$(C%)=""
+ IF B%(C%)>0
+  IF B%(C%)>B%(C%-1)
+   B$(C%)=RIGHT$(REPT$(CHR$(4),B%(C%-1))+CHR$(3)+REPT$(CHR$(0),B%(C%)-B%(C%-1)-1)+CHR$(1),B%(C%))
+  ELSE B$(C%)=REPT$(CHR$(4),B%(C%)-1)+CHR$(2)
+  ENDIF
+ ENDIF
+C%=C%+1
+UNTIL C%=5
+C%=1
+DO
+ AT 1,C%
+ PRINT B$(C%);
+ C%=C%+1
+UNTIL C%=5
+C%=A%
+DO
+ PAUSE 3
+ AT B%,C%
+ PRINT REPT$(" ",D%-B%+1);
+ C%=C%-1
+UNTIL C%=0

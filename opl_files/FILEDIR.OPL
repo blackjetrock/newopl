@@ -1,0 +1,46 @@
+FILEDIR:
+LOCAL F$(10),D$(1),C$(1),D%
+C$=CHR$(15)
+ONERR ER::
+DO
+  D%=D%+1
+  D$=CHR$(D%+64)
+  CLS
+  PRINT "DEVICE",D$;": FILES"
+  F$=DIR$(D$)
+  IF F$=""
+    AT 1,2
+    PRINT C$;" ==== NONE ===="
+    BEEP 50,250
+    GET
+    CONTINUE
+  ENDIF
+  AT 1,2
+  PRINT C$," ",F$
+  BEEP 50,400
+  GET
+  WHILE F$<>""
+    F$=DIR$("")
+    IF F$=""
+      AT 1,2
+      PRINT C$;"=== NO MORE ==="
+      BEEP 50,250
+      GET
+    ELSE AT 1,2
+      PRINT C$," ",F$
+      BEEP 50,400
+      GET
+    ENDIF
+  ENDWH
+  GOTO NX::
+  ER::
+  IF ERR=246
+    AT 1,2
+    PRINT C$;"*** NO PACK ***"
+    BEEP 50,250
+    GET
+  ELSE ONERR OFF
+    RAISE ERR
+  ENDIF
+  NX::
+UNTIL D%=3

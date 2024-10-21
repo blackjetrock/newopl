@@ -1,0 +1,141 @@
+ROW:
+REM CM/XP procedure
+LOCAL WINO%,BRD$(16),K%,SC%(16),WINX%,D%,F%,P%,CO%,CE%,S%,ML$(16)
+
+Loop::
+P%=1
+BRD$="................"
+Strt::
+CLS
+PRINT "Who goes first";CHR$(63)
+PRINT "(C/H)"
+K%=GET
+IF K%<>%H AND K%<>%C
+ GOTO Strt::
+ELSEIF K%=%C
+ P%=INT(RND*16)+1
+ BRD$=LEFT$(BRD$,P%-1)+"O"+RIGHT$(BRD$,16-P%)
+ENDIF
+WINO%=0
+WINX%=0
+Hum::
+CLS
+PRINT BRD$
+AT P%,2
+PRINT CHR$(94)
+K%=GET
+IF K%=13 AND MID$(BRD$,P%,1)="."
+ GOTO Mov::
+ELSEIF K%=5
+ P%=(P%-1) AND 15
+ELSEIF K%=6
+ P%=(P%+1) AND 15
+ENDIF
+IF P%=0
+ P%=16
+ELSEIF P%=17
+ P%=1
+ENDIF
+GOTO Hum::
+
+Mov::
+BRD$=LEFT$(BRD$,P%-1)+"X"+RIGHT$(BRD$,16-P%)
+CLS
+PRINT BRD$
+P%=1
+DO
+ SC%(P%)=0
+ P%=P%+1
+UNTIL P%=17
+D%=1
+DO
+ F%=1
+ DO
+  CO%=0
+  CE%=0
+  P%=F%
+  DO
+   AT 2,1
+   IF MID$(BRD$,P%,1)="O"
+    CO%=CO%+1
+   ELSEIF MID$(BRD$,P%,1)="."
+    CE%=CE%+1
+   ENDIF
+   P%=P%+D%
+  UNTIL P%>F%+3*D%
+  S%=0
+  IF CO%=0
+   S%=(15 AND CE%=3)+(100 AND CE%=2)+(200 AND CE%=1)
+   IF CE%=0
+    WINO%=1
+   ENDIF
+  ELSEIF CO%+CE%=4
+   S%=(1 AND CE%=4)+(2 AND CE%=3)+(20 AND CE%=2)+(500 AND CE%=1)
+   IF CE%=1
+    WINX%=1
+   ENDIF
+  ENDIF
+  P%=F%
+  DO
+   SC%(P%)=SC%(P%)+S%
+   IF MID$(BRD$,P%,1)<>"."
+    SC%(P%)=-1
+   ENDIF
+   P%=P%+D%
+  UNTIL P%>F%+3*D%
+  F%=F%+1
+ UNTIL F%>16-3*D%
+ D%=D%+1
+UNTIL D%=5
+S%=-1
+ML$=""
+D%=0
+P%=1
+DO
+ IF SC%(P%)=S%
+  ML$=ML$+CHR$(P%)
+  D%=D%+1
+ ELSEIF SC%(P%)>S%
+  D%=D%+1
+  ML$=CHR$(P%)
+  S%=SC%(P%)
+ ENDIF
+ P%=P%+1
+UNTIL P%>16
+IF S%=0 OR ML$=""
+ GOTO Draw::
+ELSEIF WINO%=1
+ AT 1,2
+ PRINT "You win"
+ GET
+ GOTO Agn::
+ENDIF
+P%=ASC(MID$(ML$,INT(RND*LEN(ML$))+1,1))
+BRD$=LEFT$(BRD$,P%-1)+"O"+RIGHT$(BRD$,16-P%)
+CLS
+PRINT BRD$
+IF WINX%=1
+ AT 1,2
+ PRINT "I win"
+ GET
+ GOTO Agn::
+ELSEIF D%=1
+ GOTO Draw::
+ENDIF
+GOTO Hum::
+
+Draw::
+AT 1,2
+PRINT "A draw"
+GET
+
+Agn::
+CLS
+PRINT "Play again";CHR$(63)
+PRINT "(Y/N)"
+K%=GET
+IF K%=%Y
+ GOTO Loop::
+ELSEIF K%<>%N
+ GOTO Agn::
+ENDIF

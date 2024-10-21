@@ -1,0 +1,105 @@
+BRKGAME:
+REM LZ procedure
+REM Old globals: Q%,P%,H%,I%,A$(),J%,T%,B%
+LOCAL L1%,L2%,L3%,L4%,L5%,L6$(2),L7%,L8%
+
+L7%=1
+L8%=2000
+L6$=CHR$(8)+CHR$(10)
+IF Q%=0
+ L3%=2*INT(2*RND)-1
+ELSEIF Q%=P%
+ L3%=(P%>=11)-(P%<=10)
+ELSE
+ L3%=(Q%>P%)-(Q%<P%)
+ENDIF
+L1%=P%
+L2%=H%+2*RND
+L4%=(L2%=7)-(L2%=0)
+IF L4%=0
+ L4%=2*INT(RND*2)-1
+ENDIF
+GOTO Lab2::
+DO
+ KSTAT 1
+ PAUSE 3
+ IF L1%<>P%
+  L5%=KEY
+  IF L5%=7
+   RETURN 1
+  ELSEIF L5%=I% AND H%>0
+   IF MID$(A$(H%),P%,1)=" "
+    A$(H%+2)=LEFT$(A$(H%+2),P%-1)+" "+RIGHT$(A$(H%+2),20-P%)
+    A$(H%)=LEFT$(A$(H%),P%-1)+"O"+RIGHT$(A$(H%),20-P%)
+    H%=H%-1
+    AT P%,H%/2+1
+    IF H% AND 1
+     PRINT CHR$(2+(MID$(A$(H%),P%,1)<>" "));L6$;CHR$(3);
+    ELSE
+     PRINT CHR$(0);L6$;CHR$(32-(30 AND MID$(A$(H%+4),P%,1)<>" "));
+    ENDIF
+   ENDIF
+  ELSEIF L5%=J% AND H%<6
+   IF MID$(A$(H%+3),P%,1)=" "
+    AT P%,H%/2+1
+    H%=H%+1
+    A$(H%)=LEFT$(A$(H%),P%-1)+" "+RIGHT$(A$(H%),20-P%)
+    A$(H%+2)=LEFT$(A$(H%+2),P%-1)+"O"+RIGHT$(A$(H%+2),20-P%)
+    IF H% AND 1
+     PRINT CHR$(2);L6$;CHR$(3-(2 AND MID$(A$(H%+3),P%,1)<>" "));
+    ELSE
+     PRINT CHR$(32-(29 AND MID$(A$(H%-1),P%,1)<>" "));L6$;CHR$(0);
+    ENDIF
+   ENDIF
+  ENDIF
+ ENDIF
+Lab3::
+ IF L2%=0
+  L4%=1
+  BEEP L7%,L8%
+ ELSEIF L2%=7
+  L4%=-1
+  BEEP L7%,L8%
+ ELSEIF MID$(A$(L2%+L4%+1),L1%,1)<>" "
+  IF L1%<>P% OR L2%+L4%<H% OR L2%+L4%>H%+1
+   BRKSTON:(L1%,L2%+L4%,L4%)
+  ENDIF
+  L4%=-L4%
+  BEEP L7%,L8%
+ ENDIF
+ IF L1%<>Q%
+  IF L1%=1 OR L1%=20
+   L3%=-L3%
+   BEEP L7%,L8%
+  ELSEIF MID$(A$(L2%+1),L1%+L3%,1)<>" "
+   IF L1%+L3%<>P% OR L2%<H% OR L2%>H%+1
+    BRKSTON:(L1%+L3%,L2%,0)
+   ENDIF
+   L3%=-L3%
+   BEEP L7%,L8%
+  ENDIF
+  IF MID$(A$(L2%+1+L4%),L1%+L3%,1)<>" "
+   IF L1%+L3%<>P% OR L2%+L4%>H%+1 OR L2%+L4%<H%
+    BRKSTON:(L1%+L3%,L2%+L4%,0)
+   ENDIF
+   L4%=-L4%
+   L3%=-L3%
+   BEEP L7%,L8%
+   GOTO Lab3::
+  ENDIF
+ ENDIF
+ AT L1%,L2%/2+1
+ L5%=ASC(MID$(A$(1+(L2% OR 1)-(L2% AND 1)),L1%,1))
+ PRINT CHR$(L5%+(2-L5%+(L2% AND 1) AND L5%<>32));
+ IF L1%=Q%
+  RETURN
+ ENDIF
+Lab2::
+ L1%=L1%+L3%
+ L2%=L2%+L4%
+ AT L1%,L2%/2+1
+ L5%=ASC(MID$(A$(1+(L2% OR 1)-(L2% AND 1)),L1%,1))
+ PRINT CHR$(4+(L2% AND 1)+(2 AND (L5% AND 32)<>0));
+ T%=T%+1
+UNTIL B%=0 OR T%=0 OR T%=32780.
+RETURN 1

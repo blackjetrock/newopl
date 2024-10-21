@@ -1,0 +1,40 @@
+SNTID%:
+REM ---------------------------
+REM - Håkan Wallenthin KZ
+REM - Datum : 92-05-11
+REM - Sets the Daylight-saving
+REM - flag according to the
+REM - current date.
+REM --------------------------
+
+local Dat%,Vdag%,Ds%
+
+REM WINTERTIME
+Ds%=0
+
+if MONTH>=4 and MONTH<9
+  REM SUMMERTIME
+  Ds%=128
+elseif MONTH=3
+  Dat%=32
+  do
+    Dat%=Dat%-1
+    VDag%=DOW(Dat%,3,YEAR)
+  until VDag%=7
+  if DAY>=Dat%
+    REM SUMMERTIME
+    Ds%=128
+  endif
+elseif MONTH=9
+  Dat%=31
+  do
+    Dat%=Dat%-1
+    VDag%=DOW(Dat%,9,YEAR)
+  until VDag%=7
+  if DAY<Dat%
+    REM SUMMERTIME
+    Ds%=128
+  endif
+endif
+
+POKEB $20A6,(PEEKB($20A6) AND 127) + Ds%

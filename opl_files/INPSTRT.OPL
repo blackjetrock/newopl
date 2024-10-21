@@ -1,0 +1,9 @@
+INPSTRT:
+KSTAT 2
+CLS
+PRINT "**STRAAT EN NUMMER**";
+PRINT "Straat en Nr"+CHR$(63)
+INPUT input$
+uplowchr:
+A.straat$= input$
+

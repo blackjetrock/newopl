@@ -1,0 +1,36 @@
+C4UNMOVE:
+LOCAL A%,R%,C%,S%
+
+IF M%=1
+ RETURN
+ENDIF
+M%=M%-1
+C%=ASC(MID$(M$,M%,1))
+
+I%=3-I%
+IF J%<>3
+ J%=I%
+ENDIF
+
+A%=C%
+R%=1
+WHILE B%(A%)=0
+ A%=A%+7
+ R%=R%+1
+ENDWH
+
+B%(A%)=0
+
+IF R% AND 1
+ S%=B%(A%+7)-1
+ELSE
+ S%=32
+ENDIF
+A%=(R%+1)/2
+A$(A%)=LEFT$(A$(A%),C%-1)+CHR$(S%)+RIGHT$(A$(A%),7-C%)
+
+IF AN%
+ C4ANIM2:(R%,C%)
+ENDIF
+AT 2,A%
+PRINT A$(A%);

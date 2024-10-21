@@ -1,0 +1,79 @@
+FIFTEEN:
+LOCAL BD%(16),X%,Y%
+LOCAL U%(64),A%,B%,K%,C%,O%
+
+A%=1
+B%=1
+DO
+ U%(A%)=VAL(MID$("00030714122824242424281214070300313100151212121212121215000031310024283106070303030307311428240000000028121212121212122800000000",B%,2))
+ A%=A%+1
+ B%=B%+2
+UNTIL A%>64
+
+A%=1
+DO
+ BD%(A%)=A%-1
+ A%=A%+1
+UNTIL A%>16
+
+X%=15
+C%=0
+
+CLS
+DO
+ POKEB $180,64
+ A%=1
+ DO
+  B%=BD%(A%)*4+1
+  POKEB $181,U%(B%)
+  POKEB $181,U%(B%+1)
+  POKEB $181,U%(B%+2)
+  POKEB $181,U%(B%+3)
+  B%=BD%(A%+1)*4+1
+  POKEB $181,U%(B%)
+  POKEB $181,U%(B%+1)
+  POKEB $181,U%(B%+2)
+  POKEB $181,U%(B%+3)
+  A%=A%+2
+ UNTIL A%>16
+ AT 1,1
+ PRINT CHR$(0);CHR$(2);CHR$(4);CHR$(6)
+ PRINT CHR$(1);CHR$(3);CHR$(5);CHR$(7);
+ A%=-1
+ IF C%>0
+  M::
+  C%=C%-1
+  DO
+   K%=3+RND*4
+  UNTIL K%<>O%
+ ELSE
+  K%=GET
+ ENDIF
+ IF K%=3 AND (X% AND 3)<>3
+  A%=X%
+  X%=X%+1
+  O%=4
+ ELSEIF K%=4 AND (X% AND 3)
+  A%=X%
+  X%=X%-1
+  O%=3
+ ELSEIF K%=5 AND (X% AND 12)<>12
+  A%=X%
+  X%=X%+4
+  O%=6
+ ELSEIF K%=6 AND (X% AND 12)
+  A%=X%
+  X%=X%-4
+  O%=5
+ ELSEIF C%>0
+  C%=C%+1
+  GOTO M::
+ ELSEIF K%=32
+  C%=50
+ ENDIF
+ IF A%>=0
+  B%=BD%(A%+1)
+  BD%(A%+1)=BD%(X%+1)
+  BD%(X%+1)=B%
+ ENDIF
+UNTIL K%=1

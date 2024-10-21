@@ -1,0 +1,79 @@
+ZEIT:
+REM -----------------------------------
+REM - Håkan Wallenthin KZ
+REM - Datum : 92-05-12
+REM - Sets clock from file ZEIT.DAT 
+REM - as created by S_ZEIT on PC
+REM -----------------------------------
+
+local a$(15)
+local i%,T%,X$(1)
+local Tid%(3)
+local m%(5)
+
+REM     xgdx
+REM     OS      TM$TSET         ; Time is always GMT
+REM     OS      TM$UPDT         ; Update for Sweden
+REM     LDD     #3C00           ; 60 minutes
+REM     RTS
+m%( 1)=$183F :m%( 2)=$B33F :m%( 3)=$6BCC :m%( 4)=$3C00 :m%( 5)=$3905
+
+T%=ADDR(Tid%())
+cls
+at 4,2
+print "Reading clock";
+xlcon:
+xlput:("ZEIT")
+xldis:
+xfopen:("ZEIT.DAT",0,1)
+A$=XFGET$:(13)
+xfclose:
+REM Overwrite the time that was read.
+REM This is to check that next time
+REM S_ZEIT actually runs, and no 
+REM old time is read.
+
+xfopen:("ZEIT.DAT",1,1) REM Overwrite
+XFPUT:("TOM")
+xfclose:
+if A$="TOM"
+  cls
+  at 4,2
+  print "Could not start"
+  at 4,3
+  print "   S_ZEIT !!"+chr$(16);
+  pause -50
+  return
+endif
+REM If HT_SN.CFG not on PC
+REM assume that the PC follows
+REM summer/winter time
+if left$(a$,1)="X"  REM No cfg file
+  X$="X"
+  SNTid%:
+else
+  i% = (ASC(A$)-%1) AND 1  : REM Summer or Winter time
+  POKEB $20A6,(PEEKB($20A6) AND 127) + i%*128
+endif
+A$=right$(A$,12)
+REM Store the time in Tid%
+i%=0
+do
+  pokeb T%+i%,int(val(mid$(A$,i%*2+1,2)))+(i%=1)+(i%=2)
+  i%=i%+1
+until i%=6
+REM Fix milennium bug. Assumes year is in range 2000-2099
+pokeb T%,peekb(T%)+100
+
+usr(addr(m%()),T%)
+
+REM Set the Daylight saving flag correctly
+if X$<>"X"
+  SNTID%:
+endif
+cls
+REM Quit CL
+xlcon:
+xlput:("EXIT")
+xldis:
+

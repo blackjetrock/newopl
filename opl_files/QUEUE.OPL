@@ -1,0 +1,30 @@
+QUEUE:
+GLOBAL A$(16),S%,P%
+AGN::
+A$=REPT$(".",10)+"OOOOOO"
+P%=11
+S%=-1
+LOOP::
+IF QUHUM:=0
+ RETURN
+ENDIF
+IF LEFT$(A$,6)="OOOOOO"
+ CLS
+ PRINT "I win the game"
+ GOTO END::
+ENDIF
+QUCOMP:
+IF LEFT$(A$,6)<>"OOOOOO"
+ GOTO LOOP::
+ENDIF
+CLS
+PRINT "You win the game"
+
+END::
+PRINT "Again? (Y/N)";
+DO
+ S%=ASC(UPPER$(GET$))
+ IF S%=%Y
+  GOTO AGN::
+ ENDIF
+UNTIL S%=1 OR S%=%N

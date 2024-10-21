@@ -1,0 +1,13 @@
+TTTINIT2:
+LOCAL A%
+A$(1)=REPT$("    "+CHR$(255),3)+"    "
+A$(2)=A$(1)
+
+A%=1
+DO
+ B%(A%)=0
+ A%=A%+1
+UNTIL A%>64
+M%=1
+M$=""
+P%=22

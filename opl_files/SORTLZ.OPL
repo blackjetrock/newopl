@@ -1,0 +1,4 @@
+sortlz:(file$)
+LOCAL PASS$(17),a$(6),a
+PASS$=chr$($18)+chr$($4F)+CHR$($5F)+CHR$($3F)+CHR$($AE)+CHR$($39)+CHR$(LEN(FILE$))+FILE$
+USR(ADDR(pass$),ADDR(PASS$)+7)

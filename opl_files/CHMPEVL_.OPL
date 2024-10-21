@@ -1,0 +1,83 @@
+CHMPEVL%:
+LOCAL A%,B%,C%,D%,E%,F%,Z%(4),W%(4),A$(120)
+
+D%=1
+WHILE D%<=N%
+ IF B%(1)=S%(D%) AND B%(2)=T%(D%) AND B%(3)=U%(D%) AND B%(4)=V%(D%)
+  GOTO MV::
+ ENDIF
+ D%=D%+1
+ENDWH
+
+A$=""
+A%=4
+DO
+IF B%(A%)
+ B%=1-(A%=4)
+ WHILE B%<=B%(A%)
+  Z%(1)=B%(1)
+  Z%(2)=B%(2)
+  Z%(3)=B%(3)
+  Z%(4)=B%(4)
+  C%=1
+  DO
+   IF Z%(C%)>=B%
+    Z%(C%)=B%-1
+   ENDIF
+  C%=C%+1
+  UNTIL C%>A%
+
+  D%=1
+  WHILE D%<=N%
+   IF Z%(4)>=V%(D%) AND Z%(3)>=U%(D%) AND Z%(2)>=T%(D%) AND Z%(1)>=S%(D%)
+    W%(1)=S%(D%)
+    W%(2)=T%(D%)
+    W%(3)=U%(D%)
+    W%(4)=V%(D%)
+    E%=1
+    WHILE W%(E%)=Z%(E%) AND E%<4
+     E%=E%+1
+    ENDWH
+    IF E%=4 AND W%(4)=Z%(4)
+     GOTO STR::
+    ENDIF
+    F%=W%(E%)
+    WHILE W%(E%)=F% AND E%<4
+     E%=E%+1
+    ENDWH
+    WHILE Z%(E%)=W%(E%) AND E%<4
+     E%=E%+1
+    ENDWH
+    IF E%=4 AND (W%(4)=Z%(4) OR W%(4)=F%)
+     GOTO NXT::
+    ENDIF    
+   ENDIF   
+  D%=D%+1
+  ENDWH
+  STR::
+  A$=A$+CHR$(A%)+CHR$(B%)
+ NXT::
+ B%=B%+1
+ ENDWH
+ENDIF
+A%=A%-1
+UNTIL A%=0
+IF A$=""
+ N%=N%+1
+ S%(N%)=B%(1)
+ T%(N%)=B%(2)
+ U%(N%)=B%(3)
+ V%(N%)=B%(4)
+ MV::
+ DO
+ DO
+  A%=4-INT(RND*RND*4)
+ UNTIL B%(A%)>0
+ B%=B%(A%)-INT(RND*RND*B%(A%))
+ UNTIL A%<>4 OR B%<>1 OR (B%(3)=0 AND B%(4)=1)
+ELSE
+ E%=2*INT(RND*LEN(A$)/2)+1
+ A%=ASC(MID$(A$,E%,1))
+ B%=ASC(MID$(A$,E%+1,1))
+ENDIF
+RETURN B%+A%*32

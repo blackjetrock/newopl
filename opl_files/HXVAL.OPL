@@ -1,0 +1,29 @@
+HXVAL:(A$)
+LOCAL A,A%,C%,B%
+IF A$="" OR A$="-"
+ RAISE 228
+ENDIF
+A=0
+A%=1
+B%=0
+IF ASC(A$)=%-
+ B%=1
+ A%=2
+ENDIF
+
+WHILE A%<=LEN(A$)
+ C%=ASC(UPPER$(MID$(A$,A%,1)))
+ IF C%>=%0 AND C%<=%9
+  C%=C%-%0
+ ELSEIF C%>=%A AND C%<=%F
+  C%=C%-55
+ ELSE
+  RAISE 218
+ ENDIF 
+ A=A*16+C%
+ A%=A%+1
+ENDWH
+IF B%
+ A=-A
+ENDIF
+RETURN A

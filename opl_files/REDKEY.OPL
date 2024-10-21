@@ -1,0 +1,60 @@
+redkey:(TITLE$,N1$,N2$)
+REM LZ procedure
+REM Old globals: I%,J%
+LOCAL K%
+
+start::
+CLS
+PRINT TITLE$
+IF I%<>0 AND J%<>0
+ AT 9-LEN(N1$),2
+ PRINT N1$,"-",
+ PRCHR:(I%)
+ AT 9-LEN(N2$),3
+ PRINT N2$,"-",
+ PRCHR:(J%)
+main::
+ KSTAT 1
+ K%=VIEW(4,"Press S to start, R to redefine keys, H or MODE to see the hiscores or ON to quit.")
+ WHILE K%<>%R AND K%<>%S AND K%<>1 AND K%<>%H AND K%<>2
+  KSTAT 1
+  K%=VIEW(4,"")
+ ENDWH
+ IF K%<>%R
+  RETURN K%
+ ENDIF
+ENDIF
+rkey::
+PRINT CHR$(23);CHR$(22);CHR$(15);
+AT 9-LEN(N1$),2
+PRINT N1$,"-",
+AT 9-LEN(N2$),3
+PRINT N2$,"-",CHR$(23);"Press key for ";N1$;
+DO
+ KSTAT 1
+ K%=GET
+ IF K%=1
+  GOTO start::
+ ELSEIF K%=7
+  K%=8
+ ENDIF
+UNTIL K%<=32 OR (K%>=%A AND K%<=%Z)
+AT 12,2
+PRCHR:(K%)
+I%=K%
+AT 15,4
+PRINT N2$;
+DO
+ KSTAT 1
+ K%=GET
+ IF K%=1
+  GOTO rkey::
+ ELSEIF K%=7
+  K%=8
+ ENDIF
+UNTIL K%<>I% AND (K%<=32 OR (K%>=%A AND K%<=%Z))
+AT 12,3
+PRCHR:(K%)
+PRINT CHR$(23);
+J%=K%
+GOTO main::

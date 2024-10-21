@@ -1,0 +1,78 @@
+BACRES:
+local a%(14),e$(20),d$(2),cd$(8),title$(20),f%,d%
+
+onerr error::
+title$="     BacRes 1.0"
+print chr$(24);title$;
+at 1,3 :print chr$(184),"Copyright 1990, by";
+print "N.C. Haugen Software";
+a%(1)=$363F :a%(2)=$6232 :a%(3)=$2404
+a%(4)=$C1F2 :a%(5)=$260D :a%(6)=$B120
+a%(7)=$F826 :a%(8)=$083F :a%(9)=$1725
+a%(10)=$04CE :a%(11)=$FFFF :a%(12)=$39CE
+a%(13)=$0000 :a%(14)=$3900
+if not usr(addr(a%()),$C003)
+ pause -25
+ at 1,1 :print chr$(24);title$
+ at 1,3 :print "You have to connect ";
+ print "the Comms-Link first";
+ get
+ return
+endif
+lset:(9600,0,8,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,2)
+d$="B:" :cd$="A:"
+while d$<"D:"
+ onerr off
+ trap open d$+"main",a,f$
+ if err=0
+  cd$=cd$+","+d$
+ elseif err<>246
+  onerr error::
+  raise err
+ endif
+ rem onerr error::
+ close
+ d$=chr$(asc(d$)+1)+":"
+endwh
+pause -25
+start::
+at 1,1 :print chr$(24);title$
+at 1,3 :f%=menun(2,"Backup,Restore")
+if f%=0 :return :endif
+at 1,1 :print chr$(24);title$
+at 1,3 :print "   Choose device"
+at 1,4 :d%=menun(2,cd$)
+if d%=0 :return
+else d$=chr$(%A+d%-1)+":"
+endif
+if f%=1
+ backup:(d$)
+else
+ restore:(d$)
+endif
+goto start::
+
+error::
+onerr off
+if err=194 :raise 194 :endif
+e$=err$(err)
+if err=190
+ e$="BAD PARAMETER"
+elseif err=189
+ e$="FILE NOT FOUND"
+elseif err=186
+ e$="DISK FULL"
+elseif err=188
+ e$="SERVER ERROR"
+elseif err=185
+ e$="RECORD TOO LONG"
+elseif err=187
+ e$="FILE ALREADY EXISTS"
+endif
+e$=rept$(" ",(20-len(e$))/2)+e$
+cls
+at 8,1 :print "ERROR"
+print e$
+at 1,4 :print chr$(25);"   Press a key...";
+get
+return

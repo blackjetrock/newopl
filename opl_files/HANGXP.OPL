@@ -1,0 +1,126 @@
+LZHANG:
+LOCAL W$(20),B$(20),G$(1),Y%,L%,C%,H%,F$(20),NN%,SC%,GS%,OT%,T%
+
+CLS
+PRINT"   Hangman XP"
+PRINT"  V1.1 D.Lacey"
+PAUSE 20
+
+CLS
+ESCAPE OFF
+F$=""
+GS%=0 :SC%=0
+
+NWORD::
+GS%=GS%+1
+
+nw::
+CLS
+OPEN "MAIN",A,DATA$
+LAST
+NN%=INT(RND*POS+1)
+POSITION NN%
+W$=UPPER$(A.DATA$)
+CLOSE
+
+B$=""
+WHILE LEN(W$)>LEN(B$)
+ B$=B$+CHR$(95)
+ENDWH
+
+Y%=1
+L%=LEN(W$)
+DO
+ G$=MID$(W$,Y%,1)
+ IF G$="-" OR G$=" " OR G$="*"
+  B$=LEFT$(B$,Y%-1)+G$+RIGHT$(B$,L%-Y%)
+ ENDIF
+ Y%=Y%+1
+UNTIL Y%>L%
+
+C%=0
+AT 5,1 :PRINT F$;
+DO
+ AT 1,1 :PRINT B$;
+ IF B$=W$
+  SC%=SC%+1
+  CLS
+  PRINT W$
+  PRINT"YOU GUESSED IT."
+  PAUSE 20
+  PRINT CHR$(15);"SCORE=";SC%;"/";GS%
+  PAUSE 20
+  SFX:
+  GOTO QUIT::
+ ENDIF
+ OT%=MINUTE*60+SECOND
+ DO
+  G$=UPPER$(KEY$)
+  IF G$=""
+   T%=MINUTE*60+SECOND
+   IF T%<OT% :T%=T%+3600 :ENDIF
+   IF T%-OT%>3
+    G$="-"
+   ENDIF
+  ENDIF
+ UNTIL G$<>""
+ IF G$=CHR$(1)
+  GOTO QQUIT::
+ ENDIF
+ 
+ Y%=1
+ H%=1
+ DO
+  IF G$=MID$(W$,Y%,1) AND G$<>MID$(B$,Y%,1)
+   H%=0
+   B$=LEFT$(B$,Y%-1)+G$+RIGHT$(B$,L%-Y%)
+  ENDIF
+  Y%=Y%+1
+ UNTIL Y%>L%
+ 
+ IF H%
+  IF G$<>"-"
+   AT 1,2 :PRINT G$;
+  ENDIF
+  C%=C%+1
+  AT 5,2
+  IF C%=1
+   PRINT "NINE   "
+  ELSEIF C%=2
+   PRINT "EIGHT  "
+  ELSEIF C%=3
+   PRINT "SEVEN  " :BEEP 10,10
+  ELSEIF C%=4
+   PRINT "SIX    " :BEEP 10,10
+  ELSEIF C%=5
+   PRINT "FIVE   " :BEEP 10,10
+  ELSEIF C%=6
+   PRINT "FOUR   " :BEEP 10,10  
+  ELSEIF C%=7
+   PRINT "THREE  "
+  ELSEIF C%=8
+   PRINT "TWO    " :BEEP 10,10
+  ELSEIF C%=9
+   PRINT "LAST GO" :BEEP 100,100 :BEEP 50,50
+  ENDIF
+  BEEP 20,C%*10
+ ENDIF
+UNTIL C%>9
+C%=0 :DO :BEEP 5,C%*30 :BEEP 5,1500-C%*30 :C%=C%+1 :UNTIL C%>50
+
+CLS
+PRINT "IT WAS:"
+PRINT W$
+GET
+CLS
+
+QQUIT::
+AT 1,1 :PRINT SC%;"/";GS%;"    "
+
+QUIT::
+PRINT "MORE";CHR$(63);"<Y>es <N>o)"
+G$=GET$
+IF G$<>"N" AND G$<>"n" AND G$<>"$" AND G$<>CHR$(1)
+ GOTO NWORD::
+ENDIF
+ESCAPE ON

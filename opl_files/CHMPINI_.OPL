@@ -1,0 +1,90 @@
+CHMPINI%:
+LOCAL C%,C$(10),L$(252)
+ONERR ERR::
+
+L$=""
+C$=DIR$("A:")
+WHILE C$<>""
+ IF LEN(C$)>6
+  IF LEFT$(C$,6)="A:CHMP"
+   N$=RIGHT$(C$,LEN(C$)-6)
+   L$=","+N$+L$
+  ENDIF
+ ENDIF
+ C$=DIR$("")
+ENDWH
+
+IF L$<>""
+ L$="NEWFILE    "+L$
+ L::
+ CLS
+ PRINT "FILENAME ";CHR$(63);" (ON=QUIT)";
+ C%=MENUN(2,L$)
+ IF C%=0
+  RETURN -1
+ ENDIF
+ IF C%<>1
+  DO
+  L$=RIGHT$(L$,LEN(L$)-LOC(L$,","))
+  C%=C%-1
+  UNTIL C%=1
+  N$=LEFT$(L$,LOC(L$+",",",")-1)
+  GOTO N::
+ ENDIF
+ENDIF
+
+CLS
+PRINT "FILENAME ";CHR$(63);" (ON=";
+IF L$=""
+ PRINT "QUIT)";
+ELSE PRINT "MENU)";
+ENDIF
+PRINT "(MAX 4 LETTERS)"
+N$=""
+W::
+ONERR ERR::
+DO
+AT 1,3
+TRAP EDIT N$
+PRINT CHR$(15);
+IF ERR=206
+ IF L$=""
+  RETURN -1
+ ELSE GOTO L::
+ ENDIF
+ENDIF
+UNTIL N$<>""
+N::
+IF EXIST("A:CHMP"+N$)
+ OPEN "A:CHMP"+N$,A,A$
+ELSE CREATE "A:CHMP"+N$,A,A$
+ A.A$="AAAB"
+ APPEND
+ENDIF
+
+
+N%=0
+WHILE NOT(EOF)
+ WHILE A.A$<>""
+  N%=N%+1
+  S%(N%)=ASC(LEFT$(A.A$,1))-%A
+  T%(N%)=ASC(MID$(A.A$,2,1))-%A
+  U%(N%)=ASC(MID$(A.A$,3,1))-%A
+  V%(N%)=ASC(MID$(A.A$,4,1))-%A
+  A.A$=RIGHT$(A.A$,LEN(A.A$)-4)
+ ENDWH
+NEXT
+ENDWH
+CLOSE
+CLS
+ONERR OFF
+RETURN 0
+
+ERR::
+ONERR OFF
+IF ERR=236
+ AT 1,4
+ PRINT "BAD FILE NAME";CHR$(16);
+ GOTO W::
+ENDIF
+RAISE ERR

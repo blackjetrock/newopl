@@ -1,0 +1,15 @@
+NIM2DMOV:
+LOCAL A%,B%
+A%=1
+DO
+ B%=1
+ DO
+  IF MID$(A$(A%),B%,1)=M$
+   A$(A%)=LEFT$(A$(A%),B%-1)+" "+RIGHT$(A$(A%),4-B%)
+   S%=S%-1
+  ENDIF
+  B%=B%+1
+ UNTIL B%=5
+ A%=A%+1
+UNTIL A%=5
+BORD:

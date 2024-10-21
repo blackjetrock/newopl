@@ -1,0 +1,80 @@
+hiscor:(FN$,SC%)
+REM LZ procedure
+LOCAL A%,R%,NM$(10),M$(69)
+
+IF NOT EXIST(FN$)
+ CREATE FN$,A,S%,N$
+ELSE
+ OPEN FN$,A,S%,N$
+ENDIF
+LAST
+IF SC%>=0 AND (COUNT<10 OR (COUNT=10 AND SC%>A.S%))
+ R%=0
+ DO
+  R%=R%+1
+  POSITION R%
+ UNTIL EOF OR A.S%<SC%
+ CLS
+ PRINT "YOUR SCORE IS ";SC%
+ PRINT "YOUR NAME ";CHR$(63)
+ A.S%=SC%
+ WHILE KEY
+ ENDWH
+ DO
+  AT 1,3
+  TRAP INPUT NM$
+ UNTIL ERR=0 AND NM$<>"" OR ERR=206
+ IF ERR=0
+  A.N$=NM$
+  APPEND
+  POSITION R%
+  A%=COUNT-R%
+  WHILE A%>0
+   A%=A%-1
+   POSITION R%
+   UPDATE
+  ENDWH
+ ENDIF
+ENDIF
+A%=COUNT
+IF A%>10
+ LAST
+ ERASE
+ENDIF
+CLS
+R%=R%-1
+IF R%<=0
+ R%=1
+ENDIF
+M$="Press S to play, R or MODE to see/redefine keys or ON to quit."
+Lab2::
+POSITION R%
+A%=1
+WHILE A%<4 AND NOT EOF
+ PRINT CHR$(20+A%-(6 AND A%<=1));R%+A%-1;
+ AT 4,A%+1
+ PRINT A.S%;
+ AT 11,A%+1
+ PRINT A.N$;
+ NEXT
+ A%=A%+1
+ENDWH
+Lab3::
+WHILE KEY
+ENDWH
+DO
+ A%=VIEW(1,M$)
+ M$=""
+UNTIL A%=%S OR A%=%R OR (A%>=1 AND A%<=4)
+IF A%<3 OR A%>4
+ CLOSE
+ CLS
+ RETURN A%
+ELSEIF A%=4 AND NOT EOF
+ R%=R%+1
+ GOTO Lab2::
+ELSEIF A%=3 AND R%>1
+ R%=R%-1
+ GOTO Lab2::
+ENDIF
+GOTO Lab3::

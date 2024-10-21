@@ -1,0 +1,14 @@
+TICCHK:
+LOCAL A%
+
+A%=1
+DO
+ IF BD%(W%(A%)) AND BD%(W%(A%))=BD%(W%(A%+1)) AND BD%(W%(A%+1))=BD%(W%(A%+2))
+  RETURN A%
+ ENDIF
+ A%=A%+3
+UNTIL A%>24
+
+IF M%>9
+ RETURN -1
+ENDIF

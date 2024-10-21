@@ -1,0 +1,61 @@
+dec2bin:
+ REM Decimal to binary converter written by Philip Bister, 14th June 2015
+ REM for Psion LZ organiser II or emulator.
+ REM The largest decimal number the converter can handle is 32767
+
+ LOCAL i$(5), bin$(15), n, i, i%, x%
+ CLS
+ PRINT "      DEC2BIN      "
+ PRINT "Input dec number"
+ INPUT i$
+ CLS
+ PRINT "Decimal ";i$;" = "
+
+ REM make sure the input does not exceed 32767
+ REM which is the maximum that will fit in an integer.
+ i=VAL(i$)
+ IF i<=32767 
+  REM OK
+  i%=VAL(i$)
+ ELSE
+  CLS
+  PRINT "ERROR"
+  PRINT "Max input is 32767"
+  PRINT
+  PRINT "Press any key"
+  GET
+  STOP
+ ENDIF
+
+ IF i%=0
+  REM if user entered a zero, print a zero and GOTO finish
+  PRINT i%;
+  GOTO finish::
+ ENDIF
+
+ WHILE i% >= 1
+   n=i%
+   x%=n-(INT(n/2)*2)
+   IF x%>0
+    bin$=bin$+"1"
+   ELSE
+    bin$=bin$+"0"
+   ENDIF
+   i%=i%/2  
+ ENDWH
+ 
+ REM the result in bin$ is in reverse order
+ REM so we now need to print in reverse order.
+
+ x%=LEN(bin$) 
+ WHILE x%>=1
+  PRINT MID$(bin$,x%,1);
+  x%=x%-1
+ ENDWH 
+
+ finish::
+ PRINT
+ PRINT
+ PRINT "Press any key" 
+ GET
+

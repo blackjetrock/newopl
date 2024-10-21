@@ -1,0 +1,39 @@
+DESOUTIT:
+LOCAL A%,B%,C%,L%,D$(64),A$(10)
+
+CLS
+PRINT "Saving.....";
+
+A$="A:DESIGN"
+IF EXIST(A$)
+ DELETE A$
+ENDIF
+CREATE A$,A,A$
+
+U%=1
+DO
+ IF U$(U%)<>REPT$(CHR$(0),64)
+  D$=U$(U%)
+  A%=ADDR(D$)+1
+  C%=64
+  L%=65
+  DO
+   B%=PEEKB(A%)+%0
+   IF B%>%9
+    B%=B%+7
+   ENDIF
+   POKEB A%,B%
+   IF B%<>%0
+    L%=C%
+   ENDIF
+   A%=A%+1
+   C%=C%-1
+  UNTIL C%=0
+  A.A$=CHR$(64+U%)+LEFT$(D$,65-L%)
+  APPEND
+ ENDIF
+ U%=U%+1
+UNTIL U%=27
+
+CLOSE
+CLS

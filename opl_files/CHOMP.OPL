@@ -1,0 +1,53 @@
+CHOMP:
+GLOBAL B%(4),M%,B$(4,20),S%(255),T%(255),U%(255),V%(255),N%,N$(4)
+UDG 0,31,0,0,8,28,8,0,0
+UDG 1,31,1,1,9,29,9,1,1
+UDG 2,1,1,1,9,29,9,1,1
+UDG 3,1,0,0,8,28,8,0,0
+UDG 4,0,0,0,8,28,8,0,0
+
+L::
+IF CHMPINI%:
+ RETURN
+ENDIF
+DO
+B%(1)=15
+B%(2)=B%(1)
+B%(3)=B%(2)
+B%(4)=B%(3)
+M%=0
+B$(1)=REPT$(CHR$(0),B%(1)-1)+CHR$(1)
+B$(2)=REPT$(CHR$(4),B%(2)-1)+CHR$(2)
+B$(3)=B$(2)
+B$(4)=B$(2)
+DO
+AT 1,1
+PRINT B$(1)
+PRINT B$(2)
+PRINT B$(3)
+PRINT B$(4)
+IF M%
+ CHMPCOM:
+ELSE CHMPHUM:
+ENDIF
+M%=NOT(M%)
+UNTIL B%(4)=0
+CLS
+PRINT
+IF M%
+ PRINT "I have won the game.";
+ELSE
+ PRINT "  You have won the"
+ AT 9,3
+ PRINT "game.";
+ENDIF
+PAUSE -25
+CLS
+PRINT "USING FILE ";N$
+M%=MENUN(2,"NEW GAME,STOP(+SAVE),ABORT")
+UNTIL M%<>1
+
+IF M%=2 OR M%=0
+ CHOMPSAV:
+ENDIF
+GOTO L::

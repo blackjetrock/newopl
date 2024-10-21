@@ -1,0 +1,51 @@
+instos:
+LOCAL MC$(42),B%,C%,A1%,A2%,A3%
+LOCAL A%(8),L%
+ESCAPE OFF
+CLS
+PRINT "Patching OS..."
+
+L%=42
+A%(1)=$3F18         :REM SWI 18   unboot devices
+A%(2)=$CE20         :REM LDX %2000
+A%(3)=$004F         :REM CLRA
+A%(4)=$5FDD         :REM CLRB
+A%(5)=$41CC         :REM STD 41
+A%(6)=L%            :REM LDD %length
+A%(7)=$3F02         :REM SWI 02   grow cell
+A%(8)=$3900         :REM RTS
+USR(ADDR(A%()),0)
+POKEW $2000,PEEKW($2000)+L%
+A%(1)=$3F17         :REM SWI 17   boot devices
+A%(2)=$3900         :REM RTS
+USR(ADDR(A%()),0)
+
+REM Find address of Delete Menu Item routine, call when DEL pressed.
+A1%=SRCHROM:($9664,$4C91,$2)
+REM Find address of Insert Menu Item routine, call when MODE pressed.
+A2%=SRCHROM:($494E,$5345,$2)-2
+IF PEEKB(A2%)<>$3F
+ A2%=A2%-1
+ENDIF
+REM Find address of Run Procedure routine, call when OPL menu item chosen.
+A3%=SRCHROM:($5F3F,$3F64,$1)
+
+B%=PEEKW($2000)-L%
+MC$=CONV$:("3F17CE"+RIGHT$("000"+HEX$(B%+2),4)+"3CFE2002CC10833F50C10D260B4D26026E007E"+HEX$(A3%)+"3F1739C10226037E"+HEX$(A2%)+"5A27F37E"+HEX$(A1%))
+
+C%=1
+DO
+ POKEB B%,ASC(MID$(MC$,C%,1))
+ B%=B%+1
+ C%=C%+1
+UNTIL C%>L%
+CLS
+
+IF A1%>-20 OR A2%>-20 OR A3%>-20
+ PRINT "ERROR: not fullyfunctional";CHR$(16);
+ GET
+ CLS
+ENDIF
+
+ESCAPE ON
+USR(PEEKW($2000)-L%,0)

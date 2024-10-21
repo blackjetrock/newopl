@@ -1,0 +1,86 @@
+UDGSAVE:
+GLOBAL X%,C%,D%,K%,M$(16)
+LOCAL C$(3),D$(5)
+LOCAL B%
+X%=2 :C$=" "+CHR$(1)+" "
+D$="  "+CHR$(1)+CHR$(2)+CHR$(1)
+TRAP CREATE "A:UDG",A,UNAM$,A1%,A2%,A3%,A4%,A5%,A6%,A7%,A8%
+TRAP OPEN "A:UDG",A,UNAM$,A1%,A2%,A3%,A4%,A5%,A6%,A7%,A8%
+START::
+CLS :B%=MENU("Save,Load,Dir,Erase,Info,Quit")
+IF B%=1
+CLS :PRINT"Save UDG (Y/N)" :K%=GET
+IF K%<>%Y
+GOTO START::
+ENDIF
+LAST
+RETRY::
+CLS :PRINT"Enter UDG name";CHR$(63)
+INPUT A.UNAM$
+IF A.UNAM$=""
+CLS :PRINT"Aborted Function"
+BEEP 100,200
+PAUSE 30
+GOTO START::
+ENDIF
+IF LEN(A.UNAM$)>8
+CLS :PRINT"Max 8 char";CHR$(33) :PAUSE-50
+GOTO RETRY::
+ENDIF
+A.A1%=A%(1) :A.A2%=A%(2)
+A.A3%=A%(3) :A.A4%=A%(4)
+A.A5%=A%(5) :A.A6%=A%(6)
+A.A7%=A%(7) :A.A8%=A%(8)
+APPEND
+GOTO START::
+ELSEIF B%=2 :REM LOAD
+LAST :C%=1 :D%=POS :FIRST
+M$="Load UDG"+CHR$(63)+" (Y/N)"
+UDGKEY:
+IF K%<>%Y
+GOTO START::
+ENDIF
+CLS :PRINT CHR$(35);C%;" ";A.UNAM$
+AT 1,2 :PRINT"Loading" :PAUSE 20
+A%(1)=A.A1% :A%(2)=A.A2%
+A%(3)=A.A3% :A%(4)=A.A4%
+A%(5)=A.A5% :A%(6)=A.A6%
+A%(7)=A.A7% :A%(8)=A.A8%
+DESCOV:
+GOTO START::
+ELSEIF B%=3 :REM DIR
+CLS
+LAST :C%=1 :D%=POS :FIRST
+M$=""
+UDGKEY:
+IF K%=%Q
+GOTO START::
+ENDIF
+ELSEIF B%=4
+CLS :M$="Erase UDG"+CHR$(63)+" (Y/N)"
+LAST :C%=1 :D%=POS :FIRST
+UDGKEY:
+IF K%<>%Y
+CLS :PRINT"Function Aborted"
+BEEP 100,200 :PAUSE 30
+GOTO START::
+ENDIF
+CLS :PRINT CHR$(35);D%;" ";A.UNAM$
+ERASE
+AT 1,2 :PRINT"Erased";CHR$(33) :PAUSE 20
+GOTO START::
+ELSEIF B%=5 :REM INFO
+LAST :C%=POS :D%=0
+DO
+D%=D%+RECSIZE
+C%=C%-1
+UNTIL C%=0
+LAST
+AT 1,1 :PRINT"File Information"
+VIEW(2,"File length: "+NUM$(D%,4)+" bytes"+C$+"No. of stored UDGS: "+NUM$(POS,4)+D$)
+ELSEIF B%=6
+CLOSE
+RETURN
+BEEP 100,200
+ENDIF
+GOTO START::

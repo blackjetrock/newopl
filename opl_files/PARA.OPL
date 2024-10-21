@@ -1,0 +1,53 @@
+para:
+rem Parabol 1.0 (c) B. Felten 1987
+rem
+rem Tells you exactly when the sun is in line with a selected satellite.
+rem Thus you can direct your antenna with help of the sun rather than a
+rem compass.
+rem
+rem Just wait for a sunny day and the calculated time and then turn the
+rem antenna until the shadow of the microwave assembly falls exactly in
+rem the center of the antenna.
+rem
+rem Also tells you what day the sun is positioned exactly behind the
+rem satellite (only one of the two days in the year - you might try to
+rem change the code yourself to make the program show the other day).
+rem
+GLOBAL X,Y,Z,R,SV,HV
+LOCAL ANTSV,ANTHV,SATSV,SOLSV,SOLHV,RSAT
+LOCAL SINSV,SINHV,COSSV,COSHV,XX,YY,ZZ,RR,OPT%
+RSAT=42.2/6.37
+PRINT"YOUR LONGITUDE:" :rem In degrees, negative for WEST
+INPUT X 
+ANTSV=RAD(X)
+SINSV=SIN(ANTSV) :COSSV=COS(ANTSV)
+PRINT"YOUR LATITUDE:"
+INPUT X
+ANTHV=RAD(90.0-X)
+SINHV=SIN(ANTHV) :COSHV=COS(ANTHV)
+DO
+  OPT%=MENU("ECS-F1,INTELSAT-V")
+  IF OPT%=0 :BREAK
+  ELSEIF OPT%=1 :X=13.0
+  ELSEIF OPT%=2 :X=-27.5
+  ENDIF
+  SATSV=RAD(X)
+  X=RSAT*COS(SATSV)-COS(ANTSV)*SIN(ANTHV)
+  Y=RSAT*SIN(SATSV)-SIN(ANTSV)*SIN(ANTHV)
+  Z=-COS(ANTHV)
+  X2R: :SOLSV=SV :SOLHV=HV
+  XX=COSHV*COSSV*X+COSHV*SINSV*Y-SINHV*Z
+  YY=-SINSV*X+COSSV*Y
+  ZZ=SINHV*COSSV*X+SINHV*SINSV*Y+COSHV*Z
+  X=XX :Y=YY :Z=ZZ
+  X2R: :SV=DEG(PI-SV) :HV=DEG(HV)
+  PRINT"Side=";INT(10.0*SV)/10.0
+  PRINT"Elev=";INT(10.0*HV)/10.0
+  GET
+  X=12.0-DEG(SOLSV)/15.0
+  PRINT INT(X);":";RIGHT$("00"+GEN$(INT((X-INT(X))*60.0+.5),2),2),"GMT"
+  X=(DEG(ASIN:(DEG(SOLHV)/23.5))+111.0)/30.0
+  Y=INT(X) :Z=INT((X-Y)*30.0+.5)
+  PRINT Z;"/";Y
+  GET
+UNTIL OPT%=0

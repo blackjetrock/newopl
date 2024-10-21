@@ -1,0 +1,163 @@
+MMLZ:
+LOCAL game$(16,20),data$(120)
+LOCAL a%(4),c%(4),d%(4),g%,i%,j%,k%,l%,m%,s,t,nm$(4),res1%,res2%,KK%
+UDG 0,21,0,21,0,21,0,21,0
+UDG 1,16,24,28,30,31,27,25,24
+UDG 2,1,3,7,15,31,27,19,3
+UDG 3,15,31,19,19,19,19,19,30
+UDG 7,15,15,15,15,15,15,15,0
+UDG 4,24,24,24,0,0,31,31,0
+UDG 5,3,3,3,0,0,31,31,0
+UDG 6,0,0,0,0,0,31,31,0
+REM ONERR prterr::
+data$="  'MasterMind' by Jonathan Hurwitt - V2.13 (C)1987,1988. "
+data$=data$+"Adapted for LZ by Mick Andon - V1.0 (C)1989"
+AT 1,2 :PRINT REPT$(CHR$(0),27);CHR$(1);CHR$(2);" ";CHR$(1);CHR$(2);
+PRINT REPT$(CHR$(0),15);CHR$(4);CHR$(5);CHR$(6);CHR$(4);CHR$(5);
+PRINT REPT$(CHR$(0),8);
+VIEW(1,data$)
+L%=VIEW(1,"   Is a printer attached? (Y/N)")
+IF L%=%Y OR L%=%y :l%=1 :else :l%=0 :endif
+g%=0 :s=0 :t=0
+UDG 6,8,0,8,0,8,0,8,0
+newgame::
+KSTAT 3
+REM New number
+d%(1)=RND*10
+d%(2)=RND*10
+d%(3)=RND*10
+d%(4)=RND*10
+NM$=GEN$(D%(1),1)+GEN$(D%(2),1)+GEN$(D%(3),1)+GEN$(D%(4),1)
+m%=1
+CLS
+game$(1)="Try  Guess  Position"
+AT 1,4
+PRINT game$(1);
+IF l%=1
+  LPRINT game$(1)
+ENDIF
+REM The game outer loop
+DO
+  m%=m%+1
+  i%=1
+  j%=m%
+  game$(m%)=GEN$(M%-1,-2)+CHR$(6)+"   "
+  DO
+    AT 1,1
+    IF J%>3 :PRINT game$(j%-3); :ELSE :PRINT REPT$(CHR$(0),20); :ENDIF
+    IF J%>2 :PRINT game$(j%-2); :ELSE :PRINT REPT$(CHR$(0),20); :ENDIF
+    PRINT game$(j%-1);
+      PRINT game$(j%);CHR$(26);
+    IF j%<m%
+      CURSOR off
+    ELSE
+      CURSOR on
+    ENDIF
+    k%=GET
+    IF k%=3 AND j%>4
+      REM Scroll up
+      j%=j%-1
+    ELSEIF k%=4 AND j%<m%
+      REM Scroll down
+      j%=j%+1
+    ELSEIF k%>47 AND k%<58
+      REM A number!
+      j%=m%
+      a%(i%)=k%-48
+      game$(m%)=game$(m%)+CHR$(k%)
+      i%=i%+1
+    ELSEIF k%=8 AND i%>1
+      REM Backspace
+      j%=m%
+      i%=i%-1
+      k%=LEN(game$(m%))
+      game$(m%)=LEFT$(game$(m%),k%-1)
+    ELSEIF k%=1
+      PRINT CHR$(24) :kk%=view(1,"GAME ABORTED >>>>> Another game? >>>>>")
+      GOTO label::
+    ELSE
+      BEEP 15,300
+    ENDIF
+  UNTIL i%>4
+  c%(1)=d%(1)
+  c%(2)=d%(2)
+  c%(3)=d%(3)
+  c%(4)=d%(4)
+  i%=1
+  res1%=0
+  res2%=0
+  REM Analyse guess
+  DO
+    IF a%(i%)=c%(i%)
+      res1%=res1%+1
+      a%(i%)=-1
+      c%(i%)=-2
+    ENDIF
+    i%=i%+1
+  UNTIL i%>4
+  IF res1%<4
+    i%=1
+    DO
+      j%=1
+      DO
+        IF a%(i%)=c%(j%)
+          res2%=res2%+1
+          a%(i%)=-1
+          c%(j%)=-2
+        ENDIF
+        j%=j%+1
+      UNTIL j%>4
+      i%=i%+1
+    UNTIL i%>4
+  ENDIF
+  game$(m%)=game$(m%)+"     "+REPT$(CHR$(3),RES1%)
+  game$(m%)=game$(m%)+REPT$(CHR$(7),RES2%)+REPT$(" ",5-RES1%-RES2%)
+  AT 1,4
+  PRINT game$(m%);
+  IF l%=1
+    LPRINT left$(game$(m%),15);rept$("o",res1%);rept$("x",res2%)
+  ENDIF
+  PAUSE 10
+UNTIL res1%=4 OR m%=16
+REM End of game noises and displays
+k%=key
+PAUSE 15
+rem CLS
+t=t+1
+s=s+m%-1
+IF res1%=4
+  g%=g%+1
+  DATA$=GEN$(m%-1,2)+" tries to win >>>>> Another game? >>>>>"
+  i%=2000
+  DO
+    BEEP 25,i%
+    i%=i%-100
+  UNTIL i%<100
+  PRINT CHR$(24) :KK%=VIEW(1,DATA$)
+ELSE
+  DATA$="I win! >>>>> It was "+NM$+" >>>>> Another game? >>>>>"
+  PRINT CHR$(24) :KK%=view(1,data$)
+  BEEP 250,2000
+ENDIF
+label::
+IF l%=1
+  LPRINT CHR$(10),CHR$(10)
+ENDIF
+KSTAT 1
+IF KK%=%Y OR KK%=%y OR KK%=%0
+  GOTO newgame::
+ENDIF
+CURSOR off
+IF t>0
+  data$="You played "+FIX$(t,0,3)+" games and won "+GEN$(g%,3)
+  data$=data$+" >>>>> Average score "+FIX$(s/t,2,5)+" >>>>>"
+  print chr$(24) :VIEW(1,data$)
+  CLS
+ENDIF
+RETURN
+prterr::
+CLS
+PRINT ERR$(ERR)
+BEEP 250,2000
+l%=0
+GOTO label::

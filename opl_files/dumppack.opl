@@ -1,0 +1,142 @@
+DumpPack:
+rem produces an exact copy of a pack on the PC, mostly even if UNMAKE fails
+
+rem OPKs produced are sligthly different from standard OPK because all bytes
+rem on the pack are copied, program does NOT stop at the <end-of-pack>-marker!
+
+local mc1%(9),mc1addr%,hiaddr,loaddr,offset%,thekey%
+local cnt,size,h$(4),buffloc%,buff$(128),pack%,kb%
+
+escape off
+onerr ERROR::
+
+offset% = 0 :rem where to start scanning (header skip)
+
+rem -- machine code for pack read --
+rem originates from Horatio's brilliant fast5 datapack copy program
+
+rem D param in USR - pack number (0=A,1=B,2=C,3=D)
+rem load_addr + 3 - byte - 64K page of pack address (00-01)
+rem load_addr + 5 - word - offset from page of pak address (0000-FFFF)
+rem load_addr + 10 - word - number of bytes to read (size of buffer)
+rem load_addr + 13 - word - location in ram of buffer to store data
+
+mc1addr% = addr(mc1%())
+
+mc1%(1) = $3f62    :rem os     pk$setp
+mc1%(2) = $3900    :rem rts ;for now!
+rem mc1%(2)=$c600  :rem ldab   #page
+mc1%(3) = $ce00    :rem ldx    #offset
+mc1%(4) = $003f    :rem os     pk$sadd
+mc1%(5) = $60cc    :rem ldd
+mc1%(6) = $0080    :rem        #bytes_to_read
+mc1%(7) = $ce00    :rem ldx    #buffer_addr
+mc1%(8) = $003f    :rem os     pk$read
+mc1%(9) = $5e39    :rem rts
+
+rem -- get user input --
+cls :print " DumpPack v0.1";
+buff$="  Copies a pack to PC (even if protected or corrupted). Please make sure the CommsLink is booted in and activate Psi2Win.  "
+if view(2,buff$)=1 :return :endif
+do
+ pack%=menu("Which"+chr$(254)+"pack,B:,C:,D:")-1
+ if pack%=-1 :return :endif
+until pack%>0
+do
+ kb% = 4 * 2**(menu("AUTO,8K,16K,32K,64K,128K,256K")-1)
+ if kb% = 0
+  return
+ elseif kb% = 4
+  usr(mc1addr%,pack%) : rem call pk$setp
+  kb%=peekb($20d8+10*pack%)*8
+  print "Detected",num$(kb%,3);"k"
+  pause -20
+ endif
+until kb% >= 8 and kb% <= 256
+cls :buff$=""
+print "PC file name:" :trap input buff$
+if buff$="" :return :endif
+
+rem -- write OPK header --
+cls
+print "Connecting"
+print "to PC...";
+escape on
+xfopen:(buff$+".opk",1,0)
+escape off
+buff$ = "OPK"+chr$(kb%/64)
+if kb%<64
+ buff$ = buff$+chr$(kb%*4)+chr$(0)
+else
+ buff$ = buff$+chr$(0)+chr$(0)
+endif
+xfput:(buff$)
+
+rem -- setup MC --
+mc1%(2) =  $c600    :rem ldab   #page
+buffloc% = addr(buff$)+1 :rem prepare MC buffer
+pokeb buffloc%-1,128 :rem set buffer size for OPL
+pokew mc1addr%+13,buffloc% : rem set buffer
+size = 1024.0 * kb%
+
+rem -- main copy loop --
+at 1,1 :print "Copying "+chr$(65+pack%)+":"
+cnt = offset%
+do
+ hiaddr = intf(cnt/65536)
+ loaddr = cnt-65536*intf(cnt/65536)
+
+ h$ = hex$(loaddr+65536*(loaddr > 32767))
+ at 12,1 :print hex$(hiaddr);left$("0000",4-len(h$));h$
+
+ pokew mc1addr%+5,loaddr+65536*(loaddr > 32767) : rem set location on pack
+ pokeb mc1addr%+3,hiaddr : rem set location page
+ usr(mc1addr%,pack%) : rem READ from pack to buffer
+ xfput:(buff$)
+
+ at 13,2: print fix$(int(cnt/size*100),0,-3);"%";
+
+ if cnt = offset% :cnt = 0 :endif
+ cnt = cnt + 128
+ if key =1 :raise 206 :endif
+
+until cnt >= size
+
+rem -- remove protection --
+rem    xfpos:(0,6.)
+rem    buff$ = xfget$:(1)
+rem    xfpos:(0,6.)
+rem    xfput:(chr$(asc(buff$) or $28))
+rem TODO: fix checksum
+
+rem -- Done! --
+xfclose:
+cls :print " DumpPack v0.1"
+print "Copy Complete..."+chr$(16);
+get
+return
+
+rem -- error handling --
+ERROR::
+onerr off
+if err=203
+ buff$="* No CommsLink *"
+else
+ if err=206
+  buff$="** User Break **"
+ elseif err=190
+  buff$="Bad PC file name"
+ elseif err=188 or err=186
+  buff$="*** PC Error ***"
+ elseif err=192 or err=193 or err=199
+  buff$=" Connect Error  "
+ elseif err<191
+  buff$="** ERROR "+num$(err,3)+" ***"
+ else
+  buff$=err$(err)
+ endif
+ xfclose:
+endif
+print chr$(15);buff$;chr$(16);
+get
+return

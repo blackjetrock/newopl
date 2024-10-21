@@ -1,0 +1,44 @@
+dbpak:
+   rem *
+   rem * Make a debug RAMPAK in the B: slot.
+   rem * The pak must be present in B: when a trap occurs, or after turning
+   rem * the Organiser back on after the trap.
+   rem * All RAM will be dumped to the pak. ( $0040 - 00FF, 0400 - 7FFF )
+   rem * Works on OS versions 3.6 and up...no error checking is done.
+   rem *
+   rem * Copyright(C)1990 Advidea Ventures
+   rem *
+   rem * Author  :  Russ Beinder
+   rem * Language:  OPL/6303
+   rem * Create  :  90-03-25
+   rem *
+   rem * This software has been placed in the public domain by the author.
+   rem *
+
+   local a%(7)
+   local b%(5)
+
+   print "Debug header"
+   print "on B: (Y/N)?";
+   if (upper$(get$) <> "Y")
+      return
+   endif
+
+   a%(1) = $3f62        :rem SWI    PK$SETP
+   a%(2) = $cc00        :rem LDD    #10
+   a%(3) = $0ace        :rem LDX    #(b%)
+   a%(4) = addr(b%())
+   a%(5) = $3f61        :rem SWI    PK$SAVE
+   a%(6) = $3f5b        :rem SWI    PK$PKOF
+   a%(7) = $3900        :rem RTS
+
+   b%(1) = $3c04  :rem * pak id and size byte
+   b%(2) = 0
+   b%(3) = 0
+   b%(4) = 0
+   b%(5) = $3c04  :rem * checksum
+
+   usr(addr(a%()),1) :rem * slot b
+   at 7,2
+   print "Done.  "
+   get

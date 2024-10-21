@@ -1,0 +1,10 @@
+SORTSCR:(a$,b$)
+REM Source: SORTSCR.OPL
+REM 2 Line Version 1.1
+REM (C) DEC 1997 LRS
+
+CLS
+AT (16-LEN(a$))/2+1,1
+PRINT a$
+AT (16-LEN(b$))/2+1,2
+PRINT b$

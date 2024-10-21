@@ -1,0 +1,91 @@
+MAZESEE:
+rem
+rem Maze game for the Psion Organiser II LZ : Maze viewer module
+rem Copyright 1992-1997 Zac Schroff, all rights reserved.
+rem
+rem Please see the main module for other notices.
+rem
+
+
+rem Allow the player to scroll around inside the maze but to
+rem pan the view through walls (does not actually move player,
+rem and uses wider view than the usual).
+
+rem This is extremely slow, but it can be quite helpful if the
+rem player becomes disoriented by the smallish viewport.
+
+rem Also allows some cheats -- scrolling the viewport is, in
+rem itself, a cheat, but there are more :
+rem   Move view to location then press DEL moves player to this location
+
+LOCAL CX%,CY%
+LOCAL TX%,TY%,T%
+LOCAL OP%,OC%,K%,KS%
+local mo%
+mo%=ms%+1
+CLS
+AT 10,1
+PRINT "| View maze"
+AT 10,2
+PRINT "| P=      "
+AT 10,3
+PRINT "| V=      "
+AT 10,4
+PRINT "| E=      ";
+CX%=X%
+CY%=Y%
+T%=ADDR(A$())+X%+1+Y%*mo%
+OP%=PEEKB(T%)
+POKEB T%,$FA
+KS%=PEEKB($78)
+POKEB $78,2
+AT 14,2
+PRINT num$(X%,-2);",";num$(Y%,-2);
+AT 14,4
+PRINT num$(EX%,-2);",";num$(EY%,-2);
+DO
+ AT 14,3
+ PRINT num$(CX%,-2);",";num$(CY%,-2);
+ T%=ADDR(A$())+CX%+1+CY%*mo%
+ OC%=PEEKB(T%)
+ IF OC%=$FF
+  POKEB T%,$F5
+ ENDIF
+ TX%=CX%-4
+ TY%=CY%-2
+ IF TX%<0 :TX%=0 :ENDIF
+ IF TY%<0 :TY%=0 :ENDIF
+ IF TX%>ms%-9 :TX%=ms%-9 :ENDIF
+ IF TY%>ms%-4 :TY%=ms%-4 :ENDIF
+ TX%=TX%+1
+ TY%=TY%+1
+ AT 1,1
+ PRINT MID$(A$(TY%),TX%,9)
+ PRINT MID$(A$(TY%+1),TX%,9)
+ PRINT MID$(A$(TY%+2),TX%,9)
+ PRINT MID$(A$(TY%+3),TX%,9);
+ AT CX%-TX%+2,CY%-TY%+2
+ CURSOR ON
+ DO
+  K%=KEY
+ UNTIL K%<>0
+ CURSOR OFF
+ POKEB T%,OC%
+ IF K%=6 OR K%=%Q
+  IF CX%<ms%-1 :CX%=CX%+1 :ENDIF
+ ELSEIF K%=5 OR K%=%O
+  IF CX%>0 :CX%=CX%-1 :ENDIF
+ ELSEIF K%=4 OR K%=%V or k%=%C
+  IF CY%<ms%-1 :CY%=CY%+1 :ENDIF
+ ELSEIF K%=3 OR K%=%J
+  IF CY%>0 :CY%=CY%-1 :ENDIF
+ ENDIF
+UNTIL K%=1 OR K%=2 OR K%=13 OR K%=8
+POKEB ADDR(A$())+X%+1+Y%*mo%,OP%
+IF K%=8
+ X%=CX%
+ Y%=CY%
+ENDIF
+POKEB $78,KS%
+MAZESCN:
+

@@ -1,0 +1,55 @@
+MAZEPLY:
+rem
+rem Maze game for the Psion Organiser II LZ : Play in maze module
+rem Copyright 1992-1997 Zac Schroff, all rights reserved.
+rem
+rem Please see the main module for other notices.
+rem
+
+
+rem Play the maze.  Assumes all parameters already established.
+
+rem Note this takes several popular keyboard layouts :
+rem  UP=Up, DOWN=Down, LEFT=Left, RIGHT=Right
+rem  UP=Up,    C=Down, LEFT=Left, RIGHT=Right
+rem   J=Up,    V=Down,    O=Left,     Q=Right
+
+rem Also accepts MODE for special functions menu, and On for quit/escape.
+
+local xl%,mo%,la%,lo%
+ESCAPE OFF
+xl%=MS%-3
+mo%=MS%+1
+DO
+ AT 14,2
+ PRINT num$(X%,-2);",";num$(Y%,-2);
+ AT 14,3
+ PRINT num$(EX%,-2);",";num$(EY%,-2);
+ TX%=X%-1
+ TY%=Y%-1
+ IF TX%<0 :TX%=0 :ENDIF
+ IF TY%<0 :TY%=0 :ENDIF
+ IF TX%>xl% :TX%=xl% :ENDIF
+ IF TY%>xl% :TY%=xl% :ENDIF
+ lo%=TX%+TY%*mo%+1
+ POKEW $2072,lo%
+ K%=USR(ADDR(MD$)+1,0)
+ la%=addr(A$())+x%+y%*mo%+1
+ AT X%-TX%+1,Y%-TY%+2
+ PRINT "ú";
+ DO
+  K%=KEY
+ UNTIL K%>0
+ IF ((K%=3) OR (K%=%J)) and ((Y%>0) and (peekb(la%-mo%)<>255))
+  Y%=Y%-1
+ ELSEIF ((K%=4) OR (K%=%V) or (K%=%C)) and ((Y%<(ms%-1)) and (peekb(la%+mo%)<>255))
+  Y%=Y%+1
+ ELSEIF ((K%=5) OR (K%=%O)) and ((X%>0) and (peekb(la%-1)<>255))
+  X%=X%-1
+ ELSEIF ((K%=6) OR (K%=%Q)) and ((X%<(ms%-1)) and (peekb(la%+1)<>255))
+  X%=X%+1
+ ELSEIF K%=2
+  MAZEOPT:
+ ENDIF
+UNTIL K%=1 OR ((X%=EX%) AND (Y%=EY%))
+

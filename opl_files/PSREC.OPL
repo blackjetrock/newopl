@@ -1,0 +1,33 @@
+PSREC:
+LOCAL A%
+LOCAL A$(15),B$(15),G$(1)
+
+REM *** SEARCH ***
+SEAR::
+CLS
+FIRST
+A$="Not Found"
+B$=""
+AT 1,1 :PRINT"Search Item:"
+AT 1,2 :INPUT B$
+IF B$="" :RETURN :ENDIF
+LP1::
+CLS :PRINT"Search: ";B$ :BEP:(2)
+A%=FIND(B$)
+IF A%=0
+CLS :PRINT"Item: ";B$ :AT 1,2 :PRINT A$;CHR$(33) :KEY:(2)
+LP2::
+CLS :PRINT"New Search";Chr$(63) :at 1,2 :Print"(Y/N)"
+G$=GET$
+IF G$<>"Y" :RETURN :ENDIF
+GOTO SEAR::
+ENDIF
+POSITION A%
+E$="Sear"
+PDisp:
+IF D%=1 :RETURN :ENDIF
+A$="Search End"
+CLS :PRINT"Cont Sear";CHR$(63);" (Y/N)" :AT 1,2 :PRINT"Item: ";B$
+G$=GET$
+IF G$="N" :GOTO LP2:: :ENDIF
+NEXT :GOTO LP1::

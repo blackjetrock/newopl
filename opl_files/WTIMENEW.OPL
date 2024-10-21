@@ -1,0 +1,19 @@
+WTIMENEW:
+LAST :NEXT
+PRINT"Enter time ID:"
+INPUT a.c$
+IF a.c$=""
+POSITION (M0)
+RETURN
+ENDIF
+IF LEN(a.c$)>16
+a.c$=LEFT$(a.c$,16)
+ENDIF
+CLS
+PRINT"Enter differencein HOURS: ";
+INPUT a.t%
+APPEND
+POSITION (POS)
+M0=POS
+RETURN
+

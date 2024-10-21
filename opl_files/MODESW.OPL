@@ -1,0 +1,13 @@
+MODESW:
+LOCAL M%(2)
+M%(1)=$3F82 :REM OS DP$MSET
+M%(2)=$3900 :REM RTS
+IF PEEKB($FFE8) AND 8)=8 AND (PEEKB($FFCB) AND $80)=$80
+  USR(ADDR(M%()),256) :REM switch to 4-line mode if LZ
+ENDIF
+IF PEEKB($2184)
+  HELLO4: :REM call "HELLO4" if 4-line mode
+ELSE
+  HELLO2: :REM else call "HELLO2"
+ENDIF
+GET

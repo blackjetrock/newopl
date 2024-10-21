@@ -1,0 +1,89 @@
+NAV:
+GLOBAL HDM%,HRD,DRIFT,GS,HD,SH,g%,DIST,LAT1,LON1,LAT2,LON2,ETA,MIN
+local M%,from$(15),to$(15),AC$(10),TRK,WIND,VEL,TAS,V,HDG%,COST,MIN%,HR,H
+open "A:VFG",a,code$,name$,elev,lat,lon,var
+TOP::
+M%=MENU("PLAN,WIND,SPEED")
+IF M%=0 :STOP
+ELSEIF M%=1 :GOTO FROM::
+ELSEIF M%=2 :GOTO WIND::
+ELSEIF M%=3 :GOTO AC::
+ENDIF
+GOTO TOP::
+from::
+cls
+USE A
+print "From (location)" :input from$
+getrec:(from$) :if eof :goto from::
+elseif g%=1 :goto top::
+ELSEIF G%=2 :CLS
+PRINT "ENTER TRK(T)" :INPUT TRK :IF TRK=360 :TRK=0 :ENDIF :CLS
+PRINT "DISTANCE " :INPUT DIST
+GOTO WIND::
+endif
+lat1=conv:(a.lat) :lon1=conv:(a.lon) :V=A.VAR
+to::
+cls
+print "To (Location)" :input to$
+if to$="" :goto to:: :endif
+getrec:(to$) :if eof :goto to::
+elseif g%=1 :goto to::
+endif
+cls :print "    WORKING"
+lat2=conv:(a.lat) :lon2=conv:(a.lon) :V=INT((V+A.VAR)/2)
+dist=(dist:(lat1,lon1,lat2,lon2))
+cls
+print FIX$(dist,2,9);" nm"
+trk=trk:(lat1,lon1,lat2,lon2,dist)
+if trk<100 :print "0"; :endif
+print int(trk);"T ";
+if trk<100 :print "0"; :endif
+print INT(TRK)+V;"M TRK"
+g%=get :if g%=1 :goto top:: :endif
+WIND::
+CLS
+IF DIST=0 :GOTO ERR:: :ENDIF
+print "WIND VELOCITY "
+INPUT vel :IF vel=0 :GOTO AC:: :ENDIF
+CLS
+PRINT "WIND DIRECTION"
+INPUT WIND
+IF M%=2 :GOTO CALC::
+ENDIF
+AC::
+IF DIST=0 :GOTO ERR:: :ENDIF
+CLS
+PRINT "  CRUISE SPEED" :INPUT TAS 
+GOTO CALC::
+TAS=B.CRUISE
+CALC::
+CLS :PRINT"    WORKING"
+HDG%=HDG:(WIND,VEL,TRK,TAS)
+IF HDG%<0 :HDG%=360-HDG% :ENDIF
+HDM%=HDG%+V
+IF HDM%<0 :HDM%=360+HDM% :ENDIF
+GS=GS:(WIND,VEL,TRK,TAS)
+CLS
+PRINT "HEADING"
+if hdg%<100 :print "0"; :endif
+PRINT HDG%;"(T)  "; 
+IF V=0 :GOTO GS:: :ENDIF
+if hdm%<100 :print "0"; :endif
+PRINT HDM%;"(M)"
+GS::
+HD=INTF(3600*(DIST/GS))
+HR=HD/3600
+MIN%=(HR-INT(HR))*60
+H=INT(HR)
+GET :CLS
+PRINT FIX$(GS,0,4);" GS  ";H;":";
+IF MIN%<10 :PRINT "0"; :ENDIF
+PRINT INT(MIN%);" ET"
+IF G%=2 :GET :GOTO TOP:: :ENDIF
+
+GET :GOTO TOP::
+TEST::
+IF DIST=0 :GOTO ERR:: :ELSE FLIGHT: :ENDIF
+GOTO TOP::
+ERR:: :CLS
+PRINT "PLAN FIRST" :PAUSE 15 :GOTO TOP::

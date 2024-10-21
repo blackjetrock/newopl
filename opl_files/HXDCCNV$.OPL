@@ -1,0 +1,27 @@
+HXDCCNV$:(A$)
+LOCAL B$(255),C$(255),A%,C%
+B$=A$
+WHILE B$<>""
+ C%=ASC(B$)
+ IF C%<%0 OR C%>%F OR (C%>%9 AND C%<%A)
+  C$=C$+LEFT$(B$,1)
+  B$=RIGHT$(B$,LEN(B$)-1)
+ ELSE
+  A%=1
+  WHILE A%<=LEN(B$)
+   C%=ASC(MID$(B$,A%,1))
+   IF (C%>=%0 AND C%<=%9) OR (M% AND C%>=%A AND C%<=%F)
+    A%=A%+1
+   ELSE
+    BREAK
+   ENDIF
+  ENDWH
+  IF M%
+   C$=C$+GEN$(HXVAL:(LEFT$(B$,A%-1)),16)
+  ELSE
+   C$=C$+HX$:(VAL(LEFT$(B$,A%-1)))
+  ENDIF
+  B$=RIGHT$(B$,LEN(B$)-A%+1)
+ ENDIF
+ENDWH
+RETURN C$

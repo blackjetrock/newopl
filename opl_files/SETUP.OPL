@@ -1,0 +1,211 @@
+SETUP:
+rem
+rem Setup utility for the Psion Organiser II LZ
+rem Copyright 1992-1997 Zac Schroff, all rights reserved.
+rem
+rem This program is free for use and distribution as long
+rem as it is distributed only in an unmodified state,
+rem this notice is left intact, and the associated files
+rem are included with it :
+rem    SETUP.DOC   (the documentation file)
+rem    SETUP.OPL   (this source file)
+rem    SETUP.OB3   (the object only file)
+rem
+rem If you intend to distribute modified of translated
+rem versions of this program, please contact the author
+rem for permission.
+rem
+rem Neither the author of the program nor anybody who
+rem distributes it takes any responsibility for how it
+rem will behave under the way you use or abuse it on
+rem your system, nor any responsibility for damages to
+rem data, other software, or hardware.  The limit of the
+rem liability of the author or distributor is the sum
+rem which you paid for the program.
+rem
+rem If you feel you'd like to send me something for this
+rem little program, or if you just want to chat, or ask
+rem about using the program for your own purpose, please
+rem contact me :
+rem
+rem     zschroff@docsware.com
+rem     Zac Schroff
+rem     2906 Firethorn Drive
+rem     Tuscaloosa, Alabama  35405
+rem     USA
+rem
+
+
+rem Variables.  Do not change any of these.
+
+LOCAL INC$(3),INC%,DEC$(3),DEC%
+LOCAL A%,B%,C%,I%
+
+
+rem Settings information.  Change/add/delete these, but
+rem make sure to shift values so there are no holes, and
+rem be absolutely certain that in the LOCALs, TI$(#,20)
+rem and AD%(#) and SI%(#) all have the same values for #,
+rem and that value is equal to the value assigned to B%.
+
+rem TI$() is the title (20 BYTES PADDED!!!) of the setting
+rem AD%() is the address of the setting
+rem SI%() is 1 for byte settings, 2 for doublebyte settings
+
+LOCAL TI$(22,20)
+LOCAL AD%(22)
+LOCAL SI%(22)
+ESCAPE OFF
+CURSOR OFF
+B%=22
+TI$(01)="Disp scroll dly horz" :AD%(01)=$0069 :SI%(01)=2
+TI$(02)="Disp scroll dly vert" :AD%(02)=$006B :SI%(02)=2
+TI$(03)="Disp two-line border" :AD%(03)=$2099 :SI%(03)=1
+TI$(04)="Key-board int divide" :AD%(04)=$0071 :SI%(04)=2
+TI$(05)="Key-board rept delay" :AD%(05)=$0077 :SI%(05)=1
+TI$(06)="Key-board rept div  " :AD%(06)=$0078 :SI%(06)=1
+TI$(07)="Key-board power save" :AD%(07)=$20C1 :SI%(07)=1
+TI$(08)="Key-board click len " :AD%(08)=$20C0 :SI%(08)=1
+TI$(09)="Key-board caps lock " :AD%(09)=$20C2 :SI%(09)=1
+TI$(10)="Key-board nums lock " :AD%(10)=$20C3 :SI%(10)=1
+TI$(11)="Key-board shift flag" :AD%(11)=$20C4 :SI%(11)=1
+TI$(12)="Key-board spcl flags" :AD%(12)=$2185 :SI%(12)=1
+TI$(13)="Time work-day flags " :AD%(13)=$20A7 :SI%(13)=1
+TI$(14)="Time DST(A),24hr(B) " :AD%(14)=$20A6 :SI%(14)=1
+TI$(15)="Time alarm chk flag " :AD%(15)=$2335 :SI%(15)=1
+TI$(16)="Time alarm check now" :AD%(16)=$234A :SI%(16)=1
+TI$(17)="Buzzer disable flag " :AD%(17)=$00A4 :SI%(17)=1
+TI$(18)="Auto-off delay (sec)" :AD%(18)=$20CD :SI%(18)=2
+TI$(19)="Auto-off enable flag" :AD%(19)=$007C :SI%(19)=1
+TI$(20)="Capitalise menu flag" :AD%(20)=$209C :SI%(20)=1
+TI$(21)="Language running    " :AD%(21)=$2186 :SI%(21)=1
+TI$(22)="Lang Lock(A),Boot(B)" :AD%(22)=$232E :SI%(22)=1
+
+
+rem Machine code.  Do not change this region under
+rem any conditions.
+
+INC$=CHR$($18)+CHR$($08)+CHR$($39)
+INC%=ADDR(INC$)+1
+DEC$=CHR$($18)+CHR$($09)+CHR$($39)
+DEC%=ADDR(DEC$)+1
+
+
+rem This is the setup routine.  It basically takes the
+rem data above, and allows the user to use it to adjust
+rem the appropriate settings on the Psion.  It's rather
+rem more easily done here than with pokes, but I guess
+rem if you understand the code enough to do anything
+rem with it, the pokes may be better...
+
+rem You can choose values with LEFT and RIGHT,
+rem you can change values with UP and DOWN,
+rem you can toggle bit 7 using A,
+rem you can toggle bit 0 using B,
+rem you can save the settings using S,
+rem you can restore the settings using R,
+rem you can exit using ON.
+
+UDG 0,12,12,12,18,18,0,0,31
+UDG 2,0,0,0,0,0,0,0,31
+CLS
+PRINT CHR$(0);REPT$(CHR$(2),19);
+CLOCK(1)
+A%=1
+DO
+ AT 1,2
+ PRINT TI$(A%);RIGHT$("000"+HEX$(AD%(A%)),4);" : ";
+ IF SI%(A%)=1
+  PRINT RIGHT$("0"+HEX$(PEEKB(AD%(A%))),2);"  ";
+ ELSEIF SI%(A%)=2
+  PRINT RIGHT$("000"+HEX$(PEEKW(AD%(A%))),4);
+ ENDIF
+ C%=ASC(UPPER$(KEY$))
+ IF C%>95 AND C%<128
+  C%=C%-1
+ ENDIF
+ IF C%=3
+  IF SI%(A%)=1
+   POKEB AD%(A%),(PEEKB(AD%(A%))+1) AND $FF
+  ELSEIF SI%(A%)=2
+   POKEW AD%(A%),USR(INC%,PEEKW(AD%(A%)))
+  ENDIF
+ ELSEIF C%=4
+  IF SI%(A%)=1
+   POKEB AD%(A%),(PEEKB(AD%(A%))-1) AND $FF
+  ELSEIF SI%(A%)=2
+   POKEW AD%(A%),USR(DEC%,PEEKW(AD%(A%)))
+  ENDIF
+ ELSEIF C%=5
+  A%=A%-1
+ ELSEIF C%=6
+  A%=A%+1
+ ELSEIF C%=%< OR C%=%A
+  IF PEEKB(AD%(A%)) AND $80
+   POKEB AD%(A%),PEEKB(AD%(A%)) AND $7F
+  ELSE
+   POKEB AD%(A%),PEEKB(AD%(A%)) OR $80
+  ENDIF
+ ELSEIF C%=%> OR C%=%B
+  IF PEEKB(AD%(A%)) AND 1
+   POKEB AD%(A%),PEEKB(AD%(A%)) AND $FE
+  ELSE
+   POKEB AD%(A%),PEEKB(AD%(A%)) OR 1
+  ENDIF
+ ELSEIF C%=%; OR C%=%S
+  AT 1,2
+  PRINT "Saving setup to a   file...  Please wait";
+  IF EXIST("A:SYSTMCFG")
+   DELETE "A:SYSTMCFG"
+  ENDIF
+  I%=1
+  CREATE "A:SYSTMCFG",A,NUM%,TTL$,ADR%,VAL%,TYP%
+  DO
+   AT 1,4
+   PRINT I%;
+   A.NUM%=I%
+   A.TTL$=TI$(I%)
+   A.ADR%=AD%(I%)
+   A.TYP%=SI%(I%)
+   IF SI%(I%)=1
+    A.VAL%=PEEKB(AD%(I%))
+   ELSE
+    A.VAL%=PEEKW(AD%(I%))
+   ENDIF
+   APPEND
+   I%=I%+1
+  UNTIL I%>B%
+  CLOSE
+  AT 1,2
+  PRINT REPT$(" ",60);
+ ELSEIF C%=%- OR C%=%R
+  IF EXIST("A:SYSTMCFG")
+   OPEN "A:SYSTMCFG",A,NUM%,TTL$,ADR%,VAL%,TYP%
+   USE A
+   FIRST
+   AT 1,3
+   PRINT REPT$(" ",20);"Restoring setup...";
+   WHILE NOT EOF
+    AT 1,2
+    PRINT A.TTL$
+    IF A.TYP%=1
+     POKEB A.ADR%,A.VAL%
+    ELSE
+     POKEW A.ADR%,A.VAL%
+    ENDIF
+    NEXT
+   ENDWH
+   AT 1,2
+   PRINT REPT$(" ",60);
+   CLOSE
+  ENDIF
+ ENDIF
+ IF A%>B%
+  A%=1
+ ELSEIF A%<1
+  A%=B%
+ ENDIF
+ CLOCK(0)
+ CLOCK(1)
+UNTIL C%=1
+

@@ -1,0 +1,30 @@
+WAKE:
+
+REM  Continually make the alarm noise
+REM  ================================
+REM
+REM  Ver  Date    Who       Comments
+REM  ===  ===     ===       ========
+REM
+REM  1.0  Aug 88  Ben Clay  First Release
+REM
+
+
+LOCAL I%,CODE$(4)
+I% = ADDR (CODE$) + 1     : REM  skip the string length
+POKEB I%+0,$3F            : REM  SWI
+POKEB I%+1,$0D            : REM  BZ$ALRM (same noise as alarm)
+POKEB I%+2,$39            : REM  RTS
+
+REM - OFF & ON
+OFF
+
+CLS
+PRINT "WAKE UP!!"
+PAUSE 20
+ESCAPE OFF
+WHILE KEY <> 1
+    USR (I%,0)
+    PAUSE 5
+ENDWH
+ESCAPE ON

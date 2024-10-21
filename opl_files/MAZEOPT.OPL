@@ -1,0 +1,71 @@
+MAZEOPT:
+rem
+rem Maze game for the Psion Organiser II LZ : Special options module
+rem Copyright 1992-1997 Zac Schroff, all rights reserved.
+rem
+rem Please see the main module for other notices.
+rem
+
+
+rem Display the menu and dispatch proper overlay.
+
+rem This is so complicated because none of Psion's menu calls allow
+rem a menu to take LESS THAN ONE LINE, something which is needed if
+rem the system is to keep the screen intact.
+
+LOCAL A%,K%,C%
+ESCAPE OFF
+A%=1
+DO
+ AT 14,4
+ PRINT ""+mid$("Save Load View New  Back ",(a%-1)*5+1,5)+"~";
+ AT 19,4
+ CURSOR ON
+ WHILE KEY<>0 :ENDWH
+ DO
+  K%=KEY 
+ UNTIL K%<>0
+ C%=loc("SLVNB",chr$(k%))
+ if C%<>0
+  A%=C%
+  K%=13
+ endif
+ CURSOR OFF
+ IF K%=13
+  IF A%=1
+   MAZEPUT:("MAZESAV")
+   A%=0
+  ELSEIF A%=2
+   MAZEGET:("MAZESAV")
+   A%=0
+  ELSEIF A%=3
+   MAZESEE:
+   A%=0
+  ELSEIF A%=4
+   X%=RND*MS%
+   Y%=RND*MS%
+   MAZENEW:(X%,Y%)
+   A%=0
+  ELSEIF A%=5
+   MAZEGET:("MAZEPOS")
+   A%=0
+  ENDIF
+ ELSEIF K%=6
+  IF A%<5
+   A%=A%+1
+  ELSE
+   A%=1
+  ENDIF
+ ELSEIF K%=5
+  IF A%>1
+   A%=A%-1
+  ELSE
+   A%=5
+  ENDIF
+ ELSEIF K%=1 OR K%=2
+  A%=0
+ ENDIF
+UNTIL A%=0
+AT 14,4
+PRINT "       ";
+

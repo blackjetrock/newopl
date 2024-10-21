@@ -1,0 +1,68 @@
+BSORT:(fnam$,field%,az%)
+REM Source: BSORT.OPL
+REM 2 Line Version 1.4
+REM Derived from REORDER.OPL from Jaap Scherphuis
+REM (C) DEC 1997 LRS
+
+LOCAL last%,lowest%,n%,swof%
+LOCAL lowest$(255),current$(255)
+
+swof%=PEEKB($007C)
+POKEB $007C,0 :REM No auto switch off
+AT 1,2 :PRINT "Open file...";CHR$(26)
+OPEN "A:"+fnam$,A,a$,b$,c$,d$,e$,f$,g$,h$,i$,j$,k$,l$,m$,n$,o$,p$
+last%=COUNT :n%=COUNT
+IF last%>1
+ DO
+  AT 1,2 :PRINT NUM$(100-INTF(100*last%)/n%,-3);"% complete";CHR$(26)
+  FIRST :lowest%=1
+  REM Read correct field for lowest%
+   IF field%=1 :lowest$=A.a$
+   ELSEIF field%=2 :lowest$=A.b$
+   ELSEIF field%=3 :lowest$=A.c$
+   ELSEIF field%=4 :lowest$=A.d$
+   ELSEIF field%=5 :lowest$=A.e$
+   ELSEIF field%=6 :lowest$=A.f$
+   ELSEIF field%=7 :lowest$=A.g$
+   ELSEIF field%=8 :lowest$=A.h$
+   ELSEIF field%=9 :lowest$=A.i$
+   ELSEIF field%=10 :lowest$=A.j$
+   ELSEIF field%=11 :lowest$=A.k$
+   ELSEIF field%=12 :lowest$=A.l$
+   ELSEIF field%=13 :lowest$=A.m$
+   ELSEIF field%=14 :lowest$=A.n$
+   ELSEIF field%=15 :lowest$=A.o$
+   ELSEIF field%=16 :lowest$=A.p$
+   ENDIF
+  WHILE POS<last%
+   NEXT
+   REM Read comparestring
+    IF field%=1 :current$=A.a$
+    ELSEIF field%=2 :current$=A.b$
+    ELSEIF field%=3 :current$=A.c$
+    ELSEIF field%=4 :current$=A.d$
+    ELSEIF field%=5 :current$=A.e$
+    ELSEIF field%=6 :current$=A.f$
+    ELSEIF field%=7 :current$=A.g$
+    ELSEIF field%=8 :current$=A.h$
+    ELSEIF field%=9 :current$=A.i$
+    ELSEIF field%=10 :current$=A.j$
+    ELSEIF field%=11 :current$=A.k$
+    ELSEIF field%=12 :current$=A.l$
+    ELSEIF field%=13 :current$=A.m$
+    ELSEIF field%=14 :current$=A.n$
+    ELSEIF field%=15 :current$=A.o$
+    ELSEIF field%=16 :current$=A.p$
+    ENDIF
+   REM Compare and swap
+   IF (UPPER$(current$)<UPPER$(lowest$) AND az%) OR (UPPER$(current$)>UPPER$(lowest$) AND NOT az%)
+    lowest$=current$
+    lowest%=POS
+   ENDIF
+  ENDWH
+  POSITION lowest%
+  UPDATE :last%=last%-1
+ UNTIL last%=0
+ENDIF
+CLOSE
+POKEB $007C,swof% :REM Restore auto switch off

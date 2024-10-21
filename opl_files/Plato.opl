@@ -1,0 +1,63 @@
+PLATO:
+LOCAL A%,B%,C%,D%,E%,G%(816)
+L::
+CLS
+A%=MENU("TETRA,CUBE,OCTA,ICOSA")
+IF A%=0
+ RETURN
+ELSE
+ OPEN "GRAF"+CHR$(A%+48),A,A$
+ENDIF
+CLS
+PRINT "Please wait...";
+A%=1
+C%=1
+DO
+ B%=1
+ DO
+  G%(C%)=ASC(MID$(A.A$,B%+2,1))-65
+  B%=B%+1
+  C%=C%+1
+ UNTIL B%>48
+ NEXT
+ A%=A%+1
+UNTIL A%>17
+CLOSE
+CLS
+IF (PEEKB($FFE8) AND 7)>4
+ PRINT REPT$(CHR$(0)+CHR$(2)+CHR$(4)+" ",5)+REPT$(CHR$(1)+CHR$(3)+CHR$(5)+" ",5);
+ PRINT " "+REPT$(" "+CHR$(0)+CHR$(2)+CHR$(4),4)
+ PRINT " "+REPT$(" "+CHR$(1)+CHR$(3)+CHR$(5),4)
+ELSE
+ PRINT REPT$(CHR$(0)+CHR$(2)+CHR$(4)+" ",4);REPT$(CHR$(1)+CHR$(3)+CHR$(5)+" ",4);
+ENDIF
+
+B%=721
+C%=48
+A%=RND*3
+DO
+ POKEB $180,64
+ E%=B%+48
+ D%=B%
+ DO
+  POKEB $181,G%(D%)
+  D%=D%+1
+ UNTIL D%=E%
+ IF B%=721 OR B%=769
+  D%=INT(RND*2)
+  A%=D%-(D%>=A%)
+  B%=1+240*A%+(192 AND B%=769)
+ ELSE B%=B%+C%
+  PAUSE 1
+  IF C%=48
+   IF B%=241 OR B%=481 OR B%=721
+    B%=769
+    C%=-48
+   ENDIF
+  ELSEIF B%=-47 OR B%=193 OR B%=433
+   B%=721
+   C%=48
+  ENDIF
+ ENDIF
+UNTIL KEY=13
+GOTO L::

@@ -1,0 +1,16 @@
+KEY:(X%)
+Rem XP Vers 1.1 - 01/95
+LOCAL K$(1)
+LP1::
+AT 14,X%
+PRINT"Key"
+PAUSE 10
+AT 14,X%
+PRINT"   "
+PAUSE 6
+K$=KEY$
+IF K$>""
+RETURN
+ELSE
+GOTO LP1::
+ENDIF

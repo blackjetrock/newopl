@@ -1,0 +1,6 @@
+C4PRTBRD:
+AT 1,1
+PRINT CHR$(255);A$(1);CHR$(255);" ";CHR$(3+(4 AND I%<>1));MID$("PsiHum",1+(3 AND (I% AND J%)<>0),3);"-";MID$("PsiHum",1+(3 AND (J% AND (3-I%))<>0),3);CHR$(3+(4 AND I%=1))
+PRINT CHR$(255);A$(2);CHR$(255);" Move:",M%;" "
+PRINT CHR$(255);A$(3);CHR$(255);"           ";
+PRINT CHR$(255);"1234567";CHR$(255);"           ";

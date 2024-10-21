@@ -1,0 +1,8 @@
+PEDITR:
+CLS :AT 1,1 :PRINT"Edit Name " :AT 1,2 :EDIT A.Nam$
+CLS :AT 1,1 :PRINT"Edit Number " :AT 1,2 :KSTAT 3 :EDIT A.No$ :KSTAT 1
+CLS :AT 1,2 :PRINT"  File Updated" :UPDATE :Pause 10
+BEP:(1)
+A$=A.Nam$
+POSITION P%
+KEY :RETURN

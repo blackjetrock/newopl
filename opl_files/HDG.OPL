@@ -1,0 +1,8 @@
+HDG:(wind,vel,trk,tas)
+if angle:(wind,trk)=180
+RETURN trk
+elseif angle:(wind,trk)=360
+RETURN trk
+endif
+drift=asin:(c1:(angle:(wind,trk),vel,tas))
+RETURN int(trk-drift) 

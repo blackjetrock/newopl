@@ -1,0 +1,21 @@
+EXPLPR:
+REM LZ procedure
+REM Externals: F%(),K%
+LOCAL I%,Y%,X%
+
+I%=1
+Y%=1
+DO
+ X%=1
+ AT 1,Y%
+ DO
+  IF F%(I%)>0
+   PRINT F%(I%);
+  ELSE
+   PRINT CHR$(-F%(I%));
+  ENDIF
+  I%=I%+1
+  X%=X%+1
+ UNTIL X%>K%
+ Y%=Y%+1
+UNTIL Y%>K%

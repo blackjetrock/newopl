@@ -1,0 +1,36 @@
+REMOV2:
+LOCAL Q%,W1$(4),A$(4,1)
+P$(W%)="00"
+END:
+IF END%>=1
+RETURN
+ENDIF
+Q%=0
+DO
+Q%=Q%+1
+A$(Q%)=MID$(Y$,Y%,1)
+W1$=A$(1)+A$(2)+A$(3)+A$(4)
+EOW:
+IF END%>=1
+GOTO NOWORD::
+ENDIF
+UNTIL Q%=4
+SUB::
+EOW:
+IF END%<1
+GOTO SUB::
+ENDIF
+NOWORD::
+IF W1$="    "
+RETURN
+ENDIF
+Q%=0
+DO
+Q%=Q%+1
+IF W1$=MID$(V$(Q%),3,4)
+GOTO KEYWORD::
+ENDIF
+UNTIL Q%=43
+RETURN
+KEYWORD::
+P$(W%)=LEFT$(V$(Q%),2)

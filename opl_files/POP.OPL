@@ -1,0 +1,3 @@
+pop:
+sp%=sp%-1
+return stack(sp%)

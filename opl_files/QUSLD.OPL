@@ -1,0 +1,18 @@
+QUSLD:
+P%=1
+WHILE MID$(A$,P%,1)="O"
+ P%=P%+1
+ENDWH
+IF MID$(A$,P%+1,1)="O"
+ P%=P%+1
+ RETURN QUMOV:
+ENDIF
+P%=16
+DO
+ IF MID$(A$,P%-1,2)=".O"
+  QUMOV:
+  RETURN 0
+ ENDIF
+ P%=P%-1
+UNTIL P%=1
+RETURN -1

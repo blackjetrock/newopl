@@ -1,0 +1,8 @@
+rename:
+rem A.Grieve - 1988
+local old$(8),new$(8)
+print "Ren A:";
+input old$
+print "To  A:";
+input new$
+rename "a:"+old$,"a:"+new$

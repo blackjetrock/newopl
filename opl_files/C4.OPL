@@ -1,0 +1,27 @@
+C4:
+GLOBAL F$(69,5),S$(42,13)
+GLOBAL A$(3,7),B%(42)
+GLOBAL SA%(12),I%,J%
+GLOBAL M$(42),M%,AN%,SN%
+LOCAL A%
+
+C4INIT1:
+DO
+ C4INIT2:
+ I%=1
+ J%=1
+ L::
+ DO
+  C4PRTBRD:
+  IF I% AND J%
+   A%=C4HUM%:
+  ELSE
+   A%=C4COMP%:
+  ENDIF
+ UNTIL A%
+ A%=C4END%:(A%)
+ IF A%=2
+  C4UNMOVE:
+  GOTO L::
+ ENDIF
+UNTIL A%=0

@@ -1,0 +1,77 @@
+C4ANIM1:(R%,C%)
+LOCAL A%,D%,E%,F%,G%
+LOCAL U1%,U2%,U3%,U4%,U5%,U6%,U7%,U8%,UA%,UB%,UC%
+LOCAL S%
+A%=1
+F%=7+C%
+G%=1
+S%=50
+REM Dirty code,but fast
+DO
+ U1%=14
+ U2%=17+(14 AND I%=2)
+ U3%=14
+ IF A% AND 1
+  IF B%(F%)<>0
+   UA%=14
+   UB%=17+(14 AND B%(F%)=2)
+   UC%=14
+  ENDIF
+  D%=5
+  DO
+   U8%=U7%
+   U7%=U6%
+   U6%=U5%
+   U5%=U4%
+   U4%=U3%
+   U3%=U2%
+   U2%=U1%
+   U1%=0
+   UDG 2,0,0,0,0,U1%,U2%,U3%,U4%
+   UDG 5,U6%,U7%,U8%,0,UA%,UB%,UC%,0
+   AT C%+1,G%
+   PRINT CHR$(5);
+   IF G%<>1
+    AT C%+1,G%-1
+    PRINT CHR$(2);
+   ENDIF
+   IF SN%
+    BEEP 3,S%
+   ENDIF
+   S%=S%+20
+   D%=D%-1
+  UNTIL D%=0
+  IF A%<>1
+   AT C%+1,G%-1
+   PRINT " ";
+  ENDIF
+  U6%=0
+  U7%=0
+  U8%=0
+ ELSE
+  D%=4
+  DO
+   U7%=U6%
+   U6%=U5%
+   U5%=U4%
+   U4%=U3%
+   U3%=U2%
+   U2%=U1%
+   U1%=0
+   UDG 2,U1%,U2%,U3%,U4%,U5%,U6%,U7%,0
+   AT 1+C%,G%
+   PRINT CHR$(2);
+   IF SN%   
+    BEEP 3,S%
+   ENDIF
+   S%=S%+20
+  D%=D%-1
+  UNTIL D%=0
+  U5%=0
+  U6%=0
+  U7%=0
+  G%=G%+1
+ ENDIF
+ F%=F%+7
+ A%=A%+1
+UNTIL A%>R%

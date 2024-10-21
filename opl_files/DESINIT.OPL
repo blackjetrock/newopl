@@ -1,0 +1,49 @@
+DESINIT:
+LOCAL A%,B%,C%,D$(64),A$(10)
+
+BT%(1)=16
+BT%(2)=8
+BT%(3)=4
+BT%(4)=2
+BT%(5)=1
+
+A$="A:DESIGN"
+IF EXIST(A$)
+ OPEN A$,A,A$
+ELSE
+ CREATE A$,A,A$
+ENDIF
+
+U$(1)=REPT$(CHR$(0),64)
+U%=2
+DO
+ U$(U%)=U$(1)
+ U%=U%+1
+UNTIL U%=27
+
+WHILE NOT EOF
+ IF A.A$<>""
+  U%=ASC(A.A$)-64
+  IF U%>=1 AND U%<=26
+   D$=LEFT$(MID$(A.A$,2,64)+REPT$("0",64),64)
+   C%=ADDR(D$)+1
+   A%=64
+   DO
+    B%=PEEKB(C%)-%0
+    IF B%>9
+     B%=B%-7
+    ENDIF
+    IF B%>31 OR B%<0
+     B%=0
+    ENDIF
+    POKEB C%,B%
+    A%=A%-1
+    C%=C%+1
+   UNTIL A%=0
+   U$(U%)=D$
+  ENDIF
+ ENDIF
+ NEXT
+ENDWH
+
+CLOSE

@@ -1,0 +1,259 @@
+FILEXFRF:(utysno%,flwcat%,flgetx%,flvalx%,tlzzmd%,utcpybt%,utcpybf%)
+
+REM This procedure is a subroutine of FILEXFER. It is called to receive
+REM files from the PC.
+REM
+REM Target models:  This program can only be run on Organiser LZ Modells.
+REM
+REM Version:        2.2  (01-Jan-1997)
+REM Created:        P.Hunkeler - December 1990
+REM Changed:        P.Hunkeler - 05-Jan-1992
+REM                   - Added multi-file transfer from PC to Organiser.
+REM                   - Added PC directory search including wildcard
+REM                     characters "+" (will be translated to "?") and "*".
+
+
+LOCAL  multipl%                     REM 0=single file, 1,2=multiple file transfer
+LOCAL  pcfile$(12)                  REM PC filename to be transferred/received.
+LOCAL  pcdir$(12),pcdire$(12)       REM PC filename to be searched for.
+LOCAL  tmpfil1$(14),tmpfil2$(12)    REM PC filename while reading directory.
+LOCAL  xfget%                       REM Counter to reposition in PC directory.
+LOCAL  cr$(1),ef$(1)                REM ConfirmRepace and EditFilename indicators
+LOCAL  c%,k%,k$(1),i%               REM Auxiliary variables
+
+
+POKEB ADDR(i%)   , type%                  REM Get default file extension.
+POKEB ADDR(i%)+1 , (-1*(opltype% = 0))    REM The file type has to be in the
+USR(flgetx%,i%)                           REM A-register for the FL$GETX service!
+pcdir$   = "*"+curtype$                   REM (256*type% would give "fixed overflow")
+dirtype% = type%
+
+DO                            REM Endless loop, left by ON/Clear at PSION file edit.
+  prompt$ = "Receive:"        REM Get PC file name to be received.
+  PRINT title$;prompt$;
+  TRAP EDIT pcdir$
+
+  IF ERR                      REM Has ON/Clear been pressed ?
+    BREAK                     REM Y, go to type selection menu.
+    ENDIF
+
+  pcdir$  = UPPER$(pcdir$)
+  pcdire$ = pcdir$
+  PRINT CHR$(15);prompt$;pcdir$;
+
+  multipl% = LOC(pcdir$,"+") + LOC(pcdir$,"*")    REM Any wildcards ? None=0
+
+  IF multipl%                 REM If there are any wildcards any "+" has to be
+    i% = LOC(pcdir$,"+")      REM translated to a "?".
+
+    WHILE i%
+      pcdire$ = LEFT$(pcdire$,i% - 1)+"?"+RIGHT$(pcdire$,LEN(pcdire$) - i%)
+      i%      = LOC(pcdire$,"+")
+      ENDWH
+    ENDIF
+
+  XFOPEN:(pcpath$+"/"+pcdire$,0,2)        REM Try to read the first (or only) file name
+  tmpfil2$ = XFGET$:(12)                  REM to see if any match can be found.
+
+  IF multipl%  AND  NOT XFEOF:            REM Wildcard search to be done?
+    k%       = 4                          REM Y, preset k% in case no match found.
+    tmpfil1$ = "<"+pcdir$+">"             REM    First selection is "all".
+    CURSOR ON
+
+    WHILE 1                               REM Endless loop, left when tmpfil2$ = "".
+      AT 1,3                              REM Y, show them.
+      PRINT CHR$(22);"      ";tmpfil1$;
+      PRINT CHR$(23);"      ";tmpfil2$;
+      AT 7,3
+
+      DO                                  REM Wait for down arrow or EXE key.
+        k% = GET                          REM ON/Clear key will leave.
+        UNTIL k% = 1  OR  k% = 4  OR  k% = 13
+
+      IF k% <> 4  OR  tmpfil2$ = ""       REM ON/Clear or EXE pressed or EOF ?
+        XFCLOSE:                          REM Y, leave directory loop.
+        BREAK
+        ENDIF
+
+      tmpfil1$ = tmpfil2$                 REM Second entry is now current and
+      tmpfil2$ = XFGET$:(12)              REM a new second must be read.
+
+      IF XFEOF:                           REM No more matches found?
+        tmpfil2$ = ""                     REM N,
+        ENDIF
+
+      ENDWH
+
+    CURSOR OFF
+
+    IF     k% = 4                                 REM Has EOF been encountered?
+      PRINT CHR$(22);CHR$(23);"  No more entries" REM Y, print a message and wait for any key
+      GET                                         REM    then get a file name again.
+      CONTINUE
+    ELSEIF k% = 1                                 REM ON/Clear pressed?
+      CONTINUE
+      ENDIF
+
+    IF LEFT$(tmpfil1$,1) = "<"    REM Multiple file receive selected?
+      AT 1,2                      REM Y, ask for "replace confirmation" and "file name edit".
+      PRINT "confirm <R>eplace:  edit <F>ilenames:   Hit <R>,<F> or <EXE>";
+      cr$ = "Y"                   REM Reinitialize the switches.
+      ef$ = "Y"
+
+      DO
+        AT 20,2
+        PRINT cr$;
+        AT 20,3
+        PRINT ef$;
+        k$ = UPPER$(GET$)
+
+        IF k$ = "R"
+          cr$ = CHR$(%N-11*(cr$="N"))
+        ELSEIF k$ = "F"
+          ef$ = CHR$(%N-11*(ef$="N"))
+          ENDIF
+
+        UNTIL k$ = CHR$(13)  OR  k$ = CHR$(1)
+
+      IF k$ = CHR$(1)
+        CONTINUE
+        ENDIF
+
+      IF ef$ = "N"                  REM Should file names be edited?
+        prompt$ = "Specify pack"    REM N, pack to be used must be specified once.
+        PRINT title$
+        POKEB $2187 , 0             REM Reset runtime buffer for TL$ZZMD service.
+        c% = USR(tlzzmd%,$0200)     REM Call TL$ZZMD service to select pack.
+
+        IF c%                       REM Has ON/Clear been pressed?
+          CONTINUE                  REM Y,
+          ENDIF
+
+        ENDIF
+
+    ELSE                        REM From now on this is a single file reception.
+      multipl% = 0
+      pcdire$  = tmpfil1$
+      ENDIF
+
+  ELSEIF XFEOF:                               REM Not wildcard search, file found?
+    VIEW(4,pcpath$+"/"+pcdire$+" not found")  REM N, print a message and wait for any key
+    CONTINUE                                  REM    then get a file name again.
+  ELSE                                        REM Y, directory has to be closed again.
+    XFCLOSE:
+    ENDIF
+
+  PRINT title$
+  xfget% = 1                  REM Reset PC directory file position.
+
+  DO                          REM Endless loop, left when no more file to receive.
+    i% = 0                    REM Open the PC directory an position to the next file.
+    XFOPEN:(pcpath$+"/"+pcdire$,0,2)
+
+    DO                        REM Read directory records until the next file
+      pcfile$ = XFGET$:(12)   REM to be received is reached. This might be EOF.
+      i%      = i% + 1
+      UNTIL i% = xfget%
+
+    IF XFEOF:                 REM No more files to receive?
+      BREAK                   REM N, leave receive loop.
+      ENDIF
+
+    xfget% = xfget% + 1       REM Set position to next file in directory.
+    XFCLOSE:                  REM Close directory. Otherwise XTRECV would abort.
+
+    IF type% = 0                REM All-type receive?
+      i% = LOC(pcfile$,".")     REM Y, determine the type of the selected file.
+
+      IF i%                                               REM Any file extension?
+        curtype$ = RIGHT$(pcfile$,LEN(pcfile$) - i% + 1)  REM Y, get it.
+      ELSE
+        curtype$ = ""
+        ENDIF
+
+      IF LEN(curtype$) <> 4  OR  USR(flvalx%,0)   REM If any file type is to be
+        PRINT CHR$(15);hitspc$                    REM received, extension must be known.
+        k% = VIEW(3,"Unknown extension in "+pcfile$+" - file skipped.")
+
+        WHILE k% <> 32                            REM Wait for SPACE key.
+          k% = VIEW(3,"")
+          ENDWH
+
+        CONTINUE
+        ENDIF
+
+      ENDIF
+
+    curfile$ = UPPER$(LEFT$(pcfile$,LOC(pcfile$,".") - 1))
+
+    IF RIGHT$(curfile$,1) = "_"                           REM Build the default
+      curfile$ = LEFT$(curfile$,LEN(curfile$) - 1)+"%"    REM PSION file name. Take
+      ENDIF                                               REM into account that
+                                                          REM an ending '_' is
+                                                          REM translated to '%'.
+
+    IF ef$ = "Y"  OR  multipl% = 0  OR  curfile$ = "MAIN" REM Should PSION file name be edited?
+      PRINT CHR$(15);CHR$(22);"From PC:";pcfile$;
+      prompt$ = "To   "
+      USR(utcpybt%,ADDR(curfile$))  REM Move "curfile$" to runtime buffer RTT_BF for TL$ZZMD service.
+
+      DO                              REM Call TL$ZZMD-service to edit PSION file name.
+        IF curfile$ = "MAIN"          REM Is it the MAIN file?
+          BEEP 40,55                  REM Y, sound a beep to show file name must be changed.
+          ENDIF
+
+        c% = USR(tlzzmd%,$0308)       REM Call TL$ZZMD service until a file name specified or
+        USR(utcpybf%,ADDR(curfile$))  REM ON/Clear pressed. The file name must not be "MAIN".
+        curfile$ = UPPER$(curfile$)
+        UNTIL c%  OR  ( curfile$ <> ""  AND  curfile$ <> "MAIN" )
+
+      IF c%                           REM Has ON/Clear been pressed ?
+        BREAK                         REM Y, go to main (direction) menu.
+        ENDIF
+
+      ENDIF
+
+    curfile$ = CHR$(%A + PEEKB($A2))+":"+UPPER$(curfile$)   REM Current pack as 0,1,2 is at $A2.
+
+    IF cr$ = "Y"  OR  multipl% = 0                    REM Confirm replacement desired?
+      dirfile$ = RIGHT$(curfile$,LEN(curfile$) - 2)   REM Y, call FL$WCAT service to see
+      dirfile$ = USR$(flwcat%,256 - (opltype% = 0))   REM    if the file already exists.
+
+      IF curfile$ = dirfile$                              REM If the file to be
+        PRINT CHR$(22);dirfile$;" exists"                 REM received from the PC
+        PRINT repfile$;                                   REM exists on the PSION
+                                                          REM its replacement must
+        IF NOT (USR(utysno%,0))                           REM be confirmed.
+          CONTINUE                                        REM Wait for Y, N or
+          ENDIF                                           REM ON/Clear key.
+
+        ENDIF
+
+      ENDIF
+
+    IF multipl%                   REM Multiple files to be received?
+      AT 1,2                      REM Y, DEL key can be used to interrupt
+      PRINT "     DEL=Cancel"     REM    the reception process after each file.
+      ENDIF
+
+    AT 1,3
+    PRINT CHR$(22);"Ok, receiving...";CHR$(23);"     ";curfile$;
+    curtype% = dirtype% - $80 + (dirtype% = $81) + opltype%*(dirtype% = $83)
+    XTRECV:(pcpath$+"/"+pcfile$,curfile$,curtype%)
+
+    IF KEY = 8  AND  multipl%                 REM DEL key pressed while multiple receive?
+      PRINT title$                            REM Y, ask if reception is to be cancelled.
+      AT 1,3
+      PRINT CHR$(16);"Cancel transfer Y/N? ";
+
+      IF USR(utysno%,0)                       REM Wait for Y or N key.
+        BREAK
+        ENDIF
+
+      ENDIF
+
+    UNTIL 0                   REM End of receive loop.
+
+  BEEP 40,55
+
+  UNTIL 0                     REM End of file selection loop.

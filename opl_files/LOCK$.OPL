@@ -1,0 +1,24 @@
+LOCK$:(X$)
+LOCAL D$(246),E$(7),V$(7)
+CREATE "A:LOCK",B,F$,P$
+BEEP 50,200
+PRINT "INFORMATION >"
+INPUT D$
+DO
+  DO
+    DO
+      CLS
+      BEEP 50,200
+      PRINT "PASSWORD >"
+      INPUT E$
+    UNTIL E$<>""
+  UNTIL VIEW(1,"PRESS <Y> IF OK")=%Y
+  CLS
+  BEEP 50,90
+  PRINT "VERIFY P/WORD >"
+  INPUT V$
+UNTIL V$=E$
+B.F$=D$
+B.P$=E$
+APPEND
+CLS

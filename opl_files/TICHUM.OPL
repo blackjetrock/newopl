@@ -1,0 +1,16 @@
+TICHUM:
+LOCAL K%,S%
+AT 5,1
+PRINT "Your move";
+DO
+ DO
+  K%=ASC(UPPER$(GET$))
+  IF K%=1
+   RETURN -1
+  ENDIF
+  S%=LOC("ABCGHIMNO",CHR$(K%))
+ UNTIL S%
+UNTIL BD%(S%)=0
+TICMOV:(S%)
+AT 5,1
+PRINT "         ";

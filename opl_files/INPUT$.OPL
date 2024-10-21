@@ -1,0 +1,10 @@
+INPUT$:(l%)
+local c%,k$(1),s$(100)
+c%=0
+do
+c%=c%+1
+k$=get$
+print k$;
+s$=s$+k$
+until c%=l% or k$=chr$(13)
+return s$

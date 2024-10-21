@@ -1,0 +1,33 @@
+MSTRINP$:(X%,Y%)
+LOCAL A%,K%
+
+A%=1
+B$=REPT$(".",HL%)
+DO
+ KSTAT 3
+ AT X%,Y%
+ PRINT B$;
+ AT X%+A%-1,Y%
+ CURSOR ON
+ K%=GET
+ IF K%=6
+  A%=A%+1-(HL% AND A%=HL%)
+ ELSEIF K%=5
+  A%=A%-1+(HL% AND A%=1)
+ ELSEIF K%>=%0 AND K%<=%0+CL%
+  B$=LEFT$(B$,A%-1)+CHR$(K%)+RIGHT$(B$,HL%-A%)
+  A%=A%+1-(HL% AND A%=HL%)
+ ELSEIF K%=1
+  IF B$=REPT$(".",HL%)
+   RETURN ""
+  ENDIF
+  B$=REPT$(".",HL%)
+ ENDIF
+UNTIL K%=13 AND LOC(B$,".")=0
+CURSOR OFF
+A%=1
+DO
+ B$=LEFT$(B$,A%-1)+CHR$(LOC(C$,MID$(B$,A%,1))-1)+RIGHT$(B$,HL%-A%)
+A%=A%+1
+UNTIL A%>HL%
+RETURN B$

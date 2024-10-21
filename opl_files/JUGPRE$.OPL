@@ -1,0 +1,40 @@
+JUGPRE$:(A$,B%)
+LOCAL A%,T%(20),L%,B$(20)
+LOCAL C%,D%,E%,F%
+L%=LEN(A$)
+D%=0
+A%=1
+DO
+ C%=ASC(MID$(A$,A%,1))-48
+ IF C%>9
+  C%=C%-7
+ ENDIF
+ WHILE A%+C%>L%
+  D%=D%+1
+  T%(D%)=A%+C%-L%-1
+  E%=D%
+  WHILE E%>1
+   IF T%(E%)>T%(E%-1)
+    BREAK
+   ENDIF
+   F%=T%(E%-1)
+   T%(E%-1)=T%(E%)
+   T%(E%)=F%
+   E%=E%-1
+  ENDWH
+  C%=C%-L%
+ ENDWH
+ A%=A%+1
+UNTIL A%>L%
+
+B$=""
+WHILE T%(D%)>=B%
+ B$=CHR$(49+T%(D%)+(7 AND T%(D%)>8))+B$
+ E%=D%
+ DO
+  T%(E%)=T%(E%-1)+1
+  E%=E%-1
+ UNTIL E%=1
+ T%(1)=0
+ENDWH
+RETURN B$

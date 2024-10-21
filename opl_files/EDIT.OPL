@@ -1,0 +1,24 @@
+edit:(f$)
+rem A.Grieve - 1988
+local opt%
+open "a:"+f$,a,data$
+first
+while opt%<>1
+ print chr$(14);"  ";pos;"/";count;"  """;f$;""""
+  opt%=view(2,a.data$)
+ if opt%=2
+  at 1,2 :input a.data$
+  if a.data$<>"" :append :endif
+ elseif opt%=3
+  back
+ elseif opt%=8
+  at 1,2 :print chr$(15)+"Erase (Y/N) ";
+  if lower$(get$)="y" :erase :endif
+ elseif opt%=13
+  at 1,2 :edit a.data$ :update
+ elseif opt%=4
+  next
+ endif
+ if eof :back :endif
+endwh
+close

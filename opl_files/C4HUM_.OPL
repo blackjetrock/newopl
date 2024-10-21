@@ -1,0 +1,52 @@
+C4HUM%:
+LOCAL K%
+DO
+DO
+ AT 11,4
+ PRINT "Press 1-7 ";
+ KSTAT 3
+ K%=ASC(UPPER$(GET$))
+ KSTAT 1
+ IF K%=%"
+  J%=3
+  RETURN 0
+ ELSEIF K%=%)
+  J%=0
+  RETURN 0
+ ELSEIF K%=%,
+  J%=3-I%
+  RETURN 0
+ ELSEIF K%=%<
+  AN%=NOT AN%
+  AT 10,3
+  PRINT "Animate O";MID$("FFN ",1-2*AN%,2);
+ ELSEIF K%=%;
+  SN%=NOT SN%
+  AT 11,3
+  PRINT "Sound O";MID$("FFN ",1-2*SN%,2)
+ ELSEIF K%=%>
+  IF M%>1
+   C4UNMOVE:
+   RETURN 0
+  ENDIF
+ ELSEIF K%=%/
+  IF M%<=LEN(M$)
+   IF J%<>3
+    J%=3-I%
+   ENDIF
+   K%=ASC(MID$(M$,M%,1))
+   RETURN C4MOVE%:(K%)
+  ENDIF
+ ELSEIF K%=1 OR K%=2
+  AT 11,4
+  PRINT "Quit (Y/N)";
+  DO
+   K%=ASC(UPPER$(GET$))
+   IF K%=%Y
+    RETURN -1
+   ENDIF
+  UNTIL K%=%N OR K%=1
+ ENDIF
+UNTIL K%>=%1 AND K%<=%7
+UNTIL B%(K%-%0)=0
+RETURN C4MOVE%:(K%-%0)

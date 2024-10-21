@@ -1,0 +1,47 @@
+CPACK$:(prompt1$,prompt2$)
+rem Choose a pack
+local a%,addr%,drive%
+local a$(65),pack$(2),sp$(1)
+sp$=chr$($FE)
+cls
+at (22-len(prompt1$))/2,1
+print prompt1$
+at (22-len(prompt2$))/2,2
+print prompt2$
+print chr$(25)
+do
+ pack$=chr$(%A+drive%)+":"
+ exist(pack$+"main")
+ a$=a$+pack$+"("
+ addr%=peekw($94)
+ a%=peekb(addr%)
+ if (a%<>0) and (a%<>$FF)
+  if drive%=0
+   a$=a$+"Internal"+sp$+"RAM"
+  else
+   a%=peekb(addr%+1)
+   a$=a$+num$(8*a%,3)+"k"+sp$
+   a%=peekb(addr%)
+   if a% and 2
+    a$=a$+"Datapak"
+   else
+    a$=a$+"Rampak"
+   endif
+  endif
+ elseif peekb(addr%)=0
+  a$=a$+"No"+sp$+"pack"
+ else
+  a$=a$+"Bad"+sp$+"pack"
+ endif
+ a$=a$+"),"
+ drive%=drive%+1
+until drive%>2
+at 1,4
+pokeb $209C,1
+a%=menun(1,a$)
+pokeb $209C,0
+if a%>0
+ return chr$(%@+a%)+":"
+else
+ return "X:"
+endif

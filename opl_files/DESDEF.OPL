@@ -1,0 +1,11 @@
+DESDEF:
+LOCAL A%,C%
+
+A%=U%*65+ADDR(U$())-64
+POKEB $180,64
+C%=0
+DO
+ POKEB $181,PEEKB(A%)
+ C%=C%+1
+ A%=A%+1
+UNTIL C%=64

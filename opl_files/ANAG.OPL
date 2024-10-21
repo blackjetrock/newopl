@@ -1,0 +1,108 @@
+ANAG:
+LOCAL W$(20),B$(20),Y%,L%,NN%,SC%,OT%,T%,R%,M$(1),MW$(1),K$(1),MENU%
+ESCAPE OFF
+PRINT"Anagram Program"
+PRINT"  Darwin v1.1"
+BEEP 20,40 :BEEP 30,80 :BEEP 20,70 :BEEP 60,20 :PAUSE 10
+
+MN::
+DO
+CLS
+MENU%=MENU("PLAY-GAME,GAME-RULES,readme")
+IF MENU%=3
+  PRINT"Read-me file:"
+  VIEW(2,"  after several hours of brain boxing I finally got around to this program.  My deepest thanks to Andy Loveday for his patience and South-America for the coffee beans :>.  D.Lacey 29/01/99 oOo -end- oOo   ")
+ELSEIF MENU%=2
+  PRINT"AnagramXP Rules"
+view(2,"The basic idea behind this game is to unscramble the letters on the bottom line before the timer gets to 0.  Every second you lose a chance, and for each error you lose another.(Makes it more FUN. <THE BIG WORDS HAVE MORE TIME> ***END***     ")
+ELSEIF MENU%=0
+  ESCAPE ON
+  RETURN
+ENDIF
+UNTIL MENU%=1
+
+ST::
+OPEN("MAIN"),A,DATA$ :LAST
+NN%=INT(RND*POS+1)
+POSITION NN%
+W$=UPPER$(A.DATA$) :CLOSE
+
+DO
+L%=LEN(W$)
+B$=REPT$(".",L%)
+Y%=1
+DO
+ MW$=MID$(W$,Y%,1)
+ IF MW$="-" OR MW$=" "
+  B$=LEFT$(B$,Y%-1)+MW$+RIGHT$(B$,L%-Y%)
+ ELSE
+  DO
+   R%=RND*L%+1
+   M$=MID$(B$,R%,1)
+  UNTIL M$="." AND MID$(W$,R%,1)<>" " AND MID$(W$,R%,1)<>"-"
+  B$=LEFT$(B$,R%-1)+MW$+RIGHT$(B$,L%-R%)
+ ENDIF
+ Y%=Y%+1
+UNTIL Y%>L%
+UNTIL W$<>B$
+
+CLS
+AT 1,2
+PRINT B$;CHR$(33)
+Y%=1 :OT%=0 :T%=0
+DO
+ K$=UPPER$(KEY$)
+ IF K$=CHR$(1)
+  AT 1,1
+  PRINT LOWER$(W$);
+  GOTO PP::
+ ENDIF
+ MW$=MID$(W$,Y%,1)
+ IF K$=MW$ OR MW$=" " OR MW$="-"
+  IF OT%>1
+   OT%=OT%-1
+  ENDIF
+  AT Y%,1
+  PRINT MW$
+  Y%=Y%+1
+ ELSEIF K$<>""
+  T%=100
+ ENDIF
+ IF Y%<L%+1
+  AT Y%,1
+  PRINT CHR$(255)
+ ENDIF
+ T%=T%+1
+ IF T%>100
+  T%=0
+  BEEP 10,10*OT%
+  AT 14,1
+  PRINT (L%*2)-OT%;" "
+  OT%=OT%+1
+  IF OT%>(L%*2)
+   AT 1,1
+   PRINT LOWER$(W$)
+   GOTO PP::
+  ENDIF
+ ENDIF
+UNTIL Y%>L%
+SC%=SC%+1
+PP::
+PAUSE 25
+CLS
+SFX:
+IF SC%>10
+ BEEP 40,20
+ BEEP 10,10
+ BEEP 40,30
+ BEEP 10,20
+ BEEP 4,20
+ENDIF
+CLS
+PRINT "YOUR SCORE IS"
+PRINT "    <";SC%;">"
+PAUSE 10
+IF K$<>CHR$(1)
+ GOTO ST::
+ENDIF
+GOTO MN::

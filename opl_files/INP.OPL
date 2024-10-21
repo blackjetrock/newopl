@@ -1,0 +1,13 @@
+INP:
+REM CM/XP procedure
+REM Old globals: A%,B%,B$
+LOCAL K$(1)
+
+AT A%,B%
+PRINT CHR$(63)
+DO
+ K$=UPPER$(GET$)
+UNTIL K$<"E" AND K$>="A"
+B$=B$+K$
+AT A%,B%
+PRINT K$

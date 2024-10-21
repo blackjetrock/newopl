@@ -1,0 +1,35 @@
+UPLOWCHR:
+LOCAL new$(64), lengte%, loc%
+
+lengte%=LEN(input$)
+IF lengte%>1
+   new$=UPPER$(LEFT$(input$,1))
+   lengte%=lengte%-1
+   input$= RIGHT$(input$,lengte%)
+
+   REM change character after " " to uppercase
+   DO
+      loc%= LOC(input$," ")
+      IF loc%
+         new$= new$+LEFT$(input$,loc%)
+         input$= RIGHT$(input$,lengte%-loc%)
+         new$= new$+UPPER$(LEFT$(input$,1))
+         lengte%= LEN(input$)
+         input$= RIGHT$(input$,lengte%-1)
+         lengte%= LEN(input$)
+      ELSE
+         new$= new$+input$
+      ENDIF
+   UNTIL loc%=0
+   input$=new$
+   loc%=LOC(input$,"-")
+   IF loc%
+      new$= LEFT$(new$,loc%)
+      new$= new$+UPPER$(MID$(input$,loc%+1,1))
+      new$= new$+RIGHT$(input$,(LEN(input$)-loc%-1))
+   ENDIF
+ELSE
+   new$=UPPER$(input$)
+ENDIF
+
+input$= new$

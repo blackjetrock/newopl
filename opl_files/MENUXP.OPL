@@ -1,0 +1,42 @@
+MENUXP:(file$)
+REM Source: MENUXP.OPL
+REM Version 1.1
+REM Creates XP menu from datafile
+REM Uses CALLOPL: from Jaap Scherphuis
+REM (C) JUN 1998 LRS
+REM L.R.Sluijk@student.utwente.nl
+
+REM 'menopt%' is global so that one can test
+REM in the subprocedure which menuoption was
+REM chosen (in case of subprocs that use arguments).
+
+GLOBAL menopt%
+LOCAL m$(255),run$(8)
+
+REM Open file with menulabels
+CLS
+PRINT "  INITIALIZING"
+TRAP OPEN file$,D,label$,proc$
+IF ERR :CLS :PRINT CHR$(16);ERR$(ERR) :GET :RETURN :ENDIF
+
+REM Read menu
+m$="" :FIRST
+WHILE NOT EOF
+ m$=m$+D.label$+","
+ NEXT
+ENDWH
+CLOSE :REM Close file in order to OPEN it inside the DO..UNTIL loop
+m$=LEFT$(m$,LEN(m$)-1) :REM Remove last comma
+
+REM Show menu
+DO
+ menopt%=MENU(m$)
+ IF menopt%=0 :RETURN
+ ELSE
+  OPEN file$,D,label$,proc$ :REM Open file again to be able to read procname
+  POSITION menopt%
+  run$=D.proc$
+  CLOSE :REM Close file to be able to use logical name D in subproc.
+  CALLOPL:(run$)
+ ENDIF
+UNTIL 0

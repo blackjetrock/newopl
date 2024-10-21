@@ -1,0 +1,151 @@
+MAZE:
+rem
+rem Maze game for the Psion Organiser II LZ
+rem Copyright 1992-1997 Zac Schroff, all rights reserved.
+rem
+rem This program is free for use and distribution as long
+rem as it is distributed only in an unmodified state,
+rem this notice is left intact, and the associated files
+rem are included with it :
+rem    MAZE.DOC       (the documentation file)
+rem    MAZE.OPL       (this main routine)
+rem    MAZESCN.OPL    (the basic screen painter)
+rem    MAZENEW.OPL    (the new maze generator)
+rem    MAZEGET.OPL    (the maze file loader)
+rem    MAZEPUT.OPL    (the maze file saver)
+rem    MAZEPLY.OPL    (the maze player)
+rem    MAZEOPT.OPL    (the maze options)
+rem    MAZESEE.OPL    (the maze viewer)
+rem    MAZE.OB3       (the object only main routine)
+rem    MAZESCN.OB3    (the object only basic screen painter)
+rem    MAZENEW.OB3    (the object only new maze generator)
+rem    MAZEGET.OB3    (the object only maze file loader)
+rem    MAZEPUT.OB3    (the object only maze file saver)
+rem    MAZEPLY.OB3    (the object only maze player)
+rem    MAZEOPT.OB3    (the object only maze options)
+rem    MAZESEE.OB3    (the object only maze viewer)
+rem
+rem If you intend to distribute modified of translated
+rem versions of this program, please contact the author
+rem for permission.
+rem
+rem Neither the author of the program nor anybody who
+rem distributes it takes any responsibility for how it
+rem will behave under the way you use or abuse it on
+rem your system, nor any responsibility for damages to
+rem data, other software, or hardware.  The limit of the
+rem liability of the author or distributor is the sum
+rem which you paid for the program.
+rem
+rem If you feel you'd like to send me something for this
+rem little program, or if you just want to chat, or ask
+rem about using the program for your own purpose, please
+rem contact me :
+rem
+rem     zschroff@docsware.com
+rem     Zac Schroff
+rem     2906 Firethorn Drive
+rem     Tuscaloosa, Alabama  35405
+rem     USA
+rem
+
+rem This is a simple (???) maze program for the Psion
+rem Organiser II LZ and LZ64.  It uses a pseudorecursive
+rem maze generator to generate mazes as they are solved.
+rem It also includes a wider view of the maze than the
+rem play view, the option to save and restore a second
+rem position, automatic save and restore of the player
+rem position on start/exit.  The bulk of the code is
+rem written in OPL, with the 3*3 screen update done in
+rem machine code (for better speed while playing).  It
+rem may seem slow because of my preferences for the key
+rem control values (5 tics to repeat, 4 tics between),
+rem but it is capable of close to 20 frames per second.
+
+rem The code is fairly general and will work with any maze
+rem that is square (this could be generalised also, if it
+rem was needed) 10 spaces on edge or larger (the Psion
+rem effectively limits it to 100 spaces on edge if you
+rem have an LZ64 and no local file overlap.  Note that
+rem the pseudorecursive maze generator tends toward an
+rem operational order of somewhere between N and N**2,
+rem where N is the number of blocks in the maze, so length
+rem 20 edges may take from four to sixteen times as long
+rem as a maze with length 10 edges to generate the maze.
+rem The size I choose here, 32 blocks on edge, seems to
+rem create a nice balance between complexity and speed.
+
+
+rem Global declarations.
+rem Please leave these alone, and in their present order.
+
+GLOBAL MD$(160),Q%,A%
+GLOBAL K%,TX%,TY%,R%
+GLOBAL X%,Y%,EX%,EY%
+
+
+rem Maze buffer.  To change the size of the maze, change
+rem the values for the size of A$, and the initial value
+rem for the variable MS%.  WARNING : The maze requires
+rem MS%*(MS%+1) bytes for any given size, and MS% MUST be
+rem equal to the dimension for A$, which MUST be square.
+
+GLOBAL A$(32,32),MS% :REM Maze buffer and side length
+MS%=32               :REM Set maze side length (public)
+
+
+rem Machine code init.
+rem Under no conditions change this section.
+
+MAZESCN:
+MD$=    CHR$($3F)+CHR$(019) +CHR$($FE)+CHR$($20)+CHR$($70) +CHR$($18) +CHR$($F3)+CHR$($20)+CHR$($72) +CHR$($DD)+CHR$($41) +CHR$($CC)+CHR$($7F)+CHR$($76) +CHR$($DD)+CHR$($43) +CHR$($DE)+CHR$($41) +CHR$($EC)+CHR$($00) +CHR$($08) +CHR$($08)
+MD$=MD$+CHR$($DF)+CHR$($41) +CHR$($DE)+CHR$($43) +CHR$($ED)+CHR$($00) +CHR$($08) +CHR$($08) +CHR$($DF)+CHR$($43) +CHR$($DE)+CHR$($41) +CHR$($A6)+CHR$($00) +CHR$($08) +CHR$($DF)+CHR$($41) +CHR$($DE)+CHR$($43) +CHR$($A7)+CHR$($00) +CHR$($08)
+MD$=MD$+CHR$($DF)+CHR$($43) +CHR$($DC)+CHR$($43) +CHR$($C3)+CHR$($00)+CHR$($11) +CHR$($DD)+CHR$($43) +CHR$($DC)+CHR$($41) +CHR$($F3)+CHR$($20)+CHR$($74) +CHR$($83)+CHR$($00)+CHR$($03) +CHR$($DD)+CHR$($41) +CHR$($DE)+CHR$($41)
+MD$=MD$+CHR$($EC)+CHR$($00) +CHR$($08) +CHR$($08) +CHR$($DF)+CHR$($41) +CHR$($DE)+CHR$($43) +CHR$($ED)+CHR$($00) +CHR$($08) +CHR$($08) +CHR$($DF)+CHR$($43) +CHR$($DE)+CHR$($41) +CHR$($A6)+CHR$($00) +CHR$($08) +CHR$($DF)+CHR$($41)
+MD$=MD$+CHR$($DE)+CHR$($43) +CHR$($A7)+CHR$($00) +CHR$($08) +CHR$($DF)+CHR$($43) +CHR$($DC)+CHR$($43) +CHR$($C3)+CHR$($00)+CHR$($11) +CHR$($DD)+CHR$($43) +CHR$($DC)+CHR$($41) +CHR$($F3)+CHR$($20)+CHR$($74) +CHR$($83)+CHR$($00)+CHR$($03)
+MD$=MD$+CHR$($DD)+CHR$($41) +CHR$($DE)+CHR$($41) +CHR$($EC)+CHR$($00) +CHR$($08) +CHR$($08) +CHR$($DF)+CHR$($41) +CHR$($DE)+CHR$($43) +CHR$($ED)+CHR$($00) +CHR$($08) +CHR$($08) +CHR$($DF)+CHR$($43) +CHR$($DE)+CHR$($41) +CHR$($A6)+CHR$($00)
+MD$=MD$+CHR$($08) +CHR$($DF)+CHR$($41) +CHR$($DE)+CHR$($43) +CHR$($A7)+CHR$($00) +CHR$($08) +CHR$($DF)+CHR$($43) +CHR$($DC)+CHR$($43) +CHR$($C3)+CHR$($00)+CHR$($11) +CHR$($DD)+CHR$($43) +CHR$($DC)+CHR$($41) +CHR$($F3)+CHR$($20)+CHR$($74)
+MD$=MD$+CHR$($83)+CHR$($00)+CHR$($03) +CHR$($DD)+CHR$($41) +CHR$($3F)+CHR$(018) +CHR$($39)
+POKEW $2070,ADDR(A$())
+POKEW $2074,MS%+1
+
+
+rem Actual code.
+rem Please leave the rest of this file alone.
+
+escape off
+Q%=PEEKB($77)
+R%=PEEKB($78)
+ONERR ERROR::
+POKEB $77,5 :REM Keyboard settings
+POKEB $78,4
+A%=0
+DO
+ MAZESCN:
+ if A% or not(exist("A:MAZEPOS"))
+  X%=RND*MS%
+  Y%=RND*MS%
+  MAZENEW:(X%,Y%)
+ else
+  MAZEGET:("MAZEPOS")
+ ENDIF
+ A%=-1
+ AT 14,4
+ PRINT "       ";
+ MAZEPLY:
+UNTIL K%=1
+MAZEPUT:("MAZEPOS")
+POKEB $77,Q%
+POKEB $78,R%
+return
+
+
+rem Error handler.
+rem You might want to put a more informative one here...
+
+ERROR::
+ONERR OFF
+POKEB $77,Q%
+POKEB $78,R%
+raise err
+

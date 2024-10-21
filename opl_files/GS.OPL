@@ -1,0 +1,9 @@
+GS:(wind,vel,trk,tas)
+local b
+if angle:(wind,trk)=180
+RETURN tas+vel
+elseif angle:(wind,trk)=360
+RETURN tas-vel
+endif
+B=angle:(wind,trk)-drift
+RETURN tas*SIN(RAD(b))/SIN(RAD(angle:(wind,trk)))

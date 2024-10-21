@@ -1,0 +1,24 @@
+CHOMPSAV:
+LOCAL C%
+CLS
+AT 8,2
+PRINT "SAVING"
+AT 9,3
+PRINT N$
+DELETE "A:CHMP"+N$
+CREATE "A:CHMP"+N$,A,A$
+FIRST
+A.A$=""
+C%=1
+DO
+A.A$=A.A$+CHR$(%A+S%(C%))+CHR$(%A+T%(C%))+CHR$(%A+U%(C%))+CHR$(%A+V%(C%))
+IF LEN(A.A$)>250
+ APPEND
+ A.A$=""
+ENDIF
+C%=C%+1
+UNTIL C%>N%
+IF A.A$<>""
+ APPEND
+ENDIF
+CLOSE

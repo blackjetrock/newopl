@@ -1,0 +1,293 @@
+SCOOP:
+LOCAL A$(20,30),GW%,W%,H%,U%(512),DVX%(16),DVY%(16),P%(6),N%
+LOCAL U2%(8),UY%,UX%,X%,Y%,DX%,DY%,VX%,VY%,O%,OO%
+LOCAL Z%,S%
+LOCAL A%,B%,C%,D%,Y2%,K%,B$(80),G$(16,20)
+
+REM Initialise fixed values
+GW%=30        :REM declared length of A$() array strings
+W%=30 :H%=20  :REM Actual size of debris field to play with
+
+P%(1)=16 :P%(2)=24 :P%(3)=12 :P%(4)=6 :P%(5)=3 :P%(6)=1
+DVX%(1)=0 :DVY%(1)=100
+DVX%(2)=-38 :DVY%(2)=92
+DVX%(3)=-71 :DVY%(3)=71
+DVX%(4)=-92 :DVY%(4)=38
+DVX%(5)=-100 :DVY%(5)=0
+DVX%(6)=-92 :DVY%(6)=-38
+DVX%(7)=-71 :DVY%(7)=-71
+DVX%(8)=-38 :DVY%(8)=-92
+DVX%(9)=0 :DVY%(9)=-100
+DVX%(10)=38 :DVY%(10)=-92
+DVX%(11)=71 :DVY%(11)=-71
+DVX%(12)=92 :DVY%(12)=-38
+DVX%(13)=100 :DVY%(13)=0
+DVX%(14)=92 :DVY%(14)=38
+DVX%(15)=71 :DVY%(15)=71
+DVX%(16)=38 :DVY%(16)=92
+
+REM Initialise scoop graphics
+G$(1)="0CCOOOOCF306633336UO"
+G$(2)="3FCOOOOCF300033336UO"
+G$(3)="3FCOOOOCF3G0001336UO"
+G$(4)="3FCOOOOCF3OO000336UO"
+G$(5)="3FCOOOOCF3OU600006UO"
+G$(6)="3FCOOOOCF3OU633000OO"
+G$(7)="3FCOOOOCF3OU6331000G"
+G$(8)="3FCOOOOCF3OU63333000"
+G$(9)="3FCOOOOCC0OU63333660"
+G$(10)="3FCOOOO000OU633336UO"
+G$(11)="3FCOOG0001OU633336UO"
+G$(12)="3FCOO00033OU633336UO"
+G$(13)="3FC0000CF3OU633336UO"
+G$(14)="33000OOCF3OU633336UO"
+G$(15)="1000GOOCF3OU633336UO"
+G$(16)="000OOOOCF3OU633336UO"
+B%=1
+A%=4
+DO
+ D%=1
+ DO
+  C%=ASC(MID$(G$(B%),D%,1))
+  U%(A%)=C%-%0-(7 AND C%>%9)
+  A%=A%+1+(6 AND (D%=10 OR D%=20))
+  D%=D%+1
+ UNTIL D%>20
+ B%=B%+1
+UNTIL B%>16
+
+DO
+new::
+
+REM Initialise debris field
+CLS
+PRINT "Establishing"
+PRINT "connection..."
+A$(1)=REPT$(" ",W%)
+A%=2
+DO
+ A$(A%)=A$(1)
+ A%=A%+1
+UNTIL A%>H%
+N%=0
+C%=ADDR(A$())+GW%+3
+A%=2
+DO
+ B%=2
+ DO
+  IF PEEKW(C%-GW%-2)=$2020
+   IF PEEKB(C%-1)=$20
+    IF PEEKB(C%-GW%)=$20 OR B%=W%
+     IF RND<.15
+      POKEB C%,0
+      N%=N%+1
+     ENDIF
+    ENDIF
+   ENDIF
+  ENDIF
+  C%=C%+1
+  B%=B%+1
+ UNTIL B%>W%
+C%=C%-W%+GW%+2
+A%=A%+1
+UNTIL A%>H%
+REM Clear current position
+C%=ADDR(A$())+GW%+11
+IF PEEKW(C%)<>$2020 OR PEEKW(C%+GW%+1)<>$2020
+ POKEW C%,$2020
+ POKEW C%+GW%+1,$2020
+ N%=N%-1
+ENDIF
+CLS
+
+REM Initialise game vars
+Y%=1 :X%=1
+UX%=1 :UY%=1
+O%=1 :OO%=1
+Z%=0 :S%=0
+VX%=0 :VY%=0
+
+REM Game loop
+DO
+
+ REM Get debris field
+ B$=""
+ A%=1
+ Y2%=Y%
+ DO
+  B$=B$+MID$(A$(Y2%)+A$(Y2%),X%,20)
+  Y2%=Y2%+1
+  IF Y2%>H%
+   Y2%=1
+  ENDIF
+  A%=A%+1
+ UNTIL A%>4
+
+ REM Draw debris shape
+ U2%(1)=0 :U2%(2)=0 :U2%(3)=0 :U2%(4)=0 :U2%(5)=0 :U2%(6)=0 :U2%(7)=0 :U2%(8)=0
+ IF UY%<8
+  U2%(UY%+1)=P%(UX%)
+ ENDIF 
+ IF UY%>0
+  U2%(UY%)=P%(UX%)
+ ENDIF 
+
+ REM Draw scoop, check possible contents and collision
+ C%=0
+ B%=0
+ A%=ADDR(B$)+30
+ IF PEEKB(A%)=32
+  UDG 1,U%(O%),U%(O%+1),U%(O%+2),U%(O%+3),U%(O%+4),U%(O%+5),U%(O%+6),U%(O%+7)
+ ELSE
+  UDG 1,U%(O%) OR U2%(1),U%(O%+1) OR U2%(2),U%(O%+2) OR U2%(3),U%(O%+3) OR U2%(4),U%(O%+4) OR U2%(5),U%(O%+5) OR U2%(6),U%(O%+6) OR U2%(7),U%(O%+7) OR U2%(8)
+  C%=(U%(O%) AND U2%(1)) OR (U%(O%+1) AND U2%(2)) OR (U%(O%+2) AND U2%(3)) OR (U%(O%+3) AND U2%(4)) OR (U%(O%+4) AND U2%(5)) OR (U%(O%+5) AND U2%(6)) OR (U%(O%+6) AND U2%(7)) OR (U%(O%+7) AND U2%(8))
+  B%=4
+ ENDIF
+ IF PEEKB(A%+20)=32
+  UDG 2,U%(O%+8),U%(O%+9),U%(O%+10),U%(O%+11),U%(O%+12),U%(O%+13),U%(O%+14),U%(O%+15)
+ ELSE
+  UDG 2,U%(O%+8) OR U2%(1),U%(O%+9) OR U2%(2),U%(O%+10) OR U2%(3),U%(O%+11) OR U2%(4),U%(O%+12) OR U2%(5),U%(O%+13) OR U2%(6),U%(O%+14) OR U2%(7),U%(O%+15) OR U2%(8)
+  C%=(U%(O%+8) AND U2%(1)) OR (U%(O%+9) AND U2%(2)) OR (U%(O%+10) AND U2%(3)) OR (U%(O%+11) AND U2%(4)) OR (U%(O%+12) AND U2%(5)) OR (U%(O%+13) AND U2%(6)) OR (U%(O%+14) AND U2%(7)) OR (U%(O%+15) AND U2%(8))
+  B%=5
+ ENDIF
+ IF PEEKB(A%+1)=32
+  UDG 3,U%(O%+16),U%(O%+17),U%(O%+18),U%(O%+19),U%(O%+20),U%(O%+21),U%(O%+22),U%(O%+23)
+ ELSE
+  UDG 3,U%(O%+16) OR U2%(1),U%(O%+17) OR U2%(2),U%(O%+18) OR U2%(3),U%(O%+19) OR U2%(4),U%(O%+20) OR U2%(5),U%(O%+21) OR U2%(6),U%(O%+22) OR U2%(7),U%(O%+23) OR U2%(8)
+  C%=(U%(O%+16) AND U2%(1)) OR (U%(O%+17) AND U2%(2)) OR (U%(O%+18) AND U2%(3)) OR (U%(O%+19) AND U2%(4)) OR (U%(O%+20) AND U2%(5)) OR (U%(O%+21) AND U2%(6)) OR (U%(O%+22) AND U2%(7)) OR (U%(O%+23) AND U2%(8))
+  B%=6
+ ENDIF
+ IF PEEKB(A%+21)=32
+  UDG 4,U%(O%+24),U%(O%+25),U%(O%+26),U%(O%+27),U%(O%+28),U%(O%+29),U%(O%+30),U%(O%+31)
+ ELSE
+  UDG 4,U%(O%+24) OR U2%(1),U%(O%+25) OR U2%(2),U%(O%+26) OR U2%(3),U%(O%+27) OR U2%(4),U%(O%+28) OR U2%(5),U%(O%+29) OR U2%(6),U%(O%+30) OR U2%(7),U%(O%+31) OR U2%(8)
+  C%=(U%(O%+24) AND U2%(1)) OR (U%(O%+25) AND U2%(2)) OR (U%(O%+26) AND U2%(3)) OR (U%(O%+27) AND U2%(4)) OR (U%(O%+28) AND U2%(5)) OR (U%(O%+29) AND U2%(6)) OR (U%(O%+30) AND U2%(7)) OR (U%(O%+31) AND U2%(8))
+  B%=7
+ ENDIF
+
+ REM Place scoop in debris background
+ POKEW A%,$0103
+ POKEW A%+20,$0204
+
+ REM Display new frame
+ UDG 0,0,0,0,0,0,0,0,0
+ AT 1,1
+ PRINT B$;
+ UDG 0,U2%(1),U2%(2),U2%(3),U2%(4),U2%(5),U2%(6),U2%(7),U2%(8)
+
+ REM Act on collisions
+ IF C%
+  GOTO bang::
+ ENDIF
+
+ REM Act on keys
+ K%=KEY
+ IF K%=6
+  O%=O%+32-(512 AND O%>=480)
+  OO%=OO%+1-(16 AND OO%=16)
+ ELSEIF K%=5
+  O%=O%-32+(512 AND O%<=1)
+  OO%=OO%-1+(16 AND OO%=1)
+ ELSEIF K%=%C OR K%=%c
+  REM Disintegrate
+  A%=0
+  IF B%
+   REM Check whether inside
+   IF B% AND 1
+    IF UY%<3
+     A%=A% OR 1
+    ENDIF
+   ELSE
+    IF UY%>5
+     A%=A% OR 1
+    ENDIF
+   ENDIF
+   IF B% AND 2
+    IF UX%<=3
+     A%=A% OR 2
+    ENDIF
+   ELSE
+    IF UX%>=4
+     A%=A% OR 2
+    ENDIF
+   ENDIF
+  ENDIF
+  IF A%=3
+   REM Zapped a piece. Remove it
+   S%=S%+1
+   Z%=Z%+(Z%>0)
+   N%=N%-1
+   B%=ADDR(A$())+(Y%-(H% AND Y%=H%))*(GW%+1)+X%+9-(W% AND X%>W%-9)
+   POKEB B%,32
+   POKEB B%+1-(W% AND X%=W%),32
+   B%=B%+(GW%+1)*(1-(H% AND Y%=H%-1))
+   POKEB B%,32
+   POKEB B%+1-(W% AND X%=W%),32
+  ELSE
+   REM Scoop was empty
+   Z%=Z%+1
+   IF Z%=3
+    GOTO bang::
+   ENDIF
+  ENDIF
+ ENDIF
+
+ REM Turn towards direction of current speed.
+ REM Increase the 20 for more sluggishness, decrease for less.
+ VX%=VX%+(DVX%(OO%)-VX%)/20
+ VY%=VY%+(DVY%(OO%)-VY%)/20
+
+ DX%=DX%+VX%
+ DY%=DY%+VY%
+
+ A%=(DX%+50)/100
+ DX%=DX%-100*A%
+ UX%=UX%+A%
+
+ A%=(DY%+50)/100
+ DY%=DY%-100*A%
+ UY%=UY%+A%
+
+ WHILE UX%<1
+  UX%=UX%+6
+  X%=X%+1-(W% AND X%>=W%)
+ ENDWH
+ WHILE UX%>6
+  UX%=UX%-6
+  X%=X%-1+(W% AND X%<=1)
+ ENDWH
+ WHILE UY%>8
+  UY%=UY%-9
+  Y%=Y%-1+(H% AND Y%<=1)
+ ENDWH
+ WHILE UY%<0
+  UY%=UY%+9
+  Y%=Y%+1-(H% AND Y%>=H%)
+ ENDWH
+
+UNTIL N%=0
+
+GOTO new::
+
+bang::
+UDG 1,0,0,0,24,27,3,24,24
+UDG 2,12,12,0,27,27,0,0,0
+UDG 3,0,0,0,27,27,0,6,6
+UDG 4,3,3,24,27,3,0,0,0
+PAUSE 5
+AT 1,1
+PRINT "Houston, we have"
+AT 1,4
+PRINT "a problem...";
+WHILE KEY :ENDWH
+GET
+CLS
+PRINT "You cleared ";S%
+PRINT "pieces of debris"
+PRINT "Try again?"
+PRINT "Press Y or N.";
+DO
+ K%=ASC(UPPER$(GET$))
+UNTIL K%=1 OR K%=%Y OR K%=%N
+
+UNTIL K%<>%Y

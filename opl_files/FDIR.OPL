@@ -1,0 +1,11 @@
+fdir:
+rem A.Grieve - 1988
+local file$(8)
+file$=dir$("a")
+while file$<>""
+ print file$
+ if get$=chr$(1)
+  return
+ endif
+ file$=dir$("")
+endwh

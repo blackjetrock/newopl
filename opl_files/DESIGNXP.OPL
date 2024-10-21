@@ -1,0 +1,96 @@
+DESIGNXP:
+GLOBAL U$(26,64),U%,BT%(5)
+LOCAL K%,AU%,A%,B%,C%,X%,Y%
+ESCAPE OFF
+DESINIT:
+AU%=ADDR(U$())+1
+C%=0
+X%=1
+Y%=0
+U%=1
+DESDEF:
+CLS
+PRINT CHR$(0);CHR$(1);CHR$(2);CHR$(3);CHR$(255)
+PRINT CHR$(4);CHR$(5);CHR$(6);CHR$(7);CHR$(255)
+
+DO
+ B%=PEEKB(AU%+Y%)
+ A%=B%
+ B%=(B% OR BT%(X%))-(B% AND BT%(X%))
+ POKEB $180,64+Y%+8*C%
+ POKEB $181,B%
+ PAUSE 1
+ POKEB $180,64+Y%+8*C%
+ POKEB $181,A%
+ AT 6,1
+ PRINT X%,Y%,C%,CHR$(%A+U%-1);
+ 
+ K%=KEY
+ IF K%=3
+  IF Y%>0
+   Y%=Y%-1
+  ELSE
+   Y%=7
+   C%=C%-4
+   AU%=AU%-32
+   IF C%<0
+    C%=C%+8
+    AU%=AU%+64
+   ENDIF
+  ENDIF
+ ELSEIF K%=4
+  IF Y%<7
+   Y%=Y%+1
+  ELSE
+   Y%=0
+   C%=C%+4
+   AU%=AU%+32
+   IF C%>7
+    C%=C%-8
+    AU%=AU%-64
+   ENDIF
+  ENDIF
+ ELSEIF K%=5
+  IF X%>1
+   X%=X%-1
+  ELSE
+   X%=5
+   IF (C% AND 3)
+    C%=C%-1
+    AU%=AU%-8
+   ELSE
+    C%=C%+3
+    AU%=AU%+24
+   ENDIF
+  ENDIF
+ ELSEIF K%=6
+  IF X%<5
+   X%=X%+1
+  ELSE
+   X%=1
+   IF (C% AND 3)<>3
+    C%=C%+1
+    AU%=AU%+8
+   ELSE
+    C%=C%-3
+    AU%=AU%-24
+   ENDIF
+  ENDIF
+ ELSEIF K%=13
+  B%=PEEKB(AU%+Y%)
+  B%=(B% OR BT%(X%))-(B% AND BT%(X%))
+  POKEB AU%+Y%,B%
+ ELSEIF K%>=%A AND K%<=%Z
+  U%=K%-64
+  AU%=ADDR(U$())+65*U%-64
+  DESDEF:
+ ELSEIF K%
+  B%=LOC("<>()%/="+CHR$(34)+"789*,$456-;:123+0.",CHR$(K%))
+  IF B%
+   U$(U%)=U$(B%)
+   DESDEF:
+  ENDIF
+ ENDIF
+UNTIL K%=1
+DESOUTIT:
+ESCAPE ON

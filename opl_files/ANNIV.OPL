@@ -1,0 +1,31 @@
+anniv:
+REM Source: ANNIV.OPL
+REM Version 1.1
+REM Anniversary utility
+REM (C) OCT 1998 LRS
+REM L.R.Sluijk@student.utwente.nl
+
+GLOBAL dbase$(10)
+LOCAL m%
+
+LRS:(20)
+dbase$="A:ANNIV" :REM Change name of database if necessary
+
+IF EXIST(dbase$) :OPEN dbase$,A,date$,event$
+ELSE :CREATE dbase$,A,date$,event$
+ENDIF
+
+CLS :UDG 0,10,6,31,21,21,31,0,31
+UDG 2,0,0,0,0,0,0,0,31
+DO
+ CLS :CLOCK(1) :PRINT CHR$(0);REPT$(CHR$(2),13)
+ m%=MENUN(2,"LIST,INSERT,UPDATE,XFER,SORT")
+ CLS :CLOCK(1) :PRINT CHR$(0);REPT$(CHR$(2),13)
+ IF m%=0 :RETURN
+ ELSEIF m%=1 :ANNSHOW:
+ ELSEIF m%=2 :ANNBD:
+ ELSEIF m%=3 :ANNUPD:
+ ELSEIF m%=4 :ANNXFR:
+ ELSEIF m%=5 :PRINT "Sorting database" :PRINT "Please wait..." :SORTLZ:(dbase$)
+ ENDIF
+UNTIL 0

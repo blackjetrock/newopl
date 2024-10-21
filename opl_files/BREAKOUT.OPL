@@ -1,0 +1,116 @@
+breakout:
+REM LZ procedure
+GLOBAL A$(8,20),H%,P%,B%,S%,L%,Q%,I%,J%,T%
+LOCAL LV%,L2%,L3%,X1%,L4%,T2%,T1%,T3%,L8%,L9%
+
+IF BRKINIT:=1
+ RETURN
+ENDIF
+DO
+ S%=0
+ LV%=1
+ CLS
+ L%=5
+Lab2::
+ IF BRKLEVEL:(LV%)<>0.
+  CONTINUE
+ ENDIF
+ L9%=T%
+ IF L9%>0
+  T%=0
+ ENDIF
+ L8%=B%
+ H%=3
+ AT P%,2
+ PRINT CHR$(2+(MID$(A$(3),P%,1)<>" "));
+ AT P%,3
+ PRINT CHR$(3-(2 AND MID$(A$(6),P%,1)<>" "));
+ A$(4)=LEFT$(A$(4),P%-1)+"O"+RIGHT$(A$(4),20-P%)
+ A$(5)=LEFT$(A$(5),P%-1)+"O"+RIGHT$(A$(5),20-P%)
+ DO
+  WHILE KEY
+  ENDWH
+  GET
+  BEEP 3,800
+  T1%=PEEKB($7C)
+  POKEB $7C,0
+  T2%=PEEKB($77)
+  POKEB $77,255
+  T3%=PEEKB($20C0)
+  POKEB $20C0,1
+  L4%=BRKGAME:
+  POKEB $77,T2%
+  POKEB $7C,T1%
+  POKEB $20C0,T3%
+  IF L4%
+   PAUSE 4
+   CLS
+   IF B%<>0
+    PRINT "  TIME OUT LEVEL ";LV%;
+   ELSE
+    PRINT " COMPLETED LEVEL ";LV%
+   ENDIF
+   AT 6,2
+   PRINT "SCORE ";S%
+   AT 6,3
+   L2%=0
+   IF L9%>0
+    IF T%<=L9%
+     L2%=100
+    ELSEIF T%<=2*L9%
+     L2%=200-100.*T%/L9%
+    ENDIF
+   ELSEIF L9%<0
+    L2%=100-FLT(100*B%)/L8%
+   ENDIF
+   PRINT "BONUS ";L2%
+   PRINT REPT$(CHR$(7),L%);
+   PAUSE 10
+   DO
+    AT 12,2
+    PRINT S%
+    AT 12,3
+    PRINT L2%,
+    BEEP 3,2*L2%
+    S%=S%+1
+    L2%=L2%-1
+   UNTIL L2%=-1
+   AT 20,1
+   PRINT CHR$(6);CHR$(8);
+   L2%=0
+   L3%=0
+   DO
+    L3%=L3%+1
+    L2%=L2%+L3%
+    PRINT " ";
+    AT 20,1+(L2% AND 192)/64
+    PRINT CHR$(6-((L2% AND 32)<>0));CHR$(8);
+    PAUSE 1
+    IF L2%+L3%>=255
+     L2%=224
+     L3%=-L3%*3/4
+     BEEP 3,2000
+    ENDIF
+   UNTIL L2%=224 AND IABS(L3%)<12
+   L%=L%+1
+   L4%=20
+   WHILE KEY
+   ENDWH
+   WHILE L4%>L%
+    PAUSE 3
+    L4%=L4%-1
+    AT L4%,4
+    PRINT CHR$(7);" ";
+   ENDWH
+   L2%=20
+   S%=S%-1
+   LV%=LV%+1
+   AT 4,3
+   PRINT "PRESS ANY KEY"
+   GET
+   PRINT CHR$(22);
+   GOTO Lab2::
+  ENDIF
+  L%=L%-1
+ UNTIL L%<0
+UNTIL RDKHSC:("  B R E A K O U T","UP","DOWN","A:BRKOUTHI",S%)=1

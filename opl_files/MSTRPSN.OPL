@@ -1,0 +1,93 @@
+MSTRPSN:
+GLOBAL C$(10),B$(6)
+LOCAL A$(160),M$(20,9),S%(3)
+LOCAL D%,M%,K%,AM%
+LOCAL A%,B%
+
+A%=GS%
+DO
+ M$(A%)=REPT$(".",HL%)+"  "
+ A%=A%-1
+UNTIL A%=0
+
+S%(1)=ADDR(A$)
+S%(2)=HL%*256+CL%
+S%(3)=ADDR(B$)+1
+
+C$=LEFT$("0123456789",CL%+1)
+A%=CL%+1
+DO
+ B%=1+RND*A%
+ C$=LEFT$(C$,B%-1)+MID$(C$,B%+1,A%-B%)+MID$(C$,B%,1)+RIGHT$(C$,CL%+1-A%)
+ A%=A%-1
+UNTIL A%=1
+
+CLS
+PRINT "Type your code:"
+B$=MSTRINP$:(9-HL%/2,2)
+IF B$=""
+ RETURN 1
+ENDIF
+
+M%=0
+A$=""
+A%=HL%
+DO 
+ A$=A$+CHR$(RND*(CL%+1))
+ A%=A%-1
+UNTIL A%=0
+CLS
+GOTO L::
+
+DO
+MV::
+AT 11,2
+PRINT "WAIT..";
+IF MSTRMC:(ADDR(S%()))
+ RETURN 1
+ENDIF
+L::
+D%=M%-(M%=0)
+M%=M%+1
+A%=HL%
+M$(M%)=""
+DO
+ A%=A%-1
+ M$(M%)=M$(M%)+MID$(C$,1+ASC(MID$(A$,LEN(A$)-A%,1)),1)
+UNTIL A%=0
+
+AT 11,1
+IF M%<10
+ PRINT " ";
+ENDIF
+PRINT M%;"/";GS%
+MSTREVL:(ADDR(S%()))
+M$(M%)=M$(M%)+" "+CHR$(48+ASC(MID$(A$,LEN(A$)-1,1)))+CHR$(48+ASC(RIGHT$(A$,1)))
+
+DO
+ AT 1,1
+ PRINT M$(D%);CHR$(32-(32 AND D%>1))
+ PRINT M$(D%+1);CHR$(32-(31 AND D%+1<M%));
+ AT 11,2
+ IF RIGHT$(A$,2)=CHR$(HL%)+CHR$(0)
+  PRINT " Found";
+ ELSEIF M%=GS%
+  PRINT " Lost ";
+ ELSE PRINT "Key...";
+ ENDIF
+ WHILE KEY :ENDWH
+ K%=GET
+ IF K%=3 AND D%>1
+  D%=D%-1
+ ELSEIF K%=4 AND D%+1<M%
+  D%=D%+1
+ ELSEIF K%=1
+  IF MSTRQT%:=%Y
+   RETURN 1
+  ENDIF
+ ENDIF
+UNTIL K%>4
+UNTIL M%=GS% OR RIGHT$(A$,2)=CHR$(HL%)+CHR$(0)
+
+NC%=NC%+1
+SC%=SC%+M%-(RIGHT$(A$,2)<>CHR$(HL%)+CHR$(0))

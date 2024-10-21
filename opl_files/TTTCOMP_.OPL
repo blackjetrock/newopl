@@ -1,0 +1,136 @@
+TTTCOMP%:
+LOCAL SF%(76)
+LOCAL A%,D%,E%,F%,G%,S%,K%
+LOCAL D$(100)
+
+AT 11,4
+PRINT "Thinking 1";
+
+REM examine fours
+A%=1
+DO
+ D%=LEN(S$(A%))
+ DO
+  F%=ASC(MID$(S$(A%),D%,1))
+  IF B%(A%)=I%
+   SF%(F%)=SF%(F%)+1
+  ELSEIF B%(A%)
+   SF%(F%)=SF%(F%)+4
+  ENDIF
+  D%=D%-1
+ UNTIL D%=0
+A%=A%+1
+UNTIL A%>64
+
+AT 20,4
+PRINT "2";
+
+REM check forces
+E%=0
+A%=1
+DO
+ IF B%(A%)=0
+  G%=0
+  D%=LEN(S$(A%))
+  DO
+   F%=SF%(ASC(MID$(S$(A%),D%,1)))
+   IF F%=3
+    IF E%<4
+     E%=4
+     D$=""
+    ENDIF
+    IF E%=4
+     D$=D$+CHR$(A%)
+     BREAK
+    ENDIF
+   ELSEIF F%=12
+    IF E%<3
+     D$=""
+     E%=3
+    ENDIF
+    IF E%=3
+     D$=D$+CHR$(A%)
+    ENDIF
+   ELSEIF F%=2
+    IF G% AND 1
+     IF E%<2
+      D$=""
+      E%=2
+     ENDIF
+     IF E%=2
+      D$=D$+CHR$(A%)
+     ENDIF
+    ELSE
+     G%=G% OR 1
+    ENDIF
+   ELSEIF F%=8
+    IF G% AND 2
+     IF E%<1
+      D$=""
+      E%=1
+     ENDIF
+     IF E%=1
+      D$=D$+CHR$(A%)
+     ENDIF
+    ELSE
+     G%=G% OR 2
+    ENDIF
+   ENDIF
+   D%=D%-1
+  UNTIL D%=0
+ ENDIF
+A%=A%+1
+UNTIL A%>64
+
+IF D$<>""
+ GOTO MV::
+ENDIF
+
+AT 20,4
+PRINT "3";
+
+REM Calculate scores
+D$=""
+G%=-1
+A%=1
+DO
+ IF B%(A%)=0
+  S%=0
+  E%=LEN(S$(A%))
+  DO
+   F%=ASC(MID$(S$(A%),E%,1))
+   D%=0
+   IF (SF%(F%) AND 12)=0
+    S%=S%+SA%((SF%(F%) AND 3)+1)
+   ELSEIF (SF%(F%) AND 3)=0
+    S%=S%+SA%((SF%(F%) AND 12)/4+3)
+    S%=S%+ASC(F$(F%))
+   ENDIF
+   E%=E%-1
+  UNTIL E%=0
+  IF G%<S%
+   G%=S%
+   D$=""
+  ENDIF
+  IF G%=S%
+   D$=D$+CHR$(A%)
+  ENDIF
+ ENDIF
+ A%=A%+1
+UNTIL A%>64
+
+DO
+ K%=ASC(UPPER$(KEY$))
+ IF K%=%H
+  J%=3
+ ELSEIF K%=%M OR K%=%B
+  J%=I%
+ ELSEIF K%=%S
+  SN%=NOT SN%
+ ENDIF
+UNTIL K%=0
+
+MV::
+D%=INT(RND*LEN(D$))+1
+D%=ASC(MID$(D$,D%,1))
+RETURN TTTMOVE%:(D%-1)

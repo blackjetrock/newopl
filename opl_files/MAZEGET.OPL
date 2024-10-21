@@ -1,0 +1,39 @@
+MAZEGET:(F$)
+rem
+rem Maze game for the Psion Organiser II LZ : Load maze module
+rem Copyright 1992-1997 Zac Schroff, all rights reserved.
+rem
+rem Please see the main module for other notices.
+rem
+
+
+rem Load the maze from the local drive
+
+LOCAL Q%
+AT 14,4
+PRINT "Load   ";
+X%=1
+IF EXIST("A:"+F$)
+ OPEN "A:"+F$,A,A$,A%
+ USE A
+ DO
+  AT 19,4
+  PRINT X%-1;
+  A$(X%)=left$(A.A$+rept$(" ",MS%),MS%)
+  IF X%=1
+   EX%=A.A%
+  ELSEIF X%=2
+   EY%=A.A%
+  ELSEIF X%=3
+   Q%=A.A%
+  ELSEIF X%=4
+   Y%=A.A%
+  ENDIF
+  X%=X%+1
+  NEXT
+ UNTIL X%>MS%
+ CLOSE
+ X%=Q%
+ENDIF
+MAZESCN:
+

@@ -1,0 +1,52 @@
+brkston:(X%,Y0%,P3%)
+REM LZ procedure
+REM Old globals: A$(),B%,S%
+LOCAL Y%,C2%,C%
+
+Y%=Y0%
+C%=ASC(MID$(A$(Y%+1),X%,1))
+IF (C% AND 1)=0
+ Y%=Y%-1
+ENDIF
+C%=C%+1 AND 254
+IF C%=%Z OR C%=%z
+ RETURN
+ELSEIF C%=%B OR C%=%b
+ C%=32
+ C2%=32
+ B%=B%-1
+ELSE
+ C%=C%-2
+ C2%=C%-1
+ENDIF
+S%=S%+1
+IF Y%>=0
+ A$(Y%+1)=LEFT$(A$(Y%+1),X%-1)+CHR$(C2%)+RIGHT$(A$(Y%+1),20-X%)
+ENDIF
+IF Y%<=6
+ A$(Y%+2)=LEFT$(A$(Y%+2),X%-1)+CHR$(C%)+RIGHT$(A$(Y%+2),20-X%)
+ENDIF
+IF C%<>32
+ RETURN
+ENDIF
+IF Y% AND 1
+ IF Y%>=1
+  AT X%,Y%/2+1
+  IF (32 AND ASC(MID$(A$(Y%),X%,1)))=0
+   PRINT CHR$(3);
+  ELSE
+   PRINT CHR$(32-(26 AND P3%=1));
+  ENDIF
+ ENDIF
+ IF Y%<=5
+  AT X%,Y%/2+2
+  IF (32 AND ASC(MID$(A$(Y%+3),X%,1)))=0
+   PRINT CHR$(2);
+  ELSE
+   PRINT CHR$(32-(25 AND P3%=-1));
+  ENDIF
+ ENDIF
+ELSE
+ AT X%,Y%/2+1
+ PRINT " ";
+ENDIF

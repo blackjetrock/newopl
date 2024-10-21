@@ -1,0 +1,23 @@
+copy:
+rem ***********************************************************************
+rem * A proc to copy a file from one pack to another.  In this example	  *
+rem * only OPL object files are copied.  The file type is defined in	  *
+rem * the USR line in $8301, so changing $8301 to $8300 copies the source *
+rem * as well (see page 12-22 of the tech ref).				  *
+rem *									  *
+rem * Written by Tony Ladbeater 1988							  *
+rem ***********************************************************************
+local a%(7),from$(10),to$(10)
+
+rem specify the copy from and copy to strings
+from$="b:TEST"
+to$="a:"
+
+a%(1)=$dd41
+a%(2)=$01ce
+a%(3)=addr(FROM$)
+a%(4)=$01cc
+a%(5)=addr(TO$)
+a%(6)=$3f27
+a%(7)=$0c39
+USR(ADDR(A%()),$8301)

@@ -1,0 +1,71 @@
+CUPBALL:
+REM CM/XP procedure
+GLOBAL B$(4),A%,B%
+LOCAL A$(4),P%,N%,I%
+
+DO
+ DO
+  CLS
+  PRINT "Number of swaps 0=STOP ";
+  INPUT N%
+ UNTIL N%>=0 AND N%<50
+ IF N%=0
+  RETURN
+ ENDIF
+ A$="ABCD"
+ CLS
+ PRINT "A    C"
+ PRINT "B    D"
+ GET
+ CLS
+ PRINT "X    X"
+ PRINT "X    X"
+ I%=0
+ DO
+  GET
+  A%=INT(RND*2)+1
+  B%=INT(RND*2)+3
+  P%=1
+  DO
+   AT P%,A%
+   PRINT " X"
+   AT 6-P%,B%-2
+   PRINT "X "
+   PAUSE 5
+   P%=P%+1
+  UNTIL P%=3
+  P%=2
+  PAUSE 5
+  DO
+   AT P%,A%
+   PRINT "X "
+   AT 6-P%,B%-2
+   PRINT " X"
+   PAUSE 5
+   P%=P%-1
+  UNTIL P%=0
+  A$=LEFT$(A$,A%-1)+MID$(A$,B%,1)+MID$(A$,A%+1,B%-A%-1)+MID$(A$,A%,1)+RIGHT$(A$,4-B%)
+  I%=I%+1
+ UNTIL I%=N%
+ B$=""
+ A%=1
+ B%=1
+ INP:
+ B%=2
+ INP:
+ A%=6
+ B%=1
+ INP:
+ B%=2
+ INP:
+ AT 8,1
+ IF A$=B$
+  PRINT "Correct";
+ ELSE
+  PRINT "Wrong";
+  GET
+  AT 1,1
+  PRINT LEFT$(A$,1);"    ";MID$(A$,3,1)
+  PRINT MID$(A$,2,1);"    ";RIGHT$(A$,1)
+ ENDIF
+UNTIL GET=1

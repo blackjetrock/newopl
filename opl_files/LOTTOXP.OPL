@@ -1,0 +1,62 @@
+lotto:
+Rem Lotto XP Ver 1.1
+Rem (c) Dave Woolnough Sept 1996
+Rem Lotto is a random number selector
+Rem 6 numbers between 1 & 49 are choosen
+Rem The routine Fixed Random Numbers is
+Rem used to easily guarantee that no number
+Rem is selected twice.
+
+LOCAL b$(6,2),G$(1),N$(98),O$(20),R$(2),S$(98),T$(98)
+LOCAL A%,B%,D%,N%
+START::
+O$="" :R$="" :S$="" :T$=""
+N$="01020304050607080910111213141516171819202122232425262728293031323334353637383940414243444546474849"
+B%=6 :D%=LEN(N$)/2
+DO
+N%=INT(RND*D%)
+A%=1
+WHILE N%>0
+A%=A%+2 :N%=N%-1
+ENDWH
+R$=MID$(N$,A%,2)
+S$=LEFT$(N$,A%-1)
+T$=RIGHT$(N$,LEN(N$)-(A%+1))
+N$=S$+T$ :REM PRINT N$ :GET
+rem IF LEFT$(R$,1)="0"
+rem R$=RIGHT$(R$,1)
+rem ENDIF
+b$(b%)=r$
+D%=D%-2 :B%=B%-1
+UNTIL B%<1
+
+a%=6
+While a%>0
+b%=1
+While b%<6
+If val(b$(b%+1)) < val(b$(b%))
+r$=b$(b%)
+b$(b%) = b$(b%+1)
+b$(b%+1)=r$
+endif
+b%=b%+1
+endwh
+a%=a%-1
+endwh
+
+b%=1
+While b%<7
+o$=o$+b$(b%)
+o$=o$+" "
+b%=b%+1
+endwh 
+
+cls :PRINT LEFT$(O$,8);"  Again"
+AT 1,2 :PRINT RIGHT$(O$,9);" (Y/N)"
+G$=GET$
+IF G$="N" or G$="Q"
+CLS :AT 2,1 :PRINT"Goodbye ..."
+PAUSE -50 :key :Return
+Else
+CLS :GOTO START::
+ENDIF

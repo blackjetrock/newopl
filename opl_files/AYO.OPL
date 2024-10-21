@@ -1,0 +1,87 @@
+AYO:
+GLOBAL A%(12),M%,P%,S%(2)
+LOCAL A%,B%
+
+DO
+CLS
+M%=1
+P%=1
+A%=12
+DO
+A%(A%)=4
+A%=A%-1
+UNTIL A%=0
+S%(1)=0
+S%(2)=0
+DO
+ A%=1
+ DO
+  AT A%+10,1
+  PRINT CHR$(A%(A%)+48+(7 AND A%(A%)>9));
+  AT A%+10,2
+  PRINT CHR$(A%(13-A%)+48+(7 AND A%(13-A%)>9));
+ A%=A%+1
+ UNTIL A%=7
+
+ AT 1,2
+ IF P% AND 1
+  PRINT "HUMAN ";
+ ELSE PRINT "PSION ";
+ ENDIF
+ PRINT S%(1);
+ AT 1,1
+ IF P% AND 2
+  PRINT "HUMAN ";
+ ELSE PRINT "PSION ";
+ ENDIF
+ PRINT S%(2);
+ AT 6,3-M%
+ PRINT CHR$(127);
+ IF P% AND M%
+  B%=AYOHUM%:
+ ELSE B%=AYOCOMP%:
+ ENDIF
+UNTIL B% OR S%(1)>24 OR S%(2)>24
+IF B%<>-2
+ PAUSE 20
+ WHILE KEY :ENDWH
+
+ IF B%=-1
+  AT 9,3-M%
+  PRINT "No moves"
+  PAUSE 20
+  A%=1
+  DO
+   WHILE A%(A%)>0
+    A%(A%)=A%(A%)-1
+    S%(M%)=S%(M%)+1
+    PAUSE 3
+    AT 7,3-M%
+    PRINT S%(M%);
+    IF A%>6
+     AT 23-A%,2
+    ELSE AT 10+A%,1
+    ENDIF
+    PRINT CHR$(A%(A%)+48+(7 AND A%(A%)>9));
+   ENDWH
+   A%=A%+1
+  UNTIL A%=13
+ ENDIF
+
+ AT 11,1
+ IF S%(1)=S%(2)
+  PRINT "Drawn."
+ ELSE
+  PRINT "Plyr ";2+(S%(1)>S%(2));
+  AT 11,2
+  PRINT " wins.";
+ ENDIF
+ GET
+ENDIF
+CLS
+PRINT "Another game ";CHR$(63)
+PRINT "Press Y or N";
+DO
+ A%=GET
+UNTIL A%=%N OR A%=%Y OR A%=1
+UNTIL A%<>%Y

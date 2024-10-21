@@ -1,0 +1,192 @@
+TWIST:
+LOCAL P%(9),O%(8),B$(4)
+LOCAL A%,B%,C%,D%,E%,K%,K$(20),M%,O%
+S::
+A%=1
+DO
+ P%(A%)=A%
+ O%(A%)=0
+ A%=A%+1
+UNTIL A%=9
+P%(9)=9
+M%=0
+O%=0
+DO
+ A%=1
+ DO
+  IF O%(A%)=0
+   IF A%=1
+    UDG 0,0,0,4,12,4,4,14,0
+   ELSEIF A%=2
+    UDG 1,0,0,14,17,6,8,31,0
+   ELSEIF A%=3
+    UDG 2,0,0,31,1,6,17,14,0
+   ELSEIF A%=4
+    UDG 3,0,0,2,6,10,31,2,0
+   ELSEIF A%=5
+    UDG 4,0,0,31,16,14,1,30,0
+   ELSEIF A%=6
+    UDG 5,0,0,14,16,30,17,14,0
+   ELSEIF A%=7
+    UDG 6,0,0,31,1,2,4,8,0
+   ELSEIF A%=8
+    UDG 7,0,0,14,17,14,17,31,0
+   ENDIF
+  ELSEIF O%(A%)=1
+   IF A%=1
+    UDG 0,0,0,0,18,31,16,0,0
+   ELSEIF A%=2
+    UDG 1,0,0,18,25,21,21,18,0
+   ELSEIF A%=3
+    UDG 2,0,0,9,17,21,21,11,0
+   ELSEIF A%=4
+    UDG 3,0,0,8,12,10,31,8,0
+   ELSEIF A%=5
+    UDG 4,0,0,19,21,21,21,9,0
+   ELSEIF A%=6
+    UDG 5,0,0,14,21,21,21,8,0
+   ELSEIF A%=7
+    UDG 6,0,0,1,17,9,5,3,0
+   ELSEIF A%=8
+    UDG 7,0,0,26,21,21,21,26,0
+   ENDIF
+  ELSEIF O%(A%)=2
+   IF A%=1
+    UDG 0,0,0,14,4,4,6,4,0
+   ELSEIF A%=2
+    UDG 1,0,0,31,2,12,17,14,0
+   ELSEIF A%=3
+    UDG 2,0,0,14,17,12,16,31,0
+   ELSEIF A%=4
+    UDG 3,0,0,8,31,10,12,8,0
+   ELSEIF A%=5
+    UDG 4,0,0,15,16,14,1,31,0
+   ELSEIF A%=6
+    UDG 5,0,0,14,17,15,1,14,0
+   ELSEIF A%=7
+    UDG 6,0,0,2,4,8,16,31,0
+   ELSEIF A%=8
+    UDG 7,0,0,31,17,14,17,14,0
+   ENDIF
+  ELSE
+   IF A%=1
+    UDG 0,0,0,0,1,31,9,0,0
+   ELSEIF A%=2
+    UDG 1,0,0,9,21,21,19,9,0
+   ELSEIF A%=3
+    UDG 2,0,0,26,21,21,17,18,0
+   ELSEIF A%=4
+    UDG 3,0,0,2,31,10,6,2,0
+   ELSEIF A%=5
+    UDG 4,0,0,18,21,21,21,25,0
+   ELSEIF A%=6
+    UDG 5,0,0,2,21,21,21,14,0
+   ELSEIF A%=7
+    UDG 6,0,0,24,20,18,17,16,0
+   ELSEIF A%=8
+    UDG 7,0,0,11,21,21,21,11,0
+   ENDIF
+  ENDIF
+ A%=A%+1
+ UNTIL A%=9
+ C%=1
+ A%=1
+ DO
+  B%=1
+  DO
+  AT B%,A%
+  IF P%(C%)=9
+   PRINT " ";
+  ELSE
+   PRINT CHR$(P%(C%)-1);
+  ENDIF
+  C%=C%+1
+  B%=B%+1
+  UNTIL B%=4
+ A%=A%+1
+ UNTIL A%=4
+ AT 6,2
+ PRINT "Moves:";M%;"   ";
+
+ B$=""
+ IF K$=""
+  K%=ASC(UPPER$(GET$))
+ ELSE
+  K%=ASC(K$)
+  K$=RIGHT$(K$,LEN(K$)-1)
+  O%=-1
+  M%=0
+ ENDIF
+ E%=1
+ IF K%=%F
+  DO
+   K$=K$+MID$("ABGH",INT(RND*4)+1,1)
+  UNTIL LEN(K$)=20
+ ELSEIF K%=%L
+  DO
+   B%=INT(RND*4)
+   IF B%<2
+    K$=K$+MID$("AH",B%+1,1)
+   ELSE
+    K$=K$+MID$("BBGG",B%+B%-3,2)
+   ENDIF
+  UNTIL LEN(K$)>=19
+ ELSEIF K%=%R
+  DO
+   K$=K$+MID$("AABBGGHH",2*INT(RND*4)+1,2)
+  UNTIL LEN(K$)>=19
+ ELSEIF K%=%A
+  B$="1254"
+ ELSEIF K%=%<
+  B$="1452"
+  E%=3
+  K%=%A
+ ELSEIF K%=%B
+  B$="2365"
+ ELSEIF K%=%>
+  B$="2563"
+  E%=3
+  K%=%B
+ ELSEIF K%=%G
+  B$="4587"
+ ELSEIF K%=%=
+  B$="4785"
+  E%=3
+  K%=%G
+ ELSEIF K%=%H
+  B$="5698"
+ ELSEIF K%=%"
+  B$="5896"
+  E%=3
+  K%=%H
+ ELSEIF K%=32
+  GOTO S::
+ ENDIF
+ IF B$<>""
+  IF O%=-1
+   O%=0
+  ELSEIF K%<>O%
+   M%=M%+1
+   O%=K%
+  ENDIF
+  A%=ASC(B$)-%0
+  B%=2
+  DO
+   C%=ASC(MID$(B$,B%,1))-%0
+   D%=P%(C%)
+   P%(C%)=P%(A%)
+   P%(A%)=D%
+  B%=B%+1
+  UNTIL B%=5
+  B%=1
+  DO
+   A%=ASC(MID$(B$,B%,1))-%0
+   A%=P%(A%)
+   IF A%<>9
+    O%(A%)=(O%(A%)+E%) AND 3
+   ENDIF
+   B%=B%+1
+  UNTIL B%=5
+ ENDIF
+
+UNTIL K%=1

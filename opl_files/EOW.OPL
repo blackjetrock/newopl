@@ -1,0 +1,15 @@
+EOW:
+Y%=Y%+1
+IF Y%>LEN(Y$)
+END%=1
+ELSE
+END%=0
+ENDIF
+IF END%>=1
+RETURN
+ENDIF
+IF MID$(Y$,Y%,1)=" "
+END%=1
+ELSE
+END%=0
+ENDIF

@@ -1,0 +1,154 @@
+SCROLL:
+GLOBAL A$(30,30),H%,W%
+GLOBAL GN1$(61),GN1%,GN2$(233),GN2%,PR$(247),PR%,MV$(186),MV%,PT$(124),PT%,CL$(17),CL%
+GLOBAL U%(28),W%(28)
+LOCAL A%,P%,K%,X%,Y%,C%,SP%,O%,M%,V%,ML%,SC%
+H%=PEEKW(ADDR(A$())-2)
+W%=PEEKB(ADDR(A$())-3)
+SCRINIT:
+DO
+
+SC%=0
+CLS
+DO
+PRINT CHR$(22);"Generating new maze.Score:";SC%;
+A%=ADDR(A$())
+USR(GN1%,A%)
+USR(GN2%,A%)
+A%=A%+1
+
+C%=H%*W%/55
+DO
+ DO
+  X%=1+INT(RND*(W%-2))
+  Y%=1+INT(RND*(H%-2))
+  P%=A%+X%+Y%*(W%+1)
+ UNTIL PEEKB(P%)=32 AND (X%>6 OR Y%>6)
+ POKEB P%,%0+RND*4
+ C%=C%-1
+UNTIL C%=0
+PRINT CHR$(22);"Press a key to begin";
+WHILE KEY :ENDWH
+GET
+CLS
+
+X%=1
+Y%=1
+SP%=9
+P%=A%+X%+Y%*(W%+1)
+AT 13,1
+PRINT "Part 1";
+AT 13,2
+ML%=USR(PT%,P%)
+PRINT "Len:";ML%+1;"  ";
+M%=0
+C%=0
+V%=1
+L::
+DO
+ C%=C%+1
+ IF C%>=SP%
+  C%=0
+  USR(MV%,ADDR(A$()))
+  IF (PEEKB(P%) AND $7F)<>32
+   BREAK
+  ENDIF
+ ENDIF
+ POKEB P%,%M
+ POKEW PR%+69,U%(V%)
+ POKEW PR%+51,W%(V%)
+ POKEW PR%+74,U%(V%+1)
+ POKEW PR%+56,W%(V%+1)
+ POKEW PR%+138,U%(V%)
+ POKEW PR%+120,W%(V%)
+ POKEW PR%+143,U%(V%+1)
+ POKEW PR%+125,W%(V%+1)
+ V%=V%+2
+ IF V%=15
+  V%=1
+ ELSEIF V%=29
+  V%=15
+ ENDIF
+ USR(PR%,A%)
+ POKEB P%,32
+ K%=ASC(UPPER$(KEY$))
+ IF K%=3 AND Y%>0
+  O%=P%-W%-1
+  IF PEEKB(O%)<>%W AND PEEKB(O%)<>%X
+   P%=O%
+   Y%=Y%-1
+   IF Y%>2 AND Y%<H%-5
+    A%=A%-W%-1
+   ENDIF
+  ENDIF
+ ELSEIF (K%=4 OR K%=%C) AND Y%<H%-1
+  O%=P%+W%+1
+  IF PEEKB(O%)<>%W AND PEEKB(O%)<>%X
+   P%=O%
+   IF Y%>2 AND Y%<H%-5
+    A%=A%+W%+1
+   ENDIF
+   Y%=Y%+1
+  ENDIF
+ ELSEIF K%=5 AND X%>0
+  IF PEEKB(P%-1)<>%W AND PEEKB(P%-1)<>%X
+   P%=P%-1
+   X%=X%-1
+   IF X%>2 AND X%<W%-5
+    A%=A%-1
+   ENDIF
+  ENDIF
+ ELSEIF K%=6 AND X%<W%-1
+  IF PEEKB(P%+1)<>%W AND PEEKB(P%+1)<>%X
+   P%=P%+1
+   IF X%>2 AND X%<W%-5
+    A%=A%+1
+   ENDIF
+   X%=X%+1
+  ENDIF
+ ELSEIF K%=%S
+  USR(CL%,ADDR(A$()))
+  AT 17,2
+  PRINT USR(PT%,P%)+1,
+ ELSEIF K%=%T
+  USR(CL%,ADDR(A$()))
+ ENDIF
+UNTIL (PEEKB(P%) AND $7F)<>32 OR K%=%Q
+
+USR(PR%,A%)
+USR(CL%,ADDR(A$()))
+IF (PEEKB(P%) AND $7F)=%E
+ SC%=SC%+ML%
+ IF M%=0
+  POKEB P%,32
+  AT 18,1
+  PRINT "2";
+  AT 17,2
+  ML%=USR(PT%,P%)
+  PRINT ML%+1,
+  M%=-1
+  V%=15
+  GOTO L::
+ ELSE
+  PAUSE -20
+  CLS
+  PRINT " You have survived"
+  PRINT " the maze. Bonus 50";
+  SC%=SC%+50
+ ENDIF
+ELSE
+ SC%=SC%+ML%-USR(PT%,P%)-1
+ PAUSE -20
+ CLS
+ BREAK
+ENDIF
+UNTIL K%=%Q
+
+PRINT " G A M E   O V E R"
+PRINT
+PRINT "Another game";chr$(63);" (Y/N)"
+PRINT "Score:";SC%;
+DO
+ K%=ASC(UPPER$(GET$))
+UNTIL K%=%Y OR K%=%N
+UNTIL K%<>%Y

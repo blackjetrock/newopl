@@ -1,0 +1,76 @@
+C4INIT1:
+LOCAL X%,Y%,Z%,A%
+CLS
+PRINT "Please wait...."
+A%=1
+Z%=1
+Y%=1
+DO
+X%=1
+DO
+ F$(A%)=CHR$(1)+CHR$(Z%)+CHR$(Z%+7)+CHR$(Z%+14)+CHR$(Z%+21)
+ A%=A%+1
+ Z%=Z%+1
+X%=X%+1
+UNTIL X%>7
+Y%=Y%+1
+UNTIL Y%>3
+
+Z%=1
+Y%=1
+DO
+X%=1
+DO
+ F$(A%)=CHR$(2)+CHR$(Z%)+CHR$(Z%+1)+CHR$(Z%+2)+CHR$(Z%+3)
+ A%=A%+1
+ X%=X%+1
+ Z%=Z%+1
+UNTIL X%>4
+Z%=Z%+3
+Y%=Y%+1
+UNTIL Y%>6
+
+Z%=1
+Y%=1
+DO
+X%=1
+DO
+F$(A%)=CHR$(3)+CHR$(Z%)+CHR$(Z%+8)+CHR$(Z%+16)+CHR$(Z%+24)
+A%=A%+1
+F$(A%)=CHR$(4)+CHR$(Z%+3)+CHR$(Z%+9)+CHR$(Z%+15)+CHR$(Z%+21)
+A%=A%+1
+Z%=Z%+1
+X%=X%+1
+UNTIL X%>4
+Z%=Z%+3
+Y%=Y%+1
+UNTIL Y%>3
+
+A%=1
+DO
+Y%=2
+DO
+ X%=ASC(MID$(F$(A%),Y%,1))
+ S$(X%)=S$(X%)+CHR$(A%)
+Y%=Y%+1
+UNTIL Y%>5
+A%=A%+1
+UNTIL A%=70
+
+UDG:
+SA%(1)=1
+SA%(2)=5
+SA%(3)=5
+SA%(4)=10
+SA%(5)=10
+SA%(6)=50
+
+SA%(7)=SA%(1)
+SA%(8)=SA%(2)
+SA%(9)=5
+SA%(10)=8
+SA%(11)=8
+SA%(12)=30
+AN%=-1
+SN%=-1
+CLS

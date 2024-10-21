@@ -1,0 +1,37 @@
+C4MOVE%:(C%)
+LOCAL A%,R%,S%
+
+A%=C%+35
+R%=6
+WHILE B%(A%)<>0
+ A%=A%-7
+ R%=R%-1
+ENDWH
+
+IF AN%
+ C4ANIM1:(R%,C%)
+ENDIF
+B%(A%)=I%
+IF M%<=LEN(M$)
+ IF ASC(MID$(M$,M%,1))<>C%
+  M$=LEFT$(M$,M%-1)+CHR$(C%)
+ ENDIF
+ELSE
+ M$=M$+CHR$(C%)
+ENDIF
+M%=M%+1
+
+IF R% AND 1
+ S%=I%*3+B%(A%+7)-1
+ELSE
+ S%=I%-1
+ENDIF
+R%=(R%+1)/2
+A$(R%)=LEFT$(A$(R%),C%-1)+CHR$(S%)+RIGHT$(A$(R%),7-C%)
+AT 2,R%
+PRINT A$(R%);
+IF SN%
+ BEEP 5,1000
+ENDIF
+I%=3-I%
+RETURN C4TEST%:(A%)

@@ -1,0 +1,28 @@
+UPDATE:
+LOCAL C%,D%,E%,F%
+D%=8
+DO
+A%(D%)=0
+D%=D%-1
+UNTIL D%=0
+C%=41 :E%=16
+DO
+F%=1
+D%=C%-1
+DO
+IF B%(D%)=1
+A%(F%)=A%(F%)+E%
+ENDIF
+F%=F%+1
+D%=D%-5
+UNTIL D%<C%-36
+E%=E%/2
+C%=C%-1
+UNTIL C%=36
+POKEB $180,64+(N% AND 7)*8
+C%=1
+DO
+POKEB $181,A%(C%)
+C%=C%+1
+UNTIL C%>8
+RETURN

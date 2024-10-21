@@ -1,0 +1,5 @@
+FTV:
+at 5,1 :print "Fund to View"
+at 4,2 :print "(B)ank (C)ard"
+ftv$=upper$(get$)
+

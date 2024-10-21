@@ -1,0 +1,23 @@
+C4TEST%:(P%)
+LOCAL A%,C%,E%
+
+C%=B%(P%)
+A%=LEN(S$(P%))
+WHILE A%>=1
+ E%=ASC(MID$(S$(P%),A%,1))
+ IF B%(ASC(MID$(F$(E%),2,1)))=C%
+  IF B%(ASC(MID$(F$(E%),3,1)))=C%
+   IF B%(ASC(MID$(F$(E%),4,1)))=C%
+    IF B%(ASC(MID$(F$(E%),5,1)))=C%
+     RETURN E%
+    ENDIF
+   ENDIF
+  ENDIF
+ ENDIF
+ A%=A%-1
+ENDWH
+
+IF M%<=42
+ RETURN 0
+ENDIF
+RETURN -2

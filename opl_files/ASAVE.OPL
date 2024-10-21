@@ -1,0 +1,20 @@
+asave:(FN$,AD%)
+rem
+rem Saves the array at address AD% into an OB3-file with the name
+rem FN$. If the file already exists the old file will be deleted
+rem first. $83 in m%(4) and m%(15) means OB3-file
+rem
+local m%(21),mem%,f$(10),a%,f%,num%
+mem%=addr(m%())
+f%=addr(f$)
+f$=fn$
+num%=peekw(ad%-2)*2
+m%( 1)=$DD41 :m%( 2)=$CE00 :m%( 3)=$00C6 :m%( 4)=$833F :m%( 5)=$2525
+m%( 6)=$16DC :m%( 7)=$E0CE :m%( 8)=ad%   :m%( 9)=$3F61 :m%(10)=$2411
+m%(11)=$C1F5 :m%(12)=$2609 :m%(13)=$37CE :m%(14)=f%    :m%(15)=$C683
+m%(16)=$3F23 :m%(17)=$334F :m%(18)=$0D18 :m%(19)=$39CE :m%(20)=$0000
+m%(21)=$3901
+pokew $e0,num%
+pokew mem%+3,f%
+usr(mem%+24,0)
+return usr(mem%,num%)

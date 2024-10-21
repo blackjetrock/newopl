@@ -1,0 +1,154 @@
+mm:
+REM 
+GLOBAL game$(16,16),data$(120)
+GLOBAL a%(4),c%(4),d%(4),g%,i%,j%,k%,l%,m%,s,t,num%,res1%,res2%,ans%
+ONERR prterr::
+CLS
+data$="  'MasterMind' by Jonatahan Hurwitt, version 2.15 - 25 Feb 88. "
+VIEW(1,data$)
+CLS
+PRINT "Is a printer    attached? (Y/N)";
+l%=yorn%:
+CLS
+PRINT "Sound effects?  (Y/N) ";
+POKEB $00A4,1-yorn%:
+g%=0 : s=0 : t=0
+DO
+    KSTAT 3
+    i%=INT((RND+RND+RND)*3333)
+    i%=i%-(i%/10000)*10000
+    num%=i%
+    d%(1)=i%/1000
+    i%=i%-d%(1)*1000
+    d%(2)=i%/100
+    i%=i%-d%(2)*100
+    d%(3)=i%/10
+    d%(4)=i%-d%(3)*10
+    m%=1
+    CLS
+    game$(1)="TRY  GUESS  W  B"
+    AT 1,2
+    PRINT game$(1)
+    IF l%=1
+        LPRINT game$(1)
+    ENDIF
+    DO
+        m%=m%+1
+        i%=1
+        j%=m%
+        game$(m%)=" "+GEN$(m%-1,-2)+"  "
+        DO
+            CLS
+            PRINT game$(j%-1);
+            PRINT game$(j%);
+            IF j%<m%
+                CURSOR off
+            ELSE
+                CURSOR on
+            ENDIF
+            k%=GET
+            IF k%=3 AND j%>2
+                j%=j%-1
+            ELSEIF k%=4 AND j%<m%
+                j%=j%+1
+            ELSEIF k%>47 AND k%<58
+                j%=m%
+                a%(i%)=k%-48
+                game$(m%)=game$(m%)+CHR$(k%)
+                i%=i%+1
+            ELSEIF k%=8 AND i%>1
+                j%=m%
+                i%=i%-1
+                k%=LEN(game$(m%))
+                game$(m%)=LEFT$(game$(m%),k%-1)
+            ELSEIF k%=1
+                CLS
+                PRINT "  GAME ABORTED"
+                BEEP 750,1500
+                GOTO abort::
+            ELSE
+                BEEP 15,300
+            ENDIF
+        UNTIL i%>4
+        c%(1)=d%(1)
+        c%(2)=d%(2)
+        c%(3)=d%(3)
+        c%(4)=d%(4)
+        i%=1
+        res1%=0
+        res2%=0
+        DO
+            IF a%(i%)=c%(i%)
+                res1%=res1%+1
+                a%(i%)=-1
+                c%(i%)=-2
+            ENDIF
+            i%=i%+1
+        UNTIL i%>4
+        IF res1%<4
+            i%=1
+            DO
+                j%=1
+                DO
+                    IF a%(i%)=c%(j%)
+                        res2%=res2%+1
+                        a%(i%)=-1
+                        c%(j%)=-2
+                    ENDIF
+                    j%=j%+1
+                UNTIL j%>4
+                i%=i%+1
+            UNTIL i%>4
+        ENDIF
+        game$(m%)=game$(m%)+"   "+CHR$(res1%+48)+"  "+CHR$(res2%+48)
+        AT 1,2
+        PRINT game$(m%);
+        IF l%=1
+            LPRINT game$(m%)
+        ENDIF
+        PAUSE 10
+    UNTIL res1%=4 OR m%=16
+    k%=key
+    PAUSE 15
+    CLS
+    t=t+1
+    s=s+m%-1
+    
+    IF res1%=4
+        g%=g%+1
+        PRINT m%-1,"tries to win"
+        i%=2000
+        DO
+            BEEP 25,i%
+            i%=i%-100
+        UNTIL i%<100
+    ELSE
+        PRINT "I win! Ans:",num%;
+        BEEP 1000,2000
+    ENDIF
+abort::
+    IF l%=1
+        LPRINT CHR$(10),CHR$(10)
+    ENDIF
+    KSTAT 1
+    PRINT " Another game?";
+    ans%=yorn%:
+UNTIL ans%=0
+CURSOR off
+IF t>0
+    CLS
+    data$="You played "+GEN$(t,3)+" games and won "+GEN$(g%,3)
+    data$=data$+". Average score "+FIX$(s/t,2,5)+".  "
+    VIEW(1,data$)
+    CLS
+ENDIF
+POKEB $00A4,0
+ONERR off
+RETURN
+
+prterr::
+CLS
+PRINT ERR$(ERR)
+BEEP 1000,2000
+l%=0
+GOTO abort::

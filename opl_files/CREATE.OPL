@@ -1,0 +1,7 @@
+create:
+rem A.Grieve - 1988
+local name$(8)
+print "Cre A:";
+input name$
+create "a:"+name$,a,data$
+close

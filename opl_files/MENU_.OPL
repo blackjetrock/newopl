@@ -1,0 +1,18 @@
+MENU%:(b$)
+LOCAL Z%, A$(10), M%, J%
+M%=PEEKW($2002)
+WHILE PEEKB(M%)
+ J%=PEEKB(M%)
+ Z%=PEEKW(M%+J%+1)
+ A$=""
+ DO
+  A$=CHR$(PEEKB(M%+J%))+A$
+  J%=J%-1
+ UNTIL J%=0
+ IF A$=UPPER$(b$)
+  USR(Z%,0)
+  RETURN -1
+ ENDIF
+ M%=M%+PEEKB(M%)+3
+ENDWH
+

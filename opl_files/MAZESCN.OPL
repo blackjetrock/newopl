@@ -1,0 +1,24 @@
+MAZESCN:
+rem
+rem Maze game for the Psion Organiser II LZ : Screen layout module
+rem Copyright 1992-1997 Zac Schroff, all rights reserved.
+rem
+rem Please see the main module for other notices.
+rem
+
+
+rem Set up the screen for the rest of the program.
+
+rem This tries to at least appear seamlessly as a Psion application.
+
+UDG 2,0,0,0,0,0,0,0,31
+UDG 0,14,17,6,4,0,4,0,31
+KSTAT 1
+AT 1,1
+PRINT CHR$(0)+REPT$(CHR$(2),19);
+CLOCK(1)
+AT 1,2
+PRINT "   "+CHR$($7C)+"  Plyr =      "
+PRINT "   "+CHR$($7C)+"  Exit =      "
+PRINT "   "+CHR$($7C)+"   Msg =        "
+

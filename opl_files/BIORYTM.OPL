@@ -1,0 +1,27 @@
+biorytm:
+rem
+rem (c) Bj|rn Felten 24/1 -88
+rem
+local f$(24),y%,m%,d%,p%,e%,i%,j%,dno
+print"    Your name:"; :input f$
+print"Year of birth:"; :input y%
+print"        month:"; :input m%
+print"          day:"; :input d%
+cls
+y%=y%-1900*(y%<100)
+dno=days(day,month,year)-days(d%,m%,y%)
+view(1,"          Biorythm for "+F$+", born "+month$:(M%)+" "+day$:(d%)+" in the year "+gen$(y%,4)+", on a "+wday$:(dow(d%,m%,y%)-1)+"day.   ")
+view(1,"          No. of days up to "+month$:(month)+" "+day$:(day)+" "+gen$(year,4)+" = "+gen$(dno+1,5)+" days.   ")
+view(1,"          P=Physical, E=Emotional, I=Intellectual.  Shown for today and two days ahead.   ")
+do
+ p%=bcalz%:((dno+j%)/23)
+ e%=bcalz%:((dno+j%)/28)
+ i%=bcalz%:((dno+j%)/33)
+ p%=p%-(p%=e% or p%=i%)
+ e%=e%-(e%=i%)
+ at p%,2+j% :print"P";
+ at e%,2+j% :print"E";
+ at i%,2+j% :print"I";
+ j%=j%+1
+until j%=3
+view(1,"-        ?        +")

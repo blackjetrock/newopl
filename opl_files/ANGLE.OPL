@@ -1,0 +1,11 @@
+ANGLE:(wind,hdg)
+local temp,angle
+temp=360-wind
+angle=hdg+temp
+if angle>360
+do
+angle=angle-360
+until angle<360
+endif
+return angle
+

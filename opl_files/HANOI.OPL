@@ -1,0 +1,66 @@
+HANOI:
+REM CM/XP procedure
+LOCAL BRD$(3,6),F%,K%,T%,N%,M%
+
+Loop::
+CLS
+VIEW(1,"Move the Tower of Hanoi from A to C by moving one disc at a time. You cannot place a large disc on top of a smaller one. Use the keys A,B and C (S is Stop). Good luck.   ")
+CLS
+PRINT "How high is the tower (1-6)";
+INPUT N%
+BRD$(1)=RIGHT$("654321",N%)
+BRD$(2)=""
+BRD$(3)=""
+M%=0
+Move::
+CLS
+PRINT "A";BRD$(1);" "
+PRINT "B";BRD$(2);" ";
+AT 8,1
+PRINT "C";BRD$(3);" ";
+AT 8,2
+PRINT M%;"/";2**N%-1;" ";
+IF LEN(BRD$(3))=N%
+ GOTO End::
+ENDIF
+DO
+ K%=ASC(UPPER$(GET$))
+ IF K%=%S OR K%=1
+  GOTO End::
+ ENDIF
+UNTIL K%>=%A AND K%<=%C
+F%=K%-64
+IF LEN(BRD$(F%))=0
+ GOTO Move::
+ENDIF
+PRINT CHR$(K%);
+DO
+ K%=ASC(UPPER$(GET$))
+ IF K%=%S OR K%=1
+  GOTO End::
+ ENDIF
+UNTIL K%>=%A AND K%<=%C
+T%=K%-64
+IF LEN(BRD$(T%))>0
+ IF RIGHT$(BRD$(F%),1)>RIGHT$(BRD$(T%),1)
+  GOTO Move::
+ ENDIF
+ENDIF
+IF T%=F%
+ GOTO Move::
+ENDIF
+BRD$(T%)=BRD$(T%)+RIGHT$(BRD$(F%),1)
+BRD$(F%)=LEFT$(BRD$(F%),LEN(BRD$(F%))-1)
+M%=M%+1
+GOTO Move::
+
+End::
+CLS
+PRINT "Done:";M%;"/";2**N%-1
+PRINT "Again (Y/N)"
+DO
+ K%=ASC(UPPER$(GET$))
+ IF K%=%Y
+  GOTO Loop::
+ ENDIF
+UNTIL K%=%N OR K%=1

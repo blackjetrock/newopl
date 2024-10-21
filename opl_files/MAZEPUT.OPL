@@ -1,0 +1,42 @@
+MAZEPUT:(F$)
+rem
+rem Maze game for the Psion Organiser II LZ : Save maze module
+rem Copyright 1992-1997 Zac Schroff, all rights reserved.
+rem
+rem Please see the main module for other notices.
+rem
+
+
+rem Save the maze to the local drive
+
+LOCAL Q%
+AT 14,4
+PRINT "Save   ";
+Q%=X%
+X%=1
+IF EXIST("A:"+F$)
+ DELETE "A:"+F$
+ENDIF
+CREATE "A:"+F$,A,A$,A%
+USE A
+DO
+ AT 19,4
+ PRINT X%-1;
+ A.A$=LEFT$(A$(X%)+REPT$(" ",MS%),MS%)
+ IF X%=1
+  A.A%=EX%
+ ELSEIF X%=2
+  A.A%=EY%
+ ELSEIF X%=3
+  A.A%=Q%
+ ELSEIF X%=4
+  A.A%=Y%
+ ELSE 
+  A.A%=0
+ ENDIF
+ X%=X%+1
+ APPEND
+UNTIL X%>MS%
+CLOSE
+X%=Q%
+

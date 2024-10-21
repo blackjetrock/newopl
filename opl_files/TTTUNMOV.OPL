@@ -1,0 +1,35 @@
+TTTUNMOV:
+LOCAL A%,X1%,Y1%,S%
+
+IF M%=1
+ RETURN
+ENDIF
+M%=M%-1
+A%=ASC(MID$(M$,M%,1))
+
+IF M%=1
+ P%=22
+ELSE
+ P%=ASC(MID$(M$,M%-1,1))
+ENDIF
+I%=3-I%
+IF J%<>3
+ J%=I%
+ENDIF
+
+B%(A%+1)=0
+IF A% AND 4
+ S%=B%(A%-3)*3-1
+ELSE
+ S%=B%(A%+5)-1
+ENDIF
+IF S%<0
+ S%=32
+ENDIF
+
+Y1%=1-((A% AND 8)<>0)
+X1%=(A% AND 3)+(A% AND 48)/16*5+1
+A$(Y1%)=LEFT$(A$(Y1%),X1%-1)+CHR$(S%)+RIGHT$(A$(Y1%),19-X1%)
+
+AT 1,Y1%
+PRINT A$(Y1%);

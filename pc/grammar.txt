@@ -22,7 +22,11 @@
 <onerr>      : ONERR <label> | ONERR OFF
 <string>     : '"'<textchar>*'"'
 <text>       : <textchar>*
-<number>     : <integer> | <float>
+<number>     : <integer> | <float> | <hexnumber>
+<hexnumber>  : '$'<hexdigits>
+<hexdigits>  ; '0' | '1' | '2' | '3' | '4' |
+               '0' | '0' | '0' | '0' | '0' |
+               '0' |'0' |'0' |'0' |'0' |'0' |
 <atom>       : <string> | <number> | <variable>	| %<character>       
 <sub_expr>   : '(' <expression> ')'
 <eitem>      : <operator> | <function> | <atom> | <sub_expr> 

@@ -1,0 +1,8 @@
+TRK:(lat1,lon1,lat2,lon2,dist)
+local trk,D
+D=DIST/60
+trk=acos:((sin(rad(lat2))-sin(rad(lat1))*cos(rad(d)))/(sin(rad(d))*cos(rad(lat1))))
+if sin(rad(lon2-lon1))<0
+return 360-trk
+endif
+return trk

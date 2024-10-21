@@ -1,0 +1,81 @@
+CHMPHUM:
+LOCAL A%,B%,C%,D%,K%
+
+A%=3
+B%=B%(4)+1
+D%=B%+3+(17-B% AND B%>17)
+C%=1
+DO
+ AT B%,C%
+ PRINT REPT$(CHR$(255),D%-B%)
+ C%=C%+1
+UNTIL C%>A%
+
+DO
+ K%=GET
+ IF K%=3 AND A%>1
+  AT 1,A%
+  PRINT B$(A%);REPT$(" ",18-B%(A%));
+  A%=A%-1
+ ELSEIF K%=4 AND A%<4
+  A%=A%+1
+  AT B%,A%
+  PRINT REPT$(CHR$(255),D%-B%);
+ ELSEIF K%=5 AND B%>1
+  B%=B%-1
+  C%=1
+  DO
+   AT B%,C%
+   PRINT CHR$(255);
+   C%=C%+1
+  UNTIL C%>A%
+ ELSEIF K%=6 AND B%<=B%(4)
+  C%=1
+  DO
+   AT B%,C%
+   IF B%>B%(C%)
+    PRINT " ";
+   ELSE PRINT MID$(B$(C%),B%,1);
+   ENDIF
+   C%=C%+1
+  UNTIL C%>A%
+  B%=B%+1
+ ENDIF
+UNTIL K%=13 AND B%(A%)>=B%
+
+C%=1
+DO
+ IF B%(C%)>=B%
+  B%(C%)=B%-1
+ ENDIF
+ C%=C%+1
+UNTIL C%>A%
+
+B$(1)=""
+IF B%(1)>0
+B$(1)=REPT$(CHR$(0),B%(1)-1)+CHR$(1)
+ENDIF
+C%=2
+DO
+ B$(C%)=""
+ IF B%(C%)>0
+  IF B%(C%)>B%(C%-1)
+   B$(C%)=RIGHT$(REPT$(CHR$(4),B%(C%-1))+CHR$(3)+REPT$(CHR$(0),B%(C%)-B%(C%-1)-1)+CHR$(1),B%(C%))
+  ELSE B$(C%)=REPT$(CHR$(4),B%(C%)-1)+CHR$(2)
+  ENDIF
+ ENDIF
+C%=C%+1
+UNTIL C%=5
+C%=1
+DO
+ AT 1,C%
+ PRINT B$(C%);
+ C%=C%+1
+UNTIL C%=5
+C%=A%
+DO
+ PAUSE 3
+ AT B%,C%
+ PRINT REPT$(" ",D%-B%);
+ C%=C%-1
+UNTIL C%=0

@@ -1,0 +1,19 @@
+QUJMP:
+P%=1
+WHILE MID$(A$,P%,1)="O"
+ P%=P%+1
+ENDWH
+IF MID$(A$,P%+1,2)="OO"
+ P%=P%+2
+ QUMOV:
+ RETURN 0
+ENDIF
+P%=16
+DO
+ IF MID$(A$,P%-2,3)=".OO"
+  QUMOV:
+  RETURN 0
+ ENDIF
+ P%=P%-1
+UNTIL P%=2
+RETURN -1

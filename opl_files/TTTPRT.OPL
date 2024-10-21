@@ -1,0 +1,6 @@
+TTTPRT:
+AT 1,1
+PRINT A$(1);CHR$(255);
+PRINT A$(2);CHR$(255);
+PRINT CHR$(I%-1),MID$("PsionHuman",1+(5 AND (I% AND J%)<>0),5);" x ";MID$("PsionHuman",1+(5 AND (J% AND (3-I%))<>0),5),CHR$(2-I%);"  "
+PRINT "                    ";

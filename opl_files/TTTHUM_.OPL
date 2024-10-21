@@ -1,0 +1,94 @@
+TTTHUM%:
+LOCAL K%,X%,Y%,Z%,X1%,Y1%,A%,C%,D%
+X%=P% AND 3
+Y%=(P% AND 12)/4
+Z%=(P% AND 48)/16
+DO
+DO
+ IF D%
+  D%=D%-1
+ ELSE
+  AT 1,4
+  PRINT "  Make your move.";
+ ENDIF
+ Y1%=2+(Y%<2)
+ X1%=Z%*5+X%+1
+ A%=Z%*16+Y%*4+X%+1
+ IF Y% AND 1
+  C%=3*B%(A%-4)+I%-1
+  IF B%(A%)=I%
+   C%=C%-I%
+  ENDIF
+ ELSE
+  C%=B%(A%+4)+3*I%-1
+  IF B%(A%)=I%
+   C%=C%-3*I%
+  ENDIF
+ ENDIF
+ IF C%<0
+  C%=32
+ ENDIF
+ DO
+  AT X1%,Y1%
+  PRINT CHR$(C%);
+  PAUSE 1
+  AT X1%,Y1%
+  PRINT MID$(A$(Y1%),X1%,1);
+  PAUSE 1
+  K%=ASC(UPPER$(KEY$))
+ UNTIL K%
+ IF K%=5
+  X%=(X%+3) AND 3
+  IF X%=3
+   Z%=(Z%+3) AND 3
+  ENDIF
+ ELSEIF K%=6
+  X%=(X%+1) AND 3
+  IF X%=0
+   Z%=(Z%+1) AND 3
+  ENDIF
+ ELSEIF K%=4
+  Y%=(Y%+1) AND 3
+ ELSEIF K%=3
+  Y%=(Y%+3) AND 3
+ ELSEIF K%=%H
+  J%=3
+  TTTPRT:
+ ELSEIF K%=%D
+  J%=0
+  RETURN 0
+ ELSEIF K%=%M
+  J%=3-I%
+  RETURN 0
+ ELSEIF K%=%S
+  SN%=NOT SN%
+  AT 1,4
+  PRINT "Sound O";MID$("FFN ",1-2*SN%,2);"        ";
+  D%=5
+ ELSEIF K%=%B
+  IF M%>1
+   TTTUNMOV:
+   RETURN 0
+  ENDIF
+ ELSEIF K%=%F
+  IF M%<=LEN(M$)
+   IF J%<>3
+    J%=3-I%
+   ENDIF
+   K%=ASC(MID$(M$,M%,1))
+   RETURN TTTMOVE%:(K%)
+  ENDIF
+ ELSEIF K%=1 OR K%=%Q
+  AT 1,4
+  PRINT "Quit the game";CHR$(63);" (Y/N)";
+  DO
+   K%=ASC(UPPER$(GET$))
+   IF K%=%Y
+    RETURN -1
+   ENDIF
+  UNTIL K%=%N OR K%=1
+ ENDIF
+UNTIL K%=13
+A%=X%+Y%*4+Z%*16
+UNTIL B%(A%+1)=0
+RETURN TTTMOVE%:(A%)

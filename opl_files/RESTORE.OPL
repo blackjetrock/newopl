@@ -1,0 +1,64 @@
+RESTORE:(dev$)
+local d$(14),f$(8),e$(3),t%,m%,n%,i%,o,s
+cls 
+xfopen:("*.*",0,2)
+n%=0 :o=0 :m%=0 :s=0
+d$=xfget$:(255)
+while d$<>""
+ n%=n%+1
+ f$=left$(d$,loc(d$,".")-1)
+ if right$(f$,1)=chr$(95)
+  f$=left$(f$,len(f$)-1)+"%"
+ endif
+ e$=right$(d$,3) 
+ d$=f$+"."+e$
+ if     e$="ODB" :t%=0
+ elseif e$="OPL" :t%=1 :e$="OPT"
+ elseif e$="OB2" :t%=2 :e$="DIA"
+ elseif e$="OB3" :t%=3 :e$="OPL"
+ elseif e$="OB4" :t%=4 :e$="COM"
+ elseif e$="OB5" :t%=5 :e$="PLN"
+ elseif e$="OB6" :t%=6
+ elseif e$="OB7" :t%=7 :e$="NTS"
+ elseif e$="OB8" :t%=8
+ elseif e$="OB9" :t%=9
+ else t%=-1
+ endif
+ if t%=1 and s=0
+  at 1,1 :print "Restore ";f$;".";e$;rept$(" ",12-len(d$));
+  at 2,2 :print "Restore OPT file";chr$(63)
+  at 1,4 :print chr$(25);
+  m%=menun(1,"Yes,No,Always,Never")
+  if     m%=2 :t%=-1
+  elseif m%=3 :s=-1
+  elseif m%=4 :s=1 :t%=-1
+  endif
+ elseif t%=1 and s=1 :t%=-1
+ endif 
+ if t%<>-1
+  at 1,1 :print "Restore ";f$;".";e$;rept$(" ",12-len(d$));
+  d$=dirw$(dev$+f$+"."+e$)
+  if d$<>"" and not o
+   at 1,2 :print f$;".";e$;" exists"    
+   at 1,4 :print chr$(25)
+   m%=menun(1,"Overwrite,Skip,All,New")
+   cls :print "Restore ";f$+"."+e$;
+   if     m%=3 :o=-1
+   elseif m%=4 :o=1
+   endif
+  endif
+  if d$="" or m%=1 or o=-1
+   xfclose:
+   xtrecv:(f$,dev$+f$,t%)
+   xfopen:("*.*",0,2)
+   i%=0
+   while i%<n%
+    xfget$:(255)
+    i%=i%+1
+   endwh
+  endif
+ endif
+ d$=xfget$:(255)
+endwh
+return
+

@@ -1,0 +1,146 @@
+FILEXFSF:(utysno%,xtdirm%,flwcat%)
+
+REM This procedure is a subroutine of FILEXFER. It is called to transfer
+REM files to the PC.
+REM
+REM Target models:  This program can only be run on Organiser LZ Modells.
+REM
+REM Version:        2.2  (01-Jan-1997)
+REM Created:        P.Hunkeler - October 1990
+REM Changed:        P.Hunkeler - 05-Oct-1990
+REM                   - Added possibility to transfer a complete pack to the PC.
+REM                   - Added Organiser directory search including wildcard
+REM                     characters "+" and "*".
+
+
+LOCAL  multipl%                     REM 0=single file, 1,2=multiple file transfer
+LOCAL  start%                       REM Start/Continue indicator for FL$WCAT.
+LOCAL  pcfile$(12)                  REM PC filename to be sent/received.
+LOCAL  cr$(1),ef$(1)                REM ConfirmRepace and EditFilename indicators
+LOCAL  c%,k%,k$(1),i%               REM Auxiliary variables
+LOCAL  tmpfile$(12)                 REM Auxiliary variables
+
+prompt$  = "Send"             REM This is the send loop.
+dirfile$ = "*"
+
+DO                            REM Endless loop, left by ON/Clear at PSION file edit.
+  PRINT title$                REM Get file to be sent.
+  dirfile$ = USR$(xtdirm%,type%)
+
+  IF dirfile$ = ""            REM Has ON/Clear been pressed ?
+    BREAK                     REM Y, go to type selection menu.
+    ENDIF
+
+  multipl% = LOC(dirfile$,"+") + LOC(dirfile$,"*") REM Any wildcards ? None=0
+
+  IF multipl%                 REM Multiple file receive selected?
+    PRINT title$;             REM Y, ask for "replace confirmation" and "file name edit".
+    PRINT "confirm <R>eplace:  edit <F>ilenames:   Hit <R>,<F> or <EXE>";
+    cr$ = "Y"                 REM Reinitialize the switches.
+    ef$ = "Y"
+
+    DO
+      AT 20,2
+      PRINT cr$;
+      AT 20,3
+      PRINT ef$;
+      k$ = UPPER$(GET$)
+
+      IF k$ = "R"
+        cr$ = CHR$(%N-11*(cr$="N"))
+      ELSEIF k$ = "F"
+        ef$ = CHR$(%N-11*(ef$="N"))
+        ENDIF
+
+      UNTIL k$ = CHR$(13)  OR  k$ = CHR$(1)
+
+    IF k$ = CHR$(1)
+      CONTINUE
+      ENDIF
+
+    ENDIF
+
+  start% = 256                REM Set A-register to start FL$WCAT.
+
+  DO                          REM Send loop.
+    PRINT title$              REM Get first (only) or next filename.
+    curfile$ = USR$(flwcat%,start% - (opltype% = 0) )
+    curtype% = curtype% + (curtype% = $81) + opltype%*(curtype% = $83)
+
+    IF curfile$ = ""          REM No more files to send ?
+      BREAK                   REM No, leave send loop
+      ENDIF
+
+    IF RIGHT$(curfile$,1) = "%"                               REM Build the default
+      pcfile$ = MID$(curfile$,3,LEN(curfile$)-3)+"_"+curtype$ REM PC file name. Take
+    ELSE                                                      REM into account that
+      pcfile$ = RIGHT$(curfile$,LEN(curfile$)-2)+curtype$     REM an ending '%' is
+      ENDIF                                                   REM translated to '_'.
+
+    IF ef$ = "Y" OR  multipl% = 0     REM Should pcfile name be edited?
+      PRINT CHR$(22);"From ";curfile$ REM Y, display data, so that the
+      PRINT "To  PC:";                REM    pcfile name may be edited.
+
+      DO                      REM Edit PC filename until one has been
+        AT 8,4                REM specified or ON/Clear has been presssed.
+        TRAP EDIT pcfile$
+        UNTIL pcfile$ <> ""  OR  ERR
+
+      IF ERR                  REM Has ON/Clear been pressed ?
+        BREAK                 REM Y, go to main (direction) menu.
+        ENDIF
+
+      ENDIF
+
+    pcfile$ = UPPER$(pcfile$)
+
+    IF cr$ = "Y" OR  multipl% = 0           REM Does a repacement have to be confirmed?
+      XFOPEN:(pcpath$+"/"+pcfile$,0,2)      REM Y, open the directory on the PC and try
+      tmpfile$ = XFGET$:(12)                REM    to get the file name to see if it exists.
+
+      IF NOT XFEOF:                                   REM Has file been found?
+        AT 1,3                                        REM Y, the file to be sent from the
+        PRINT repfile$;                               REM    PSION exists on the PC and its
+        k% = VIEW(3,pcpath$+"/"+pcfile$+" exists")    REM    replacement must be confirmed.
+
+        WHILE k% <> %N  AND  k% <> %n  AND  k% <> %Y AND k% <> %y
+          k% = VIEW(3,"")
+          ENDWH
+
+        IF k% = %N  OR  k% = %n     REM Has replacement been denied ?
+          XFCLOSE:                  REM Y, ask for filenames again.
+          CONTINUE
+          ENDIF
+
+        ENDIF
+
+      XFCLOSE:                      REM Close the directory again.
+      ENDIF
+
+    IF multipl%                   REM Multiple files to be sent?
+      AT 1,2                      REM Y, DEL key can be used to interrupt
+      PRINT "     DEL=Cancel"     REM    the send process after each file.
+      ENDIF
+
+    AT 1,3
+    PRINT CHR$(22);"Ok, sending...";CHR$(23);"     ";curfile$;
+    XTSEND:(pcpath$+"/"+pcfile$,curfile$,curtype% - $80)
+
+    IF KEY = 8  AND  multipl%                 REM DEL key pressed while multiple send?
+      PRINT title$                            REM Y, ask if send is to be cancelled.
+      AT 1,3
+      PRINT CHR$(16);"Cancel transfer Y/N?";
+
+      IF USR(utysno%,0)                       REM Wait for Y or N key.
+        BREAK
+        ENDIF
+
+      ENDIF
+
+    start% = 0                REM Set A-register to continue catalog.
+
+    UNTIL 0                   REM End of send loop.
+
+  BEEP 40,55
+
+  UNTIL 0                     REM End of file selection loop.

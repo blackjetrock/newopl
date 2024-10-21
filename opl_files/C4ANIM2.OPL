@@ -1,0 +1,76 @@
+C4ANIM2:(R%,C%)
+LOCAL U%(11),A%,D%,E%,F%,G%,S%
+LOCAL U1%,U2%,U3%,U4%,U5%,U6%,U7%,U8%,UA%,UB%,UC%
+A%=R%
+F%=R%*7+C%
+S%=50+90*R%
+G%=(R%+1)/2
+DO
+ U6%=14
+ U7%=17+(14 AND I%=2)
+ U8%=14
+ IF A% AND 1
+  IF B%(F%)
+   UA%=14
+   UB%=17+(14 AND B%(F%)=2)
+   UC%=14
+  ENDIF
+  D%=5
+  DO
+   U1%=U2%
+   U2%=U3%
+   U3%=U4%
+   U4%=U5%
+   U5%=U6%
+   U6%=U7%
+   U7%=U8%
+   U8%=0
+   UDG 2,0,0,0,0,U1%,U2%,U3%,U4%
+   UDG 5,U6%,U7%,U8%,0,UA%,UB%,UC%,0
+   AT C%+1,G%
+   PRINT CHR$(5);
+   IF G%>1
+    AT C%+1,G%-1
+    PRINT CHR$(2);
+   ENDIF
+   IF SN%
+    BEEP 3,S%
+   ENDIF
+   S%=S%-20
+   D%=D%-1
+  UNTIL D%=0
+  AT 2,G%
+  PRINT A$(G%);
+  U1%=0
+  U2%=0
+  U3%=0
+  UA%=0
+  UB%=0
+  UC%=0
+  G%=G%-1
+ ELSE
+  D%=4
+  DO
+   U2%=U3%
+   U3%=U4%
+   U4%=U5%
+   U5%=U6%
+   U6%=U7%
+   U7%=U8%
+   U8%=0
+   UDG 2,U2%,U3%,U4%,U5%,U6%,U7%,U8%,0
+   AT 1+C%,G%
+   PRINT CHR$(2);
+   IF SN%
+    BEEP 3,S%
+   ENDIF
+   S%=S%-20
+  D%=D%-1
+  UNTIL D%=0
+  U2%=0
+  U3%=0
+  U4%=0
+ ENDIF
+ F%=F%-7
+ A%=A%-1
+UNTIL A%<1

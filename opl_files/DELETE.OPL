@@ -1,0 +1,10 @@
+delete:
+rem A.Grieve - 1988
+local name$(8),conf$(1)
+print "Del A:";
+input name$
+print "Delete (Y/N) ";
+conf$=get$
+if lower$(conf$)="y"
+ delete "a:"+name$
+endif
