@@ -798,7 +798,7 @@ addtop:(item$,pos%)
 
 
 IF LEN(item$)>8 
-(LEN(IF() item$ ) > 8)
+(LEN(item$ ) > 8)
 
 
 RAISE 202 
@@ -810,3 +810,15 @@ ENDIF()
 
 
 POKEB $2187,LEN(item$) 
+POKEB(2187 LEN(item$ ) )
+
+
+I%=1 
+(I% := 1)
+
+
+WHILE I%<=LEN(item$) 
+((WHILE() < I%) := LEN(item$ ))
+
+
+POKEB $2187+I

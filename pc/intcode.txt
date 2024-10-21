@@ -1651,18 +1651,16 @@ Expression buffer 2
 Expression buffer 2
 ===================
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
-(dump_exp_buffer2) N9 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon f->i'  0:
 (dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
 (dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     s rq:s 'item$'  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
 (dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
-(dump_exp_buffer2) N8 EXP_BUFF_ID_FUNCTION     f rq:f 'LEN'  0:
-(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
-(dump_exp_buffer2) N11 EXP_BUFF_ID_INTEGER      i rq:i '8'  0:
-(dump_exp_buffer2) N13 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 11 8
-(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     f rq:f '>'  2: 11 8
+(dump_exp_buffer2) N8 EXP_BUFF_ID_FUNCTION     i rq:i 'LEN'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_INTEGER      i rq:i '8'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     i rq:i '>'  2: 10 8
 =================
 Expression buffer 2
 ===================
@@ -1676,3 +1674,99 @@ Expression buffer 2
 ===================
 (dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
 =================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '2187'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     s rq:s 'item$'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_FUNCTION     i rq:i 'LEN'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_FUNCTION     v rq:v 'POKEB'  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'I%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'WHILE'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'I%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 2 1
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f '<'  2: 2 1
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_VARIABLE     s rq:s 'item$'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_FUNCTION     i rq:i 'LEN'  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 11 3
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 11 3
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '2187'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'I%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_VARIABLE     s rq:s 'item$'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_VARIABLE     i rq:i 'I%'  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N17 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_FUNCTION     f rq:f 'MID$'  0:
+(dump_exp_buffer2) N24 EXP_BUFF_ID_AUTOCON      s rq:s 'autocon f->i'  0:
+(dump_exp_buffer2) N19 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N20 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N21 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N22 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N23 EXP_BUFF_ID_FUNCTION     s rq:s 'ASC'  0:
+(dump_exp_buffer2) N25 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N26 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N27 EXP_BUFF_ID_FUNCTION     v rq:v 'POKEB'  0:
+(dump_exp_buffer2) N28 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'I%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'I%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDWH'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '2188'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     s rq:s 'item$'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_FUNCTION     i rq:i 'LEN'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2:

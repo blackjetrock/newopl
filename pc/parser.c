@@ -1475,6 +1475,110 @@ int scan_float(char *fltdest)
   
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+int check_hex(int *index)
+{
+  int idx = *index;
+  int num_digits = 0;
+  indent_more();
+  
+  drop_space(&idx);
+  
+  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
+
+  char intval[20];
+  char chstr[2];
+
+  intval[0] = '\0';
+
+  // We must have a '$' at the start
+  if( (cline[idx]) != '$' )
+    {
+      dbprintf("%s:ret0 not '$'", __FUNCTION__);
+      return(0);
+    }
+  
+  idx++;
+  while( isxdigit(chstr[0] = cline[idx]) )
+    {
+      strcat(intval, chstr);
+      idx++;
+      num_digits++;
+    }
+
+  *index = idx;
+  
+  if( num_digits > 0 )
+    {
+      dbprintf("%s:ret1", __FUNCTION__);
+      return(1);
+    }
+
+  dbprintf("%s:ret0 no digits", __FUNCTION__);
+  return(0);
+}
+
+//------------------------------------------------------------------------------
+
+int scan_hex(int *intdest)
+{
+  int num_digits = 0;
+  OP_STACK_ENTRY op;
+  indent_more();
+  
+  init_op_stack_entry(&op);
+  
+  drop_space(&cline_i);
+  
+  dbprintf("%s:", __FUNCTION__);
+
+  char intval[20];
+  char chstr[2];
+
+  intval[0] = '\0';
+
+  // We must have a '$' at the start
+  if( cline[cline_i] != '$' )
+    {
+      dbprintf("%s:ret0", __FUNCTION__);
+      return(0);
+    }
+  
+  cline_i++;
+
+  while( isdigit(chstr[0] = cline[cline_i]) )
+    {
+      strcat(intval, chstr);
+      cline_i++;
+      num_digits++;
+    }
+
+  // Convert to integer
+  sscanf(intval, "%x", intdest);
+  //x  strcpy(intdest, intval);
+  
+  if( num_digits > 0 )
+    {
+      dbprintf("%s:ret1", __FUNCTION__);
+
+      strcpy(op.name, intval);
+
+      op.integer = *intdest;
+      op.type = NOBJ_VARTYPE_INT;
+      process_token(&op);
+
+      dbprintf("%s:ret1  %s", __FUNCTION__, intval);
+
+      return(1);
+    }
+
+  dbprintf("%s:ret0", __FUNCTION__);
+  return(0);
+}
+
+//------------------------------------------------------------------------------
+
 int check_number(int *index)
 {
   int idx = *index;
@@ -1494,6 +1598,14 @@ int check_number(int *index)
   if( check_integer(&idx) )
     {
       dbprintf("%s: ret1", __FUNCTION__);
+      *index = idx;
+      return(1);
+    }
+
+  if( check_hex(&idx) )
+    {
+      dbprintf("%s: ret1", __FUNCTION__);
+      
       *index = idx;
       return(1);
     }
@@ -1526,6 +1638,14 @@ int scan_number(void)
     {
       int intval;
       scan_integer(&intval);
+      return(1);
+    }
+
+  idx = cline_i;
+  if( check_hex(&idx) )
+    {
+      int intval;
+      scan_hex(&intval);
       return(1);
     }
 
