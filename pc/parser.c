@@ -2249,6 +2249,41 @@ int scan_addr_name(void)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+
+int strn_match(char *s1, char *s2, int n)
+{
+  int match = 1;
+  int i = 0;
+
+  if( (strlen(s1)==0) || (strlen(s2) == 0) )
+    {
+      return(0);
+    }
+  
+  while( (i < n) && ((*s1) |= '\0') )
+    {
+      if( *s2 == '\0' )
+	{
+	  break;
+	}
+
+      //printf("\n%c ?? %c", *s1, *s2);
+      if( toupper(*s1) != toupper(*s2) )
+	{
+	  match = 0;
+	  //break;
+	}
+      
+      s1++;
+      s2++;
+      i++;
+    }
+
+  return(match);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //
 // Command parsing
 //
@@ -2268,9 +2303,9 @@ int check_command(int *index)
   
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
-      dbprintf("\nChecking '%s' against '%s'", &(cline[idx]), fn_info[i].name);
-	       
-      if( fn_info[i].command && strncasecmp(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name)) == 0 )
+      //dbprintf("\nChecking '%s' against '%s'", &(cline[idx]), fn_info[i].name);
+      //printf("\n%s", fn_info[i].name);
+      if( fn_info[i].command && (strn_match(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name))) )
 	{
 	  
 	  // Match
@@ -2394,7 +2429,7 @@ int check_function(int *index)
     
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
-      if( (!fn_info[i].command) && strncmp(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name)) == 0 )
+      if( (!fn_info[i].command) && strn_match(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name)) )
 	{
 	  // Match
 	  dbprintf("%s: ret1 Found fn=>'%s'", __FUNCTION__, fn_info[i].name);
@@ -2440,6 +2475,16 @@ int scan_function(char *cmd_dest)
 	      process_token(&op);
 	      strcpy(op.name, ")");
 	      process_token(&op);
+	    }
+	  else
+	    {
+	      int num_commas = 0;
+	      
+	      if( !scan_expression(&num_commas) )
+		{
+		  dbprintf("ret0");
+		  return(0);
+		}
 	    }
 	  dbprintf("ret1");
 	  return(1);
@@ -2997,22 +3042,6 @@ int scan_line()
       return(1);
     }
 
-#if 0
-  idx = cline_i;
-  if( check_literal(&idx," LOCAL") )
-    {
-      scan_literal(" LOCAL");
-      return(1);
-    }
-
-  idx = cline_i;
-  if( check_literal(&idx," GLOBAL") )
-    {
-      scan_literal(" GLOBAL");
-      return(1);
-    }
-#endif
-  
   idx = cline_i;
   if( check_literal(&idx," IF") )
     {
@@ -3158,12 +3187,15 @@ int scan_cline(void)
 	    {
 	      dbprintf("scan_line returned 0");
 	      
-	      finalise_expression();
+
 	  
 	      dbprintf("ret0 scan_line==0 len=%ld '%s'", strlen(&(cline[idx])), &(cline[idx]));
 	      syntax_error("Syntax error in line");
 	      return(0);
 	    }
+
+	  finalise_expression();
+	  
 	}
       else
 	{

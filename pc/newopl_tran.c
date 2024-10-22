@@ -2324,9 +2324,13 @@ int is_delimiter(char ch)
 
 void finalise_expression(void)
 {
+  dbprintf("\nFinalise expression");
+
   // Now finalise the translation
   op_stack_finalise();
   process_expression_types();
+  
+  dbprintf("\nFinalise expression done.");
 }
 
 void dummy(void)
