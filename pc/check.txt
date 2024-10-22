@@ -1928,3 +1928,549 @@ ELSEIF M=2
 
 
 C=0.0254 
+
+
+ELSEIF M=3 
+
+
+C=0.0254 
+
+
+ELSEIF M=4 
+
+
+C=0.0339 
+
+
+ENDIF 
+
+
+CLS 
+
+
+PRINT "Focal length" 
+
+
+INPUT F 
+
+
+CLS 
+
+
+PRINT "f STOP" 
+
+
+INPUT S 
+
+
+CLS 
+
+
+H=(F**2)/(S*C) 
+
+
+C=INTF(H) 
+
+
+HY= C/1000 
+
+
+CLS 
+
+
+S=S/1000 
+
+
+H=H/1000 
+
+
+PRINT "FOCUS DISTANCE" 
+
+
+INPUT D 
+
+
+CLS 
+
+
+AT 1,1 
+
+
+PRINT "Hypofocal distance" 
+
+
+AT 1,2 
+
+
+PRINT HY,"m" 
+
+
+IF D>H 
+
+
+N=(H*D)/(H+(D-S)) 
+
+
+N=N*100 
+
+
+N=INTF(N) 
+
+
+N=N/100 
+
+
+AT 1,3 
+
+
+PRINT"NEAR ";N;" m" 
+
+
+AT 1,4 
+
+
+PRINT"INFINITY" 
+
+
+ELSE 
+
+
+N=(H*D)/(H+(D-S)) 
+
+
+C=(H*D)/(H-(D-S)) 
+
+
+N=N*100 
+
+
+N=INTF(N) 
+
+
+N=N/100 
+
+
+C=C*100 
+
+
+C=INTF(C) 
+
+
+C=C/100 
+
+
+AT 1,3 
+
+
+PRINT "NEAR",N,"m" 
+
+
+AT 1,4 
+
+
+PRINT "FAR",C,"m" 
+
+
+ENDIF 
+
+
+GET 
+
+
+N=MENU("DEPTH,FILM,MENU") 
+
+
+IF N=1 
+
+
+DEPTH: 
+
+
+ELSEIF N=2 
+
+
+FILM: 
+
+
+ENDIF 
+
+
+STOP 
+
+
+DICE: 
+
+
+KSTAT 1 
+
+
+DO 
+
+
+ AT 1,2 
+
+
+ PRINT "Stop"+CHR$(63) 
+
+
+ AT 1,4 
+
+
+ PRINT "Press key." 
+
+
+ WHILE KEY=0 
+
+
+ PAUSE 2 
+
+
+ AT 1,1 
+
+
+ PRINT CHR$(26) 
+
+
+ AT 15,2 
+
+
+ PRINT CHR$(26) 
+
+
+ AT 1,3 
+
+
+ PRINT CHR$(26) 
+
+
+ D%=(RND*6) 
+
+
+ IF D%=0 OR D%=2 OR D%=4 
+
+
+  AT 19,2 
+
+
+  PRINT CHR$(255) 
+
+
+ ENDIF 
+
+
+ IF D%>0 
+
+
+  AT 18,1 
+
+
+  PRINT CHR$(255) 
+
+
+  AT 20,3 
+
+
+  PRINT CHR$(255) 
+
+
+ ENDIF 
+
+
+ IF D%>2 
+
+
+  AT 20,1 
+
+
+  PRINT CHR$(255) 
+
+
+  AT 18,3 
+
+
+  PRINT CHR$(255) 
+
+
+ ENDIF 
+
+
+ IF D%=5 
+
+
+  AT 18,2 
+
+
+  PRINT CHR$(255)+" "+CHR$(255) 
+
+
+ ENDIF 
+
+
+ ENDWH 
+
+
+ AT 1,2 
+
+
+ PRINT "     " 
+
+
+ AT 1,4 
+
+
+ PRINT CHR$(26)+"Again"+CHR$(63)+" Y" 
+
+
+UNTIL GET$<>"Y" 
+
+
+distance: 
+
+
+PRINT "Select known data" 
+
+
+A=MENUN(2,"HEIGHT,WIDTH") 
+
+
+IF A=1 
+
+
+PRINT "WHAT HEIGHT mt";CHR$(63) 
+
+
+INPUT H 
+
+
+WI=H 
+
+
+S$="m height" 
+
+
+H=H*1000 
+
+
+CLS 
+
+
+PRINT "WHAT mm LENS";CHR$(63) 
+
+
+INPUT L 
+
+
+LE=L 
+
+
+D=(H*L)/T 
+
+
+CLS 
+
+
+ELSEIF A=2 
+
+
+PRINT "WHAT WIDTH mt";CHR$(63) 
+
+
+INPUT W 
+
+
+WI=W 
+
+
+S$="m width" 
+
+
+W=W*1000 
+
+
+CLS 
+
+
+PRINT "WHAT LENS mm";CHR$(63) 
+
+
+INPUT L 
+
+
+LE=L 
+
+
+CLS 
+
+
+D=(W*L)/I 
+
+
+ENDIF 
+
+
+D=INTF(D/10) 
+
+
+D=D/100 
+
+
+PRINT "A",LE,"mm lens"  
+
+
+PRINT "gives a",WI, S$ 
+
+
+PRINT "@",D,"metres" 
+
+
+PRINT "Distance..." 
+
+
+GET 
+
+
+DumpPack: 
+
+
+REM produces an exact copy of a pack on the PC, mostly even if UNMAKE fails 
+
+
+REM OPKs produced are sligthly different from standard OPK because all bytes 
+
+
+REM on the pack are copied, program does NOT stop at the <end-of-pack>-marker! 
+
+
+ESCAPE_OFF 
+
+
+ONERR ERROR:: 
+
+
+OFFSET% = 0 :REM where to start scanning (header skip) 
+
+
+OFFSET% = 0 :REM where to start scanning (header skip) 
+
+
+REM -- machine code for pack read -- 
+
+
+REM originates from Horatio's brilliant fast5 datapack copy program 
+
+
+REM D param in USR - pack number (0=A,1=B,2=C,3=D) 
+
+
+REM load_addr + 3 - byte - 64K page of pack address (00-01) 
+
+
+REM load_addr + 5 - word - OFFSET from page of pak address (0000-FFFF) 
+
+
+REM load_addr + 10 - word - number of bytes to read (size of buffer) 
+
+
+REM load_addr + 13 - word - location in ram of buffer to store data 
+
+
+mc1addr% = addr(mc1%()) 
+
+
+mc1%(1) = $3f62    :REM os     pk$setp 
+
+
+mc1%(1) = $3f62    :REM os     pk$setp 
+
+
+mc1%(2) = $3900    :REM rts ;for now! 
+
+
+mc1%(2) = $3900    :REM rts ;for now! 
+
+
+REM mc1%(2)=$c600  :REM ldab   #page 
+
+
+mc1%(3) = $ce00    :REM ldx    #OFFSET 
+
+
+mc1%(3) = $ce00    :REM ldx    #OFFSET 
+
+
+mc1%(4) = $003f    :REM os     pk$sadd 
+
+
+mc1%(4) = $003f    :REM os     pk$sadd 
+
+
+mc1%(5) = $60cc    :REM ldd 
+
+
+mc1%(5) = $60cc    :REM ldd 
+
+
+mc1%(6) = $0080    :REM        #bytes_to_read 
+
+
+mc1%(6) = $0080    :REM        #bytes_to_read 
+
+
+mc1%(7) = $ce00    :REM ldx    #buffer_addr 
+
+
+mc1%(7) = $ce00    :REM ldx    #buffer_addr 
+
+
+mc1%(8) = $003f    :REM os     pk$read 
+
+
+mc1%(8) = $003f    :REM os     pk$read 
+
+
+mc1%(9) = $5e39    :REM rts 
+
+
+mc1%(9) = $5e39    :REM rts 
+
+
+REM -- get user input -- 
+
+
+cls :print " DumpPack v0.1"; 
+
+
+cls :print " DumpPack v0.1"; 
+
+
+buff$="  Copies a pack to PC (even if protected or corrupted). Please make sure the CommsLink is booted in and activate Psi2Win.  " 
+
+
+if view(2,buff$)=1 :return :endif 
+
+
+do 
+
+
+ pack%=menu("Which"+chr$(254)+"pack,B:,C:,D:")-1 
+
+
+ if pack%=-1 :return :endif 
+
+
+until pack%>0 
+
+
+do 
+
+
+ kb% = 4 * 2**(menu("AUTO,8K,16K,32K,64K,128K,256K")-1) 
+
+
+ if kb% = 0 
+
+
+  return 
+
+
+ elseif kb% = 4 

@@ -124,7 +124,7 @@ struct _FN_INFO
     { "ERASE",    1,  1, ' ',  "ii",        "v", 0x00 },
     { "ERR$",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "ERR",      0,  0, ' ',  "ii",        "f", 0x00 },
-    { "ESCAPE",   1,  0, 'O',  "ii",        "v", 0x00 },
+    { "ESCAPE",   1,  0, 'O',  "i",         "v", 0x00 },
     { "EXIST",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "EXP",      0,  0, ' ',  "f",         "f", 0x00 },
     { "FINDW",    0,  0, ' ',  "ii",        "f", 0x00 },
@@ -553,6 +553,10 @@ void syntax_error(char *fmt, ...)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+// gets next line (a composite line which may be composed of commands
+// separated by colons.
+// We need to turn into upper case apart from strings
+
 int next_composite_line(FILE *fp)
 {
   int all_spaces = 1;
@@ -568,7 +572,7 @@ int next_composite_line(FILE *fp)
     {
       cline[strlen(cline)-1] = ' ';
     }
-  
+
   return(1);
 }
 
@@ -690,7 +694,7 @@ int scan_literal(char *lit)
 	  return(0);
 	}
       
-      if( *lit != cline[cline_i] )
+      if( toupper(*lit) != toupper(cline[cline_i]) )
 	{
 	  // Not a match, fail
 	  dbprintf("%s:ret1", __FUNCTION__);  
@@ -756,7 +760,7 @@ int check_literal(int *index, char *lit)
   
   while( (*lit != '\0') && (cline[idx] != '\0'))
     {
-      if( *lit != cline[idx] )
+      if( toupper(*lit) != toupper(cline[idx]) )
 	{
 	  dbprintf("  '%c' != '%c'", *lit, cline[idx]);
 	  // Not a match, fail
@@ -2264,8 +2268,11 @@ int check_command(int *index)
   
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
-      if( fn_info[i].command && strncmp(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name)) == 0 )
+      dbprintf("\nChecking '%s' against '%s'", &(cline[idx]), fn_info[i].name);
+	       
+      if( fn_info[i].command && strncasecmp(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name)) == 0 )
 	{
+	  
 	  // Match
 	  dbprintf("%s: ret1 found=> '%s'", __FUNCTION__, fn_info[i].name);
 	  *index = idx + strlen(fn_info[i].name);
@@ -2293,7 +2300,7 @@ int scan_command(char *cmd_dest)
 
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
-      if( fn_info[i].command && (strncmp(&(cline[cline_i]), fn_info[i].name, strlen(fn_info[i].name)) == 0) )
+      if( fn_info[i].command && (strncasecmp(&(cline[cline_i]), fn_info[i].name, strlen(fn_info[i].name)) == 0) )
 	{
 	  // Match
 	  strcpy(cmd_dest, fn_info[i].name);

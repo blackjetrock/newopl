@@ -789,42 +789,42 @@ PRINT "@",D,"metres"
 PRINT "Distance..."
 GET
 DumpPack:
-rem produces an exact copy of a pack on the PC, mostly even if UNMAKE fails
+REM produces an exact copy of a pack on the PC, mostly even if UNMAKE fails
 
-rem OPKs produced are sligthly different from standard OPK because all bytes
-rem on the pack are copied, program does NOT stop at the <end-of-pack>-marker!
-
-
+REM OPKs produced are sligthly different from standard OPK because all bytes
+REM on the pack are copied, program does NOT stop at the <end-of-pack>-marker!
 
 
-escape off
-onerr ERROR::
 
-offset% = 0 :rem where to start scanning (header skip)
 
-rem -- machine code for pack read --
-rem originates from Horatio's brilliant fast5 datapack copy program
+ESCAPE_OFF
+ONERR ERROR::
 
-rem D param in USR - pack number (0=A,1=B,2=C,3=D)
-rem load_addr + 3 - byte - 64K page of pack address (00-01)
-rem load_addr + 5 - word - offset from page of pak address (0000-FFFF)
-rem load_addr + 10 - word - number of bytes to read (size of buffer)
-rem load_addr + 13 - word - location in ram of buffer to store data
+OFFSET% = 0 :REM where to start scanning (header skip)
+
+REM -- machine code for pack read --
+REM originates from Horatio's brilliant fast5 datapack copy program
+
+REM D param in USR - pack number (0=A,1=B,2=C,3=D)
+REM load_addr + 3 - byte - 64K page of pack address (00-01)
+REM load_addr + 5 - word - OFFSET from page of pak address (0000-FFFF)
+REM load_addr + 10 - word - number of bytes to read (size of buffer)
+REM load_addr + 13 - word - location in ram of buffer to store data
 
 mc1addr% = addr(mc1%())
 
-mc1%(1) = $3f62    :rem os     pk$setp
-mc1%(2) = $3900    :rem rts ;for now!
-rem mc1%(2)=$c600  :rem ldab   #page
-mc1%(3) = $ce00    :rem ldx    #offset
-mc1%(4) = $003f    :rem os     pk$sadd
-mc1%(5) = $60cc    :rem ldd
-mc1%(6) = $0080    :rem        #bytes_to_read
-mc1%(7) = $ce00    :rem ldx    #buffer_addr
-mc1%(8) = $003f    :rem os     pk$read
-mc1%(9) = $5e39    :rem rts
+mc1%(1) = $3f62    :REM os     pk$setp
+mc1%(2) = $3900    :REM rts ;for now!
+REM mc1%(2)=$c600  :REM ldab   #page
+mc1%(3) = $ce00    :REM ldx    #OFFSET
+mc1%(4) = $003f    :REM os     pk$sadd
+mc1%(5) = $60cc    :REM ldd
+mc1%(6) = $0080    :REM        #bytes_to_read
+mc1%(7) = $ce00    :REM ldx    #buffer_addr
+mc1%(8) = $003f    :REM os     pk$read
+mc1%(9) = $5e39    :REM rts
 
-rem -- get user input --
+REM -- get user input --
 cls :print " DumpPack v0.1";
 buff$="  Copies a pack to PC (even if protected or corrupted). Please make sure the CommsLink is booted in and activate Psi2Win.  "
 if view(2,buff$)=1 :return :endif
@@ -837,7 +837,7 @@ do
  if kb% = 0
   return
  elseif kb% = 4
-  usr(mc1addr%,pack%) : rem call pk$setp
+  usr(mc1addr%,pack%) : REM call pk$setp
   kb%=peekb($20d8+10*pack%)*8
   print "Detected",num$(kb%,3);"k"
   pause -20
@@ -847,7 +847,7 @@ cls :buff$=""
 print "PC file name:" :trap input buff$
 if buff$="" :return :endif
 
-rem -- write OPK header --
+REM -- write OPK header --
 cls
 print "Connecting"
 print "to PC...";
@@ -862,16 +862,16 @@ else
 endif
 xfput:(buff$)
 
-rem -- setup MC --
-mc1%(2) =  $c600    :rem ldab   #page
-buffloc% = addr(buff$)+1 :rem prepare MC buffer
-pokeb buffloc%-1,128 :rem set buffer size for OPL
-pokew mc1addr%+13,buffloc% : rem set buffer
+REM -- setup MC --
+mc1%(2) =  $c600    :REM ldab   #page
+buffloc% = addr(buff$)+1 :REM prepare MC buffer
+pokeb buffloc%-1,128 :REM set buffer size for OPL
+pokew mc1addr%+13,buffloc% : REM set buffer
 size = 1024.0 * kb%
 
-rem -- main copy loop --
+REM -- main copy loop --
 at 1,1 :print "Copying "+chr$(65+pack%)+":"
-cnt = offset%
+cnt = OFFSET%
 do
  hiaddr = intf(cnt/65536)
  loaddr = cnt-65536*intf(cnt/65536)
@@ -879,34 +879,34 @@ do
  h$ = hex$(loaddr+65536*(loaddr > 32767))
  at 12,1 :print hex$(hiaddr);left$("0000",4-len(h$));h$
 
- pokew mc1addr%+5,loaddr+65536*(loaddr > 32767) : rem set location on pack
- pokeb mc1addr%+3,hiaddr : rem set location page
- usr(mc1addr%,pack%) : rem READ from pack to buffer
+ pokew mc1addr%+5,loaddr+65536*(loaddr > 32767) : REM set location on pack
+ pokeb mc1addr%+3,hiaddr : REM set location page
+ usr(mc1addr%,pack%) : REM READ from pack to buffer
  xfput:(buff$)
 
  at 13,2: print fix$(int(cnt/size*100),0,-3);"%";
 
- if cnt = offset% :cnt = 0 :endif
+ if cnt = OFFSET% :cnt = 0 :endif
  cnt = cnt + 128
  if key =1 :raise 206 :endif
 
 until cnt >= size
 
-rem -- remove protection --
-rem    xfpos:(0,6.)
-rem    buff$ = xfget$:(1)
-rem    xfpos:(0,6.)
-rem    xfput:(chr$(asc(buff$) or $28))
-rem TODO: fix checksum
+REM -- remove protection --
+REM    xfpos:(0,6.)
+REM    buff$ = xfget$:(1)
+REM    xfpos:(0,6.)
+REM    xfput:(chr$(asc(buff$) or $28))
+REM TODO: fix checksum
 
-rem -- Done! --
+REM -- Done! --
 xfclose:
 cls :print " DumpPack v0.1"
 print "Copy Complete..."+chr$(16);
 get
 return
 
-rem -- error handling --
+REM -- error handling --
 ERROR::
 onerr off
 if err=203
@@ -1112,7 +1112,7 @@ endif
 STATE%=1
 while STATE%<>0
 
- if STATE%=1 : rem base loop
+ if STATE%=1 : REM base loop
   OPT%=menu("COUNT,FIND,LIST,NEW")
   if OPT%=0
    STATE%=0
@@ -1128,7 +1128,7 @@ while STATE%<>0
    CRASH:
   endif
 
- elseif STATE%=2 :rem command = FIND
+ elseif STATE%=2 :REM command = FIND
   cls :print"Find flight" :print">";
   kstat 1
   trap edit FS$
@@ -1177,7 +1177,7 @@ while STATE%<>0
    endif
   endif
 
- elseif STATE%=5 :rem edit
+ elseif STATE%=5 :REM edit
   if FLYEDIT%:=1
    FLYBUILD:
    update
@@ -1186,12 +1186,12 @@ while STATE%<>0
   endif
   STATE%=2
 
- elseif STATE%=6 :rem COUNT
+ elseif STATE%=6 :REM COUNT
   cls :print count,"flights"
   get
   STATE%=1
 
- elseif STATE%=7 :rem NEW
+ elseif STATE%=7 :REM NEW
   DAT$="" :AIR$="": FNO$="" :OUT$="" :DEP$="" :INP$="": ARR$=""
   if FLYEDIT%:=1
    FLYBUILD:
@@ -1201,7 +1201,7 @@ while STATE%<>0
   endif
   STATE%=1
 
- elseif STATE%=8 :rem delete
+ elseif STATE%=8 :REM delete
   cls :print"Delete flight" :print"record Y/N";
   kstat 1
   do
@@ -1216,7 +1216,7 @@ while STATE%<>0
    STATE%=2
   endif
 
- elseif STATE%=9 :rem LIST
+ elseif STATE%=9 :REM LIST
   lprint
   if err=230
    cls :print"No comms link";
@@ -2279,10 +2279,10 @@ IF w%
  GET
 ENDIF
 LZMAZE:
-rem ****************
-rem *  mick_a@cix  *
-rem *     1989     *
-rem ****************
+REM ****************
+REM *  mick_a@cix  *
+REM *     1989     *
+REM ****************
 
 
 UDG 1,1,1,1,1,1,1,1,1
@@ -2391,8 +2391,8 @@ ENDIF
 IF K%=2
 AU%=1
 ENDIF
-IF K%=3 :rem UP key
-  IF V%>1 :rem (and there is nothing in way)
+IF K%=3 :REM UP key
+  IF V%>1 :REM (and there is nothing in way)
   OC%=ASC(MID$(A$(S%+V%-2),H%,1))
   IF OC%<>0 AND OC%<>2 AND OC%<>6 AND NOT (OC%=3 AND S7%>2)
    AT H%,V% :PRINT MID$(A$(S%+V%-1),H%,1)
@@ -2405,8 +2405,8 @@ IF K%=3 :rem UP key
 po%=1 :goto proc1:: :b1::
 ENDIF
 
-IF K%=4 :rem DOWN key
-  IF V%<4 :rem (NOT at bottom of screen)
+IF K%=4 :REM DOWN key
+  IF V%<4 :REM (NOT at bottom of screen)
   OC%=ASC(MID$(A$(S%+V%-1),H%,1))
 IF OC%=6 :GOTO LEF:: :ENDIF
   IF OC%<>0 AND OC%<>2 AND OC%<>6 AND NOT (OC%=3 AND S7%>2)
@@ -2421,7 +2421,7 @@ IF OC%=6 :GOTO LEF:: :ENDIF
 po%=2 :goto proc1:: :b2::
 ENDIF
 
-IF K%=5 :rem LEFT key
+IF K%=5 :REM LEFT key
  LEF::
   IF H%>1
   OC%=ASC(MID$(A$(S%+V%-1),H%-1,1))
@@ -2436,7 +2436,7 @@ IF OC%=6 AND H%<>1
 ENDIF
 ENDIF
 
-IF K%=6 :rem RIGHT key
+IF K%=6 :REM RIGHT key
   IF H%<20
   OC%=ASC(MID$(A$(S%+V%-1),H%,1))
   IF OC%<>1 AND OC%<>2 AND OC%<>6 AND NOT (OC%=3 AND S7%>2)
@@ -2453,7 +2453,7 @@ LAST::
 POKEB $77,$E :POKEB $20C0,1
 AT 5,3 :PRINT"Again ";chr$(63);" (Y/N)"
 IF GET$="Y" :GOTO TOP:: :ENDIF
-rem ---------------
+REM ---------------
 po%=0 :proc1::
 if po%
  OC%=ASC(MID$(A$(S%+V%-1),H%,1))
@@ -2491,10 +2491,10 @@ if po%=4 :goto b4:: :endif
 IF PO%=6 :GOTO B6:: :ENDIF
 endif
 
-Rem This correction is necessary
-Rem otherwise the program exits
-Rem with the keyboard repeat 
-Rem set to 1! djw@enterprise.net
+REM This correction is necessary
+REM otherwise the program exits
+REM with the keyboard repeat 
+REM set to 1! djw@enterprise.net
 
 PokeB $77,$0E
 macro:
@@ -3513,10 +3513,10 @@ GST=T0+UT
 NU=INTF(GST/24)
 GST=GST-(24*NU)
 tob3:
-Rem (c) Donovan
-Rem Email shannond@mindspring.com
+REM (c) Donovan
+REM Email shannond@mindspring.com
 
-rem this will transfer ob3 files from the PC to the organiser.
+REM this will transfer ob3 files from the PC to the organiser.
 
 
 
