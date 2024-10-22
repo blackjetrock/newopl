@@ -143,7 +143,8 @@ void dbpf(const char *caller, char *fmt, ...)
     }
   
   fprintf(ofp, "\n%s(%s) %s", indent_str, caller, line);
-
+  fflush(ofp);
+  
     if( (strstr(line, "ret0") != NULL) || (strstr(line, "ret1") != NULL) )
     {
 

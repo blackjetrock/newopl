@@ -14,7 +14,11 @@
 	       'WHILE' <expression> | 'ENDWH' |
 	       'REPEAT' | 'UNTIL' <expression> |
 	       'GOTO' <label> |
-	       <return>
+	       <return> |
+	       <addr_cmd>
+<addr_cmd>   : 'ADDR' '(' <addr_names> ')'
+<addr_names> :  <vname>':' | <vname>'%:' | <vname>'$:' |
+                <vname>'()' | <vname>'%()' | <vname>'$()'
 <return>     : 'RETURN' | 'RETURN' <variable>
 <proc_name>  :  <vname>':' | <vname>'%:' | <vname>'$:'
 <proc_call>  : <proc_name> <expression>

@@ -1,6 +1,8 @@
 #define dbprintf(fmt...) dbpf(__FUNCTION__, fmt)
 void dbpf(const char *caller, char *fmt, ...);
 
+int scan_addr_name(void);
+int check_addr_name(int *index);
 
 int scan_expression(int *num_commas);
 int check_function(int *index);
@@ -62,6 +64,7 @@ enum
     EXP_BUFF_ID_ASSIGN,
     EXP_BUFF_ID_CONDITIONAL,
     EXP_BUFF_ID_RETURN,
+    EXP_BUFF_ID_VAR_ADDR_NAME,
     EXP_BUFF_ID_MAX,
   };
 

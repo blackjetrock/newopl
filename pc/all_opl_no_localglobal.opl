@@ -206,8 +206,6 @@ USR(ADDR(A%()),pos%)
 ALZAN:
 
 
-GLOBAL Q%(11),O$(11,15),V$(43,6),P$(2,2),END%,N%,ROOM%,A%
-GLOBAL M$(19,18),C$(10,14),A$(31),W$(4),Y$(16),W%,Y%,CP%
 A1%=47
 O1%=11
 A14:
@@ -751,7 +749,10 @@ DO
  PRINT "     "
  AT 1,4
  PRINT CHR$(26)+"Again"+CHR$(63)+" Y"
-UNTIL GET$<>"Y"distance:
+UNTIL GET$<>"Y"
+
+
+distance:
 
 PRINT "Select known data"
 A=MENUN(2,"HEIGHT,WIDTH")
@@ -1099,7 +1100,6 @@ ELSEIF N=16
 PRINTER:
 ENDIF
 FLIGHTS:
-global DAT$(6),AIR$(2),FNO$(4),OUT$(3),DEP$(4),INP$(3),ARR$(4),LIN$(2,16)
 
 
 FLY$="B:FLYDATA" :FS$=""
@@ -1788,7 +1788,7 @@ ENDIF
 FRAN:
 C%=INT(5*ABS(RND))+1hamu:
 
-GLOBAL C%,A%,S%,B%
+
 P%=95 :S%=2800 :H%=3000 :E=200 :Y%=3
 A%=1000 :I%=5 :Q%=1
 START::
@@ -2074,7 +2074,7 @@ ELSEIF F=2
 FILM:
 ENDIF
 lens:
-GLOBAL foot%,S$(6),DI,WI,A,N,I,T,D,L,H,W
+
 CLS
 PRINT "Choose....."
 foot%=MENUN(2,"Imperial,Metric")
@@ -2213,7 +2213,7 @@ REM (C) MAY 1999 LRS
 REM Sluykie@hotmail.com
 
 
-GLOBAL file$(10),oi$(4,20),z%(2)
+
 
 ESCAPE OFF
 
@@ -2596,7 +2596,7 @@ B$=NUM$(IN,M)
 S$=A$+" Ft "+B$+" in"
 RETURN S$
 mired:
-GLOBAL M
+
 
 PRINT "Colour temperature"
 PRINT "of filmstock.."
@@ -2637,7 +2637,7 @@ ENDIF
 MORSE:
 REM MORSE TUTOR
 REM (C) J D TARRANT 1989
-GLOBAL LET$(26),L$(26,5),W$(52),C%,D%,DIT%,R%,W%
+
 MSETUP:
 KSTAT 1
 DIT%=MENU("Fast,Medium,Slow")
@@ -2758,7 +2758,7 @@ PRINT "ORANGE",T;" mired"
 PRINT B$;A$,"Filter"
 
 pan:
-GLOBAL A,B,F,S,D,N,T,H,M,P
+
 CLS
 PRINT "Choose format..."
 N=MENUN(2,"35mm,16mm,8mm,70mm")
@@ -3070,7 +3070,7 @@ ENDIF
 PAUSE DIT%/50
 B$=RIGHT$(B$,LEN(B$)-1)
 UNTIL B$=""stop:
-GLOBAL A$(3),RS,D,SH,E,C,W,P,B,F,A,T,S,N
+
 ASA::
 PRINT "FILMSTOCK"
 PRINT "What ASA?"
@@ -3217,7 +3217,7 @@ lprint
 CLS
 FILM:
 sunpos:
-global GST,YR,MO,DY,HR,MI
+
 
 CLS
 
@@ -3451,7 +3451,7 @@ ELSEIF N%=16
 A%=VIEW(2,"THE CINEMA IS BOOKED FOR A PRIVATE FUNCTION.")
 ENDIF
 RETURNtime:
-GLOBAL C,M,N,T,D,H,S
+
 REM COPYWRITE MAXIM FORD 
 N=MENU("35mm,16mm,8mm,70mm")
 CLS

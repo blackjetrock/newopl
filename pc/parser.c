@@ -50,6 +50,7 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_ASSIGN",
     "EXP_BUFF_ID_CONDITIONAL",
     "EXP_BUFF_ID_RETURN",
+    "EXP_BUFF_ID_VAR_ADDR_NAME",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -76,6 +77,7 @@ struct _FN_INFO
   int command;         // 1 if command, 0 if function
   int trapable;        // 1 if can be used with TRAP
   char argparse;       // How to parse the args   O: scan_onoff
+                       //                         V: varname list
                        //                         otherwise: scan_expression()
   char *argtypes;
   char *resulttype;
@@ -86,7 +88,7 @@ struct _FN_INFO
     { "EOL",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "ABS",      0,  0, ' ',  "f",         "f", 0x00 },
     { "ACOS",     0,  0, ' ',  "f",         "f", 0x00 },
-    { "ADDR",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "ADDR",     0,  0, 'V',  "",          "i", 0x00 },
     { "APPEND",   1,  1, ' ',  "ii",        "v", 0x00 },
     { "ASC",      0,  0, ' ',  "i",         "s", 0x00 },
     { "ASIN",     0,  0, ' ',  "f",         "f", 0x00 },
@@ -100,46 +102,46 @@ struct _FN_INFO
     { "CLOSE",    1,  1, ' ',  "ii",        "v", 0x00 },
     { "CLS",      1,  0, ' ',  "",          "v", 0x00 },
     { "CONTINUE", 1,  0, ' ',  "ii",        "v", 0x00 },
-    { "COPY",     1,  1, ' ',  "ii",        "v", 0x00 },
     { "COPYW",    1,  1, ' ',  "ii",        "v", 0x00 },
+    { "COPY",     1,  1, ' ',  "ii",        "v", 0x00 },
     { "COS",      0,  0, ' ',  "f",         "f", 0x00 },
     { "COUNT",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "CREATE",   1,  1, ' ',  "ii",        "v", 0x00 },
     { "CURSOR",   1,  0, 'O',  "i",         "v", 0x00 },
     { "DATIM$",   0,  0, ' ',  "ii",        "f", 0x00 },
-    { "DAY",      0,  0, ' ',  "",          "i", 0x00 },
     { "DAYNAME$", 0,  0, ' ',  "ii",        "f", 0x00 },
     { "DAYS",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "DAY",      0,  0, ' ',  "",          "i", 0x00 },
     { "DEG",      0,  0, ' ',  "ii",        "f", 0x00 },
-    { "DELETE",   1,  1, ' ',  "ii",        "v", 0x00 },
     { "DELETEW",  1,  1, ' ',  "ii",        "v", 0x00 },
-    { "DIR$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "DELETE",   1,  1, ' ',  "ii",        "v", 0x00 },
     { "DIRW$",    0,  0, ' ',  "ii",        "f", 0x00 },
+    { "DIR$",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "DISP",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "DOW",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "EDIT",     1,  1, ' ',  "ii",        "v", 0x00 },
     { "EOF",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "ERASE",    1,  1, ' ',  "ii",        "v", 0x00 },
-    { "ERR",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "ERR$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "ERR",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "ESCAPE",   1,  0, 'O',  "ii",        "v", 0x00 },
     { "EXIST",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "EXP",      0,  0, ' ',  "f",         "f", 0x00 },
-    { "FIND",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "FINDW",    0,  0, ' ',  "ii",        "f", 0x00 },
+    { "FIND",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "FIRST",    1,  1, ' ',  "ii",        "v", 0x00 },
     { "FIX$",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "FLT",      0,  0, ' ',  "i",         "f", 0x00 },
     { "FREE",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "GEN$",     0,  0, ' ',  "ii",        "f", 0x00 },
-    { "GET",      0,  0, ' ',  "",          "i", 0x00 },
     { "GET$",     0,  0, ' ',  "",          "s", 0x00 },
+    { "GET",      0,  0, ' ',  "",          "i", 0x00 },
     { "HEX$",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "HOUR",     0,  0, ' ',  "",          "i", 0x00 },
     { "IABS",     0,  0, ' ',  "i",         "i", 0x00 },
     { "INPUT",    1,  1, ' ',  "ii",        "v", 0x00 },
-    { "INT",      0,  0, ' ',  "f",         "i", 0x00 },
     { "INTF",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "INT",      0,  0, ' ',  "f",         "i", 0x00 },
     { "KEY$",     0,  0, ' ',  "",          "s", 0x00 },
     { "KEY",      0,  0, ' ',  "",          "i", 0x00 },
     { "KSTAT",    1,  0, ' ',  "ii",        "v", 0x00 },
@@ -153,13 +155,13 @@ struct _FN_INFO
     { "LPRINT",   1,  0, ' ',  "ii",        "v", 0x00 },
     { "MAX",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "MEAN",     0,  0, ' ',  "ii",        "f", 0x00 },
-    { "MENU",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "MENUN",    0,  0, ' ',  "ii",        "f", 0x00 },
+    { "MENU",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "MID$",     0,  0, ' ',  "ii",        "f", 0x00 },
-    { "MIN",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "MINUTE",   0,  0, ' ',  "",          "i", 0x00 },
-    { "MONTH",    0,  0, ' ',  "",          "i", 0x00 },
+    { "MIN",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "MONTH$",   0,  0, ' ',  "ii",        "f", 0x00 },
+    { "MONTH",    0,  0, ' ',  "",          "i", 0x00 },
     { "NEXT",     0,  1, ' ',  "ii",        "f", 0x00 },
     { "NUM$",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "OFF",      1,  0, ' ',  "ii",        "v", 0x00 },
@@ -171,8 +173,8 @@ struct _FN_INFO
     { "PI",       0,  0, ' ',  "ii",        "f", 0x00 },
     { "POKEB",    1,  0, ' ',  "ii",        "v", 0x00 },
     { "POKEW",    1,  0, ' ',  "ii",        "v", 0x00 },
-    { "POS",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "POSITION", 1,  1, ' ',  "ii",        "v", 0x00 },
+    { "POS",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "PRINT",    1,  0, ' ',  "i",         "v", 0x00 },
     { "RAD",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "RAISE",    1,  0, ' ',  "i",         "v", 0x00 },
@@ -198,8 +200,8 @@ struct _FN_INFO
     { "UPDATE",   1,  1, ' ',  "ii",        "v", 0x00 },
     { "UPPER$",   0,  0, ' ',  "ii",        "f", 0x00 },
     { "USE",      1,  1, ' ',  "ii",        "v", 0x00 },
-    { "USR",      0,  0, ' ',  "ii",        "v", 0x00 },
-    { "USR$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "USR$",     0,  0, ' ',  "ii",        "s", 0x00 },
+    { "USR",      0,  0, ' ',  "ii",        "i", 0x00 },
     { "VAL",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "VAR",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "VIEW",     0,  0, ' ',  "ii",        "f", 0x00 },
@@ -1066,6 +1068,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 int check_variable(int *index)
 {
   int idx = *index;
+  int orig_index = *index;
   
   char vname[300];
   char chstr[2];
@@ -1117,7 +1120,15 @@ int check_variable(int *index)
 	  var_is_array = 1;
 	  
 	  // Add token to output stream for index or indices
-	  check_expression(&idx);
+	  // If it's an empty expression then it's not an expression. This is an
+	  // ADDR address reference to an array
+	  if( !check_expression(&idx) )
+	    {
+	      // Not a variable reference, probably an ADDR function argument.
+	      *index = idx;
+	      dbprintf("ret0 Not an expression");
+	      return(0);
+	    }
 
 	  // Could be string array, which has two expressions in
 	  // the brackets
@@ -1146,7 +1157,14 @@ int check_variable(int *index)
 	  
 	  if( check_literal(&idx, " )") )
 	    {
-	      *index = idx;
+	      dbprintf("%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
+		       vname,
+		       var_is_string,
+		       var_is_integer,
+		       var_is_float,
+		       var_is_array
+		       );
+ 	      *index = idx;
 	      dbprintf("%s:ret1 ", __FUNCTION__);
 	      return(1);
 	    }
@@ -1706,13 +1724,16 @@ int scan_sub_expr(void)
   return(0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 int check_atom(int *index)
 {
   int idx = *index;
   indent_more();
   
   dbprintf("%s:", __FUNCTION__);
-  
+
+  dbprintf("%s:Checking for character constant", __FUNCTION__);
   idx = *index;
   if( check_literal(&idx," %") )
     {
@@ -1726,10 +1747,31 @@ int check_atom(int *index)
 	}
     }
 
+  dbprintf("%s:Checking for string", __FUNCTION__);
   idx = *index;
   if( check_literal(&idx," \"") )
     {
       // String
+      // Skip past string data to trailing double quote
+      while( cline[idx] != '\0' )
+	{
+	  if( cline[idx] == '\"' )
+	    {
+	      // Found end of string, skip the quotes
+	      idx++;
+	      break;
+	    }
+	  idx++;
+	}
+
+      // If at end of string then fail, no trailing quote
+      if( cline[idx] == '\0' )
+	{
+	  *index = idx;
+	  dbprintf("%s:ret0 No quote at end of string", __FUNCTION__);
+	  return(0);
+	}
+      
       *index = idx;
       dbprintf("%s:ret1", __FUNCTION__);
       return(1);
@@ -1754,7 +1796,7 @@ int check_atom(int *index)
     }
 
   *index = idx;
-  dbprintf("%s:ret1", __FUNCTION__);
+  dbprintf("%s:ret0", __FUNCTION__);
   return(0);
 }
 
@@ -1896,6 +1938,7 @@ int scan_atom(void)
   return(0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
 
 int check_eitem(int *index, int *is_comma)
 {
@@ -1931,6 +1974,14 @@ int check_eitem(int *index, int *is_comma)
 
   idx = *index;
   if( check_sub_expr(&idx) )
+    {
+      *index = idx;
+      dbprintf("%s:ret1", __FUNCTION__);
+      return(1);
+    }
+
+  idx = *index;
+  if( check_addr_name(&idx) )
     {
       *index = idx;
       dbprintf("%s:ret1", __FUNCTION__);
@@ -1995,35 +2046,49 @@ int scan_eitem(int *num_commas)
     }
 
   idx = cline_i;
+  if( check_addr_name(&idx) )
+    {
+      *num_commas = 0;
+      return(scan_addr_name());
+    }
+
+  idx = cline_i;
   syntax_error("Not an atom");
   *num_commas = 0;
   return(0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
 
 int check_expression(int *index)
 {
   int idx = *index;
   int num_eitems = 0;
   int is_comma = 0;
+  
   indent_more();
   
   drop_space(&idx);
   
   dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
-  while( check_eitem(&idx, &is_comma) && (cline[idx] != '\0') )
+  while( (cline[idx] != '\0') && (cline[idx] != ')') && (cline[idx] != ':') )
     {
-      num_eitems++;
+      drop_space(&idx);
+
+      if( check_eitem(&idx, &is_comma) )
+	{
+	  num_eitems++;
+	}
     }
 
   if( num_eitems > 0 )
     {
-      dbprintf("%s:ret1 '%s'", __FUNCTION__, &(cline[idx]));
+      dbprintf("%s:ret1 '%s' num_eitems=%d", __FUNCTION__, &(cline[idx]), num_eitems);
       *index = idx;
       return(1);
     }
 
-  dbprintf("%s:ret0 '%s'", __FUNCTION__, &(cline[idx]));
+  dbprintf("%s:ret0 '%s' num_eitems=%d", __FUNCTION__, &(cline[idx]), num_eitems);
   *index = idx;
   
   return(0);
@@ -2101,12 +2166,90 @@ int check_onoff(int *index, int *onoff_val)
   
 }
 
+//////////////////////////////////////////////////////////////////////////////
+
+char *addr_name_suffix[] =
+  {
+   "%()",
+   "$()",
+   "%",
+   "$",
+  };
+
+#define NUM_ADDR_SUFFIX (sizeof(addr_name_suffix)/sizeof(char *))
+
+
+int check_addr_name(int *index)
+{
+  int idx = *index;
+  
+  indent_more();
+  
+  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
+
+  if( check_vname(&idx) )
+    {
+      // Now add any of the suffixes we allow
+      for(int i=0; i<NUM_ADDR_SUFFIX; i++)
+	{
+	  if( check_literal(&idx, addr_name_suffix[i]) )
+	    {
+	      *index = idx;
+	      dbprintf("%s:ret1", __FUNCTION__);  
+	      return(1);
+	    }
+	}
+    }
+
+  
+  dbprintf("%s: ret0", __FUNCTION__);
+  return(0);
+}
+
+//------------------------------------------------------------------------------
+
+int scan_addr_name(void)
+{
+  char vname[NOBJ_VARNAME_MAXLEN+1];
+  int idx;
+  OP_STACK_ENTRY op;
+  
+  indent_more();
+  
+  init_op_stack_entry(&op);
+  
+  dbprintf("%s: '%s'", __FUNCTION__, &(cline[cline_i]));
+
+  if( scan_vname(vname) )
+    {
+      // Now add any of the suffixes we allow
+      for(int i=0; i<NUM_ADDR_SUFFIX; i++)
+	{
+	  idx = cline_i;
+	  if( check_literal(&idx, addr_name_suffix[i]) )
+	    {
+	      strcat(vname, addr_name_suffix[i]);
+	      strcpy(op.name, vname);
+	      op.buf_id = EXP_BUFF_ID_VAR_ADDR_NAME;
+	      process_token(&op);
+	      
+	      dbprintf("%s:ret1", __FUNCTION__);  
+	      return(1);
+	    }
+	}
+    }
+
+  
+  dbprintf("%s: ret0", __FUNCTION__);
+  return(0);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Command parsing
 //
 // We have an table of commands which also has various parse fields for each
-// command. these direct parsing of arguments, for instane on/off vs
+// command. There's direct parsing of arguments, for instane on/off vs
 // expressions after the command name.
 //
 
@@ -2189,6 +2332,23 @@ int scan_command(char *cmd_dest)
 		}
 	      break;
 
+	      // Variable name list
+	    case 'V':
+	      if( scan_addr_name() )
+		{
+		  dbprintf("%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
+		  dbprintf( "\nENDEXP");
+		  sprintf(op.name, ")");
+		  process_token(&op);
+		  return(1);
+		}
+	      else
+		{
+		  dbprintf("%s: scan_addr_name() failed", __FUNCTION__);
+		  return(0);
+		}
+	      break;
+	      
 	      // Expression scanning will push expression to output stream.
 	    default:
 	      if( scan_expression(&num_subexpr) )
@@ -2207,14 +2367,14 @@ int scan_command(char *cmd_dest)
 		}
 	      break;
 	    }
-
-
 	}
     }
 
   strcpy(cmd_dest, "");
   return(0);
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 int check_function(int *index)
 {
@@ -2223,7 +2383,7 @@ int check_function(int *index)
   
   drop_space(&idx);
   
-  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
+  dbprintf(" '%s'", &(cline[idx]));
     
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
@@ -2241,6 +2401,8 @@ int check_function(int *index)
   return(0);
 }
 
+//------------------------------------------------------------------------------
+
 int scan_function(char *cmd_dest)
 {
   OP_STACK_ENTRY op;
@@ -2250,7 +2412,8 @@ int scan_function(char *cmd_dest)
   
   drop_space(&cline_i);
   
-  dbprintf("%s:", __FUNCTION__);
+  dbprintf("");
+  
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
       if( !(fn_info[i].command) && (strncmp(&(cline[cline_i]), fn_info[i].name, strlen(fn_info[i].name)) == 0) )
@@ -2271,11 +2434,13 @@ int scan_function(char *cmd_dest)
 	      strcpy(op.name, ")");
 	      process_token(&op);
 	    }
+	  dbprintf("ret1");
 	  return(1);
 	}
     }
 
   strcpy(cmd_dest, "");
+  dbprintf("ret0");
   return(0);
 }
 
@@ -2360,11 +2525,16 @@ int check_textlabel(int *index, char *label_dest)
 
   while( (cline[idx] != ':') && (cline[idx] != '\0') && (cline[idx] != ' ') )
     {
+      if( strlen(label_dest) > NOBJ_VARNAME_MAXLEN-1 )
+	{
+	  break;
+	}
       chstr[0] = cline[idx];
       strcat(label_dest, chstr);
       idx++;
     }
 
+  dbprintf("%s: '%s'", __FUNCTION__, label_dest);
   if( cline[idx] == ':' )
     {
       *index = idx;
@@ -2508,15 +2678,18 @@ int check_proc_call(int *index)
 {
   int idx = *index;
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
+  
   indent_more();
   
   dbprintf("%s:", __FUNCTION__);
   if( check_textlabel(&idx, textlabel))
     {
+      dbprintf("%s:is text label", __FUNCTION__);
       if( check_literal(&idx, ":") )
 	{
 	  dbprintf("%s:ret1", __FUNCTION__);
 	  *index = idx;
+	  dbprintf("%s:ret1 idx='%s'", __FUNCTION__, &(cline[idx]));
 	  return(1);
 	}
 
@@ -2524,6 +2697,7 @@ int check_proc_call(int *index)
 	{
 	  dbprintf("%s:ret1", __FUNCTION__);
 	  *index = idx;
+	  dbprintf("%s:ret1 idx='%s'", __FUNCTION__, &(cline[idx]));
 	  return(1);
 	}
 
@@ -2531,6 +2705,7 @@ int check_proc_call(int *index)
 	{
 	  dbprintf("%s:ret1", __FUNCTION__);
 	  *index = idx;
+	  dbprintf("%s:ret1 idx='%s'", __FUNCTION__, &(cline[idx]));
 	  return(1);
 	}
     }
@@ -2624,6 +2799,15 @@ int check_line(int *index)
       return(1);
     }
 
+  // Has to be before proc call
+  idx = cline_i;
+  if( check_label(&idx) )
+    {
+      dbprintf("%s:ret1", __FUNCTION__);
+      *index = idx;
+      return(1);
+    }
+
   idx = cline_i;
   if( check_proc_call(&idx) )
     {
@@ -2651,24 +2835,6 @@ int check_line(int *index)
       return(1);
     }
 
-#if 0
-  idx = cline_i;
-  if( check_literal(&idx," LOCAL"))
-    {
-      dbprintf("%s:ret1", __FUNCTION__);
-      *index = idx;
-      return(1);
-    }
-
-  idx = cline_i;
-  if( check_literal(&idx," GLOBAL"))
-    {
-      dbprintf("%s:ret1", __FUNCTION__);
-      *index = idx;
-      return(1);
-    }
-#endif
-  
   idx = cline_i;
   if( check_literal(&idx," IF"))
     {
@@ -2786,6 +2952,16 @@ int scan_line()
       return(scan_assignment());
     }
 
+  // Has to be before proc call
+  idx = cline_i;
+  if( check_label(&idx))
+    {
+      if( scan_label() )
+	{
+	  return(1);
+	}
+    }
+
   idx = cline_i;
   if( check_proc_call(&idx) )
     {
@@ -2809,7 +2985,7 @@ int scan_line()
   idx = cline_i;
   if( check_function(&idx) )
     {
-      dbprintf("%s:check_command: ", __FUNCTION__);
+      dbprintf("%s:check_function: ", __FUNCTION__);
       scan_function(cmdname);
       return(1);
     }
@@ -2961,25 +3137,34 @@ int scan_cline(void)
   
   drop_space(&idx);
   
-  while( check_line(&idx) && (strlen(&(cline[idx])) > 0))
+  while( strlen(&(cline[idx])) > 0 )
     {
-      dbprintf("%s: Checked len=%ld, '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
-      //cline_i = idx;
+      idx = cline_i;
 
-      output_expression_start(cline);
-      if( !scan_line() )
+      if( check_line(&idx) )
 	{
-	  finalise_expression();
+	  dbprintf("Checked len=%ld, '%s'", strlen(&(cline[idx])), &(cline[idx]));
+	  //cline_i = idx;
+
+	  output_expression_start(cline);
+	  if( !scan_line() )
+	    {
+	      dbprintf("scan_line returned 0");
+	      
+	      finalise_expression();
 	  
-	  dbprintf("%s: scan_line==0 len=%ld '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
+	      dbprintf("ret0 scan_line==0 len=%ld '%s'", strlen(&(cline[idx])), &(cline[idx]));
+	      syntax_error("Syntax error in line");
+	      return(0);
+	    }
+	}
+      else
+	{
+	  dbprintf("ret0 scan_line==0 len=%ld '%s'", strlen(&(cline[idx])), &(cline[idx]));
 	  syntax_error("Syntax error in line");
 	  return(0);
 	}
 
-      finalise_expression();
-      
-      idx = cline_i;
-      
       drop_space(&idx);
       
       if ( check_literal(&idx,":") )
@@ -2991,28 +3176,25 @@ int scan_cline(void)
 	{
 	  if( strlen(&(cline[idx])) == 0 )
 	    {
+	      dbprintf("ret1 scan_line==0 len=%ld '%s'", strlen(&(cline[idx])), &(cline[idx]));
 	      return(1);
 	    }
 	  else
 	    {
+	      dbprintf("ret0 scan_line==0 len=%ld '%s'", strlen(&(cline[idx])), &(cline[idx]));
 	      return(0);
 	    }
 	}
-
-      //      idx = cline_i;
-      drop_space(&cline_i);
-      //cline_i = idx;
-      
     }
 
-  dbprintf("%s: after wh len=%ld '%s'", __FUNCTION__, strlen(&(cline[idx])), &(cline[idx]));
-  syntax_error("Syntax error in line");
-  
   if( strlen(&(cline[cline_i])) == 0 )
     {
-      return(0);
+      dbprintf("ret1 scan_line==0 len=%ld '%s'", strlen(&(cline[idx])), &(cline[idx]));
+      return(1);
     }
   
+  syntax_error("Syntax error in line");
+  dbprintf("ret0 scan_line==0 len=%ld '%s'", strlen(&(cline[idx])), &(cline[idx]));
   return(0);
 }
 
