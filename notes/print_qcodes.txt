@@ -1,0 +1,69 @@
+0000: 59       STOP     (bytes code:-)
+0001: B2       SIN     (bytes code:-)
+0002: 01       Push local/global float variable value     (bytes code:v)
+0003: FFF6       (65526)
+0005: 70       PRINT float     (bytes code:-)
+0006: 73       PRINT newline     (bytes code:-)
+0007: 01       Push local/global float variable value     (bytes code:v)
+0008: FFF6       (65526)
+000A: 70       PRINT float     (bytes code:-)
+000B: 01       Push local/global float variable value     (bytes code:v)
+000C: FFF6       (65526)
+000E: 70       PRINT float     (bytes code:-)
+000F: 01       Push local/global float variable value     (bytes code:v)
+0010: FFEE       (65518)
+0012: 70       PRINT float     (bytes code:-)
+0013: 73       PRINT newline     (bytes code:-)
+0014: 01       Push local/global float variable value     (bytes code:v)
+0015: FFF6       (65526)
+0017: 70       PRINT float     (bytes code:-)
+0018: 01       Push local/global float variable value     (bytes code:v)
+0019: FFEE       (65518)
+001B: 70       PRINT float     (bytes code:-)
+001C: 01       Push local/global float variable value     (bytes code:v)
+001D: FFE6       (65510)
+001F: 70       PRINT float     (bytes code:-)
+0020: 73       PRINT newline     (bytes code:-)
+0021: 01       Push local/global float variable value     (bytes code:v)
+0022: FFF6       (65526)
+0024: 70       PRINT float     (bytes code:-)
+0025: 72       PRINT ,     (bytes code:-)
+0026: 01       Push local/global float variable value     (bytes code:v)
+0027: FFF6       (65526)
+0029: 70       PRINT float     (bytes code:-)
+002A: 72       PRINT ,     (bytes code:-)
+002B: 01       Push local/global float variable value     (bytes code:v)
+002C: FFEE       (65518)
+002E: 70       PRINT float     (bytes code:-)
+002F: 73       PRINT newline     (bytes code:-)
+0030: 01       Push local/global float variable value     (bytes code:v)
+0031: FFF6       (65526)
+0033: 70       PRINT float     (bytes code:-)
+0034: 72       PRINT ,     (bytes code:-)
+0035: 01       Push local/global float variable value     (bytes code:v)
+0036: FFEE       (65518)
+0038: 70       PRINT float     (bytes code:-)
+0039: 01       Push local/global float variable value     (bytes code:v)
+003A: FFE6       (65510)
+003C: 70       PRINT float     (bytes code:-)
+003D: 73       PRINT newline     (bytes code:-)
+003E: 7B       RETURN (float 0)     (bytes code:-)
+
+QCode Data
+
+0000:59 B2 01 FF F6 70 73 01 FF F6 70 01 FF F6 70 01 
+0010:FF EE 70 73 01 FF F6 70 01 FF EE 70 01 FF E6 70 
+0020:73 01 FF F6 70 72 01 FF F6 70 72 01 FF EE 70 73 
+0030:01 FF F6 70 72 01 FF EE 70 01 FF E6 70 73 7B 
+(base) menadue:pc$
+
+T:
+LOCAL A,B,C
+
+PRINT A
+PRINT A;
+PRINT A;B
+PRINT A;B;C
+PRINT A,
+PRINT A,B
+PRINT A,B;C
