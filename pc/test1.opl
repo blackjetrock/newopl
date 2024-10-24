@@ -9,6 +9,10 @@ LOCAL A$(10),B$(1,2)
 LOCAL STR$(12 , 34)
 GLOBAL A%,B,C$(5),D$(20,40)
 
+PRINT X%
+PRINT X%;
+print X%,Y%
+
 PRINT A(2+3*7)+B(1+2+3+4)
 
 A= A + (2*3+3*Z%-   ABC%*1.1)

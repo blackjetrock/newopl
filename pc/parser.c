@@ -2825,6 +2825,18 @@ int scan_print(void)
 	      idx = cline_i;
 
 	    }
+
+	  // There could be a semicolon on the end of the print command
+	  
+	  if( check_literal(&idx, " ;") )
+	    {
+	      scan_literal(" ;");
+	      
+	      // We need a PRINT space qcode to be generated
+	      op.buf_id = EXP_BUFF_ID_PRINT_NO_CR;
+	      strcpy(op.name, "PRINT");
+	      process_token(&op);
+	    }
 	  
 	  dbprintf("%s:ret1 Expression ", __FUNCTION__);
 	  return(1);

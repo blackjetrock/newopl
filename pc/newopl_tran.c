@@ -1961,7 +1961,7 @@ void process_token(OP_STACK_ENTRY *token)
   OP_STACK_ENTRY o2;
   int opr1, opr2;
   
-  fprintf(ofp, "\n   Frst:%d T:'%s' exptype:%c", first_token, token->name, type_to_char(expression_type));
+  fprintf(ofp, "\n   Frst:%d T:'%s' exptype:%c bufid:'%s'", first_token, token->name, type_to_char(expression_type), exp_buffer_id_str[token->buf_id]);
 
   o1 = *token;
   //strcpy(o1.name, token);
@@ -2067,7 +2067,7 @@ void process_token(OP_STACK_ENTRY *token)
       // PRINT has special parsing and the CRLF flag processing
       o1.req_type = expression_type;
       output_print(o1);
-      return;
+      //return;
       break;
 
     case EXP_BUFF_ID_RETURN:
