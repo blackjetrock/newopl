@@ -51,6 +51,9 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_CONDITIONAL",
     "EXP_BUFF_ID_RETURN",
     "EXP_BUFF_ID_VAR_ADDR_NAME",
+    "EXP_BUFF_ID_PRINT",
+    "EXP_BUFF_ID_PRINT_SPACE",
+    "EXP_BUFF_ID_PRINT_NO_CR",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -313,7 +316,7 @@ OP_INFO  op_info[] =
     { ">",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "<",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "AND",  5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-    { ";",    0, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    //{ ";",    0, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     // (Handle bitwise on integer, logical on floats somewhere)
     //{ ",",  0, 0 }, /// Not used?
     
@@ -2080,6 +2083,10 @@ int check_expression(int *index, int ignore_comma)
 	{
 	  num_eitems++;
 	}
+      else
+	{
+	  break;
+	}
     }
 
   if( num_eitems > 0 )
@@ -2780,6 +2787,8 @@ int scan_print(void)
       //
       // is valid
       //
+
+      idx = cline_i;
       
       if(check_expression(&idx, IGNORE_COMMA))
 	{
@@ -2787,29 +2796,38 @@ int scan_print(void)
 
 	  // Scanning expressions here, we do not want comma to be accepted as that
 	  // needs to be compiled to a 'print space' qcode
+	  idx = cline_i;
 	  
-	  while( scan_expression(&num_subexpr, IGNORE_COMMA) )
+	  while( check_expression(&idx, IGNORE_COMMA) )
 	    {
+	      idx = cline_i;
 	      if( check_literal(&idx, " ,") )
 		{
+		  scan_literal(" ,");
+		  
 		  // We need a PRINT space qcode to be generated
+		  op.buf_id = EXP_BUFF_ID_PRINT_SPACE;
+		  strcpy(op.name, "PRINT");
+		  process_token(&op);
 		}
 
 	      if( check_literal(&idx, " ;") )
 		{
+		  scan_literal(" ;");
+		  
+		  // We need a PRINT space qcode to be generated
+		  op.buf_id = EXP_BUFF_ID_PRINT_NO_CR;
+		  strcpy(op.name, "PRINT");
+		  process_token(&op);
 		}
-	      
-	      dbprintf("%s:ret1 Expression ", __FUNCTION__);
+
+	      scan_expression( &num_subexpr, IGNORE_COMMA);
+	      idx = cline_i;
 
 	    }
 	  
-	  // The expressions can be of different types.
-	  // Each expression has its own PRINT QCode.
-	  op.buf_id = EXP_BUFF_ID_RETURN;
-	  strcpy(op.name, "RETURN");
-	  process_token(&op);
+	  dbprintf("%s:ret1 Expression ", __FUNCTION__);
 	  return(1);
-	  
 	}
       else
 	{

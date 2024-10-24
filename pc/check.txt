@@ -821,4 +821,260 @@ WHILE I%<=LEN(item$)
 ((WHILE() < I%) := LEN(item$ ))
 
 
-POKEB $2187+I
+POKEB $2187+I%,ASC(MID$(item$,I%,1)) 
+POKEB(item$ ASC(MID$(I% 1 ) ) )
+
+
+I%=I%+1 
+(I% := (I% + 1))
+
+
+ENDWH 
+ENDWH()
+
+
+POKEW $2188+LEN(item$),0 
+POKEW((2188 + LEN(item$ )) 0 )
+
+
+A%(1)=$3F65 
+(3 := F65)
+
+
+A%(2)=$3900 
+(A%(2) := 3900)
+
+
+USR(ADDR(A%()),pos%) 
+USR(ADDR() pos% )
+
+
+ALZAN: 
+
+
+
+A1%=47 
+(A1% := 47)
+
+
+O1%=11 
+(O1% := 11)
+
+
+A14: 
+
+
+
+ROOM%=1 
+(ROOM% := 1)
+
+
+S%(2)=0 
+(S%(2) := 0)
+
+
+I%=0 
+(I% := 0)
+
+
+DO 
+DO()
+
+
+I%=I%+1 
+(I% := (I% + 1))
+
+
+O%(I%)=Q%(I%) 
+(O%(I%) := Q%(I%))
+
+
+UNTIL I%=11 
+(I% := 11)
+
+
+A%=VIEW(1,"WELCOME TO ADVENTURE") 
+(A% := VIEW(1 "WELCOME TO ADVENTURE" ))
+
+
+AGAIN:: 
+
+
+
+IF S%(2)=0 
+(S%(2) := 0)
+
+
+GOTO ROOM:: 
+
+
+
+ENDIF 
+ENDIF()
+
+
+IF C%(2)>=1 
+((IF() > C%(2)) := 1)
+
+
+C%(2)=C%(2)-1 
+(C%(2) := (C%(2) - 1))
+
+
+ENDIF 
+ENDIF()
+
+
+IF S%(3)=1 
+(S%(3) := 1)
+
+
+GOTO ROOM:: 
+
+
+
+ENDIF 
+ENDIF()
+
+
+A%=VIEW(2,"IT IS DARK - BETTER GET SOME LIGHT OR YOU MAY BE IN TROUBLE.") 
+(A% := VIEW(2 "IT IS DARK - BETTER GET SOME LIGHT ORYOU MAY BE IN TROUBLE." ))
+
+
+IF C%(3)>=1 
+((IF() > C%(3)) := 1)
+
+
+C%(3)=C%(3)-1 
+(C%(3) := (C%(3) - 1))
+
+
+ENDIF 
+ENDIF()
+
+
+GOTO COMMAND:: 
+
+
+
+ROOM:: 
+
+
+
+ROOMS10: 
+
+
+
+F%=0 
+(F% := 0)
+
+
+I%=0 
+(I% := 0)
+
+
+DO 
+DO()
+
+
+I%=I%+1 
+(I% := (I% + 1))
+
+
+IF O%(I%)<>ROOM% 
+(O%(I%) <> ROOM%)
+
+
+GOTO SKIP1:: 
+
+
+
+ENDIF 
+ENDIF()
+
+
+IF F%=1 
+(F% := 1)
+
+
+GOTO SKIP2:: 
+
+
+
+ENDIF 
+ENDIF()
+
+
+A%=VIEW(2,"THERE IS ALSO:") 
+(A% := VIEW(2 "THERE IS ALSO:" ))
+
+
+F%=1 
+(F% := 1)
+
+
+SKIP2:: 
+
+
+
+A%=VIEW(2,O$(I%)) 
+(A% := VIEW(2 O$(I%) ))
+
+
+SKIP1:: 
+
+
+
+UNTIL I%=11 
+(I% := 11)
+
+
+COMMAND:: 
+
+
+
+T1%=1 
+(T1% := 1)
+
+
+GOTO CHECK2:: 
+
+
+
+CEC:: 
+
+
+
+IF C%(1)>=1 
+((IF() > C%(1)) := 1)
+
+
+C%(1)=C%(1)-1 
+(C%(1) := (C%(1) - 1))
+
+
+ENDIF 
+ENDIF()
+
+
+IF C%(4)>=1 
+((IF() > C%(4)) := 1)
+
+
+C%(4)=C%(4)-1 
+(C%(4) := (C%(4) - 1))
+
+
+ENDIF 
+ENDIF()
+
+
+AT 1,2 
+AT(1 2 )
+
+
+PRINT ">"; 
+PRINT(">" )
+
+
+INPUT Y$ 

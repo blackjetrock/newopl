@@ -1650,6 +1650,13 @@ void output_return(OP_STACK_ENTRY op)
   add_exp_buffer_entry(op, EXP_BUFF_ID_RETURN);
 }
 
+void output_print(OP_STACK_ENTRY op)
+{
+  printf("\nop print");
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  add_exp_buffer_entry(op, op.buf_id);
+}
+
 void output_proc_call(OP_STACK_ENTRY op)
 {
   printf("\nop proc call");
@@ -2052,13 +2059,22 @@ void process_token(OP_STACK_ENTRY *token)
 
     switch( o1.buf_id )
     {
+    case EXP_BUFF_ID_PRINT:
+    case EXP_BUFF_ID_PRINT_SPACE:
+    case EXP_BUFF_ID_PRINT_NO_CR:
+      fprintf(ofp, "\nBuff id print");
+
+      // PRINT has special parsing and the CRLF flag processing
+      o1.req_type = expression_type;
+      output_print(o1);
+      return;
+      break;
+
     case EXP_BUFF_ID_RETURN:
       fprintf(ofp, "\nBuff id return");
 
       // RETURN needs to change depending on the type of the expression we are to return.
       // The type of that expression must also match that of the procedure we are translating
-      
-
       o1.req_type = expression_type;
       output_return(o1);
       return;
