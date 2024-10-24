@@ -4,14 +4,14 @@ void dbpf(const char *caller, char *fmt, ...);
 int scan_addr_name(void);
 int check_addr_name(int *index);
 
-int scan_expression(int *num_commas);
+int scan_expression(int *num_commas, int ignore_comma);
 int check_function(int *index);
 int scan_function(char *cmd_dest);
 int next_composite_line(FILE *fp);
 int scan_procdef(void);
 int scan_cline(void);
 int scan_integer(int *intdest);
-int check_expression(int *index);
+int check_expression(int *index, int ignore_comma);
 int check_declare(int *index);
 int scan_declare(void);
 void syntax_error(char *fmt, ...);
@@ -98,3 +98,6 @@ extern int num_operators(void);
 #define NUM_OPERATORS num_operators()
 
 void init_op_stack_entry(OP_STACK_ENTRY *op);
+
+#define IGNORE_COMMA  1
+#define HEED_COMMA    0

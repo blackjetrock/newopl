@@ -313,7 +313,7 @@ OP_INFO  op_info[] =
     { ">",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "<",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "AND",  5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-    { ";",    0, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    { ";",    0, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     // (Handle bitwise on integer, logical on floats somewhere)
     //{ ",",  0, 0 }, /// Not used?
     
@@ -978,7 +978,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	    {
 	      int num_subexpr;
 	      
-	      scan_expression(&num_subexpr);
+	      scan_expression(&num_subexpr, HEED_COMMA);
 	      vi->num_indices = num_subexpr+1;
 	    }
 	  else
@@ -1013,7 +1013,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 		  if( ref_ndeclare )
 		    {
 		      int num_subexpr;
-		      scan_expression(&num_subexpr);
+		      scan_expression(&num_subexpr, HEED_COMMA);
 		      vi->num_indices = num_subexpr+1;
 		    }
 		  else
@@ -1126,7 +1126,7 @@ int check_variable(int *index)
 	  // Add token to output stream for index or indices
 	  // If it's an empty expression then it's not an expression. This is an
 	  // ADDR address reference to an array
-	  if( !check_expression(&idx) )
+	  if( !check_expression(&idx, HEED_COMMA) )
 	    {
 	      // Not a variable reference, probably an ADDR function argument.
 	      *index = idx;
@@ -1141,7 +1141,7 @@ int check_variable(int *index)
 	      if( var_is_string )
 		{
 		  // All OK, string array
-		  if( check_expression(&idx) )
+		  if( check_expression(&idx, HEED_COMMA) )
 		    {
 		      // All OK
 		    }
@@ -1210,7 +1210,7 @@ int check_variable2(int *index)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int check_operator(int *index, int *is_comma)
+int check_operator(int *index, int *is_comma, int ignore_comma)
 {
   int idx = *index;
   indent_more();
@@ -1218,29 +1218,17 @@ int check_operator(int *index, int *is_comma)
   dbprintf("%s: %s", __FUNCTION__, cline_now(idx));
 
   drop_space(&idx);
-  
-  if( check_literal(&idx, " ,") )
-    {
-      *index = idx;
-      dbprintf("ret1:is comma: %d", *is_comma);
-      return(1);
 
-#if 0
-      if(scan_literal(" ,") )
+  if( !ignore_comma )
+    {
+      if( check_literal(&idx, " ,") )
 	{
-	  *is_comma = 1;
+	  *index = idx;
 	  dbprintf("ret1:is comma: %d", *is_comma);
 	  return(1);
 	}
-      else
-	{
-	  *is_comma = 0;
-	  dbprintf("ret0:is comma: %d", *is_comma);
-	  return(0);
-	}
-#endif
     }
-
+  
   for(int i=0; i<NUM_OPERATORS; i++)
     {
       if( strncmp(&(cline[idx]), op_info[i].name, strlen(op_info[i].name)) == 0 )
@@ -1262,7 +1250,9 @@ int check_operator(int *index, int *is_comma)
   return(0);
 }
 
-int scan_operator(int *is_comma)
+//------------------------------------------------------------------------------
+
+int scan_operator(int *is_comma, int ignore_comma)
 {
   int idx = cline_i;
   OP_STACK_ENTRY op;
@@ -1278,24 +1268,27 @@ int scan_operator(int *is_comma)
   drop_space(&idx);
 
   cline_i = idx;
-  
-  if( check_literal(&idx, " ,") )
+
+  if( !ignore_comma )
     {
-      if(scan_literal(" ,") )
+      if( check_literal(&idx, " ,") )
 	{
-	  *is_comma = 1;
-	  dbprintf("ret1:is comma: %d", *is_comma);
-	  return(1);
+	  if(scan_literal(" ,") )
+	    {
+	      *is_comma = 1;
+	      dbprintf("ret1:is comma: %d", *is_comma);
+	      return(1);
+	    }
+	  else
+	    {
+	      *is_comma = 0;
+	      dbprintf("ret0:is comma: %d", *is_comma);
+	      return(0);
+	    }
+	  //      *is_comma = 1;
+	  //dbprintf("is comma:%d", is_comma);
+	  //return(scan_literal(" ,"));
 	}
-      else
-	{
-	  *is_comma = 0;
-	  dbprintf("ret0:is comma: %d", *is_comma);
-	  return(0);
-	}
-      //      *is_comma = 1;
-      //dbprintf("is comma:%d", is_comma);
-      //return(scan_literal(" ,"));
     }
   
   for(int i=0; i<NUM_OPERATORS; i++)
@@ -1710,7 +1703,7 @@ int scan_sub_expr(void)
       strcpy(op.name, "(");
       process_token(&op);
       
-      if( scan_expression(&num_subexpr) )
+      if( scan_expression(&num_subexpr, HEED_COMMA) )
 	{
 	  if( scan_literal(" )") )
 	    {
@@ -1944,7 +1937,7 @@ int scan_atom(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int check_eitem(int *index, int *is_comma)
+int check_eitem(int *index, int *is_comma, int ignore_comma)
 {
   int idx = *index;
 
@@ -1952,8 +1945,17 @@ int check_eitem(int *index, int *is_comma)
   indent_more();
   
   dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
-  
-  if( check_operator(&idx, is_comma) )
+
+  idx = *index;
+  if( check_atom(&idx) )
+    {
+      *index = idx;
+      dbprintf("%s:ret1", __FUNCTION__);
+      return(1);
+    }
+
+  idx = *index;
+  if( check_operator(&idx, is_comma, ignore_comma) )
     {
       *index = idx;
       dbprintf("%s:ret1 comma:1", __FUNCTION__);
@@ -1968,13 +1970,6 @@ int check_eitem(int *index, int *is_comma)
       return(1);
     }
 
-  idx = *index;
-  if( check_atom(&idx) )
-    {
-      *index = idx;
-      dbprintf("%s:ret1", __FUNCTION__);
-      return(1);
-    }
 
   idx = *index;
   if( check_sub_expr(&idx) )
@@ -1999,7 +1994,7 @@ int check_eitem(int *index, int *is_comma)
 
 //------------------------------------------------------------------------------
 
-int scan_eitem(int *num_commas)
+int scan_eitem(int *num_commas, int ignore_comma)
 {
   int is_comma = 0;
   int idx = cline_i;
@@ -2011,10 +2006,18 @@ int scan_eitem(int *num_commas)
   init_op_stack_entry(&op);
   
   dbprintf("%s:", __FUNCTION__);
-  
-  if( check_operator(&idx, &is_comma) )
+
+  idx = cline_i;
+  if( check_atom(&idx) )
     {
-      if(scan_operator(&is_comma) )
+      *num_commas = 0;
+      return(scan_atom());
+    }
+
+  idx = cline_i;
+  if( check_operator(&idx, &is_comma, ignore_comma) )
+    {
+      if(scan_operator(&is_comma, ignore_comma) )
 	{
 	  dbprintf("Is comma;%d", is_comma);
 	  *num_commas = is_comma;
@@ -2035,12 +2038,6 @@ int scan_eitem(int *num_commas)
       return(scan_function(fnval) );
     }
 
-  idx = cline_i;
-  if( check_atom(&idx) )
-    {
-      *num_commas = 0;
-      return(scan_atom());
-    }
 
   idx = cline_i;
   if( check_sub_expr(&idx) )
@@ -2064,7 +2061,7 @@ int scan_eitem(int *num_commas)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int check_expression(int *index)
+int check_expression(int *index, int ignore_comma)
 {
   int idx = *index;
   int num_eitems = 0;
@@ -2079,7 +2076,7 @@ int check_expression(int *index)
     {
       drop_space(&idx);
 
-      if( check_eitem(&idx, &is_comma) )
+      if( check_eitem(&idx, &is_comma, ignore_comma) )
 	{
 	  num_eitems++;
 	}
@@ -2100,7 +2097,7 @@ int check_expression(int *index)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int scan_expression(int *num_commas)
+int scan_expression(int *num_commas, int ignore_comma)
 {
   int idx = cline_i;
   int n_commas = 0;
@@ -2114,9 +2111,9 @@ int scan_expression(int *num_commas)
   drop_space(&idx);
   cline_i = idx;
 
-  while( check_eitem(&idx, &is_comma) )
+  while( check_eitem(&idx, &is_comma, ignore_comma) )
     {
-      if( scan_eitem(&n_commas2) )
+      if( scan_eitem(&n_commas2, ignore_comma) )
 	{
 	  n_commas += n_commas2;
 	  dbprintf("n commas now:%d", n_commas);
@@ -2393,7 +2390,7 @@ int scan_command(char *cmd_dest)
 	      
 	      // Expression scanning will push expression to output stream.
 	    default:
-	      if( scan_expression(&num_subexpr) )
+	      if( scan_expression(&num_subexpr, HEED_COMMA) )
 		{
 		  dbprintf("%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
 		  dbprintf( "\nENDEXP");
@@ -2480,7 +2477,7 @@ int scan_function(char *cmd_dest)
 	    {
 	      int num_commas = 0;
 	      
-	      if( !scan_expression(&num_commas) )
+	      if( !scan_expression(&num_commas, HEED_COMMA) )
 		{
 		  dbprintf("ret0");
 		  return(0);
@@ -2507,7 +2504,7 @@ int check_assignment(int *index)
     {
       if( check_literal(&idx, " =") )
 	{
-	  if( check_expression(&idx) )
+	  if( check_expression(&idx, HEED_COMMA) )
 	    {
 	      *index = idx;
 	      dbprintf("%s:ret1", __FUNCTION__);
@@ -2538,7 +2535,7 @@ int scan_assignment(void)
       
       if( scan_assignment_equals() )
 	{
-	  if( scan_expression(&num_subexpr) )
+	  if( scan_expression(&num_subexpr, HEED_COMMA) )
 	    {
 	      vi.num_indices = num_subexpr+1;
 	      dbprintf("%s: ret1", __FUNCTION__);
@@ -2688,11 +2685,11 @@ int scan_return(void)
   if( check_literal(&idx, " RETURN"))
     {
       // We may or may not have an expression after the 
-      if(check_expression(&idx))
+      if(check_expression(&idx, HEED_COMMA))
 	{
 	  int num_subexpr;
 	  
-	  if( scan_expression(&num_subexpr) )
+	  if( scan_expression(&num_subexpr, HEED_COMMA) )
 	    {
 	      dbprintf("%s:ret1 Expression present", __FUNCTION__);
 
@@ -2721,6 +2718,113 @@ int scan_return(void)
     }
   
   dbprintf("%s:ret0", __FUNCTION__);
+  return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// PRINT
+//
+// Followed by an expression, or followed by
+// list of epressions separted by either ';' or ','.
+//
+// The delimiters determine the behaviour of newlines between expressions.
+// A CRFL flag controls the printing of newlines.
+// 
+// 
+//
+
+int check_print(int *index)
+{
+  int idx = *index;
+  char textlabel[NOBJ_VARNAME_MAXLEN+1];
+  indent_more();
+  
+  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
+  
+  if( check_literal(&idx, " PRINT"))
+    {
+      dbprintf("%s:ret1", __FUNCTION__);
+      *index = idx;
+      return(1);
+    }
+  
+  dbprintf("%s:ret0", __FUNCTION__);
+  return(0);
+}
+
+//------------------------------------------------------------------------------
+
+int scan_print(void)
+{
+  int idx = cline_i;
+  OP_STACK_ENTRY op;
+  char v[NOBJ_VARNAME_MAXLEN+1];
+
+  indent_more();
+  
+  init_op_stack_entry(&op);
+  
+  dbprintf("%s:", __FUNCTION__);
+  
+  if( check_literal(&idx, " PRINT"))
+    {
+      scan_literal(" PRINT");
+      
+      // There is a list of expressions (which may be empty)
+      // expressions are delimited by ';' or ','
+      // PRINT ';'
+      // is not valid.
+      //
+      // PRINT
+      //
+      // is valid
+      //
+      
+      if(check_expression(&idx, IGNORE_COMMA))
+	{
+	  int num_subexpr;
+
+	  // Scanning expressions here, we do not want comma to be accepted as that
+	  // needs to be compiled to a 'print space' qcode
+	  
+	  while( scan_expression(&num_subexpr, IGNORE_COMMA) )
+	    {
+	      if( check_literal(&idx, " ,") )
+		{
+		  // We need a PRINT space qcode to be generated
+		}
+
+	      if( check_literal(&idx, " ;") )
+		{
+		}
+	      
+	      dbprintf("%s:ret1 Expression ", __FUNCTION__);
+
+	    }
+	  
+	  // The expressions can be of different types.
+	  // Each expression has its own PRINT QCode.
+	  op.buf_id = EXP_BUFF_ID_RETURN;
+	  strcpy(op.name, "RETURN");
+	  process_token(&op);
+	  return(1);
+	  
+	}
+      else
+	{
+	  // No expression after the PRINT, this is valid
+	  
+	  dbprintf("%s:ret1 Expression not present", __FUNCTION__);
+	  op.buf_id = EXP_BUFF_ID_RETURN;
+	  op.type = NOBJ_VARTYPE_VOID;
+	  strcpy(op.name, "PRINT");
+	  process_token(&op);
+	  return(1);
+	}
+    }
+  
+  dbprintf("ret0");
   return(0);
 }
 
@@ -2843,6 +2947,15 @@ int check_line(int *index)
     }
 
   idx = cline_i;
+  if( check_print(&idx) )
+    {
+      dbprintf("%s:ret1", __FUNCTION__);
+  
+      *index = idx;
+      return(1);
+    }
+
+  idx = cline_i;
   if( check_return(&idx) )
     {
       dbprintf("%s:ret1", __FUNCTION__);
@@ -2900,7 +3013,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," ELSEIF"))
     {
-      if( check_expression(&idx) )
+      if( check_expression(&idx, HEED_COMMA) )
 	{
 	  dbprintf("%s:ret1", __FUNCTION__);
 	  *index = idx;
@@ -2959,7 +3072,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," UNTIL"))
     {
-      if( check_expression(&idx) )
+      if( check_expression(&idx, HEED_COMMA) )
 	{
 	  dbprintf("%s:ret1", __FUNCTION__);
 	  *index = idx;
@@ -3021,6 +3134,12 @@ int scan_line()
     }
 
   idx = cline_i;
+  if( check_print(&idx) )
+    {
+      return(scan_print());
+    }
+
+  idx = cline_i;
   if( check_return(&idx) )
     {
       return(scan_return());
@@ -3049,7 +3168,7 @@ int scan_line()
 	{
 	  int num_subexpr;
 	  
-	  if( scan_expression(&num_subexpr) )
+	  if( scan_expression(&num_subexpr, HEED_COMMA) )
 	    {
 	      return(1);
 	    }
@@ -3065,7 +3184,7 @@ int scan_line()
 	{
 	  int num_subexpr;
 	  
-	  if( scan_expression(&num_subexpr) )
+	  if( scan_expression(&num_subexpr, HEED_COMMA) )
 	    {
 	      return(1);
 	    }
@@ -3100,7 +3219,7 @@ int scan_line()
       if( scan_literal(" WHILE") )
 	{
 	  int sub_expr;
-	  if( scan_expression(&sub_expr) )
+	  if( scan_expression(&sub_expr, HEED_COMMA) )
 	    {
 	      dbprintf("%s: ret1", __FUNCTION__);
 	      return(1);
@@ -3131,7 +3250,7 @@ int scan_line()
       if( scan_literal(" UNTIL") )
 	{
 	  int sub_expr;
-	  if( scan_expression(&sub_expr) )
+	  if( scan_expression(&sub_expr, HEED_COMMA) )
 	    {
 	      dbprintf("%s: ret1", __FUNCTION__);
 	      return(1);	      

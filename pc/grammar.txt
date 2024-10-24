@@ -5,7 +5,11 @@
 <declares>   : <declare>+
 <cline>      : <line> | <line> ':' <cine>+
 <procdef>    : <proc_name> <param_list>
+<pcon>       : ';' | ','
+<pitems>     : <expression> | <expression> <pcon> <pitems>
+<print>      : 'PRINT' <pitems>
 <line>       : 'REM' <text> | <proc_call> |
+               <print> |
                <onerr> | <label> | <assignment> | <command> |
 	       <function> <expression |
                TRAP <trapable_command> |

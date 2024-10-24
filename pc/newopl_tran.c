@@ -2338,7 +2338,7 @@ void dummy(void)
   int num_commas;
   
   // Assignment can be done using an expression
-  scan_expression(&num_commas);
+  scan_expression(&num_commas, HEED_COMMA);
   finalise_expression();
   process_expression_types();
 }

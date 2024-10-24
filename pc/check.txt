@@ -790,7 +790,7 @@ C%=C%-1
 
 
 B%=VIEW(1,"BUT YOU HAVE ONLY "+GEN$(A%,4)+" ACRES.") 
-(B% := VIEW(1 ("BUT YOU HAVE ONLY " + (GEN$(A% 4 ) + " ACRES.")) ))
+(B% := VIEW(1 ("BUT YOU HAVE ONLY " + GEN$(A% (4 + " ACRES.") )) ))
 
 
 addtop:(item$,pos%) 
@@ -798,7 +798,7 @@ addtop:(item$,pos%)
 
 
 IF LEN(item$)>8 
-(LEN(item$ ) > 8)
+LEN((item$ > 8) )
 
 
 RAISE 202 
@@ -821,28 +821,4 @@ WHILE I%<=LEN(item$)
 ((WHILE() < I%) := LEN(item$ ))
 
 
-POKEB $2187+I%,ASC(MID$(item$,I%,1)) 
-POKEB(item$ ASC(MID$(I% 1 ) ) )
-
-
-I%=I%+1 
-(I% := (I% + 1))
-
-
-ENDWH 
-ENDWH()
-
-
-POKEW $2188+LEN(item$),0 
-POKEW((2188 + LEN(item$ )) 0 )
-
-
-A%(1)=$3F65 
-(3 := F65)
-
-
-A%(2)=$3900 
-(A%(2) := 3900)
-
-
-USR(ADDR(A%()),pos%) 
+POKEB $2187+I
