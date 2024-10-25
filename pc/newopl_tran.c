@@ -1060,6 +1060,14 @@ char *infix_from_rpn(void)
 	      infix_stack_push(be.name);
 	    }
 	  break;
+
+	case EXP_BUFF_ID_PRINT_SPACE:
+	  infix_stack_push("< > ");
+	  break;
+
+	case EXP_BUFF_ID_PRINT_NEWLINE:
+	  infix_stack_push("<nl>");
+	  break;
 	  
 	case EXP_BUFF_ID_INTEGER:
 	case EXP_BUFF_ID_FLT:
