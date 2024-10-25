@@ -2835,6 +2835,7 @@ int scan_print(void)
 	      if( check_literal(&idx, " ,") )
 		{
 		  scan_literal(" ,");
+		  idx = cline_i;
 		  
 		  // We need a PRINT space qcode to be generated
 #if 0
@@ -2850,6 +2851,7 @@ int scan_print(void)
 		{
 		  // We need a PRINT space qcode to be generated
 		  scan_literal(" ;");
+		  idx = cline_i;
 		  
 #if 0
 		  op.buf_id = EXP_BUFF_ID_PRINT;
@@ -2918,6 +2920,8 @@ int scan_print(void)
 		      print_token_needed = 1;
 		    }
 		}
+	      
+	      idx = cline_i;
 	    }
 	  
 	  // There could be a semicolon on the end of the print command
@@ -3446,6 +3450,8 @@ int scan_cline(void)
 	  return(0);
 	}
 
+      idx = cline_i;
+      
       drop_space(&idx);
       
       if ( check_literal(&idx,":") )

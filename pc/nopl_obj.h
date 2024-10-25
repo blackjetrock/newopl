@@ -169,7 +169,7 @@ typedef struct _NOBJ_COND_INFO
 
 typedef struct _OP_STACK_ENTRY
 {
-  char           name[30];
+  char           name[256];  // Needs to be large as we put string literals here
   int            buf_id;
   NOBJ_INT       integer;
   NOBJ_VARTYPE   type;       // Original type
