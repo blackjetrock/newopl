@@ -99,7 +99,7 @@ struct _FN_INFO
     { "ATAN",     0,  0, ' ',  "f",         "f", 0x00 },
     { "BACK",     1,  1, ' ',  "ii",        "v", 0x00 },
     { "BEEP",     1,  0, ' ',  "ii",        "v", 0x00 },
-    { "BREAK",    1,  0, ' ',  "ii",        "v", 0x00 },
+    { "BREAK",    1,  0, ' ',  "",          "v", 0x00 },
     { "CHR$",     0,  0, ' ',  "i",         "s", 0x00 },
     { "CLOCK",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "CLOSE",    1,  1, ' ',  "ii",        "v", 0x00 },
@@ -142,7 +142,7 @@ struct _FN_INFO
     { "HEX$",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "HOUR",     0,  0, ' ',  "",          "i", 0x00 },
     { "IABS",     0,  0, ' ',  "i",         "i", 0x00 },
-    { "INPUT",    1,  1, ' ',  "ii",        "v", 0x00 },
+    { "INPUT",    1,  1, ' ',  "i",         "i", 0x00 },
     { "INTF",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "INT",      0,  0, ' ',  "f",         "i", 0x00 },
     { "KEY$",     0,  0, ' ',  "",          "s", 0x00 },
@@ -160,7 +160,7 @@ struct _FN_INFO
     { "MEAN",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "MENUN",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "MENU",     0,  0, ' ',  "ii",        "f", 0x00 },
-    { "MID$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "MID$",     0,  0, ' ',  "sii",       "f", 0x00 },
     { "MINUTE",   0,  0, ' ',  "",          "i", 0x00 },
     { "MIN",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "MONTH$",   0,  0, ' ',  "ii",        "f", 0x00 },
@@ -2959,6 +2959,50 @@ int scan_print(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+int check_input(int *index)
+{
+  int idx = *index;
+  char textlabel[NOBJ_VARNAME_MAXLEN+1];
+
+  indent_more();
+  
+  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
+  
+  if( check_literal(&idx, " INPUT"))
+    {
+      dbprintf("%s:ret1", __FUNCTION__);
+      *index = idx;
+      return(1);
+    }
+  
+  dbprintf("%s:ret0", __FUNCTION__);
+  return(0);
+}
+
+//------------------------------------------------------------------------------
+
+int scan_input(void)
+{
+  NOBJ_VAR_INFO vi;
+  char vname[300];
+
+  if( scan_literal(" INPUT") )
+    {
+      if(scan_variable(vname, &vi, VAR_REF))
+	{
+	  print_var_info(&vi);
+	  dbprintf("%s:ret1", __FUNCTION__);
+	  return(1);
+	}
+    }
+
+  dbprintf("ret0");
+  return(0);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
 int check_proc_call(int *index)
 {
   int idx = *index;
@@ -3077,6 +3121,15 @@ int check_line(int *index)
 
   idx = cline_i;
   if( check_print(&idx) )
+    {
+      dbprintf("%s:ret1", __FUNCTION__);
+  
+      *index = idx;
+      return(1);
+    }
+
+  idx = cline_i;
+  if( check_input(&idx) )
     {
       dbprintf("%s:ret1", __FUNCTION__);
   
@@ -3266,6 +3319,12 @@ int scan_line()
   if( check_print(&idx) )
     {
       return(scan_print());
+    }
+
+  idx = cline_i;
+  if( check_input(&idx) )
+    {
+      return(scan_input());
     }
 
   idx = cline_i;
