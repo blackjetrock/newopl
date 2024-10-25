@@ -53,7 +53,7 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_VAR_ADDR_NAME",
     "EXP_BUFF_ID_PRINT",
     "EXP_BUFF_ID_PRINT_SPACE",
-    "EXP_BUFF_ID_PRINT_NO_CR",
+    "EXP_BUFF_ID_PRINT_NEWLINE",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -2767,7 +2767,8 @@ int scan_print(void)
   int idx = cline_i;
   OP_STACK_ENTRY op;
   char v[NOBJ_VARNAME_MAXLEN+1];
-
+  int print_token_needed = 0;
+  
   indent_more();
   
   init_op_stack_entry(&op);
@@ -2777,6 +2778,9 @@ int scan_print(void)
   if( check_literal(&idx, " PRINT"))
     {
       scan_literal(" PRINT");
+
+      // The scan_literal above will generate a PRINT token for us so we don't need it done below
+      print_token_needed = 0;
       
       // There is a list of expressions (which may be empty)
       // expressions are delimited by ';' or ','
@@ -2793,47 +2797,137 @@ int scan_print(void)
       if(check_expression(&idx, IGNORE_COMMA))
 	{
 	  int num_subexpr;
-
+	  int delimiter_present;
+	  int comma_present;
+	  int scolon_present;
+	  
 	  // Scanning expressions here, we do not want comma to be accepted as that
 	  // needs to be compiled to a 'print space' qcode
 	  idx = cline_i;
+
+	  // We chck the entire expression and delimiter and then scan so we can order the
+	  // expression tokens and PRINT tokens correctly
 	  
 	  while( check_expression(&idx, IGNORE_COMMA) )
 	    {
+	      //idx = cline_i;
+
+	      delimiter_present = 0;
+	      comma_present = 0;
+	      scolon_present = 0;
+
+
+	      // We may need a PRINT token generated, we do it like this so we don't get a
+	      // spurious token at the end of every line. (Actually a spurious command/expression)
+	      if( print_token_needed )
+		{
+		  op.buf_id = EXP_BUFF_ID_FUNCTION;
+		  strcpy(op.name, "PRINT");
+		  process_token(&op);
+		}
+	      
+	      // Scan expression, we will add delimiter qcodes in a new command/expression
+	      
+	      scan_expression( &num_subexpr, IGNORE_COMMA);
+
 	      idx = cline_i;
+
 	      if( check_literal(&idx, " ,") )
 		{
 		  scan_literal(" ,");
 		  
 		  // We need a PRINT space qcode to be generated
+#if 0
 		  op.buf_id = EXP_BUFF_ID_PRINT_SPACE;
 		  strcpy(op.name, "PRINT");
 		  process_token(&op);
+#endif
+		  delimiter_present = 1;
+		  comma_present = 1;
 		}
-
+	      
 	      if( check_literal(&idx, " ;") )
 		{
+		  // We need a PRINT space qcode to be generated
 		  scan_literal(" ;");
 		  
-		  // We need a PRINT space qcode to be generated
-		  op.buf_id = EXP_BUFF_ID_PRINT_NO_CR;
+#if 0
+		  op.buf_id = EXP_BUFF_ID_PRINT;
 		  strcpy(op.name, "PRINT");
 		  process_token(&op);
+#endif
+		  delimiter_present = 1;
+		  scolon_present = 1;
 		}
+	      
+	      if( !delimiter_present )
+		{
+#if 0		
+		  op.buf_id = EXP_BUFF_ID_PRINT;
+		  strcpy(op.name, "PRINT");
+		  
+		  process_token(&op);
+		  delimiter_present = 1;
+#endif
+		  
+		  // End the PRINT and start a new expression/command
+ 		  finalise_expression();
+		  output_expression_start(&cline[cline_i]);
+		  
+		  op.buf_id = EXP_BUFF_ID_PRINT_NEWLINE;
+		  strcpy(op.name, "PRINT");
+		  process_token(&op);
+		  
+		  // Now complete that command/expression and start a new PRINT
+		  // to handle the next expression to be printed.
+		  // We do this with a flag as if we are done with processing we don't need a new
+		  // PRINT
+		  
+		  finalise_expression();
+		  output_expression_start(&cline[cline_i]);
 
-	      scan_expression( &num_subexpr, IGNORE_COMMA);
-	      idx = cline_i;
+		  print_token_needed = 1;
+		}
+	      else
+		{
+		  if( comma_present )
+		    {
+		      // End the PRINT, put in the 'print space' code 
+		      finalise_expression();
+		      output_expression_start(&cline[cline_i]);
+		      
+		      op.buf_id = EXP_BUFF_ID_PRINT_SPACE;
+		      strcpy(op.name, "PRINT");
+		      process_token(&op);
+		      
+		      // Now complete that command/expression and start a new PRINT
+		      // to handle the next expression to be printed
+		      finalise_expression();
+		      output_expression_start(&cline[cline_i]);
 
+		      print_token_needed = 1;
+		    }
+
+		  if( scolon_present )
+		    {
+		      // Now complete that command/expression and start a new PRINT
+		      // to handle the next expression to be printed
+		      finalise_expression();
+		      output_expression_start(&cline[cline_i]);
+
+		      print_token_needed = 1;
+		    }
+		}
 	    }
-
+	  
 	  // There could be a semicolon on the end of the print command
 	  
 	  if( check_literal(&idx, " ;") )
 	    {
 	      scan_literal(" ;");
 	      
-	      // We need a PRINT space qcode to be generated
-	      op.buf_id = EXP_BUFF_ID_PRINT_NO_CR;
+	      // We need a PRINT qcode to be generated
+	      op.buf_id = EXP_BUFF_ID_PRINT;
 	      strcpy(op.name, "PRINT");
 	      process_token(&op);
 	    }
@@ -2843,10 +2937,11 @@ int scan_print(void)
 	}
       else
 	{
-	  // No expression after the PRINT, this is valid
+	  // No expression after the PRINT, this is valid, comma and semicolon after
+	  // PRINT is not. We generste the newline here
 	  
 	  dbprintf("%s:ret1 Expression not present", __FUNCTION__);
-	  op.buf_id = EXP_BUFF_ID_RETURN;
+	  op.buf_id = EXP_BUFF_ID_PRINT_NEWLINE;
 	  op.type = NOBJ_VARTYPE_VOID;
 	  strcpy(op.name, "PRINT");
 	  process_token(&op);
@@ -3335,8 +3430,6 @@ int scan_cline(void)
 	  if( !scan_line() )
 	    {
 	      dbprintf("scan_line returned 0");
-	      
-
 	  
 	      dbprintf("ret0 scan_line==0 len=%ld '%s'", strlen(&(cline[idx])), &(cline[idx]));
 	      syntax_error("Syntax error in line");

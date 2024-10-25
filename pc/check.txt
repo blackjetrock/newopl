@@ -1,165 +1,112 @@
 
 
 
-PRINT X% 
-PRINT(X% )
+PRINT A 
+PRINT(A )
 
 
-PRINT X%; 
-PRINT(PRINT(X% ) )
+ 
 
 
-print X%,Y% 
-PRINT(X% )
+
+ 
 
 
-PRINT A(2+3*7)+B(1+2+3+4) 
-(A(PRINT((2 + (3 * 7)) )) + B((1 + (2 + (3 + 4)))))
+
+PRINT A; 
+PRINT(A )
 
 
-A= A + (2*3+3*Z%-   ABC%*1.1) 
-(A := (A + ((2 * 3) + ((3 * Z%) - (ABC% * 1.1)))))
+ 
 
 
-X%=2 
-(X% := 2)
+
+PRINT A;B 
+PRINT(A )
 
 
-  A   = A + ( 2 * 3 + 3 * Z%-   ABC%*1.1) 
-(A := (A + ((2 * 3) + ((3 * Z%) - (ABC% * 1.1)))))
-
-
-  X%  =  2 
-(X% := 2)
-
-
-X%=Y% 
-(X% := Y%)
-
-
-X%= Z% 
-(X% := Z%)
-
-
-A% = 1+2 
-(A% := (1 + 2))
-
-
-A% = B% 
-(A% := B%)
-
-
-A% = A% + B% 
-(A% := (A% + B%))
-
-
-A% = 2 + (A% * B%) 
-(A% := (2 + (A% * B%)))
-
-
-A = A% + (2*3+3*Z%-   ABC%*1.1) 
-(A := (A% + ((2 * 3) + ((3 * Z%) - (ABC% * 1.1)))))
-
-
-A% = 20 
-(A% := 20)
-
-
-PRINT "abc" 
-PRINT("abc" )
-
-
-PRINT "asdfgh" 
-PRINT("asdfgh" )
-
-
-PRINT   "    abc    " 
-PRINT("    abc    " )
-
-
-PRINT A% 
-PRINT(A% )
-
-
-PRINT B 
+B 
 PRINT(B )
 
 
-PRINT ABC 
-PRINT(ABC )
+ 
 
 
-PRINT ABC% 
-PRINT(ABC% )
+
+ 
 
 
-PRINT A$ 
-PRINT(A$ )
+
+PRINT A;B;C 
+PRINT(A )
 
 
-PRINT DEF$ 
-PRINT(DEF$ )
+B;C 
+PRINT(B )
 
 
-PRINT A(2) 
-A(PRINT(2 ))
+C 
+PRINT(C )
 
 
-PRINT B%(10) 
-B%(PRINT(10 ))
+ 
 
 
-PRINT D$(2) 
-D$(PRINT(2 ))
+
+ 
 
 
-PRINT F$(10,12) 
-F$(10,PRINT(12 ))
+
+PRINT A, 
+PRINT(A )
 
 
-UDG 1,2,3,4,5,6,7,8,9 
-UDG(1 2 3 4 5 6 7 8 9 )
+ 
 
 
-UDG 1,2,3,4,5,6,7,8,9 
-UDG(1 2 3 4 5 6 7 8 9 )
+
+ 
 
 
-UDG 1,2.3, 3.4, 5.6, 7, 8, 9, 10, 11 
-UDG(1 2.3 3.4 5.6 7 8 9 10 11 )
+
+PRINT A,B 
+PRINT(A )
 
 
-     UDG 1 , 2.3, 3.4, 5.6, 7, 8, 9, 10, 11 
-UDG(1 2.3 3.4 5.6 7 8 9 10 11 )
+B 
 
 
-A%(2) = 6 
-(A%(2) := 6)
+
+B 
+PRINT(B )
 
 
-G$(12,45) = "a" 
-(G$(12,45) := "a")
+ 
 
 
-A%=1 
-(A% := 1)
+
+ 
 
 
-B%=3 
-(B% := 3)
+
+PRINT A,B;C 
+PRINT(A )
 
 
-A%=1:B%=9 
-(A% := 1)
+B;C 
 
 
-A%=1:B%=9 
-(B% := 9)
+
+B;C 
+PRINT(B )
 
 
-Z%=A%(34) 
-(Z% := A%(34))
+C 
+PRINT(C )
 
 
-POKEB 181,U%(A%) 
-POKEB(181 U%(A%) )
+ 
+
+
+
+ 

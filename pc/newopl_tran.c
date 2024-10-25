@@ -1966,6 +1966,7 @@ void process_token(OP_STACK_ENTRY *token)
   o1 = *token;
   //strcpy(o1.name, token);
   o1.type = expression_type;
+  o1.buf_id = token->buf_id;
   
   // Another token has arrived, process it using the shunting algorithm
   // First, check the stack for work to do
@@ -2061,13 +2062,15 @@ void process_token(OP_STACK_ENTRY *token)
     {
     case EXP_BUFF_ID_PRINT:
     case EXP_BUFF_ID_PRINT_SPACE:
-    case EXP_BUFF_ID_PRINT_NO_CR:
+    case EXP_BUFF_ID_PRINT_NEWLINE:
       fprintf(ofp, "\nBuff id print");
 
       // PRINT has special parsing and the CRLF flag processing
       o1.req_type = expression_type;
+      o1.buf_id = token->buf_id;
+
       output_print(o1);
-      //return;
+      return;
       break;
 
     case EXP_BUFF_ID_RETURN:
