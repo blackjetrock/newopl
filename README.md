@@ -84,13 +84,17 @@ The model is the same stack based system as organiser OPL, with externals, globa
 Translation
 ===========
 
-The translation model at the moment (hopefully it will work), is to treat every OPL statement as an expression. So, for instance, 
+The translation model at the moment is to use a recursive descent parser to parse the command lines (colon separated lines are split into lines) and generate the tokens that will be turned into qcode using the parser.
+
+Commands are generally treated as expressions, so:
 
 <code>PRINT X%</code>
 
 is regarded as a function called PRINT with an argument of X%.
 
-Obviously functions like SIN and COS work well with this scheme, and as commands like PRINT behave like functions with no return values, they work well too.
+Obviously functions like SIN and COS work well with this scheme, and as commands like PRINT behave like functions with no return values, they work well too. PRINT does have a problem with the delimiters ';' and ',', so components of PRINT commands ar esplit into separate sub commands as that matches the qcode more closely. Some special code liek this is needed for commands tht don't fit well into the recursive descent parsing, or need some sematic actions, or type manipulation.
+
+
 The algorithm used to process expressions is the 'shunting yard algorithm' (see here: https://en.wikipedia.org/wiki/Shunting_yard_algorithm). this parses an expression and outputs an RPN stack based version of the infix expression. This seems to match quite well with the qcode that the organiser translater outputs. 
 The expressions in OPL have to be typed as different qcodes are used for different types of code. For example, the PRINT qcode has versions for integers, floats and strings. The correct code has to be used for the argument the code is presented with. This is done at translate time by the original OPL.
 
