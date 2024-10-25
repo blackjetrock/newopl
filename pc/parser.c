@@ -136,18 +136,18 @@ struct _FN_INFO
     { "FIX$",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "FLT",      0,  0, ' ',  "i",         "f", 0x00 },
     { "FREE",     0,  0, ' ',  "ii",        "f", 0x00 },
-    { "GEN$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "GEN$",     0,  0, ' ',  "ii",        "s", 0x00 },
     { "GET$",     0,  0, ' ',  "",          "s", 0x00 },
     { "GET",      0,  0, ' ',  "",          "i", 0x00 },
     { "HEX$",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "HOUR",     0,  0, ' ',  "",          "i", 0x00 },
     { "IABS",     0,  0, ' ',  "i",         "i", 0x00 },
     { "INPUT",    1,  1, ' ',  "i",         "i", 0x00 },
-    { "INTF",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "INTF",     0,  0, ' ',  "f",         "f", 0x00 },
     { "INT",      0,  0, ' ',  "f",         "i", 0x00 },
     { "KEY$",     0,  0, ' ',  "",          "s", 0x00 },
     { "KEY",      0,  0, ' ',  "",          "i", 0x00 },
-    { "KSTAT",    1,  0, ' ',  "ii",        "v", 0x00 },
+    { "KSTAT",    1,  0, ' ',  "i",         "v", 0x00 },
     { "LAST",     1,  1, ' ',  "ii",        "v", 0x00 },
     { "LEFT$",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "LEN",      0,  0, ' ',  "s",         "i", 0x00 },
@@ -158,9 +158,9 @@ struct _FN_INFO
     { "LPRINT",   1,  0, ' ',  "ii",        "v", 0x00 },
     { "MAX",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "MEAN",     0,  0, ' ',  "ii",        "f", 0x00 },
-    { "MENUN",    0,  0, ' ',  "ii",        "f", 0x00 },
-    { "MENU",     0,  0, ' ',  "ii",        "f", 0x00 },
-    { "MID$",     0,  0, ' ',  "sii",       "f", 0x00 },
+    { "MENUN",    0,  0, ' ',  "is",        "i", 0x00 },
+    { "MENU",     0,  0, ' ',  "s",         "i", 0x00 },
+    { "MID$",     0,  0, ' ',  "sii",       "s", 0x00 },
     { "MINUTE",   0,  0, ' ',  "",          "i", 0x00 },
     { "MIN",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "MONTH$",   0,  0, ' ',  "ii",        "f", 0x00 },
@@ -181,7 +181,7 @@ struct _FN_INFO
     { "PRINT",    1,  0, ' ',  "i",         "v", 0x00 },
     { "RAD",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "RAISE",    1,  0, ' ',  "i",         "v", 0x00 },
-    { "RANDOMIZE",1,  0, ' ',  "ii",        "v", 0x00 },
+    { "RANDOMIZE",1,  0, ' ',  "i",         "v", 0x00 },
     { "RECSIZE",  0,  0, ' ',  "ii",        "f", 0x00 },
     { "REM",      1,  0, ' ',  "",          "v", 0x00 },
     { "RENAME",   1,  1, ' ',  "ii",        "v", 0x00 },
@@ -205,7 +205,7 @@ struct _FN_INFO
     { "USE",      1,  1, ' ',  "ii",        "v", 0x00 },
     { "USR$",     0,  0, ' ',  "ii",        "s", 0x00 },
     { "USR",      0,  0, ' ',  "ii",        "i", 0x00 },
-    { "VAL",      0,  0, ' ',  "ii",        "f", 0x00 },
+    { "VAL",      0,  0, ' ',  "s",         "f", 0x00 },
     { "VAR",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "VIEW",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "WEEK",     0,  0, ' ',  "ii",        "f", 0x00 },
@@ -311,6 +311,7 @@ OP_INFO  op_info[] =
     { ":=",   1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "+",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "-",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "**",   5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     { "*",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     { "/",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     { ">",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
@@ -3111,6 +3112,13 @@ int check_line(int *index)
   dbprintf("%s:", __FUNCTION__);
 
   idx = cline_i;
+  if( check_literal(&idx, " REM") )
+    {
+      dbprintf("%s:ret1: Comment", __FUNCTION__);
+      return(1);
+    }
+
+  idx = cline_i;
   if( check_assignment(&idx) )
     {
       dbprintf("%s:ret1", __FUNCTION__);
@@ -3293,6 +3301,15 @@ int scan_line()
   
   dbprintf("%s:", __FUNCTION__);
   
+  // If it's a REM, then the line parses and we generate no tokens
+  
+  idx = cline_i;
+  if( check_literal(&idx, " REM") )
+    {
+      dbprintf("Comment ignored");
+      return(1);
+    }
+
   idx = cline_i;
   if( check_assignment(&idx) )
     {

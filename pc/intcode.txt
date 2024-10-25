@@ -1616,7 +1616,6 @@ Expression buffer 2
 (dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
 (dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
 (dump_exp_buffer2) N5 EXP_BUFF_ID_STR          s rq:? '"BUT YOU HAVE ONLY "'  0:
-(dump_exp_buffer2) N17 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon s->f'  2: 15 5
 (dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
 (dump_exp_buffer2) N7 EXP_BUFF_ID_VARIABLE     i rq:i 'A%'  0:
 (dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
@@ -1626,14 +1625,13 @@ Expression buffer 2
 (dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
 (dump_exp_buffer2) N12 EXP_BUFF_ID_STR          s rq:? '" ACRES."'  0:
 (dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     s rq:s '+'  2: 12 9
-(dump_exp_buffer2) N15 EXP_BUFF_ID_FUNCTION     f rq:f 'GEN$'  0:
-(dump_exp_buffer2) N16 EXP_BUFF_ID_OPERATOR     f rq:f '+'  2: 15 5
-(dump_exp_buffer2) N21 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon f->i'  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_FUNCTION     s rq:s 'GEN$'  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_OPERATOR     s rq:s '+'  2: 15 5
+(dump_exp_buffer2) N17 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
 (dump_exp_buffer2) N18 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
-(dump_exp_buffer2) N19 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
-(dump_exp_buffer2) N20 EXP_BUFF_ID_FUNCTION     f rq:f 'VIEW'  0:
-(dump_exp_buffer2) N23 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 20 1
-(dump_exp_buffer2) N22 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 20 1
+(dump_exp_buffer2) N19 EXP_BUFF_ID_FUNCTION     f rq:f 'VIEW'  0:
+(dump_exp_buffer2) N21 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 19 1
+(dump_exp_buffer2) N20 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 19 1
 =================
 Expression buffer 2
 ===================
@@ -1713,14 +1711,13 @@ Expression buffer 2
 (dump_exp_buffer2) N12 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
 (dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
 (dump_exp_buffer2) N14 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
-(dump_exp_buffer2) N15 EXP_BUFF_ID_FUNCTION     f rq:f 'MID$'  0:
-(dump_exp_buffer2) N19 EXP_BUFF_ID_AUTOCON      s rq:s 'autocon f->i'  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
 (dump_exp_buffer2) N16 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
 (dump_exp_buffer2) N17 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
 (dump_exp_buffer2) N18 EXP_BUFF_ID_FUNCTION     s rq:s 'ASC'  0:
-(dump_exp_buffer2) N20 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
-(dump_exp_buffer2) N21 EXP_BUFF_ID_FUNCTION     v rq:v 'POKEB'  0:
-(dump_exp_buffer2) N22 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N19 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N20 EXP_BUFF_ID_FUNCTION     v rq:v 'POKEB'  0:
+(dump_exp_buffer2) N21 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
 =================
 Expression buffer 2
 ===================
@@ -2261,7 +2258,6 @@ Expression buffer 2
 =================
 Expression buffer 2
 ===================
-(dump_exp_buffer2) N1 EXP_BUFF_ID_PROC_CALL    U rq:U 'REMOV2'  0:
 =================
 Expression buffer 2
 ===================
@@ -2376,8 +2372,8 @@ Expression buffer 2
 (dump_exp_buffer2) N11 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
 (dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
 (dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
-(dump_exp_buffer2) N14 EXP_BUFF_ID_FUNCTION     f rq:f 'MID$'  0:
-(dump_exp_buffer2) N16 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 14 4
+(dump_exp_buffer2) N14 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon s->i'  2: 14 4
 (dump_exp_buffer2) N15 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 14 4
 =================
 Expression buffer 2
@@ -2431,11 +2427,4117 @@ Expression buffer 2
 (dump_exp_buffer2) N14 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
 (dump_exp_buffer2) N15 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
 (dump_exp_buffer2) N16 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
-(dump_exp_buffer2) N17 EXP_BUFF_ID_FUNCTION     f rq:f 'MID$'  0:
-(dump_exp_buffer2) N21 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon f->i'  0:
+(dump_exp_buffer2) N17 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
 (dump_exp_buffer2) N18 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
 (dump_exp_buffer2) N19 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
 (dump_exp_buffer2) N20 EXP_BUFF_ID_FUNCTION     f rq:f 'VAL'  0:
-(dump_exp_buffer2) N23 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 20 1
-(dump_exp_buffer2) N22 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 20 1
+(dump_exp_buffer2) N22 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 20 5
+(dump_exp_buffer2) N21 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 20 5
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'Z%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'Z%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '4'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'T1%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'MATCH%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'CP%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'CP%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'CP%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'T1%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '<'  2: 3 2
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'E$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'CP%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     s rq:s 'C$'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon s->i'  2: 6 3
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 6 3
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'CP%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 2 1
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f '<'  2: 2 1
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'A1%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 5 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 5 3
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'MATCH%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 2 1
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f '>'  2: 2 1
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 5 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 5 3
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'A%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_STR          s rq:? '"YOU CAN'T"'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_FUNCTION     f rq:f 'VIEW'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 8 1
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 8 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_VARIABLE     s rq:s 'P$'  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon s->i'  2: 10 7
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_INTEGER      i rq:i '13'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     i rq:i '<'  2: 10 7
+(dump_exp_buffer2) N13 EXP_BUFF_ID_FUNCTION     f rq:f 'VAL'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'A%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_STR          s rq:? '"GO THAT WAY"'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_FUNCTION     f rq:f 'VIEW'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 8 1
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 8 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PROC_CALL    U rq:U 'A13'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     s rq:s 'A$'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_VARIABLE     i rq:i 'P$'  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     i rq:i '<>'  2: 12 9
+(dump_exp_buffer2) N14 EXP_BUFF_ID_FUNCTION     f rq:f 'LEFT$'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'Y$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     s rq:s 'A$'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i '3'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     s rq:s ':='  2: 10 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'Y$'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_STR          s rq:? '"00"'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon s->i'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '<>'  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'Y$'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_VARIABLE     i rq:i 'P$'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i '<>'  2: 7 4
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'E$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     s rq:s 'A$'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i '5'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '30'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     s rq:s ':='  2: 10 1
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     s rq:s 'E$'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_STR          s rq:? '"."'  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon s->i'  2: 10 7
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     i rq:i '='  2: 10 7
+(dump_exp_buffer2) N13 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     s rq:s 'E$'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon s->i'  2: 14 11
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_INTEGER      i rq:i '65'  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_OPERATOR     i rq:i '-'  2: 14 11
+(dump_exp_buffer2) N17 EXP_BUFF_ID_FUNCTION     s rq:s 'ASC'  0:
+(dump_exp_buffer2) N19 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon s->i'  2: 17 1
+(dump_exp_buffer2) N18 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 17 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     s rq:s 'E$'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 7 6
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_FUNCTION     f rq:f 'VAL'  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 16 1
+(dump_exp_buffer2) N17 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 16 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'OK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'ROOM%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'OK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_VARIABLE     i rq:i 'ROOM%'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 7 6
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'OK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i '<'  2: 7 6
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'OK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_VARIABLE     i rq:i 'ROOM%'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i '<>'  2: 7 6
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i '>'  2: 6 3
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 8 7
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'OK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '3'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i '<'  2: 7 6
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'OK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '4'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'OK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'S%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 6 3
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '5'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'S%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 7 6
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'OK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '6'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'C%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 7 6
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'OK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '7'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '100'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 1
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f '*'  2: 3 1
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     f rq:f 'RND'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 9 6
+(dump_exp_buffer2) N10 EXP_BUFF_ID_OPERATOR     f rq:f '<'  2: 9 6
+(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     f rq:f '+'  2: 10 4
+(dump_exp_buffer2) N13 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 13 12
+(dump_exp_buffer2) N14 EXP_BUFF_ID_OPERATOR     f rq:f '='  2: 13 12
+(dump_exp_buffer2) N16 EXP_BUFF_ID_FUNCTION     i rq:i 'INT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'OK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'OK%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '3'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'MATCH%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     s rq:s 'E$'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_STR          s rq:? '"."'  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon s->i'  2: 10 7
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     i rq:i '='  2: 10 7
+(dump_exp_buffer2) N13 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     s rq:s 'E$'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon s->i'  2: 14 11
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_INTEGER      i rq:i '65'  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_OPERATOR     i rq:i '-'  2: 14 11
+(dump_exp_buffer2) N17 EXP_BUFF_ID_FUNCTION     s rq:s 'ASC'  0:
+(dump_exp_buffer2) N19 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon s->i'  2: 17 1
+(dump_exp_buffer2) N18 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 17 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     s rq:s 'E$'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 6 5
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_STR          s rq:? '"."'  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon s->i'  2: 12 9
+(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     i rq:i '<>'  2: 12 9
+(dump_exp_buffer2) N15 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     s rq:s 'E$'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 7 6
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_FUNCTION     f rq:f 'VAL'  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 16 1
+(dump_exp_buffer2) N17 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 16 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'BREAK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'A%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_STR          s rq:? '"YOU ARE HOLDING:"'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_FUNCTION     f rq:f 'VIEW'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 8 1
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 8 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'F%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'X%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'DO'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'X%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'X%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'X%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i '>'  2: 6 3
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 8 7
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'A%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'X%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_VARIABLE     s rq:s 'O$'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_FUNCTION     f rq:f 'VIEW'  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 12 3
+(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 12 3
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'F%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'UNTIL'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'X%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'O1%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'F%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 2 1
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f '>'  2: 2 1
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 5 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 5 3
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'A%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_STR          s rq:? '" NOTHING."'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_FUNCTION     f rq:f 'VIEW'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 8 1
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 8 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'BREAK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '100'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'S%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '5'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i '<'  2: 7 6
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'A%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_STR          s rq:? '"YOU CANNOT CARRY MORE."'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_FUNCTION     f rq:f 'VIEW'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 8 1
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 8 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'BREAK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '100'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 7 6
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 6 5
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'S%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_VARIABLE     i rq:i 'S%'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 11 10
+(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 12 7
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'A%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_STR          s rq:? '"YOU ALREADY HAVE IT."'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_FUNCTION     f rq:f 'VIEW'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 8 1
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 8 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'BREAK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '100'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 7 6
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'A%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_STR          s rq:? '"YOU DON'T HAVE "'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_AUTOCON      s rq:s 'autocon i->s'  2: 10 7
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_VARIABLE     s rq:s 'O$'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     s rq:s '+'  2: 10 7
+(dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_FUNCTION     f rq:f 'VIEW'  0:
+(dump_exp_buffer2) N17 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 15 3
+(dump_exp_buffer2) N16 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 15 3
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'BREAK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '100'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'ROOM%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 6 5
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'S%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_VARIABLE     i rq:i 'S%'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     i rq:i '-'  2: 11 10
+(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 12 7
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '3'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PROC_CALL    U rq:U 'TEXT3'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '4'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'S%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 6 5
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '5'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'S%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 6 5
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '6'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'C%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_VARIABLE     s rq:s 'E$'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_INTEGER      i rq:i '3'  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 11 10
+(dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N17 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N19 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N20 EXP_BUFF_ID_FUNCTION     f rq:f 'VAL'  0:
+(dump_exp_buffer2) N22 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 20 5
+(dump_exp_buffer2) N21 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 20 5
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '7'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'X%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 6 3
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 8 7
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 12 9
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_VARIABLE     i rq:i 'X%'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 8 7
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '8'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'ROOM%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 6 5
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '9'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i '<'  2: 7 6
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'S%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_VARIABLE     i rq:i 'S%'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     i rq:i '-'  2: 11 10
+(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 12 7
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'O%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 6 5
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '10'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'ROOM%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'N%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '11'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'A%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_STR          s rq:? '"OKAY."'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_FUNCTION     f rq:f 'VIEW'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 8 1
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 8 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'BREAK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1000'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '12'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'BREAK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1000'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '13'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'BREAK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1100'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '14'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'BREAK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '100'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '15'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"ARE YOU SURE? "'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'W$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     i rq:i 'INPUT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'BREAK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1100'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     s rq:s 'W$'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_FUNCTION     s rq:s 'ASC'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_STR          s rq:? '"Y"'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     s rq:? '<>'  2: 10 7
+(dump_exp_buffer2) N12 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'BREAK%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '100'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSE'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     v rq:v 'STOP'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'TYPE%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '16'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     v rq:v 'STOP'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'BREAK%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '100'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'BREAK%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1000'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'BREAK%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1100'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'E%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '3'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'T'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     f rq:f 'ABS'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 6 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '131'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f '>'  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'A$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_STR          s rq:? '"80A+"'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     s rq:? ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '131'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f '-'  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     f rq:f '>'  2: 4 1
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:f '5'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 6 5
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f '='  2: 6 5
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_INTEGER      i rq:f '15'  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 16 15
+(dump_exp_buffer2) N17 EXP_BUFF_ID_OPERATOR     f rq:f '<'  2: 16 15
+(dump_exp_buffer2) N19 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N20 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N21 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N22 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N23 EXP_BUFF_ID_OPERATOR     f rq:f 'AND'  2: 17 7
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'B$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_STR          s rq:? '"82"'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     s rq:? ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f '>'  2: 2 1
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:f '15'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 5 4
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f 'AND'  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:f '25'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 8 6
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f '<'  2: 8 6
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 9 3
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'B$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_STR          s rq:? '"82A"'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     s rq:? ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f '>'  2: 2 1
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:f '25'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 5 4
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f 'AND'  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:f '35'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 8 6
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f '<'  2: 8 6
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 9 3
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'B$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_STR          s rq:? '"82B"'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     s rq:? ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f '>'  2: 2 1
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:f '35'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 5 4
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f 'AND'  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:f '50'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 8 6
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f '<'  2: 8 6
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 9 3
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'B$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_STR          s rq:? '"82C"'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     s rq:? ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f '>'  2: 2 1
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:f '50'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 5 4
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f 'AND'  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:f '65'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 8 6
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f '<'  2: 8 6
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 9 3
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'B$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_STR          s rq:? '"80D"'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     s rq:? ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f '>'  2: 2 1
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:f '65'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 5 4
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f 'AND'  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:f '95'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 8 6
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f '<'  2: 8 6
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 9 3
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'B$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_STR          s rq:? '"80C"'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     s rq:? ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f '>'  2: 2 1
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:f '95'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 5 4
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f 'AND'  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_INTEGER      i rq:f '120'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 8 6
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     f rq:f '<'  2: 8 6
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 9 3
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'B$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_STR          s rq:? '"80B"'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     s rq:? ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '120'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f '>'  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'B$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_STR          s rq:? '"80A"'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     s rq:? ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"Colour correction"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"BLUE"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_SPACE  U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'T'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_AUTOCON      v rq:v 'autocon f->i'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_SPACE  U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"Mired"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'A$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'B$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_SPACE  U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"Filter"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PROC_CALL    U rq:U 'boot'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PROC_CALL    U rq:U 'ADDTOP'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PROC_CALL    U rq:U 'border'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'a%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'b%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '10'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'bl$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '32'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i '20'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_FUNCTION     f rq:f 'REPT$'  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_AUTOCON      s rq:s 'autocon f->s'  2: 12 1
+(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     s rq:s ':='  2: 12 1
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     v rq:v 'CLS'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"       Border"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"    G.Pollington."'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '3'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"Use cursor keys then"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '4'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"   EXE to select."'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'DO'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'ch$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     s rq:s 'ch$'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     s rq:s '+'  2: 7 2
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     s rq:s ':='  2: 8 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '8'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '32'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'UNTIL'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '256'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     v rq:v 'CLS'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'DO'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '3'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '4'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"Select Character"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '9'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '3'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '127'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_SPACE  U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '126'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'b%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '<'  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'b%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'a%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'a%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '-'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'b%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '20'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '>'  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'b%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '20'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'a%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'a%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'bl$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'b%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '169'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'a%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '<'  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'a%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'a%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '213'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '>'  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'a%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '213'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'w$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     s rq:s 'ch$'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'a%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '20'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     s rq:s ':='  2: 10 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'w$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'k%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     i rq:i 'KEY'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'k%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '6'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'b%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'b%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'k%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '5'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'b%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'b%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '-'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'UNTIL'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'k%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '13'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     s rq:s 'ch$'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_VARIABLE     i rq:i 'a%'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_VARIABLE     i rq:i 'b%'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     i rq:i '-'  2: 10 9
+(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 11 8
+(dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N17 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N19 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N20 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N21 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
+(dump_exp_buffer2) N22 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N23 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N24 EXP_BUFF_ID_FUNCTION     s rq:s 'ASC'  0:
+(dump_exp_buffer2) N26 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon s->i'  2: 24 1
+(dump_exp_buffer2) N25 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 24 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '2099'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'POKEB'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'bl$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i '20'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_FUNCTION     f rq:f 'REPT$'  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_AUTOCON      s rq:s 'autocon f->s'  2: 12 1
+(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     s rq:s ':='  2: 12 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     v rq:v 'CLS'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'bl$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"   New Border   "'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '3'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"    Selected    "'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '4'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'bl$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     i rq:i 'GET'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PROC_CALL    U rq:U 'BUSH'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'C%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '<'  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'B%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_STR          s rq:? '"GOODBYE!"'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_FUNCTION     f rq:f 'VIEW'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 8 1
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 8 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '30'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PAUSE'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     v rq:v 'STOP'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'C%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'C%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '-'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'B%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_STR          s rq:? '"BUT YOU HAVE ONLY "'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_VARIABLE     i rq:i 'S%'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:i '4'  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_AUTOCON      s rq:s 'autocon i->s'  2: 12 9
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_STR          s rq:? '" BUSHELS IN STORE."'  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     s rq:s '+'  2: 12 9
+(dump_exp_buffer2) N15 EXP_BUFF_ID_FUNCTION     s rq:s 'GEN$'  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_OPERATOR     s rq:s '+'  2: 15 5
+(dump_exp_buffer2) N17 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N19 EXP_BUFF_ID_FUNCTION     f rq:f 'VIEW'  0:
+(dump_exp_buffer2) N21 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 19 1
+(dump_exp_buffer2) N20 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 19 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PROC_CALL    U rq:U 'creakey$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'a%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     s rq:s 'a$'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     i rq:i 'LEN'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 6 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'b%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     s rq:s 'b$'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     i rq:i 'LEN'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 6 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '8'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'b%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     i rq:i '-'  2: 6 5
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     i rq:i '*'  2: 7 2
+(dump_exp_buffer2) N13 EXP_BUFF_ID_VARIABLE     i rq:i 'a%'  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 13 12
+(dump_exp_buffer2) N15 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_FUNCTION     v rq:v 'RANDOMIZE'  0:
+(dump_exp_buffer2) N17 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'mn%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '123'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'mx%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '255'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'DO'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 2 1
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f '<'  2: 2 1
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'a%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 5 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 5 3
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'l%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_VARIABLE     s rq:s 'a$'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N17 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_FUNCTION     s rq:s 'ASC'  0:
+(dump_exp_buffer2) N20 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon s->i'  2: 18 5
+(dump_exp_buffer2) N19 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 18 5
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSE'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'l%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_VARIABLE     i rq:i 'a%'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i '*'  2: 8 5
+(dump_exp_buffer2) N10 EXP_BUFF_ID_FUNCTION     f rq:f 'RND'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 13 10
+(dump_exp_buffer2) N14 EXP_BUFF_ID_OPERATOR     f rq:f '+'  2: 13 10
+(dump_exp_buffer2) N16 EXP_BUFF_ID_FUNCTION     i rq:i 'INT'  0:
+(dump_exp_buffer2) N17 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N19 EXP_BUFF_ID_VARIABLE     i rq:i 'l%'  0:
+(dump_exp_buffer2) N20 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 19 16
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 2 1
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f '<'  2: 2 1
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'b%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 5 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 5 3
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_VARIABLE     s rq:s 'b$'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_FUNCTION     s rq:s 'MID$'  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N17 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_FUNCTION     s rq:s 'ASC'  0:
+(dump_exp_buffer2) N20 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon s->i'  2: 18 5
+(dump_exp_buffer2) N19 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 18 5
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSE'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_VARIABLE     i rq:i 'b%'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i '*'  2: 8 5
+(dump_exp_buffer2) N10 EXP_BUFF_ID_FUNCTION     f rq:f 'RND'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 13 10
+(dump_exp_buffer2) N14 EXP_BUFF_ID_OPERATOR     f rq:f '+'  2: 13 10
+(dump_exp_buffer2) N16 EXP_BUFF_ID_FUNCTION     i rq:i 'INT'  0:
+(dump_exp_buffer2) N17 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N19 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N20 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 19 16
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'UNTIL'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '8'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'DO'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'el%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_VARIABLE     i rq:i 'mx%'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_VARIABLE     i rq:i 'mn%'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     i rq:i '-'  2: 10 9
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_OPERATOR     i rq:i '*'  2: 11 5
+(dump_exp_buffer2) N17 EXP_BUFF_ID_FUNCTION     f rq:f 'RND'  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N19 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N20 EXP_BUFF_ID_VARIABLE     i rq:i 'mn%'  0:
+(dump_exp_buffer2) N22 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 20 17
+(dump_exp_buffer2) N21 EXP_BUFF_ID_OPERATOR     f rq:f '+'  2: 20 17
+(dump_exp_buffer2) N23 EXP_BUFF_ID_FUNCTION     i rq:i 'INT'  0:
+(dump_exp_buffer2) N24 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 23 16
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'ep%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_VARIABLE     i rq:i 'mx%'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_VARIABLE     i rq:i 'mn%'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     i rq:i '-'  2: 10 9
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_OPERATOR     i rq:i '*'  2: 11 5
+(dump_exp_buffer2) N17 EXP_BUFF_ID_FUNCTION     f rq:f 'RND'  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N19 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N20 EXP_BUFF_ID_VARIABLE     i rq:i 'mn%'  0:
+(dump_exp_buffer2) N22 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 20 17
+(dump_exp_buffer2) N21 EXP_BUFF_ID_OPERATOR     f rq:f '+'  2: 20 17
+(dump_exp_buffer2) N23 EXP_BUFF_ID_FUNCTION     i rq:i 'INT'  0:
+(dump_exp_buffer2) N24 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 23 16
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'UNTIL'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '8'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'DO'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 3 2
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'x%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'l%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_VARIABLE     i rq:i 'el%'  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 11 8
+(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 12 6
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'y%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'p%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_VARIABLE     i rq:i 'ep%'  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 11 8
+(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 12 6
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'WHILE'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'x%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'mx%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '>'  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'x%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'x%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'mx%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'mn%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 7 6
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i '-'  2: 8 5
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_OPERATOR     i rq:i '-'  2: 9 2
+(dump_exp_buffer2) N15 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 14 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDWH'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'WHILE'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'y%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     i rq:i 'mx%'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '>'  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'y%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'y%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     i rq:i 'mx%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_VARIABLE     i rq:i 'mn%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     i rq:i '+'  2: 7 6
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     i rq:i '-'  2: 8 5
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_OPERATOR     i rq:i '-'  2: 9 2
+(dump_exp_buffer2) N15 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 14 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDWH'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 5 4
+(dump_exp_buffer2) N5 EXP_BUFF_ID_FLT          f rq:f '2.0'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f '/'  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_VARIABLE     f rq:f 'i%'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:f '2'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 9 8
+(dump_exp_buffer2) N10 EXP_BUFF_ID_OPERATOR     f rq:f '/'  2: 9 8
+(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     f rq:f '='  2: 10 6
+(dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'el$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     s rq:s 'el$'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     i rq:i 'y%'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     s rq:s '+'  2: 7 2
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     s rq:s ':='  2: 8 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'ep$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     s rq:s 'ep$'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     i rq:i 'x%'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     s rq:s '+'  2: 7 2
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     s rq:s ':='  2: 8 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSE'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'el$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     s rq:s 'el$'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     i rq:i 'x%'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     s rq:s '+'  2: 7 2
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     s rq:s ':='  2: 8 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     s rq:s 'ep$'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     s rq:s 'ep$'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     i rq:i 'y%'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_OPERATOR     s rq:s '+'  2: 7 2
+(dump_exp_buffer2) N9 EXP_BUFF_ID_OPERATOR     s rq:s ':='  2: 8 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'UNTIL'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'i%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '8'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     s rq:s 'el$'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     s rq:s 'ep$'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     s rq:s '+'  2: 4 3
+(dump_exp_buffer2) N6 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_FUNCTION     v rq:v 'RETURN'  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_RETURN       U rq:U 'RETURN'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PROC_CALL    U rq:U 'depth'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_STR          s rq:? '"35mm,16mm,8mm,70mm"'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     i rq:i 'MENU'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 6 1
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 6 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '1'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'C'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f '0.0339'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '2'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'C'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f '0.0254'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '3'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'C'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f '0.0254'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'M'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '4'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'C'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FLT          f rq:f '0.0339'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 2 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     v rq:v 'CLS'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"Focal length"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'F'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     i rq:i 'INPUT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     v rq:v 'CLS'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"f STOP"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'S'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     i rq:i 'INPUT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     v rq:v 'CLS'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'H'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f 'F'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_INTEGER      i rq:f '2'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 5 4
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f '**'  2: 5 4
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_VARIABLE     f rq:f 'S'  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_VARIABLE     f rq:f 'C'  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_OPERATOR     f rq:f '*'  2: 15 14
+(dump_exp_buffer2) N17 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N19 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N20 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N21 EXP_BUFF_ID_OPERATOR     f rq:f '/'  2: 16 6
+(dump_exp_buffer2) N22 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 21 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'C'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     f rq:f 'H'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     f rq:f 'INTF'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 6 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'HY'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'C'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '1000'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f '/'  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     v rq:v 'CLS'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'S'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'S'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '1000'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f '/'  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'H'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'H'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '1000'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f '/'  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"FOCUS DISTANCE"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'D'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     i rq:i 'INPUT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     v rq:v 'CLS'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"Hypofocal distance"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'HY'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_AUTOCON      v rq:v 'autocon f->i'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_SPACE  U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"m"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'D'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     f rq:f 'H'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f '>'  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f 'H'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f 'D'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f '*'  2: 5 4
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_VARIABLE     f rq:f 'H'  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_VARIABLE     f rq:f 'D'  0:
+(dump_exp_buffer2) N17 EXP_BUFF_ID_VARIABLE     f rq:f 'S'  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_OPERATOR     f rq:f '-'  2: 17 16
+(dump_exp_buffer2) N19 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N20 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N21 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N22 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N23 EXP_BUFF_ID_OPERATOR     f rq:f '+'  2: 18 13
+(dump_exp_buffer2) N24 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N25 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N26 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N27 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N28 EXP_BUFF_ID_OPERATOR     f rq:f '/'  2: 23 6
+(dump_exp_buffer2) N29 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 28 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '100'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f '*'  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     f rq:f 'INTF'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 6 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '100'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f '/'  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '3'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"NEAR "'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_AUTOCON      v rq:v 'autocon f->i'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '" m"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '4'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"INFINITY"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSE'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f 'H'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f 'D'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f '*'  2: 5 4
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_VARIABLE     f rq:f 'H'  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_VARIABLE     f rq:f 'D'  0:
+(dump_exp_buffer2) N17 EXP_BUFF_ID_VARIABLE     f rq:f 'S'  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_OPERATOR     f rq:f '-'  2: 17 16
+(dump_exp_buffer2) N19 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N20 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N21 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N22 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N23 EXP_BUFF_ID_OPERATOR     f rq:f '+'  2: 18 13
+(dump_exp_buffer2) N24 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N25 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N26 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N27 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N28 EXP_BUFF_ID_OPERATOR     f rq:f '/'  2: 23 6
+(dump_exp_buffer2) N29 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 28 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'C'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f 'H'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f 'D'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f '*'  2: 5 4
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N13 EXP_BUFF_ID_VARIABLE     f rq:f 'H'  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N15 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N16 EXP_BUFF_ID_VARIABLE     f rq:f 'D'  0:
+(dump_exp_buffer2) N17 EXP_BUFF_ID_VARIABLE     f rq:f 'S'  0:
+(dump_exp_buffer2) N18 EXP_BUFF_ID_OPERATOR     f rq:f '-'  2: 17 16
+(dump_exp_buffer2) N19 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N20 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N21 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N22 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N23 EXP_BUFF_ID_OPERATOR     f rq:f '-'  2: 18 13
+(dump_exp_buffer2) N24 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N25 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N26 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N27 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N28 EXP_BUFF_ID_OPERATOR     f rq:f '/'  2: 23 6
+(dump_exp_buffer2) N29 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 28 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '100'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f '*'  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     f rq:f 'INTF'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 6 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '100'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f '/'  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'C'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'C'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '100'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f '*'  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'C'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_VARIABLE     f rq:f 'C'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     f rq:f 'INTF'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 6 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'C'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'C'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '100'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f '/'  2: 3 2
+(dump_exp_buffer2) N6 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 4 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '3'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"NEAR"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_SPACE  U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_AUTOCON      v rq:v 'autocon f->i'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_SPACE  U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"m"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '4'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"FAR"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_SPACE  U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'C'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_AUTOCON      v rq:v 'autocon f->i'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_SPACE  U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"m"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     i rq:i 'GET'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_STR          s rq:? '"DEPTH,FILM,MENU"'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     i rq:i 'MENU'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 6 1
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 6 1
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '1'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PROC_CALL    U rq:U 'DEPTH'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ELSEIF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     f rq:f 'N'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:f '2'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 3 2
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     f rq:f ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PROC_CALL    U rq:U 'FILM'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_FUNCTION     v rq:v 'STOP'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PROC_CALL    U rq:U 'DICE'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'KSTAT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'DO'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"Stop"'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '63'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_OPERATOR     s rq:s '+'  2: 6 1
+(dump_exp_buffer2) N8 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '4'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_STR          s rq:? '"Press key."'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'WHILE'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 2 1
+(dump_exp_buffer2) N3 EXP_BUFF_ID_OPERATOR     f rq:f '='  2: 2 1
+(dump_exp_buffer2) N5 EXP_BUFF_ID_FUNCTION     i rq:i 'KEY'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PAUSE'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '26'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '15'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '26'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '3'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '26'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     i rq:i 'D%'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '6'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_OPERATOR     i rq:i '*'  2: 4 1
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     f rq:f 'RND'  0:
+(dump_exp_buffer2) N12 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon f->i'  2: 6 5
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N10 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 6 5
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'D%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_VARIABLE     f rq:f 'OR'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_VARIABLE     f rq:f 'D%'  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_INTEGER      i rq:f '2'  0:
+(dump_exp_buffer2) N14 EXP_BUFF_ID_AUTOCON      i rq:i 'autocon i->f'  2: 12 6
+(dump_exp_buffer2) N7 EXP_BUFF_ID_VARIABLE     f rq:f 'OR'  0:
+(dump_exp_buffer2) N8 EXP_BUFF_ID_VARIABLE     f rq:f 'D%'  0:
+(dump_exp_buffer2) N9 EXP_BUFF_ID_INTEGER      i rq:f '4'  0:
+(dump_exp_buffer2) N11 EXP_BUFF_ID_AUTOCON      f rq:f 'autocon i->f'  2: 9 8
+(dump_exp_buffer2) N10 EXP_BUFF_ID_OPERATOR     f rq:f '='  2: 9 8
+(dump_exp_buffer2) N12 EXP_BUFF_ID_OPERATOR     f rq:f '='  2: 10 7
+(dump_exp_buffer2) N13 EXP_BUFF_ID_OPERATOR     i rq:f ':='  2: 12 6
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '19'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '255'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'D%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '0'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '>'  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '18'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '255'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '20'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '3'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '255'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'D%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i '>'  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '20'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '1'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '255'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '18'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '3'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '255'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_FUNCTION     v rq:v 'PRINT'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     s rq:s 'CHR$'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_PRINT_NEWLINE U rq:U 'PRINT'  0:
+=================
+Expression buffer 2
+===================
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'ENDIF'  0:
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_VARIABLE     f rq:f 'IF'  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_VARIABLE     i rq:i 'D%'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_INTEGER      i rq:i '5'  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_OPERATOR     i rq:i ':='  2: 3 2
+=================
+Expression buffer 2
+===================
+(dump_exp_buffer2) N1 EXP_BUFF_ID_SUB_START    U rq:i ''  0:
+(dump_exp_buffer2) N2 EXP_BUFF_ID_INTEGER      i rq:i '18'  0:
+(dump_exp_buffer2) N3 EXP_BUFF_ID_SUB_START    U rq:? ''  0:
+(dump_exp_buffer2) N4 EXP_BUFF_ID_INTEGER      i rq:i '2'  0:
+(dump_exp_buffer2) N5 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
+(dump_exp_buffer2) N6 EXP_BUFF_ID_FUNCTION     v rq:v 'AT'  0:
+(dump_exp_buffer2) N7 EXP_BUFF_ID_SUB_END      U rq:i ''  0:
 =================

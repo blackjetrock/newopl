@@ -1206,3 +1206,2239 @@ ENDIF()
 
 
 ROOM%=VAL(MID$(M$(ROOM%),Z%+2,2)) 
+(ROOM% := VAL(MID$(M$(ROOM%) (Z% + 2) 2 ) ))
+
+
+GOTO AGAIN:: 
+
+
+
+TNM:: 
+
+
+
+Z%=Z%+4 
+(Z% := (Z% + 4))
+
+
+GOTO GMK:: 
+
+
+
+SATF:: 
+
+
+
+T1%=0 
+(T1% := 0)
+
+
+MATCH%=0 
+(MATCH% := 0)
+
+
+CHECK2:: 
+
+
+
+CP%=0 
+(CP% := 0)
+
+
+TSN:: 
+
+
+
+CP%=CP%+1 
+(CP% := (CP% + 1))
+
+
+IF T1%<1 
+(T1% < 1)
+
+
+GOTO HABS:: 
+
+
+
+ENDIF 
+ENDIF()
+
+
+E$=C$(CP%) 
+(E$ := C$(CP%))
+
+
+GOTO NSFC:: 
+
+
+
+HABS:: 
+
+
+
+IF CP%<=A1% 
+((IF() < CP%) := A1%)
+
+
+GOTO CIMK1:: 
+
+
+
+ENDIF 
+ENDIF()
+
+
+IF MATCH%>=1 
+((IF() > MATCH%) := 1)
+
+
+GOTO COMMAND:: 
+
+
+
+ENDIF 
+ENDIF()
+
+
+A%=VIEW(2,"YOU CAN'T") 
+(A% := VIEW(2 "YOU CAN'T" ))
+
+
+IF VAL(P$(1))<13 
+VAL((P$(1) < 13) )
+
+
+A%=VIEW(2,"GO THAT WAY") 
+(A% := VIEW(2 "GO THAT WAY" ))
+
+
+ENDIF 
+ENDIF()
+
+
+GOTO AGAIN:: 
+
+
+
+CIMK1:: 
+
+
+
+A13: 
+
+
+
+IF LEFT$(A$,2)<>P$(1) 
+LEFT$(A$ (2 <> P$(1)) )
+
+
+GOTO TSN:: 
+
+
+
+ENDIF 
+ENDIF()
+
+
+Y$=MID$(A$,3,2) 
+(Y$ := MID$(A$ 3 2 ))
+
+
+IF Y$<>"00" 
+(Y$ <> "00")
+
+
+IF Y$<>P$(2) 
+(Y$ <> P$(2))
+
+
+GOTO TSN:: 
+
+
+
+ENDIF 
+ENDIF()
+
+
+ENDIF 
+ENDIF()
+
+
+E$=MID$(A$,5,30) 
+(E$ := MID$(A$ 5 30 ))
+
+
+NSFC:: 
+
+
+
+E%=1 
+(E% := 1)
+
+
+FSEC:: 
+
+
+
+IF MID$(E$,E%,1)="." 
+MID$(E$ E% (1 = ".") )
+
+
+GOTO ACTIONS:: 
+
+
+
+ENDIF 
+ENDIF()
+
+
+TYPE%=ASC(MID$(E$,E%,1))-65 
+(TYPE% := ASC((MID$(E$ E% 1 ) - 65) ))
+
+
+N%=VAL(MID$(E$,E%+1,2)) 
+(N% := VAL(MID$(E$ (E% + 1) 2 ) ))
+
+
+OK%=0 
+(OK% := 0)
+
+
+IF TYPE%=0 
+(TYPE% := 0)
+
+
+ IF N%=ROOM% 
+(N% := ROOM%)
+
+
+ OK%=1 
+(OK% := 1)
+
+
+ ENDIF 
+ENDIF()
+
+
+ELSEIF TYPE%=1 
+(TYPE% := 1)
+
+
+ IF O%(N%)=ROOM% 
+(O%(N%) := ROOM%)
+
+
+ OK%=1 
+(OK% := 1)
+
+
+ ENDIF 
+ENDIF()
+
+
+ IF O%(N%)<0 
+(O%(N%) < 0)
+
+
+ OK%=1 
+(OK% := 1)
+
+
+ ENDIF 
+ENDIF()
+
+
+ELSEIF TYPE%=2 
+(TYPE% := 2)
+
+
+ IF O%(N%)<>ROOM% 
+(O%(N%) <> ROOM%)
+
+
+  IF O%(N%)>=0 
+((IF() > O%(N%)) := 0)
+
+
+  OK%=1 
+(OK% := 1)
+
+
+  ENDIF 
+ENDIF()
+
+
+ ENDIF 
+ENDIF()
+
+
+ELSEIF TYPE%=3 
+(TYPE% := 3)
+
+
+ IF O%(N%)<0 
+(O%(N%) < 0)
+
+
+ OK%=1 
+(OK% := 1)
+
+
+ ENDIF 
+ENDIF()
+
+
+ELSEIF TYPE%=4 
+(TYPE% := 4)
+
+
+OK%=S%(N%) 
+(OK% := S%(N%))
+
+
+ELSEIF TYPE%=5 
+(TYPE% := 5)
+
+
+ IF S%(N%)=0 
+(S%(N%) := 0)
+
+
+ OK%=1 
+(OK% := 1)
+
+
+ ENDIF 
+ENDIF()
+
+
+ELSEIF TYPE%=6 
+(TYPE% := 6)
+
+
+ IF C%(N%)=1 
+(C%(N%) := 1)
+
+
+ OK%=1 
+(OK% := 1)
+
+
+ ENDIF 
+ENDIF()
+
+
+ELSEIF TYPE%=7 
+(TYPE% := 7)
+
+
+ IF INT(RND*100)+1<=N% 
+INT((((IF() * 100) + (RND() < 1)) = N%) )
+
+
+ OK%=1 
+(OK% := 1)
+
+
+ ENDIF 
+ENDIF()
+
+
+ENDIF 
+ENDIF()
+
+
+IF OK%=0 
+(OK% := 0)
+
+
+GOTO TSN:: 
+
+
+
+ENDIF 
+ENDIF()
+
+
+E%=E%+3 
+(E% := (E% + 3))
+
+
+GOTO FSEC:: 
+
+
+
+ACTIONS:: 
+
+
+
+MATCH%=1 
+(MATCH% := 1)
+
+
+E%=E%+1 
+(E% := (E% + 1))
+
+
+NPA:: 
+
+
+
+IF MID$(E$,E%,1)="." 
+MID$(E$ E% (1 = ".") )
+
+
+GOTO TSN:: 
+
+
+
+ENDIF 
+ENDIF()
+
+
+TYPE%=ASC(MID$(E$,E%,1))-65 
+(TYPE% := ASC((MID$(E$ E% 1 ) - 65) ))
+
+
+IF MID$(E$,E%+1,1)<>"." 
+MID$(E$ (E% + 1) (1 <> ".") )
+
+
+N%=VAL(MID$(E$,E%+1,2)) 
+(N% := VAL(MID$(E$ (E% + 1) 2 ) ))
+
+
+ENDIF 
+ENDIF()
+
+
+BREAK%=0 
+(BREAK% := 0)
+
+
+IF TYPE%=0 
+(TYPE% := 0)
+
+
+A%=VIEW(2,"YOU ARE HOLDING:") 
+(A% := VIEW(2 "YOU ARE HOLDING:" ))
+
+
+F%=1 
+(F% := 1)
+
+
+X%=0 
+(X% := 0)
+
+
+DO 
+DO()
+
+
+X%=X%+1 
+(X% := (X% + 1))
+
+
+ IF O%(X%)>=0 
+((IF() > O%(X%)) := 0)
+
+
+ GOTO NEXTX:: 
+
+
+
+ ENDIF 
+ENDIF()
+
+
+A%=VIEW(2,O$(X%)) 
+(A% := VIEW(2 O$(X%) ))
+
+
+F%=0 
+(F% := 0)
+
+
+NEXTX:: 
+
+
+
+UNTIL X%=O1% 
+(X% := O1%)
+
+
+ IF F%>=1 
+((IF() > F%) := 1)
+
+
+ A%=VIEW(2," NOTHING.") 
+(A% := VIEW(2 " NOTHING." ))
+
+
+ ENDIF 
+ENDIF()
+
+
+BREAK%=100 
+(BREAK% := 100)
+
+
+ELSEIF TYPE%=1 
+(TYPE% := 1)
+
+
+ IF S%(1)<5 
+(S%(1) < 5)
+
+
+ GOTO IFON:: 
+
+
+
+ ENDIF 
+ENDIF()
+
+
+A%=VIEW(2,"YOU CANNOT CARRY MORE.") 
+(A% := VIEW(2 "YOU CANNOT CARRY MORE." ))
+
+
+BREAK%=100 
+(BREAK% := 100)
+
+
+GOTO C:: 
+
+
+
+IFON:: 
+
+
+
+ IF O%(N%)=1 
+(O%(N%) := 1)
+
+
+ GOTO PYAHI:: 
+
+
+
+ ENDIF 
+ENDIF()
+
+
+O%(N%)=1 
+(O%(N%) := 1)
+
+
+S%(1)=S%(1)+1 
+(S%(1) := (S%(1) + 1))
+
+
+GOTO C:: 
+
+
+
+PYAHI:: 
+
+
+
+A%=VIEW(2,"YOU ALREADY HAVE IT.") 
+(A% := VIEW(2 "YOU ALREADY HAVE IT." ))
+
+
+BREAK%=100 
+(BREAK% := 100)
+
+
+C:: 
+
+
+
+ELSEIF TYPE%=2 
+(TYPE% := 2)
+
+
+ IF O%(N%)=1 
+(O%(N%) := 1)
+
+
+ GOTO ONER:: 
+
+
+
+ ENDIF 
+ENDIF()
+
+
+A%=VIEW(2,"YOU DON'T HAVE "+O$(N%)) 
+(A% := VIEW(2 ("YOU DON'T HAVE " + O$(N%)) ))
+
+
+BREAK%=100 
+(BREAK% := 100)
+
+
+GOTO D:: 
+
+
+
+ONER:: 
+
+
+
+O%(N%)=ROOM% 
+(O%(N%) := ROOM%)
+
+
+S%(1)=S%(1)-1 
+(S%(1) := (S%(1) - 1))
+
+
+D:: 
+
+
+
+ELSEIF TYPE%=3 
+(TYPE% := 3)
+
+
+TEXT3: 
+
+
+
+ELSEIF TYPE%=4 
+(TYPE% := 4)
+
+
+S%(N%)=1 
+(S%(N%) := 1)
+
+
+ELSEIF TYPE%=5 
+(TYPE% := 5)
+
+
+S%(N%)=0 
+(S%(N%) := 0)
+
+
+ELSEIF TYPE%=6 
+(TYPE% := 6)
+
+
+C%(N%)=VAL(MID$(E$,E%+3,2)) 
+(C%(N%) := VAL(MID$(E$ (E% + 3) 2 ) ))
+
+
+E%=E%+2 
+(E% := (E% + 2))
+
+
+ELSEIF TYPE%=7 
+(TYPE% := 7)
+
+
+X%=O%(N%) 
+(X% := O%(N%))
+
+
+O%(N%)=O%(N%+1) 
+(O%(N%) := O%((N% + 1)))
+
+
+O%(N%+1)=X% 
+(O%((N% + 1)) := X%)
+
+
+ELSEIF TYPE%=8 
+(TYPE% := 8)
+
+
+O%(N%)=ROOM% 
+(O%(N%) := ROOM%)
+
+
+ELSEIF TYPE%=9 
+(TYPE% := 9)
+
+
+ IF O%(N%)<0 
+(O%(N%) < 0)
+
+
+ S%(1)=S%(1)-1 
+(S%(1) := (S%(1) - 1))
+
+
+ ENDIF 
+ENDIF()
+
+
+O%(N%)=0 
+(O%(N%) := 0)
+
+
+ELSEIF TYPE%=10 
+(TYPE% := 10)
+
+
+ROOM%=N% 
+(ROOM% := N%)
+
+
+ELSEIF TYPE%=11 
+(TYPE% := 11)
+
+
+A%=VIEW(2,"OKAY.") 
+(A% := VIEW(2 "OKAY." ))
+
+
+BREAK%=1000 
+(BREAK% := 1000)
+
+
+ELSEIF TYPE%=12 
+(TYPE% := 12)
+
+
+BREAK%=1000 
+(BREAK% := 1000)
+
+
+ELSEIF TYPE%=13 
+(TYPE% := 13)
+
+
+BREAK%=1100 
+(BREAK% := 1100)
+
+
+ELSEIF TYPE%=14 
+(TYPE% := 14)
+
+
+BREAK%=100 
+(BREAK% := 100)
+
+
+ELSEIF TYPE%=15 
+(TYPE% := 15)
+
+
+AT 1,2 
+AT(1 2 )
+
+
+PRINT "ARE YOU SURE? "; 
+PRINT("ARE YOU SURE? " )
+
+
+ 
+
+
+
+INPUT W$ 
+INPUT(W$ )
+
+
+BREAK%=1100 
+(BREAK% := 1100)
+
+
+ IF CHR$(ASC(W$))<>"Y" 
+CHR$((ASC(W$ ) <> "Y") )
+
+
+ BREAK%=100 
+(BREAK% := 100)
+
+
+ ELSE 
+ELSE()
+
+
+ STOP 
+STOP()
+
+
+ ENDIF 
+ENDIF()
+
+
+ELSEIF TYPE%=16 
+(TYPE% := 16)
+
+
+STOP 
+STOP()
+
+
+ENDIF 
+ENDIF()
+
+
+IF BREAK%=100 
+(BREAK% := 100)
+
+
+GOTO AGAIN:: 
+
+
+
+ELSEIF BREAK%=1000 
+(BREAK% := 1000)
+
+
+GOTO COMMAND:: 
+
+
+
+ELSEIF BREAK%=1100 
+(BREAK% := 1100)
+
+
+GOTO CEC:: 
+
+
+
+ENDIF 
+ENDIF()
+
+
+E%=E%+3 
+(E% := (E% + 3))
+
+
+GOTO NPA::  blue: 
+
+
+
+T=M 
+(T := M)
+
+
+M=ABS(M) 
+(M := ABS(M ))
+
+
+IF M>131 
+(M > 131)
+
+
+A$="80A+" 
+(A$ := "80A+")
+
+
+M=M-131 
+(M := (M - 131))
+
+
+ENDIF 
+ENDIF()
+
+
+IF (M>=5) AND (M<15) 
+(((IF() > M) = 5) AND (M < 15))
+
+
+B$="82" 
+(B$ := "82")
+
+
+ELSEIF M>=15 AND M<25 
+((ELSEIF() > M) := ((15 AND M) < 25))
+
+
+B$="82A" 
+(B$ := "82A")
+
+
+ELSEIF M>=25 AND M<35 
+((ELSEIF() > M) := ((25 AND M) < 35))
+
+
+B$="82B" 
+(B$ := "82B")
+
+
+ELSEIF M>=35 AND M<50 
+((ELSEIF() > M) := ((35 AND M) < 50))
+
+
+B$="82C" 
+(B$ := "82C")
+
+
+ELSEIF M>=50 AND M<65 
+((ELSEIF() > M) := ((50 AND M) < 65))
+
+
+B$="80D" 
+(B$ := "80D")
+
+
+ELSEIF M>=65 AND M<95 
+((ELSEIF() > M) := ((65 AND M) < 95))
+
+
+B$="80C" 
+(B$ := "80C")
+
+
+ELSEIF M>=95 AND M<120 
+((ELSEIF() > M) := ((95 AND M) < 120))
+
+
+B$="80B" 
+(B$ := "80B")
+
+
+ELSEIF M>120 
+(M > 120)
+
+
+B$="80A" 
+(B$ := "80A")
+
+
+ENDIF 
+ENDIF()
+
+
+PRINT "Colour correction" 
+PRINT("Colour correction" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+PRINT "BLUE",T,"Mired" 
+PRINT("BLUE" )
+
+
+T,"Mired" 
+< > 
+
+
+T,"Mired" 
+PRINT(T )
+
+
+"Mired" 
+< > 
+
+
+"Mired" 
+PRINT("Mired" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+PRINT A$;B$,"Filter" 
+PRINT(A$ )
+
+
+B$,"Filter" 
+PRINT(B$ )
+
+
+"Filter" 
+< > 
+
+
+"Filter" 
+PRINT("Filter" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+boot: 
+
+
+
+ADDTOP:("Film",0) 
+
+
+
+border: 
+
+
+
+a%=1 :p%=0 :b%=10 
+(a% := 1)
+
+
+a%=1 :p%=0 :b%=10 
+(p% := 0)
+
+
+a%=1 :p%=0 :b%=10 
+(b% := 10)
+
+
+bl$=REPT$(CHR$(32),20) 
+(bl$ := REPT$(CHR$(32 ) 20 ))
+
+
+REM                  Change the screen border for 
+
+
+
+REM                  XP procedures on the LZ. 
+
+
+
+REM                  Glyn Pollington. 1990. 
+
+
+
+CLS 
+CLS()
+
+
+AT 1,1 :PRINT "       Border" 
+AT(1 1 )
+
+
+AT 1,1 :PRINT "       Border" 
+PRINT("       Border" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+AT 1,2 :PRINT "    G.Pollington." 
+AT(1 2 )
+
+
+AT 1,2 :PRINT "    G.Pollington." 
+PRINT("    G.Pollington." )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+AT 1,3 :PRINT "Use cursor keys then" 
+AT(1 3 )
+
+
+AT 1,3 :PRINT "Use cursor keys then" 
+PRINT("Use cursor keys then" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+AT 1,4 :PRINT "   EXE to select." 
+AT(1 4 )
+
+
+AT 1,4 :PRINT "   EXE to select." 
+PRINT("   EXE to select." )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+DO 
+DO()
+
+
+   ch$=ch$+CHR$(p%) 
+(ch$ := (ch$ + CHR$(p% )))
+
+
+   p%=p%+1 
+(p% := (p% + 1))
+
+
+   IF p%=8 :p%=32 :ENDIF 
+(p% := 8)
+
+
+   IF p%=8 :p%=32 :ENDIF 
+(p% := 32)
+
+
+   IF p%=8 :p%=32 :ENDIF 
+ENDIF()
+
+
+UNTIL p%=256 
+(p% := 256)
+
+
+CLS 
+CLS()
+
+
+DO 
+DO()
+
+
+   AT 3,4 :PRINT "Select Character" 
+AT(3 4 )
+
+
+   AT 3,4 :PRINT "Select Character" 
+PRINT("Select Character" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+   AT 9,3 :PRINT CHR$(127),CHR$(126) 
+AT(9 3 )
+
+
+   AT 9,3 :PRINT CHR$(127),CHR$(126) 
+CHR$(PRINT(127 ) )
+
+
+CHR$(126) 
+< > 
+
+
+CHR$(126) 
+CHR$(PRINT(126 ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+   IF b%<1 :b%=1 :a%=a%-1 
+(b% < 1)
+
+
+   IF b%<1 :b%=1 :a%=a%-1 
+(b% := 1)
+
+
+   IF b%<1 :b%=1 :a%=a%-1 
+(a% := (a% - 1))
+
+
+      ELSEIF b%>20 :b%=20 :a%=a%+1 
+(b% > 20)
+
+
+      ELSEIF b%>20 :b%=20 :a%=a%+1 
+(b% := 20)
+
+
+      ELSEIF b%>20 :b%=20 :a%=a%+1 
+(a% := (a% + 1))
+
+
+   ENDIF 
+ENDIF()
+
+
+   AT 1,2  :PRINT bl$ 
+AT(1 2 )
+
+
+   AT 1,2  :PRINT bl$ 
+PRINT(bl$ )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+   AT b%,2 :PRINT CHR$(169) 
+AT(b% 2 )
+
+
+   AT b%,2 :PRINT CHR$(169) 
+CHR$(PRINT(169 ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+   IF a%<1 :a%=1 
+(a% < 1)
+
+
+   IF a%<1 :a%=1 
+(a% := 1)
+
+
+   ELSEIF a%>213 :a%=213 
+(a% > 213)
+
+
+   ELSEIF a%>213 :a%=213 
+(a% := 213)
+
+
+   ENDIF 
+ENDIF()
+
+
+   w$=MID$(ch$,a%,20) 
+(w$ := MID$(ch$ a% 20 ))
+
+
+   AT 1,1 :PRINT w$ 
+AT(1 1 )
+
+
+   AT 1,1 :PRINT w$ 
+PRINT(w$ )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+   k%=KEY 
+(k% := KEY())
+
+
+   IF k%=6 :b%=b%+1 
+(k% := 6)
+
+
+   IF k%=6 :b%=b%+1 
+(b% := (b% + 1))
+
+
+      ELSEIF k%=5 :b%=b%-1 
+(k% := 5)
+
+
+      ELSEIF k%=5 :b%=b%-1 
+(b% := (b% - 1))
+
+
+   ENDIF 
+ENDIF()
+
+
+UNTIL k%=13 
+(k% := 13)
+
+
+p%=ASC(MID$(ch$,(a%+b%-1),1)) 
+(p% := ASC(MID$(ch$ (a% + (b% - 1)) 1 ) ))
+
+
+POKEB $2099,p% 
+POKEB(2099 p% )
+
+
+bl$=REPT$(CHR$(p%),20) 
+(bl$ := REPT$(CHR$(p% ) 20 ))
+
+
+CLS 
+CLS()
+
+
+AT 1,1 :PRINT bl$ 
+AT(1 1 )
+
+
+AT 1,1 :PRINT bl$ 
+PRINT(bl$ )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+AT 1,2 :PRINT CHR$(p%);CHR$(p%);"   New Border   ";CHR$(p%);CHR$(p%) 
+AT(1 2 )
+
+
+AT 1,2 :PRINT CHR$(p%);CHR$(p%);"   New Border   ";CHR$(p%);CHR$(p%) 
+CHR$(PRINT(p% ) )
+
+
+CHR$(p%);"   New Border   ";CHR$(p%);CHR$(p%) 
+CHR$(PRINT(p% ) )
+
+
+"   New Border   ";CHR$(p%);CHR$(p%) 
+PRINT("   New Border   " )
+
+
+CHR$(p%);CHR$(p%) 
+CHR$(PRINT(p% ) )
+
+
+CHR$(p%) 
+CHR$(PRINT(p% ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+AT 1,3 :PRINT CHR$(p%);CHR$(p%);"    Selected    ";CHR$(p%);CHR$(p%) 
+AT(1 3 )
+
+
+AT 1,3 :PRINT CHR$(p%);CHR$(p%);"    Selected    ";CHR$(p%);CHR$(p%) 
+CHR$(PRINT(p% ) )
+
+
+CHR$(p%);"    Selected    ";CHR$(p%);CHR$(p%) 
+CHR$(PRINT(p% ) )
+
+
+"    Selected    ";CHR$(p%);CHR$(p%) 
+PRINT("    Selected    " )
+
+
+CHR$(p%);CHR$(p%) 
+CHR$(PRINT(p% ) )
+
+
+CHR$(p%) 
+CHR$(PRINT(p% ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+AT 1,4 :PRINT bl$ 
+AT(1 4 )
+
+
+AT 1,4 :PRINT bl$ 
+PRINT(bl$ )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+GET 
+GET()
+
+
+BUSH: 
+
+
+
+IF C%<0 
+(C% < 0)
+
+
+B%=VIEW(2,"GOODBYE!") 
+(B% := VIEW(2 "GOODBYE!" ))
+
+
+PAUSE 30 
+PAUSE(30 )
+
+
+STOP 
+STOP()
+
+
+ENDIF 
+ENDIF()
+
+
+C%=C%-1 
+(C% := (C% - 1))
+
+
+B%=VIEW(1,"BUT YOU HAVE ONLY "+GEN$(S%,4)+" BUSHELS IN STORE.") 
+(B% := VIEW(1 ("BUT YOU HAVE ONLY " + GEN$(S% (4 + " BUSHELS IN STORE.") )) ))
+
+
+creakey$:(a$,b$) 
+
+
+
+a%=LEN(a$) :b%=LEN(b$) 
+(a% := LEN(a$ ))
+
+
+a%=LEN(a$) :b%=LEN(b$) 
+(b% := LEN(b$ ))
+
+
+RANDOMIZE 8*(b%-1)+a% :REM *** set seed *** 
+RANDOMIZE(((8 * (b% - 1)) + a%) )
+
+
+RANDOMIZE 8*(b%-1)+a% :REM *** set seed *** 
+
+
+
+mn%=123 :REM *** first number of characterset to use for encryption *** 
+(mn% := 123)
+
+
+mn%=123 :REM *** first number of characterset to use for encryption *** 
+
+
+
+mx%=255 :REM *** last number of characterset to use for encryption *** 
+(mx% := 255)
+
+
+mx%=255 :REM *** last number of characterset to use for encryption *** 
+
+
+
+REM *** chars 123..255 are all non-keyboard characters *** 
+
+
+
+REM *** login & passw to array *** 
+
+
+
+i%=0 
+(i% := 0)
+
+
+DO 
+DO()
+
+
+ i%=i%+1 
+(i% := (i% + 1))
+
+
+ IF i%<=a% :l%(i%)=ASC(MID$(a$,i%,1)) 
+((IF() < i%) := a%)
+
+
+ IF i%<=a% :l%(i%)=ASC(MID$(a$,i%,1)) 
+(l%(i%) := ASC(MID$(a$ i% 1 ) ))
+
+
+ ELSE :l%(i%)=l%(INT(RND*a%)+1) :ENDIF 
+ELSE()
+
+
+ ELSE :l%(i%)=l%(INT(RND*a%)+1) :ENDIF 
+((l%(i%) * a%) := l%(INT((RND() + 1) )))
+
+
+ ELSE :l%(i%)=l%(INT(RND*a%)+1) :ENDIF 
+ENDIF()
+
+
+ IF i%<=b% :p%(i%)=ASC(MID$(b$,i%,1)) 
+((IF() < i%) := b%)
+
+
+ IF i%<=b% :p%(i%)=ASC(MID$(b$,i%,1)) 
+(p%(i%) := ASC(MID$(b$ i% 1 ) ))
+
+
+ ELSE :p%(i%)=p%(INT(RND*b%)+1) :ENDIF 
+ELSE()
+
+
+ ELSE :p%(i%)=p%(INT(RND*b%)+1) :ENDIF 
+((p%(i%) * b%) := p%(INT((RND() + 1) )))
+
+
+ ELSE :p%(i%)=p%(INT(RND*b%)+1) :ENDIF 
+ENDIF()
+
+
+UNTIL i%=8 
+(i% := 8)
+
+
+REM *** 'encrypt login' & 'encrypt passw' array (random) *** 
+
+
+
+i%=0 
+(i% := 0)
+
+
+DO 
+DO()
+
+
+ i%=i%+1 
+(i% := (i% + 1))
+
+
+ el%(i%)=INT(RND*(mx%-mn%))+mn% 
+((el%(i%) * (mx% - mn%)) := INT((RND() + mn%) ))
+
+
+ ep%(i%)=INT(RND*(mx%-mn%))+mn% 
+((ep%(i%) * (mx% - mn%)) := INT((RND() + mn%) ))
+
+
+UNTIL i%=8 
+(i% := 8)
+
+
+REM *** encrypt login & passw thus creating key *** 
+
+
+
+i%=0 
+(i% := 0)
+
+
+DO 
+DO()
+
+
+ i%=i%+1 
+(i% := (i% + 1))
+
+
+ x%=l%(i%)+el%(i%) 
+(x% := (l%(i%) + el%(i%)))
+
+
+ y%=p%(i%)+ep%(i%) 
+(y% := (p%(i%) + ep%(i%)))
+
+
+ REM *** bring m% and n% in range mn%..mx% *** 
+
+
+
+ WHILE x%>mx% :x%=x%-(mx%-mn%+1) :ENDWH 
+(x% > mx%)
+
+
+ WHILE x%>mx% :x%=x%-(mx%-mn%+1) :ENDWH 
+(x% := (x% - (mx% - (mn% + 1))))
+
+
+ WHILE x%>mx% :x%=x%-(mx%-mn%+1) :ENDWH 
+ENDWH()
+
+
+ WHILE y%>mx% :y%=y%-(mx%-mn%+1) :ENDWH 
+(y% > mx%)
+
+
+ WHILE y%>mx% :y%=y%-(mx%-mn%+1) :ENDWH 
+(y% := (y% - (mx% - (mn% + 1))))
+
+
+ WHILE y%>mx% :y%=y%-(mx%-mn%+1) :ENDWH 
+ENDWH()
+
+
+ IF (i%/2.0=i%/2) :REM *** i% even *** 
+((i% / 2.0) = (i% / 2))
+
+
+ IF (i%/2.0=i%/2) :REM *** i% even *** 
+
+
+
+  el$=el$+CHR$(y%) 
+(el$ := (el$ + CHR$(y% )))
+
+
+  ep$=ep$+CHR$(x%) 
+(ep$ := (ep$ + CHR$(x% )))
+
+
+ ELSE             :REM *** i% odd *** 
+ELSE()
+
+
+ ELSE             :REM *** i% odd *** 
+
+
+
+  el$=el$+CHR$(x%) 
+(el$ := (el$ + CHR$(x% )))
+
+
+  ep$=ep$+CHR$(y%) 
+(ep$ := (ep$ + CHR$(y% )))
+
+
+ ENDIF 
+ENDIF()
+
+
+UNTIL i%=8 
+(i% := 8)
+
+
+RETURN (el$+ep$) 
+RETURN((el$ + ep$) )
+
+
+depth: 
+
+
+
+M=MENU("35mm,16mm,8mm,70mm") 
+(M := MENU("35mm,16mm,8mm,70mm" ))
+
+
+IF M=1 
+(M := 1)
+
+
+C=0.0339 
+(C := 0.0339)
+
+
+ELSEIF M=2 
+(M := 2)
+
+
+C=0.0254 
+(C := 0.0254)
+
+
+ELSEIF M=3 
+(M := 3)
+
+
+C=0.0254 
+(C := 0.0254)
+
+
+ELSEIF M=4 
+(M := 4)
+
+
+C=0.0339 
+(C := 0.0339)
+
+
+ENDIF 
+ENDIF()
+
+
+CLS 
+CLS()
+
+
+PRINT "Focal length" 
+PRINT("Focal length" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+INPUT F 
+INPUT(F )
+
+
+CLS 
+CLS()
+
+
+PRINT "f STOP" 
+PRINT("f STOP" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+INPUT S 
+INPUT(S )
+
+
+CLS 
+CLS()
+
+
+H=(F**2)/(S*C) 
+(H := ((F ** 2) / (S * C)))
+
+
+C=INTF(H) 
+(C := INTF(H ))
+
+
+HY= C/1000 
+(HY := (C / 1000))
+
+
+CLS 
+CLS()
+
+
+S=S/1000 
+(S := (S / 1000))
+
+
+H=H/1000 
+(H := (H / 1000))
+
+
+PRINT "FOCUS DISTANCE" 
+PRINT("FOCUS DISTANCE" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+INPUT D 
+INPUT(D )
+
+
+CLS 
+CLS()
+
+
+AT 1,1 
+AT(1 1 )
+
+
+PRINT "Hypofocal distance" 
+PRINT("Hypofocal distance" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+AT 1,2 
+AT(1 2 )
+
+
+PRINT HY,"m" 
+PRINT(HY )
+
+
+"m" 
+< > 
+
+
+"m" 
+PRINT("m" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+IF D>H 
+(D > H)
+
+
+N=(H*D)/(H+(D-S)) 
+(N := ((H * D) / (H + (D - S))))
+
+
+N=N*100 
+(N := (N * 100))
+
+
+N=INTF(N) 
+(N := INTF(N ))
+
+
+N=N/100 
+(N := (N / 100))
+
+
+AT 1,3 
+AT(1 3 )
+
+
+PRINT"NEAR ";N;" m" 
+PRINT("NEAR " )
+
+
+N;" m" 
+PRINT(N )
+
+
+" m" 
+PRINT(" m" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+AT 1,4 
+AT(1 4 )
+
+
+PRINT"INFINITY" 
+PRINT("INFINITY" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+ELSE 
+ELSE()
+
+
+N=(H*D)/(H+(D-S)) 
+(N := ((H * D) / (H + (D - S))))
+
+
+C=(H*D)/(H-(D-S)) 
+(C := ((H * D) / (H - (D - S))))
+
+
+N=N*100 
+(N := (N * 100))
+
+
+N=INTF(N) 
+(N := INTF(N ))
+
+
+N=N/100 
+(N := (N / 100))
+
+
+C=C*100 
+(C := (C * 100))
+
+
+C=INTF(C) 
+(C := INTF(C ))
+
+
+C=C/100 
+(C := (C / 100))
+
+
+AT 1,3 
+AT(1 3 )
+
+
+PRINT "NEAR",N,"m" 
+PRINT("NEAR" )
+
+
+N,"m" 
+< > 
+
+
+N,"m" 
+PRINT(N )
+
+
+"m" 
+< > 
+
+
+"m" 
+PRINT("m" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+AT 1,4 
+AT(1 4 )
+
+
+PRINT "FAR",C,"m" 
+PRINT("FAR" )
+
+
+C,"m" 
+< > 
+
+
+C,"m" 
+PRINT(C )
+
+
+"m" 
+< > 
+
+
+"m" 
+PRINT("m" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+ENDIF 
+ENDIF()
+
+
+GET 
+GET()
+
+
+N=MENU("DEPTH,FILM,MENU") 
+(N := MENU("DEPTH,FILM,MENU" ))
+
+
+IF N=1 
+(N := 1)
+
+
+DEPTH: 
+
+
+
+ELSEIF N=2 
+(N := 2)
+
+
+FILM: 
+
+
+
+ENDIF 
+ENDIF()
+
+
+STOP 
+STOP()
+
+
+DICE: 
+
+
+
+KSTAT 1 
+KSTAT(1 )
+
+
+DO 
+DO()
+
+
+ AT 1,2 
+AT(1 2 )
+
+
+ PRINT "Stop"+CHR$(63) 
+PRINT(("Stop" + CHR$(63 )) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+ AT 1,4 
+AT(1 4 )
+
+
+ PRINT "Press key." 
+PRINT("Press key." )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+ WHILE KEY=0 
+KEY()
+
+
+ PAUSE 2 
+PAUSE(2 )
+
+
+ AT 1,1 
+AT(1 1 )
+
+
+ PRINT CHR$(26) 
+CHR$(PRINT(26 ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+ AT 15,2 
+AT(15 2 )
+
+
+ PRINT CHR$(26) 
+CHR$(PRINT(26 ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+ AT 1,3 
+AT(1 3 )
+
+
+ PRINT CHR$(26) 
+CHR$(PRINT(26 ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+ D%=(RND*6) 
+((D% * 6) := RND())
+
+
+ IF D%=0 OR D%=2 OR D%=4 
+(2 := (OR = (D% = 4)))
+
+
+  AT 19,2 
+AT(19 2 )
+
+
+  PRINT CHR$(255) 
+CHR$(PRINT(255 ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+ ENDIF 
+ENDIF()
+
+
+ IF D%>0 
+(D% > 0)
+
+
+  AT 18,1 
+AT(18 1 )
+
+
+  PRINT CHR$(255) 
+CHR$(PRINT(255 ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+  AT 20,3 
+AT(20 3 )
+
+
+  PRINT CHR$(255) 
+CHR$(PRINT(255 ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+ ENDIF 
+ENDIF()
+
+
+ IF D%>2 
+(D% > 2)
+
+
+  AT 20,1 
+AT(20 1 )
+
+
+  PRINT CHR$(255) 
+CHR$(PRINT(255 ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+  AT 18,3 
+AT(18 3 )
+
+
+  PRINT CHR$(255) 
+CHR$(PRINT(255 ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+ ENDIF 
+ENDIF()
+
+
+ IF D%=5 
+(D% := 5)
+
+
+  AT 18,2 
+AT(18 2 )
+
+
+  PRINT CHR$(255)+" "+CHR$(255) 
