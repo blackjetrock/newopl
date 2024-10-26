@@ -790,7 +790,7 @@ C%=C%-1
 
 
 B%=VIEW(1,"BUT YOU HAVE ONLY "+GEN$(A%,4)+" ACRES.") 
-(B% := VIEW(1 ("BUT YOU HAVE ONLY " + GEN$(A% (4 + " ACRES.") )) ))
+(B% := VIEW(1 ("BUT YOU HAVE ONLY " + (GEN$(A% 4 ) + " ACRES.")) ))
 
 
 addtop:(item$,pos%) 
@@ -798,7 +798,7 @@ addtop:(item$,pos%)
 
 
 IF LEN(item$)>8 
-LEN((item$ > 8) )
+(LEN(item$ ) > 8)
 
 
 RAISE 202 
@@ -846,7 +846,7 @@ A%(2)=$3900
 
 
 USR(ADDR(A%()),pos%) 
-USR(ADDR() pos% )
+USR(ADDR(A%() ) pos% )
 
 
 ALZAN: 
@@ -1306,7 +1306,7 @@ A%=VIEW(2,"YOU CAN'T")
 
 
 IF VAL(P$(1))<13 
-VAL((P$(1) < 13) )
+(VAL(P$(1) ) < 13)
 
 
 A%=VIEW(2,"GO THAT WAY") 
@@ -1330,7 +1330,7 @@ A13:
 
 
 IF LEFT$(A$,2)<>P$(1) 
-LEFT$(A$ (2 <> P$(1)) )
+(LEFT$(A$ 2 ) <> P$(1))
 
 
 GOTO TSN:: 
@@ -1382,7 +1382,7 @@ FSEC::
 
 
 IF MID$(E$,E%,1)="." 
-MID$(E$ E% (1 = ".") )
+(MID$(E$ E% 1 ) := ".")
 
 
 GOTO ACTIONS:: 
@@ -1394,7 +1394,7 @@ ENDIF()
 
 
 TYPE%=ASC(MID$(E$,E%,1))-65 
-(TYPE% := ASC((MID$(E$ E% 1 ) - 65) ))
+(TYPE% := (ASC(MID$(E$ E% 1 ) ) - 65))
 
 
 N%=VAL(MID$(E$,E%+1,2)) 
@@ -1534,7 +1534,7 @@ ELSEIF TYPE%=7
 
 
  IF INT(RND*100)+1<=N% 
-INT((((IF() * 100) + (RND() < 1)) = N%) )
+((IF() + (INT((RND() * 100) ) < 1)) := N%)
 
 
  OK%=1 
@@ -1586,7 +1586,7 @@ NPA::
 
 
 IF MID$(E$,E%,1)="." 
-MID$(E$ E% (1 = ".") )
+(MID$(E$ E% 1 ) := ".")
 
 
 GOTO TSN:: 
@@ -1598,11 +1598,11 @@ ENDIF()
 
 
 TYPE%=ASC(MID$(E$,E%,1))-65 
-(TYPE% := ASC((MID$(E$ E% 1 ) - 65) ))
+(TYPE% := (ASC(MID$(E$ E% 1 ) ) - 65))
 
 
 IF MID$(E$,E%+1,1)<>"." 
-MID$(E$ (E% + 1) (1 <> ".") )
+(MID$(E$ (E% + 1) 1 ) <> ".")
 
 
 N%=VAL(MID$(E$,E%+1,2)) 
@@ -1950,7 +1950,7 @@ BREAK%=1100
 
 
  IF CHR$(ASC(W$))<>"Y" 
-CHR$((ASC(W$ ) <> "Y") )
+(CHR$(ASC(W$ ) ) <> "Y")
 
 
  BREAK%=100 
@@ -2338,15 +2338,7 @@ AT(9 3 )
 
 
    AT 9,3 :PRINT CHR$(127),CHR$(126) 
-CHR$(PRINT(127 ) )
-
-
-CHR$(126) 
-< > 
-
-
-CHR$(126) 
-CHR$(PRINT(126 ) )
+CHR$(126 )
 
 
  
@@ -2406,7 +2398,7 @@ AT(b% 2 )
 
 
    AT b%,2 :PRINT CHR$(169) 
-CHR$(PRINT(169 ) )
+PRINT(CHR$(169 ) )
 
 
  
@@ -2522,11 +2514,11 @@ AT(1 2 )
 
 
 AT 1,2 :PRINT CHR$(p%);CHR$(p%);"   New Border   ";CHR$(p%);CHR$(p%) 
-CHR$(PRINT(p% ) )
+PRINT(CHR$(p% ) )
 
 
 CHR$(p%);"   New Border   ";CHR$(p%);CHR$(p%) 
-CHR$(PRINT(p% ) )
+PRINT(CHR$(p% ) )
 
 
 "   New Border   ";CHR$(p%);CHR$(p%) 
@@ -2534,11 +2526,11 @@ PRINT("   New Border   " )
 
 
 CHR$(p%);CHR$(p%) 
-CHR$(PRINT(p% ) )
+PRINT(CHR$(p% ) )
 
 
 CHR$(p%) 
-CHR$(PRINT(p% ) )
+PRINT(CHR$(p% ) )
 
 
  
@@ -2554,11 +2546,11 @@ AT(1 3 )
 
 
 AT 1,3 :PRINT CHR$(p%);CHR$(p%);"    Selected    ";CHR$(p%);CHR$(p%) 
-CHR$(PRINT(p% ) )
+PRINT(CHR$(p% ) )
 
 
 CHR$(p%);"    Selected    ";CHR$(p%);CHR$(p%) 
-CHR$(PRINT(p% ) )
+PRINT(CHR$(p% ) )
 
 
 "    Selected    ";CHR$(p%);CHR$(p%) 
@@ -2566,11 +2558,11 @@ PRINT("    Selected    " )
 
 
 CHR$(p%);CHR$(p%) 
-CHR$(PRINT(p% ) )
+PRINT(CHR$(p% ) )
 
 
 CHR$(p%) 
-CHR$(PRINT(p% ) )
+PRINT(CHR$(p% ) )
 
 
  
@@ -2630,7 +2622,7 @@ C%=C%-1
 
 
 B%=VIEW(1,"BUT YOU HAVE ONLY "+GEN$(S%,4)+" BUSHELS IN STORE.") 
-(B% := VIEW(1 ("BUT YOU HAVE ONLY " + GEN$(S% (4 + " BUSHELS IN STORE.") )) ))
+(B% := VIEW(1 ("BUT YOU HAVE ONLY " + (GEN$(S% 4 ) + " BUSHELS IN STORE.")) ))
 
 
 creakey$:(a$,b$) 
@@ -2702,7 +2694,7 @@ ELSE()
 
 
  ELSE :l%(i%)=l%(INT(RND*a%)+1) :ENDIF 
-((l%(i%) * a%) := l%(INT((RND() + 1) )))
+(l%(i%) := l%((INT((RND() * a%) ) + 1)))
 
 
  ELSE :l%(i%)=l%(INT(RND*a%)+1) :ENDIF 
@@ -2722,7 +2714,7 @@ ELSE()
 
 
  ELSE :p%(i%)=p%(INT(RND*b%)+1) :ENDIF 
-((p%(i%) * b%) := p%(INT((RND() + 1) )))
+(p%(i%) := p%((INT((RND() * b%) ) + 1)))
 
 
  ELSE :p%(i%)=p%(INT(RND*b%)+1) :ENDIF 
@@ -2750,11 +2742,11 @@ DO()
 
 
  el%(i%)=INT(RND*(mx%-mn%))+mn% 
-((el%(i%) * (mx% - mn%)) := INT((RND() + mn%) ))
+(el%(i%) := (INT((RND() * (mx% - mn%)) ) + mn%))
 
 
  ep%(i%)=INT(RND*(mx%-mn%))+mn% 
-((ep%(i%) * (mx% - mn%)) := INT((RND() + mn%) ))
+(ep%(i%) := (INT((RND() * (mx% - mn%)) ) + mn%))
 
 
 UNTIL i%=8 
@@ -3270,7 +3262,7 @@ PRINT("Press key." )
 
 
  WHILE KEY=0 
-KEY()
+(KEY() := 0)
 
 
  PAUSE 2 
@@ -3282,7 +3274,7 @@ AT(1 1 )
 
 
  PRINT CHR$(26) 
-CHR$(PRINT(26 ) )
+PRINT(CHR$(26 ) )
 
 
  
@@ -3298,7 +3290,7 @@ AT(15 2 )
 
 
  PRINT CHR$(26) 
-CHR$(PRINT(26 ) )
+PRINT(CHR$(26 ) )
 
 
  
@@ -3314,7 +3306,7 @@ AT(1 3 )
 
 
  PRINT CHR$(26) 
-CHR$(PRINT(26 ) )
+PRINT(CHR$(26 ) )
 
 
  
@@ -3326,7 +3318,7 @@ CHR$(PRINT(26 ) )
 
 
  D%=(RND*6) 
-((D% * 6) := RND())
+(D% := (RND() * 6))
 
 
  IF D%=0 OR D%=2 OR D%=4 
@@ -3338,7 +3330,7 @@ AT(19 2 )
 
 
   PRINT CHR$(255) 
-CHR$(PRINT(255 ) )
+PRINT(CHR$(255 ) )
 
 
  
@@ -3362,7 +3354,7 @@ AT(18 1 )
 
 
   PRINT CHR$(255) 
-CHR$(PRINT(255 ) )
+PRINT(CHR$(255 ) )
 
 
  
@@ -3378,7 +3370,7 @@ AT(20 3 )
 
 
   PRINT CHR$(255) 
-CHR$(PRINT(255 ) )
+PRINT(CHR$(255 ) )
 
 
  
@@ -3402,7 +3394,7 @@ AT(20 1 )
 
 
   PRINT CHR$(255) 
-CHR$(PRINT(255 ) )
+PRINT(CHR$(255 ) )
 
 
  
@@ -3418,7 +3410,7 @@ AT(18 3 )
 
 
   PRINT CHR$(255) 
-CHR$(PRINT(255 ) )
+PRINT(CHR$(255 ) )
 
 
  
@@ -3442,3 +3434,355 @@ AT(18 2 )
 
 
   PRINT CHR$(255)+" "+CHR$(255) 
+PRINT((CHR$(255 ) + (" " + CHR$(255 ))) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+ ENDIF 
+ENDIF()
+
+
+ ENDWH 
+ENDWH()
+
+
+ AT 1,2 
+AT(1 2 )
+
+
+ PRINT "     " 
+PRINT("     " )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+ AT 1,4 
+AT(1 4 )
+
+
+ PRINT CHR$(26)+"Again"+CHR$(63)+" Y" 
+PRINT((CHR$(26 ) + ("Again" + (CHR$(63 ) + " Y"))) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+UNTIL GET$<>"Y" 
+(GET$() <> "Y")
+
+
+distance: 
+
+
+
+PRINT "Select known data" 
+PRINT("Select known data" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+A=MENUN(2,"HEIGHT,WIDTH") 
+(A := MENUN(2 "HEIGHT,WIDTH" ))
+
+
+IF A=1 
+(A := 1)
+
+
+PRINT "WHAT HEIGHT mt";CHR$(63) 
+PRINT("WHAT HEIGHT mt" )
+
+
+CHR$(63) 
+PRINT(CHR$(63 ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+INPUT H 
+INPUT(H )
+
+
+WI=H 
+(WI := H)
+
+
+S$="m height" 
+(S$ := "m height")
+
+
+H=H*1000 
+(H := (H * 1000))
+
+
+CLS 
+CLS()
+
+
+PRINT "WHAT mm LENS";CHR$(63) 
+PRINT("WHAT mm LENS" )
+
+
+CHR$(63) 
+PRINT(CHR$(63 ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+INPUT L 
+INPUT(L )
+
+
+LE=L 
+(LE := L)
+
+
+D=(H*L)/T 
+(D := ((H * L) / T))
+
+
+CLS 
+CLS()
+
+
+ELSEIF A=2 
+(A := 2)
+
+
+PRINT "WHAT WIDTH mt";CHR$(63) 
+PRINT("WHAT WIDTH mt" )
+
+
+CHR$(63) 
+PRINT(CHR$(63 ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+INPUT W 
+INPUT(W )
+
+
+WI=W 
+(WI := W)
+
+
+S$="m width" 
+(S$ := "m width")
+
+
+W=W*1000 
+(W := (W * 1000))
+
+
+CLS 
+CLS()
+
+
+PRINT "WHAT LENS mm";CHR$(63) 
+PRINT("WHAT LENS mm" )
+
+
+CHR$(63) 
+PRINT(CHR$(63 ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+INPUT L 
+INPUT(L )
+
+
+LE=L 
+(LE := L)
+
+
+CLS 
+CLS()
+
+
+D=(W*L)/I 
+(D := ((W * L) / I))
+
+
+ENDIF 
+ENDIF()
+
+
+D=INTF(D/10) 
+(D := INTF((D / 10) ))
+
+
+D=D/100 
+(D := (D / 100))
+
+
+PRINT "A",LE,"mm lens"  
+PRINT("A" )
+
+
+LE,"mm lens"  
+< > 
+
+
+LE,"mm lens"  
+PRINT(LE )
+
+
+"mm lens"  
+< > 
+
+
+"mm lens"  
+PRINT("mm lens" )
+
+
+  
+<nl>
+
+
+  
+
+
+
+PRINT "gives a",WI, S$ 
+PRINT("gives a" )
+
+
+WI, S$ 
+< > 
+
+
+WI, S$ 
+PRINT(WI )
+
+
+ S$ 
+< > 
+
+
+ S$ 
+PRINT(S$ )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+PRINT "@",D,"metres" 
+PRINT("@" )
+
+
+D,"metres" 
+< > 
+
+
+D,"metres" 
+PRINT(D )
+
+
+"metres" 
+< > 
+
+
+"metres" 
+PRINT("metres" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+PRINT "Distance..." 
+PRINT("Distance..." )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+GET 
+GET()
+
+
+DumpPack: 
+
+
+
+REM produces an exact copy of a pack on the PC, mostly even if UNMAKE fails 
+
+
+
+REM OPKs produced are sligthly different from standard OPK because all bytes 
+
+
+
+REM on the pack are copied, program does NOT stop at the <end-of-pack>-marker! 
+
+
+
+ESCAPE OFF 
+ESCAPE(0 )
+
+
+ONERR ERROR:: 

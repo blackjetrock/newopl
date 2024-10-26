@@ -91,7 +91,7 @@ struct _FN_INFO
     { "EOL",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "ABS",      0,  0, ' ',  "f",         "f", 0x00 },
     { "ACOS",     0,  0, ' ',  "f",         "f", 0x00 },
-    { "ADDR",     0,  0, 'V',  "",          "i", 0x00 },
+    { "ADDR",     0,  0, 'V',  "V",         "i", 0x00 },
     { "APPEND",   1,  1, ' ',  "ii",        "v", 0x00 },
     { "ASC",      0,  0, ' ',  "i",         "s", 0x00 },
     { "ASIN",     0,  0, ' ',  "f",         "f", 0x00 },
@@ -521,8 +521,24 @@ NOBJ_VARTYPE char_to_type(char ch)
       ret_t = NOBJ_VARTYPE_STR;
       break;
 
+    case 'I':
+      ret_t = NOBJ_VARTYPE_INTARY;
+      break;
+
+    case 'F':
+      ret_t = NOBJ_VARTYPE_FLTARY;
+      break;
+
+    case 'S':
+      ret_t = NOBJ_VARTYPE_STRARY;
+      break;
+
     case 'v':
       ret_t = NOBJ_VARTYPE_VOID;
+      break;
+
+    case 'V':
+      ret_t = NOBJ_VARTYPE_VAR_ADDR;
       break;
     }
 
@@ -1951,6 +1967,14 @@ int check_eitem(int *index, int *is_comma, int ignore_comma)
   dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
 
   idx = *index;
+  if( check_function(&idx) )
+    {
+      *index = idx;
+      dbprintf("%s:ret1", __FUNCTION__);
+      return(1);
+    }
+
+  idx = *index;
   if( check_atom(&idx) )
     {
       *index = idx;
@@ -1965,15 +1989,6 @@ int check_eitem(int *index, int *is_comma, int ignore_comma)
       dbprintf("%s:ret1 comma:1", __FUNCTION__);
       return(1);
     }
-
-  idx = *index;
-  if( check_function(&idx) )
-    {
-      *index = idx;
-      dbprintf("%s:ret1", __FUNCTION__);
-      return(1);
-    }
-
 
   idx = *index;
   if( check_sub_expr(&idx) )
@@ -2012,6 +2027,13 @@ int scan_eitem(int *num_commas, int ignore_comma)
   dbprintf("%s:", __FUNCTION__);
 
   idx = cline_i;
+  if( check_function(&idx) )
+    {
+      *num_commas = 0;
+      return(scan_function(fnval) );
+    }
+
+  idx = cline_i;
   if( check_atom(&idx) )
     {
       *num_commas = 0;
@@ -2032,16 +2054,7 @@ int scan_eitem(int *num_commas, int ignore_comma)
 	  *num_commas = 0;
 	  return(0);
 	}
-      
     }
-
-  idx = cline_i;
-  if( check_function(&idx) )
-    {
-      *num_commas = 0;
-      return(scan_function(fnval) );
-    }
-
 
   idx = cline_i;
   if( check_sub_expr(&idx) )
@@ -2239,9 +2252,12 @@ int scan_addr_name(void)
 	    {
 	      strcat(vname, addr_name_suffix[i]);
 	      strcpy(op.name, vname);
+	      op.type = NOBJ_VARTYPE_VAR_ADDR;
 	      op.buf_id = EXP_BUFF_ID_VAR_ADDR_NAME;
 	      process_token(&op);
-	      
+
+	      // Move index on
+	      cline_i = idx;
 	      dbprintf("%s:ret1", __FUNCTION__);  
 	      return(1);
 	    }
@@ -2422,10 +2438,21 @@ int scan_command(char *cmd_dest)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// It is possible to use a variable that has the same 'name' as a function, if the last character is
+// different and a tyoe character.
+//
+// So, 'POS' is a function and you can have a variable with the name:
+//
+// POS%
+//
+
 
 int check_function(int *index)
 {
   int idx = *index;
+  int origidx = idx;
+  
   indent_more();
   
   drop_space(&idx);
@@ -2436,15 +2463,44 @@ int check_function(int *index)
     {
       if( (!fn_info[i].command) && strn_match(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name)) )
 	{
+	  // If last character of function name isn't a '%' or '$' then check there isn't a '%' or '$'
+	  // in the line after the matching name.
+
+	  idx = idx+strlen(fn_info[i].name);
+
+	  dbprintf(" '%s'", &(cline[idx]));
+	  dbprintf(" '%c'", fn_info[i].name[strlen(fn_info[i].name)-1]);
+	   
+	  switch( fn_info[i].name[strlen(fn_info[i].name)-1] )
+	    {
+	    case '%':
+	    case '$':
+	      break;
+	      
+	    default:
+	      // The function does not end in type character
+	      switch(cline[idx] )
+		{
+		case '%':
+		case '$':
+		  // The line token does have a type character at the end, so it's not a match
+		  dbprintf("%s: ret0", __FUNCTION__);
+		  *index = origidx;
+		  return(0);
+		  break;
+		}
+	      break;
+	    }
+	  
 	  // Match
 	  dbprintf("%s: ret1 Found fn=>'%s'", __FUNCTION__, fn_info[i].name);
-	  *index = idx+strlen(fn_info[i].name);
+	  *index = idx;
 	  return(1);
 	}
     }
   
   dbprintf("%s: ret0", __FUNCTION__);
-  *index = idx;
+  *index = origidx;
   return(0);
 }
 
@@ -2475,11 +2531,21 @@ int scan_function(char *cmd_dest)
 	  // as the shunting algorithm has to have brackets after a function
 	  if( strlen(fn_info[i].argtypes) == 0 )
 	    {
-	      fprintf(ofp, "\nDummy argument expression added");
-	      strcpy(op.name, "(");
-	      process_token(&op);
-	      strcpy(op.name, ")");
-	      process_token(&op);
+	      switch( fn_info[i].argparse )
+		{
+		case 'V':
+		  // The V argument type is a variable name. We use an argparse string of ""
+		  // and so need to skip the dummy argument.
+		  break;
+
+		default:
+		  fprintf(ofp, "\nDummy argument expression added");
+		  strcpy(op.name, "(");
+		  process_token(&op);
+		  strcpy(op.name, ")");
+		  process_token(&op);
+		  break;
+		}
 	    }
 	  else
 	    {

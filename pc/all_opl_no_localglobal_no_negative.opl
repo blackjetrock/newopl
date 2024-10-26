@@ -792,7 +792,7 @@ REM on the pack are copied, program does NOT stop at the <end-of-pack>-marker!
 
 
 
-ESCAPE_OFF
+ESCAPE OFF
 ONERR ERROR::
 
 OFFSET% = 0 :REM where to start scanning (header skip)

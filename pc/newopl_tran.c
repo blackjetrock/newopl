@@ -586,6 +586,10 @@ char type_to_char(NOBJ_VARTYPE t)
       c = 'S';
       break;
 
+    case NOBJ_VARTYPE_VAR_ADDR:
+      c = 'V';
+      break;
+
     case NOBJ_VARTYPE_UNKNOWN:
       c = 'U';
       break;
@@ -1023,6 +1027,11 @@ char *infix_from_rpn(void)
 
       switch(be.op.buf_id)
 	{
+	case EXP_BUFF_ID_VAR_ADDR_NAME:
+	  fprintf(ofp, "\nVar ADDR Name: %s", be.name);
+	  infix_stack_push(be.name);
+	  break;
+	  
 	case EXP_BUFF_ID_VARIABLE:
 	  fprintf(ofp, "\nVar: %s ary:%d NumIdx:%d", be.name,
 		  be.op.vi.is_array,
@@ -1200,6 +1209,11 @@ void typecheck_expression(void)
 	  break;
 
 	case EXP_BUFF_ID_VARIABLE:
+	  be.p_idx = 0;
+	  type_check_stack_push(be);
+	  break;
+
+	case EXP_BUFF_ID_VAR_ADDR_NAME:
 	  be.p_idx = 0;
 	  type_check_stack_push(be);
 	  break;
@@ -1642,6 +1656,13 @@ void output_variable(OP_STACK_ENTRY op)
   printf("\nop variable");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
   add_exp_buffer_entry(op, EXP_BUFF_ID_VARIABLE);
+}
+
+void output_var_addr_name(OP_STACK_ENTRY op)
+{
+  printf("\nop var addr name");
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
+  add_exp_buffer_entry(op, EXP_BUFF_ID_VAR_ADDR_NAME);
 }
 
 void output_string(OP_STACK_ENTRY op)
@@ -2099,6 +2120,18 @@ void process_token(OP_STACK_ENTRY *token)
       output_proc_call(o1);
       return;
       break;
+
+    case EXP_BUFF_ID_VAR_ADDR_NAME:
+      fprintf(ofp, "\nBuff id var addr name");
+      
+      // Parser supplies type
+      o1.req_type = NOBJ_VARTYPE_VAR_ADDR;
+      o1.type     = NOBJ_VARTYPE_VAR_ADDR;
+      output_var_addr_name(o1);
+      return;
+      break;
+
+      
 #if 0
     case EXP_BUFF_ID_ASSIGN:
       fprintf(ofp, "\nBuff id assign");
