@@ -3982,3 +3982,219 @@ USR(mc1addr% pack% )
 
 
   kb%=peekb($20d8+10*pack%)*8 
+(kb% := (PEEKB((8408 + (10 * pack%)) ) * 8))
+
+
+  print "Detected",num$(kb%,3);"k" 
+PRINT("Detected" )
+
+
+num$(kb%,3);"k" 
+< > 
+
+
+num$(kb%,3);"k" 
+PRINT(NUM$(kb% 3 ) )
+
+
+"k" 
+PRINT("k" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+  pause 20 
+PAUSE(20 )
+
+
+ endif 
+ENDIF()
+
+
+until kb% >= 8 and kb% <= 256 
+(8 := ((and < kb%) = 256))
+
+
+cls :buff$="" 
+CLS()
+
+
+cls :buff$="" 
+(buff$ := "")
+
+
+print "PC file name:" :trap input buff$ 
+PRINT("PC file name:" )
+
+
+ :trap input buff$ 
+<nl>
+
+
+ :trap input buff$ 
+
+
+
+print "PC file name:" :trap input buff$ 
+TRAP(input buff$ )
+
+
+if buff$="" :return :endif 
+(buff$ := "")
+
+
+if buff$="" :return :endif 
+
+
+
+REM -- write OPK header -- 
+
+
+
+cls 
+CLS()
+
+
+print "Connecting" 
+PRINT("Connecting" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+print "to PC..."; 
+PRINT("to PC..." )
+
+
+ 
+
+
+
+escape on 
+ESCAPE(1 )
+
+
+xfopen:(buff$+".opk",1,0) 
+
+
+
+escape off 
+ESCAPE(0 )
+
+
+buff$ = "OPK"+chr$(kb%/64) 
+(buff$ := ("OPK" + CHR$((kb% / 64) )))
+
+
+if kb%<64 
+(kb% < 64)
+
+
+ buff$ = buff$+chr$(kb%*4)+chr$(0) 
+(buff$ := (buff$ + (CHR$((kb% * 4) ) + CHR$(0 ))))
+
+
+else 
+ELSE()
+
+
+ buff$ = buff$+chr$(0)+chr$(0) 
+(buff$ := (buff$ + (CHR$(0 ) + CHR$(0 ))))
+
+
+endif 
+ENDIF()
+
+
+xfput:(buff$) 
+
+
+
+REM -- setup MC -- 
+
+
+
+mc1%(2) =  $c600    :REM ldab   #page 
+(mc1%(2) := 50688)
+
+
+mc1%(2) =  $c600    :REM ldab   #page 
+
+
+
+buffloc% = addr(buff$)+1 :REM prepare MC buffer 
+(buffloc% := (ADDR(buff$ ) + 1))
+
+
+buffloc% = addr(buff$)+1 :REM prepare MC buffer 
+
+
+
+pokeb buffloc%-1,128 :REM set buffer size for OPL 
+POKEB((buffloc% - 1) 128 )
+
+
+pokeb buffloc%-1,128 :REM set buffer size for OPL 
+
+
+
+pokew mc1addr%+13,buffloc% : REM set buffer 
+POKEW((mc1addr% + 13) buffloc% )
+
+
+pokew mc1addr%+13,buffloc% : REM set buffer 
+
+
+
+size = 1024.0 * kb% 
+(size := (1024.0 * kb%))
+
+
+REM -- main copy loop -- 
+
+
+
+at 1,1 :print "Copying "+chr$(65+pack%)+":" 
+AT(1 1 )
+
+
+at 1,1 :print "Copying "+chr$(65+pack%)+":" 
+PRINT(("Copying " + (CHR$((65 + pack%) ) + ":")) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+cnt = OFFSET% 
+(cnt := OFFSET%)
+
+
+do 
+DO()
+
+
+ hiaddr = intf(cnt/65536) 
+(hiaddr := INTF((cnt / 65536) ))
+
+
+ loaddr = cnt-65536*intf(cnt/65536) 
+(loaddr := (cnt - (65536 * INTF((cnt / 65536) ))))
+
+
+ h$ = hex$(loaddr+65536*(loaddr > 32767)) 

@@ -1,0 +1,65 @@
+QCode
+
+0000: 59       STOP     (bytes code:-)
+0001: B2       SIN     (bytes code:-)
+0002: 0E       Push local/global float variable reference     (bytes code:v)
+0003: FFDC       (65500)
+0005: 22       Push integer literal     (bytes code:I)
+0006: 0001       (1)
+0008: 86       autoconversion int to float     (bytes code:-)
+0009: 22       Push integer literal     (bytes code:I)
+000A: 0002       (2)
+000C: 86       autoconversion int to float     (bytes code:-)
+000D: 22       Push integer literal     (bytes code:I)
+000E: 0003       (3)
+0010: 86       autoconversion int to float     (bytes code:-)
+0011: 22       Push integer literal     (bytes code:I)
+0012: 0004       (4)
+0014: 86       autoconversion int to float     (bytes code:-)
+0015: 22       Push integer literal     (bytes code:I)
+0016: 0005       (5)
+0018: 86       autoconversion int to float     (bytes code:-)
+0019: 20       Push byte literal     (bytes code:B)
+001A: 05           (5)
+001B: 20       Push byte literal     (bytes code:B)
+001C: 01           (1)
+001D: DF       MEAN     (bytes code:-)
+001E: 80       Assign float     (bytes code:-)
+001F: 0E       Push local/global float variable reference     (bytes code:v)
+0020: FFDC       (65500)
+0022: 22       Push integer literal     (bytes code:I)
+0023: 0001       (1)
+0025: 11       Pop integer index and push local/global float array variable reference     (bytes code:v)
+0026: FFE4       (65508)
+0028: 22       Push integer literal     (bytes code:I)
+0029: 0002       (2)
+002B: 20       Push byte literal     (bytes code:B)
+002C: 00           (0)
+002D: DF       MEAN     (bytes code:-)
+002E: 80       Assign float     (bytes code:-)
+002F: 69       USE     (bytes code:f)
+0030: 00           (A)
+0031: 69       USE     (bytes code:f)
+0032: 01           (B)
+0033: 69       USE     (bytes code:f)
+0034: 02           (C)
+0035: 7B       RETURN (float 0)     (bytes code:-)
+
+QCode Data
+
+0000:59 B2 0E FF DC 22 00 01 86 22 00 02 86 22 00 03 
+0010:86 22 00 04 86 22 00 05 86 20 05 20 01 DF 80 0E 
+0020:FF DC 22 00 01 11 FF E4 22 00 02 20 00 DF 80 69 
+0030:00 69 01 69 02 7B 
+
+MEAN:
+
+LOCAL A(3)
+LOCAL M
+
+M = MEAN(1,2,3,4,5)
+M = MEAN(A(), 2)
+USE A
+USE B
+USE C
+

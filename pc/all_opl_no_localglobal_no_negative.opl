@@ -835,7 +835,7 @@ do
   usr(mc1addr%,pack%) : REM call pk$setp
   kb%=peekb($20d8+10*pack%)*8
   print "Detected",num$(kb%,3);"k"
-  pause -20
+  pause 20
  endif
 until kb% >= 8 and kb% <= 256
 cls :buff$=""

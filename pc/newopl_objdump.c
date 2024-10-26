@@ -274,6 +274,11 @@ int null_qc_byte_len_fn_2(int i, NOBJ_QCODE *qc)
   return(2);
 }
 
+int null_qc_byte_len_fn_1(int i, NOBJ_QCODE *qc)
+{
+  return(1);
+}
+
 char prt_res[NOBJ_PRT_MAX_LINE];
 int qc_len = 0;
 
@@ -287,6 +292,18 @@ char *qc_byte_prt_fn_v(int i, NOBJ_QCODE *qc)
 char *qc_byte_prt_fn_V(int i, NOBJ_QCODE *qc)
 {
   sprintf(prt_res, "\n%04X: %02X%02X       (%d)", i+1, *(qc+1), *(qc+2), (*(qc+1))*256+*(qc+2));
+  return(prt_res);
+}
+
+char *qc_byte_prt_fn_B(int i, NOBJ_QCODE *qc)
+{
+  sprintf(prt_res, "\n%04X: %02X           (%d)", i+1, *(qc+1), *(qc+1));
+  return(prt_res);
+}
+
+char *qc_byte_prt_fn_f(int i, NOBJ_QCODE *qc)
+{
+  sprintf(prt_res, "\n%04X: %02X           (%c)", i+1, *(qc+1), 'A'+*(qc+1));
   return(prt_res);
 }
 
@@ -392,16 +409,16 @@ QC_BYTE_CODE qc_byte_code[] =
    
    {"v",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_v},
    {"V",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_V},
-   {"-",      null_qc_byte_fn,       null_qc_byte_prt_fn},
-   {"m",      null_qc_byte_fn,       null_qc_byte_prt_fn},
-   {"f",      null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"-",      null_qc_byte_fn,       null_qc_byte_prt_fn  },
+   {"m",      null_qc_byte_fn,       null_qc_byte_prt_fn  },
+   {"f",      null_qc_byte_len_fn_1,      qc_byte_prt_fn_f},
    {"I",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_I},
    {"F",           qc_byte_len_fn_F,      qc_byte_prt_fn_F},
    {"S",           qc_byte_len_fn_S,      qc_byte_prt_fn_S},
-   {"B",      null_qc_byte_fn,       null_qc_byte_prt_fn},
-   {"O",      null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"B",      null_qc_byte_len_fn_1,      qc_byte_prt_fn_B},
+   {"O",      null_qc_byte_fn,       null_qc_byte_prt_fn  },
    {"D",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_D},
-   {"f+list", null_qc_byte_fn,       null_qc_byte_prt_fn},
+   {"f+list", null_qc_byte_fn,       null_qc_byte_prt_fn  },
   };
 
 //------------------------------------------------------------------------------
