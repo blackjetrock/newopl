@@ -88,7 +88,7 @@ struct _FN_INFO
 }
   fn_info[] =
   {
-    { "EOL",      0,  0, ' ',  "ii",        "f", 0x00 },
+    //    { "EOL",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "ABS",      0,  0, ' ',  "f",         "f", 0x00 },
     { "ACOS",     0,  0, ' ',  "f",         "f", 0x00 },
     { "ADDR",     0,  0, 'V',  "V",         "i", 0x00 },
@@ -169,7 +169,7 @@ struct _FN_INFO
     { "NUM$",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "OFF",      1,  0, ' ',  "ii",        "v", 0x00 },
     { "OPEN",     1,  1, ' ',  "ii",        "v", 0x00 },
-    { "ONERR",    1,  0, ' ',  "ii",        "v", 0x00 },
+    { "ONERR",    1,  0, ' ',  "",          "v", 0x00 },
     { "PAUSE",    1,  0, ' ',  "i" ,        "v", 0x00 },
     { "PEEKB",    0,  0, ' ',  "ii",        "f", 0x00 },
     { "PEEKW",    0,  0, ' ',  "ii",        "f", 0x00 },
@@ -207,7 +207,7 @@ struct _FN_INFO
     { "USR",      0,  0, ' ',  "ii",        "i", 0x00 },
     { "VAL",      0,  0, ' ',  "s",         "f", 0x00 },
     { "VAR",      0,  0, ' ',  "ii",        "f", 0x00 },
-    { "VIEW",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "VIEW",     0,  0, ' ',  "is",        "i", 0x00 },
     { "WEEK",     0,  0, ' ',  "ii",        "f", 0x00 },
     { "YEAR",     0,  0, ' ',  "ii",        "f", 0x00 },
   };
@@ -1319,7 +1319,7 @@ int scan_operator(int *is_comma, int ignore_comma)
 	  
 	  // Match
 	  cline_i += strlen(op_info[i].name);
-	  dbprintf("%s: ret1 '%s'", __FUNCTION__, cline_now(cline_i));
+	  dbprintf("%s: ret1 '%s' nb:%d", __FUNCTION__, cline_now(cline_i), op.num_bytes);
 	  strcpy(op.name, op_info[i].name);
 	  process_token(&op);
 	  return(1);
@@ -1560,6 +1560,9 @@ int scan_hex(int *intdest)
 {
   int num_digits = 0;
   OP_STACK_ENTRY op;
+  char intval[20];
+  char chstr[2];
+  
   indent_more();
   
   init_op_stack_entry(&op);
@@ -1567,9 +1570,6 @@ int scan_hex(int *intdest)
   drop_space(&cline_i);
   
   dbprintf("%s:", __FUNCTION__);
-
-  char intval[20];
-  char chstr[2];
 
   intval[0] = '\0';
 
@@ -1582,7 +1582,7 @@ int scan_hex(int *intdest)
   
   cline_i++;
 
-  while( isdigit(chstr[0] = cline[cline_i]) )
+  while( isxdigit(chstr[0] = cline[cline_i]) )
     {
       strcat(intval, chstr);
       cline_i++;
@@ -1597,6 +1597,7 @@ int scan_hex(int *intdest)
     {
       dbprintf("%s:ret1", __FUNCTION__);
 
+      sprintf(intval, "%d", *intdest);
       strcpy(op.name, intval);
 
       op.integer = *intdest;
@@ -2515,11 +2516,11 @@ int scan_function(char *cmd_dest)
   
   drop_space(&cline_i);
   
-  dbprintf("");
-  
+  dbprintf(" '%s'", &(cline[cline_i]));
+
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
-      if( !(fn_info[i].command) && (strncmp(&(cline[cline_i]), fn_info[i].name, strlen(fn_info[i].name)) == 0) )
+      if( !(fn_info[i].command) && strn_match(&(cline[cline_i]), fn_info[i].name, strlen(fn_info[i].name)) )
 	{
 	  // Match
 	  strcpy(cmd_dest, fn_info[i].name);
@@ -2691,24 +2692,26 @@ int check_label(int *index)
   return(0);
 }
 
-int scan_label(void)
+int scan_label(char *dest_label)
 {
   int idx = cline_i;
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
   indent_more();
   
- dbprintf("%s:", __FUNCTION__);
+  dbprintf("%s:", __FUNCTION__);
   if( check_textlabel(&idx, textlabel))
     {
       cline_i = idx;
       
       if( scan_literal("::") )
 	{
+	  strcpy(dest_label, textlabel);
 	  dbprintf("%s:ret1", __FUNCTION__);
 	  return(1);
 	}
     }
-  
+
+  strcpy(dest_label, "");
   dbprintf("%s:ret0", __FUNCTION__);
   return(0);
 }
@@ -2792,6 +2795,106 @@ int scan_return(void)
     }
   
   dbprintf("%s:ret0", __FUNCTION__);
+  return(0);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// ONERR
+//
+// This keyword can be:
+//
+// ONERR OFF
+// ONERR label::
+//
+//
+
+int check_onerr(int *index)
+{
+  int idx = *index;
+
+  indent_more();
+  
+  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
+  
+  if( check_literal(&idx, " ONERR"))
+    {
+      dbprintf("%s:ret1", __FUNCTION__);
+      *index = idx;
+      return(1);
+    }
+  
+  dbprintf("%s:ret0", __FUNCTION__);
+  return(0);
+}
+
+//------------------------------------------------------------------------------
+
+int scan_onerr(void)
+{
+  int idx = cline_i;
+  OP_STACK_ENTRY op;
+  char label[NOPL_MAX_LABEL+1];
+  int word = 0;
+  int ok = 0;
+  
+  indent_more();
+  
+  init_op_stack_entry(&op);
+  
+  dbprintf("%s:", __FUNCTION__);
+  
+  if( check_literal(&idx, " ONERR"))
+    {
+      // We accept either 'OFF' or a label, which will be turned into a jump offset 
+
+      cline_i = idx;
+      if(check_label(&idx))
+	{
+	  if( scan_label(label) )
+	    {
+	      
+	      dbprintf("ret1 Label '%s'", label);
+
+	      // The qcode has a word after it which is 
+	      word = 0x1ab1;
+	      ok = 1;	      
+	    }
+	}
+      
+      if( check_literal(&idx, " OFF"))
+	{
+	  dbprintf("ret1: OFF");
+	  word = 0;
+	  ok = 1;
+	}
+      
+      if( ok)
+	{
+	  // All OK, output the code and two bytes following it	  
+	  op.buf_id = EXP_BUFF_ID_FUNCTION;
+	  op.num_bytes = 2;
+	  op.bytes[0] = word >> 8;
+	  op.bytes[1] = word  & 0xFF;
+	  
+	  strcpy(op.name, "ONERR");
+	  process_token(&op);
+	  
+	  return(1);
+	}
+      else
+	{
+	  syntax_error("Bad ONERR");
+	  dbprintf("ret0");
+	  return(0);
+	}
+    }
+  
+  // Error
+
+  syntax_error("Bad ONERR");
+  dbprintf("ret0");
   return(0);
 }
 
@@ -3220,6 +3323,15 @@ int check_line(int *index)
       return(1);
     }
 
+  idx = cline_i;
+  if( check_onerr(&idx) )
+    {
+      dbprintf("%s:ret1", __FUNCTION__);
+  
+      *index = idx;
+      return(1);
+    }
+
   // Has to be before proc call
   idx = cline_i;
   if( check_label(&idx) )
@@ -3360,7 +3472,8 @@ int scan_line()
 {
   int idx = cline_i;
   char cmdname[300];
-
+  char label[NOPL_MAX_LABEL+1];
+  
   indent_more();
   
   drop_space(&cline_i);
@@ -3386,7 +3499,7 @@ int scan_line()
   idx = cline_i;
   if( check_label(&idx))
     {
-      if( scan_label() )
+      if( scan_label(label) )
 	{
 	  return(1);
 	}
@@ -3414,6 +3527,12 @@ int scan_line()
   if( check_return(&idx) )
     {
       return(scan_return());
+    }
+
+  idx = cline_i;
+  if( check_onerr(&idx) )
+    {
+      return(scan_onerr());
     }
 
   idx = cline_i;
@@ -3535,11 +3654,12 @@ int scan_line()
   idx = cline_i;
   if( check_literal(&idx," GOTO"))
     {
+      char label[NOPL_MAX_LABEL];
+      
       cline_i = idx;
       
-      if( scan_label() )
+      if( scan_label(label) )
 	{
-	  //	  *index = idx;
 	  return(1);
 	}
     }

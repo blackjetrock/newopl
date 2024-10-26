@@ -828,30 +828,49 @@ void add_exp_buffer2_entry(OP_STACK_ENTRY op, int id)
   exp_buffer2_i++;
 }
 
-void dump_exp_buffer(void)
+void dump_exp_buffer(FILE *fp, int bufnum)
 {
   char *idstr;
   
-  fprintf(ofp, "\nExpression buffer");
-  fprintf(ofp, "\n=================");
+  fprintf(fp, "\nExpression buffer");
+  fprintf(fp, "\n=================");
   
   for(int i=0; i<exp_buffer_i; i++)
     {
-      EXP_BUFFER_ENTRY token = exp_buffer[i];
+      EXP_BUFFER_ENTRY token;
+
+	switch(bufnum)
+	  {
+	  case 1:
+	    token = exp_buffer[i];
+	    break;
+
+	  case 2:
+	    token = exp_buffer2[i];
+	    break;
+	  }
       
-      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c '%s' nidx:%d", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer[i].name, token.op.vi.num_indices);
+      fprintf(fp, "\n(%16s) N%d %-24s %c rq:%c '%s' nidx:%d", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer[i].name, token.op.vi.num_indices);
       
-      fprintf(ofp, "  %d:", token.p_idx);
+      fprintf(fp, "  %d:", token.p_idx);
       for(int pi=0; pi<token.p_idx; pi++)
 	{
-	  fprintf(ofp, " %d", token.p[pi]);
+	  fprintf(fp, " %d", token.p[pi]);
 	}
+
+      fprintf(fp, "  nb %d:(", token.op.num_bytes);
+      for(int i=0; (i<token.op.num_bytes) & (i < NOPL_MAX_SUFFIX_BYTES); i++)
+	{
+	  fprintf(fp, " %02X", token.op.bytes[i]);
+	}
+      fprintf(fp, ")");
+      
     }
   
-  fprintf(ofp, "\n=================");
+  fprintf(fp, "\n=================");
 }
 
-void dump_exp_buffer2(FILE *fp)
+void dump_exp_bufferX(FILE *fp)
 {
   char *idstr;
   
@@ -897,7 +916,7 @@ int insert_buf2_entry_after_node_id(int node_id, EXP_BUFFER_ENTRY e)
 {
   int j;
 
-  dump_exp_buffer2(ofp);
+  dump_exp_buffer(ofp, 2);
   
   // Find the entry with the given node_id
   fprintf(ofp, "\n Insert after %d exp_buffer2_i:%d", node_id, exp_buffer2_i);
@@ -918,7 +937,7 @@ int insert_buf2_entry_after_node_id(int node_id, EXP_BUFFER_ENTRY e)
 	  exp_buffer2[i+1] = e;
 	  exp_buffer2_i++;
 
-	  dump_exp_buffer2(ofp);
+	  dump_exp_buffer(ofp, 2);
 	  return(1);	  
 	}
     }
@@ -1161,7 +1180,12 @@ void typecheck_expression(void)
   NOBJ_VARTYPE     op1_reqtype, op2_reqtype;
   NOBJ_VARTYPE     ret_type;
   int              copied;
-  
+
+  // Initialise
+  init_op_stack_entry(&(autocon.op));
+  init_op_stack_entry(&(op1.op));
+  init_op_stack_entry(&(op2.op));
+
   // We copy results over to a second buffer, this allows easy insertion of
   // needed extra codes
 
@@ -1577,11 +1601,11 @@ void expression_tree_process(char *expr)
 {
   node_id_index = 1;
   
-  dump_exp_buffer();
+  dump_exp_buffer(ofp, 1);
   typecheck_expression();
-  dump_exp_buffer();
-  dump_exp_buffer2(ofp);
-  dump_exp_buffer2(icfp);
+  dump_exp_buffer(ofp, 1);
+  dump_exp_buffer(ofp, 2);
+  dump_exp_buffer(icfp, 2);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1611,7 +1635,12 @@ void init_op_stack_entry(OP_STACK_ENTRY *op)
 {
   op->buf_id = EXP_BUFF_ID_NONE;
   op->name[0] = '\0';
-  
+  op->num_bytes = 0;
+
+  for(int i=0; i<NOPL_MAX_SUFFIX_BYTES; i++)
+    {
+      op->bytes[i] = 0xCC;
+    }
 }
 
 void output_float(OP_STACK_ENTRY token)
@@ -1723,6 +1752,7 @@ void output_sub_start(void)
 {
 #if 1
   OP_STACK_ENTRY op;
+  init_op_stack_entry(&op);
   
   printf("\nSub expression start");
   fprintf(ofp, "\n(%16s)", __FUNCTION__);
@@ -1737,7 +1767,9 @@ void output_sub_end(void)
 {
 #if 1
   OP_STACK_ENTRY op;
-  
+
+  init_op_stack_entry(&op);
+    
   printf("\nSub expression end");
   fprintf(ofp, "\n(%16s)", __FUNCTION__);
 
@@ -2027,6 +2059,8 @@ void process_token(OP_STACK_ENTRY *token)
     {
       OP_STACK_ENTRY o;
 
+      init_op_stack_entry(&o);
+	
       //output_marker("--------- Sub 1");
       output_sub_start();
       
@@ -2562,8 +2596,8 @@ int main(int argc, char *argv[])
   
   translate_file(fp, ofp);
 
-  dump_exp_buffer();
-  dump_exp_buffer2(ofp);
+  dump_exp_buffer(ofp, 1);
+  dump_exp_buffer(ofp, 2);
   
   fclose(fp);
 

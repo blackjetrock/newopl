@@ -83,6 +83,7 @@
 #include <inttypes.h>
 #include <string.h>
 
+#include "nopl.h"
 #include "newopl.h"
 #include "nopl_obj.h"
 #include "newopl_exec.h"

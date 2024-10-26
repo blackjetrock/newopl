@@ -177,6 +177,9 @@ typedef struct _OP_STACK_ENTRY
   NOBJ_VARTYPE   req_type;   // Required type
   struct _NOBJ_VAR_INFO  vi;
   struct _NOBJ_COND_INFO ci;
+  // Bytes may be added after the qcode
+  int num_bytes;
+  int bytes[NOPL_MAX_SUFFIX_BYTES];
 } OP_STACK_ENTRY;
 
 #define MAX_EXP_BUF_P   12

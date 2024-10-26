@@ -810,7 +810,7 @@ ENDIF()
 
 
 POKEB $2187,LEN(item$) 
-POKEB(2187 LEN(item$ ) )
+POKEB(8583 LEN(item$ ) )
 
 
 I%=1 
@@ -822,7 +822,7 @@ WHILE I%<=LEN(item$)
 
 
 POKEB $2187+I%,ASC(MID$(item$,I%,1)) 
-POKEB((2187 + I%) ASC(MID$(item$ I% 1 ) ) )
+POKEB((8583 + I%) ASC(MID$(item$ I% 1 ) ) )
 
 
 I%=I%+1 
@@ -834,15 +834,15 @@ ENDWH()
 
 
 POKEW $2188+LEN(item$),0 
-POKEW((2188 + LEN(item$ )) 0 )
+POKEW((8584 + LEN(item$ )) 0 )
 
 
 A%(1)=$3F65 
-(3 := F65)
+(A%(1) := 16229)
 
 
 A%(2)=$3900 
-(A%(2) := 3900)
+(A%(2) := 14592)
 
 
 USR(ADDR(A%()),pos%) 
@@ -2482,7 +2482,7 @@ p%=ASC(MID$(ch$,(a%+b%-1),1))
 
 
 POKEB $2099,p% 
-POKEB(2099 p% )
+POKEB(8345 p% )
 
 
 bl$=REPT$(CHR$(p%),20) 
@@ -3786,3 +3786,199 @@ ESCAPE(0 )
 
 
 ONERR ERROR:: 
+ONERR()
+
+
+OFFSET% = 0 :REM where to start scanning (header skip) 
+(OFFSET% := 0)
+
+
+OFFSET% = 0 :REM where to start scanning (header skip) 
+
+
+
+REM -- machine code for pack read -- 
+
+
+
+REM originates from Horatio's brilliant fast5 datapack copy program 
+
+
+
+REM D param in USR - pack number (0=A,1=B,2=C,3=D) 
+
+
+
+REM load_addr + 3 - byte - 64K page of pack address (00-01) 
+
+
+
+REM load_addr + 5 - word - OFFSET from page of pak address (0000-FFFF) 
+
+
+
+REM load_addr + 10 - word - number of bytes to read (size of buffer) 
+
+
+
+REM load_addr + 13 - word - location in ram of buffer to store data 
+
+
+
+mc1addr% = addr(mc1%()) 
+(mc1addr% := ADDR(mc1%() ))
+
+
+mc1%(1) = $3f62    :REM os     pk$setp 
+(mc1%(1) := 16226)
+
+
+mc1%(1) = $3f62    :REM os     pk$setp 
+
+
+
+mc1%(2) = $3900    :REM rts ;for now! 
+(mc1%(2) := 14592)
+
+
+mc1%(2) = $3900    :REM rts ;for now! 
+
+
+
+REM mc1%(2)=$c600  :REM ldab   #page 
+
+
+
+mc1%(3) = $ce00    :REM ldx    #OFFSET 
+(mc1%(3) := 52736)
+
+
+mc1%(3) = $ce00    :REM ldx    #OFFSET 
+
+
+
+mc1%(4) = $003f    :REM os     pk$sadd 
+(mc1%(4) := 63)
+
+
+mc1%(4) = $003f    :REM os     pk$sadd 
+
+
+
+mc1%(5) = $60cc    :REM ldd 
+(mc1%(5) := 24780)
+
+
+mc1%(5) = $60cc    :REM ldd 
+
+
+
+mc1%(6) = $0080    :REM        #bytes_to_read 
+(mc1%(6) := 128)
+
+
+mc1%(6) = $0080    :REM        #bytes_to_read 
+
+
+
+mc1%(7) = $ce00    :REM ldx    #buffer_addr 
+(mc1%(7) := 52736)
+
+
+mc1%(7) = $ce00    :REM ldx    #buffer_addr 
+
+
+
+mc1%(8) = $003f    :REM os     pk$read 
+(mc1%(8) := 63)
+
+
+mc1%(8) = $003f    :REM os     pk$read 
+
+
+
+mc1%(9) = $5e39    :REM rts 
+(mc1%(9) := 24121)
+
+
+mc1%(9) = $5e39    :REM rts 
+
+
+
+REM -- get user input -- 
+
+
+
+cls :print " DumpPack v0.1"; 
+CLS()
+
+
+cls :print " DumpPack v0.1"; 
+PRINT(" DumpPack v0.1" )
+
+
+ 
+
+
+
+buff$="  Copies a pack to PC (even if protected or corrupted). Please make sure the CommsLink is booted in and activate Psi2Win.  " 
+(buff$ := "  Copies a pack to PC (even if protected or corrupted). Please make sure the CommsLink is booted in and activate Psi2Win.  ")
+
+
+if view(2,buff$)=1 :return :endif 
+(VIEW(2 buff$ ) := 1)
+
+
+if view(2,buff$)=1 :return :endif 
+
+
+
+do 
+DO()
+
+
+ pack%=menu("Which"+chr$(254)+"pack,B:,C:,D:")-1 
+(pack% := (MENU(("Which" + (CHR$(254 ) + "pack,B:,C:,D:")) ) - 1))
+
+
+ if pack%=1 :return :endif 
+(pack% := 1)
+
+
+ if pack%=1 :return :endif 
+
+
+
+until pack%>0 
+(pack% > 0)
+
+
+do 
+DO()
+
+
+ kb% = 4 * 2**(menu("AUTO,8K,16K,32K,64K,128K,256K")-1) 
+(kb% := ((4 * 2) ** (MENU("AUTO,8K,16K,32K,64K,128K,256K" ) - 1)))
+
+
+ if kb% = 0 
+(kb% := 0)
+
+
+  return 
+
+
+
+ elseif kb% = 4 
+(kb% := 4)
+
+
+  usr(mc1addr%,pack%) : REM call pk$setp 
+USR(mc1addr% pack% )
+
+
+  usr(mc1addr%,pack%) : REM call pk$setp 
+
+
+
+  kb%=peekb($20d8+10*pack%)*8 
