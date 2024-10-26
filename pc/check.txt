@@ -4198,3 +4198,1675 @@ DO()
 
 
  h$ = hex$(loaddr+65536*(loaddr > 32767)) 
+(h$ := HEX$((loaddr + (65536 * (loaddr > 32767))) ))
+
+
+ at 12,1 :print hex$(hiaddr);left$("0000",4-len(h$));h$ 
+AT(12 1 )
+
+
+ at 12,1 :print hex$(hiaddr);left$("0000",4-len(h$));h$ 
+PRINT(HEX$(hiaddr ) )
+
+
+left$("0000",4-len(h$));h$ 
+PRINT(LEFT$("0000" (4 - LEN(h$ )) ) )
+
+
+h$ 
+PRINT(h$ )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+ pokew mc1addr%+5,loaddr+65536*(loaddr > 32767) : REM set location on pack 
+POKEW((mc1addr% + 5) (loaddr + (65536 * (loaddr > 32767))) )
+
+
+ pokew mc1addr%+5,loaddr+65536*(loaddr > 32767) : REM set location on pack 
+
+
+
+ pokeb mc1addr%+3,hiaddr : REM set location page 
+POKEB((mc1addr% + 3) hiaddr )
+
+
+ pokeb mc1addr%+3,hiaddr : REM set location page 
+
+
+
+ usr(mc1addr%,pack%) : REM READ from pack to buffer 
+USR(mc1addr% pack% )
+
+
+ usr(mc1addr%,pack%) : REM READ from pack to buffer 
+
+
+
+ xfput:(buff$) 
+
+
+
+ at 13,2: print fix$(int(cnt/size*100),0,3);"%"; 
+AT(13 2 )
+
+
+ at 13,2: print fix$(int(cnt/size*100),0,3);"%"; 
+PRINT(FIX$(INT(((cnt / size) * 100) ) 0 3 ) )
+
+
+"%"; 
+PRINT("%" )
+
+
+ 
+
+
+
+ if cnt = OFFSET% :cnt = 0 :endif 
+(cnt := OFFSET%)
+
+
+ if cnt = OFFSET% :cnt = 0 :endif 
+(cnt := 0)
+
+
+ if cnt = OFFSET% :cnt = 0 :endif 
+ENDIF()
+
+
+ cnt = cnt + 128 
+(cnt := (cnt + 128))
+
+
+ if key =1 :raise 206 :endif 
+(KEY() := 1)
+
+
+ if key =1 :raise 206 :endif 
+RAISE(206 )
+
+
+ if key =1 :raise 206 :endif 
+ENDIF()
+
+
+until cnt >= size 
+((UNTIL() > cnt) := size)
+
+
+REM -- remove protection -- 
+
+
+
+REM    xfpos:(0,6.) 
+
+
+
+REM    buff$ = xfget$:(1) 
+
+
+
+REM    xfpos:(0,6.) 
+
+
+
+REM    xfput:(chr$(asc(buff$) or $28)) 
+
+
+
+REM TODO: fix checksum 
+
+
+
+REM -- Done! -- 
+
+
+
+xfclose: 
+
+
+
+cls :print " DumpPack v0.1" 
+CLS()
+
+
+cls :print " DumpPack v0.1" 
+PRINT(" DumpPack v0.1" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+print "Copy Complete..."+chr$(16); 
+PRINT(("Copy Complete..." + CHR$(16 )) )
+
+
+ 
+
+
+
+get 
+GET()
+
+
+return 
+
+
+
+REM -- error handling -- 
+
+
+
+ERROR:: 
+
+
+
+onerr off 
+ONERR()
+
+
+if err=203 
+(ERR() := 203)
+
+
+ buff$="* No CommsLink *" 
+(buff$ := "* No CommsLink *")
+
+
+else 
+ELSE()
+
+
+ if err=206 
+(ERR() := 206)
+
+
+  buff$="** User Break **" 
+(buff$ := "** User Break **")
+
+
+ elseif err=190 
+(ERR() := 190)
+
+
+  buff$="Bad PC file name" 
+(buff$ := "Bad PC file name")
+
+
+ elseif err=188 or err=186 
+(or := (ERR() = 186))
+
+
+  buff$="*** PC Error ***" 
+(buff$ := "*** PC Error ***")
+
+
+ elseif err=192 or err=193 or err=199 
+(193 := (or = (ERR() = 199)))
+
+
+  buff$=" Connect Error  " 
+(buff$ := " Connect Error  ")
+
+
+ elseif err<191 
+(ERR() < 191)
+
+
+  buff$="** ERROR "+num$(err,3)+" ***" 
+(buff$ := ("** ERROR " + (NUM$(ERR() 3 ) + " ***")))
+
+
+ else 
+ELSE()
+
+
+  buff$=err$(err) 
+(buff$ := ERR$(ERR() ))
+
+
+ endif 
+ENDIF()
+
+
+ xfclose: 
+
+
+
+endif 
+ENDIF()
+
+
+print chr$(15);buff$;chr$(16); 
+PRINT(CHR$(15 ) )
+
+
+buff$;chr$(16); 
+PRINT(buff$ )
+
+
+chr$(16); 
+PRINT(CHR$(16 ) )
+
+
+ 
+
+
+
+get 
+GET()
+
+
+return 
+
+
+
+END: 
+
+
+
+LOOK:: 
+
+
+
+Y%=Y%+1 
+(Y% := (Y% + 1))
+
+
+IF Y%>LEN(Y$) 
+(Y% > LEN(Y$ ))
+
+
+END%=1 
+(END% := 1)
+
+
+ELSE 
+ELSE()
+
+
+END%=0 
+(END% := 0)
+
+
+ENDIF 
+ENDIF()
+
+
+IF END%=1 
+(END% := 1)
+
+
+RETURN 
+
+
+
+ENDIF 
+ENDIF()
+
+
+IF MID$(Y$,Y%,1)=" " 
+(MID$(Y$ Y% 1 ) := " ")
+
+
+GOTO LOOK:: 
+
+
+
+ENDIFEOW: 
+
+
+
+Y%=Y%+1 
+(Y% := (Y% + 1))
+
+
+IF Y%>LEN(Y$) 
+(Y% > LEN(Y$ ))
+
+
+END%=1 
+(END% := 1)
+
+
+ELSE 
+ELSE()
+
+
+END%=0 
+(END% := 0)
+
+
+ENDIF 
+ENDIF()
+
+
+IF END%>=1 
+((IF() > END%) := 1)
+
+
+RETURN 
+
+
+
+ENDIF 
+ENDIF()
+
+
+IF MID$(Y$,Y%,1)=" " 
+(MID$(Y$ Y% 1 ) := " ")
+
+
+END%=1 
+(END% := 1)
+
+
+ELSE 
+ELSE()
+
+
+END%=0 
+(END% := 0)
+
+
+ENDIFexpo: 
+
+
+
+PRINT "What ASA is the " 
+PRINT("What ASA is the " )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+PRINT "filmstock?" 
+PRINT("filmstock?" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+INPUT A 
+INPUT(A )
+
+
+CLS 
+CLS()
+
+
+TIME:: 
+
+
+
+PRINT "CAMERA SPEED;" 
+PRINT("CAMERA SPEED;" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+W=MENUN(2,"Frames-per-second,Exposure,Seconds-per-frame,") 
+(W := MENUN(2 "Frames-per-second,Exposure,Seconds-per-frame," ))
+
+
+IF W=2 
+(W := 2)
+
+
+PRINT"Exposure in seconds?" 
+PRINT("Exposure in seconds?" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+INPUT T 
+INPUT(T )
+
+
+word$="sec" 
+(word$ := "sec")
+
+
+z=T 
+(z := T)
+
+
+ELSEIF W=1 
+(W := 1)
+
+
+PRINT "Frames per second?" 
+PRINT("Frames per second?" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+INPUT P 
+INPUT(P )
+
+
+word$="fps" 
+(word$ := "fps")
+
+
+z=P 
+(z := P)
+
+
+CLS 
+CLS()
+
+
+PRINT "Shutter angle in" 
+PRINT("Shutter angle in" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+PRINT "degrees?" 
+PRINT("degrees?" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+INPUT B 
+INPUT(B )
+
+
+T=B/(360*P) 
+(T := (B / (360 * P)))
+
+
+CLS 
+CLS()
+
+
+ELSEIF W=3 
+(W := 3)
+
+
+PRINT "Seconds per frame?" 
+PRINT("Seconds per frame?" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+INPUT P 
+INPUT(P )
+
+
+z=P 
+(z := P)
+
+
+word$="spf" 
+(word$ := "spf")
+
+
+CLS 
+CLS()
+
+
+PRINT "Shutter angle in" 
+PRINT("Shutter angle in" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+PRINT "degrees" 
+PRINT("degrees" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+INPUT B 
+INPUT(B )
+
+
+T=P*B/360 
+(T := ((P * B) / 360))
+
+
+CLS 
+CLS()
+
+
+ENDIF 
+ENDIF()
+
+
+CLS 
+CLS()
+
+
+IF (T>=1) AND (T<10) 
+(((IF() > T) = 1) AND (T < 10))
+
+
+T=T/1.4 
+(T := (T / 1.4))
+
+
+ELSEIF (T>=10) AND (T <30) 
+(((ELSEIF() > T) = 10) AND (T < 30))
+
+
+T=T/2.8 
+(T := (T / 2.8))
+
+
+ELSEIF T>=30 
+((ELSEIF() > T) := 30)
+
+
+T=T/4 
+(T := (T / 4))
+
+
+ENDIF 
+ENDIF()
+
+
+S=SQR(2) 
+(S := SQR(2 ))
+
+
+F=(25*S**2)/(A*T) 
+(F := (((25 * S) ** 2) / (A * T)))
+
+
+IF F>5 
+(F > 5)
+
+
+W=0 
+(W := 0)
+
+
+ELSEIF F<=5 
+((ELSEIF() < F) := 5)
+
+
+W=2 
+(W := 2)
+
+
+ENDIF 
+ENDIF()
+
+
+A$="  T1.4 " 
+(A$ := "  T1.4 ")
+
+
+B$="  T2 " 
+(B$ := "  T2 ")
+
+
+C$="  T2.8 " 
+(C$ := "  T2.8 ")
+
+
+D$="  T4 " 
+(D$ := "  T4 ")
+
+
+E$="  T5.6 " 
+(E$ := "  T5.6 ")
+
+
+F$=FIX$(F,W,8) 
+(F$ := FIX$(F W 8 ))
+
+
+G$=FIX$(F*2,W,8) 
+(G$ := FIX$((F * 2) W 8 ))
+
+
+H$=FIX$(F*4,W,8) 
+(H$ := FIX$((F * 4) W 8 ))
+
+
+I$=FIX$(F*8,W,8) 
+(I$ := FIX$((F * 8) W 8 ))
+
+
+J$=FIX$(F*16,W,8) 
+(J$ := FIX$((F * 16) W 8 ))
+
+
+A$=A$+F$+B$+G$+C$+H$+D$+I$+E$+J$ 
+(A$ := (A$ + (F$ + (B$ + (G$ + (C$ + (H$ + (D$ + (I$ + (E$ + J$))))))))))
+
+
+PRINT "For exposure..." 
+PRINT("For exposure..." )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+PRINT A,"ASA",z,word$,B,CHR$(223) 
+PRINT(A )
+
+
+"ASA",z,word$,B,CHR$(223) 
+< > 
+
+
+"ASA",z,word$,B,CHR$(223) 
+PRINT("ASA" )
+
+
+z,word$,B,CHR$(223) 
+< > 
+
+
+z,word$,B,CHR$(223) 
+PRINT(z )
+
+
+word$,B,CHR$(223) 
+< > 
+
+
+word$,B,CHR$(223) 
+PRINT(word$ )
+
+
+B,CHR$(223) 
+< > 
+
+
+B,CHR$(223) 
+PRINT(B )
+
+
+CHR$(223) 
+< > 
+
+
+CHR$(223) 
+PRINT(CHR$(223 ) )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+AT 1,3 
+AT(1 3 )
+
+
+PRINT "Footcandles;" 
+PRINT("Footcandles;" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+VIEW(4,A$) 
+VIEW(4 A$ )
+
+
+GET 
+GET()
+
+
+C=MENU("SHUT,EXPO,FILM,MENU,") 
+(C := MENU("SHUT,EXPO,FILM,MENU," ))
+
+
+IF C=1 
+(C := 1)
+
+
+GOTO TIME:: 
+
+
+
+ELSEIF C=2 
+(C := 2)
+
+
+EXPO: 
+
+
+
+ELSEIF C=3 
+(C := 3)
+
+
+FILM: 
+
+
+
+ENDIF   
+ENDIF()
+
+
+film: 
+
+
+
+REM V3.1 
+
+
+
+REM last amended 2/9/1995 
+
+
+
+REM Copywrite MAXIM FORD 
+
+
+
+REM Lighting Cameraman 
+
+
+
+REM 27 Birstall Road, N15 5EN 
+
+
+
+REM LONDON (44 181) 802 8791 
+
+
+
+REM if you do not use a PSION PRINTER this next line will make a EPSON printer work 
+
+
+
+cls 
+CLS()
+
+
+IF NOT EXIST ("A:printer") 
+EXIST("A:printer" )
+
+
+PRINTER: 
+
+
+
+ELSE 
+ELSE()
+
+
+OPEN "A:printer",A,P% 
+OPEN(A P% )
+
+
+ENDIF 
+ENDIF()
+
+
+FIRST 
+FIRST()
+
+
+Z%=A.P% 
+(. := P%)
+
+
+CLOSE 
+CLOSE()
+
+
+IF Z%=1 
+(Z% := 1)
+
+
+LSET: 
+
+
+
+ELSEIF Z%=2 
+(Z% := 2)
+
+
+LSET:(2400,1,8,2,2,0,0,"",CHR$(26),"",CHR$(10),CHR$(26),"",4,0) 
+
+
+
+ENDIF 
+ENDIF()
+
+
+CLS 
+CLS()
+
+
+N=0 
+(N := 0)
+
+
+N=MENU("STOP,EXPO,DEPTH,FOCUS,LENS,MIRED,LIGHT,HMI,LENGTH,TIME,LAPSE,SUN,PAN,MACRO,HORIZON,PRINTER") 
+(N := MENU("STOP,EXPO,DEPTH,FOCUS,LENS,MIRED,LIGHT,HMI,LENGTH,TIME,LAPSE,SUN,PAN,MACRO,HORIZON,PRINTER" ))
+
+
+IF N=1 
+(N := 1)
+
+
+STOP: 
+
+
+
+ELSEIF N=2 
+(N := 2)
+
+
+EXPO: 
+
+
+
+ELSEIF N=3 
+(N := 3)
+
+
+DEPTH: 
+
+
+
+ELSEIF N=4 
+(N := 4)
+
+
+FOCUS2: 
+
+
+
+ELSEIF N=5 
+(N := 5)
+
+
+LENS: 
+
+
+
+ELSEIF N=6 
+(N := 6)
+
+
+MIRED: 
+
+
+
+ELSEIF N=7 
+(N := 7)
+
+
+LIGHT: 
+
+
+
+ELSEIF N=8 
+(N := 8)
+
+
+HMI: 
+
+
+
+ELSEIF N=9 
+(N := 9)
+
+
+LENGTH: 
+
+
+
+ELSEIF N=10 
+(N := 10)
+
+
+TIME: 
+
+
+
+ELSEIF N=11 
+(N := 11)
+
+
+LAPSE: 
+
+
+
+ELSEIF N=12 
+(N := 12)
+
+
+SUNPOS: 
+
+
+
+ELSEIF N=13 
+(N := 13)
+
+
+PAN: 
+
+
+
+ELSEIF N=14 
+(N := 14)
+
+
+MACRO: 
+
+
+
+ELSEIF N=15 
+(N := 15)
+
+
+HORIZON: 
+
+
+
+ELSEIF N=16 
+(N := 16)
+
+
+PRINTER: 
+
+
+
+ENDIF 
+ENDIF()
+
+
+FLIGHTS: 
+
+
+
+FLY$="B:FLYDATA" :FS$="" 
+(FLY$ := "B:FLYDATA")
+
+
+FLY$="B:FLYDATA" :FS$="" 
+(FS$ := "")
+
+
+if exist(FLY$) 
+EXIST(FLY$ )
+
+
+ open   FLY$,A,FDAT$,FAIR$,FFNO$,FOUT$,FDEP$,FINP$,FARR$ 
+OPEN(FINP$ FARR$ )
+
+
+else 
+ELSE()
+
+
+ create FLY$,A,FDAT$,FAIR$,FFNO$,FOUT$,FDEP$,FINP$,FARR$ 
+CREATE(FINP$ FARR$ )
+
+
+endif 
+ENDIF()
+
+
+STATE%=1 
+(STATE% := 1)
+
+
+while STATE%<>0 
+(STATE% <> 0)
+
+
+ if STATE%=1 : REM base loop 
+(STATE% := 1)
+
+
+ if STATE%=1 : REM base loop 
+
+
+
+  OPT%=menu("COUNT,FIND,LIST,NEW") 
+(OPT% := MENU("COUNT,FIND,LIST,NEW" ))
+
+
+  if OPT%=0 
+(OPT% := 0)
+
+
+   STATE%=0 
+(STATE% := 0)
+
+
+  elseif OPT%=1 
+(OPT% := 1)
+
+
+   STATE%=6 
+(STATE% := 6)
+
+
+  elseif OPT%=2 
+(OPT% := 2)
+
+
+   STATE%=2 
+(STATE% := 2)
+
+
+  elseif OPT%=3 
+(OPT% := 3)
+
+
+   STATE%=9 
+(STATE% := 9)
+
+
+  elseif OPT%=4 
+(OPT% := 4)
+
+
+   STATE%=7 
+(STATE% := 7)
+
+
+  else 
+ELSE()
+
+
+   CRASH: 
+
+
+
+  endif 
+ENDIF()
+
+
+ elseif STATE%=2 :REM command = FIND 
+(STATE% := 2)
+
+
+ elseif STATE%=2 :REM command = FIND 
+
+
+
+  cls :print"Find flight" :print">"; 
+CLS()
+
+
+  cls :print"Find flight" :print">"; 
+PRINT("Find flight" )
+
+
+ :print">"; 
+<nl>
+
+
+ :print">"; 
+
+
+
+  cls :print"Find flight" :print">"; 
+PRINT(">" )
+
+
+ 
+
+
+
+  kstat 1 
+KSTAT(1 )
+
+
+  trap edit FS$ 
+TRAP(edit FS$ )
+
+
+  if err=206 
+(ERR() := 206)
+
+
+   STATE%=1 
+(STATE% := 1)
+
+
+  else 
+ELSE()
+
+
+   first 
+FIRST()
+
+
+   if find(FS$)=0 
+(FIND(FS$ ) := 0)
+
+
+    STATE%=3 
+(STATE% := 3)
+
+
+   else 
+ELSE()
+
+
+    STATE%=4 
+(STATE% := 4)
+
+
+   endif 
+ENDIF()
+
+
+  endif 
+ENDIF()
+
+
+ elseif STATE%=3 
+(STATE% := 3)
+
+
+  cls :print"Not found"; 
+CLS()
+
+
+  cls :print"Not found"; 
+PRINT("Not found" )
+
+
+ 
+
+
+
+  if get=1 
+(GET() := 1)
+
+
+   STATE%=1 
+(STATE% := 1)
+
+
+  else 
+ELSE()
+
+
+   STATE%=2 
+(STATE% := 2)
+
+
+  endif 
+ENDIF()
+
+
+ elseif STATE%=4 
+(STATE% := 4)
+
+
+  FLYSPLIT: 
+
+
+
+  OPT%=FLY 
+(OPT% := FLY)
+
+
+VIEW%: 
+
+
+
+  if OPT%=1 
+(OPT% := 1)
+
+
+   STATE%=2 
+(STATE% := 2)
+
+
+  elseif OPT%=2 
+(OPT% := 2)
+
+
+   STATE%=5 
+(STATE% := 5)
+
+
+  elseif OPT%=3 
+(OPT% := 3)
+
+
+   back 
+BACK()
+
+
+  elseif OPT%=8 
+(OPT% := 8)
+
+
+   STATE%=8 
+(STATE% := 8)
+
+
+  elseif OPT%=4 or OPT%=13 
+(or := (OPT% = 13))
+
+
+   next 
+NEXT()
+
+
+   if eof 
+EOF()
+
+
+    cls :print"****************"; :print"**END OF PACK***"; 
+CLS()
+
+
+    cls :print"****************"; :print"**END OF PACK***"; 
+PRINT("****************" )
+
+
+ :print"**END OF PACK***"; 
+
+
+
+    cls :print"****************"; :print"**END OF PACK***"; 
+PRINT("**END OF PACK***" )
+
+
+ 
+
+
+
+    get 
+GET()
+
+
+    STATE%=2 
+(STATE% := 2)
+
+
+   elseif OPT%=13 
+(OPT% := 13)
+
+
+    if find(FS$)=0 
+(FIND(FS$ ) := 0)
+
+
+     cls :print"****************"; :print"**END OF PACK***"; 
+CLS()
+
+
+     cls :print"****************"; :print"**END OF PACK***"; 
+PRINT("****************" )
+
+
+ :print"**END OF PACK***"; 
+
+
+
+     cls :print"****************"; :print"**END OF PACK***"; 
+PRINT("**END OF PACK***" )
+
+
+ 
+
+
+
+     get 
+GET()
+
+
+     STATE%=2 
+(STATE% := 2)
+
+
+    endif 
+ENDIF()
+
+
+   endif 
+ENDIF()
+
+
+  endif 
+ENDIF()
+
+
+ elseif STATE%=5 :REM edit 
+(STATE% := 5)
+
+
+ elseif STATE%=5 :REM edit 
+
+
+
+  if FLYEDIT%:=1 
+(FLYEDIT% := 1)
+
+
+   FLYBUILD: 
+
+
+
+   update 
+UPDATE()
+
+
+   FLYSPLIT: 
+
+
+
+   FLYVIEW%: 
+
+
+
+  endif 
+ENDIF()
+
+
+  STATE%=2 
+(STATE% := 2)
+
+
+ elseif STATE%=6 :REM COUNT 
+(STATE% := 6)
+
+
+ elseif STATE%=6 :REM COUNT 
+
+
+
+  cls :print count,"flights" 
+CLS()
+
+
+  cls :print count,"flights" 
+PRINT(COUNT() )
+
+
+"flights" 
+< > 
+
+
+"flights" 
+PRINT("flights" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+  get 
+GET()
+
+
+  STATE%=1 
+(STATE% := 1)
+
+
+ elseif STATE%=7 :REM NEW 
+(STATE% := 7)
+
+
+ elseif STATE%=7 :REM NEW 
+
+
+
+  DAT$="" :AIR$="": FNO$="" :OUT$="" :DEP$="" :INP$="": ARR$="" 
+(DAT$ := "")
+
+
+  DAT$="" :AIR$="": FNO$="" :OUT$="" :DEP$="" :INP$="": ARR$="" 
+(AIR$ := "")
+
+
+  DAT$="" :AIR$="": FNO$="" :OUT$="" :DEP$="" :INP$="": ARR$="" 
+(FNO$ := "")
+
+
+  DAT$="" :AIR$="": FNO$="" :OUT$="" :DEP$="" :INP$="": ARR$="" 
+(OUT$ := "")
+
+
+  DAT$="" :AIR$="": FNO$="" :OUT$="" :DEP$="" :INP$="": ARR$="" 
+(DEP$ := "")
+
+
+  DAT$="" :AIR$="": FNO$="" :OUT$="" :DEP$="" :INP$="": ARR$="" 
+(INP$ := "")
+
+
+  DAT$="" :AIR$="": FNO$="" :OUT$="" :DEP$="" :INP$="": ARR$="" 
+(ARR$ := "")
+
+
+  if FLYEDIT%:=1 
+(FLYEDIT% := 1)
+
+
+   FLYBUILD: 
+
+
+
+   append 
+APPEND()
+
+
+   FLYSPLIT: 
+
+
+
+   FLYVIEW%: 
+
+
+
+  endif 
+ENDIF()
+
+
+  STATE%=1 
+(STATE% := 1)
+
+
+ elseif STATE%=8 :REM delete 
+(STATE% := 8)
+
+
+ elseif STATE%=8 :REM delete 
+
+
+
+  cls :print"Delete flight" :print"record Y/N"; 
+CLS()
+
+
+  cls :print"Delete flight" :print"record Y/N"; 
+PRINT("Delete flight" )
+
+
+ :print"record Y/N"; 
+<nl>
+
+
+ :print"record Y/N"; 
+
+
+
+  cls :print"Delete flight" :print"record Y/N"; 
+PRINT("record Y/N" )
+
+
+ 
+
+
+
+  kstat 1 
+KSTAT(1 )
+
+
+  do 
+DO()
+
+
+   KY%=get 
+(KY% := GET())
+
+
+  until KY%=$4E or KY%=$59 
+(or := (KY% = 89))
+
+
+  if KY%=$4E 
+(KY% := 78)
+
+
+   STATE%=4 
+(STATE% := 4)
+
+
+  else 
+ELSE()
+
+
+   erase 
+ERASE()
+
+
+   cls :print"Flight record": print"deleted" 
+CLS()
+
+
+   cls :print"Flight record": print"deleted" 
+PRINT("Flight record" )
+
+
+: print"deleted" 
+<nl>
+
+
+: print"deleted" 
+
+
+
+   cls :print"Flight record": print"deleted" 
+PRINT("deleted" )
+
+
+ 
+<nl>
+
+
+ 
+
+
+
+   get 
+GET()
+
+
+   STATE%=2 
+(STATE% := 2)
+
+
+  endif 
+ENDIF()
+
+
+ elseif STATE%=9 :REM LIST 
+(STATE% := 9)
+
+
+ elseif STATE%=9 :REM LIST 
+
+
+
+  lprint 

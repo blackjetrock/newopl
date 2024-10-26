@@ -879,7 +879,7 @@ do
  usr(mc1addr%,pack%) : REM READ from pack to buffer
  xfput:(buff$)
 
- at 13,2: print fix$(int(cnt/size*100),0,-3);"%";
+ at 13,2: print fix$(int(cnt/size*100),0,3);"%";
 
  if cnt = OFFSET% :cnt = 0 :endif
  cnt = cnt + 128
@@ -1148,7 +1148,10 @@ while STATE%<>0
 
  elseif STATE%=4
   FLYSPLIT:
-  OPT%=FLYVIEW%:
+  OPT%=FLY
+
+
+VIEW%:
   if OPT%=1
    STATE%=2
   elseif OPT%=2
@@ -1224,7 +1227,7 @@ while STATE%<>0
    first
    while not eof
     KY%=KY%+1
-    lprint fix$(KY%,0,-3)," ",
+    lprint fix$(KY%,0,3)," ",
     lprint mid$(a.fdat$,1,2);"/";mid$(a.fdat$,3,2);"/";mid$(a.fdat$,5,6)," ",
     lprint a.fair$,a.ffno$," ",
     lprint a.fout$,left$(a.fdep$,2);":";right$(a.fdep$,2)," ",

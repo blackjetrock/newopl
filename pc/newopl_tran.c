@@ -1096,6 +1096,14 @@ char *infix_from_rpn(void)
 	case EXP_BUFF_ID_PRINT_NEWLINE:
 	  infix_stack_push("<nl>");
 	  break;
+
+	case EXP_BUFF_ID_LPRINT_SPACE:
+	  infix_stack_push("L< > ");
+	  break;
+
+	case EXP_BUFF_ID_LPRINT_NEWLINE:
+	  infix_stack_push("L<nl>");
+	  break;
 	  
 	case EXP_BUFF_ID_INTEGER:
 	case EXP_BUFF_ID_FLT:
@@ -2126,6 +2134,9 @@ void process_token(OP_STACK_ENTRY *token)
     case EXP_BUFF_ID_PRINT:
     case EXP_BUFF_ID_PRINT_SPACE:
     case EXP_BUFF_ID_PRINT_NEWLINE:
+    case EXP_BUFF_ID_LPRINT:
+    case EXP_BUFF_ID_LPRINT_SPACE:
+    case EXP_BUFF_ID_LPRINT_NEWLINE:
       fprintf(ofp, "\nBuff id print");
 
       // PRINT has special parsing and the CRLF flag processing

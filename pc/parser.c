@@ -54,6 +54,9 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_PRINT",
     "EXP_BUFF_ID_PRINT_SPACE",
     "EXP_BUFF_ID_PRINT_NEWLINE",
+    "EXP_BUFF_ID_LPRINT",
+    "EXP_BUFF_ID_LPRINT_SPACE",
+    "EXP_BUFF_ID_LPRINT_NEWLINE",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -135,11 +138,11 @@ struct _FN_INFO
     { "FIRST",    1,  1, ' ',  "",          "v", 0x00 },
     { "FIX$",     0,  0, ' ',  "fii",       "s", 0x00 },
     { "FLT",      0,  0, ' ',  "i",         "f", 0x00 },
-    { "FREE",     0,  0, ' ',  "ii",        "f", 0x00 },
-    { "GEN$",     0,  0, ' ',  "ii",        "s", 0x00 },
+    { "FREE",     0,  0, ' ',  "",          "i", 0x00 },
+    { "GEN$",     0,  0, ' ',  "fi",        "s", 0x00 },
     { "GET$",     0,  0, ' ',  "",          "s", 0x00 },
     { "GET",      0,  0, ' ',  "",          "i", 0x00 },
-    { "HEX$",     0,  0, ' ',  "ii",        "f", 0x00 },
+    { "HEX$",     0,  0, ' ',  "i",         "s", 0x00 },
     { "HOUR",     0,  0, ' ',  "",          "i", 0x00 },
     { "IABS",     0,  0, ' ',  "i",         "i", 0x00 },
     { "INPUT",    1,  1, ' ',  "i",         "i", 0x00 },
@@ -2900,6 +2903,30 @@ int scan_onerr(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+
+// The different type of print
+
+#define PRINT_TYPE_PRINT 0
+#define PRINT_TYPE_LPRINT 1
+
+struct
+{
+  char *token_name;
+  char *op_name;
+  int  buf_id_newline;
+  int  buf_id_space;
+  int  buf_id_print;
+}
+  print_info[] =
+  {
+    {" PRINT",  "PRINT",  EXP_BUFF_ID_PRINT_NEWLINE,  EXP_BUFF_ID_PRINT_SPACE,   EXP_BUFF_ID_PRINT},
+    {" LPRINT", "LPRINT", EXP_BUFF_ID_LPRINT_NEWLINE, EXP_BUFF_ID_LPRINT_SPACE,  EXP_BUFF_ID_LPRINT},
+  };
+
+  
+  
+////////////////////////////////////////////////////////////////////////////////
+//
 // PRINT
 //
 // Followed by an expression, or followed by
@@ -2911,7 +2938,7 @@ int scan_onerr(void)
 // 
 //
 
-int check_print(int *index)
+int check_print(int *index, int print_type)
 {
   int idx = *index;
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
@@ -2919,7 +2946,7 @@ int check_print(int *index)
   
   dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
   
-  if( check_literal(&idx, " PRINT"))
+  if( check_literal(&idx, print_info[print_type].token_name))
     {
       dbprintf("%s:ret1", __FUNCTION__);
       *index = idx;
@@ -2932,7 +2959,7 @@ int check_print(int *index)
 
 //------------------------------------------------------------------------------
 
-int scan_print(void)
+int scan_print(int print_type)
 {
   int idx = cline_i;
   OP_STACK_ENTRY op;
@@ -2945,9 +2972,9 @@ int scan_print(void)
   
   dbprintf("%s:", __FUNCTION__);
   
-  if( check_literal(&idx, " PRINT"))
+  if( check_literal(&idx, print_info[print_type].token_name) )
     {
-      scan_literal(" PRINT");
+      scan_literal(print_info[print_type].token_name);
 
       // The scan_literal above will generate a PRINT token for us so we don't need it done below
       print_token_needed = 0;
@@ -2992,7 +3019,7 @@ int scan_print(void)
 	      if( print_token_needed )
 		{
 		  op.buf_id = EXP_BUFF_ID_FUNCTION;
-		  strcpy(op.name, "PRINT");
+		  strcpy(op.name, print_info[print_type].op_name);
 		  process_token(&op);
 		}
 	      
@@ -3008,11 +3035,6 @@ int scan_print(void)
 		  idx = cline_i;
 		  
 		  // We need a PRINT space qcode to be generated
-#if 0
-		  op.buf_id = EXP_BUFF_ID_PRINT_SPACE;
-		  strcpy(op.name, "PRINT");
-		  process_token(&op);
-#endif
 		  delimiter_present = 1;
 		  comma_present = 1;
 		}
@@ -3023,31 +3045,18 @@ int scan_print(void)
 		  scan_literal(" ;");
 		  idx = cline_i;
 		  
-#if 0
-		  op.buf_id = EXP_BUFF_ID_PRINT;
-		  strcpy(op.name, "PRINT");
-		  process_token(&op);
-#endif
 		  delimiter_present = 1;
 		  scolon_present = 1;
 		}
 	      
 	      if( !delimiter_present )
 		{
-#if 0		
-		  op.buf_id = EXP_BUFF_ID_PRINT;
-		  strcpy(op.name, "PRINT");
-		  
-		  process_token(&op);
-		  delimiter_present = 1;
-#endif
-		  
 		  // End the PRINT and start a new expression/command
  		  finalise_expression();
 		  output_expression_start(&cline[cline_i]);
 		  
-		  op.buf_id = EXP_BUFF_ID_PRINT_NEWLINE;
-		  strcpy(op.name, "PRINT");
+		  op.buf_id = print_info[print_type].buf_id_newline;
+		  strcpy(op.name, print_info[print_type].op_name);
 		  process_token(&op);
 		  
 		  // Now complete that command/expression and start a new PRINT
@@ -3067,9 +3076,10 @@ int scan_print(void)
 		      // End the PRINT, put in the 'print space' code 
 		      finalise_expression();
 		      output_expression_start(&cline[cline_i]);
-		      
-		      op.buf_id = EXP_BUFF_ID_PRINT_SPACE;
-		      strcpy(op.name, "PRINT");
+
+		      op.buf_id = print_info[print_type].buf_id_space;
+
+		      strcpy(op.name, print_info[print_type].op_name);
 		      process_token(&op);
 		      
 		      // Now complete that command/expression and start a new PRINT
@@ -3101,8 +3111,8 @@ int scan_print(void)
 	      scan_literal(" ;");
 	      
 	      // We need a PRINT qcode to be generated
-	      op.buf_id = EXP_BUFF_ID_PRINT;
-	      strcpy(op.name, "PRINT");
+	      op.buf_id = print_info[print_type].buf_id_print;
+	      strcpy(op.name, print_info[print_type].op_name);
 	      process_token(&op);
 	    }
 	  
@@ -3115,9 +3125,9 @@ int scan_print(void)
 	  // PRINT is not. We generste the newline here
 	  
 	  dbprintf("%s:ret1 Expression not present", __FUNCTION__);
-	  op.buf_id = EXP_BUFF_ID_PRINT_NEWLINE;
+	  op.buf_id = print_info[print_type].buf_id_newline;
 	  op.type = NOBJ_VARTYPE_VOID;
-	  strcpy(op.name, "PRINT");
+	  strcpy(op.name, print_info[print_type].op_name);
 	  process_token(&op);
 	  return(1);
 	}
@@ -3297,7 +3307,16 @@ int check_line(int *index)
     }
 
   idx = cline_i;
-  if( check_print(&idx) )
+  if( check_print(&idx, PRINT_TYPE_PRINT) )
+    {
+      dbprintf("%s:ret1", __FUNCTION__);
+  
+      *index = idx;
+      return(1);
+    }
+
+  idx = cline_i;
+  if( check_print(&idx, PRINT_TYPE_LPRINT) )
     {
       dbprintf("%s:ret1", __FUNCTION__);
   
@@ -3512,9 +3531,15 @@ int scan_line()
     }
 
   idx = cline_i;
-  if( check_print(&idx) )
+  if( check_print(&idx, PRINT_TYPE_PRINT) )
     {
-      return(scan_print());
+      return(scan_print(PRINT_TYPE_PRINT));
+    }
+
+  idx = cline_i;
+  if( check_print(&idx, PRINT_TYPE_LPRINT) )
+    {
+      return(scan_print(PRINT_TYPE_LPRINT));
     }
 
   idx = cline_i;
