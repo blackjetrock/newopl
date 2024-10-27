@@ -2974,11 +2974,6 @@ int scan_print(int print_type)
   
   if( check_literal(&idx, print_info[print_type].token_name) )
     {
-      scan_literal(print_info[print_type].token_name);
-
-      // The scan_literal above will generate a PRINT token for us so we don't need it done below
-      print_token_needed = 0;
-      
       // There is a list of expressions (which may be empty)
       // expressions are delimited by ';' or ','
       // PRINT ';'
@@ -2986,17 +2981,23 @@ int scan_print(int print_type)
       //
       // PRINT
       //
-      // is valid
+      // is valid and generates just a PRINT_NEWLINE token
       //
 
-      idx = cline_i;
+
       
-      if(check_expression(&idx, IGNORE_COMMA))
+      if( check_expression(&idx, IGNORE_COMMA))
 	{
 	  int num_subexpr;
 	  int delimiter_present;
 	  int comma_present;
 	  int scolon_present;
+
+	  idx = cline_i;
+	  scan_literal(print_info[print_type].token_name);
+
+	  // The scan_literal above will generate a PRINT token for us so we don't need it done below
+	  print_token_needed = 1;
 	  
 	  // Scanning expressions here, we do not want comma to be accepted as that
 	  // needs to be compiled to a 'print space' qcode
@@ -3122,7 +3123,12 @@ int scan_print(int print_type)
       else
 	{
 	  // No expression after the PRINT, this is valid, comma and semicolon after
-	  // PRINT is not. We generste the newline here
+
+	  // We don't want a PRINT qcode generated in this case, so use check function to
+	  // remove the PRINT from the input stream
+	  
+	  // PRINT is not needed. We generate the newline here
+	  cline_i = idx;
 	  
 	  dbprintf("%s:ret1 Expression not present", __FUNCTION__);
 	  op.buf_id = print_info[print_type].buf_id_newline;

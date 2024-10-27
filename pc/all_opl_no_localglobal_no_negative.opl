@@ -1215,7 +1215,7 @@ VIEW%:
   endif
 
  elseif STATE%=9 :REM LIST
-  lprint
+  print
   if err=230
    cls :print"No comms link";
    get

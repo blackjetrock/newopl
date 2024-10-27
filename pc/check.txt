@@ -1074,7 +1074,7 @@ AT(1 2 )
 
 
 PRINT ">"; 
-PRINT(">" )
+PRINT(PRINT(">" ) )
 
 
  
@@ -1934,7 +1934,7 @@ AT(1 2 )
 
 
 PRINT "ARE YOU SURE? "; 
-PRINT("ARE YOU SURE? " )
+PRINT(PRINT("ARE YOU SURE? " ) )
 
 
  
@@ -2110,7 +2110,7 @@ ENDIF()
 
 
 PRINT "Colour correction" 
-PRINT("Colour correction" )
+PRINT(PRINT("Colour correction" ) )
 
 
  
@@ -2122,7 +2122,7 @@ PRINT("Colour correction" )
 
 
 PRINT "BLUE",T,"Mired" 
-PRINT("BLUE" )
+PRINT(PRINT("BLUE" ) )
 
 
 T,"Mired" 
@@ -2150,7 +2150,7 @@ PRINT("Mired" )
 
 
 PRINT A$;B$,"Filter" 
-PRINT(A$ )
+PRINT(PRINT(A$ ) )
 
 
 B$,"Filter" 
@@ -2222,7 +2222,7 @@ AT(1 1 )
 
 
 AT 1,1 :PRINT "       Border" 
-PRINT("       Border" )
+PRINT(PRINT("       Border" ) )
 
 
  
@@ -2238,7 +2238,7 @@ AT(1 2 )
 
 
 AT 1,2 :PRINT "    G.Pollington." 
-PRINT("    G.Pollington." )
+PRINT(PRINT("    G.Pollington." ) )
 
 
  
@@ -2254,7 +2254,7 @@ AT(1 3 )
 
 
 AT 1,3 :PRINT "Use cursor keys then" 
-PRINT("Use cursor keys then" )
+PRINT(PRINT("Use cursor keys then" ) )
 
 
  
@@ -2270,7 +2270,7 @@ AT(1 4 )
 
 
 AT 1,4 :PRINT "   EXE to select." 
-PRINT("   EXE to select." )
+PRINT(PRINT("   EXE to select." ) )
 
 
  
@@ -2322,7 +2322,7 @@ AT(3 4 )
 
 
    AT 3,4 :PRINT "Select Character" 
-PRINT("Select Character" )
+PRINT(PRINT("Select Character" ) )
 
 
  
@@ -2382,7 +2382,7 @@ AT(1 2 )
 
 
    AT 1,2  :PRINT bl$ 
-PRINT(bl$ )
+PRINT(PRINT(bl$ ) )
 
 
  
@@ -2398,7 +2398,7 @@ AT(b% 2 )
 
 
    AT b%,2 :PRINT CHR$(169) 
-PRINT(CHR$(169 ) )
+PRINT(PRINT(CHR$(169 ) ) )
 
 
  
@@ -2438,7 +2438,7 @@ AT(1 1 )
 
 
    AT 1,1 :PRINT w$ 
-PRINT(w$ )
+PRINT(PRINT(w$ ) )
 
 
  
@@ -2498,7 +2498,7 @@ AT(1 1 )
 
 
 AT 1,1 :PRINT bl$ 
-PRINT(bl$ )
+PRINT(PRINT(bl$ ) )
 
 
  
@@ -2514,7 +2514,7 @@ AT(1 2 )
 
 
 AT 1,2 :PRINT CHR$(p%);CHR$(p%);"   New Border   ";CHR$(p%);CHR$(p%) 
-PRINT(CHR$(p% ) )
+PRINT(PRINT(CHR$(p% ) ) )
 
 
 CHR$(p%);"   New Border   ";CHR$(p%);CHR$(p%) 
@@ -2546,7 +2546,7 @@ AT(1 3 )
 
 
 AT 1,3 :PRINT CHR$(p%);CHR$(p%);"    Selected    ";CHR$(p%);CHR$(p%) 
-PRINT(CHR$(p% ) )
+PRINT(PRINT(CHR$(p% ) ) )
 
 
 CHR$(p%);"    Selected    ";CHR$(p%);CHR$(p%) 
@@ -2578,7 +2578,7 @@ AT(1 4 )
 
 
 AT 1,4 :PRINT bl$ 
-PRINT(bl$ )
+PRINT(PRINT(bl$ ) )
 
 
  
@@ -2898,7 +2898,7 @@ CLS()
 
 
 PRINT "Focal length" 
-PRINT("Focal length" )
+PRINT(PRINT("Focal length" ) )
 
 
  
@@ -2918,7 +2918,7 @@ CLS()
 
 
 PRINT "f STOP" 
-PRINT("f STOP" )
+PRINT(PRINT("f STOP" ) )
 
 
  
@@ -2962,7 +2962,7 @@ H=H/1000
 
 
 PRINT "FOCUS DISTANCE" 
-PRINT("FOCUS DISTANCE" )
+PRINT(PRINT("FOCUS DISTANCE" ) )
 
 
  
@@ -2986,7 +2986,7 @@ AT(1 1 )
 
 
 PRINT "Hypofocal distance" 
-PRINT("Hypofocal distance" )
+PRINT(PRINT("Hypofocal distance" ) )
 
 
  
@@ -3002,7 +3002,7 @@ AT(1 2 )
 
 
 PRINT HY,"m" 
-PRINT(HY )
+PRINT(PRINT(HY ) )
 
 
 "m" 
@@ -3046,7 +3046,7 @@ AT(1 3 )
 
 
 PRINT"NEAR ";N;" m" 
-PRINT("NEAR " )
+PRINT(PRINT("NEAR " ) )
 
 
 N;" m" 
@@ -3070,7 +3070,7 @@ AT(1 4 )
 
 
 PRINT"INFINITY" 
-PRINT("INFINITY" )
+PRINT(PRINT("INFINITY" ) )
 
 
  
@@ -3122,7 +3122,7 @@ AT(1 3 )
 
 
 PRINT "NEAR",N,"m" 
-PRINT("NEAR" )
+PRINT(PRINT("NEAR" ) )
 
 
 N,"m" 
@@ -3154,7 +3154,7 @@ AT(1 4 )
 
 
 PRINT "FAR",C,"m" 
-PRINT("FAR" )
+PRINT(PRINT("FAR" ) )
 
 
 C,"m" 
@@ -3234,7 +3234,7 @@ AT(1 2 )
 
 
  PRINT "Stop"+CHR$(63) 
-PRINT(("Stop" + CHR$(63 )) )
+PRINT(PRINT(("Stop" + CHR$(63 )) ) )
 
 
  
@@ -3250,7 +3250,7 @@ AT(1 4 )
 
 
  PRINT "Press key." 
-PRINT("Press key." )
+PRINT(PRINT("Press key." ) )
 
 
  
@@ -3274,7 +3274,7 @@ AT(1 1 )
 
 
  PRINT CHR$(26) 
-PRINT(CHR$(26 ) )
+PRINT(PRINT(CHR$(26 ) ) )
 
 
  
@@ -3290,7 +3290,7 @@ AT(15 2 )
 
 
  PRINT CHR$(26) 
-PRINT(CHR$(26 ) )
+PRINT(PRINT(CHR$(26 ) ) )
 
 
  
@@ -3306,7 +3306,7 @@ AT(1 3 )
 
 
  PRINT CHR$(26) 
-PRINT(CHR$(26 ) )
+PRINT(PRINT(CHR$(26 ) ) )
 
 
  
@@ -3330,7 +3330,7 @@ AT(19 2 )
 
 
   PRINT CHR$(255) 
-PRINT(CHR$(255 ) )
+PRINT(PRINT(CHR$(255 ) ) )
 
 
  
@@ -3354,7 +3354,7 @@ AT(18 1 )
 
 
   PRINT CHR$(255) 
-PRINT(CHR$(255 ) )
+PRINT(PRINT(CHR$(255 ) ) )
 
 
  
@@ -3370,7 +3370,7 @@ AT(20 3 )
 
 
   PRINT CHR$(255) 
-PRINT(CHR$(255 ) )
+PRINT(PRINT(CHR$(255 ) ) )
 
 
  
@@ -3394,7 +3394,7 @@ AT(20 1 )
 
 
   PRINT CHR$(255) 
-PRINT(CHR$(255 ) )
+PRINT(PRINT(CHR$(255 ) ) )
 
 
  
@@ -3410,7 +3410,7 @@ AT(18 3 )
 
 
   PRINT CHR$(255) 
-PRINT(CHR$(255 ) )
+PRINT(PRINT(CHR$(255 ) ) )
 
 
  
@@ -3434,7 +3434,7 @@ AT(18 2 )
 
 
   PRINT CHR$(255)+" "+CHR$(255) 
-PRINT((CHR$(255 ) + (" " + CHR$(255 ))) )
+PRINT(PRINT((CHR$(255 ) + (" " + CHR$(255 ))) ) )
 
 
  
@@ -3458,7 +3458,7 @@ AT(1 2 )
 
 
  PRINT "     " 
-PRINT("     " )
+PRINT(PRINT("     " ) )
 
 
  
@@ -3474,7 +3474,7 @@ AT(1 4 )
 
 
  PRINT CHR$(26)+"Again"+CHR$(63)+" Y" 
-PRINT((CHR$(26 ) + ("Again" + (CHR$(63 ) + " Y"))) )
+PRINT(PRINT((CHR$(26 ) + ("Again" + (CHR$(63 ) + " Y"))) ) )
 
 
  
@@ -3494,7 +3494,7 @@ distance:
 
 
 PRINT "Select known data" 
-PRINT("Select known data" )
+PRINT(PRINT("Select known data" ) )
 
 
  
@@ -3514,7 +3514,7 @@ IF A=1
 
 
 PRINT "WHAT HEIGHT mt";CHR$(63) 
-PRINT("WHAT HEIGHT mt" )
+PRINT(PRINT("WHAT HEIGHT mt" ) )
 
 
 CHR$(63) 
@@ -3550,7 +3550,7 @@ CLS()
 
 
 PRINT "WHAT mm LENS";CHR$(63) 
-PRINT("WHAT mm LENS" )
+PRINT(PRINT("WHAT mm LENS" ) )
 
 
 CHR$(63) 
@@ -3586,7 +3586,7 @@ ELSEIF A=2
 
 
 PRINT "WHAT WIDTH mt";CHR$(63) 
-PRINT("WHAT WIDTH mt" )
+PRINT(PRINT("WHAT WIDTH mt" ) )
 
 
 CHR$(63) 
@@ -3622,7 +3622,7 @@ CLS()
 
 
 PRINT "WHAT LENS mm";CHR$(63) 
-PRINT("WHAT LENS mm" )
+PRINT(PRINT("WHAT LENS mm" ) )
 
 
 CHR$(63) 
@@ -3666,7 +3666,7 @@ D=D/100
 
 
 PRINT "A",LE,"mm lens"  
-PRINT("A" )
+PRINT(PRINT("A" ) )
 
 
 LE,"mm lens"  
@@ -3694,7 +3694,7 @@ PRINT("mm lens" )
 
 
 PRINT "gives a",WI, S$ 
-PRINT("gives a" )
+PRINT(PRINT("gives a" ) )
 
 
 WI, S$ 
@@ -3722,7 +3722,7 @@ PRINT(S$ )
 
 
 PRINT "@",D,"metres" 
-PRINT("@" )
+PRINT(PRINT("@" ) )
 
 
 D,"metres" 
@@ -3750,7 +3750,7 @@ PRINT("metres" )
 
 
 PRINT "Distance..." 
-PRINT("Distance..." )
+PRINT(PRINT("Distance..." ) )
 
 
  
@@ -3914,7 +3914,7 @@ CLS()
 
 
 cls :print " DumpPack v0.1"; 
-PRINT(" DumpPack v0.1" )
+PRINT(PRINT(" DumpPack v0.1" ) )
 
 
  
@@ -3986,7 +3986,7 @@ USR(mc1addr% pack% )
 
 
   print "Detected",num$(kb%,3);"k" 
-PRINT("Detected" )
+PRINT(PRINT("Detected" ) )
 
 
 num$(kb%,3);"k" 
@@ -4030,7 +4030,7 @@ cls :buff$=""
 
 
 print "PC file name:" :trap input buff$ 
-PRINT("PC file name:" )
+PRINT(PRINT("PC file name:" ) )
 
 
  :trap input buff$ 
@@ -4062,7 +4062,7 @@ CLS()
 
 
 print "Connecting" 
-PRINT("Connecting" )
+PRINT(PRINT("Connecting" ) )
 
 
  
@@ -4074,7 +4074,7 @@ PRINT("Connecting" )
 
 
 print "to PC..."; 
-PRINT("to PC..." )
+PRINT(PRINT("to PC..." ) )
 
 
  
@@ -4170,7 +4170,7 @@ AT(1 1 )
 
 
 at 1,1 :print "Copying "+chr$(65+pack%)+":" 
-PRINT(("Copying " + (CHR$((65 + pack%) ) + ":")) )
+PRINT(PRINT(("Copying " + (CHR$((65 + pack%) ) + ":")) ) )
 
 
  
@@ -4206,7 +4206,7 @@ AT(12 1 )
 
 
  at 12,1 :print hex$(hiaddr);left$("0000",4-len(h$));h$ 
-PRINT(HEX$(hiaddr ) )
+PRINT(PRINT(HEX$(hiaddr ) ) )
 
 
 left$("0000",4-len(h$));h$ 
@@ -4258,7 +4258,7 @@ AT(13 2 )
 
 
  at 13,2: print fix$(int(cnt/size*100),0,3);"%"; 
-PRINT(FIX$(INT(((cnt / size) * 100) ) 0 3 ) )
+PRINT(PRINT(FIX$(INT(((cnt / size) * 100) ) 0 3 ) ) )
 
 
 "%"; 
@@ -4338,7 +4338,7 @@ CLS()
 
 
 cls :print " DumpPack v0.1" 
-PRINT(" DumpPack v0.1" )
+PRINT(PRINT(" DumpPack v0.1" ) )
 
 
  
@@ -4350,7 +4350,7 @@ PRINT(" DumpPack v0.1" )
 
 
 print "Copy Complete..."+chr$(16); 
-PRINT(("Copy Complete..." + CHR$(16 )) )
+PRINT(PRINT(("Copy Complete..." + CHR$(16 )) ) )
 
 
  
@@ -4450,7 +4450,7 @@ ENDIF()
 
 
 print chr$(15);buff$;chr$(16); 
-PRINT(CHR$(15 ) )
+PRINT(PRINT(CHR$(15 ) ) )
 
 
 buff$;chr$(16); 
@@ -4586,7 +4586,7 @@ ENDIFexpo:
 
 
 PRINT "What ASA is the " 
-PRINT("What ASA is the " )
+PRINT(PRINT("What ASA is the " ) )
 
 
  
@@ -4598,7 +4598,7 @@ PRINT("What ASA is the " )
 
 
 PRINT "filmstock?" 
-PRINT("filmstock?" )
+PRINT(PRINT("filmstock?" ) )
 
 
  
@@ -4622,7 +4622,7 @@ TIME::
 
 
 PRINT "CAMERA SPEED;" 
-PRINT("CAMERA SPEED;" )
+PRINT(PRINT("CAMERA SPEED;" ) )
 
 
  
@@ -4642,7 +4642,7 @@ IF W=2
 
 
 PRINT"Exposure in seconds?" 
-PRINT("Exposure in seconds?" )
+PRINT(PRINT("Exposure in seconds?" ) )
 
 
  
@@ -4670,7 +4670,7 @@ ELSEIF W=1
 
 
 PRINT "Frames per second?" 
-PRINT("Frames per second?" )
+PRINT(PRINT("Frames per second?" ) )
 
 
  
@@ -4698,7 +4698,7 @@ CLS()
 
 
 PRINT "Shutter angle in" 
-PRINT("Shutter angle in" )
+PRINT(PRINT("Shutter angle in" ) )
 
 
  
@@ -4710,7 +4710,7 @@ PRINT("Shutter angle in" )
 
 
 PRINT "degrees?" 
-PRINT("degrees?" )
+PRINT(PRINT("degrees?" ) )
 
 
  
@@ -4738,7 +4738,7 @@ ELSEIF W=3
 
 
 PRINT "Seconds per frame?" 
-PRINT("Seconds per frame?" )
+PRINT(PRINT("Seconds per frame?" ) )
 
 
  
@@ -4766,7 +4766,7 @@ CLS()
 
 
 PRINT "Shutter angle in" 
-PRINT("Shutter angle in" )
+PRINT(PRINT("Shutter angle in" ) )
 
 
  
@@ -4778,7 +4778,7 @@ PRINT("Shutter angle in" )
 
 
 PRINT "degrees" 
-PRINT("degrees" )
+PRINT(PRINT("degrees" ) )
 
 
  
@@ -4910,7 +4910,7 @@ A$=A$+F$+B$+G$+C$+H$+D$+I$+E$+J$
 
 
 PRINT "For exposure..." 
-PRINT("For exposure..." )
+PRINT(PRINT("For exposure..." ) )
 
 
  
@@ -4922,7 +4922,7 @@ PRINT("For exposure..." )
 
 
 PRINT A,"ASA",z,word$,B,CHR$(223) 
-PRINT(A )
+PRINT(PRINT(A ) )
 
 
 "ASA",z,word$,B,CHR$(223) 
@@ -4978,7 +4978,7 @@ AT(1 3 )
 
 
 PRINT "Footcandles;" 
-PRINT("Footcandles;" )
+PRINT(PRINT("Footcandles;" ) )
 
 
  
@@ -5378,7 +5378,7 @@ CLS()
 
 
   cls :print"Find flight" :print">"; 
-PRINT("Find flight" )
+PRINT(PRINT("Find flight" ) )
 
 
  :print">"; 
@@ -5390,7 +5390,7 @@ PRINT("Find flight" )
 
 
   cls :print"Find flight" :print">"; 
-PRINT(">" )
+PRINT(PRINT(">" ) )
 
 
  
@@ -5454,7 +5454,7 @@ CLS()
 
 
   cls :print"Not found"; 
-PRINT("Not found" )
+PRINT(PRINT("Not found" ) )
 
 
  
@@ -5546,7 +5546,7 @@ CLS()
 
 
     cls :print"****************"; :print"**END OF PACK***"; 
-PRINT("****************" )
+PRINT(PRINT("****************" ) )
 
 
  :print"**END OF PACK***"; 
@@ -5554,7 +5554,7 @@ PRINT("****************" )
 
 
     cls :print"****************"; :print"**END OF PACK***"; 
-PRINT("**END OF PACK***" )
+PRINT(PRINT("**END OF PACK***" ) )
 
 
  
@@ -5582,7 +5582,7 @@ CLS()
 
 
      cls :print"****************"; :print"**END OF PACK***"; 
-PRINT("****************" )
+PRINT(PRINT("****************" ) )
 
 
  :print"**END OF PACK***"; 
@@ -5590,7 +5590,7 @@ PRINT("****************" )
 
 
      cls :print"****************"; :print"**END OF PACK***"; 
-PRINT("**END OF PACK***" )
+PRINT(PRINT("**END OF PACK***" ) )
 
 
  
@@ -5666,7 +5666,7 @@ CLS()
 
 
   cls :print count,"flights" 
-PRINT(COUNT() )
+PRINT(PRINT(COUNT() ) )
 
 
 "flights" 
@@ -5770,7 +5770,7 @@ CLS()
 
 
   cls :print"Delete flight" :print"record Y/N"; 
-PRINT("Delete flight" )
+PRINT(PRINT("Delete flight" ) )
 
 
  :print"record Y/N"; 
@@ -5782,7 +5782,7 @@ PRINT("Delete flight" )
 
 
   cls :print"Delete flight" :print"record Y/N"; 
-PRINT("record Y/N" )
+PRINT(PRINT("record Y/N" ) )
 
 
  
@@ -5826,7 +5826,7 @@ CLS()
 
 
    cls :print"Flight record": print"deleted" 
-PRINT("Flight record" )
+PRINT(PRINT("Flight record" ) )
 
 
 : print"deleted" 
@@ -5838,7 +5838,7 @@ PRINT("Flight record" )
 
 
    cls :print"Flight record": print"deleted" 
-PRINT("deleted" )
+PRINT(PRINT("deleted" ) )
 
 
  
@@ -5869,4 +5869,260 @@ ENDIF()
 
 
 
-  lprint 
+  print 
+<nl>
+
+
+  if err=230 
+(ERR() := 230)
+
+
+   cls :print"No comms link"; 
+CLS()
+
+
+   cls :print"No comms link"; 
+PRINT(PRINT("No comms link" ) )
+
+
+ 
+
+
+
+   get 
+GET()
+
+
+   STATE%=1 
+(STATE% := 1)
+
+
+  else 
+ELSE()
+
+
+   lprint"NUM     DATE     FLIGHT#   DEPARTING   ARRIVING" 
+LPRINT(LPRINT("NUM     DATE     FLIGHT#   DEPARTING   ARRIVING" ) )
+
+
+ 
+L<nl>
+
+
+ 
+
+
+
+   lprint"---   --------   -------   ---------   ---------" 
+LPRINT(LPRINT("---   --------   -------   ---------   ---------" ) )
+
+
+ 
+L<nl>
+
+
+ 
+
+
+
+   KY%=0 
+(KY% := 0)
+
+
+   first 
+FIRST()
+
+
+   while not eof 
+EOF()
+
+
+    KY%=KY%+1 
+(KY% := (KY% + 1))
+
+
+    lprint fix$(KY%,0,3)," ", 
+" "
+
+
+ 
+L<nl>
+
+
+ 
+
+
+
+    lprint mid$(a.fdat$,1,2);"/";mid$(a.fdat$,3,2);"/";mid$(a.fdat$,5,6)," ", 
+LPRINT(LPRINT(MID$(fdat$ 1 2 ) ) )
+
+
+"/";mid$(a.fdat$,3,2);"/";mid$(a.fdat$,5,6)," ", 
+LPRINT("/" )
+
+
+mid$(a.fdat$,3,2);"/";mid$(a.fdat$,5,6)," ", 
+LPRINT(MID$(fdat$ 3 2 ) )
+
+
+"/";mid$(a.fdat$,5,6)," ", 
+LPRINT("/" )
+
+
+mid$(a.fdat$,5,6)," ", 
+" "
+
+
+ 
+L<nl>
+
+
+ 
+
+
+
+    lprint a.fair$,a.ffno$," ", 
+LPRINT(LPRINT(fair$ ) )
+
+
+a.ffno$," ", 
+L< > 
+
+
+a.ffno$," ", 
+LPRINT(ffno$ )
+
+
+" ", 
+L< > 
+
+
+" ", 
+LPRINT(" " )
+
+
+ 
+L< > 
+
+
+ 
+
+
+
+    lprint a.fout$,left$(a.fdep$,2);":";right$(a.fdep$,2)," ", 
+LPRINT(LPRINT(fout$ ) )
+
+
+left$(a.fdep$,2);":";right$(a.fdep$,2)," ", 
+L< > 
+
+
+left$(a.fdep$,2);":";right$(a.fdep$,2)," ", 
+LPRINT(LEFT$(fdep$ 2 ) )
+
+
+":";right$(a.fdep$,2)," ", 
+LPRINT(":" )
+
+
+right$(a.fdep$,2)," ", 
+" "
+
+
+ 
+L<nl>
+
+
+ 
+
+
+
+    lprint a.finp$,left$(a.farr$,2);":";right$(a.farr$,2) 
+LPRINT(LPRINT(finp$ ) )
+
+
+left$(a.farr$,2);":";right$(a.farr$,2) 
+L< > 
+
+
+left$(a.farr$,2);":";right$(a.farr$,2) 
+LPRINT(LEFT$(farr$ 2 ) )
+
+
+":";right$(a.farr$,2) 
+LPRINT(":" )
+
+
+right$(a.farr$,2) 
+LPRINT(RIGHT$(farr$ 2 ) )
+
+
+ 
+L<nl>
+
+
+ 
+
+
+
+    next 
+NEXT()
+
+
+   endwh 
+ENDWH()
+
+
+  endif 
+ENDIF()
+
+
+  STATE%=1 
+(STATE% := 1)
+
+
+ elseif STATE%=99 
+(STATE% := 99)
+
+
+  cls :print"Not available"; 
+CLS()
+
+
+  cls :print"Not available"; 
+PRINT(PRINT("Not available" ) )
+
+
+ 
+
+
+
+  get 
+GET()
+
+
+  STATE%=1 
+(STATE% := 1)
+
+
+ else 
+ELSE()
+
+
+  CRASH: 
+
+
+
+ endif 
+ENDIF()
+
+
+endwh 
+ENDWH()
+
+
+close 
+CLOSE()
+
+
+FLYBUILD: 
