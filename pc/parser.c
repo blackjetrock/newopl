@@ -313,13 +313,15 @@ OP_INFO  op_info[] =
     { "<>",   1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { ":=",   1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "+",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "-",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "-",    3, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "**",   5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-    { "*",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    { "*",    5, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     { "/",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    { ">=",   5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "<=",   5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { ">",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "<",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "AND",  5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    { "AND",  5, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     //{ ";",    0, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     // (Handle bitwise on integer, logical on floats somewhere)
     //{ ",",  0, 0 }, /// Not used?
@@ -1349,7 +1351,15 @@ int check_integer(int *index)
   char intval[20];
   char chstr[2];
 
+  chstr[1] = '\0';
   intval[0] = '\0';
+
+  // Can start with '-'
+  if(  (chstr[0] = cline[idx]) == '-' )
+    {
+      strcat(intval, chstr);
+      idx++;
+    }
   
   while( isdigit(chstr[0] = cline[idx]) )
     {
@@ -1379,6 +1389,9 @@ int scan_integer(int *intdest)
 {
   int num_digits = 0;
   OP_STACK_ENTRY op;
+  char intval[20];
+  char chstr[2];
+
   indent_more();
   
   init_op_stack_entry(&op);
@@ -1387,11 +1400,16 @@ int scan_integer(int *intdest)
   
   dbprintf("%s:", __FUNCTION__);
 
-  char intval[20];
-  char chstr[2];
-
+  chstr[1] = '\0';
   intval[0] = '\0';
-  
+
+  // Can start with '-'
+  if(  (chstr[0] = cline[cline_i]) == '-' )
+    {
+      strcat(intval, chstr);
+      cline_i++;
+    }
+
   while( isdigit(chstr[0] = cline[cline_i]) )
     {
       strcat(intval, chstr);
@@ -1986,6 +2004,7 @@ int check_eitem(int *index, int *is_comma, int ignore_comma)
       return(1);
     }
 
+#if 0
   idx = *index;
   if( check_operator(&idx, is_comma, ignore_comma) )
     {
@@ -1993,7 +2012,8 @@ int check_eitem(int *index, int *is_comma, int ignore_comma)
       dbprintf("%s:ret1 comma:1", __FUNCTION__);
       return(1);
     }
-
+#endif
+  
   idx = *index;
   if( check_sub_expr(&idx) )
     {
@@ -2043,7 +2063,7 @@ int scan_eitem(int *num_commas, int ignore_comma)
       *num_commas = 0;
       return(scan_atom());
     }
-
+#if 0
   idx = cline_i;
   if( check_operator(&idx, &is_comma, ignore_comma) )
     {
@@ -2059,7 +2079,8 @@ int scan_eitem(int *num_commas, int ignore_comma)
 	  return(0);
 	}
     }
-
+#endif
+  
   idx = cline_i;
   if( check_sub_expr(&idx) )
     {
@@ -2081,8 +2102,11 @@ int scan_eitem(int *num_commas, int ignore_comma)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// Does not allow empty expression
+//
 
-int check_expression(int *index, int ignore_comma)
+int check_expression_orig(int *index, int ignore_comma)
 {
   int idx = *index;
   int num_eitems = 0;
@@ -2121,8 +2145,11 @@ int check_expression(int *index, int ignore_comma)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// Does allow empty expression
+//
 
-int scan_expression(int *num_commas, int ignore_comma)
+int scan_expression_orig(int *num_commas, int ignore_comma)
 {
   int idx = cline_i;
   int n_commas = 0;
@@ -2156,6 +2183,179 @@ int scan_expression(int *num_commas, int ignore_comma)
 
   *num_commas = n_commas;
   dbprintf("%s: ret1 '%s' commas:%d", __FUNCTION__, &(cline[cline_i]), n_commas);
+  return(1);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+
+int check_expression3(int *index, int ignore_comma)
+{
+  int idx = *index;
+  int num_eitems = 0;
+  int is_comma = 0;
+  
+  indent_more();
+  
+  drop_space(&idx);
+  
+  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
+  
+  if( check_eitem(&idx, &is_comma, ignore_comma) )
+    {
+      dbprintf("%s:ret1 '%s' num_eitems=%d", __FUNCTION__, &(cline[idx]), num_eitems);
+      *index = idx;
+      return(1);
+    }
+
+  dbprintf("%s:ret0 '%s' num_eitems=%d", __FUNCTION__, &(cline[idx]), num_eitems);
+  *index = idx;
+  
+  return(0);
+}
+
+int check_expression(int *index, int ignore_comma)
+{
+  int idx = *index;
+  int n_commas = 0;
+  int n_commas2 = 0;
+  int is_comma;
+  
+  indent_more();
+  
+  dbprintf("'%s'", &(cline[idx]));
+
+  drop_space(&idx);
+  
+  //cline_i = idx;
+
+  if( check_eitem(&idx, &is_comma, ignore_comma) )
+    {
+      // All OK
+    }
+  else
+    {
+      // We allow an empty expression when scanning but not when checking
+      dbprintf("ret1 '%s'", &(cline[idx]));
+      return(0);
+    }
+
+  // Now perform
+  //
+  // (<operator> <eitem>)+
+  //
+
+  //idx = cline_i;
+  
+  while( check_operator(&idx, &is_comma, ignore_comma) )
+    {
+      
+      if( check_eitem(&idx, &n_commas2, ignore_comma) )
+	{
+	  n_commas += n_commas2;
+	  dbprintf("n commas now:%d", n_commas);
+
+	  // All OK
+	}
+      else
+	{
+	  syntax_error("Expression error, expecting term");
+	  dbprintf("ret0 '%s'", &(cline[idx]));
+	  *index = idx;
+	  return(0);
+	}
+      
+      //idx = cline_i;
+    }
+
+  //  *num_commas = n_commas;
+  *index = idx;
+  dbprintf("ret1 '%s' commas:%d", &(cline[idx]), n_commas);
+  return(1);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+
+int scan_expression(int *num_commas, int ignore_comma)
+{
+  int idx = cline_i;
+  int n_commas = 0;
+  int n_commas2 = 0;
+  int is_comma;
+  
+  indent_more();
+  
+  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
+
+  drop_space(&idx);
+  cline_i = idx;
+
+  if( check_eitem(&idx, &n_commas2, ignore_comma) )
+    {
+      
+      if( scan_eitem(&n_commas2, ignore_comma) )
+	{
+	  
+	  // All OK
+	}
+      else
+	{
+	  // Logic error
+	  syntax_error("Expression error, expecting term");
+	  dbprintf("ret0 '%s'", &(cline[cline_i]));
+	  return(0);
+	}
+    }
+  else
+    {
+      // We allow an empty expression when scanning but not when checking
+      dbprintf("ret1 '%s'", &(cline[cline_i]));
+      return(1);
+    }
+
+  // Now perform
+  //
+  // (<operator> <eitem>)+
+  //
+
+  idx = cline_i;
+  
+  while( check_operator(&idx, &is_comma, ignore_comma) )
+    {
+      if( scan_operator(&is_comma, ignore_comma) )
+	{
+	  // All OK
+	}
+      else
+	{
+	  syntax_error("Expression error, expecting operator");
+	  dbprintf("ret0 '%s'", &(cline[cline_i]));
+	  return(0);
+	}
+      
+      if( scan_eitem(&n_commas2, ignore_comma) )
+	{
+	  n_commas += n_commas2;
+	  dbprintf("n commas now:%d", n_commas);
+
+	  // All OK
+	}
+      else
+	{
+	  syntax_error("Expression error, expecting term");
+	  dbprintf("ret0 '%s'", &(cline[cline_i]));
+	  return(0);
+	}
+      
+      idx = cline_i;
+    }
+
+  *num_commas = n_commas;
+  dbprintf("ret1 '%s' commas:%d", &(cline[cline_i]), n_commas);
   return(1);
 }
 

@@ -37,11 +37,8 @@
                '0' |'A' |'B' |'C' |'D' |'E' | 'F'
 <atom>       : <string> | <number> | <variable>	| %<character>       
 <sub_expr>   : '(' <expression> ')'
-
-<eitem>      : <function> | <atom> | <sub_expr> 
-<expression> : <eitem> | <eitem> (<operator> <eitem>)+
-
-
+<eitem>      : <operator> | <function> | <atom> | <sub_expr> 
+<expression> : <eitem>+
 <variable>   : <vname> | <vname>'%' | <vname>'$' |
                <vname>'(' <expression> ')' |
 	       <vname>'%''(' <expression> ')' |

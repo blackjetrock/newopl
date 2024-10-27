@@ -278,6 +278,14 @@ int token_is_integer(char *token)
 {
   int all_digits = 1;
   int len = strlen(token);
+
+  dbprintf(" tok:'%s'", token);
+
+  if( *token == '-' )
+    {
+      token++;
+      len--;
+    }
   
   for(int i=0; i<len; i++)
     {
@@ -288,7 +296,8 @@ int token_is_integer(char *token)
 
       token++;
     }
-  
+
+  dbprintf(" tok:ret%d", all_digits);
   return(all_digits);
 }
 
