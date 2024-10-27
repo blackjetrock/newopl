@@ -96,6 +96,7 @@ void op_stack_display(void);
 void op_stack_print(void);
 char type_to_char(NOBJ_VARTYPE t);
 NOBJ_VARTYPE char_to_type(char ch);
+void dump_exp_buffer(FILE *fp, int bufnum);
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -448,6 +449,9 @@ int global_info_index = 0;
 void output_qcode(void)
 {
 
+  dump_exp_buffer(icfp, 2);
+
+#if 0
   // Run through the final expression buffer, converting into QCode
   for(int i=0; i<exp_buffer2_i; i++)
     {
@@ -467,6 +471,8 @@ void output_qcode(void)
 	}
     }
 
+    dump_exp_buffer(icfp, 2);
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -840,11 +846,23 @@ void add_exp_buffer2_entry(OP_STACK_ENTRY op, int id)
 void dump_exp_buffer(FILE *fp, int bufnum)
 {
   char *idstr;
+  int exp_buff_len = 0;
   
   fprintf(fp, "\nExpression buffer");
   fprintf(fp, "\n=================");
-  
-  for(int i=0; i<exp_buffer_i; i++)
+
+  switch(bufnum)
+    {
+    case 1:
+      exp_buff_len = exp_buffer_i;
+      break;
+      
+    case 2:
+      exp_buff_len = exp_buffer2_i;
+      break;
+    }
+
+  for(int i=0; i<exp_buff_len; i++)
     {
       EXP_BUFFER_ENTRY token;
 
@@ -859,7 +877,7 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 	    break;
 	  }
       
-      fprintf(fp, "\n(%16s) N%d %-24s %c rq:%c '%s' nidx:%d", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer[i].name, token.op.vi.num_indices);
+      fprintf(fp, "\n(%16s) N%d %-24s %c rq:%c '%s' nidx:%d", __FUNCTION__, token.node_id, exp_buffer_id_str[token.op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), token.name, token.op.vi.num_indices);
       
       fprintf(fp, "  %d:", token.p_idx);
       for(int pi=0; pi<token.p_idx; pi++)
@@ -925,8 +943,9 @@ int insert_buf2_entry_after_node_id(int node_id, EXP_BUFFER_ENTRY e)
 {
   int j;
 
-  dump_exp_buffer(ofp, 2);
   
+  dump_exp_buffer(ofp, 2);
+
   // Find the entry with the given node_id
   fprintf(ofp, "\n Insert after %d exp_buffer2_i:%d", node_id, exp_buffer2_i);
   
@@ -1622,7 +1641,7 @@ void expression_tree_process(char *expr)
   typecheck_expression();
   dump_exp_buffer(ofp, 1);
   dump_exp_buffer(ofp, 2);
-  dump_exp_buffer(icfp, 2);
+  //  dump_exp_buffer(icfp, 2);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
