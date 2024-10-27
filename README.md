@@ -109,3 +109,6 @@ Assignment statements are also treated as expressions, with the '=' symbol repre
 The GLOBAL and LOCAL statemants are not treated as expressions and are parsed separately.
 
 The conditional and branch statements are treated as expressions as they use expressions as their control values. There is additional processing with these statements, however, as the destinations of branches need to be stored for each statement, and this also needs to handle nested branches correctly.
+
+Negative integers are parsed in the recursive descent parser and so the negation of positive integers to get negativbe integers isn't used.
+
