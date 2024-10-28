@@ -1240,7 +1240,7 @@ int check_operator(int *index, int *is_comma, int ignore_comma)
   int idx = *index;
   indent_more();
   
-  dbprintf("%s: %s", __FUNCTION__, cline_now(idx));
+  dbprintf("%s: %s igncomma:%d", __FUNCTION__, cline_now(idx), ignore_comma);
 
   drop_space(&idx);
 
@@ -2177,7 +2177,7 @@ int scan_expression_orig(int *num_commas, int ignore_comma)
   
   indent_more();
   
-  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
+  dbprintf("%s: '%s' igncomma:%d", __FUNCTION__, &(cline[idx]), ignore_comma);
 
   drop_space(&idx);
   cline_i = idx;
@@ -2308,7 +2308,7 @@ int scan_expression(int *num_commas, int ignore_comma)
   
   indent_more();
   
-  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
+  dbprintf("%s: '%s' igncomma:%d", __FUNCTION__, &(cline[idx]), ignore_comma);
 
   drop_space(&idx);
   cline_i = idx;
@@ -2663,7 +2663,7 @@ int scan_command(char *cmd_dest)
 ////////////////////////////////////////////////////////////////////////////////
 //
 // It is possible to use a variable that has the same 'name' as a function, if the last character is
-// different and a tyoe character.
+// different and a type character.
 //
 // So, 'POS' is a function and you can have a variable with the name:
 //
@@ -2671,7 +2671,7 @@ int scan_command(char *cmd_dest)
 //
 
 
-int check_function(int *index)
+int check_function_orig(int *index)
 {
   int idx = *index;
   int origidx = idx;
@@ -2789,6 +2789,66 @@ int scan_function(char *cmd_dest)
   dbprintf("ret0");
   return(0);
 }
+
+//------------------------------------------------------------------------------
+
+int check_function(int *index)
+{
+  int idx = *index;
+
+  indent_more();
+  
+  drop_space(&idx);
+  
+  dbprintf(" '%s'", &(cline[idx]));
+
+  for(int i=0; i<NUM_FUNCTIONS; i++)
+    {
+      if( !(fn_info[i].command) && strn_match(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name)) )
+	{
+	  // Match
+	  idx += strlen(fn_info[i].name);
+  
+	  // If the function has no arguments, add a dummy empty expression after it
+	  // as the shunting algorithm has to have brackets after a function
+	  if( strlen(fn_info[i].argtypes) == 0 )
+	    {
+	      switch( fn_info[i].argparse )
+		{
+		case 'V':
+		  // The V argument type is a variable name. We use an argparse string of ""
+		  // and so need to skip the dummy argument.
+		  break;
+
+		default:
+		  dbprintf("No arguments");
+
+		  break;
+		}
+	    }
+	  else
+	    {
+	      int num_commas = 0;
+	      
+	      if( !check_expression(&idx, HEED_COMMA) )
+		{
+		  dbprintf("ret0");
+		  return(0);
+		}
+	    }
+	  
+	  *index = idx;
+	  dbprintf("ret1");
+	  return(1);
+	}
+    }
+
+  *index = idx;
+  dbprintf("ret0");
+  return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 int check_assignment(int *index)
 {
@@ -3204,8 +3264,6 @@ int scan_print(int print_type)
       //
       // is valid and generates just a PRINT_NEWLINE token
       //
-
-
       
       if( check_expression(&idx, IGNORE_COMMA))
 	{
@@ -3336,10 +3394,27 @@ int scan_print(int print_type)
 	      op.buf_id = print_info[print_type].buf_id_print;
 	      strcpy(op.name, print_info[print_type].op_name);
 	      process_token(&op);
+	      dbprintf("%s:ret1 Expression, semicolon terminated", __FUNCTION__);
+	      return(1);
+	      
+	    }
+
+	  if( check_literal(&idx, " ,") )
+	    {
+	      scan_literal(" ,");
+	      
+	      // We need a PRINT qcode to be generated
+	      op.buf_id = print_info[print_type].buf_id_space;
+	      strcpy(op.name, print_info[print_type].op_name);
+	      process_token(&op);
+	      dbprintf("%s:ret1 Expression, semicolon terminated", __FUNCTION__);
+	      return(1);
+	      
 	    }
 	  
 	  dbprintf("%s:ret1 Expression ", __FUNCTION__);
 	  return(1);
+	  
 	}
       else
 	{
