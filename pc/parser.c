@@ -2983,7 +2983,9 @@ int scan_return(void)
   
   if( check_literal(&idx, " RETURN"))
     {
-      // We may or may not have an expression after the 
+      // We may or may not have an expression after the RETURN
+      cline_i = idx;
+      
       if(check_expression(&idx, HEED_COMMA))
 	{
 	  int num_subexpr;
