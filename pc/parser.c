@@ -1457,12 +1457,21 @@ int check_float(int *index)
   char chstr[2];
   int decimal_present = 0;
   int num_digits = 0;
+
   indent_more();
   
   dbprintf("%s:", __FUNCTION__);
   
   drop_space(&idx);
+
+  chstr[1] = '\0';
   
+  // Can start with '-'
+  if(  (chstr[0] = cline[idx]) == '-' )
+    {
+      idx++;
+    }
+
   while( isfloatdigit(chstr[0] = cline[idx]) )
     {
       if( chstr[0] == '.' )
@@ -1487,6 +1496,8 @@ int check_float(int *index)
   return(0);
 }
 
+//------------------------------------------------------------------------------
+
 int scan_float(char *fltdest)
 {
 
@@ -1504,7 +1515,15 @@ int scan_float(char *fltdest)
   drop_space(&cline_i);
   
   fltval[0] = '\0';
-  
+  chstr[1] = '\0';
+
+  // Can start with '-'
+  if(  (chstr[0] = cline[cline_i]) == '-' )
+    {
+      strcat(fltval, chstr);
+      cline_i++;
+    }
+
   while( isfloatdigit(chstr[0] = cline[cline_i]) )
     {
       if( chstr[0] == '.' )

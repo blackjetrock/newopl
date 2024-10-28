@@ -257,7 +257,7 @@ int token_is_float(char *token)
   
   for(int i=0; i < len; i++)
     {
-      if( !( isdigit(*token) || (*token == '.')))
+      if( !( isdigit(*token) || (*token == '.') || (*token == '-') ))
 	{
 	  all_digits = 0;
 	}
