@@ -23,12 +23,14 @@ int token_is_float(char *token);
 int token_is_integer(char *token);
 int token_is_variable(char *token);
 int token_is_string(char *token);
+int check_expression_list(int *index);
 
 void finalise_expression(void);
 void output_expression_start(char *expr);
 void process_token(OP_STACK_ENTRY *token);
 void parser_check(void);
 void indent_more(void);
+int scan_expression_list(void);
 
 
 NOBJ_VARTYPE char_to_type(char ch);

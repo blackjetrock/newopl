@@ -28,6 +28,9 @@ int cline_i = 0;
 
 char procedure_name[NOBJ_VARNAME_MAXLEN+1];
 
+#define I_WHERE     &(cline[cline_i])
+#define IDX_WHERE   &(cline[idx])
+
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -158,7 +161,7 @@ struct _FN_INFO
     { "LOC",      0,  0, ' ',  "ss",        "i", 0x00 },
     { "LOG",      0,  0, ' ',  "f",         "f", 0x00 },
     { "LOWER$",   0,  0, ' ',  "s",         "s", 0x00 },
-    { "LPRINT",   1,  0, ' ',  "i",         "v", 0x00 },    // As print
+    //    { "LPRINT",   1,  0, ' ',  "i",         "v", 0x00 },    // As print
     { "MAX",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "MEAN",     0,  0, ' ',  "ii",        "f", 0x00 },    // Multiple forms
     { "MENUN",    0,  0, ' ',  "is",        "i", 0x00 },    // Multiple forms
@@ -181,7 +184,7 @@ struct _FN_INFO
     { "POKEW",    1,  0, ' ',  "ii",        "v", 0x00 },
     { "POSITION", 1,  1, ' ',  "i",         "v", 0x00 },
     { "POS",      0,  0, ' ',  "",          "i", 0x00 },
-    { "PRINT",    1,  0, ' ',  "i",         "v", 0x00 },
+    //    { "PRINT",    1,  0, ' ',  "i",         "v", 0x00 },
     { "RAD",      0,  0, ' ',  "f",         "f", 0x00 },
     { "RAISE",    1,  0, ' ',  "i",         "v", 0x00 },
     { "RANDOMIZE",1,  0, ' ',  "i",         "v", 0x00 },
@@ -937,7 +940,9 @@ void set_op_var_type(OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
     }
 }
 
-int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
+//------------------------------------------------------------------------------
+
+int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
 {
   char vname[300];
   char chstr[2];
@@ -947,7 +952,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
   init_op_stack_entry(&op);
   indent_more();
   
-  dbprintf("%s:", __FUNCTION__);
+  dbprintf("'%s' ref_ndeclare:%d", I_WHERE, ref_ndeclare);
 
   init_var_info(vi);
   vi->is_ref = ref_ndeclare;
@@ -982,7 +987,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	}
 
       // Is it an array?
-      dbprintf("%s: Ary test '%s'", __FUNCTION__, &(cline[cline_i]));
+      dbprintf("Array test '%s'", I_WHERE);
       idx = cline_i;
       
       if( check_literal(&idx,"(") )
@@ -993,7 +998,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	      return(0);
 	    }
 	  
-	  dbprintf("%s: is array", __FUNCTION__);
+	  dbprintf("'%s' is array", vname);
 	  
 	  vi->is_array = 1;
 	  
@@ -1002,7 +1007,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	  if( ref_ndeclare )
 	    {
 	      int num_subexpr;
-	      
+
 	      scan_expression(&num_subexpr, HEED_COMMA);
 	      vi->num_indices = num_subexpr+1;
 	    }
@@ -1020,8 +1025,8 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 		  scan_integer(&(vi->max_array));
 		}
 	    }
-
-	  dbprintf("num idx:%d", vi->num_indices);
+	  
+	  print_var_info(vi);
       
 #if 1
 	  // Could be string array, which has two expressions in
@@ -1039,7 +1044,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
 		    {
 		      int num_subexpr;
 		      scan_expression(&num_subexpr, HEED_COMMA);
-		      vi->num_indices = num_subexpr+1;
+		      vi->num_indices = vi->num_indices+1;
 		    }
 		  else
 		    {
@@ -1087,6 +1092,7 @@ int scan_variable(char *variable_dest, NOBJ_VAR_INFO *vi, int ref_ndeclare)
       op.vi = *vi;
       process_token(&op);
       
+      dbprintf("%s:ret1", __FUNCTION__);
       return(1);
     }
   
@@ -1110,7 +1116,7 @@ int check_variable(int *index)
   
   drop_space(&idx);
   
-  dbprintf("%s:", __FUNCTION__);
+  dbprintf("'%s'", IDX_WHERE);
 
   vname[0] = '\0';
   chstr[1] = '\0';
@@ -1151,7 +1157,7 @@ int check_variable(int *index)
 	  // Add token to output stream for index or indices
 	  // If it's an empty expression then it's not an expression. This is an
 	  // ADDR address reference to an array
-	  if( !check_expression(&idx, HEED_COMMA) )
+	  if( !check_expression_list(&idx) )
 	    {
 	      // Not a variable reference, probably an ADDR function argument.
 	      *index = idx;
@@ -1159,6 +1165,7 @@ int check_variable(int *index)
 	      return(0);
 	    }
 
+#if 0
 	  // Could be string array, which has two expressions in
 	  // the brackets
 	  if( check_literal(&idx," ,") )
@@ -1183,7 +1190,9 @@ int check_variable(int *index)
 		  return(0);
 		}
 	    }
-	  
+#endif
+
+	  dbprintf("Expression parsed, checking for )");
 	  if( check_literal(&idx, " )") )
 	    {
 	      dbprintf("%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
@@ -1244,15 +1253,20 @@ int check_operator(int *index, int *is_comma, int ignore_comma)
 
   drop_space(&idx);
 
+#if 0
   if( !ignore_comma )
     {
       if( check_literal(&idx, " ,") )
 	{
 	  *index = idx;
+	  *is_comma = 1;
+	  
 	  dbprintf("ret1:is comma: %d", *is_comma);
 	  return(1);
 	}
     }
+
+#endif
   
   for(int i=0; i<NUM_OPERATORS; i++)
     {
@@ -1398,7 +1412,7 @@ int scan_integer(int *intdest)
   
   drop_space(&cline_i);
   
-  dbprintf("%s:", __FUNCTION__);
+  dbprintf("'%s'", I_WHERE);
 
   chstr[1] = '\0';
   intval[0] = '\0';
@@ -1431,7 +1445,7 @@ int scan_integer(int *intdest)
       op.type = NOBJ_VARTYPE_INT;
       process_token(&op);
 
-      dbprintf("%s:ret1  %s", __FUNCTION__, intval);
+      dbprintf("%s:ret1  intval='%s'", __FUNCTION__, intval);
 
       return(1);
     }
@@ -1729,6 +1743,8 @@ int scan_number(void)
   return(0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 int check_sub_expr(int *index)
 {
   int idx = *index;
@@ -1739,15 +1755,36 @@ int check_sub_expr(int *index)
   
   if( check_literal(&idx," (") )
     {
-      dbprintf("%s: ret1", __FUNCTION__);
-      *index = idx;
-      return(1);
+      if( check_expression(&idx, IGNORE_COMMA) )
+	{
+	    if( check_literal(&idx," )") )
+	      {
+		dbprintf("%s: ret1", __FUNCTION__);
+		*index = idx;
+		return(1);
+	      }
+	    else
+	      {
+		dbprintf("ret0: Expected ')'");
+	      }
+	}
+      else
+	{
+	  dbprintf("ret0: Expected expression");
+	}
+      
     }
-
-  dbprintf("%s: ret0", __FUNCTION__);
+  else
+    {
+      dbprintf("ret0: No '('");
+      return(0);
+    }
+  
   *index = idx;
   return(0);
 }
+
+//------------------------------------------------------------------------------
 
 int scan_sub_expr(void)
 {
@@ -1763,9 +1800,11 @@ int scan_sub_expr(void)
     {
       strcpy(op.name, "(");
       process_token(&op);
-      
+
+      dbprintf("Before scan expression");
       if( scan_expression(&num_subexpr, HEED_COMMA) )
 	{
+	  dbprintf("scan expr ok, scanning for )");
 	  if( scan_literal(" )") )
 	    {
 	      strcpy(op.name, ")");
@@ -1918,7 +1957,7 @@ int scan_atom(void)
 {
   int idx = cline_i;
   NOBJ_VAR_INFO vi;
-  char vname[300];
+
   indent_more();
   
   init_var_info(&vi);
@@ -1980,7 +2019,7 @@ int scan_atom(void)
     {
       // Variable
       init_var_info(&vi);
-      if(scan_variable(vname, &vi, VAR_REF))
+      if(scan_variable(&vi, VAR_REF))
 	{
 	  print_var_info(&vi);
 	  dbprintf("%s:ret1", __FUNCTION__);
@@ -2120,120 +2159,11 @@ int scan_eitem(int *num_commas, int ignore_comma)
   return(0);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//
-// Does not allow empty expression
-//
-
-int check_expression_orig(int *index, int ignore_comma)
-{
-  int idx = *index;
-  int num_eitems = 0;
-  int is_comma = 0;
-  
-  indent_more();
-  
-  drop_space(&idx);
-  
-  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
-  while( (cline[idx] != '\0') && (cline[idx] != ')') && (cline[idx] != ':') )
-    {
-      drop_space(&idx);
-
-      if( check_eitem(&idx, &is_comma, ignore_comma) )
-	{
-	  num_eitems++;
-	}
-      else
-	{
-	  break;
-	}
-    }
-
-  if( num_eitems > 0 )
-    {
-      dbprintf("%s:ret1 '%s' num_eitems=%d", __FUNCTION__, &(cline[idx]), num_eitems);
-      *index = idx;
-      return(1);
-    }
-
-  dbprintf("%s:ret0 '%s' num_eitems=%d", __FUNCTION__, &(cline[idx]), num_eitems);
-  *index = idx;
-  
-  return(0);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//
-// Does allow empty expression
-//
-
-int scan_expression_orig(int *num_commas, int ignore_comma)
-{
-  int idx = cline_i;
-  int n_commas = 0;
-  int n_commas2 = 0;
-  int is_comma;
-  
-  indent_more();
-  
-  dbprintf("%s: '%s' igncomma:%d", __FUNCTION__, &(cline[idx]), ignore_comma);
-
-  drop_space(&idx);
-  cline_i = idx;
-
-  while( check_eitem(&idx, &is_comma, ignore_comma) )
-    {
-      if( scan_eitem(&n_commas2, ignore_comma) )
-	{
-	  n_commas += n_commas2;
-	  dbprintf("n commas now:%d", n_commas);
-
-	  // All OK
-	}
-      else
-	{
-	  syntax_error("Expression error");
-	  dbprintf("%s: ret0 '%s'", __FUNCTION__, &(cline[cline_i]));
-	  return(0);
-	}
-      idx = cline_i;
-    }
-
-  *num_commas = n_commas;
-  dbprintf("%s: ret1 '%s' commas:%d", __FUNCTION__, &(cline[cline_i]), n_commas);
-  return(1);
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
-
-int check_expression3(int *index, int ignore_comma)
-{
-  int idx = *index;
-  int num_eitems = 0;
-  int is_comma = 0;
-  
-  indent_more();
-  
-  drop_space(&idx);
-  
-  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
-  
-  if( check_eitem(&idx, &is_comma, ignore_comma) )
-    {
-      dbprintf("%s:ret1 '%s' num_eitems=%d", __FUNCTION__, &(cline[idx]), num_eitems);
-      *index = idx;
-      return(1);
-    }
-
-  dbprintf("%s:ret0 '%s' num_eitems=%d", __FUNCTION__, &(cline[idx]), num_eitems);
-  *index = idx;
-  
-  return(0);
-}
 
 int check_expression(int *index, int ignore_comma)
 {
@@ -2308,7 +2238,7 @@ int scan_expression(int *num_commas, int ignore_comma)
   
   indent_more();
   
-  dbprintf("%s: '%s' igncomma:%d", __FUNCTION__, &(cline[idx]), ignore_comma);
+  dbprintf("'%s' igncomma:%d", &(cline[idx]), ignore_comma);
 
   drop_space(&idx);
   cline_i = idx;
@@ -2342,9 +2272,11 @@ int scan_expression(int *num_commas, int ignore_comma)
   //
 
   idx = cline_i;
-  
+
+  dbprintf("'%s' Before while igncomma:%d", &(cline[idx]), ignore_comma);
   while( check_operator(&idx, &is_comma, ignore_comma) )
     {
+      dbprintf("'%s' Before scan op igncomma:%d", &(cline[idx]), ignore_comma);
       if( scan_operator(&is_comma, ignore_comma) )
 	{
 	  // All OK
@@ -2355,7 +2287,8 @@ int scan_expression(int *num_commas, int ignore_comma)
 	  dbprintf("ret0 '%s'", &(cline[cline_i]));
 	  return(0);
 	}
-      
+
+      dbprintf("'%s' Before scan_eitem igncomma:%d", &(cline[idx]), ignore_comma);
       if( scan_eitem(&n_commas2, ignore_comma) )
 	{
 	  n_commas += n_commas2;
@@ -2410,6 +2343,89 @@ int check_onoff(int *index, int *onoff_val)
   return(0);
   
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// An expression list is a list of comma delimited expressions
+
+int check_expression_list(int *index)
+{
+  int idx = *index;
+  indent_more();
+  
+  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
+
+  if( check_expression(&idx, HEED_COMMA) )
+    {
+      while( check_literal(&idx, " ,") )
+	{
+	  if( !check_expression(&idx, HEED_COMMA) )
+	    {
+	      // Should have had an expression after the comma
+	      dbprintf("ret0 No expression after comma '%s'", &(cline[idx]));
+	      *index = idx;
+	      return(0);
+	    }
+	}
+
+      // All OK
+      dbprintf("ret1 '%s'", &(cline[idx]));
+      *index = idx;
+      return(1);
+    }
+
+  // Bad
+  dbprintf("ret0 No initial expression '%s'", &(cline[idx]));
+  *index = idx;
+  return(0);
+
+}
+
+//------------------------------------------------------------------------------
+
+int scan_expression_list(void)
+{
+  int is_comma = 0;
+  int idx = cline_i;
+  char fnval[40];
+  OP_STACK_ENTRY op;
+  int num_commas = 0;
+  
+  indent_more();
+  
+  init_op_stack_entry(&op);
+  
+  dbprintf("%s:", __FUNCTION__);
+
+  if( scan_expression(&num_commas, HEED_COMMA) )
+    {
+      idx = cline_i;
+      
+      while( check_literal(&idx, " ,") )
+	{
+	  scan_literal(" ,");
+	  
+	  if( !scan_expression(&idx, HEED_COMMA) )
+	    {
+	      // Should have had an expression after the comma
+	      dbprintf("ret0 No expression after comma '%s'", &(cline[idx]));
+	      return(0);
+	    }
+
+	  // Set up idx for next iteration
+	  idx = cline_i;
+	}
+
+      // All OK
+      dbprintf("ret1 '%s'", &(cline[idx]));
+      return(1);
+    }
+
+  // Bad
+  dbprintf("ret0 No initial expression '%s'", &(cline[idx]));
+  return(0);
+}
+
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -2637,7 +2653,7 @@ int scan_command(char *cmd_dest)
 	      
 	      // Expression scanning will push expression to output stream.
 	    default:
-	      if( scan_expression(&num_subexpr, HEED_COMMA) )
+	      if( scan_expression_list() )
 		{
 		  dbprintf("%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
 		  dbprintf( "\nENDEXP");
@@ -2732,6 +2748,8 @@ int check_function_orig(int *index)
 int scan_function(char *cmd_dest)
 {
   OP_STACK_ENTRY op;
+  int idx;
+  
   indent_more();
   
   init_op_stack_entry(&op);
@@ -2773,10 +2791,33 @@ int scan_function(char *cmd_dest)
 	  else
 	    {
 	      int num_commas = 0;
+
+	      idx = cline_i;
 	      
-	      if( !scan_expression(&num_commas, HEED_COMMA) )
+	      if( check_literal(&idx, " (") )
 		{
-		  dbprintf("ret0");
+		  scan_literal(" (");
+		  
+		  if( !scan_expression_list() )
+		    {
+		      dbprintf("ret0 Not an expression");
+		      return(0);
+		    }
+		  
+		  if( !scan_literal(" )" ))
+		    {
+		      dbprintf("ret0 No )");
+		      return(0);
+		    }
+		  else
+		    {
+		      dbprintf("ret1");
+		      return(1);
+		    }
+		}
+	      else
+		{
+		  dbprintf("ret0 No (");
 		  return(0);
 		}
 	    }
@@ -2784,7 +2825,7 @@ int scan_function(char *cmd_dest)
 	  return(1);
 	}
     }
-
+  
   strcpy(cmd_dest, "");
   dbprintf("ret0");
   return(0);
@@ -2829,9 +2870,27 @@ int check_function(int *index)
 	  else
 	    {
 	      int num_commas = 0;
-	      
-	      if( !check_expression(&idx, HEED_COMMA) )
+
+	      if( check_literal(&idx, " (") )
 		{
+		  
+		  if( !check_expression_list(&idx) )
+		    {
+		      syntax_error("Not an expression");
+		      dbprintf("ret0");
+		      return(0);
+		    }
+
+		  if( !check_literal(&idx, " )" ) )
+		    {
+		      syntax_error("No )");
+		      dbprintf("ret0");
+		      return(0);
+		    }
+		}
+	      else
+		{
+		  syntax_error("No (");
 		  dbprintf("ret0");
 		  return(0);
 		}
@@ -2877,7 +2936,6 @@ int check_assignment(int *index)
 
 int scan_assignment(void)
 {
-  char vname[300];
   NOBJ_VAR_INFO vi;
   int num_subexpr  = 0;
   
@@ -2886,7 +2944,7 @@ int scan_assignment(void)
   init_var_info(&vi);
   dbprintf("%s:", __FUNCTION__);
 
-  if( scan_variable(vname, &vi, VAR_REF) )
+  if( scan_variable(&vi, VAR_REF) )
     {
       print_var_info(&vi);
       
@@ -3251,7 +3309,7 @@ int scan_print(int print_type)
   
   init_op_stack_entry(&op);
   
-  dbprintf("%s:", __FUNCTION__);
+  dbprintf("print type:%d", print_type);
   
   if( check_literal(&idx, print_info[print_type].token_name) )
     {
@@ -3276,7 +3334,7 @@ int scan_print(int print_type)
 	  scan_literal(print_info[print_type].token_name);
 
 	  // The scan_literal above will generate a PRINT token for us so we don't need it done below
-	  print_token_needed = 1;
+	  print_token_needed = 0;
 	  
 	  // Scanning expressions here, we do not want comma to be accepted as that
 	  // needs to be compiled to a 'print space' qcode
@@ -3284,31 +3342,37 @@ int scan_print(int print_type)
 
 	  // We chck the entire expression and delimiter and then scan so we can order the
 	  // expression tokens and PRINT tokens correctly
-	  
+
+	  dbprintf("Before while");
 	  while( check_expression(&idx, IGNORE_COMMA) )
 	    {
+	      dbprintf("Check epression ok, in while loop");
+	      
 	      //idx = cline_i;
 
 	      delimiter_present = 0;
 	      comma_present = 0;
 	      scolon_present = 0;
 
-
 	      // We may need a PRINT token generated, we do it like this so we don't get a
 	      // spurious token at the end of every line. (Actually a spurious command/expression)
 	      if( print_token_needed )
 		{
+		  dbprintf("Print token needed");
+		  
 		  op.buf_id = EXP_BUFF_ID_FUNCTION;
 		  strcpy(op.name, print_info[print_type].op_name);
 		  process_token(&op);
 		}
 	      
 	      // Scan expression, we will add delimiter qcodes in a new command/expression
-	      
+
+	      dbprintf("Scan expression");
 	      scan_expression( &num_subexpr, IGNORE_COMMA);
 
 	      idx = cline_i;
 
+	      dbprintf("After scan expression I");
 	      if( check_literal(&idx, " ,") )
 		{
 		  scan_literal(" ,");
@@ -3318,7 +3382,8 @@ int scan_print(int print_type)
 		  delimiter_present = 1;
 		  comma_present = 1;
 		}
-	      
+
+	      dbprintf("After scan expression II");
 	      if( check_literal(&idx, " ;") )
 		{
 		  // We need a PRINT space qcode to be generated
@@ -3328,9 +3393,12 @@ int scan_print(int print_type)
 		  delimiter_present = 1;
 		  scolon_present = 1;
 		}
-	      
+
+	      dbprintf("Checking if delimiter was present");
 	      if( !delimiter_present )
 		{
+		  dbprintf("No delimiter present");
+		  
 		  // End the PRINT and start a new expression/command
  		  finalise_expression();
 		  output_expression_start(&cline[cline_i]);
@@ -3351,8 +3419,11 @@ int scan_print(int print_type)
 		}
 	      else
 		{
+		  dbprintf("Delimiter present");
 		  if( comma_present )
 		    {
+		      dbprintf("Comma present");
+		      
 		      // End the PRINT, put in the 'print space' code 
 		      finalise_expression();
 		      output_expression_start(&cline[cline_i]);
@@ -3372,6 +3443,8 @@ int scan_print(int print_type)
 
 		  if( scolon_present )
 		    {
+		      dbprintf("Semi colon present");
+		      
 		      // Now complete that command/expression and start a new PRINT
 		      // to handle the next expression to be printed
 		      finalise_expression();
@@ -3385,9 +3458,13 @@ int scan_print(int print_type)
 	    }
 	  
 	  // There could be a semicolon on the end of the print command
+
+	  dbprintf("Check for trailing delimiter");
 	  
 	  if( check_literal(&idx, " ;") )
 	    {
+	      dbprintf("Semi colon trailing");
+	      
 	      scan_literal(" ;");
 	      
 	      // We need a PRINT qcode to be generated
@@ -3401,6 +3478,7 @@ int scan_print(int print_type)
 
 	  if( check_literal(&idx, " ,") )
 	    {
+	      dbprintf("Comma trailing");
 	      scan_literal(" ,");
 	      
 	      // We need a PRINT qcode to be generated
@@ -3418,6 +3496,7 @@ int scan_print(int print_type)
 	}
       else
 	{
+
 	  // No expression after the PRINT, this is valid, comma and semicolon after
 
 	  // We don't want a PRINT qcode generated in this case, so use check function to
@@ -3435,7 +3514,7 @@ int scan_print(int print_type)
 	}
     }
   
-  dbprintf("ret0");
+  dbprintf("ret0: Expected PRINT");
   return(0);
 }
 
@@ -3466,11 +3545,10 @@ int check_input(int *index)
 int scan_input(void)
 {
   NOBJ_VAR_INFO vi;
-  char vname[300];
 
   if( scan_literal(" INPUT") )
     {
-      if(scan_variable(vname, &vi, VAR_REF))
+      if(scan_variable(&vi, VAR_REF))
 	{
 	  print_var_info(&vi);
 	  dbprintf("%s:ret1", __FUNCTION__);
@@ -4110,7 +4188,6 @@ int scan_procdef(void)
 int scan_localglobal(int local_nglobal)
 {
   int idx = cline_i;
-  char varname[NOBJ_VARNAME_MAXLEN+1];
   NOBJ_VAR_INFO vi;
   char *keyword;
   indent_more();
@@ -4125,23 +4202,22 @@ int scan_localglobal(int local_nglobal)
     {
       keyword = " GLOBAL";
     }
-  
-  dbprintf("%s:", __FUNCTION__);
+
+  dbprintf("'%s'", I_WHERE);
   
   if( scan_literal(keyword) )
     {
       idx = cline_i;
 
-
       while( check_variable(&idx) )
 	{
 	  init_var_info(&vi);
 	  
-	  scan_variable(varname, &vi, VAR_DECLARE);
+	  scan_variable(&vi, VAR_DECLARE);
 	  vi.is_global = !local_nglobal;
 	  vi.is_ref = 0;
 	  
-	  dbprintf("%s:%s variable:'%s'", __FUNCTION__, keyword, varname);
+	  dbprintf("%s variable:'%s'", keyword, vi.name);
 	  print_var_info(&vi);
 	  
 	  idx = cline_i;
@@ -4171,7 +4247,7 @@ int check_declare(int *index)
   int idx = *index;
   indent_more();
   
-  dbprintf("%s:", __FUNCTION__);
+  dbprintf("'%s'", IDX_WHERE);
   
   if( check_literal(&idx, " LOCAL") )
     {
@@ -4187,7 +4263,7 @@ int check_declare(int *index)
       return(1);
     }
 
-  dbprintf("%s:ret 0", __FUNCTION__);
+  dbprintf("ret 0");
   *index = idx;
   return(0);
 }

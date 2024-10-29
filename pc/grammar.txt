@@ -1,63 +1,64 @@
-<file>       : <procdef> <declares> <cline>*
-<declare>    : <local> | <global>
-<local>      : 'LOCAL' <decvarlist>
-<global>     : 'GLOBAL' <decvarlist>
-<declares>   : <declare>+
-<cline>      : <line> | <line> ':' <cine>+
-<procdef>    : <proc_name> <param_list>
-<pcon>       : ';' | ','
-<pitems>     : <expression> | <expression> <pcon> <pitems>
-<print>      : 'PRINT' <pitems>+
-<line>       : 'REM' <text> | <proc_call> |
-               <print> |
-               <onerr> | <label> | <assignment> | <command> |
-	       <function> <expression |
-               TRAP <trapable_command> |
-               'IF' <expression> | 'ELSE' | 'ENDIF' |
-	       'DO' | 'WHILE' <expression> |
-	       'WHILE' <expression> | 'ENDWH' |
-	       'REPEAT' | 'UNTIL' <expression> |
-	       'GOTO' <label> |
-	       <return> |
-	       <addr_cmd>
-<addr_cmd>   : 'ADDR' '(' <addr_names> ')'
-<addr_names> :  <vname>':' | <vname>'%:' | <vname>'$:' |
-                <vname>'()' | <vname>'%()' | <vname>'$()'
-<return>     : 'RETURN' | 'RETURN' <variable>
-<proc_name>  :  <vname>':' | <vname>'%:' | <vname>'$:'
-<proc_call>  : <proc_name> <expression>
-<label>      : <string>'::'
-<onerr>      : ONERR <label> | ONERR OFF
-<string>     : '"'<textchar>*'"'
-<text>       : <textchar>*
-<number>     : <integer> | <float> | <hexnumber>
-<hexnumber>  : '$'<hexdigit>+
-<hexdigits>  ; '0' | '1' | '2' | '3' | '4' |
-               '5' | '6' | '7' | '8' | '9' |
-               '0' |'A' |'B' |'C' |'D' |'E' | 'F'
-<atom>       : <string> | <number> | <variable>	| %<character>       
-<sub_expr>   : '(' <expression> ')'
+<file>            : <procdef> <declares> <cline>*
+<declare>         : <local> | <global>
+<local>           : 'LOCAL' <decvarlist>
+<global>          : 'GLOBAL' <decvarlist>
+<declares>        : <declare>+
+<cline>           : <line> | <line> ':' <cine>+
+<procdef>         : <proc_name> <param_list>
+<pcon>            : ';' | ','
+<pitems>          : <expression> | <expression> <pcon> <pitems>
+<print>           : 'PRINT' <pitems>+
+<expression-list> : <expression> | <expression> (',' <expression>)+
+<line>            : 'REM' <text> | <proc_call> |
+                    <print> |
+                    <onerr> | <label> | <assignment> | <command> |
+	            <function> '(' <expression-list> ')' |
+                    TRAP <trapable_command> |
+                    'IF' <expression> | 'ELSE' | 'ENDIF' |
+	            'DO' | 'WHILE' <expression> |
+	            'WHILE' <expression> | 'ENDWH' |
+	            'REPEAT' | 'UNTIL' <expression> |
+	            'GOTO' <label> |
+	            <return> |
+	            <addr_cmd>
+<addr_cmd>        : 'ADDR' '(' <addr_names> ')'
+<addr_names>      :  <vname>':' | <vname>'%:' | <vname>'$:' |
+                     <vname>'()' | <vname>'%()' | <vname>'$()'
+<return>          : 'RETURN' | 'RETURN' <variable>
+<proc_name>       :  <vname>':' | <vname>'%:' | <vname>'$:'
+<proc_call>       : <proc_name> <expression-list>
+<label>           : <string>'::'
+<onerr>           : ONERR <label> | ONERR OFF
+<string>          : '"'<textchar>*'"'
+<text>            : <textchar>*
+<number>          : <integer> | <float> | <hexnumber>
+<hexnumber>       : '$'<hexdigit>+
+<hexdigits>       ; '0' | '1' | '2' | '3' | '4' |
+                    '5' | '6' | '7' | '8' | '9' |
+                    '0' |'A' |'B' |'C' |'D' |'E' | 'F'
+<atom>            : <string> | <number> | <variable>	| %<character>       
+<sub_expr>        : '(' <expression> ')'
+     
+                    <eitem>      : <function> | <atom> | <sub_expr> 
+                    <expression> : <eitem> | <eitem> (<operator> <eitem>)+
 
-<eitem>      : <function> | <atom> | <sub_expr> 
-<expression> : <eitem> | <eitem> (<operator> <eitem>)+
 
-
-<variable>   : <vname> | <vname>'%' | <vname>'$' |
-               <vname>'(' <expression> ')' |
-	       <vname>'%''(' <expression> ')' |
-	       <vname>'$''(' <expression> ')'
-<decvar>     : <vname> | <vname>'%' | <vname>'$' |
-               <vname>'(' <expression> ')' |
-	       <vname>'%''(' <expression> ')' |
-	       <vname>'$''(' <expression> ')' |
-	       <vname>'$''(' <expression ',' <expression> ')'
-<parameter>  : <vname> | <vname>'%' | <vname>'$'
-<command>    : <command-list-name-entry> <expression>
-<assignment> : <variable> '=' <expression>
-<varlist>    : <variable>+
-<param_list> : '(' <parameter>+ ')'
-<vname>      : <A-Z><A-Z0-9>*
-<operator>   : <operator-list-string>	      
+<variable>        : <vname> | <vname>'%' | <vname>'$' |
+                    <vname>'(' <expression> ')' |
+	            <vname>'%''(' <expression> ')' |
+	            <vname>'$''(' <expression> ')'
+<decvar>          : <vname> | <vname>'%' | <vname>'$' |
+                    <vname>'(' <expression> ')' |
+	            <vname>'%''(' <expression> ')' |
+	            <vname>'$''(' <expression> ')' |
+	            <vname>'$''(' <expression ',' <expression> ')'
+<parameter>       : <vname> | <vname>'%' | <vname>'$'
+<command>         : <command-list-name-entry> <expression>
+<assignment>      : <variable> '=' <expression>
+<varlist>         : <variable>+
+<param_list>      : '(' <parameter>+ ')'
+<vname>           : <A-Z><A-Z0-9>*
+<operator>        : <operator-list-string>	      
 
 Notes:
 
