@@ -843,6 +843,8 @@ void add_exp_buffer2_entry(OP_STACK_ENTRY op, int id)
   exp_buffer2_i++;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 void dump_exp_buffer(FILE *fp, int bufnum)
 {
   char *idstr;
@@ -877,7 +879,15 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 	    break;
 	  }
       
-      fprintf(fp, "\n(%16s) N%d %-24s %c rq:%c '%s' nidx:%d", __FUNCTION__, token.node_id, exp_buffer_id_str[token.op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), token.name, token.op.vi.num_indices);
+	fprintf(fp, "\n(%16s) N%d %-24s Lvl:%d %c rq:%c '%s' nidx:%d",
+		__FUNCTION__,
+		token.node_id,
+		exp_buffer_id_str[token.op.buf_id],
+		token.op.level,
+		type_to_char(token.op.type),
+		type_to_char(token.op.req_type),
+		token.name,
+		token.op.vi.num_indices);
       
       fprintf(fp, "  %d:", token.p_idx);
       for(int pi=0; pi<token.p_idx; pi++)
@@ -1672,7 +1682,8 @@ void init_op_stack_entry(OP_STACK_ENTRY *op)
   op->buf_id = EXP_BUFF_ID_NONE;
   op->name[0] = '\0';
   op->num_bytes = 0;
-
+  op->level = 0;
+  
   for(int i=0; i<NOPL_MAX_SUFFIX_BYTES; i++)
     {
       op->bytes[i] = 0xCC;
@@ -2486,8 +2497,8 @@ void dummy(void)
 int n_lines_ok    = 0;
 int n_lines_bad   = 0;
 int n_lines_blank = 0;
-
-void translate_file(FILE *fp, FILE *ofp)
+#if 0
+void translate_fileX(FILE *fp, FILE *ofp)
 {
   char line[MAX_NOPL_LINE+1];
   int all_spaces = 0;
@@ -2602,6 +2613,79 @@ void translate_file(FILE *fp, FILE *ofp)
 	}
     }
 }
+
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Translates a file
+//
+////////////////////////////////////////////////////////////////////////////////
+
+void translate_file(FILE *fp, FILE *ofp)
+{
+  char line[MAX_NOPL_LINE+1];
+  int idx;
+  
+  // Initialise the line supplier
+  initialise_line_supplier(fp);
+
+  idx = cline_i;
+  
+  // Now translate the file
+  pull_next_line();
+  
+  if( scan_procdef() )
+    {
+      n_lines_ok++;
+      dbprintf("\ncline scanned OK");
+      //finalise_expression();
+    }
+  else
+    {
+      n_lines_bad++;
+      dbprintf("\ncline failed scan");
+    }
+
+  pull_next_line();
+  
+  idx = cline_i;  
+
+  while( check_declare(&idx) )
+    {
+      //output_expression_start(cline);
+      if( scan_declare() )
+	{
+	  // All OK
+	}
+      else
+	{
+	  syntax_error("Bad declaration");
+	}
+      
+      pull_next_line();
+      idx = cline_i;  
+    }
+  
+  indent_none();
+  
+  while( scan_line() )
+    {
+      indent_none();
+#if 0      
+      if( !pull_next_line() )
+	{
+	  break;
+	}
+#endif
+    }
+  
+  // Done
+
+  dbprintf("Done");
+  
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //

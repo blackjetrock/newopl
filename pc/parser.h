@@ -4,6 +4,8 @@ void dbpf(const char *caller, char *fmt, ...);
 int scan_addr_name(void);
 int check_addr_name(int *index);
 
+int scan_line();
+void indent_none(void);
 int scan_expression(int *num_commas, int ignore_comma);
 int check_function(int *index);
 int scan_function(char *cmd_dest);
@@ -31,6 +33,9 @@ void process_token(OP_STACK_ENTRY *token);
 void parser_check(void);
 void indent_more(void);
 int scan_expression_list(void);
+void initialise_line_supplier(FILE *fp);
+int pull_next_line(void);
+
 
 
 NOBJ_VARTYPE char_to_type(char ch);
@@ -109,3 +114,7 @@ void init_op_stack_entry(OP_STACK_ENTRY *op);
 
 #define IGNORE_COMMA  1
 #define HEED_COMMA    0
+
+extern int n_lines_ok;
+extern int n_lines_bad;
+extern int n_lines_blank;

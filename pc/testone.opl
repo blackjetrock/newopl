@@ -2,5 +2,7 @@ print:
 
 local A
 
-USR(ADDR(A%()),pos%)
-USR(ADDR(A%()),pos)
+IF A%=3
+A% = 123 : B% = 999
+
+ENDIF

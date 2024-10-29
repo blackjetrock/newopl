@@ -8,6 +8,10 @@
 <pcon>            : ';' | ','
 <pitems>          : <expression> | <expression> <pcon> <pitems>
 <print>           : 'PRINT' <pitems>+
+<if>              : 'IF' <expression> <line>* 'ENDIF' |
+
+		    'IF' <expression> <line>* ('ELSEIF' <expression> <line>*)* ('ELSE' <line>*){1} 'ENDIF'
+		    
 <expression-list> : <expression> | <expression> (',' <expression>)+
 <line>            : 'REM' <text> | <proc_call> |
                     <print> |
@@ -64,6 +68,7 @@ Notes:
 
 *  means zero or more occurrances
 +  means  one or more occurrances
+{n} Means 0 up to n occurances
 
 No variable name can be a command or function. E.g.:
 

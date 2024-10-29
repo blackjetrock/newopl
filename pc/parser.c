@@ -18,6 +18,7 @@
 // reads next composite line into buffer
 char cline[MAX_NOPL_LINE];
 int cline_i = 0;
+int if_level = 0;
 
 
 #define SAVE_I     1
@@ -129,6 +130,7 @@ struct _FN_INFO
     { "DISP",     0,  0, ' ',  "i$",        "i", 0x00 },
     { "DOW",      0,  0, ' ',  "iii",       "i", 0x00 },
     { "EDIT",     1,  1, ' ',  "s",         "v", 0x00 },
+    { "ENDIF",    1,  0, ' ',  "",          "v", 0x00 },
     { "EOF",      0,  0, ' ',  "",          "i", 0x00 },
     { "ERASE",    1,  1, ' ',  "",          "v", 0x00 },
     { "ERR$",     0,  0, ' ',  "i",         "s", 0x00 },
@@ -151,6 +153,7 @@ struct _FN_INFO
     { "INPUT",    1,  1, ' ',  "i",         "i", 0x00 },
     { "INTF",     0,  0, ' ',  "f",         "f", 0x00 },
     { "INT",      0,  0, ' ',  "f",         "i", 0x00 },
+    { "IF",       1,  0, ' ',  "i",         "v", 0x00 },
     { "KEY$",     0,  0, ' ',  "",          "s", 0x00 },
     { "KEY",      0,  0, ' ',  "",          "i", 0x00 },
     { "KSTAT",    1,  0, ' ',  "i",         "v", 0x00 },
@@ -579,6 +582,37 @@ void syntax_error(char *fmt, ...)
   exit(-1);
 }
 
+//------------------------------------------------------------------------------
+//
+// Error in the compiler logic
+//
+
+void internal_error(char *fmt, ...)
+{
+  va_list valist;
+  char line[80];
+  
+  va_start(valist, fmt);
+
+  vsprintf(line, fmt, valist);
+  va_end(valist);
+
+  printf("\n*** Internal compiler error ***");
+  
+  printf("\n%s", cline);
+  printf("\n");
+  for(int i=0; i<cline_i-1; i++)
+    {
+      printf(" ");
+    }
+  printf("^");
+  
+  printf("\n\n   %s", line);
+  printf("\n");
+  
+  exit(-1);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 // gets next line (a composite line which may be composed of commands
@@ -588,10 +622,13 @@ void syntax_error(char *fmt, ...)
 int next_composite_line(FILE *fp)
 {
   int all_spaces = 1;
+
+  dbprintf("------------------------------");
   
   if( fgets(cline, MAX_NOPL_LINE, fp) == NULL )
     {
       cline_i = 0;
+      dbprintf("ret0");
       return(0);
     }
 
@@ -601,6 +638,7 @@ int next_composite_line(FILE *fp)
       cline[strlen(cline)-1] = ' ';
     }
 
+  dbprintf("ret1");
   return(1);
 }
 
@@ -655,7 +693,7 @@ int scan_assignment_equals(void)
       if( *lit != cline[cline_i] )
 	{
 	  // Not a match, fail
-	  dbprintf("%s:ret1", __FUNCTION__);  
+	  dbprintf("ret1");  
 	  return(0);
 	}
       
@@ -683,7 +721,7 @@ int scan_assignment_equals(void)
   strcpy(op.name, ":=");
   process_token(&op);
   
-  dbprintf("%s:ret1", __FUNCTION__);  
+  dbprintf("ret1");  
   return(1);
 }
 
@@ -695,13 +733,13 @@ int scan_assignment_equals(void)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-int scan_literal(char *lit)
+int scan_literal_core(char *lit, OP_STACK_ENTRY *op)
 {
   char *origlit = lit;
-  OP_STACK_ENTRY op;
+
   indent_more();
   
-  init_op_stack_entry(&op);
+  init_op_stack_entry(op);
   
   dbprintf("%s:lit='%s' '%s'", __FUNCTION__, lit, &(cline[cline_i]));
   
@@ -718,6 +756,7 @@ int scan_literal(char *lit)
       dbprintf("%s:while loop:%s", __FUNCTION__, &(cline[cline_i]));
       if( cline[cline_i] == '\0' )
 	{
+	  dbprintf("ret0");  
 	  syntax_error("Bad literal '%s'", origlit);
 	  return(0);
 	}
@@ -725,7 +764,7 @@ int scan_literal(char *lit)
       if( toupper(*lit) != toupper(cline[cline_i]) )
 	{
 	  // Not a match, fail
-	  dbprintf("%s:ret1", __FUNCTION__);  
+	  dbprintf("ret0");  
 	  return(0);
 	}
       
@@ -743,17 +782,46 @@ int scan_literal(char *lit)
 
   if( *origlit == ' ' )
     {
-      strcpy(op.name, origlit+1);
+      strcpy(op->name, origlit+1);
     }
   else
     {
-      strcpy(op.name, origlit);
+      strcpy(op->name, origlit);
+    }
+}
+
+//------------------------------------------------------------------------------
+// Scans for a literal and stores a level with it
+
+int scan_literal_level(char *lit, int level)
+{
+  OP_STACK_ENTRY op;
+
+  if( scan_literal_core(lit, &op) )
+    {
+      op.level = level;
+      process_token(&op);
+      
+      dbprintf("ret1");  
+      return(1);
     }
   
-  process_token(&op);
+  return(0);
+}
+
+int scan_literal(char *lit)
+{
+  OP_STACK_ENTRY op;
+
+  if( scan_literal_core(lit, &op) )
+    {
+      process_token(&op);
+      
+      dbprintf("ret1");  
+      return(1);
+    }
   
-  dbprintf("%s:ret1", __FUNCTION__);  
-  return(1);
+  return(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1092,7 +1160,7 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
       op.vi = *vi;
       process_token(&op);
       
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       return(1);
     }
   
@@ -1386,7 +1454,7 @@ int check_integer(int *index)
   
   if( num_digits > 0 )
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       return(1);
     }
 
@@ -1437,7 +1505,7 @@ int scan_integer(int *intdest)
   
   if( num_digits > 0 )
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
 
       strcpy(op.name, intval);
 
@@ -1600,7 +1668,7 @@ int check_hex(int *index)
   
   if( num_digits > 0 )
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       return(1);
     }
 
@@ -1649,7 +1717,7 @@ int scan_hex(int *intdest)
   
   if( num_digits > 0 )
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
 
       sprintf(intval, "%d", *intdest);
       strcpy(op.name, intval);
@@ -1810,7 +1878,7 @@ int scan_sub_expr(void)
 	      strcpy(op.name, ")");
 	      process_token(&op);
 	      
-	      dbprintf("%s:ret1", __FUNCTION__);
+	      dbprintf("ret1");
 	      return(1);
 	    }
 	}
@@ -1839,7 +1907,7 @@ int check_atom(int *index)
 	{
 	  idx++; 
 	  *index = idx;
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  return(1);
 	}
     }
@@ -1870,7 +1938,7 @@ int check_atom(int *index)
 	}
       
       *index = idx;
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       return(1);
     }
 
@@ -1879,7 +1947,7 @@ int check_atom(int *index)
     {
       // Int or float
       *index = idx;
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       return(1);
     }
 
@@ -1888,7 +1956,7 @@ int check_atom(int *index)
     {
       // Variable
       *index = idx;
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       return(1);
     }
 
@@ -1940,7 +2008,7 @@ int scan_string(void)
     }
 
   syntax_error("Bad string");
-  dbprintf("%s:ret1", __FUNCTION__);
+  dbprintf("ret1");
   return(0);
 }
 
@@ -1971,7 +2039,7 @@ int scan_atom(void)
 	  // Hxadecimal number
 	  if(scan_character())
 	    {
-	      dbprintf("%s:ret1", __FUNCTION__);
+	      dbprintf("ret1");
 	      return(1);
 	    }
 	  else
@@ -1988,7 +2056,7 @@ int scan_atom(void)
       // String
       if(scan_string())
 	{
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  return(1);
 	}
       else
@@ -2004,7 +2072,7 @@ int scan_atom(void)
       // Int or float
       if(scan_number())
 	{
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  return(1);
 	}
       else
@@ -2022,7 +2090,7 @@ int scan_atom(void)
       if(scan_variable(&vi, VAR_REF))
 	{
 	  print_var_info(&vi);
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  return(1);
 	}
       
@@ -2050,7 +2118,7 @@ int check_eitem(int *index, int *is_comma, int ignore_comma)
   if( check_function(&idx) )
     {
       *index = idx;
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       return(1);
     }
 
@@ -2058,7 +2126,7 @@ int check_eitem(int *index, int *is_comma, int ignore_comma)
   if( check_atom(&idx) )
     {
       *index = idx;
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       return(1);
     }
 
@@ -2076,7 +2144,7 @@ int check_eitem(int *index, int *is_comma, int ignore_comma)
   if( check_sub_expr(&idx) )
     {
       *index = idx;
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       return(1);
     }
 
@@ -2084,7 +2152,7 @@ int check_eitem(int *index, int *is_comma, int ignore_comma)
   if( check_addr_name(&idx) )
     {
       *index = idx;
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       return(1);
     }
   
@@ -2327,7 +2395,7 @@ int check_onoff(int *index, int *onoff_val)
   if( check_literal(&idx, " ON") )
     {
       *onoff_val = 1;
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       return(1);
     }
 
@@ -2335,7 +2403,7 @@ int check_onoff(int *index, int *onoff_val)
   if( check_literal(&idx, " OFF") )
     {
       *onoff_val = 0;
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       return(1);
     }
 
@@ -2456,7 +2524,7 @@ int check_addr_name(int *index)
 	  if( check_literal(&idx, addr_name_suffix[i]) )
 	    {
 	      *index = idx;
-	      dbprintf("%s:ret1", __FUNCTION__);  
+	      dbprintf("ret1");  
 	      return(1);
 	    }
 	}
@@ -2497,7 +2565,7 @@ int scan_addr_name(void)
 
 	      // Move index on
 	      cline_i = idx;
-	      dbprintf("%s:ret1", __FUNCTION__);  
+	      dbprintf("ret1");  
 	      return(1);
 	    }
 	}
@@ -2947,7 +3015,7 @@ int check_assignment(int *index)
 	  if( check_expression(&idx, HEED_COMMA) )
 	    {
 	      *index = idx;
-	      dbprintf("%s:ret1", __FUNCTION__);
+	      dbprintf("ret1");
 	      return(1);
 	    }
 	}
@@ -3026,7 +3094,7 @@ int check_textlabel(int *index, char *label_dest)
   if( cline[idx] == ':' )
     {
       *index = idx;
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       return(1);
     }
   
@@ -3046,7 +3114,7 @@ int check_label(int *index)
     {
       if( check_literal(&idx, "::") )
 	{
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  *index = idx;
 	  return(1);
 	}
@@ -3070,7 +3138,7 @@ int scan_label(char *dest_label)
       if( scan_literal("::") )
 	{
 	  strcpy(dest_label, textlabel);
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  return(1);
 	}
     }
@@ -3100,7 +3168,7 @@ int check_return(int *index)
   
   if( check_literal(&idx, " RETURN"))
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       *index = idx;
       return(1);
     }
@@ -3186,7 +3254,7 @@ int check_onerr(int *index)
   
   if( check_literal(&idx, " ONERR"))
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       *index = idx;
       return(1);
     }
@@ -3311,7 +3379,7 @@ int check_print(int *index, int print_type)
   
   if( check_literal(&idx, print_info[print_type].token_name))
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       *index = idx;
       return(1);
     }
@@ -3555,7 +3623,7 @@ int check_input(int *index)
   
   if( check_literal(&idx, " INPUT"))
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       *index = idx;
       return(1);
     }
@@ -3575,7 +3643,7 @@ int scan_input(void)
       if(scan_variable(&vi, VAR_REF))
 	{
 	  print_var_info(&vi);
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  return(1);
 	}
     }
@@ -3600,7 +3668,7 @@ int check_proc_call(int *index)
       dbprintf("%s:is text label", __FUNCTION__);
       if( check_literal(&idx, ":") )
 	{
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  *index = idx;
 	  dbprintf("%s:ret1 idx='%s'", __FUNCTION__, &(cline[idx]));
 	  return(1);
@@ -3608,7 +3676,7 @@ int check_proc_call(int *index)
 
       if( check_literal(&idx, "%:") )
 	{
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  *index = idx;
 	  dbprintf("%s:ret1 idx='%s'", __FUNCTION__, &(cline[idx]));
 	  return(1);
@@ -3616,7 +3684,7 @@ int check_proc_call(int *index)
 
       if( check_literal(&idx, "$:") )
 	{
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  *index = idx;
 	  dbprintf("%s:ret1 idx='%s'", __FUNCTION__, &(cline[idx]));
 	  return(1);
@@ -3648,7 +3716,7 @@ int scan_proc_call(void)
       
       if( scan_literal(":") )
 	{
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  op.type = NOBJ_VARTYPE_FLT;
 	  op.buf_id = EXP_BUFF_ID_PROC_CALL;
 	  strcpy(op.name, textlabel);
@@ -3658,7 +3726,7 @@ int scan_proc_call(void)
 
       if( scan_literal("%:") )
 	{
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  op.type = NOBJ_VARTYPE_INT;
 	  strcpy(op.name, textlabel);
 	  process_token(&op);
@@ -3667,7 +3735,7 @@ int scan_proc_call(void)
 
       if( scan_literal("$:") )
 	{
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  op.type = NOBJ_VARTYPE_STR;
 	  strcpy(op.name, textlabel);
 	  process_token(&op);
@@ -3678,6 +3746,108 @@ int scan_proc_call(void)
   dbprintf("%s:ret0", __FUNCTION__);
   return(0);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+int check_if(int *index)
+{
+  int idx = *index;
+
+  indent_more();
+  
+  dbprintf("'%s'", IDX_WHERE);
+  
+  if( check_literal(&idx, " IF"))
+    {
+      dbprintf("ret1");
+      *index = idx;
+      return(1);
+    }
+  
+  dbprintf("ret0");
+  return(0);
+  
+}
+
+//------------------------------------------------------------------------------
+
+int scan_if(int if_level)
+{
+  int idx = cline_i;
+  int num_sub_expr;
+  
+  indent_more();
+  
+  dbprintf("'%s'", I_WHERE);
+  
+  if( scan_literal_level(" IF", if_level))
+    {
+
+      if( scan_expression(&num_sub_expr, IGNORE_COMMA) )
+	{
+	  while(1)
+	    {
+	      idx = cline_i;
+	      if( check_literal(&idx, " ENDIF") )
+		{
+		  // End of the IF clause
+		  if( scan_literal(" ENDIF") )
+		    {
+		      dbprintf("ret1");
+		      return(1);
+		    }
+		  else
+		    {
+		      internal_error("Bad expression");
+		      dbprintf("ret0");
+		      return(0);
+		    }
+		}
+	      
+	      idx = cline_i;
+	      if( check_literal(&idx, " ELSE") )
+		{
+		}
+	      
+	      idx = cline_i;
+	      if( check_literal(&idx, " ELSEIF") )
+		{
+		}
+	      
+	      // Otherwise it must be a line
+	      if( scan_line() )
+		{
+		  // All OK, repeat
+		}
+	      else
+		{
+		  // Error, should have a message from the lower parsers
+		  syntax_error("");
+		  dbprintf("ret0");
+		  return(0);
+		}
+	    }
+	}
+      else
+	{
+	  syntax_error("Bad expression");
+	  dbprintf("ret0");
+	  return(0);
+	}
+      
+    }
+  else
+    {
+      syntax_error("Expected IF");
+      dbprintf("ret0");
+      return(0);
+    }
+  
+  syntax_error("Bad IF");
+  dbprintf("ret0");
+  return(0);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -3704,7 +3874,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_assignment(&idx) )
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
   
       *index = idx;
       return(1);
@@ -3713,7 +3883,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_print(&idx, PRINT_TYPE_PRINT) )
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
   
       *index = idx;
       return(1);
@@ -3722,7 +3892,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_print(&idx, PRINT_TYPE_LPRINT) )
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
   
       *index = idx;
       return(1);
@@ -3731,7 +3901,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_input(&idx) )
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
   
       *index = idx;
       return(1);
@@ -3740,7 +3910,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_return(&idx) )
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
   
       *index = idx;
       return(1);
@@ -3749,7 +3919,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_onerr(&idx) )
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
   
       *index = idx;
       return(1);
@@ -3759,7 +3929,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_label(&idx) )
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       *index = idx;
       return(1);
     }
@@ -3767,46 +3937,44 @@ int check_line(int *index)
   idx = cline_i;
   if( check_proc_call(&idx) )
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
   
       *index = idx;
       return(1);
     }
 
   idx = cline_i;
-
+  if( check_if(&idx) )
+    {
+      dbprintf("ret1");
+      *index = idx;
+      return(1);
+    }
+  
+  idx = cline_i;
   if( check_command(&idx) )
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       *index = idx;
       return(1);
     }
 
+  
   idx = cline_i;
-
   if( check_function(&idx) )
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       *index = idx;
       return(1);
     }
 
-  idx = cline_i;
-  if( check_literal(&idx," IF"))
-    {
-      strcpy(op.name, "IF");
-
-      dbprintf("%s:ret1", __FUNCTION__);
-      *index = idx;
-      return(1);
-    }
 
   idx = cline_i;
   if( check_literal(&idx," ELSEIF"))
     {
       if( check_expression(&idx, HEED_COMMA) )
 	{
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  *index = idx;
 	  return(1);
 	}
@@ -3815,7 +3983,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," ELSE"))
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       *index = idx;
       return(1);
     }
@@ -3823,7 +3991,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," ENDIF"))
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       *index = idx;
       return(1);
     }
@@ -3831,7 +3999,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," DO"))
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       *index = idx;
       return(1);
     }
@@ -3839,7 +4007,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," WHILE"))
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       *index = idx;
       return(1);
     }
@@ -3847,7 +4015,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," ENDWH"))
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       *index = idx;
       return(1);
     }
@@ -3855,7 +4023,7 @@ int check_line(int *index)
   idx = cline_i;
   if( check_literal(&idx," REPEAT"))
     {
-      dbprintf("%s:ret1", __FUNCTION__);
+      dbprintf("ret1");
       *index = idx;
       return(1);
     }
@@ -3865,7 +4033,7 @@ int check_line(int *index)
     {
       if( check_expression(&idx, HEED_COMMA) )
 	{
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  *index = idx;
 	  return(1);
 	}
@@ -3878,18 +4046,27 @@ int check_line(int *index)
       
       if( check_label(&idx) )
 	{
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  *index = idx;
 	  return(1);
 	}
     }
 
-  dbprintf("%s:ret1", __FUNCTION__);
+  dbprintf("ret1");
   *index = idx;
   return(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// Scan another line.
+//
+// Lines are part of 'composite lines' which are just text made up of colon
+// delimited lines.
+//
+// scan_line pulls the next line from the composite line handler and scans it
+//
+
 
 int scan_line()
 {
@@ -3902,20 +4079,37 @@ int scan_line()
   drop_space(&cline_i);
   
   dbprintf("%s:", __FUNCTION__);
-  
+
+  if( !pull_next_line() )
+    {
+      dbprintf("ret0 pull_next_line=0");
+      return(0);
+    }
+
   // If it's a REM, then the line parses and we generate no tokens
   
   idx = cline_i;
   if( check_literal(&idx, " REM") )
     {
       dbprintf("Comment ignored");
+      dbprintf("ret1");
       return(1);
     }
 
   idx = cline_i;
   if( check_assignment(&idx) )
     {
-      return(scan_assignment());
+
+      if(scan_assignment())
+	{
+	  dbprintf("ret1");
+	  return(1);
+	}
+      else
+	{
+	  dbprintf("ret0");
+	  return(0);
+	}
     }
 
   // Has to be before proc call
@@ -3924,44 +4118,117 @@ int scan_line()
     {
       if( scan_label(label) )
 	{
+	  dbprintf("ret1");
 	  return(1);
+	}
+      else
+	{
+	  dbprintf("ret0");
+	  return(0);
 	}
     }
 
   idx = cline_i;
   if( check_proc_call(&idx) )
     {
-      return(scan_proc_call());
+      if(scan_proc_call())
+	{
+	  dbprintf("ret1");
+	  return(1);
+	}
+      else
+	{
+	  dbprintf("ret0");
+	  return(0);
+	}
     }
 
   idx = cline_i;
   if( check_print(&idx, PRINT_TYPE_PRINT) )
     {
-      return(scan_print(PRINT_TYPE_PRINT));
+      if(scan_print(PRINT_TYPE_PRINT))
+	{
+	  dbprintf("ret1");
+	  return(1);
+	}
+      else
+	{
+	  dbprintf("ret0");
+	  return(0);
+	}
     }
 
   idx = cline_i;
   if( check_print(&idx, PRINT_TYPE_LPRINT) )
     {
-      return(scan_print(PRINT_TYPE_LPRINT));
+      
+      if(scan_print(PRINT_TYPE_LPRINT))
+	{
+	  dbprintf("ret1");
+	  return(1);
+	}
+      else
+	{
+	  dbprintf("ret0");
+	  return(0);
+	}
+
     }
 
   idx = cline_i;
   if( check_input(&idx) )
     {
-      return(scan_input());
+      if(scan_input())
+      	{
+	  dbprintf("ret1");
+	  return(1);
+	}
+      else
+	{
+	  dbprintf("ret0");
+	  return(0);
+	}
+
     }
 
   idx = cline_i;
   if( check_return(&idx) )
     {
-      return(scan_return());
+      if(scan_return())
+	{
+	  dbprintf("ret1");
+	  return(1);
+	}
+      else
+	{
+	  dbprintf("ret0");
+	  return(0);
+	}
     }
 
   idx = cline_i;
   if( check_onerr(&idx) )
     {
-      return(scan_onerr());
+      if(scan_onerr())
+	{
+	  dbprintf("ret1");
+	  return(1);
+	}
+      else
+	{
+	  dbprintf("ret0");
+	  return(0);
+	}
+    }
+
+  idx = cline_i;
+  if( check_if(&idx) )
+    {
+      dbprintf("%s:check_if: ", __FUNCTION__);
+      scan_if(if_level++);
+      if_level--;
+      dbprintf("ret1");
+      return(1);
     }
 
   idx = cline_i;
@@ -3969,6 +4236,7 @@ int scan_line()
     {
       dbprintf("%s:check_command: ", __FUNCTION__);
       scan_command(cmdname);
+      dbprintf("ret1");
       return(1);
     }
 
@@ -3977,9 +4245,11 @@ int scan_line()
     {
       dbprintf("%s:check_function: ", __FUNCTION__);
       scan_function(cmdname);
+      dbprintf("ret1");
       return(1);
     }
-
+  
+#if 0
   idx = cline_i;
   if( check_literal(&idx," IF") )
     {
@@ -3989,13 +4259,16 @@ int scan_line()
 	  
 	  if( scan_expression(&num_subexpr, HEED_COMMA) )
 	    {
+	      dbprintf("ret1");
 	      return(1);
 	    }
 	}
       
+      dbprintf("ret0");
       return(0);
     }
-
+#endif
+  
   idx = cline_i;
   if( check_literal(&idx," ELSEIF") )
     {
@@ -4005,6 +4278,7 @@ int scan_line()
 	  
 	  if( scan_expression(&num_subexpr, HEED_COMMA) )
 	    {
+	      dbprintf("ret1");
 	      return(1);
 	    }
 	}
@@ -4014,6 +4288,7 @@ int scan_line()
   if( check_literal(&idx," ELSE") )
     {
       scan_literal(" ELSE");
+      dbprintf("ret1");
       return(1);
     }
 
@@ -4022,6 +4297,7 @@ int scan_line()
   if( check_literal(&idx," ENDIF") )
     {
       scan_literal(" ENDIF");
+      dbprintf("ret1");
       return(1);
     }
 
@@ -4029,6 +4305,7 @@ int scan_line()
   if( check_literal(&idx," DO") )
     {
       scan_literal(" DO");
+      dbprintf("ret1");
       return(1);
     }
 
@@ -4053,6 +4330,7 @@ int scan_line()
   if( check_literal(&idx," ENDWH") )
     {
       scan_literal(" ENDWH");
+      dbprintf("ret1");
       return(1);
     }
 
@@ -4060,6 +4338,7 @@ int scan_line()
   if( check_literal(&idx," REPEAT") )
     {
       scan_literal(" REPEAT");
+      dbprintf("ret1");
       return(1);
     }
   
@@ -4089,6 +4368,7 @@ int scan_line()
       
       if( scan_label(label) )
 	{
+	  dbprintf("ret1");
 	  return(1);
 	}
     }
@@ -4101,7 +4381,11 @@ int scan_line()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int scan_cline(void)
+// This is the old scan_cline which 'pushed' lines to scan_line().
+// That didn't allow scan_line(0 to be used within other scanning functuions, so a
+// pull scheme is now used.
+
+int scan_clineX(void)
 {
   int idx = cline_i;
   int ret = 0;
@@ -4176,6 +4460,104 @@ int scan_cline(void)
   return(0);
 }
 
+FILE *infp;
+
+void initialise_line_supplier(FILE *fp)
+{
+  infp = fp;
+}
+
+int output_expression_started = 0;
+
+int pull_next_line(void)
+{
+  int all_spaces = 1;
+
+  dbprintf("");
+
+  dbprintf("Checking for existing data in cline. cline_i=%d strlen:%d ", cline_i, strlen(&(cline[cline_i])));
+  if( cline[strlen(cline)-1] = '\n' )
+    {
+      cline[strlen(cline)-1] = '\0';
+    }
+
+  if( output_expression_started )
+    {
+      output_expression_started = 0;
+      finalise_expression();
+    }
+  
+  output_expression_start(cline);
+  output_expression_started = 1;	  
+
+  // If cline_i is 0 then assume we don't need to pull another line
+  if( strlen(&(cline[cline_i])) > 0 )
+    {
+      return(1);
+    }
+  
+  do
+    {
+      dbprintf("Reading line");
+      
+      if(!feof(infp) )
+	{
+	  if( !next_composite_line(infp) )
+	    {
+	      cline[0] = '\0';
+	    }
+	}
+      else
+	{
+	  dbprintf("ret0");
+	  return(0);
+	}
+      
+      // Check it's not a line full of spaces
+      all_spaces = 1;
+      for(int i=0; i<strlen(cline); i++)
+	{
+	  if( !isspace(cline[i]) )
+	    {
+	      all_spaces = 0;
+	    }
+	}
+      
+      if( all_spaces )
+	{
+	  dbprintf("Line was all spaces");
+	  n_lines_blank++;
+	}
+    }
+  while(all_spaces);
+  
+  ////////////////
+
+  dbprintf("Got a line: '%s'", cline);
+  
+  fprintf(ofp, "\n");
+  for(int i=0; i<strlen(cline)+4; i++)
+    {
+      fprintf(ofp, "*");
+    }
+  
+  fprintf(ofp, "\n**%s**", cline);
+  
+  fprintf(ofp, "\n");
+  
+  for(int i=0; i<strlen(cline)+4; i++)
+    {
+      fprintf(ofp, "*");
+    }
+  fprintf(ofp, "\n");
+
+  output_expression_start(cline);
+  indent_none();
+
+  dbprintf("ret1");
+  return(1);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 int scan_procdef(void)
@@ -4191,7 +4573,7 @@ int scan_procdef(void)
       
       if( scan_literal(":") )
 	{
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  strcpy(procedure_name, textlabel);
 	  
 	  return(1);
@@ -4255,7 +4637,7 @@ int scan_localglobal(int local_nglobal)
 
       if( cline[cline_i] == '\0' )
 	{
-	  dbprintf("%s:ret1", __FUNCTION__);
+	  dbprintf("ret1");
 	  return(1);
 	}
     }

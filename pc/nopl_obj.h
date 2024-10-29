@@ -180,6 +180,7 @@ typedef struct _OP_STACK_ENTRY
   // Bytes may be added after the qcode
   int num_bytes;
   int bytes[NOPL_MAX_SUFFIX_BYTES];
+  int level;                 // Used for conditionals
 } OP_STACK_ENTRY;
 
 #define MAX_EXP_BUF_P   12
