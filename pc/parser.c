@@ -2849,6 +2849,30 @@ int check_function(int *index)
 	{
 	  // Match
 	  idx += strlen(fn_info[i].name);
+	  
+	  dbprintf(" '%s'", &(cline[idx]));
+	  dbprintf(" '%c'", fn_info[i].name[strlen(fn_info[i].name)-1]);
+	  dbprintf(" Check for correct type of function and string");
+	  
+	  switch( fn_info[i].name[strlen(fn_info[i].name)-1] )
+	    {
+	    case '%':
+	    case '$':
+	      break;
+	      
+	    default:
+	      // The function does not end in type character
+	      switch(cline[idx] )
+		{
+		case '%':
+		case '$':
+		  // The line token does have a type character at the end, so it's not a match
+		  dbprintf("%s: ret0", __FUNCTION__);
+		  return(0);
+		  break;
+		}
+	      break;
+	    }
   
 	  // If the function has no arguments, add a dummy empty expression after it
 	  // as the shunting algorithm has to have brackets after a function

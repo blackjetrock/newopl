@@ -2,4 +2,5 @@ print:
 
 local A
 
-G$(12,45) = "a"
+USR(ADDR(A%()),pos%)
+USR(ADDR(A%()),pos)
