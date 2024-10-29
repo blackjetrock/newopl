@@ -615,31 +615,62 @@ void internal_error(char *fmt, ...)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// gets next line (a composite line which may be composed of commands
-// separated by colons.
-// We need to turn into upper case apart from strings
+void remove_trailing_newline(char *s)
+{
+  if( s[strlen(s)-1] == '\n' )
+    {
+      s[strlen(s)-1] = ' ';
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Gets next line. Lines come from the input source, which provides
+// composite lines. A composite line is one or more lines delimited by
+// colons.
+//
+// The lines returned by this function are set up within the memory of the
+// composite line. The start is the character after the colon, and the
+// next colon is turned into a '\0' if necessary.
+//
+// The cline array holds the current composite line
+//
+
+int multi_line_in_progress = 0;
+int line_start = 0;
 
 int next_composite_line(FILE *fp)
 {
   int all_spaces = 1;
 
   dbprintf("------------------------------");
-  
-  if( fgets(cline, MAX_NOPL_LINE, fp) == NULL )
+
+  // Do we have a colon delimited line in progress?
+  if( multi_line_in_progress )
     {
+      // See if we have another delimited line to return
+      
+    }
+  else
+    {
+      // Read another composite line and return the first delimited line
+      if( fgets(cline, MAX_NOPL_LINE, fp) == NULL )
+	{
+	  cline_i = 0;
+	  dbprintf("ret0");
+	  return(0);
+	}
+      
       cline_i = 0;
-      dbprintf("ret0");
-      return(0);
-    }
+      line_start = 0;
 
-  cline_i = 0;
-  if( cline[strlen(cline)-1] == '\n' )
-    {
-      cline[strlen(cline)-1] = ' ';
+      // Remove the newline on th eend of the line
+      remove_trailing_newline(cline);
+      
+      
+      dbprintf("ret1");
+      return(1);
     }
-
-  dbprintf("ret1");
-  return(1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
