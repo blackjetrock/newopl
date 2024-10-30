@@ -61,6 +61,7 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_LPRINT",
     "EXP_BUFF_ID_LPRINT_SPACE",
     "EXP_BUFF_ID_LPRINT_NEWLINE",
+    "EXP_BUFF_ID_IF",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -323,11 +324,11 @@ OP_INFO  op_info[] =
     { "**",   5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     { "*",    5, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     { "/",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-    { ">=",   5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "<=",   5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { ">",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "<",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "AND",  5, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    { ">=",   2, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "<=",   2, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { ">",    2, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "<",    2, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "AND",  1, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     //{ ";",    0, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     // (Handle bitwise on integer, logical on floats somewhere)
     //{ ",",  0, 0 }, /// Not used?
@@ -1962,8 +1963,8 @@ int scan_sub_expr(void)
   dbprintf("%s:", __FUNCTION__);
   if( scan_literal(" (") )
     {
-      strcpy(op.name, "(");
-      process_token(&op);
+      //      strcpy(op.name, "(");
+      // process_token(&op);
 
       dbprintf("Before scan expression");
       if( scan_expression(&num_subexpr, HEED_COMMA) )
@@ -1971,8 +1972,8 @@ int scan_sub_expr(void)
 	  dbprintf("scan expr ok, scanning for )");
 	  if( scan_literal(" )") )
 	    {
-	      strcpy(op.name, ")");
-	      process_token(&op);
+	      //     strcpy(op.name, ")");
+	      //process_token(&op);
 	      
 	      dbprintf("ret1");
 	      return(1);
@@ -2940,6 +2941,7 @@ int scan_function(char *cmd_dest)
 	  strcpy(cmd_dest, fn_info[i].name);
 	  cline_i += strlen(fn_info[i].name);
 	  strcpy(op.name, fn_info[i].name);
+	  op.buf_id = EXP_BUFF_ID_FUNCTION;
 	  process_token(&op);
 
 	  // If the function has no arguments, add a dummy empty expression after it
@@ -2955,6 +2957,7 @@ int scan_function(char *cmd_dest)
 
 		default:
 		  fprintf(ofp, "\nDummy argument expression added");
+		  op.buf_id = EXP_BUFF_ID_NONE;
 		  strcpy(op.name, "(");
 		  process_token(&op);
 		  strcpy(op.name, ")");
@@ -3910,21 +3913,42 @@ int scan_if(int if_level)
 {
   int idx = cline_i;
   int num_sub_expr;
+  OP_STACK_ENTRY op;
+
+  init_op_stack_entry(&op);
   
   indent_more();
   
   dbprintf("'%s'", I_WHERE);
+
+  idx = cline_i;
   
-  if( scan_literal_level(" IF", if_level))
+  if( check_literal(&idx, " IF"))
     {
 
+      cline_i = idx;
+
+      // TODO: We need to disable assignmemt in this expression scan
+      //
       if( scan_expression(&num_sub_expr, IGNORE_COMMA) )
 	{
+	  // Finish the expression and then output the IF token
+	  finalise_expression();
+	  output_expression_start(&cline[cline_i]);
+	  
+	  // Put the IF token after the expression
+	  op.buf_id = EXP_BUFF_ID_IF;
+	  strcpy(op.name, "IF");
+	  process_token(&op);
+
 	  while(1)
 	    {
 	      idx = cline_i;
+
 	      if( check_literal(&idx, " ENDIF") )
 		{
+		  dbprintf("ENDIF");
+		  
 		  // End of the IF clause
 		  if( scan_literal(" ENDIF") )
 		    {
@@ -3942,11 +3966,13 @@ int scan_if(int if_level)
 	      idx = cline_i;
 	      if( check_literal(&idx, " ELSE") )
 		{
+		  dbprintf("ELSE");
 		}
 	      
 	      idx = cline_i;
 	      if( check_literal(&idx, " ELSEIF") )
 		{
+		  dbprintf("ELSEIF");
 		}
 	      
 	      // Otherwise it must be a line

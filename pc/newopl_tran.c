@@ -380,6 +380,12 @@ int token_is_operator(char *token, char **tokstr)
   return(0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// returns the precedence of the token. This comes from the operator info table for operators,
+// functions are set the precedence of 0
+//
+
 int operator_precedence(char *token)
 {
   for(int i=0; i<NUM_OPERATORS; i++)
@@ -391,7 +397,7 @@ int operator_precedence(char *token)
 	}
     }
   
-  return(0);
+  return(100);
 }
 
 int operator_left_assoc(char *token)
@@ -1442,7 +1448,8 @@ void typecheck_expression(void)
 	      op2_type = op2.op.type;
 	      op1_reqtype = op1.op.req_type;
 	      op2_reqtype - op2.op.req_type;
-
+	      dbprintf("op1 type:%c op2 type:%c", type_to_char(op1.op.type), type_to_char(op2.op.type));
+	      
 	      // Get the node ids of the argumenmts so we can find them if we need to
 	      // adjust them.
 	      
@@ -1491,7 +1498,7 @@ void typecheck_expression(void)
 		  // as long as possible, and also assignment can turn FLT into INT
 		  // or INT into FLT
 		  
-		  fprintf(ofp, "\n Mutable type %d %d", op1.op.type, op2.op.type);
+		  fprintf(ofp, "\n Mutable type %c %c", type_to_char(op1.op.type), type_to_char(op2.op.type));
 		  
 		  // Check types are valid for this operator
 		  if( is_a_valid_type(op1.op.type, &op_info) && is_a_valid_type(op2.op.type, &op_info))
@@ -1572,7 +1579,7 @@ void typecheck_expression(void)
 				  
 				default:
 				  // No auto conversion is available, so this is an error
-				  fprintf(ofp, "\nType is not the require dtype and no auto conversion available,");
+				  fprintf(ofp, "\nType is not the required type and no auto conversion available,");
 				  fprintf(ofp, "\n Node N%d", be.node_id);
 				  exit(-1);
 				  break;
@@ -1826,6 +1833,13 @@ void output_proc_call(OP_STACK_ENTRY op)
   add_exp_buffer_entry(op, EXP_BUFF_ID_PROC_CALL);
 }
 
+void output_if(OP_STACK_ENTRY op)
+{
+  printf("\nop proc call");
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  add_exp_buffer_entry(op, EXP_BUFF_ID_IF);
+}
+
 #if 0
 void output_assign(OP_STACK_ENTRY op)
 {
@@ -1996,20 +2010,20 @@ void op_stack_print(void)
 {
   char *s;
 
-  dbprintf("\n------------------");
-  dbprintf("\nOperator Stack     (%d)\n", op_stack_ptr);
+  dbprintf("------------------");
+  dbprintf("Operator Stack     (%d)\n", op_stack_ptr);
   
   for(int i=0; i<op_stack_ptr; i++)
     {
       s = op_stack[i].name;
-      dbprintf("\n%03d: %s type:%c id:%s",
+      dbprintf("%03d: %s type:%c id:%s",
 	       i,
 	       s,
 	       type_to_char(op_stack[i].type),
 	       exp_buffer_id_str[op_stack[i].buf_id]);
     }
 
-  dbprintf("\n------------------\n");
+  dbprintf("------------------\n");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2134,7 +2148,10 @@ void process_token(OP_STACK_ENTRY *token)
   OP_STACK_ENTRY o2;
   int opr1, opr2;
   
-  fprintf(ofp, "\n   Frst:%d T:'%s' exptype:%c bufid:'%s'", first_token, token->name, type_to_char(expression_type), exp_buffer_id_str[token->buf_id]);
+  fprintf(ofp, "\n   Frst:%d T:'%s' exptype:%c bufid:'%s'",
+	  first_token, token->name,
+	  type_to_char(expression_type),
+	  exp_buffer_id_str[token->buf_id]);
 
   o1 = *token;
   //strcpy(o1.name, token);
@@ -2148,6 +2165,8 @@ void process_token(OP_STACK_ENTRY *token)
   opr1 = operator_precedence(o1.name);
   opr2 = operator_precedence(o2.name);
 
+  // Commas are now handled in the parser.
+#if 0  
   if( strcmp(o1.name, ",")==0 )
     {
       while( (strlen(op_stack_top().name) != 0) &&
@@ -2166,7 +2185,8 @@ void process_token(OP_STACK_ENTRY *token)
       first_token = 0;
       return;
     }
-
+#endif
+  
   if( strcmp(o1.name, "(")==0 )
     {
       OP_STACK_ENTRY o;
@@ -2205,26 +2225,32 @@ void process_token(OP_STACK_ENTRY *token)
 	{
 	  // Mismatched parentheses
 	  dbprintf("\nMismatched parentheses");
+	  return;
 	}
 
+#if 1
+      // Pop the open bracket off the operator stack
       fprintf(ofp, "\nPop 4");
       o2 = op_stack_pop();
-
+#endif
+      
       //output_marker("-------- Sub E 2");
       output_sub_end();
       
       if( strcmp(o2.name, "(") != 0 )
 	{
 	  dbprintf("\n**** Should be left parenthesis");
+	  return;
 	}
-
+#if 0
       if( token_is_function(op_stack_top().name, &tokptr) )
 	{
 	  fprintf(ofp, "\nPop 5");
 	  o2 = op_stack_pop();
 	  output_function(o2);
 	}
-
+#endif
+      
       expression_type = exp_type_pop();
 
       output_sub_end();
@@ -2287,6 +2313,15 @@ void process_token(OP_STACK_ENTRY *token)
       return;
       break;
 
+    case EXP_BUFF_ID_IF:
+      fprintf(ofp, "\nBuff id if");
+      
+      // Parser supplies type
+      o1.req_type = expression_type;
+      output_if(o1);
+      return;
+      break;
+
     case EXP_BUFF_ID_VAR_ADDR_NAME:
       fprintf(ofp, "\nBuff id var addr name");
       
@@ -2317,7 +2352,7 @@ void process_token(OP_STACK_ENTRY *token)
       dbprintf("\nToken is operator o1 name:%s o2 name:%s", o1.name, o2.name);
       dbprintf("\nopr1:%d opr2:%d", opr1, opr2);
       
-      while( (strlen(op_stack_top().name) != 0) && (strcmp(op_stack_top().name, ")") != 0 ) &&
+      while( (strlen(op_stack_top().name) != 0) && (strcmp(op_stack_top().name, "(") != 0 ) &&
 	     ( OP_PREC(op_stack_top()) > opr1) || ((opr1 == OP_PREC(op_stack_top()) && operator_left_assoc(o1.name)))
 	     )
 	{
@@ -2330,9 +2365,10 @@ void process_token(OP_STACK_ENTRY *token)
 	  output_operator(o2);
 	}
 
-      fprintf(ofp, "\nPush 1");
+      dbprintf("Push %s", exp_buffer_id_str[o1.buf_id]);
       
       strcpy(o1.name, tokptr);
+
       o1.type = expression_type;
       o1.req_type = expression_type;
       op_stack_push(o1);
