@@ -34,7 +34,7 @@ void output_expression_start(char *expr);
 void process_token(OP_STACK_ENTRY *token);
 void parser_check(void);
 void indent_more(void);
-int scan_expression_list(void);
+int scan_expression_list(int *num_expressions);
 void initialise_line_supplier(FILE *fp);
 int pull_next_line(void);
 

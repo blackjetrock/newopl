@@ -498,7 +498,9 @@ ELSEIF BREAK%=1100
 GOTO CEC::
 ENDIF
 E%=E%+3
-GOTO NPA::  blue:
+GOTO NPA::
+
+blue:
 
 T=M
 M=ABS(M)

@@ -812,6 +812,7 @@ int scan_assignment_equals(void)
       strcpy(op.name, origlit);
     }
 
+  op.buf_id = EXP_BUFF_ID_OPERATOR;
   strcpy(op.name, ":=");
   process_token(&op);
   
@@ -2018,7 +2019,7 @@ int check_atom(int *index)
 	  if( cline[idx] == '\"' )
 	    {
 	      // Found end of string, skip the quotes
-	      idx++;
+
 	      break;
 	    }
 	  idx++;
@@ -2031,7 +2032,8 @@ int check_atom(int *index)
 	  dbprintf("%s:ret0 No quote at end of string", __FUNCTION__);
 	  return(0);
 	}
-      
+
+      idx++;
       *index = idx;
       dbprintf("ret1");
       return(1);
@@ -2088,7 +2090,6 @@ int scan_string(void)
 	  cline_i++;
 	  dbprintf("  (in wh) '%s'", &(cline[cline_i]));
 	}
-
       
       if( cline[cline_i] == '"' )
 	{
@@ -2106,6 +2107,8 @@ int scan_string(void)
   dbprintf("ret1");
   return(0);
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 int scan_character(void)
 {
@@ -2546,13 +2549,15 @@ int check_expression_list(int *index)
 
 //------------------------------------------------------------------------------
 
-int scan_expression_list(void)
+int scan_expression_list(int *num_expressions)
 {
   int is_comma = 0;
   int idx = cline_i;
   char fnval[40];
   OP_STACK_ENTRY op;
   int num_commas = 0;
+
+  *num_expressions = 0;
   
   indent_more();
   
@@ -2563,10 +2568,12 @@ int scan_expression_list(void)
   if( scan_expression(&num_commas, HEED_COMMA) )
     {
       idx = cline_i;
-      
+      (*num_expressions)++;
+	  
       while( check_literal(&idx, " ,") )
 	{
 	  scan_literal(" ,");
+
 	  
 	  if( !scan_expression(&idx, HEED_COMMA) )
 	    {
@@ -2575,6 +2582,7 @@ int scan_expression_list(void)
 	      return(0);
 	    }
 
+	  (*num_expressions)++;
 	  // Set up idx for next iteration
 	  idx = cline_i;
 	}
@@ -2748,6 +2756,8 @@ int scan_command(char *cmd_dest)
   int onoff_val;
   int num_subexpr = 0;  
   OP_STACK_ENTRY op;
+  int num_expr = 0;
+  
   indent_more();
   
   init_op_stack_entry(&op);
@@ -2816,7 +2826,7 @@ int scan_command(char *cmd_dest)
 	      
 	      // Expression scanning will push expression to output stream.
 	    default:
-	      if( scan_expression_list() )
+	      if( scan_expression_list(&num_expr) )
 		{
 		  dbprintf("%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
 		  dbprintf( "\nENDEXP");
@@ -2912,6 +2922,7 @@ int scan_function(char *cmd_dest)
 {
   OP_STACK_ENTRY op;
   int idx;
+  int num_expr;
   
   indent_more();
   
@@ -2961,7 +2972,7 @@ int scan_function(char *cmd_dest)
 		{
 		  scan_literal(" (");
 		  
-		  if( !scan_expression_list() )
+		  if( !scan_expression_list(&num_expr) )
 		    {
 		      dbprintf("ret0 Not an expression");
 		      return(0);
@@ -3804,11 +3815,26 @@ int check_proc_call(int *index)
 
 //------------------------------------------------------------------------------
 
+struct
+{
+  char *suffix;
+  NOBJ_VARTYPE type;
+} proc_call_info[] =
+  {
+    { ":",  NOBJ_VARTYPE_FLT},
+    { "%:", NOBJ_VARTYPE_INT},
+    { "$:", NOBJ_VARTYPE_STR},
+  };
+
+#define NUM_PROC_CALL_INFO 3
+
 int scan_proc_call(void)
 {
   int idx = cline_i;
   OP_STACK_ENTRY op;
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
+  int num_expr = 0;
+    
   indent_more();
   
   init_op_stack_entry(&op);
@@ -3818,35 +3844,37 @@ int scan_proc_call(void)
     {
       dbprintf("%s:*** '%s'", __FUNCTION__, textlabel);
       fflush(ofp);
-      
-      cline_i = idx;
-      
-      if( scan_literal(":") )
-	{
-	  dbprintf("ret1");
-	  op.type = NOBJ_VARTYPE_FLT;
-	  op.buf_id = EXP_BUFF_ID_PROC_CALL;
-	  strcpy(op.name, textlabel);
-	  process_token(&op);
-	  return(1);
-	}
 
-      if( scan_literal("%:") )
+      for(int i= 0; i<NUM_PROC_CALL_INFO; i++)
 	{
-	  dbprintf("ret1");
-	  op.type = NOBJ_VARTYPE_INT;
-	  strcpy(op.name, textlabel);
-	  process_token(&op);
-	  return(1);
-	}
-
-      if( scan_literal("$:") )
-	{
-	  dbprintf("ret1");
-	  op.type = NOBJ_VARTYPE_STR;
-	  strcpy(op.name, textlabel);
-	  process_token(&op);
-	  return(1);
+	  if( check_literal(&idx, proc_call_info[i].suffix) )
+	    {
+	      // We are as far as the end of the proc name, plus colon
+	      // scan that far
+	      
+	      strcat(textlabel, proc_call_info[i].suffix);
+	      
+	      cline_i = idx;
+	      
+	      // If there's an open bracket then we have parameters
+	      if( check_literal(&idx, " (") )
+		{
+		  scan_literal(" (");
+		  if( check_expression_list(&idx) )
+		    {
+		      scan_expression_list(&num_expr);
+		    }
+		  scan_literal(" )");
+		}
+	      
+	      dbprintf("ret1");
+	      op.num_parameters = num_expr;
+	      op.type = proc_call_info[i].type;
+	      op.buf_id = EXP_BUFF_ID_PROC_CALL;
+	      strcpy(op.name, textlabel);
+	      process_token(&op);
+	      return(1);
+	    }
 	}
     }
   
@@ -3974,7 +4002,7 @@ int check_line(int *index)
   dbprintf("%s:", __FUNCTION__);
 
   idx = cline_i;
-  if( check_literal(&idx, " REM") )
+  if( check_literal(&idx, " REM ") )
     {
       dbprintf("%s:ret1: Comment", __FUNCTION__);
       return(1);
@@ -4200,6 +4228,7 @@ int scan_line()
   idx = cline_i;
   if( check_literal(&idx, " REM") )
     {
+      cline_i = strlen(cline)-1;
       dbprintf("Comment ignored");
       dbprintf("ret1");
       return(1);
@@ -4579,14 +4608,35 @@ void initialise_line_supplier(FILE *fp)
 
 int output_expression_started = 0;
 
-int pull_next_line(void)
+int is_all_spaces(int idx)
 {
   int all_spaces = 1;
+  
+  // Check it's not a line full of spaces
+  all_spaces = 1;
+  
+  for(int i=0; i<strlen(&(cline[idx])); i++)
+    {
+      dbprintf("cline[%d] = '%c' (%d)", i, cline[i], cline[i]);
+      
+      if( !isspace(cline[i]) )
+	{
 
+	  all_spaces = 0;
+	}
+    }
+
+  return(all_spaces);
+}
+
+int pull_next_line(void)
+{
+  int all_spaces;
+  
   dbprintf("");
 
   dbprintf("Checking for existing data in cline. cline_i=%d strlen:%d ", cline_i, strlen(&(cline[cline_i])));
-  if( cline[strlen(cline)-1] == '\n' )
+  while( isspace( cline[strlen(cline)-1]) )
     {
       cline[strlen(cline)-1] = '\0';
     }
@@ -4603,7 +4653,12 @@ int pull_next_line(void)
   // If cline_i is 0 then assume we don't need to pull another line
   if( strlen(&(cline[cline_i])) > 0 )
     {
-      return(1);
+      // As long as it's not all spaces
+      if( !is_all_spaces(cline_i) )
+	{
+	  dbprintf("ret1  Not all spaces");
+	  return(1);
+	}
     }
   
   do
@@ -4622,7 +4677,7 @@ int pull_next_line(void)
 	  dbprintf("ret0");
 	  return(0);
 	}
-      
+#if 0      
       // Check it's not a line full of spaces
       all_spaces = 1;
       for(int i=0; i<strlen(cline); i++)
@@ -4632,8 +4687,9 @@ int pull_next_line(void)
 	      all_spaces = 0;
 	    }
 	}
+#endif
       
-      if( all_spaces )
+      if( all_spaces = is_all_spaces(0) )
 	{
 	  dbprintf("Line was all spaces");
 	  n_lines_blank++;

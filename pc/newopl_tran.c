@@ -879,7 +879,7 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 	    break;
 	  }
       
-	fprintf(fp, "\n(%16s) N%d %-24s Lvl:%d %c rq:%c '%s' nidx:%d",
+	fprintf(fp, "\n(%16s) N%d %-24s Lvl:%d %c rq:%c '%s' npar:%d nidx:%d",
 		__FUNCTION__,
 		token.node_id,
 		exp_buffer_id_str[token.op.buf_id],
@@ -887,6 +887,7 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 		type_to_char(token.op.type),
 		type_to_char(token.op.req_type),
 		token.name,
+		token.op.num_parameters,
 		token.op.vi.num_indices);
       
       fprintf(fp, "  %d:", token.p_idx);
@@ -1066,6 +1067,8 @@ void infix_stack_pop(char *entry)
   fprintf(ofp, "\n%s: '%s'", __FUNCTION__, entry);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 char *infix_from_rpn(void)
 {
   EXP_BUFFER_ENTRY be;
@@ -1195,6 +1198,29 @@ char *infix_from_rpn(void)
 	  
 	case EXP_BUFF_ID_AUTOCON:
 	  break;
+
+	case EXP_BUFF_ID_PROC_CALL:
+	  // Pop the procname and then the parameters
+	  // Push the proc call
+
+	  sprintf(newstr, "%s", be.name);
+	  
+	  for(int i=0; i<be.op.num_parameters; i++)
+	    {
+	      infix_stack_pop(op1);
+
+	      strcat(newstr, "(");
+	      strcat(newstr, op1);
+	      if( i != be.op.num_parameters-1 )
+		{
+		  strcat(newstr, ", ");
+		}
+
+	      strcat(newstr, ")");
+	    }
+	  
+	  infix_stack_push(newstr);
+	  break;
 	}
     }
 
@@ -1218,7 +1244,7 @@ char *infix_from_rpn(void)
       fprintf(ofp, "\nInfix stack empty");
     }
 
-  fprintf(ofp, "\nexit\n");  
+  dbprintf("exit  '%s'", result);  
   return(result);
 }
 
@@ -1626,7 +1652,11 @@ void typecheck_expression(void)
 		  else
 		    {
 		      // unknown required types exist, this probably shoudn't happen is a syntax error
-		      fprintf(ofp, "\n%s:Syntax error at node N%d", __FUNCTION__, be.node_id);
+		      dbprintf("Syntax error at node N%d", be.node_id);
+		      dbprintf("Unknown required type");
+		      type_check_stack_display();
+
+		      dump_exp_buffer(ofp, 1);
 		      exit(-1);
 		    }
 		}		
@@ -1702,10 +1732,11 @@ char *type_stack_str(void)
 void init_op_stack_entry(OP_STACK_ENTRY *op)
 {
   op->buf_id = EXP_BUFF_ID_NONE;
-  op->name[0] = '\0';
-  op->num_bytes = 0;
-  op->level = 0;
-  
+  op->name[0]        = '\0';
+  op->num_bytes      = 0;
+  op->level          = 0;
+  op->num_parameters = 0;
+    
   for(int i=0; i<NOPL_MAX_SUFFIX_BYTES; i++)
     {
       op->bytes[i] = 0xCC;

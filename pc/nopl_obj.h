@@ -181,6 +181,7 @@ typedef struct _OP_STACK_ENTRY
   int num_bytes;
   int bytes[NOPL_MAX_SUFFIX_BYTES];
   int level;                 // Used for conditionals
+  int num_parameters;
 } OP_STACK_ENTRY;
 
 #define MAX_EXP_BUF_P   12
