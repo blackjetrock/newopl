@@ -3,7 +3,9 @@ void dbpf(const char *caller, char *fmt, ...);
 
 int scan_addr_name(void);
 int check_addr_name(int *index);
-
+int scan_literal(char *lit);
+int check_literal(int *index, char *lit);
+  
 int scan_line();
 void indent_none(void);
 int scan_expression(int *num_commas, int ignore_comma);

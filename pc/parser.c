@@ -164,7 +164,7 @@ struct _FN_INFO
     { "LOC",      0,  0, ' ',  "ss",        "i", 0x00 },
     { "LOG",      0,  0, ' ',  "f",         "f", 0x00 },
     { "LOWER$",   0,  0, ' ',  "s",         "s", 0x00 },
-    //    { "LPRINT",   1,  0, ' ',  "i",         "v", 0x00 },    // As print
+    //{ "LPRINT",   1,  0, ' ',  "i",         "v", 0x00 },    // As print
     { "MAX",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "MEAN",     0,  0, ' ',  "ii",        "f", 0x00 },    // Multiple forms
     { "MENUN",    0,  0, ' ',  "is",        "i", 0x00 },    // Multiple forms
@@ -187,7 +187,7 @@ struct _FN_INFO
     { "POKEW",    1,  0, ' ',  "ii",        "v", 0x00 },
     { "POSITION", 1,  1, ' ',  "i",         "v", 0x00 },
     { "POS",      0,  0, ' ',  "",          "i", 0x00 },
-    //    { "PRINT",    1,  0, ' ',  "i",         "v", 0x00 },
+    //{ "PRINT",    1,  0, ' ',  "i",         "v", 0x00 },
     { "RAD",      0,  0, ' ',  "f",         "f", 0x00 },
     { "RAISE",    1,  0, ' ',  "i",         "v", 0x00 },
     { "RANDOMIZE",1,  0, ' ',  "i",         "v", 0x00 },
@@ -568,6 +568,7 @@ void syntax_error(char *fmt, ...)
   vsprintf(line, fmt, valist);
   va_end(valist);
 
+  printf("\n\n\nSyntax error\n");
   printf("\n%s", cline);
   printf("\n");
   for(int i=0; i<cline_i-1; i++)
@@ -597,7 +598,7 @@ void internal_error(char *fmt, ...)
   vsprintf(line, fmt, valist);
   va_end(valist);
 
-  printf("\n*** Internal compiler error ***");
+  printf("\n\n\n*** Internal compiler error ***\n");
   
   printf("\n%s", cline);
   printf("\n");
@@ -615,13 +616,73 @@ void internal_error(char *fmt, ...)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void remove_trailing_newline(char *s)
+void remove_trailing_newline(int idx)
 {
-  if( s[strlen(s)-1] == '\n' )
+  if( cline[strlen(&(cline[idx]))-1] == '\n' )
     {
-      s[strlen(s)-1] = ' ';
+      cline[strlen(&(cline[idx]))-1] = ' ';
     }
 }
+
+// Finds the next colon or null, and returns what it finds.
+// The colon is turned into a null if it exists
+
+int nulled_idx = -1;
+
+int nullify_colon(int idx)
+{
+  int start_idx = idx;
+
+  dbprintf("Start idx:%d", idx);
+  
+  while( (cline[idx] != ':') && ( cline[idx] != '\0') )
+    {
+      idx++;
+    }
+
+  switch(cline[idx])
+    {
+    case ':':
+      // We found a colon, turn it to a null and store data to
+      // continue on next call
+      nulled_idx = idx;
+      cline[idx] = '\0';
+      break;
+
+    case '\0':
+      nulled_idx = -1;
+      break;
+    }
+
+  dbprintf("Start idx:%d line='%s'", start_idx, &(cline[start_idx]));
+  
+  return(start_idx);
+}
+
+// Get first colon delimited line
+// Returns -1 if no line, otherwise index into cline of the line.
+
+int start_get_line(int start_idx)
+{
+  int retval=-1;
+  
+  dbprintf("Start idx:%d", start_idx);
+  
+  remove_trailing_newline(start_idx);
+  
+  // Find first colon, nullify it, we have a line
+  retval = nullify_colon(start_idx);
+
+  dbprintf("line:'%s;", retval);
+
+  return(retval);
+}
+
+int get_next_line(void)
+{
+  
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -665,7 +726,9 @@ int next_composite_line(FILE *fp)
       line_start = 0;
 
       // Remove the newline on th eend of the line
-      remove_trailing_newline(cline);
+      //cline_i = start_get_line(cline_i);
+      
+      remove_trailing_newline(cline_i);
       
       
       dbprintf("ret1");
@@ -1439,6 +1502,7 @@ int scan_operator(int *is_comma, int ignore_comma)
 	  cline_i += strlen(op_info[i].name);
 	  dbprintf("%s: ret1 '%s' nb:%d", __FUNCTION__, cline_now(cline_i), op.num_bytes);
 	  strcpy(op.name, op_info[i].name);
+	  op.buf_id = EXP_BUFF_ID_OPERATOR;
 	  process_token(&op);
 	  return(1);
 	}
@@ -3454,16 +3518,28 @@ int scan_print(int print_type)
 	  int scolon_present;
 
 	  idx = cline_i;
-	  scan_literal(print_info[print_type].token_name);
+	  if(check_literal(&idx, print_info[print_type].token_name))
+	    {
+	      dbprintf("Start PRINT token");
+	      
+	      op.buf_id = EXP_BUFF_ID_PRINT;
+	      strcpy(op.name, print_info[print_type].op_name);
+	      process_token(&op);
+	    }
+	  else
+	    {
+	      dbprintf("ret0: Expected PRINT");
+	      return(0);
+	    }
 
 	  // The scan_literal above will generate a PRINT token for us so we don't need it done below
 	  print_token_needed = 0;
 	  
 	  // Scanning expressions here, we do not want comma to be accepted as that
 	  // needs to be compiled to a 'print space' qcode
-	  idx = cline_i;
+	  cline_i = idx;
 
-	  // We chck the entire expression and delimiter and then scan so we can order the
+	  // We check the entire expression and delimiter and then scan so we can order the
 	  // expression tokens and PRINT tokens correctly
 
 	  dbprintf("Before while");
@@ -3852,9 +3928,11 @@ int scan_if(int if_level)
 		}
 	      else
 		{
+#if 0
 		  // Error, should have a message from the lower parsers
-		  syntax_error("");
+		  syntax_error("Bad line");
 		  dbprintf("ret0");
+#endif
 		  return(0);
 		}
 	    }
@@ -4405,7 +4483,7 @@ int scan_line()
     }
 
   cline_i = idx;
-  dbprintf("%s: ret0", __FUNCTION__);
+  dbprintf("%s: ret0 END", __FUNCTION__);
   return(0);    
 }
 
@@ -4447,6 +4525,7 @@ int scan_clineX(void)
 	    }
 
 	  finalise_expression();
+	  
 	  
 	}
       else
@@ -4507,7 +4586,7 @@ int pull_next_line(void)
   dbprintf("");
 
   dbprintf("Checking for existing data in cline. cline_i=%d strlen:%d ", cline_i, strlen(&(cline[cline_i])));
-  if( cline[strlen(cline)-1] = '\n' )
+  if( cline[strlen(cline)-1] == '\n' )
     {
       cline[strlen(cline)-1] = '\0';
     }
@@ -4619,6 +4698,9 @@ int scan_procdef(void)
 //
 // Scans LOCAL and GLOBAL
 //
+// We don't want any tokens in th eoutput stream for this
+//
+
 #define SCAN_LOCAL   1
 #define SCAN_GLOBAL  0
 

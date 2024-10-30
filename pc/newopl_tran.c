@@ -1082,6 +1082,8 @@ char *infix_from_rpn(void)
       
       be = exp_buffer2[i];
 
+      fprintf(ofp, "\n(%s)", be.name);
+      
       switch(be.op.buf_id)
 	{
 	case EXP_BUFF_ID_VAR_ADDR_NAME:
@@ -1125,6 +1127,16 @@ char *infix_from_rpn(void)
 	      // Non array variables are just pushed on the stack
 	      infix_stack_push(be.name);
 	    }
+	  break;
+
+	case EXP_BUFF_ID_PRINT:
+	case EXP_BUFF_ID_LPRINT:
+	  
+	  fprintf(ofp, "\n%s", be.name);
+
+	  // Pop what we will print
+	  infix_stack_pop(op1);
+
 	  break;
 
 	case EXP_BUFF_ID_PRINT_SPACE:
@@ -1186,17 +1198,27 @@ char *infix_from_rpn(void)
 	}
     }
 
+  fprintf(ofp, "\nDone\n");
+  
   // There may not be a result if there was just a command
   result[0] = '\0';
   
   if( infix_stack_ptr != 0 )
     {
       infix_stack_pop(result);
+
+      sprintf(newstr2, "%s", result);
+      strcpy(newstr, newstr2);
+
+      fprintf(ofp, "\nInfix stack result %s", newstr);
+
     }
   else
     {
       fprintf(ofp, "\nInfix stack empty");
     }
+
+  fprintf(ofp, "\nexit\n");  
   return(result);
 }
 
@@ -1710,6 +1732,7 @@ void output_operator(OP_STACK_ENTRY op)
   
   printf("\nop operator");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
+#if 0
   if( token_is_function(op.name, &tokptr) )
     {
       add_exp_buffer_entry(op, EXP_BUFF_ID_FUNCTION);
@@ -1718,6 +1741,9 @@ void output_operator(OP_STACK_ENTRY op)
     {
       add_exp_buffer_entry(op, EXP_BUFF_ID_OPERATOR);
     }
+#else
+  add_exp_buffer_entry(op, op.buf_id);
+#endif
 }
 
 void output_function(OP_STACK_ENTRY op)
@@ -1833,9 +1859,11 @@ void output_expression_start(char *expr)
   if( strlen(expr) > 0 )
     {
       printf("\nExpression start");
-      fprintf(ofp, "\n========================================================");
+      //      fprintf(ofp, "\n========================================================");
       fprintf(ofp, "\n%s", expr);
-      fprintf(chkfp, "\n\n\n%s", expr);
+
+      fprintf(chkfp, "\n===================================expr==========================================");
+      fprintf(chkfp, "\n%s\n", expr);
       
       fprintf(ofp, "\n========================================================");
 
@@ -1943,7 +1971,11 @@ void op_stack_print(void)
   for(int i=0; i<op_stack_ptr; i++)
     {
       s = op_stack[i].name;
-      dbprintf("\n%03d: %s type:%d", i, s, op_stack[i].type);
+      dbprintf("\n%03d: %s type:%c id:%s",
+	       i,
+	       s,
+	       type_to_char(op_stack[i].type),
+	       exp_buffer_id_str[op_stack[i].buf_id]);
     }
 
   dbprintf("\n------------------\n");
@@ -1992,7 +2024,9 @@ void process_expression_types(void)
       dbprintf("==%s==", infix = infix_from_rpn());
       dbprintf("\n\n",0);
 
+      fprintf(chkfp, "\n----------------------------------------infix-----------------------------------\n");
       fprintf(chkfp, "\n%s", infix);
+
       
       // Generate the QCode from the tree output
       output_qcode();
@@ -2168,7 +2202,7 @@ void process_token(OP_STACK_ENTRY *token)
       return;
     }
 
-    switch( o1.buf_id )
+  switch( o1.buf_id )
     {
     case EXP_BUFF_ID_PRINT:
     case EXP_BUFF_ID_PRINT_SPACE:
@@ -2177,13 +2211,30 @@ void process_token(OP_STACK_ENTRY *token)
     case EXP_BUFF_ID_LPRINT_SPACE:
     case EXP_BUFF_ID_LPRINT_NEWLINE:
       fprintf(ofp, "\nBuff id print");
+      
+#if 1      
+      NOBJ_VARTYPE vt;
+      
+      // The type of the function is known, use that, not the expression type
+      // which is more of a hint.
+      //strcpy(o1.name, tokptr);
+      
+      fprintf(ofp, "\n%s: '%s' t=>%c", __FUNCTION__, o1.name, type_to_char(vt));
 
+      o1.type = NOBJ_VARTYPE_UNKNOWN;
+      o1.req_type = NOBJ_VARTYPE_UNKNOWN;
+      op_stack_push(o1);
+      first_token = 0;
+      return;
+#else
+      
       // PRINT has special parsing and the CRLF flag processing
       o1.req_type = expression_type;
       o1.buf_id = token->buf_id;
 
       output_print(o1);
       return;
+#endif
       break;
 
     case EXP_BUFF_ID_RETURN:
@@ -2671,19 +2722,26 @@ void translate_file(FILE *fp, FILE *ofp)
   
   while( scan_line() )
     {
-      indent_none();
-#if 0      
-      if( !pull_next_line() )
+
+      dbprintf("Scan line ok");
+      
+      n_lines_ok++;
+      
+      idx = cline_i;
+      
+      if ( check_literal(&idx,":") )
 	{
-	  break;
+	  //	  cline_i = idx;
+	  scan_literal(":");
 	}
-#endif
+
+      indent_none();
     }
   
   // Done
 
   dbprintf("Done");
-  
+  dbprintf("");
 }
 
 
