@@ -791,14 +791,14 @@ void type_check_stack_display(void)
   char *s;
   NOBJ_VARTYPE type;
   
-  fprintf(ofp, "\n\nType Check Stack (%d)\n", type_check_stack_ptr);
+  dbprintf("Type Check Stack (%d)", type_check_stack_ptr);
 
   for(int i=0; i<type_check_stack_ptr; i++)
     {
       s = type_check_stack[i].name;
       type = type_check_stack[i].op.type;
       
-      fprintf(ofp, "\n%03d: '%s' type:%c (%d)", i, s, type_to_char(type), type);
+      dbprintf("%03d: '%s' type:%c (%d)", i, s, type_to_char(type), type);
     }
 }
 
@@ -1146,6 +1146,9 @@ char *infix_from_rpn(void)
 	  // Pop what we will print
 	  infix_stack_pop(op1);
 
+	  snprintf(newstr2, MAX_INFIX_STR, "%s(%s)", be.name, op1);
+	  infix_stack_push(newstr2);
+
 	  break;
 
 	case EXP_BUFF_ID_PRINT_SPACE:
@@ -1250,6 +1253,9 @@ char *infix_from_rpn(void)
       fprintf(ofp, "\nInfix stack empty");
     }
 
+  fprintf(chkfp, "\n----------------------------------------infix-----------------------------------\n");
+  fprintf(chkfp, "\n%s\n", result);
+
   dbprintf("exit  '%s'", result);  
   return(result);
 }
@@ -1281,6 +1287,8 @@ void typecheck_expression(void)
   NOBJ_VARTYPE     ret_type;
   int              copied;
 
+  dbprintf("");
+  
   // Initialise
   init_op_stack_entry(&(autocon.op));
   init_op_stack_entry(&(op1.op));
@@ -1294,6 +1302,8 @@ void typecheck_expression(void)
   // We can check for an assignment and adjust the assignment token to
   // differentiate it from the equality token.
 
+  // TODO ignore this, parser does it
+#if 0
   // If first token is a variable
   if( exp_buffer[0].op.buf_id ==  EXP_BUFF_ID_VARIABLE)
     {
@@ -1304,6 +1314,7 @@ void typecheck_expression(void)
 	  strcpy(exp_buffer[exp_buffer_i-1].name, ":=");
 	}
     }
+#endif
   
   type_check_stack_init();
 
@@ -1342,6 +1353,8 @@ void typecheck_expression(void)
 	  type_check_stack_push(be);
 	  break;
 
+	case EXP_BUFF_ID_IF:
+	case EXP_BUFF_ID_ENDIF:
 	case EXP_BUFF_ID_FLT:
 	case EXP_BUFF_ID_INTEGER:
 	case EXP_BUFF_ID_STR:
@@ -1835,9 +1848,16 @@ void output_proc_call(OP_STACK_ENTRY op)
 
 void output_if(OP_STACK_ENTRY op)
 {
-  printf("\nop proc call");
+  printf("\nop if");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_IF);
+}
+
+void output_endif(OP_STACK_ENTRY op)
+{
+  printf("\nop if");
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  add_exp_buffer_entry(op, EXP_BUFF_ID_ENDIF);
 }
 
 #if 0
@@ -1906,10 +1926,6 @@ void output_expression_start(char *expr)
       printf("\nExpression start");
       //      fprintf(ofp, "\n========================================================");
       fprintf(ofp, "\n%s", expr);
-
-      fprintf(chkfp, "\n===================================expr==========================================");
-      fprintf(chkfp, "\n%s\n", expr);
-      
       fprintf(ofp, "\n========================================================");
 
       fprintf(ofp, "\n(%16s)", __FUNCTION__);
@@ -2054,13 +2070,16 @@ void op_stack_finalise(void)
 
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 void process_expression_types(void)
 {
   char *infix;
 
   dbprintf("\n%s:", __FUNCTION__);
-  
-  if( strlen(current_expression) > 0 )
+
+  // TODO needed?
+  if( strlen(current_expression) > 0,1 )
     {
       // Process the RPN as a tree
       expression_tree_process(current_expression);
@@ -2068,10 +2087,6 @@ void process_expression_types(void)
       dbprintf("\n==INFIX==\n",0);
       dbprintf("==%s==", infix = infix_from_rpn());
       dbprintf("\n\n",0);
-
-      fprintf(chkfp, "\n----------------------------------------infix-----------------------------------\n");
-      fprintf(chkfp, "\n%s", infix);
-
       
       // Generate the QCode from the tree output
       output_qcode();
@@ -2319,6 +2334,15 @@ void process_token(OP_STACK_ENTRY *token)
       // Parser supplies type
       o1.req_type = expression_type;
       output_if(o1);
+      return;
+      break;
+
+    case EXP_BUFF_ID_ENDIF:
+      fprintf(ofp, "\nBuff id endif");
+      
+      // Parser supplies type
+      o1.req_type = expression_type;
+      output_endif(o1);
       return;
       break;
 
@@ -2586,13 +2610,13 @@ int is_delimiter(char ch)
 
 void finalise_expression(void)
 {
-  dbprintf("\nFinalise expression");
+  dbprintf("Finalise expression Buf i:%d buf2 i:%d", exp_buffer_i, exp_buffer2_i);
 
   // Now finalise the translation
   op_stack_finalise();
   process_expression_types();
   
-  dbprintf("\nFinalise expression done.");
+  dbprintf("Finalise expression done.");
 }
 
 void dummy(void)
@@ -2615,124 +2639,6 @@ void dummy(void)
 int n_lines_ok    = 0;
 int n_lines_bad   = 0;
 int n_lines_blank = 0;
-#if 0
-void translate_fileX(FILE *fp, FILE *ofp)
-{
-  char line[MAX_NOPL_LINE+1];
-  int all_spaces = 0;
-  int scanned_procdef = 0;
-  int done_declares = 0;
-  
-  // Read lines from file and translate each line as a unit
-  // Lines are separated by cr or ':'
-  
-  // read the file and tokenise each line
-  while(!feof(fp) )
-    {
-      if( !next_composite_line(fp) )
-	{
-	  break;
-	}
-
-      // Check it's not a line full of spaces
-      all_spaces = 1;
-      for(int i=0; i<strlen(cline); i++)
-	{
-	  if( !isspace(cline[i]) )
-	    {
-	      all_spaces = 0;
-	    }
-	}
-      
-      if( all_spaces )
-	{
-	  n_lines_blank++;
-	  continue;
-	}
-
-      ////////////////
-      
-      fprintf(ofp, "\n");
-      for(int i=0; i<strlen(cline)+4; i++)
-	{
-	  fprintf(ofp, "*");
-	}
-
-      fprintf(ofp, "\n**%s**", cline);
-
-      fprintf(ofp, "\n");
-
-      for(int i=0; i<strlen(cline)+4; i++)
-	{
-	  fprintf(ofp, "*");
-	}
-      fprintf(ofp, "\n");
-
-      indent_none();
-      
-      // Recursive decent parse
-
-      if( !scanned_procdef )
-	{
-	  //output_expression_start(cline);
-	  if( scan_procdef() )
-	    {
-	      scanned_procdef = 1;
-	      n_lines_ok++;
-	      dbprintf("\ncline scanned OK");
-	      //finalise_expression();
-	      continue;
-	    }
-	  else
-	    {
-	      n_lines_bad++;
-	      dbprintf("\ncline failed scan");
-	    }
-	}
-
-      // Variable declarations
-      if( !done_declares )
-	{
-	  int idx = cline_i;
-	  
-	  if( check_declare(&idx) )
-	    {
-	      //output_expression_start(cline);
-	      if( scan_declare() )
-		{
-		  // All OK
-		}
-	      else
-		{
-		  syntax_error("Bad declaration");
-		}
-	      //finalise_expression();	      
-	      continue;
-	    }
-	  else
-	    {
-	      // Not a declaration so we are done with them
-	      done_declares = 1;
-	    }
-	}
-
-      indent_none();
-      
-      if( scan_cline() )
-	{
-	  n_lines_ok++;
-	  dbprintf("\ncline scanned OK");
-	  
-	}
-      else
-	{
-	  n_lines_bad++;
-	  dbprintf("\ncline failed scan");
-	}
-    }
-}
-
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -2787,10 +2693,18 @@ void translate_file(FILE *fp, FILE *ofp)
   
   indent_none();
 
+  LEVEL_INFO levels;
 
-  
-  while( scan_line() )
+  levels.if_level = 0;
+
+  while( 1 )
     {
+      fprintf(chkfp, "\nLOOP");
+      if( !scan_line(levels) )
+	{
+	  break;
+	}
+
       dbprintf("********************************************************************************");
       dbprintf("********************************************************************************");
       dbprintf("Scan line ok");
@@ -2802,12 +2716,16 @@ void translate_file(FILE *fp, FILE *ofp)
       if ( check_literal(&idx," :") )
 	{
 	  dbprintf("Dropping colon");
+	  fprintf(chkfp, "  dropping colon");
 	  cline_i = idx;
 	  //scan_literal(" :");
 	}
 
       indent_none();
     }
+
+  finalise_expression();
+  
   
   // Done
 

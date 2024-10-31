@@ -19,7 +19,7 @@
 char cline[MAX_NOPL_LINE];
 int cline_i = 0;
 int if_level = 0;
-
+int unique_level = 0;
 
 #define SAVE_I     1
 #define NO_SAVE_I  0
@@ -62,6 +62,7 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_LPRINT_SPACE",
     "EXP_BUFF_ID_LPRINT_NEWLINE",
     "EXP_BUFF_ID_IF",
+    "EXP_BUFF_ID_ENDIF",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -131,7 +132,7 @@ struct _FN_INFO
     { "DISP",     0,  0, ' ',  "i$",        "i", 0x00 },
     { "DOW",      0,  0, ' ',  "iii",       "i", 0x00 },
     { "EDIT",     1,  1, ' ',  "s",         "v", 0x00 },
-    { "ENDIF",    1,  0, ' ',  "",          "v", 0x00 },
+    //  { "ENDIF",    1,  0, ' ',  "",          "v", 0x00 },
     { "EOF",      0,  0, ' ',  "",          "i", 0x00 },
     { "ERASE",    1,  1, ' ',  "",          "v", 0x00 },
     { "ERR$",     0,  0, ' ',  "i",         "s", 0x00 },
@@ -3910,7 +3911,7 @@ int check_if(int *index)
 
 //------------------------------------------------------------------------------
 
-int scan_if(int if_level)
+int scan_if(LEVEL_INFO levels)
 {
   int idx = cline_i;
   int num_sub_expr;
@@ -3920,13 +3921,14 @@ int scan_if(int if_level)
   
   indent_more();
   
-  dbprintf("'%s'", I_WHERE);
+  dbprintf("Entry '%s'", I_WHERE);
 
   idx = cline_i;
   
   if( check_literal(&idx, " IF"))
     {
-
+      levels.if_level = ++unique_level;;
+      
       cline_i = idx;
 
       // TODO: We need to disable assignmemt in this expression scan
@@ -3938,6 +3940,8 @@ int scan_if(int if_level)
 	  output_expression_start(&cline[cline_i]);
 	  
 	  // Put the IF token after the expression
+	  op.level = levels.if_level;
+	  
 	  op.buf_id = EXP_BUFF_ID_IF;
 	  strcpy(op.name, "IF");
 	  process_token(&op);
@@ -3948,20 +3952,20 @@ int scan_if(int if_level)
 
 	      if( check_literal(&idx, " ENDIF") )
 		{
-		  dbprintf("ENDIF");
+		  dbprintf("ENDIF found in if");
 		  
-		  // End of the IF clause
-		  if( scan_literal(" ENDIF") )
-		    {
-		      dbprintf("ret1");
-		      return(1);
-		    }
-		  else
-		    {
-		      internal_error("Bad expression");
-		      dbprintf("ret0");
-		      return(0);
-		    }
+		  cline_i = idx;
+		  
+		  // Finish the expression and then output the IF token
+		  finalise_expression();
+		  output_expression_start(&cline[cline_i]);
+		  
+		  op.level = levels.if_level;
+		  op.buf_id = EXP_BUFF_ID_ENDIF;
+		  strcpy(op.name, "ENDIF");
+		  process_token(&op);
+		  dbprintf("ret1");
+		  return(1);
 		}
 	      
 	      idx = cline_i;
@@ -3977,17 +3981,49 @@ int scan_if(int if_level)
 		}
 	      
 	      // Otherwise it must be a line
-	      if( scan_line() )
+	      if( scan_line(levels) )
 		{
 		  // All OK, repeat
+		  n_lines_ok++;
+      
+		  idx = cline_i;
+      
+		  if ( check_literal(&idx," :") )
+		    {
+		      dbprintf("Dropping colon");
+		      fprintf(chkfp, "  dropping colon");
+		      cline_i = idx;
+		      //scan_literal(" :");
+		    }
 		}
 	      else
 		{
+		  idx = cline_i;
+		  
+		  if( check_literal(&idx, " ENDIF") )
+		    {
+		      dbprintf("ENDIF found in if");
+		      
+		      cline_i = idx;
+		      
+		      // Finish the expression and then output the IF token
+		      finalise_expression();
+		      output_expression_start(&cline[cline_i]);
+		      
+		      op.level = levels.if_level;
+		      op.buf_id = EXP_BUFF_ID_ENDIF;
+		      strcpy(op.name, "ENDIF");
+		      process_token(&op);
+		      dbprintf("ret1");
+		      return(1);
+		    }
+		  
 #if 0
 		  // Error, should have a message from the lower parsers
 		  syntax_error("Bad line");
-		  dbprintf("ret0");
 #endif
+		  dbprintf("ret0");
+
 		  return(0);
 		}
 	    }
@@ -4151,7 +4187,7 @@ int check_line(int *index)
       *index = idx;
       return(1);
     }
-
+#if 0
   idx = cline_i;
   if( check_literal(&idx," ENDIF"))
     {
@@ -4159,7 +4195,7 @@ int check_line(int *index)
       *index = idx;
       return(1);
     }
-
+#endif
   idx = cline_i;
   if( check_literal(&idx," DO"))
     {
@@ -4232,7 +4268,7 @@ int check_line(int *index)
 //
 
 
-int scan_line()
+int scan_line(LEVEL_INFO levels)
 {
   int idx = cline_i;
   char cmdname[300];
@@ -4250,6 +4286,17 @@ int scan_line()
       return(0);
     }
 
+  if( strlen(&cline[cline_i]) > 0 )
+    {
+      if( !is_all_spaces(cline_i) )
+	{
+	  dbprintf("===================================expr==========================================");
+	  fprintf(chkfp, "\n===================================expr==========================================");
+	  fprintf(chkfp, "\n%ld\n", strlen(&(cline[cline_i])));
+	  fprintf(chkfp, "\n%s\n", &(cline[cline_i]));
+	}
+    }
+  
   // If it's a REM, then the line parses and we generate no tokens
   
   idx = cline_i;
@@ -4283,12 +4330,12 @@ int scan_line()
     {
       if( scan_label(label) )
 	{
-	  dbprintf("ret1");
+	  dbprintf("ret1 label");
 	  return(1);
 	}
       else
 	{
-	  dbprintf("ret0");
+	  dbprintf("ret0 label");
 	  return(0);
 	}
     }
@@ -4298,12 +4345,12 @@ int scan_line()
     {
       if(scan_proc_call())
 	{
-	  dbprintf("ret1");
+	  dbprintf("ret1 proc call");
 	  return(1);
 	}
       else
 	{
-	  dbprintf("ret0");
+	  dbprintf("ret0 proc cll");
 	  return(0);
 	}
     }
@@ -4313,12 +4360,12 @@ int scan_line()
     {
       if(scan_print(PRINT_TYPE_PRINT))
 	{
-	  dbprintf("ret1");
+	  dbprintf("ret1 print");
 	  return(1);
 	}
       else
 	{
-	  dbprintf("ret0");
+	  dbprintf("ret0 print");
 	  return(0);
 	}
     }
@@ -4329,12 +4376,12 @@ int scan_line()
       
       if(scan_print(PRINT_TYPE_LPRINT))
 	{
-	  dbprintf("ret1");
+	  dbprintf("ret1 lprint");
 	  return(1);
 	}
       else
 	{
-	  dbprintf("ret0");
+	  dbprintf("ret0 lprint");
 	  return(0);
 	}
 
@@ -4345,12 +4392,12 @@ int scan_line()
     {
       if(scan_input())
       	{
-	  dbprintf("ret1");
+	  dbprintf("ret1 input");
 	  return(1);
 	}
       else
 	{
-	  dbprintf("ret0");
+	  dbprintf("ret0 input");
 	  return(0);
 	}
 
@@ -4361,12 +4408,12 @@ int scan_line()
     {
       if(scan_return())
 	{
-	  dbprintf("ret1");
+	  dbprintf("ret1 return");
 	  return(1);
 	}
       else
 	{
-	  dbprintf("ret0");
+	  dbprintf("ret0 return");
 	  return(0);
 	}
     }
@@ -4376,12 +4423,12 @@ int scan_line()
     {
       if(scan_onerr())
 	{
-	  dbprintf("ret1");
+	  dbprintf("ret1 onerr");
 	  return(1);
 	}
       else
 	{
-	  dbprintf("ret0");
+	  dbprintf("ret0 onerr");
 	  return(0);
 	}
     }
@@ -4390,9 +4437,9 @@ int scan_line()
   if( check_if(&idx) )
     {
       dbprintf("%s:check_if: ", __FUNCTION__);
-      scan_if(if_level++);
-      if_level--;
-      dbprintf("ret1");
+      scan_if(levels);
+
+      dbprintf("ret1 if");
       return(1);
     }
 
@@ -4401,7 +4448,7 @@ int scan_line()
     {
       dbprintf("%s:check_command: ", __FUNCTION__);
       scan_command(cmdname);
-      dbprintf("ret1");
+      dbprintf("ret1 command");
       return(1);
     }
 
@@ -4410,7 +4457,7 @@ int scan_line()
     {
       dbprintf("%s:check_function: ", __FUNCTION__);
       scan_function(cmdname);
-      dbprintf("ret1");
+      dbprintf("ret1 function");
       return(1);
     }
   
@@ -4424,12 +4471,12 @@ int scan_line()
 	  
 	  if( scan_expression(&num_subexpr, HEED_COMMA) )
 	    {
-	      dbprintf("ret1");
+	      dbprintf("ret1 if");
 	      return(1);
 	    }
 	}
       
-      dbprintf("ret0");
+      dbprintf("ret0 if");
       return(0);
     }
 #endif
@@ -4443,7 +4490,7 @@ int scan_line()
 	  
 	  if( scan_expression(&num_subexpr, HEED_COMMA) )
 	    {
-	      dbprintf("ret1");
+	      dbprintf("ret1 elseif");
 	      return(1);
 	    }
 	}
@@ -4453,24 +4500,25 @@ int scan_line()
   if( check_literal(&idx," ELSE") )
     {
       scan_literal(" ELSE");
-      dbprintf("ret1");
+      dbprintf("ret1 else");
       return(1);
     }
 
-
+#if 0
   idx = cline_i;
   if( check_literal(&idx," ENDIF") )
     {
       scan_literal(" ENDIF");
-      dbprintf("ret1");
+      dbprintf("ret1 endif");
       return(1);
     }
-
+#endif
+  
   idx = cline_i;
   if( check_literal(&idx," DO") )
     {
       scan_literal(" DO");
-      dbprintf("ret1");
+      dbprintf("ret1 do");
       return(1);
     }
 
@@ -4482,12 +4530,12 @@ int scan_line()
 	  int sub_expr;
 	  if( scan_expression(&sub_expr, HEED_COMMA) )
 	    {
-	      dbprintf("%s: ret1", __FUNCTION__);
+	      dbprintf("%s: ret1 while", __FUNCTION__);
 	      return(1);
 	    }
 	}
       
-      dbprintf("%s: ret0", __FUNCTION__);
+      dbprintf("%s: ret0 while", __FUNCTION__);
       return(0);
     }
 
@@ -4495,7 +4543,7 @@ int scan_line()
   if( check_literal(&idx," ENDWH") )
     {
       scan_literal(" ENDWH");
-      dbprintf("ret1");
+      dbprintf("ret1 endwh");
       return(1);
     }
 
@@ -4503,7 +4551,7 @@ int scan_line()
   if( check_literal(&idx," REPEAT") )
     {
       scan_literal(" REPEAT");
-      dbprintf("ret1");
+      dbprintf("ret1 repeat");
       return(1);
     }
   
@@ -4515,12 +4563,12 @@ int scan_line()
 	  int sub_expr;
 	  if( scan_expression(&sub_expr, HEED_COMMA) )
 	    {
-	      dbprintf("%s: ret1", __FUNCTION__);
+	      dbprintf("%s: ret1 until", __FUNCTION__);
 	      return(1);	      
 	    }
 	}
 
-      dbprintf("%s: ret0", __FUNCTION__);
+      dbprintf("%s: ret0 until", __FUNCTION__);
       return(0);
     }
   
@@ -4533,7 +4581,7 @@ int scan_line()
       
       if( scan_label(label) )
 	{
-	  dbprintf("ret1");
+	  dbprintf("ret1 goto");
 	  return(1);
 	}
     }
@@ -4544,87 +4592,6 @@ int scan_line()
 }
 
 
-////////////////////////////////////////////////////////////////////////////////
-
-// This is the old scan_cline which 'pushed' lines to scan_line().
-// That didn't allow scan_line(0 to be used within other scanning functuions, so a
-// pull scheme is now used.
-
-int scan_clineX(void)
-{
-  int idx = cline_i;
-  int ret = 0;
-
-  indent_more();
-  
-  dbprintf("%s:", __FUNCTION__);
-  
-  drop_space(&idx);
-  
-  while( strlen(&(cline[idx])) > 0 )
-    {
-      idx = cline_i;
-
-      if( check_line(&idx) )
-	{
-	  dbprintf("Checked len=%ld, '%s'", strlen(&(cline[idx])), &(cline[idx]));
-	  //cline_i = idx;
-
-	  output_expression_start(cline);
-	  if( !scan_line() )
-	    {
-	      dbprintf("scan_line returned 0");
-	  
-	      dbprintf("ret0 scan_line==0 len=%ld '%s'", strlen(&(cline[idx])), &(cline[idx]));
-	      syntax_error("Syntax error in line");
-	      return(0);
-	    }
-
-	  finalise_expression();
-	  
-	  
-	}
-      else
-	{
-	  dbprintf("ret0 scan_line==0 len=%ld '%s'", strlen(&(cline[idx])), &(cline[idx]));
-	  syntax_error("Syntax error in line");
-	  return(0);
-	}
-
-      idx = cline_i;
-      
-      drop_space(&idx);
-      
-      if ( check_literal(&idx,":") )
-	{
-	  cline_i = idx;
-	  scan_literal(":");
-	}
-      else
-	{
-	  if( strlen(&(cline[idx])) == 0 )
-	    {
-	      dbprintf("ret1 scan_line==0 len=%ld '%s'", strlen(&(cline[idx])), &(cline[idx]));
-	      return(1);
-	    }
-	  else
-	    {
-	      dbprintf("ret0 scan_line==0 len=%ld '%s'", strlen(&(cline[idx])), &(cline[idx]));
-	      return(0);
-	    }
-	}
-    }
-
-  if( strlen(&(cline[cline_i])) == 0 )
-    {
-      dbprintf("ret1 scan_line==0 len=%ld '%s'", strlen(&(cline[idx])), &(cline[idx]));
-      return(1);
-    }
-  
-  syntax_error("Syntax error in line");
-  dbprintf("ret0 scan_line==0 len=%ld '%s'", strlen(&(cline[idx])), &(cline[idx]));
-  return(0);
-}
 
 FILE *infp;
 
@@ -4634,6 +4601,8 @@ void initialise_line_supplier(FILE *fp)
 }
 
 int output_expression_started = 0;
+
+////////////////////////////////////////////////////////////////////////////////
 
 int is_all_spaces(int idx)
 {
@@ -4648,11 +4617,11 @@ int is_all_spaces(int idx)
       
       if( !isspace(cline[i]) )
 	{
-
 	  all_spaces = 0;
 	}
     }
 
+  dbprintf("Is %sall spaces", all_spaces?"":"not ");
   return(all_spaces);
 }
 
@@ -4663,6 +4632,7 @@ int pull_next_line(void)
   dbprintf("");
 
   dbprintf("Checking for existing data in cline. cline_i=%d strlen:%d ", cline_i, strlen(&(cline[cline_i])));
+  
   while( isspace( cline[strlen(cline)-1]) )
     {
       cline[strlen(cline)-1] = '\0';

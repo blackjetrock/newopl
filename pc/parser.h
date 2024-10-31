@@ -1,43 +1,6 @@
 #define dbprintf(fmt...) dbpf(__FUNCTION__, fmt)
 void dbpf(const char *caller, char *fmt, ...);
 
-int scan_addr_name(void);
-int check_addr_name(int *index);
-int scan_literal(char *lit);
-int check_literal(int *index, char *lit);
-  
-int scan_line();
-void indent_none(void);
-int scan_expression(int *num_commas, int ignore_comma);
-int check_function(int *index);
-int scan_function(char *cmd_dest);
-int next_composite_line(FILE *fp);
-int scan_procdef(void);
-int scan_cline(void);
-int scan_integer(int *intdest);
-int check_expression(int *index, int ignore_comma);
-int check_declare(int *index);
-int scan_declare(void);
-void syntax_error(char *fmt, ...);
-NOBJ_VARTYPE function_arg_type_n(char *fname, int n);
-int function_num_args(char *fname);
-NOBJ_VARTYPE function_return_type(char *fname);
-int token_is_function(char *token, char **tokstr);
-int token_is_float(char *token);
-int token_is_integer(char *token);
-int token_is_variable(char *token);
-int token_is_string(char *token);
-int check_expression_list(int *index);
-
-void finalise_expression(void);
-void output_expression_start(char *expr);
-void process_token(OP_STACK_ENTRY *token);
-void parser_check(void);
-void indent_more(void);
-int scan_expression_list(int *num_expressions);
-void initialise_line_supplier(FILE *fp);
-int pull_next_line(void);
-
 
 
 NOBJ_VARTYPE char_to_type(char ch);
@@ -81,6 +44,7 @@ enum
     EXP_BUFF_ID_LPRINT_SPACE,
     EXP_BUFF_ID_LPRINT_NEWLINE,
     EXP_BUFF_ID_IF,
+    EXP_BUFF_ID_ENDIF,
     EXP_BUFF_ID_MAX,
   };
 
@@ -121,3 +85,48 @@ void init_op_stack_entry(OP_STACK_ENTRY *op);
 extern int n_lines_ok;
 extern int n_lines_bad;
 extern int n_lines_blank;
+
+typedef struct _LEVEL_INFO
+{
+  int if_level;
+} LEVEL_INFO;
+
+
+int scan_addr_name(void);
+int check_addr_name(int *index);
+int scan_literal(char *lit);
+int check_literal(int *index, char *lit);
+int scan_line(LEVEL_INFO levels);
+
+void indent_none(void);
+int scan_expression(int *num_commas, int ignore_comma);
+int check_function(int *index);
+int scan_function(char *cmd_dest);
+int next_composite_line(FILE *fp);
+int scan_procdef(void);
+int scan_cline(void);
+int scan_integer(int *intdest);
+int check_expression(int *index, int ignore_comma);
+int check_declare(int *index);
+int scan_declare(void);
+void syntax_error(char *fmt, ...);
+NOBJ_VARTYPE function_arg_type_n(char *fname, int n);
+int function_num_args(char *fname);
+NOBJ_VARTYPE function_return_type(char *fname);
+int token_is_function(char *token, char **tokstr);
+int token_is_float(char *token);
+int token_is_integer(char *token);
+int token_is_variable(char *token);
+int token_is_string(char *token);
+int check_expression_list(int *index);
+int is_all_spaces(int idx);
+
+void finalise_expression(void);
+void output_expression_start(char *expr);
+void process_token(OP_STACK_ENTRY *token);
+void parser_check(void);
+void indent_more(void);
+int scan_expression_list(int *num_expressions);
+void initialise_line_supplier(FILE *fp);
+int pull_next_line(void);
+
