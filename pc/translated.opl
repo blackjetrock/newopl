@@ -1,0 +1,629 @@
+
+
+
+IF (CP% = 1)
+(A$ := "1317B01.B01E03L.")
+(CP% = 2)
+(A$ := "1317A17C01C02.I02B02D03K18E10O.")
+(CP% = 3)
+(A$ := "3218B03.D05N.")
+(CP% = 4)
+(A$ := "1319B05.B05L.")
+(CP% = 5)
+(A$ := "1320B06.B06L.")
+(CP% = 6)
+(A$ := "2900A14E07.D04N.")
+(CP% = 7)
+(A$ := "2900A14.E07M.")
+(CP% = 8)
+(A$ := "1322B08.B08L.")
+(CP% = 9)
+(A$ := "1323B09.B09L.")
+(CP% = 10)
+(A$ := "1417B01.C01F03L.")
+(CP% = 11)
+(A$ := "1417B02.C02L.")
+(CP% = 12)
+(A$ := "1419B05.C05L.")
+(CP% = 13)
+(A$ := "1420B06.C06L.")
+(CP% = 14)
+(A$ := "1422B08.C08L.")
+(CP% = 15)
+(A$ := "1423B09.C09L.")
+(CP% = 16)
+(A$ := "0500A10C10.D10M.")
+(CP% = 17)
+(A$ := "0500A08C10.D10M.")
+(CP% = 18)
+(A$ := "0500A10.K11O.")
+(CP% = 19)
+(A$ := "0500A08.K19O.")
+(CP% = 20)
+(A$ := "0500A15.F02K14O.")
+(CP% = 21)
+(A$ := "0600A14.E02K15O.")
+(CP% = 22)
+(A$ := "3100D02.H01E03L.")
+(CP% = 23)
+(A$ := "3100B01.D11N.")
+(CP% = 24)
+(A$ := "3219B04B06.H04J06B05L.")
+(CP% = 25)
+(A$ := "3219B04B09.H04D06B05M.")
+(CP% = 26)
+(A$ := "3000B05B11B08.D12I10J08J11M.")
+(CP% = 27)
+(A$ := "1333B11.B11L.")
+(CP% = 28)
+(A$ := "1433B11.C11L.")
+(CP% = 29)
+(A$ := "1500A02.K03O.")
+(CP% = 30)
+(A$ := "1500A12.K13O.")
+(CP% = 31)
+(A$ := "1500A18F10.K17O.")
+(CP% = 32)
+(A$ := "1600A03.K02O.")
+(CP% = 33)
+(A$ := "1600A13.K12O.")
+(CP% = 34)
+(A$ := "1600A17.K18O.")
+(CP% = 35)
+(A$ := "1500A05.K06O.")
+(CP% = 36)
+(A$ := "3400A03.D09M.")
+(CP% = 37)
+(A$ := "3400A13E08.D14M.")
+(CP% = 38)
+(A$ := "3400A13.E08D13I06B06M.")
+(CP% = 39)
+(A$ := "1500A18E10.D16M.")
+(CP% = 40)
+(A$ := "1318B10.B10L.")
+(CP% = 41)
+(A$ := "1418B10.C10L.")
+(CP% = 42)
+(A$ := "1318B03.D09M.")
+(CP% = 43)
+(A$ := "1317B02.B02L.")
+(CP% = 44)
+(A$ := "3500.A.")
+(CP% = 45)
+(A$ := "3600.P.")
+(CP% = 46)
+(A$ := "3700.O.")
+(CP% = 47)
+(A$ := "5000.N.")
+
+ENDIF
+
+A14:
+(Q%(1) := 0)
+(O$(1) := "A LIGHTED TORCH")
+(Q%(2) := 0)
+(O$(2) := "A TORCH")
+(Q%(3) := 3)
+(O$(3) := "A LADDER")
+(Q%(4) := 3)
+(O$(4) := "A HAMMER")
+(Q%(5) := 0)
+(O$(5) := "A HAMMER")
+(Q%(6) := 0)
+(O$(6) := "A WAD OF NOTES")
+(Q%(7) := 0)
+(O$(7) := "MANHOLE COVER")
+(Q%(8) := 15)
+(O$(8) := "A BAG OF NAILS")
+(Q%(9) := 16)
+(O$(9) := "A BARCLAYCARD")
+(Q%(10) := 0)
+(O$(10) := "A ROUGH LADDER")
+(Q%(11) := 4)
+(O$(11) := "SOME WOOD")
+(V$(1) := "01N")
+(V$(2) := "01NORT")
+(V$(3) := "02E")
+(V$(4) := "02EAST")
+(V$(5) := "03S")
+(V$(6) := "03SOUT")
+(V$(7) := "04W")
+(V$(8) := "04WEST")
+(V$(9) := "05U")
+(V$(10) := "05UP")
+(V$(11) := "06D")
+(V$(12) := "06DOWN")
+(V$(13) := "13TAKE")
+(V$(14) := "14PUT")
+(V$(15) := "14DROP")
+(V$(16) := "15ENTE")
+(V$(17) := "15IN")
+(V$(18) := "16OUT")
+(V$(19) := "16EXIT")
+(V$(20) := "16LEAV")
+(V$(21) := "17TORC")
+(V$(22) := "18LADD")
+(V$(23) := "19HAMM")
+(V$(24) := "20WAD")
+(V$(25) := "20NOTE")
+(V$(26) := "22BAG")
+(V$(27) := "22NAIL")
+(V$(28) := "23BARC")
+(V$(29) := "05SCAL")
+(V$(30) := "05CLIM")
+(V$(31) := "29OPEN")
+(V$(32) := "29LIFT")
+(V$(33) := "30MAKE")
+(V$(34) := "30BUIL")
+(V$(35) := "31SWIT")
+(V$(36) := "31LIGH")
+(V$(37) := "32BUY")
+(V$(38) := "33WOOD")
+(V$(39) := "34ROB")
+(V$(40) := "34STEA")
+(V$(41) := "35INVE")
+(V$(42) := "36QUIT")
+(V$(43) := "37LOOK")
+(M$(1) := "00")
+(M$(2) := "01040209041800")
+(M$(3) := "00")
+(M$(4) := "0202050500")
+(M$(5) := "0604040700")
+(M$(6) := "00")
+(M$(7) := "0108030500")
+(M$(8) := "030700")
+(M$(9) := "011202100314040200")
+(M$(10) := "040900")
+(M$(11) := "00")
+(M$(12) := "0209041800")
+(M$(13) := "00")
+(M$(14) := "010900")
+(M$(15) := "031600")
+(M$(16) := "011500")
+(M$(17) := "00")
+(M$(18) := "0112020200")
+(M$(19) := "00")
+(C$(1) := "A01.K02O.")
+(C$(2) := "A16H30.G0121.")
+(C$(3) := "G01.D01Q.")
+(C$(4) := "B06H10.D02J06.")
+(C$(5) := "A14E07.D07N.")
+(C$(6) := "A14F07.D08N.")
+(C$(7) := "A11.Q.")
+(C$(8) := "A19.Q.")
+(C$(9) := "A06.K03O.")
+(C$(10) := ".N.")
+ACRES:
+IF (C% < 0)
+(B% := VIEW(2 "GOODBYE!" ))
+PAUSE(30 )
+STOP()
+
+ENDIF
+(C% := (C% - 1))
+(B% := VIEW(1 ("BUT YOU HAVE ONLY " + (GEN$(A% 4 ) + " ACRES.")) ))
+addtop:(pos%, )(item$)
+IF (LEN(item$ ) > 8)
+RAISE(202 )
+
+ENDIF
+POKEB(8583 LEN(item$ ) )
+(I% := 1)
+(I% <= LEN(item$ ))
+POKEB(8583 (I% + ASC(MID$(item$ I% 1 ) )) )
+(I% := (I% + 1))
+ENDWH()
+POKEW(8584 (item$ + LEN(0 )) )
+(A%(1) := 16229)
+(A%(2) := 14592)
+USR(A%() ADDR(pos% ) )
+ALZAN:
+(A1% := 47)
+(O1% := 11)
+A14:
+(ROOM% := 1)
+(S%(2) := 0)
+(I% := 0)
+DO()
+(I% := (I% + 1))
+(O%(I%) := Q%(I%))
+(I% = 11)
+(A% := VIEW(1 "WELCOME TO ADVENTURE" ))
+
+IF (S%(2) = 0)
+
+
+ENDIF
+IF (C%(2) >= 1)
+(C%(2) := (C%(2) - 1))
+
+ENDIF
+IF (S%(3) = 1)
+
+
+ENDIF
+(A% := VIEW(2 "IT IS DARK - BETTER GET SOME LIGHT OR YOU MAY BE IN TROUBLE." ))
+IF (C%(3) >= 1)
+(C%(3) := (C%(3) - 1))
+
+ENDIF
+
+
+ROOMS10:
+(F% := 0)
+(I% := 0)
+DO()
+(I% := (I% + 1))
+IF (O%(I%) <> ROOM%)
+
+
+ENDIF
+IF (F% = 1)
+
+
+ENDIF
+(A% := VIEW(2 "THERE IS ALSO:" ))
+(F% := 1)
+
+(A% := VIEW(2 O$(I%) ))
+
+(I% = 11)
+
+(T1% := 1)
+
+
+IF (C%(1) >= 1)
+(C%(1) := (C%(1) - 1))
+
+ENDIF
+IF (C%(4) >= 1)
+(C%(4) := (C%(4) - 1))
+
+ENDIF
+AT(1 2 )
+PRINT(">")
+
+Y$
+CLS()
+(Y% := 0)
+(P$(2) := "00")
+(W% := 0)
+DO()
+(W% := (W% + 1))
+
+
+IF (Y% >= LEN(Y$ ))
+BREAK()
+
+ENDIF
+IF (P$(W%) = "00")
+
+
+ENDIF
+(W% = 2)
+IF (P$(1) <> "00")
+
+
+ENDIF
+(A% := VIEW(2 "PARDON?" ))
+
+
+(Z% := 1)
+
+(T$ := MID$(M$(ROOM%) Z% 2 ))
+IF (T$ = "00")
+
+
+ENDIF
+IF (T$ <> P$(1))
+
+
+ENDIF
+(ROOM% := VAL(MID$(M$(ROOM%) Z% (2 + 2) ) ))
+
+
+(Z% := (Z% + 4))
+
+
+(T1% := 0)
+(MATCH% := 0)
+
+(CP% := 0)
+
+(CP% := (CP% + 1))
+IF (T1% < 1)
+
+
+ENDIF
+(E$ := C$(CP%))
+
+
+IF (CP% <= A1%)
+
+
+ENDIF
+IF (MATCH% >= 1)
+
+
+ENDIF
+(A% := VIEW(2 "YOU CAN'T" ))
+IF (VAL(P$(1) ) < 13)
+(A% := VIEW(2 "GO THAT WAY" ))
+
+ENDIF
+
+
+A13:
+IF (LEFT$(A$ 2 ) <> P$(1))
+
+
+ENDIF
+(Y$ := MID$(A$ 3 2 ))
+IF (Y$ <> "00")
+IF (Y$ <> P$(2))
+
+
+ENDIF
+
+ENDIF
+(E$ := MID$(A$ 5 30 ))
+
+(E% := 1)
+
+IF (MID$(E$ E% 1 ) = ".")
+
+
+ENDIF
+(TYPE% := (ASC(MID$(E$ E% 1 ) ) - 65))
+(N% := VAL(MID$(E$ E% (1 + 2) ) ))
+(OK% := 0)
+IF (TYPE% = 0)
+IF (N% = ROOM%)
+(OK% := 1)
+
+ENDIF
+(TYPE% = 1)
+IF (O%(N%) = ROOM%)
+(OK% := 1)
+
+ENDIF
+IF (O%(N%) < 0)
+(OK% := 1)
+
+ENDIF
+(TYPE% = 2)
+IF (O%(N%) <> ROOM%)
+IF (O%(N%) >= 0)
+(OK% := 1)
+
+ENDIF
+
+ENDIF
+(TYPE% = 3)
+IF (O%(N%) < 0)
+(OK% := 1)
+
+ENDIF
+(TYPE% = 4)
+(OK% := S%(N%))
+(TYPE% = 5)
+IF (S%(N%) = 0)
+(OK% := 1)
+
+ENDIF
+(TYPE% = 6)
+IF (C%(N%) = 1)
+(OK% := 1)
+
+ENDIF
+(TYPE% = 7)
+IF ((INT((RND() * 100) ) + 1) <= N%)
+(OK% := 1)
+
+ENDIF
+
+ENDIF
+IF (OK% = 0)
+
+
+ENDIF
+(E% := (E% + 3))
+
+
+(MATCH% := 1)
+(E% := (E% + 1))
+
+IF (MID$(E$ E% 1 ) = ".")
+
+
+ENDIF
+(TYPE% := (ASC(MID$(E$ E% 1 ) ) - 65))
+IF (MID$(E$ E% (1 + 1) ) <> ".")
+(N% := VAL(MID$(E$ E% (1 + 2) ) ))
+
+ENDIF
+(BREAK% := 0)
+IF (TYPE% = 0)
+(A% := VIEW(2 "YOU ARE HOLDING:" ))
+(F% := 1)
+(X% := 0)
+DO()
+(X% := (X% + 1))
+IF (O%(X%) >= 0)
+
+
+ENDIF
+(A% := VIEW(2 O$(X%) ))
+(F% := 0)
+
+(X% = O1%)
+IF (F% >= 1)
+(A% := VIEW(2 " NOTHING." ))
+
+ENDIF
+(BREAK% := 100)
+(TYPE% = 1)
+IF (S%(1) < 5)
+
+
+ENDIF
+(A% := VIEW(2 "YOU CANNOT CARRY MORE." ))
+(BREAK% := 100)
+
+
+IF (O%(N%) = 1)
+
+
+ENDIF
+(O%(N%) := 1)
+(S%(1) := (S%(1) + 1))
+
+
+(A% := VIEW(2 "YOU ALREADY HAVE IT." ))
+(BREAK% := 100)
+
+(TYPE% = 2)
+IF (O%(N%) = 1)
+
+
+ENDIF
+(A% := VIEW(2 ("YOU DON'T HAVE " + O$(N%)) ))
+(BREAK% := 100)
+
+
+(O%(N%) := ROOM%)
+(S%(1) := (S%(1) - 1))
+
+(TYPE% = 3)
+TEXT3:
+(TYPE% = 4)
+(S%(N%) := 1)
+(TYPE% = 5)
+(S%(N%) := 0)
+(TYPE% = 6)
+(C%(N%) := VAL(MID$(E$ E% (3 + 2) ) ))
+(E% := (E% + 2))
+(TYPE% = 7)
+(X% := O%(N%))
+(O%(N%) := O%((N% + 1)))
+(O%((N% + 1)) := X%)
+(TYPE% = 8)
+(O%(N%) := ROOM%)
+(TYPE% = 9)
+IF (O%(N%) < 0)
+(S%(1) := (S%(1) - 1))
+
+ENDIF
+(O%(N%) := 0)
+(TYPE% = 10)
+(ROOM% := N%)
+(TYPE% = 11)
+(A% := VIEW(2 "OKAY." ))
+(BREAK% := 1000)
+(TYPE% = 12)
+(BREAK% := 1000)
+(TYPE% = 13)
+(BREAK% := 1100)
+(TYPE% = 14)
+(BREAK% := 100)
+(TYPE% = 15)
+AT(1 2 )
+PRINT("ARE YOU SURE? ")
+
+W$
+(BREAK% := 1100)
+IF (CHR$(ASC(W$ ) ) <> "Y")
+(BREAK% := 100)
+ELSE()
+STOP()
+
+ENDIF
+(TYPE% = 16)
+STOP()
+
+ENDIF
+IF (BREAK% = 100)
+
+(BREAK% = 1000)
+
+(BREAK% = 1100)
+
+
+ENDIF
+(E% := (E% + 3))
+
+blue:
+(T := M)
+(M := ABS(M ))
+IF (M > 131)
+(A$ := "80A+")
+(M := (M - 131))
+
+ENDIF
+IF ((M >= 5) AND (M < 15))
+(B$ := "82")
+((M >= 15) AND (M < 25))
+(B$ := "82A")
+((M >= 25) AND (M < 35))
+(B$ := "82B")
+((M >= 35) AND (M < 50))
+(B$ := "82C")
+((M >= 50) AND (M < 65))
+(B$ := "80D")
+((M >= 65) AND (M < 95))
+(B$ := "80C")
+((M >= 95) AND (M < 120))
+(B$ := "80B")
+(M > 120)
+(B$ := "80A")
+
+ENDIF
+PRINT("Colour correction")
+<nl>
+
+PRINT("BLUE")
+< > 
+T
+< > 
+"Mired"
+<nl>
+
+PRINT(A$)
+B$
+< > 
+"Filter"
+<nl>
+
+boot:
+ADDTOP:(0, )("Film")
+border:
+(a% := 1)
+(p% := 0)
+(b% := 10)
+(bl$ := REPT$(32 CHR$(20 ) ))
+
+
+
+CLS()
+AT(1 1 )
+PRINT("       Border")
+<nl>
+
+AT(1 2 )
+PRINT("    G.Pollington.")
+<nl>
+
+AT(1 3 )
+PRINT("Use cursor keys then")
+<nl>
+
+AT(1 4 )
+PRINT("   EXE to select.")
+<nl>
+
+DO()
+(ch$ := (ch$ + CHR$(p% )))
+(p% := (p% + 1))
+IF (p% = 8)
+
+(p% := 32)

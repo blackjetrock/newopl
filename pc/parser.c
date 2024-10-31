@@ -3911,6 +3911,8 @@ int check_if(int *index)
 
 //------------------------------------------------------------------------------
 
+#define FINALISE 0
+
 int scan_if(LEVEL_INFO levels)
 {
   int idx = cline_i;
@@ -3936,16 +3938,24 @@ int scan_if(LEVEL_INFO levels)
       if( scan_expression(&num_sub_expr, IGNORE_COMMA) )
 	{
 	  // Finish the expression and then output the IF token
+#if FINALISE
 	  finalise_expression();
 	  output_expression_start(&cline[cline_i]);
-	  
+#else
+	  // Just flush the operator stack so the IF is at the end of the output
+	  op_stack_finalise();
+#endif
 	  // Put the IF token after the expression
 	  op.level = levels.if_level;
 	  
 	  op.buf_id = EXP_BUFF_ID_IF;
 	  strcpy(op.name, "IF");
+#if FINALISE
 	  process_token(&op);
-
+#else
+	  output_if(op);
+#endif
+	  
 	  while(1)
 	    {
 	      idx = cline_i;
@@ -4292,7 +4302,7 @@ int scan_line(LEVEL_INFO levels)
 	{
 	  dbprintf("===================================expr==========================================");
 	  fprintf(chkfp, "\n===================================expr==========================================");
-	  fprintf(chkfp, "\n%ld\n", strlen(&(cline[cline_i])));
+	  //fprintf(chkfp, "\n%ld\n", strlen(&(cline[cline_i])));
 	  fprintf(chkfp, "\n%s\n", &(cline[cline_i]));
 	}
     }

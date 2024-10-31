@@ -23,6 +23,7 @@
 FILE *icfp;
 FILE *ofp;
 FILE *chkfp;
+FILE *trfp;
 
 // Reads next composite line into buffer
 
@@ -1140,6 +1141,12 @@ char *infix_from_rpn(void)
 
 	  // Just put the name in the outout
 	case EXP_BUFF_ID_IF:
+	  infix_stack_pop(op1);
+	  fprintf(ofp, "\n%s", be.name);
+	  snprintf(newstr2, MAX_INFIX_STR, "%s %s", be.name, op1);
+	  infix_stack_push(newstr2);
+	  break;
+	  
 	case EXP_BUFF_ID_ENDIF:
 	  fprintf(ofp, "\n%s", be.name);
 	  snprintf(newstr2, MAX_INFIX_STR, "%s", be.name);
@@ -1264,6 +1271,8 @@ char *infix_from_rpn(void)
   fprintf(chkfp, "\n----------------------------------------infix-----------------------------------\n");
   fprintf(chkfp, "\n%s\n", result);
 
+  fprintf(trfp, "\n%s", result);
+  
   dbprintf("exit  '%s'", result);  
   return(result);
 }
@@ -2103,9 +2112,10 @@ void process_expression_types(void)
 
 void init_output(void)
 {
-  ofp = fopen("output.txt", "w");
+  ofp   = fopen("output.txt", "w");
   chkfp = fopen("check.txt", "w");
-  icfp = fopen("intcode.txt", "w");
+  trfp  = fopen("translated.opl", "w");
+  icfp  = fopen("intcode.txt", "w");
 }
 
 void uninit_output(void)
@@ -2707,7 +2717,6 @@ void translate_file(FILE *fp, FILE *ofp)
 
   while( 1 )
     {
-      fprintf(chkfp, "\nLOOP");
       if( !scan_line(levels) )
 	{
 	  break;
@@ -2780,7 +2789,7 @@ int main(int argc, char *argv[])
   fclose(fp);
 
   fclose(chkfp);
-  
+  fclose(trfp);
 
 
   dbprintf("\n");
