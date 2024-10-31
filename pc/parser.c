@@ -2777,6 +2777,7 @@ int scan_command(char *cmd_dest)
 
 	  // Send command to output stream
 	  strcpy(op.name, cmd_dest);
+	  op.buf_id = EXP_BUFF_ID_FUNCTION;
 	  process_token(&op);
 
 	  // The arguments have to be in a sub expression.

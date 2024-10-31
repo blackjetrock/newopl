@@ -2786,20 +2786,24 @@ void translate_file(FILE *fp, FILE *ofp)
     }
   
   indent_none();
+
+
   
   while( scan_line() )
     {
-
+      dbprintf("********************************************************************************");
+      dbprintf("********************************************************************************");
       dbprintf("Scan line ok");
       
       n_lines_ok++;
       
       idx = cline_i;
       
-      if ( check_literal(&idx,":") )
+      if ( check_literal(&idx," :") )
 	{
-	  //	  cline_i = idx;
-	  scan_literal(":");
+	  dbprintf("Dropping colon");
+	  cline_i = idx;
+	  //scan_literal(" :");
 	}
 
       indent_none();
