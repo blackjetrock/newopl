@@ -63,6 +63,12 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_LPRINT_NEWLINE",
     "EXP_BUFF_ID_IF",
     "EXP_BUFF_ID_ENDIF",
+    "EXP_BUFF_ID_ELSE",
+    "EXP_BUFF_ID_ELSEIF",
+    "EXP_BUFF_ID_DO",
+    "EXP_BUFF_ID_UNTIL",
+    "EXP_BUFF_ID_WHILE",
+    "EXP_BUFF_ID_ENDWH",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -346,6 +352,53 @@ int num_operators(void)
 {
   return(NUM_OPERATORS_VAL);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Keyword that aren't in the tables above as they are handled differently,
+// but still can't be used s variables etc.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+
+typedef struct _OTHER_KEYWORD_INFO
+{
+  char *name;
+} OTHER_KEYWORD_INFO;
+
+OTHER_KEYWORD_INFO other_keywords[] =
+  {
+    {"IF"},
+    {"ENDIF"},
+    {"ELSE"},
+    {"ELSEIF"},
+    {"DO"},
+    {"WHILE"},
+    {"REPEAT"},
+    {"UNTIL"},
+  };
+
+#define NUM_OTHER_KEYWORDS (sizeof(other_keywords)/sizeof(struct _OTHER_KEYWORD_INFO))
+
+//------------------------------------------------------------------------------
+
+int token_is_other_keyword(char *token)
+{
+  dbprintf( "");
+  
+  for(int i=0; i<NUM_OTHER_KEYWORDS; i++)
+    {
+      if( (strcmp(token, other_keywords[i].name) == 0) )
+	{
+	  dbprintf("'%s' is other keyword", token);
+	  return(1);
+	}
+    }
+  dbprintf( "'%s' is not other keyword", token);
+  return(0);
+  
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -1151,6 +1204,14 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	  break;
 	}
 
+      // Is it a keyword?
+      if( token_is_other_keyword(vname) )
+	{
+	  // Definitely not a variable
+	  dbprintf("'%s' is an other keypwod");
+	  return(0);
+	}
+ 
       // Is it an array?
       dbprintf("Array test '%s'", I_WHERE);
       idx = cline_i;
@@ -1288,7 +1349,7 @@ int check_variable(int *index)
   
   if( check_vname(&idx) )
     {
-      dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
+      dbprintf("Name: '%s'", vname);
       
       // Could just be a vname
       switch( chstr[0] = cline[idx] )
@@ -1310,6 +1371,7 @@ int check_variable(int *index)
 	  break;
 	}
 
+     
       // Is it an array?
       dbprintf("%s: Ary test '%s'", __FUNCTION__, &(cline[idx]));
       
@@ -3955,9 +4017,11 @@ int scan_if(LEVEL_INFO levels)
 #else
 	  output_if(op);
 #endif
+	  int else_seen = 0;
 	  
 	  while(1)
 	    {
+#if 0
 	      idx = cline_i;
 
 	      if( check_literal(&idx, " ENDIF") )
@@ -3977,12 +4041,7 @@ int scan_if(LEVEL_INFO levels)
 		  dbprintf("ret1");
 		  return(1);
 		}
-	      
-	      idx = cline_i;
-	      if( check_literal(&idx, " ELSE") )
-		{
-		  dbprintf("ELSE");
-		}
+#endif	      
 	      
 	      idx = cline_i;
 	      if( check_literal(&idx, " ELSEIF") )
@@ -4008,6 +4067,8 @@ int scan_if(LEVEL_INFO levels)
 		}
 	      else
 		{
+		  dbprintf("Checking for conditionals");
+		  
 		  idx = cline_i;
 		  
 		  if( check_literal(&idx, " ENDIF") )
@@ -4016,16 +4077,47 @@ int scan_if(LEVEL_INFO levels)
 		      
 		      cline_i = idx;
 		      
-		      // Finish the expression and then output the IF token
+		      // Finish the expression and then output the ENDIF token
+#if 0
 		      finalise_expression();
 		      output_expression_start(&cline[cline_i]);
-		      
+#endif		      
 		      op.level = levels.if_level;
 		      op.buf_id = EXP_BUFF_ID_ENDIF;
 		      strcpy(op.name, "ENDIF");
 		      process_token(&op);
 		      dbprintf("ret1");
 		      return(1);
+		    }
+
+		  idx = cline_i;
+		  
+		  if( check_literal(&idx, " ELSE") )
+		    {
+		      dbprintf("ELSE found in if");
+		      
+		      cline_i = idx;
+		      
+		      // Output an ELSE, we only allow one per IF clause
+		      if( else_seen )
+			{
+			  dbprintf("Only one ELSE allowed in IF clause");
+			  syntax_error("Only one ELSE allowed in IF clause");
+			  return(0);
+			}
+		      else
+			{
+			  
+			  // Put the ELSE token in the output
+			  op.level = levels.if_level;
+			  op.buf_id = EXP_BUFF_ID_ELSE;
+			  strcpy(op.name, "ELSE");
+			  output_generic(op, "ELSE", EXP_BUFF_ID_ELSE);
+			  else_seen = 1;
+			  
+			  dbprintf("ELSE");
+			  continue;
+			}
 		    }
 		  
 #if 0
@@ -4189,7 +4281,8 @@ int check_line(int *index)
 	  return(1);
 	}
     }
-  
+
+#if 0  
   idx = cline_i;
   if( check_literal(&idx," ELSE"))
     {
@@ -4197,6 +4290,7 @@ int check_line(int *index)
       *index = idx;
       return(1);
     }
+#endif
 #if 0
   idx = cline_i;
   if( check_literal(&idx," ENDIF"))
@@ -4490,7 +4584,8 @@ int scan_line(LEVEL_INFO levels)
       return(0);
     }
 #endif
-  
+
+#if 0
   idx = cline_i;
   if( check_literal(&idx," ELSEIF") )
     {
@@ -4513,7 +4608,7 @@ int scan_line(LEVEL_INFO levels)
       dbprintf("ret1 else");
       return(1);
     }
-
+#endif
 #if 0
   idx = cline_i;
   if( check_literal(&idx," ENDIF") )

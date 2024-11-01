@@ -1,4 +1,4 @@
-#define dbprintf(fmt...) dbpf(__FUNCTION__, fmt)
+ #define dbprintf(fmt...) dbpf(__FUNCTION__, fmt)
 void dbpf(const char *caller, char *fmt, ...);
 
 
@@ -45,6 +45,12 @@ enum
     EXP_BUFF_ID_LPRINT_NEWLINE,
     EXP_BUFF_ID_IF,
     EXP_BUFF_ID_ENDIF,
+    EXP_BUFF_ID_ELSE,
+    EXP_BUFF_ID_ELSEIF,
+    EXP_BUFF_ID_DO,
+    EXP_BUFF_ID_UNTIL,
+    EXP_BUFF_ID_WHILE,
+    EXP_BUFF_ID_ENDWH,
     EXP_BUFF_ID_MAX,
   };
 
@@ -129,4 +135,8 @@ void indent_more(void);
 int scan_expression_list(int *num_expressions);
 void initialise_line_supplier(FILE *fp);
 int pull_next_line(void);
+void op_stack_finalise(void);
+void output_if(OP_STACK_ENTRY op);
+void output_generic(OP_STACK_ENTRY op, char *name, int buf_id);
+
 

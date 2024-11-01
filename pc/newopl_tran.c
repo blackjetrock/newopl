@@ -1146,7 +1146,8 @@ char *infix_from_rpn(void)
 	  snprintf(newstr2, MAX_INFIX_STR, "%s %s", be.name, op1);
 	  infix_stack_push(newstr2);
 	  break;
-	  
+
+	case EXP_BUFF_ID_ELSE:
 	case EXP_BUFF_ID_ENDIF:
 	  fprintf(ofp, "\n%s", be.name);
 	  snprintf(newstr2, MAX_INFIX_STR, "%s", be.name);
@@ -1868,6 +1869,18 @@ void output_if(OP_STACK_ENTRY op)
   printf("\nop if");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_IF);
+}
+
+void output_generic(OP_STACK_ENTRY op, char *name, int buf_id)
+{
+  char line[20];
+  
+  sprintf(line, "op_%s", name);
+  strcpy(op.name, name);
+  op.buf_id = buf_id;
+  
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  add_exp_buffer_entry(op, buf_id);
 }
 
 void output_endif(OP_STACK_ENTRY op)
