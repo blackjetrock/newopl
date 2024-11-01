@@ -95,6 +95,8 @@ extern int n_lines_blank;
 typedef struct _LEVEL_INFO
 {
   int if_level;
+  int do_level;
+  int while_level;
 } LEVEL_INFO;
 
 

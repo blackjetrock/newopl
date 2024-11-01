@@ -856,10 +856,8 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 {
   char *idstr;
   int exp_buff_len = 0;
+  char levstr[10];
   
-  fprintf(fp, "\nExpression buffer");
-  fprintf(fp, "\n=================");
-
   switch(bufnum)
     {
     case 1:
@@ -869,6 +867,11 @@ void dump_exp_buffer(FILE *fp, int bufnum)
     case 2:
       exp_buff_len = exp_buffer2_i;
       break;
+    }
+
+  if( exp_buff_len == 0 )
+    {
+      return;
     }
 
   for(int i=0; i<exp_buff_len; i++)
@@ -885,12 +888,22 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 	    token = exp_buffer2[i];
 	    break;
 	  }
-      
-	fprintf(fp, "\n(%16s) N%d %-24s Lvl:%d %c rq:%c '%s' npar:%d nidx:%d",
+
+	if( token.op.level == 0 )
+	  {
+	    sprintf(levstr, "  %5s", "");
+	  }
+	else
+	  {
+	    sprintf(levstr, "L:%-5d", token.op.level);
+	  }
+
+	
+	fprintf(fp, "\n(%16s) N%d %-24s %s %c rq:%c '%s' npar:%d nidx:%d",
 		__FUNCTION__,
 		token.node_id,
 		exp_buffer_id_str[token.op.buf_id],
-		token.op.level,
+		levstr,
 		type_to_char(token.op.type),
 		type_to_char(token.op.req_type),
 		token.name,
@@ -911,37 +924,9 @@ void dump_exp_buffer(FILE *fp, int bufnum)
       fprintf(fp, ")");
       
     }
-  
-  fprintf(fp, "\n=================");
+
+  fprintf(fp, "\n");
 }
-
-void dump_exp_bufferX(FILE *fp)
-{
-  char *idstr;
-  
-  fprintf(fp, "\nExpression buffer 2");
-  fprintf(fp, "\n===================");
-  
-  for(int i=0; i<exp_buffer2_i; i++)
-    {
-      EXP_BUFFER_ENTRY token = exp_buffer2[i];
-
-      if( (exp_buffer2[i].op.buf_id < 0) || (exp_buffer2[i].op.buf_id > EXP_BUFF_ID_MAX) )
-	{
-	  fprintf(fp, "\nN%d op.buf_id invalid", token.node_id);
-	}
-      
-      fprintf(fp, "\n(%16s) N%d %-24s %c rq:%c '%s'", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
-      
-      fprintf(fp, "  %d:", token.p_idx);
-      for(int pi=0; pi<token.p_idx; pi++)
-	{
-	  fprintf(fp, " %d", token.p[pi]);
-	}
-    }
-  fprintf(fp, "\n=================");
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -1092,7 +1077,7 @@ char *infix_from_rpn(void)
       
       be = exp_buffer2[i];
 
-      fprintf(ofp, "\n(%s)", be.name);
+      dbprintf("(%s)", be.name);
       
       switch(be.op.buf_id)
 	{
@@ -1140,6 +1125,7 @@ char *infix_from_rpn(void)
 	  break;
 
 	  // Just put the name in the outout
+	case EXP_BUFF_ID_UNTIL:
 	case EXP_BUFF_ID_ELSEIF:
 	case EXP_BUFF_ID_IF:
 	  infix_stack_pop(op1);
@@ -1148,12 +1134,13 @@ char *infix_from_rpn(void)
 	  infix_stack_push(newstr2);
 	  break;
 
+	case EXP_BUFF_ID_DO:
 	case EXP_BUFF_ID_ELSE:
-
 	case EXP_BUFF_ID_ENDIF:
-	  fprintf(ofp, "\n%s", be.name);
+	  dbprintf("%s", be.name);
 	  snprintf(newstr2, MAX_INFIX_STR, "%s", be.name);
 	  infix_stack_push(newstr2);
+	  dbprintf("endif done");
 	  break;
 	  
 	case EXP_BUFF_ID_PRINT:
@@ -2196,7 +2183,7 @@ void process_token(OP_STACK_ENTRY *token)
   OP_STACK_ENTRY o2;
   int opr1, opr2;
   
-  fprintf(ofp, "\n   Frst:%d T:'%s' exptype:%c bufid:'%s'",
+  dbprintf("   Frst:%d T:'%s' exptype:%c bufid:'%s'",
 	  first_token, token->name,
 	  type_to_char(expression_type),
 	  exp_buffer_id_str[token->buf_id]);
@@ -2361,16 +2348,19 @@ void process_token(OP_STACK_ENTRY *token)
       return;
       break;
 
+    case EXP_BUFF_ID_WHILE:
+    case EXP_BUFF_ID_UNTIL:
     case EXP_BUFF_ID_IF:
-      fprintf(ofp, "\nBuff id if");
+    case EXP_BUFF_ID_ENDIF:
+      dbprintf("Buff id %s", o1.name);
       
       // Parser supplies type
       o1.req_type = expression_type;
-      output_if(o1);
+      output_generic(o1, o1.name, o1.buf_id);
       return;
       break;
 
-    case EXP_BUFF_ID_ENDIF:
+#if 0
       fprintf(ofp, "\nBuff id endif");
       
       // Parser supplies type
@@ -2378,7 +2368,8 @@ void process_token(OP_STACK_ENTRY *token)
       output_endif(o1);
       return;
       break;
-
+#endif
+      
     case EXP_BUFF_ID_VAR_ADDR_NAME:
       fprintf(ofp, "\nBuff id var addr name");
       

@@ -8,6 +8,8 @@
 <pcon>            : ';' | ','
 <pitems>          : <expression> | <expression> <pcon> <pitems>
 <print>           : 'PRINT' <pitems>+
+<while>           : 'WHILE' <expression> <line>* 'ENDWH'
+<do>              : 'DO' <line>* 'UNTIL' <expression>
 <if>              : 'IF' <expression> <line>* 'ENDIF' |
 
 		    'IF' <expression> <line>* ('ELSEIF' <expression> <line>*)* ('ELSE' <line>*){1} 'ENDIF'
@@ -18,10 +20,7 @@
                     <onerr> | <label> | <assignment> | <command> |
 	            <function> '(' <expression-list> ')' |
                     TRAP <trapable_command> |
-                    'IF' <expression> | 'ELSE' | 'ENDIF' |
-	            'DO' | 'WHILE' <expression> |
-	            'WHILE' <expression> | 'ENDWH' |
-	            'REPEAT' | 'UNTIL' <expression> |
+                    <if> | <while> | <do> |
 	            'GOTO' <label> |
 	            <return> |
 	            <addr_cmd>

@@ -373,9 +373,9 @@ OTHER_KEYWORD_INFO other_keywords[] =
     {"ELSE"},
     {"ELSEIF"},
     {"DO"},
-    {"WHILE"},
-    {"REPEAT"},
     {"UNTIL"},
+    {"WHILE"},
+    {"ENDWH"}
   };
 
 #define NUM_OTHER_KEYWORDS (sizeof(other_keywords)/sizeof(struct _OTHER_KEYWORD_INFO))
@@ -3961,6 +3961,127 @@ int scan_proc_call(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+int check_do(int *index)
+{
+  int idx = *index;
+
+  indent_more();
+  
+  dbprintf("'%s'", IDX_WHERE);
+  
+  if( check_literal(&idx, " DO"))
+    {
+      dbprintf("ret1");
+      *index = idx;
+      return(1);
+    }
+  
+  dbprintf("ret0");
+  return(0);
+  
+}
+
+//------------------------------------------------------------------------------
+
+int scan_do(LEVEL_INFO levels)
+{
+  int idx = cline_i;
+  int num_sub_expr;
+  OP_STACK_ENTRY op;
+
+  init_op_stack_entry(&op);
+  
+  indent_more();
+  
+  dbprintf("Entry '%s'", I_WHERE);
+
+  idx = cline_i;
+  
+  if( check_literal(&idx, " DO"))
+    {
+      levels.if_level = ++unique_level;;
+      
+      cline_i = idx;
+
+      op.level = levels.if_level;
+      
+      // Just flush the operator stack so the UNTIL is at the end of the output
+      output_generic(op, "DO", EXP_BUFF_ID_DO);
+
+      while(1)
+	{
+	  // Otherwise it must be a line
+	  if( scan_line(levels) )
+	    {
+	      // All OK, repeat
+	      n_lines_ok++;
+	      
+	      idx = cline_i;
+	      
+	      if ( check_literal(&idx," :") )
+		{
+		  dbprintf("Dropping colon");
+		  fprintf(chkfp, "  dropping colon");
+		  cline_i = idx;
+		  //scan_literal(" :");
+		}
+	    }
+	  else
+	    {
+	      dbprintf("Checking for conditionals");
+	      
+	      idx = cline_i;
+	      
+	      if( check_literal(&idx, " UNTIL") )
+		{
+		  dbprintf("UNTIL found in DO");
+		      
+		  // Accept the check as a scan
+		  cline_i = idx;
+		      
+		  int num_subexpr;
+		      
+		  // We must have an expression after the until
+		  if( scan_expression(&num_subexpr, HEED_COMMA) )
+		    {
+		      // All OK
+			  
+		      op.level = levels.if_level;
+			  
+		      // Just flush the operator stack so the UNTIL is at the end of the output
+		      op_stack_finalise();
+		      output_generic(op, "UNTIL", EXP_BUFF_ID_UNTIL);
+		      dbprintf("ret1");
+		      return(1);
+		    }
+		  else
+		    {
+		      // Bad DO expression
+		      syntax_error("Bad UNTIL expression");
+		      dbprintf("ret0");
+		      return(0);
+		    }
+		}
+
+	      dbprintf("ret0");
+	      return(0);
+	    }
+	}
+    }
+  else
+    {
+      syntax_error("Expected DO");
+      dbprintf("ret0");
+      return(0);
+    }
+  
+  syntax_error("Bad IF");
+  dbprintf("ret0");
+  return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 int check_if(int *index)
 {
   int idx = *index;
@@ -4270,6 +4391,14 @@ int check_line(int *index)
       *index = idx;
       return(1);
     }
+
+  idx = cline_i;
+  if( check_do(&idx) )
+    {
+      dbprintf("ret1 do");
+      *index = idx;
+      return(1);
+    }
   
   idx = cline_i;
   if( check_command(&idx) )
@@ -4300,32 +4429,6 @@ int check_line(int *index)
 	}
     }
 
-#if 0  
-  idx = cline_i;
-  if( check_literal(&idx," ELSE"))
-    {
-      dbprintf("ret1");
-      *index = idx;
-      return(1);
-    }
-#endif
-#if 0
-  idx = cline_i;
-  if( check_literal(&idx," ENDIF"))
-    {
-      dbprintf("ret1");
-      *index = idx;
-      return(1);
-    }
-#endif
-  idx = cline_i;
-  if( check_literal(&idx," DO"))
-    {
-      dbprintf("ret1");
-      *index = idx;
-      return(1);
-    }
-
   idx = cline_i;
   if( check_literal(&idx," WHILE"))
     {
@@ -4340,25 +4443,6 @@ int check_line(int *index)
       dbprintf("ret1");
       *index = idx;
       return(1);
-    }
-
-  idx = cline_i;
-  if( check_literal(&idx," REPEAT"))
-    {
-      dbprintf("ret1");
-      *index = idx;
-      return(1);
-    }
-
-  idx = cline_i;
-  if( check_literal(&idx," UNTIL"))
-    {
-      if( check_expression(&idx, HEED_COMMA) )
-	{
-	  dbprintf("ret1");
-	  *index = idx;
-	  return(1);
-	}
     }
   
   idx = cline_i;
@@ -4564,6 +4648,15 @@ int scan_line(LEVEL_INFO levels)
       dbprintf("ret1 if");
       return(1);
     }
+  
+  idx = cline_i;
+  if( check_do(&idx) )
+    {
+      scan_do(levels);
+
+      dbprintf("ret1 do");
+      return(1);
+    }
 
   idx = cline_i;
   if( check_command(&idx) )
@@ -4582,60 +4675,6 @@ int scan_line(LEVEL_INFO levels)
       dbprintf("ret1 function");
       return(1);
     }
-  
-#if 0
-  idx = cline_i;
-  if( check_literal(&idx," IF") )
-    {
-      if( scan_literal(" IF") )
-	{
-	  int num_subexpr;
-	  
-	  if( scan_expression(&num_subexpr, HEED_COMMA) )
-	    {
-	      dbprintf("ret1 if");
-	      return(1);
-	    }
-	}
-      
-      dbprintf("ret0 if");
-      return(0);
-    }
-#endif
-
-#if 0
-  idx = cline_i;
-  if( check_literal(&idx," ELSEIF") )
-    {
-      if( scan_literal(" ELSEIF") )
-	{
-	  int num_subexpr;
-	  
-	  if( scan_expression(&num_subexpr, HEED_COMMA) )
-	    {
-	      dbprintf("ret1 elseif");
-	      return(1);
-	    }
-	}
-    }
-
-  idx = cline_i;
-  if( check_literal(&idx," ELSE") )
-    {
-      scan_literal(" ELSE");
-      dbprintf("ret1 else");
-      return(1);
-    }
-#endif
-#if 0
-  idx = cline_i;
-  if( check_literal(&idx," ENDIF") )
-    {
-      scan_literal(" ENDIF");
-      dbprintf("ret1 endif");
-      return(1);
-    }
-#endif
   
   idx = cline_i;
   if( check_literal(&idx," DO") )
@@ -4669,32 +4708,7 @@ int scan_line(LEVEL_INFO levels)
       dbprintf("ret1 endwh");
       return(1);
     }
-
-  idx = cline_i;
-  if( check_literal(&idx," REPEAT") )
-    {
-      scan_literal(" REPEAT");
-      dbprintf("ret1 repeat");
-      return(1);
-    }
-  
-  idx = cline_i;
-  if( check_literal(&idx," UNTIL") )
-    {
-      if( scan_literal(" UNTIL") )
-	{
-	  int sub_expr;
-	  if( scan_expression(&sub_expr, HEED_COMMA) )
-	    {
-	      dbprintf("%s: ret1 until", __FUNCTION__);
-	      return(1);	      
-	    }
-	}
-
-      dbprintf("%s: ret0 until", __FUNCTION__);
-      return(0);
-    }
-  
+    
   idx = cline_i;
   if( check_literal(&idx," GOTO"))
     {
