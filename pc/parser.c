@@ -3985,6 +3985,9 @@ int check_if(int *index)
 
 #define FINALISE 0
 
+// The conditional commands have a 'level associated with them. That allows, for instance,
+// an IF to be matched with an ENDIF or ELSE even when nesting occurs.
+
 int scan_if(LEVEL_INFO levels)
 {
   int idx = cline_i;
@@ -4031,34 +4034,6 @@ int scan_if(LEVEL_INFO levels)
 	  
 	  while(1)
 	    {
-#if 0
-	      idx = cline_i;
-
-	      if( check_literal(&idx, " ENDIF") )
-		{
-		  dbprintf("ENDIF found in if");
-		  
-		  cline_i = idx;
-		  
-		  // Finish the expression and then output the IF token
-		  finalise_expression();
-		  output_expression_start(&cline[cline_i]);
-		  
-		  op.level = levels.if_level;
-		  op.buf_id = EXP_BUFF_ID_ENDIF;
-		  strcpy(op.name, "ENDIF");
-		  process_token(&op);
-		  dbprintf("ret1");
-		  return(1);
-		}
-#endif	      
-	      
-	      idx = cline_i;
-	      if( check_literal(&idx, " ELSEIF") )
-		{
-		  dbprintf("ELSEIF");
-		}
-	      
 	      // Otherwise it must be a line
 	      if( scan_line(levels) )
 		{
@@ -4087,17 +4062,50 @@ int scan_if(LEVEL_INFO levels)
 		      
 		      cline_i = idx;
 		      
-		      // Finish the expression and then output the ENDIF token
-#if 0
-		      finalise_expression();
-		      output_expression_start(&cline[cline_i]);
-#endif		      
 		      op.level = levels.if_level;
 		      op.buf_id = EXP_BUFF_ID_ENDIF;
 		      strcpy(op.name, "ENDIF");
 		      process_token(&op);
 		      dbprintf("ret1");
 		      return(1);
+		    }
+
+		  idx = cline_i;
+		  
+		  if( check_literal(&idx, " ELSEIF") )
+		    {
+		      dbprintf("ELSEIF found in if");
+
+		      // Accept the check as a scan
+		      cline_i = idx;
+
+		      int num_subexpr;
+		      
+		      // We must have an expression after the elseif
+		      if( scan_expression(&num_subexpr, HEED_COMMA) )
+			{
+			  // All OK
+			  
+			  op.level = levels.if_level;
+
+			  // Just flush the operator stack so the IF is at the end of the output
+			  op_stack_finalise();
+			  output_generic(op, "ELSEIF", EXP_BUFF_ID_ELSEIF);
+#if 0
+			  op.buf_id = EXP_BUFF_ID_ENDIF;
+			  strcpy(op.name, "ENDIF");
+			  process_token(&op);
+#endif
+			  dbprintf("ret1");
+			  continue;
+			}
+		      else
+			{
+			  // Bad elseif expression
+			  syntax_error("Bad ELSEIF expression");
+			  dbprintf("ret0");
+			  return(0);
+			}
 		    }
 
 		  idx = cline_i;

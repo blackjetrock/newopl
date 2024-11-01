@@ -1140,6 +1140,7 @@ char *infix_from_rpn(void)
 	  break;
 
 	  // Just put the name in the outout
+	case EXP_BUFF_ID_ELSEIF:
 	case EXP_BUFF_ID_IF:
 	  infix_stack_pop(op1);
 	  fprintf(ofp, "\n%s", be.name);
@@ -1148,6 +1149,7 @@ char *infix_from_rpn(void)
 	  break;
 
 	case EXP_BUFF_ID_ELSE:
+
 	case EXP_BUFF_ID_ENDIF:
 	  fprintf(ofp, "\n%s", be.name);
 	  snprintf(newstr2, MAX_INFIX_STR, "%s", be.name);
