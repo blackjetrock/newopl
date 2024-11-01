@@ -1786,14 +1786,12 @@ void init_op_stack_entry(OP_STACK_ENTRY *op)
 
 void output_float(OP_STACK_ENTRY token)
 {
-  printf("\nop float");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(token.type), type_to_char(token.req_type), token.name);
   add_exp_buffer_entry(token, EXP_BUFF_ID_FLT);
 }
 
 void output_integer(OP_STACK_ENTRY token)
 {
-  printf("\nop integer");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(token.type), type_to_char(token.req_type), token.name);
   add_exp_buffer_entry(token, EXP_BUFF_ID_INTEGER);
 }
@@ -1802,7 +1800,6 @@ void output_operator(OP_STACK_ENTRY op)
 {
   char *tokptr;
   
-  printf("\nop operator");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
 #if 0
   if( token_is_function(op.name, &tokptr) )
@@ -1820,49 +1817,42 @@ void output_operator(OP_STACK_ENTRY op)
 
 void output_function(OP_STACK_ENTRY op)
 {
-  printf("\nop function");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
   add_exp_buffer_entry(op, EXP_BUFF_ID_FUNCTION);
 }
 
 void output_variable(OP_STACK_ENTRY op)
 {
-  printf("\nop variable");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
   add_exp_buffer_entry(op, EXP_BUFF_ID_VARIABLE);
 }
 
 void output_var_addr_name(OP_STACK_ENTRY op)
 {
-  printf("\nop var addr name");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
   add_exp_buffer_entry(op, EXP_BUFF_ID_VAR_ADDR_NAME);
 }
 
 void output_string(OP_STACK_ENTRY op)
 {
-  printf("\nop string");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_STR);
 }
 
 void output_return(OP_STACK_ENTRY op)
 {
-  printf("\nop return");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_RETURN);
 }
 
 void output_print(OP_STACK_ENTRY op)
 {
-  printf("\nop print");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, op.buf_id);
 }
 
 void output_proc_call(OP_STACK_ENTRY op)
 {
-  printf("\nop proc call");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_PROC_CALL);
 }
@@ -1896,7 +1886,6 @@ void output_endif(OP_STACK_ENTRY op)
 #if 0
 void output_assign(OP_STACK_ENTRY op)
 {
-  printf("\nop operator");
   strcpy(op.name, ":=");
   
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
@@ -1915,7 +1904,6 @@ void output_marker(char *marker, ...)
   vsprintf(line, marker, valist);
   va_end(valist);
 
-  printf("\nop marker %s", line);
   fprintf(ofp, "\n(%16s) %s", __FUNCTION__, line);
 }
 
@@ -1925,7 +1913,6 @@ void output_sub_start(void)
   OP_STACK_ENTRY op;
   init_op_stack_entry(&op);
   
-  printf("\nSub expression start");
   fprintf(ofp, "\n(%16s)", __FUNCTION__);
 
   strcpy(op.name,  "");
@@ -1956,8 +1943,6 @@ void output_expression_start(char *expr)
   
   if( strlen(expr) > 0 )
     {
-      printf("\nExpression start");
-      //      fprintf(ofp, "\n========================================================");
       fprintf(ofp, "\n%s", expr);
       fprintf(ofp, "\n========================================================");
 
@@ -2814,20 +2799,15 @@ int main(int argc, char *argv[])
 
 
   dbprintf("\n");
-  dbprintf("\n %d lines scanned Ok",       n_lines_ok);
+  dbprintf("\n %d lines scanned OK",       n_lines_ok);
   dbprintf("\n %d lines scanned failed",   n_lines_bad);
   dbprintf("\n %d lines blank",            n_lines_blank);
   dbprintf("\n");
 
-  printf("\n");
-  printf("\n");
   printf("\n %d lines scanned Ok",       n_lines_ok);
-  printf("\n %d lines scanned failed",   n_lines_bad);
-  printf("\n %d lines blank",            n_lines_blank);
-  printf("\n");
+  printf("  %d lines scanned failed",   n_lines_bad);
+  printf("  %d lines blank\n",            n_lines_blank);
 
-  printf("\n");
-  //  fclose(ofp);
   uninit_output();  
 }
 
