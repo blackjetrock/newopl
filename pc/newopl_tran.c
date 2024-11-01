@@ -1127,6 +1127,7 @@ char *infix_from_rpn(void)
 	  // Just put the name in the outout
 	case EXP_BUFF_ID_UNTIL:
 	case EXP_BUFF_ID_ELSEIF:
+	case EXP_BUFF_ID_WHILE:
 	case EXP_BUFF_ID_IF:
 	  infix_stack_pop(op1);
 	  fprintf(ofp, "\n%s", be.name);
@@ -1137,6 +1138,7 @@ char *infix_from_rpn(void)
 	case EXP_BUFF_ID_DO:
 	case EXP_BUFF_ID_ELSE:
 	case EXP_BUFF_ID_ENDIF:
+	case EXP_BUFF_ID_ENDWH:
 	  dbprintf("%s", be.name);
 	  snprintf(newstr2, MAX_INFIX_STR, "%s", be.name);
 	  infix_stack_push(newstr2);
@@ -1258,13 +1260,23 @@ char *infix_from_rpn(void)
       fprintf(ofp, "\nInfix stack empty");
     }
 
-  fprintf(chkfp, "\n----------------------------------------infix-----------------------------------\n");
-  fprintf(chkfp, "\n%s\n", result);
-
-  fprintf(trfp, "\n%s", result);
+  // If the first character of the result is an open bracket then remove the brackets
+  // that surround the result, they are redundant.
+  char *res = result;
   
-  dbprintf("exit  '%s'", result);  
-  return(result);
+  if( *result == '(' )
+    {
+      res = result+1;
+      result[strlen(result)-1] = '\0';
+    }
+  
+  fprintf(chkfp, "\n----------------------------------------infix-----------------------------------\n");
+  fprintf(chkfp, "\n%s\n", res);
+
+  fprintf(trfp, "\n%s", res);
+  
+  dbprintf("exit  '%s'", res);  
+  return(result+1);
 }
 
 
@@ -1362,6 +1374,8 @@ void typecheck_expression(void)
 
 	case EXP_BUFF_ID_IF:
 	case EXP_BUFF_ID_ENDIF:
+	case EXP_BUFF_ID_WHILE:
+	case EXP_BUFF_ID_ENDWH:
 	case EXP_BUFF_ID_FLT:
 	case EXP_BUFF_ID_INTEGER:
 	case EXP_BUFF_ID_STR:
@@ -2352,6 +2366,7 @@ void process_token(OP_STACK_ENTRY *token)
     case EXP_BUFF_ID_UNTIL:
     case EXP_BUFF_ID_IF:
     case EXP_BUFF_ID_ENDIF:
+    case EXP_BUFF_ID_ENDWH:
       dbprintf("Buff id %s", o1.name);
       
       // Parser supplies type

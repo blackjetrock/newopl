@@ -4082,6 +4082,128 @@ int scan_do(LEVEL_INFO levels)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+int check_while(int *index)
+{
+  int idx = *index;
+
+  indent_more();
+  
+  dbprintf("'%s'", IDX_WHERE);
+  
+  if( check_literal(&idx, " WHILE"))
+    {
+      dbprintf("ret1");
+      *index = idx;
+      return(1);
+    }
+  
+  dbprintf("ret0");
+  return(0);
+  
+}
+
+//------------------------------------------------------------------------------
+
+int scan_while(LEVEL_INFO levels)
+{
+  int idx = cline_i;
+  int num_sub_expr;
+  OP_STACK_ENTRY op;
+
+  init_op_stack_entry(&op);
+  
+  indent_more();
+  
+  dbprintf("Entry '%s'", I_WHERE);
+
+  idx = cline_i;
+  
+  if( check_literal(&idx, " WHILE"))
+    {
+      levels.if_level = ++unique_level;;
+      
+      cline_i = idx;
+
+      // TODO: We need to disable assignmemt in this expression scan
+      //
+      if( scan_expression(&num_sub_expr, IGNORE_COMMA) )
+	{
+	  // Finish the expression and then output the IF token
+
+	  // Just flush the operator stack so the IF is at the end of the output
+	  op_stack_finalise();
+
+	  // Put the IF token after the expression
+	  op.level = levels.if_level;
+	  output_generic(op, "WHILE", EXP_BUFF_ID_WHILE);
+
+	  while(1)
+	    {
+	      // Otherwise it must be a line
+	      if( scan_line(levels) )
+		{
+		  // All OK, repeat
+		  n_lines_ok++;
+      
+		  idx = cline_i;
+      
+		  if ( check_literal(&idx," :") )
+		    {
+		      dbprintf("Dropping colon");
+		      fprintf(chkfp, "  dropping colon");
+		      cline_i = idx;
+		      //scan_literal(" :");
+		    }
+		}
+	      else
+		{
+		  dbprintf("Checking for conditionals");
+		  
+		  idx = cline_i;
+		  
+		  if( check_literal(&idx, " ENDWH") )
+		    {
+		      dbprintf("ENDWH found in if");
+		      
+		      cline_i = idx;
+		      
+		      op.level = levels.if_level;
+		      op.buf_id = EXP_BUFF_ID_ENDWH;
+		      strcpy(op.name, "ENDWH");
+		      process_token(&op);
+		      dbprintf("ret1");
+		      return(1);
+		    }
+
+		  dbprintf("ret0");
+
+		  return(0);
+		}
+	    }
+	}
+      else
+	{
+	  syntax_error("Bad expression");
+	  dbprintf("ret0");
+	  return(0);
+	}
+      
+    }
+  else
+    {
+      syntax_error("Expected WHILE");
+      dbprintf("ret0");
+      return(0);
+    }
+  
+  syntax_error("Bad WHILE");
+  dbprintf("ret0");
+  return(0);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
 int check_if(int *index)
 {
   int idx = *index;
@@ -4212,11 +4334,6 @@ int scan_if(LEVEL_INFO levels)
 			  // Just flush the operator stack so the IF is at the end of the output
 			  op_stack_finalise();
 			  output_generic(op, "ELSEIF", EXP_BUFF_ID_ELSEIF);
-#if 0
-			  op.buf_id = EXP_BUFF_ID_ENDIF;
-			  strcpy(op.name, "ENDIF");
-			  process_token(&op);
-#endif
 			  dbprintf("ret1");
 			  continue;
 			}
@@ -4430,21 +4547,13 @@ int check_line(int *index)
     }
 
   idx = cline_i;
-  if( check_literal(&idx," WHILE"))
+  if( check_while(&idx))
     {
       dbprintf("ret1");
       *index = idx;
       return(1);
     }
 
-  idx = cline_i;
-  if( check_literal(&idx," ENDWH"))
-    {
-      dbprintf("ret1");
-      *index = idx;
-      return(1);
-    }
-  
   idx = cline_i;
   if( check_literal(&idx," GOTO"))
     {
@@ -4685,30 +4794,18 @@ int scan_line(LEVEL_INFO levels)
     }
 
   idx = cline_i;
-  if( check_literal(&idx," WHILE") )
+  if( check_while(&idx) )
     {
-      if( scan_literal(" WHILE") )
+      if( scan_while(levels) )
 	{
-	  int sub_expr;
-	  if( scan_expression(&sub_expr, HEED_COMMA) )
-	    {
-	      dbprintf("%s: ret1 while", __FUNCTION__);
-	      return(1);
-	    }
+	  dbprintf("ret1 while");
+	  return(1);
 	}
       
-      dbprintf("%s: ret0 while", __FUNCTION__);
+      dbprintf("ret0 while");
       return(0);
     }
 
-  idx = cline_i;
-  if( check_literal(&idx," ENDWH") )
-    {
-      scan_literal(" ENDWH");
-      dbprintf("ret1 endwh");
-      return(1);
-    }
-    
   idx = cline_i;
   if( check_literal(&idx," GOTO"))
     {

@@ -1,18 +1,9 @@
 
 
-ABC%
+A%
 
-DO
-(ABC% := (ABC% + 17))
-DO
-(ABC% := (ABC% + 17))
-DO
-(ABC% := (ABC% + 17))
-UNTIL (ABC% = 200)
-UNTIL (ABC% = 200)
-UNTIL (ABC% = 200)
-IF (A% = 3)
-DO
-(i% := 10)
-UNTIL (i% = 10)
-ENDIF
+WHILE (A$ = 10)
+PRINT(a%)
+<nl>
+
+ENDWH
