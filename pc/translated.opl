@@ -1,14 +1,83 @@
 
 
-A%
+A
 
-IF (A% = 3)
+PRINT(FIX$(ZY% 0 3 ))
+< > 
+PRINT(PRINT(" "))
+< > 
+
+<nl>
+PRINT("abc")
+<nl>
+
+PRINT("asdfgh")
+<nl>
+
+PRINT("    abc    ")
+<nl>
+
 PRINT(A%)
 <nl>
 
-ELSE
-(PRINT(A%) + 1)
+PRINT(B)
 <nl>
 
-ENDIF
-(A% := 99)
+PRINT(ABC)
+<nl>
+
+PRINT(ABC%)
+<nl>
+
+PRINT(A$)
+<nl>
+
+PRINT(DEF$)
+<nl>
+
+PRINT(A(2))
+<nl>
+
+PRINT(B%(10))
+<nl>
+
+PRINT(D$(2))
+<nl>
+
+PRINT(F$(10,12))
+<nl>
+
+PRINT(A%)
+< > 
+
+PRINT(A%)
+< > 
+PRINT(PRINT(A%))
+<nl>
+
+PRINT(A%)
+< > 
+PRINT(PRINT(A%))
+< > 
+
+PRINT(" ")
+< > 
+
+PRINT("a")
+< > 
+PRINT(PRINT("a"))
+<nl>
+
+PRINT("a")
+< > 
+PRINT(PRINT(" "))
+< > 
+
+PRINT(((A% + 3) * 5))
+<nl>
+
+LPRINT(FIX$(KY% 0 3 ))
+L< > 
+LPRINT(LPRINT(" "))
+L< > 
+

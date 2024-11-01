@@ -1474,12 +1474,12 @@ int check_variable2(int *index)
 int check_operator(int *index, int *is_comma, int ignore_comma)
 {
   int idx = *index;
-  indent_more();
-  
-  dbprintf("%s: %s igncomma:%d", __FUNCTION__, cline_now(idx), ignore_comma);
 
+  indent_more();
   drop_space(&idx);
 
+  dbprintf("'%s' igncomma:%d", cline_now(idx), ignore_comma);
+  
 #if 0
   if( !ignore_comma )
     {
@@ -3598,11 +3598,13 @@ int scan_print(int print_type)
 	  idx = cline_i;
 	  if(check_literal(&idx, print_info[print_type].token_name))
 	    {
+#if 0
 	      dbprintf("Start PRINT token");
 	      
 	      op.buf_id = EXP_BUFF_ID_PRINT;
 	      strcpy(op.name, print_info[print_type].op_name);
 	      process_token(&op);
+#endif
 	    }
 	  else
 	    {
@@ -3623,7 +3625,7 @@ int scan_print(int print_type)
 	  dbprintf("Before while");
 	  while( check_expression(&idx, IGNORE_COMMA) )
 	    {
-	      dbprintf("Check epression ok, in while loop");
+	      dbprintf("Check expression ok, in while loop");
 	      
 	      //idx = cline_i;
 
@@ -3637,7 +3639,7 @@ int scan_print(int print_type)
 		{
 		  dbprintf("Print token needed");
 		  
-		  op.buf_id = EXP_BUFF_ID_FUNCTION;
+		  op.buf_id = print_info[print_type].buf_id_print;
 		  strcpy(op.name, print_info[print_type].op_name);
 		  process_token(&op);
 		}
@@ -3646,6 +3648,12 @@ int scan_print(int print_type)
 
 	      dbprintf("Scan expression");
 	      scan_expression( &num_subexpr, IGNORE_COMMA);
+
+	      // Expression scanned, add PRINT token
+	      // Just flush the operator stack so the IF is at the end of the output
+	      op_stack_finalise();
+	      strcpy(op.name, print_info[print_type].op_name);
+	      output_generic(op, print_info[print_type].op_name, print_info[print_type].buf_id_print);
 
 	      idx = cline_i;
 
@@ -3675,11 +3683,13 @@ int scan_print(int print_type)
 	      if( !delimiter_present )
 		{
 		  dbprintf("No delimiter present");
+
 		  
+
 		  // End the PRINT and start a new expression/command
  		  finalise_expression();
 		  output_expression_start(&cline[cline_i]);
-		  
+
 		  op.buf_id = print_info[print_type].buf_id_newline;
 		  strcpy(op.name, print_info[print_type].op_name);
 		  process_token(&op);
