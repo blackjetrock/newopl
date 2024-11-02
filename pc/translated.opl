@@ -835,6 +835,119 @@ PRINT(CHR$(26 ))
 <nl>
 
 D% := (RND() * 6)
-IF (D% = 0)
+IF (D% = (0 OR (D% = (2 OR (D% = 4)))))
+AT(19 2 )
+PRINT(CHR$(255 ))
+<nl>
+
+ENDIF
+IF (D% > 0)
+AT(18 1 )
+PRINT(CHR$(255 ))
+<nl>
+
+AT(20 3 )
+PRINT(CHR$(255 ))
+<nl>
+
+ENDIF
+IF (D% > 2)
+AT(20 1 )
+PRINT(CHR$(255 ))
+<nl>
+
+AT(18 3 )
+PRINT(CHR$(255 ))
+<nl>
+
+ENDIF
+IF (D% = 5)
+AT(18 2 )
+PRINT((CHR$(255 ) + (" " + CHR$(255 ))))
+<nl>
+
+ENDIF
+ENDWH
+AT(1 2 )
+PRINT("     ")
+<nl>
+
+AT(1 4 )
+PRINT((CHR$(26 ) + ("Again" + (CHR$(63 ) + " Y"))))
+<nl>
+
+UNTIL (GET$() <> "Y")
+distance:
+PRINT("Select known data")
+<nl>
+
+A := MENUN(2 "HEIGHT,WIDTH" )
+IF (A = 1)
+PRINT("WHAT HEIGHT mt")
+PRINT(PRINT(CHR$(63 )))
+<nl>
+
+H
+WI := H
+S$ := "m height"
+H := (H * 1000)
+CLS()
+PRINT("WHAT mm LENS")
+PRINT(PRINT(CHR$(63 )))
+<nl>
+
+L
+LE := L
+D := ((H * L) / T)
+CLS()
+ELSEIF (A = 2)
+PRINT("WHAT WIDTH mt")
+PRINT(PRINT(CHR$(63 )))
+<nl>
+
+W
+WI := W
+S$ := "m width"
+W := (W * 1000)
+CLS()
+PRINT("WHAT LENS mm")
+PRINT(PRINT(CHR$(63 )))
+<nl>
+
+L
+LE := L
+CLS()
+D := ((W * L) / I)
+ENDIF
+D := INTF((D / 10) )
+D := (D / 100)
+PRINT("A")
+< > 
+PRINT(PRINT(LE))
+< > 
+PRINT(PRINT("mm lens"))
+<nl>
+
+PRINT("gives a")
+< > 
+PRINT(PRINT(WI))
+< > 
+PRINT(PRINT(S$))
+<nl>
+
+PRINT("@")
+< > 
+PRINT(PRINT(D))
+< > 
+PRINT(PRINT("metres"))
+<nl>
+
+PRINT("Distance...")
+<nl>
+
+GET()
+DumpPack:
 
 
+
+ESCAPE(0 )
