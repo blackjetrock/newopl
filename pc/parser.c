@@ -805,6 +805,23 @@ void drop_space(int *index)
   
 }
 
+//------------------------------------------------------------------------------
+
+void drop_colon(int *index)
+{
+  int idx = *index;
+  dbprintf("Entry");
+  
+  if ( check_literal(&idx," :") )
+    {
+      dbprintf("Dropping colon");
+      //      fprintf(chkfp, "  dropping colon");
+      *index = idx;
+    }
+  
+  dbprintf("Exit");
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // The '=' in an assignment needs to be a different token to the '='
@@ -983,6 +1000,7 @@ int scan_literal(char *lit)
 int check_literal(int *index, char *lit)
 {
   int idx = *index;
+  int orig_idx = *index;
   
   indent_more();
   
@@ -1009,8 +1027,8 @@ int check_literal(int *index, char *lit)
       if( toupper(*lit) != toupper(cline[idx]) )
 	{
 	  dbprintf("  '%c' != '%c'", *lit, cline[idx]);
+	  
 	  // Not a match, fail
-
 	  dbprintf("%s: ret0", __FUNCTION__);
 	  *index = idx;
 	  return(0);
@@ -1021,17 +1039,17 @@ int check_literal(int *index, char *lit)
 
   dbprintf("%s:After while():%s", __FUNCTION__, &(cline[idx]));
   
-  if( cline[idx-1] == '\0' )
+  if( *lit != '\0' )
     {
       *index = idx;
 
-      dbprintf("%s: ret0", __FUNCTION__);
+      dbprintf("ret0 Full string not seen");
       return(0);
     }
   
   // reached end of literal string , all ok
   *index = idx;
-  dbprintf("%s:ret1 ", __FUNCTION__);
+  dbprintf("ret1 Match. '%' == '%s'", lit, &(cline[orig_idx]));
   return(1);
 
 }
@@ -3264,6 +3282,7 @@ int check_textlabel(int *index, char *label_dest)
     }
 
   dbprintf("%s: '%s'", __FUNCTION__, label_dest);
+  
   if( cline[idx] == ':' )
     {
       *index = idx;
@@ -3274,6 +3293,9 @@ int check_textlabel(int *index, char *label_dest)
   dbprintf("%s:ret0", __FUNCTION__);  
   return(0);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
 
 int check_label(int *index)
 {
@@ -3296,6 +3318,9 @@ int check_label(int *index)
   dbprintf("%s:ret0", __FUNCTION__);
   return(0);
 }
+
+//------------------------------------------------------------------------------
+
 
 int scan_label(char *dest_label)
 {
@@ -3980,7 +4005,6 @@ int check_do(int *index)
   return(0);
   
 }
-
 //------------------------------------------------------------------------------
 
 int scan_do(LEVEL_INFO levels)
@@ -4013,6 +4037,8 @@ int scan_do(LEVEL_INFO levels)
 	  // Otherwise it must be a line
 	  if( scan_line(levels) )
 	    {
+	      dbprintf("Line scanned ok");
+		
 	      // All OK, repeat
 	      n_lines_ok++;
 	      
@@ -4274,17 +4300,25 @@ int scan_if(LEVEL_INFO levels)
 	  output_if(op);
 #endif
 	  int else_seen = 0;
+
+	  idx = cline_i;
+	  drop_colon(&idx);
+	  cline_i = idx;
 	  
 	  while(1)
 	    {
 	      // Otherwise it must be a line
 	      if( scan_line(levels) )
 		{
+		  dbprintf("Line scanned ok");
+				
 		  // All OK, repeat
 		  n_lines_ok++;
       
 		  idx = cline_i;
-      
+		  drop_colon(&idx);
+		  cline_i = idx;
+#if 0      
 		  if ( check_literal(&idx," :") )
 		    {
 		      dbprintf("Dropping colon");
@@ -4292,6 +4326,8 @@ int scan_if(LEVEL_INFO levels)
 		      cline_i = idx;
 		      //scan_literal(" :");
 		    }
+#endif
+		  // After scanning a line we need to 
 		}
 	      else
 		{
@@ -4334,7 +4370,11 @@ int scan_if(LEVEL_INFO levels)
 			  // Just flush the operator stack so the IF is at the end of the output
 			  op_stack_finalise();
 			  output_generic(op, "ELSEIF", EXP_BUFF_ID_ELSEIF);
-			  dbprintf("ret1");
+			  dbprintf("Done ELSEIF");
+
+			  idx = cline_i;
+			  drop_colon(&idx);
+			  cline_i = idx;
 			  continue;
 			}
 		      else
@@ -4371,7 +4411,12 @@ int scan_if(LEVEL_INFO levels)
 			  output_generic(op, "ELSE", EXP_BUFF_ID_ELSE);
 			  else_seen = 1;
 			  
-			  dbprintf("ELSE");
+			  dbprintf("Done ELSE");
+
+			  idx = cline_i;
+			  drop_colon(&idx);
+			  cline_i = idx;
+
 			  continue;
 			}
 		    }
@@ -4617,7 +4662,7 @@ int scan_line(LEVEL_INFO levels)
   idx = cline_i;
   if( check_literal(&idx, " REM") )
     {
-      cline_i = strlen(cline)-1;
+      cline_i = strlen(cline);
       dbprintf("Comment ignored");
       dbprintf("ret1");
       return(1);
@@ -4847,9 +4892,9 @@ int is_all_spaces(int idx)
   
   for(int i=0; i<strlen(&(cline[idx])); i++)
     {
-      dbprintf("cline[%d] = '%c' (%d)", i, cline[i], cline[i]);
+      dbprintf("cline[%d] = '%c' (%d)", i, cline[i+idx], cline[i+idx]);
       
-      if( !isspace(cline[i]) )
+      if( !isspace(cline[i+idx]) )
 	{
 	  all_spaces = 0;
 	}
@@ -4864,8 +4909,8 @@ int pull_next_line(void)
   int all_spaces;
   
   dbprintf("");
-
-  dbprintf("Checking for existing data in cline. cline_i=%d strlen:%d ", cline_i, strlen(&(cline[cline_i])));
+  dbprintf("Processing epression just parsed");
+  
   
   while( isspace( cline[strlen(cline)-1]) )
     {
@@ -4881,9 +4926,13 @@ int pull_next_line(void)
   output_expression_start(cline);
   output_expression_started = 1;	  
 
+  dbprintf("Checking for existing data in cline. cline_i=%d strlen:%d ", cline_i, strlen(&(cline[cline_i])));
+
   // If cline_i is 0 then assume we don't need to pull another line
   if( strlen(&(cline[cline_i])) > 0 )
     {
+      dbprintf("Data still in line buffer, check not all space");
+      
       // As long as it's not all spaces
       if( !is_all_spaces(cline_i) )
 	{
