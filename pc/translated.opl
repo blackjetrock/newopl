@@ -701,5 +701,140 @@ x% := (l%(i%) + el%(i%))
 y% := (p%(i%) + ep%(i%))
 
 WHILE (x% > mx%)
-
 x% := (x% - (mx% - (mn% + 1)))
+ENDWH
+WHILE (y% > mx%)
+y% := (y% - (mx% - (mn% + 1)))
+ENDWH
+IF ((i% / 2.0) = (i% / 2))
+
+el$ := (el$ + CHR$(y% ))
+ep$ := (ep$ + CHR$(x% ))
+ELSE
+
+el$ := (el$ + CHR$(x% ))
+ep$ := (ep$ + CHR$(y% ))
+ENDIF
+UNTIL (i% = 8)
+el$ + ep$
+depth:
+M := MENU("35mm,16mm,8mm,70mm" )
+IF (M = 1)
+C := 0.0339
+ELSEIF (M = 2)
+C := 0.0254
+ELSEIF (M = 3)
+C := 0.0254
+ELSEIF (M = 4)
+C := 0.0339
+ENDIF
+CLS()
+PRINT("Focal length")
+<nl>
+
+F
+CLS()
+PRINT("f STOP")
+<nl>
+
+S
+CLS()
+H := ((F ** 2) / (S * C))
+C := INTF(H )
+HY := (C / 1000)
+CLS()
+S := (S / 1000)
+H := (H / 1000)
+PRINT("FOCUS DISTANCE")
+<nl>
+
+D
+CLS()
+AT(1 1 )
+PRINT("Hypofocal distance")
+<nl>
+
+AT(1 2 )
+PRINT(HY)
+< > 
+PRINT(PRINT("m"))
+<nl>
+
+IF (D > H)
+N := ((H * D) / (H + (D - S)))
+N := (N * 100)
+N := INTF(N )
+N := (N / 100)
+AT(1 3 )
+PRINT("NEAR ")
+PRINT(PRINT(N))
+PRINT(PRINT(" m"))
+<nl>
+
+AT(1 4 )
+PRINT("INFINITY")
+<nl>
+
+ELSE
+N := ((H * D) / (H + (D - S)))
+C := ((H * D) / (H - (D - S)))
+N := (N * 100)
+N := INTF(N )
+N := (N / 100)
+C := (C * 100)
+C := INTF(C )
+C := (C / 100)
+AT(1 3 )
+PRINT("NEAR")
+< > 
+PRINT(PRINT(N))
+< > 
+PRINT(PRINT("m"))
+<nl>
+
+AT(1 4 )
+PRINT("FAR")
+< > 
+PRINT(PRINT(C))
+< > 
+PRINT(PRINT("m"))
+<nl>
+
+ENDIF
+GET()
+N := MENU("DEPTH,FILM,MENU" )
+IF (N = 1)
+DEPTH:
+ELSEIF (N = 2)
+FILM:
+ENDIF
+STOP()
+DICE:
+KSTAT(1 )
+DO
+AT(1 2 )
+PRINT(("Stop" + CHR$(63 )))
+<nl>
+
+AT(1 4 )
+PRINT("Press key.")
+<nl>
+
+WHILE (KEY() = 0)
+PAUSE(2 )
+AT(1 1 )
+PRINT(CHR$(26 ))
+<nl>
+
+AT(15 2 )
+PRINT(CHR$(26 ))
+<nl>
+
+AT(1 3 )
+PRINT(CHR$(26 ))
+<nl>
+
+D% := (RND() * 6)
+IF (D% = 0)
+
+

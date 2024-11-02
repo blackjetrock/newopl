@@ -4032,6 +4032,10 @@ int scan_do(LEVEL_INFO levels)
       // Just flush the operator stack so the UNTIL is at the end of the output
       output_generic(op, "DO", EXP_BUFF_ID_DO);
 
+      idx = cline_i;
+      drop_colon(&idx);
+      cline_i = idx;
+
       while(1)
 	{
 	  // Otherwise it must be a line
@@ -4041,16 +4045,10 @@ int scan_do(LEVEL_INFO levels)
 		
 	      // All OK, repeat
 	      n_lines_ok++;
-	      
+
 	      idx = cline_i;
-	      
-	      if ( check_literal(&idx," :") )
-		{
-		  dbprintf("Dropping colon");
-		  fprintf(chkfp, "  dropping colon");
-		  cline_i = idx;
-		  //scan_literal(" :");
-		}
+	      drop_colon(&idx);
+	      cline_i = idx;
 	    }
 	  else
 	    {
@@ -4154,14 +4152,18 @@ int scan_while(LEVEL_INFO levels)
       //
       if( scan_expression(&num_sub_expr, IGNORE_COMMA) )
 	{
-	  // Finish the expression and then output the IF token
+	  // Finish the expression and then output the WHILE token
 
-	  // Just flush the operator stack so the IF is at the end of the output
+	  // Just flush the operator stack so the WHILE is at the end of the output
 	  op_stack_finalise();
 
-	  // Put the IF token after the expression
+	  // Put the WHILE token after the expression
 	  op.level = levels.if_level;
 	  output_generic(op, "WHILE", EXP_BUFF_ID_WHILE);
+
+	  idx = cline_i;
+	  drop_colon(&idx);
+	  cline_i = idx;
 
 	  while(1)
 	    {
@@ -4172,14 +4174,8 @@ int scan_while(LEVEL_INFO levels)
 		  n_lines_ok++;
       
 		  idx = cline_i;
-      
-		  if ( check_literal(&idx," :") )
-		    {
-		      dbprintf("Dropping colon");
-		      fprintf(chkfp, "  dropping colon");
-		      cline_i = idx;
-		      //scan_literal(" :");
-		    }
+		  drop_colon(&idx);
+		  cline_i = idx;
 		}
 	      else
 		{
