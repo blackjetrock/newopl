@@ -42,8 +42,8 @@
 <atom>            : <string> | <number> | <variable>	| %<character>       
 <sub_expr>        : '(' <expression> ')'
      
-                    <eitem>      : <function> | <atom> | <sub_expr> 
-                    <expression> : <eitem> | <eitem> (<operator> <eitem>)+
+<eitem>           : <function> | <atom> | <sub_expr> | <proc_call>
+<expression>      : <eitem> | <eitem> (<operator> <eitem>)+
 
 
 <variable>        : <vname> | <vname>'%' | <vname>'$' |
@@ -60,7 +60,8 @@
 <assignment>      : <variable> '=' <expression>
 <varlist>         : <variable>+
 <param_list>      : '(' <parameter>+ ')'
-<vname>           : <A-Z><A-Z0-9>*
+<logfile>         : 'A' | 'B' | 'C' | 'D'
+<vname>           : <A-Z><A-Z0-9>* | <logfile>'.'<A-Z><A-Z0-9>*
 <operator>        : <operator-list-string>	      
 
 Notes:

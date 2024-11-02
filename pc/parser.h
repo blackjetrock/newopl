@@ -92,6 +92,7 @@ void init_op_stack_entry(OP_STACK_ENTRY *op);
 extern int n_lines_ok;
 extern int n_lines_bad;
 extern int n_lines_blank;
+extern int n_stack_errors;
 
 typedef struct _LEVEL_INFO
 {
@@ -145,4 +146,8 @@ void op_stack_finalise(void);
 void output_if(OP_STACK_ENTRY op);
 void output_generic(OP_STACK_ENTRY op, char *name, int buf_id);
 int strn_match(char *s1, char *s2, int n);
+int check_proc_call(int *index);
+int scan_proc_call(void);
+void typecheck_error(char *fmt, ...);
+
 

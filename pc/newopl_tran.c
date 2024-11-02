@@ -303,6 +303,8 @@ int token_is_integer(char *token)
   return(all_digits);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 // Variable if it ends in $ or %
 // Variable if not a function name
 // Variables have to be only alpha or alpha followed by alphanum
@@ -333,7 +335,7 @@ int token_is_variable(char *token)
 
   for(int i=0; i<strlen(token)-1; i++)
     {
-      if( !isalnum(token[i]) )
+      if( ! (isalnum(token[i]) || token[i] == '.') )
 	{
 	  return(0);
 	}
@@ -760,7 +762,8 @@ void type_check_stack_push(EXP_BUFFER_ENTRY entry)
   else
     {
       fprintf(ofp, "\n%s: Operator stack full", __FUNCTION__);
-      exit(-1);
+      typecheck_error("Stack full");
+      n_stack_errors++;
     }
   type_check_stack_print();
 
@@ -775,7 +778,9 @@ EXP_BUFFER_ENTRY type_check_stack_pop(void)
   if( type_check_stack_ptr == 0 )
     {
       fprintf(ofp, "\n%s: Operator stack empty", __FUNCTION__);
-      exit(-1);
+      typecheck_error("Stack empty");
+      n_stack_errors++;
+      return(o);
     }
   
   type_check_stack_ptr --;
@@ -1036,7 +1041,8 @@ void infix_stack_push(char *entry)
   else
     {
       fprintf(ofp, "\n%s: Operator stack full", __FUNCTION__);
-      exit(-1);
+      typecheck_error("Operator stack full");
+      return;
     }
 }
 
@@ -1049,7 +1055,8 @@ void infix_stack_pop(char *entry)
   if( infix_stack_ptr == 0 )
     {
       fprintf(ofp, "\n%s: Operator stack empty", __FUNCTION__);
-      exit(-1);
+      typecheck_error("Operator stack empty");
+      return;
     }
   
   infix_stack_ptr --;
@@ -1999,7 +2006,8 @@ OP_STACK_ENTRY op_stack_pop(void)
   if( op_stack_ptr == 0 )
     {
       fprintf(ofp, "\n%s: Operator stack empty", __FUNCTION__);
-      exit(-1);
+      typecheck_error("Operatior stack empty");
+      return(o);
     }
   
   op_stack_ptr --;
@@ -2146,7 +2154,8 @@ void exp_type_push(NOBJ_VARTYPE t)
   else
     {
       fprintf(ofp, "\nSub expression stack full");
-      exit(-1);
+      typecheck_error("Sub expression stack full");
+      return;
     }
 }
 
@@ -2159,7 +2168,8 @@ NOBJ_VARTYPE exp_type_pop(void)
   else
     {
       fprintf(ofp, "\nExp stack empty on pop");
-      exit(-1);
+      typecheck_error("EXxression stack empty on pop");
+      return(NOBJ_VARTYPE_UNKNOWN);
     }
 }
 
@@ -2653,6 +2663,7 @@ void dummy(void)
 int n_lines_ok    = 0;
 int n_lines_bad   = 0;
 int n_lines_blank = 0;
+int n_stack_errors = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 //

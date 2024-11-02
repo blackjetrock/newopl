@@ -185,7 +185,7 @@ struct _FN_INFO
     { "MONTH",    0,  0, ' ',  "",          "i", 0x00 },
     { "NEXT",     0,  1, ' ',  "",          "v", 0x00 },
     { "NUM$",     0,  0, ' ',  "fi",        "s", 0x00 },
-    { "OFF",      1,  0, ' ',  "i",         "v", 0x00 },    // OFF or OFF x%
+    { "OFF",      1,  0, ' ',  "",          "v", 0x00 },    // OFF or OFF x%
     { "OPEN",     1,  1, ' ',  "ii",        "v", 0x00 },    // File format
     //    { "ONERR",    1,  0, ' ',  "",          "v", 0x00 },    
     { "PAUSE",    1,  0, ' ',  "i" ,        "v", 0x00 },
@@ -640,6 +640,31 @@ void syntax_error(char *fmt, ...)
   exit(-1);
 }
 
+void typecheck_error(char *fmt, ...)
+{
+  va_list valist;
+  char line[80];
+  
+  va_start(valist, fmt);
+
+  vsprintf(line, fmt, valist);
+  va_end(valist);
+
+  printf("\n\n\nType check error\n");
+  printf("\n%s", cline);
+  printf("\n");
+  for(int i=0; i<cline_i-1; i++)
+    {
+      printf(" ");
+    }
+  printf("^");
+  
+  printf("\n\n   %s", line);
+  printf("\n");
+  
+
+}
+
 //------------------------------------------------------------------------------
 //
 // Error in the compiler logic
@@ -1069,12 +1094,16 @@ int scan_vname(char *vname_dest)
 
   drop_space(&cline_i);
   
-  if( isalpha(ch = cline[cline_i++]) )
+  if( isalpha(cline[cline_i]) || (cline[cline_i] == '.') )
     {
+      ch = cline[cline_i];
+      cline_i++;
+      
       vname[vname_i++] = ch;
       
-      while( isalnum(ch = cline[cline_i]) )
+      while( isalnum(cline[cline_i]) || (cline[cline_i] == '.'))
 	{
+	  ch = cline[cline_i];
 	  vname[vname_i++] = ch;
 	  cline_i++;
 	}
@@ -1091,6 +1120,9 @@ int scan_vname(char *vname_dest)
   return(0);
 }
 
+//------------------------------------------------------------------------------
+
+//
 //
 // Checks for a variable name string part
 //
@@ -1104,11 +1136,11 @@ int check_vname(int *index)
 
   dbprintf("%s '%s':", __FUNCTION__, &(cline[idx]));
   
-  if( isalpha(cline[idx]) )
+  if( isalpha(cline[idx]) || (cline[idx] == '.'))
     {
       idx++;
       
-      while( isalnum(cline[idx]) )
+      while( isalnum(cline[idx]) || (cline[idx] == '.') )
 	{
 	  idx++;
 	}
@@ -2079,6 +2111,7 @@ int check_atom(int *index)
   dbprintf("%s:", __FUNCTION__);
 
   dbprintf("%s:Checking for character constant", __FUNCTION__);
+  
   idx = *index;
   if( check_literal(&idx," %") )
     {
@@ -2129,6 +2162,15 @@ int check_atom(int *index)
       // Int or float
       *index = idx;
       dbprintf("ret1");
+      return(1);
+    }
+
+  idx = *index;
+  if( check_proc_call(&idx) )
+    {
+      dbprintf("ret1");
+      
+      *index = idx;
       return(1);
     }
 
@@ -2265,6 +2307,21 @@ int scan_atom(void)
     }
 
   idx = cline_i;
+  if( check_proc_call(&idx) )
+    {
+      if(scan_proc_call())
+	{
+	  dbprintf("ret1 proc call");
+	  return(1);
+	}
+      else
+	{
+	  dbprintf("ret0 proc cll");
+	  return(0);
+	}
+    }
+
+  idx = cline_i;
   if( check_variable(&idx) )
     {
       // Variable
@@ -2311,16 +2368,6 @@ int check_eitem(int *index, int *is_comma, int ignore_comma)
       dbprintf("ret1");
       return(1);
     }
-
-#if 0
-  idx = *index;
-  if( check_operator(&idx, is_comma, ignore_comma) )
-    {
-      *index = idx;
-      dbprintf("%s:ret1 comma:1", __FUNCTION__);
-      return(1);
-    }
-#endif
   
   idx = *index;
   if( check_sub_expr(&idx) )
@@ -2371,23 +2418,6 @@ int scan_eitem(int *num_commas, int ignore_comma)
       *num_commas = 0;
       return(scan_atom());
     }
-#if 0
-  idx = cline_i;
-  if( check_operator(&idx, &is_comma, ignore_comma) )
-    {
-      if(scan_operator(&is_comma, ignore_comma) )
-	{
-	  dbprintf("Is comma;%d", is_comma);
-	  *num_commas = is_comma;
-	  return(1);
-	}
-      else
-	{
-	  *num_commas = 0;
-	  return(0);
-	}
-    }
-#endif
   
   idx = cline_i;
   if( check_sub_expr(&idx) )
@@ -2402,7 +2432,7 @@ int scan_eitem(int *num_commas, int ignore_comma)
       *num_commas = 0;
       return(scan_addr_name());
     }
-
+  
   idx = cline_i;
   syntax_error("Not an atom");
   *num_commas = 0;
@@ -3264,6 +3294,24 @@ int scan_assignment(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+int is_textlabelchar(char c)
+{
+  if( isalnum(c) )
+    {
+      return(1);
+    }
+
+  if( c == '.' )
+    {
+      return(1);
+    }
+  
+
+  return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 int check_textlabel(int *index, char *label_dest)
 {
   int idx = *index;
@@ -3276,17 +3324,17 @@ int check_textlabel(int *index, char *label_dest)
   
   drop_space(&idx);
   
-  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
+  dbprintf("'%s'", &(cline[idx]));
 
   // Just a colon is not a text label  
   if( cline[idx] == ':' )
     {
       *index = idx;
-      dbprintf("%s:ret0 (just colon)", __FUNCTION__);
+      dbprintf("ret0 (just colon)");
       return(0);
     }
 
-  while( (cline[idx] != ':') && (cline[idx] != '\0') && (cline[idx] != ' ') )
+  while( /*(cline[idx] != ':') && */(cline[idx] != '\0') && (cline[idx] != ' ') && (is_textlabelchar(cline[idx])) )
     {
       if( strlen(label_dest) > NOBJ_VARNAME_MAXLEN-1 )
 	{
@@ -3297,17 +3345,19 @@ int check_textlabel(int *index, char *label_dest)
       idx++;
     }
 
-  dbprintf("%s: '%s'", __FUNCTION__, label_dest);
+  dbprintf("'%s' is a text label", label_dest);
   
+#if 0  
   if( cline[idx] == ':' )
     {
       *index = idx;
       dbprintf("ret1");
       return(1);
     }
-  
+#endif
+  *index = idx;
   dbprintf("%s:ret0", __FUNCTION__);  
-  return(0);
+  return(1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3902,7 +3952,7 @@ int check_proc_call(int *index)
   dbprintf("%s:", __FUNCTION__);
   if( check_textlabel(&idx, textlabel))
     {
-      dbprintf("%s:is text label", __FUNCTION__);
+      dbprintf("'%s' is text label", textlabel);
       if( check_literal(&idx, ":") )
 	{
 	  dbprintf("ret1");
@@ -5061,11 +5111,13 @@ int scan_procdef(void)
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
   indent_more();
   
-  dbprintf("%s:", __FUNCTION__);
+  dbprintf("");
+  
   if( check_textlabel(&idx, textlabel))
     {
       cline_i = idx;
-      
+
+      dbprintf("Text label:'%s'", textlabel);
       if( scan_literal(":") )
 	{
 	  dbprintf("ret1");
