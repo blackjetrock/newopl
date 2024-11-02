@@ -51,6 +51,7 @@ enum
     EXP_BUFF_ID_UNTIL,
     EXP_BUFF_ID_WHILE,
     EXP_BUFF_ID_ENDWH,
+    EXP_BUFF_ID_TRAP,
     EXP_BUFF_ID_MAX,
   };
 
@@ -99,6 +100,9 @@ typedef struct _LEVEL_INFO
   int while_level;
 } LEVEL_INFO;
 
+// scan_command can scan for just trappable commands
+#define SCAN_ALL          0
+#define SCAN_TRAPPABLE    1
 
 int scan_addr_name(void);
 int check_addr_name(int *index);

@@ -69,6 +69,7 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_UNTIL",
     "EXP_BUFF_ID_WHILE",
     "EXP_BUFF_ID_ENDWH",
+    "EXP_BUFF_ID_TRAP",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -93,7 +94,7 @@ struct _FN_INFO
 {
   char *name;
   int command;         // 1 if command, 0 if function
-  int trapable;        // 1 if can be used with TRAP
+  int trappable;       // 1 if can be used with TRAP
   char argparse;       // How to parse the args   O: scan_onoff
                        //                         V: varname list
                        //                         otherwise: scan_expression()
@@ -215,7 +216,7 @@ struct _FN_INFO
     { "STOP",     1,  0, ' ',  "",          "v", 0x00 },
     { "SUM",      0,  0, ' ',  "ii",        "f", 0x00 },  // Multiple forms
     { "TAN",      0,  0, ' ',  "f",         "f", 0x00 },
-    { "TRAP",     1,  0, ' ',  "ii",        "v", 0x00 },  // Prefix, not command?
+    //{ "TRAP",     1,  0, ' ',  "",          "v", 0x00 },  // Prefix, not command?
     { "UDG",      1,  0, ' ',  "iiiiiiiii", "v", 0x00 },
     { "UPDATE",   1,  1, ' ',  "",          "v", 0x00 },
     { "UPPER$",   0,  0, ' ',  "s",         "s", 0x00 },
@@ -2839,7 +2840,7 @@ int check_command(int *index)
 
 //------------------------------------------------------------------------------
 
-int scan_command(char *cmd_dest)
+int scan_command(char *cmd_dest, int trappable_only)
 {
   int onoff_val;
   int num_subexpr = 0;  
@@ -2852,12 +2853,19 @@ int scan_command(char *cmd_dest)
   
   drop_space(&cline_i);
   
-  dbprintf("%s:", __FUNCTION__);
+  dbprintf("Trappable only:%d", trappable_only);
 
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
       if( fn_info[i].command && (strn_match(&(cline[cline_i]), fn_info[i].name, strlen(fn_info[i].name))) )
 	{
+	  // Are we only looking for trappable commands?
+	  if( trappable_only && !(fn_info[i].trappable) )
+	    {
+	      dbprintf("ret0 Trappable only and not a trappable command");
+	      return(0);
+	    }
+	  
 	  // Match
 	  strcpy(cmd_dest, fn_info[i].name);
 	  cline_i += strlen(fn_info[i].name);
@@ -2918,7 +2926,7 @@ int scan_command(char *cmd_dest)
 	    default:
 	      if( scan_expression_list(&num_expr) )
 		{
-		  dbprintf("%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
+		  dbprintf("ret1 =>'%s'", cmd_dest);
 		  dbprintf( "\nENDEXP");
 		  sprintf(op.name, ")");
 		  process_token(&op);
@@ -2927,7 +2935,7 @@ int scan_command(char *cmd_dest)
 		}
 	      else
 		{
-		  dbprintf("%s: expression failed", __FUNCTION__);
+		  dbprintf("Expression failed");
 		  return(0);
 		}
 	      break;
@@ -2936,6 +2944,7 @@ int scan_command(char *cmd_dest)
     }
 
   strcpy(cmd_dest, "");
+  dbprintf("ret0");
   return(0);
 }
 
@@ -3718,8 +3727,6 @@ int scan_print(int print_type)
 	      if( !delimiter_present )
 		{
 		  dbprintf("No delimiter present");
-
-		  
 
 		  // End the PRINT and start a new expression/command
  		  finalise_expression();
@@ -4618,6 +4625,14 @@ int check_line(int *index)
 	}
     }
 
+  idx = cline_i;
+  if( check_literal(&idx," TRAP"))
+    {
+      dbprintf("ret1");
+      *index = idx;
+      return(1);
+    }
+  
   dbprintf("ret1");
   *index = idx;
   return(0);
@@ -4822,7 +4837,7 @@ int scan_line(LEVEL_INFO levels)
   if( check_command(&idx) )
     {
       dbprintf("%s:check_command: ", __FUNCTION__);
-      scan_command(cmdname);
+      scan_command(cmdname, SCAN_ALL);
       dbprintf("ret1 command");
       return(1);
     }
@@ -4871,6 +4886,34 @@ int scan_line(LEVEL_INFO levels)
 	}
     }
 
+  idx = cline_i;
+  if( check_literal(&idx," TRAP"))
+    {
+      OP_STACK_ENTRY op;
+      
+      init_op_stack_entry(&op);
+
+      // Accept the TRAP and insert a TRAP token
+      cline_i = idx;
+
+      output_generic(op, "TRAP", EXP_BUFF_ID_TRAP);
+
+      // We want the TRAP before the next command
+      finalise_expression();
+      output_expression_start(&cline[cline_i]);
+
+      if( scan_command(cmdname, SCAN_TRAPPABLE) )
+	{
+	  dbprintf("ret1");
+	  return(1);
+	}
+      else
+	{
+	  dbprintf("ret0: Scanning for trappable command failed");
+	  return(0);
+	}
+    }
+  
   cline_i = idx;
   dbprintf("%s: ret0 END", __FUNCTION__);
   return(0);    

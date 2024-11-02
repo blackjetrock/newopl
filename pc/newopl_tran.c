@@ -1136,6 +1136,7 @@ char *infix_from_rpn(void)
 	  break;
 
 	case EXP_BUFF_ID_DO:
+	case EXP_BUFF_ID_TRAP:
 	case EXP_BUFF_ID_ELSE:
 	case EXP_BUFF_ID_ENDIF:
 	case EXP_BUFF_ID_ENDWH:
@@ -1859,7 +1860,6 @@ void output_proc_call(OP_STACK_ENTRY op)
 
 void output_if(OP_STACK_ENTRY op)
 {
-  printf("\nop if");
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_IF);
 }
@@ -1928,7 +1928,6 @@ void output_sub_end(void)
 
   init_op_stack_entry(&op);
     
-  printf("\nSub expression end");
   fprintf(ofp, "\n(%16s)", __FUNCTION__);
 
   strcpy(op.name, "");
@@ -2352,6 +2351,7 @@ void process_token(OP_STACK_ENTRY *token)
     case EXP_BUFF_ID_IF:
     case EXP_BUFF_ID_ENDIF:
     case EXP_BUFF_ID_ENDWH:
+    case EXP_BUFF_ID_TRAP:
       dbprintf("Buff id %s", o1.name);
       
       // Parser supplies type
@@ -2360,16 +2360,6 @@ void process_token(OP_STACK_ENTRY *token)
       return;
       break;
 
-#if 0
-      fprintf(ofp, "\nBuff id endif");
-      
-      // Parser supplies type
-      o1.req_type = expression_type;
-      output_endif(o1);
-      return;
-      break;
-#endif
-      
     case EXP_BUFF_ID_VAR_ADDR_NAME:
       fprintf(ofp, "\nBuff id var addr name");
       
