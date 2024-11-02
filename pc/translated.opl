@@ -951,3 +951,64 @@ DumpPack:
 
 
 ESCAPE(0 )
+ONERR()
+OFFSET% := 0
+
+
+
+
+
+
+
+
+mc1addr% := ADDR(mc1%() )
+mc1%(1) := 16226
+
+mc1%(2) := 14592
+
+
+mc1%(3) := 52736
+
+mc1%(4) := 63
+
+mc1%(5) := 24780
+
+mc1%(6) := 128
+
+mc1%(7) := 52736
+
+mc1%(8) := 63
+
+mc1%(9) := 24121
+
+
+CLS()
+PRINT(" DumpPack v0.1")
+
+buff$ := "  Copies a pack to PC (even if protected or corrupted). Please make sure the CommsLink is booted in and activate Psi2Win.  "
+IF (VIEW(2 buff$ ) = 1)
+
+ENDIF
+DO
+pack% := (MENU(("Which" + (CHR$(254 ) + "pack,B:,C:,D:")) ) - 1)
+IF (pack% = 1)
+
+ENDIF
+UNTIL (pack% > 0)
+DO
+kb% := ((4 * 2) ** (MENU("AUTO,8K,16K,32K,64K,128K,256K" ) - 1))
+IF (kb% = 0)
+
+ELSEIF (kb% = 4)
+USR(mc1addr% pack% )
+
+kb% := (PEEKB((8408 + (10 * pack%)) ) * 8)
+PRINT("Detected")
+< > 
+PRINT(PRINT(NUM$(kb% 3 )))
+PRINT(PRINT("k"))
+<nl>
+
+PAUSE(20 )
+ENDIF
+UNTIL (kb% >= 8)

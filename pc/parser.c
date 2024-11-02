@@ -2564,26 +2564,31 @@ int scan_expression(int *num_commas, int ignore_comma)
 //
 
 // We do not scan on/off as we want to map them to 1/0
-// before sending to th eoutput stream.
+// before sending to the output stream.
 
 int check_onoff(int *index, int *onoff_val)
 {
   int idx = *index;
+  int orig_idx = *index;
+  
   indent_more();
   
   dbprintf("%s: '%s'", __FUNCTION__, &(cline[cline_i]));
-  
+
+  idx = orig_idx;
   if( check_literal(&idx, " ON") )
     {
       *onoff_val = 1;
+      *index = idx;
       dbprintf("ret1");
       return(1);
     }
 
-  idx = cline_i;
+  idx = orig_idx;
   if( check_literal(&idx, " OFF") )
     {
       *onoff_val = 0;
+      *index = idx;
       dbprintf("ret1");
       return(1);
     }
@@ -2882,6 +2887,7 @@ int scan_command(char *cmd_dest)
 		  sprintf(op.name, ")");
 		  process_token(&op);
 
+		  // Scan the argument
 		  return(1);
 		}
 	      else
