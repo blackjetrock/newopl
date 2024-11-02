@@ -1516,7 +1516,7 @@ int check_operator(int *index, int *is_comma, int ignore_comma)
   
   for(int i=0; i<NUM_OPERATORS; i++)
     {
-      if( strncmp(&(cline[idx]), op_info[i].name, strlen(op_info[i].name)) == 0 )
+      if( strn_match(&(cline[idx]), op_info[i].name, strlen(op_info[i].name)) )
 	{
 	  // Match
 	  *is_comma = 0;
@@ -1578,7 +1578,7 @@ int scan_operator(int *is_comma, int ignore_comma)
   
   for(int i=0; i<NUM_OPERATORS; i++)
     {
-      if( strncmp(&(cline[cline_i]), op_info[i].name, strlen(op_info[i].name)) == 0 )
+      if( strn_match(&(cline[cline_i]), op_info[i].name, strlen(op_info[i].name)) )
 	{
 	  *is_comma = 0;
 	  
@@ -2856,7 +2856,7 @@ int scan_command(char *cmd_dest)
 
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
-      if( fn_info[i].command && (strncasecmp(&(cline[cline_i]), fn_info[i].name, strlen(fn_info[i].name)) == 0) )
+      if( fn_info[i].command && (strn_match(&(cline[cline_i]), fn_info[i].name, strlen(fn_info[i].name))) )
 	{
 	  // Match
 	  strcpy(cmd_dest, fn_info[i].name);

@@ -1011,4 +1011,90 @@ PRINT(PRINT("k"))
 
 PAUSE(20 )
 ENDIF
-UNTIL (kb% >= 8)
+UNTIL ((kb% >= 8) AND (kb% <= 256))
+CLS()
+buff$ := ""
+IF (buff$ = "")
+
+ENDIF
+
+CLS()
+PRINT("Connecting")
+<nl>
+
+PRINT("to PC...")
+
+ESCAPE(1 )
+xfopen:((1 + 0), )(".opk", )(buff$)
+ESCAPE(0 )
+buff$ := ("OPK" + CHR$((kb% / 64) ))
+IF (kb% < 64)
+buff$ := (buff$ + (CHR$((kb% * 4) ) + CHR$(0 )))
+ELSE
+buff$ := (buff$ + (CHR$(0 ) + CHR$(0 )))
+ENDIF
+xfput:(buff$)
+
+mc1%(2) := 50688
+
+buffloc% := (ADDR(buff$ ) + 1)
+
+POKEB(buffloc% (1 - 128) )
+
+POKEW(mc1addr% (13 + buffloc%) )
+
+size := (1024.0 * kb%)
+
+AT(1 1 )
+PRINT(("Copying " + (CHR$((65 + pack%) ) + ":")))
+<nl>
+
+cnt := OFFSET%
+DO
+hiaddr := INTF((cnt / 65536) )
+loaddr := (cnt - (65536 * INTF((cnt / 65536) )))
+h$ := HEX$((loaddr + (65536 * (loaddr > 32767))) )
+AT(12 1 )
+PRINT(HEX$(hiaddr ))
+PRINT(PRINT(LEFT$("0000" (4 - LEN(h$ )) )))
+PRINT(PRINT(h$))
+<nl>
+
+POKEW(mc1addr% (5 + (loaddr + (65536 * (loaddr > 32767)))) )
+
+POKEB(mc1addr% (3 + hiaddr) )
+
+USR(mc1addr% pack% )
+
+xfput:(buff$)
+AT(13 2 )
+PRINT(FIX$((cnt / (size * 100)) 0 INT(3 ) ))
+PRINT(PRINT("%"))
+
+IF (cnt = OFFSET%)
+cnt := 0
+ENDIF
+cnt := (cnt + 128)
+IF (KEY() = 1)
+RAISE(206 )
+ENDIF
+UNTIL (cnt >= size)
+
+
+
+
+
+
+
+xfclose:
+CLS()
+PRINT(" DumpPack v0.1")
+<nl>
+
+PRINT(("Copy Complete..." + CHR$(16 )))
+
+GET()
+
+
+
+ONERR()
