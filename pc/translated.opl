@@ -1098,3 +1098,185 @@ GET()
 
 
 ONERR()
+IF (ERR() = 203)
+buff$ := "* No CommsLink *"
+ELSE
+IF (ERR() = 206)
+buff$ := "** User Break **"
+ELSEIF (ERR() = 190)
+buff$ := "Bad PC file name"
+ELSEIF (ERR() = (188 OR (ERR() = 186)))
+buff$ := "*** PC Error ***"
+ELSEIF (ERR() = (192 OR (ERR() = (193 OR (ERR() = 199)))))
+buff$ := " Connect Error  "
+ELSEIF (ERR() < 191)
+buff$ := ("** ERROR " + (NUM$(3 ERR() ) + " ***"))
+ELSE
+buff$ := ERR$(ERR() )
+ENDIF
+xfclose:
+ENDIF
+PRINT(CHR$(15 ))
+PRINT(PRINT(buff$))
+PRINT(PRINT(CHR$(16 )))
+
+GET()
+
+END:
+
+Y% := (Y% + 1)
+IF (Y% > LEN(Y$ ))
+END% := 1
+ELSE
+END% := 0
+ENDIF
+IF (END% = 1)
+
+ENDIF
+IF (MID$(Y$ Y% 1 ) = " ")
+
+ENDIFEOW:
+Y% := (Y% + 1)
+IF (Y% > LEN(Y$ ))
+END% := 1
+ELSE
+END% := 0
+ENDIF
+IF (END% >= 1)
+
+ENDIF
+IF (MID$(Y$ Y% 1 ) = " ")
+END% := 1
+ELSE
+END% := 0
+ENDIFexpo:
+PRINT("What ASA is the ")
+<nl>
+
+PRINT("filmstock?")
+<nl>
+
+A
+CLS()
+
+PRINT("CAMERA SPEED;")
+<nl>
+
+W := MENUN(2 "Frames-per-second,Exposure,Seconds-per-frame," )
+IF (W = 2)
+PRINT("Exposure in seconds?")
+<nl>
+
+T
+word$ := "sec"
+z := T
+ELSEIF (W = 1)
+PRINT("Frames per second?")
+<nl>
+
+P
+word$ := "fps"
+z := P
+CLS()
+PRINT("Shutter angle in")
+<nl>
+
+PRINT("degrees?")
+<nl>
+
+B
+T := (B / (360 * P))
+CLS()
+ELSEIF (W = 3)
+PRINT("Seconds per frame?")
+<nl>
+
+P
+z := P
+word$ := "spf"
+CLS()
+PRINT("Shutter angle in")
+<nl>
+
+PRINT("degrees")
+<nl>
+
+B
+T := ((P * B) / 360)
+CLS()
+ENDIF
+CLS()
+IF ((T >= 1) AND (T < 10))
+T := (T / 1.4)
+ELSEIF ((T >= 10) AND (T < 30))
+T := (T / 2.8)
+ELSEIF (T >= 30)
+T := (T / 4)
+ENDIF
+S := SQR(2 )
+F := (((25 * S) ** 2) / (A * T))
+IF (F > 5)
+W := 0
+ELSEIF (F <= 5)
+W := 2
+ENDIF
+A$ := "  T1.4 "
+B$ := "  T2 "
+C$ := "  T2.8 "
+D$ := "  T4 "
+E$ := "  T5.6 "
+F$ := FIX$(F W 8 )
+G$ := FIX$(F 2 (W * 8) )
+H$ := FIX$(F 4 (W * 8) )
+I$ := FIX$(F 8 (W * 8) )
+J$ := FIX$(F 16 (W * 8) )
+A$ := (A$ + (F$ + (B$ + (G$ + (C$ + (H$ + (D$ + (I$ + (E$ + J$)))))))))
+PRINT("For exposure...")
+<nl>
+
+PRINT(A)
+< > 
+PRINT(PRINT("ASA"))
+< > 
+PRINT(PRINT(z))
+< > 
+PRINT(PRINT(word$))
+< > 
+PRINT(PRINT(B))
+< > 
+PRINT(PRINT(CHR$(223 )))
+<nl>
+
+AT(1 3 )
+PRINT("Footcandles;")
+<nl>
+
+VIEW(4 A$ )
+GET()
+C := MENU("SHUT,EXPO,FILM,MENU," )
+IF (C = 1)
+
+ELSEIF (C = 2)
+EXPO:
+ELSEIF (C = 3)
+FILM:
+ENDIF
+film:
+
+
+
+
+
+
+
+CLS()
+IF NOT
+EXIST("A:printer" )
+PRINTER:
+ELSE
+OPEN(A P% )
+ENDIF
+FIRST()
+Z% := A
+
+

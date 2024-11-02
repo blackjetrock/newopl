@@ -186,7 +186,7 @@ struct _FN_INFO
     { "NUM$",     0,  0, ' ',  "fi",        "s", 0x00 },
     { "OFF",      1,  0, ' ',  "i",         "v", 0x00 },    // OFF or OFF x%
     { "OPEN",     1,  1, ' ',  "ii",        "v", 0x00 },    // File format
-    { "ONERR",    1,  0, ' ',  "",          "v", 0x00 },    
+    //    { "ONERR",    1,  0, ' ',  "",          "v", 0x00 },    
     { "PAUSE",    1,  0, ' ',  "i" ,        "v", 0x00 },
     { "PEEKB",    0,  0, ' ',  "i",         "i", 0x00 },
     { "PEEKW",    0,  0, ' ',  "i",         "i", 0x00 },
@@ -3489,6 +3489,7 @@ int scan_onerr(void)
       // We accept either 'OFF' or a label, which will be turned into a jump offset 
 
       cline_i = idx;
+      
       if(check_label(&idx))
 	{
 	  if( scan_label(label) )
@@ -3504,6 +3505,8 @@ int scan_onerr(void)
       
       if( check_literal(&idx, " OFF"))
 	{
+	  cline_i = idx;
+	  
 	  dbprintf("ret1: OFF");
 	  word = 0;
 	  ok = 1;
