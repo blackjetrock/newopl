@@ -640,7 +640,7 @@ void syntax_error(char *fmt, ...)
   printf("\n\n   %s", line);
   printf("\n");
   
-  exit(-1);
+  //  exit(-1);
 }
 
 void typecheck_error(char *fmt, ...)
@@ -4418,13 +4418,21 @@ int check_if(int *index)
 //
 // The conditional commands have a 'level associated with them. That allows, for instance,
 // an IF to be matched with an ENDIF or ELSE even when nesting occurs.
+//
+//------------------------------------------------------------------------------
+//
+//
+// Once an ELSE is seen, no ELSEIFs are allowed
+// Only one ELSE allowed
+//
 
 int scan_if(LEVEL_INFO levels)
 {
   int idx = cline_i;
   int num_sub_expr;
   OP_STACK_ENTRY op;
-
+  int else_seen = 0;
+  
   init_op_stack_entry(&op);
   
   indent_more();
@@ -4454,8 +4462,6 @@ int scan_if(LEVEL_INFO levels)
 	  strcpy(op.name, "IF");
 
 	  output_if(op);
-
-	  int else_seen = 0;
 
 	  idx = cline_i;
 	  drop_colon(&idx);
@@ -4511,37 +4517,46 @@ int scan_if(LEVEL_INFO levels)
 		    {
 		      dbprintf("ELSEIF found in if");
 
-		      // Accept the check as a scan
-		      cline_i = idx;
-
-		      int num_subexpr;
-		      
-		      // We must have an expression after the elseif
-		      if( scan_expression(&num_subexpr, HEED_COMMA) )
+		      if( else_seen )
 			{
-			  // All OK
-			  
-			  op.level = levels.if_level;
-
-			  // Just flush the operator stack so the IF is at the end of the output
-			  op_stack_finalise();
-			  output_generic(op, "ELSEIF", EXP_BUFF_ID_ELSEIF);
-			  dbprintf("Done ELSEIF");
-
-			  idx = cline_i;
-			  drop_colon(&idx);
-			  cline_i = idx;
-			  continue;
+			  dbprintf("ELSEIF not allowed after ELSE");
+			  syntax_error("ELSEIF not allowed after ELSE");
+			  return(0);
 			}
 		      else
 			{
-			  // Bad elseif expression
-			  syntax_error("Bad ELSEIF expression");
-			  dbprintf("ret0");
-			  return(0);
+			  
+			  // Accept the check as a scan
+			  cline_i = idx;
+			  
+			  int num_subexpr;
+			  
+			  // We must have an expression after the elseif
+			  if( scan_expression(&num_subexpr, HEED_COMMA) )
+			    {
+			      // All OK
+			      
+			      op.level = levels.if_level;
+			      
+			      // Just flush the operator stack so the IF is at the end of the output
+			      op_stack_finalise();
+			      output_generic(op, "ELSEIF", EXP_BUFF_ID_ELSEIF);
+			      dbprintf("Done ELSEIF");
+			      
+			      idx = cline_i;
+			      drop_colon(&idx);
+			      cline_i = idx;
+			      continue;
+			    }
+			  else
+			    {
+			      // Bad elseif expression
+			      syntax_error("Bad ELSEIF expression");
+			      dbprintf("ret0");
+			      return(0);
+			    }
 			}
 		    }
-
 		  idx = cline_i;
 		  
 		  if( check_literal(&idx, " ELSE") )
