@@ -2190,6 +2190,9 @@ int check_atom(int *index)
 
 //------------------------------------------------------------------------------
 // Scan a string and output a token which is the string
+//
+// Double quotes can be included in the string by using ""
+//
 
 int scan_string(void)
 {
@@ -2209,26 +2212,41 @@ int scan_string(void)
     {
       dbprintf("  (in if) '%s'", &(cline[cline_i]));
       
-      while(((chstr[0] = cline[cline_i]) != '"') && (cline[cline_i] != '\0') )
+      while( cline[cline_i] != '\0' )
 	{
-	  dbprintf("  (in wh) '%s'", &(cline[cline_i]));
-	  strcat(strval, chstr);
-	  cline_i++;
-	  dbprintf("  (in wh) '%s'", &(cline[cline_i]));
-	}
-      
-      if( cline[cline_i] == '"' )
-	{
-	  cline_i++;
-	  dbprintf("%s: ret1", __FUNCTION__);
-	  strcpy(op.name, "\"");
-	  strcat(op.name, strval);
-	  strcat(op.name, "\"");
-	  process_token(&op);
-	  return(1);
+	  chstr[0] = cline[cline_i];
+	  
+	  if( cline[cline_i] == '"' )
+	    {
+	      // Check for double double quotes
+	      if( cline[cline_i+1] == '"' )
+		{
+		  cline_i++;
+		  cline_i++;
+		  strcat(strval, "\"");
+		  dbprintf("  (in wh) '%s'", &(cline[cline_i]));
+		}
+	      else
+		{
+		  // End of string
+		  cline_i++;
+		  dbprintf("%s: ret1", __FUNCTION__);
+		  strcpy(op.name, "\"");
+		  strcat(op.name, strval);
+		  strcat(op.name, "\"");
+		  process_token(&op);
+		  return(1);
+		}
+	    }
+	  else
+	    {
+	      dbprintf("  (in wh) '%s'", &(cline[cline_i]));
+	      strcat(strval, chstr);
+	      cline_i++;
+	      dbprintf("  (in wh) '%s'", &(cline[cline_i]));
+	    }
 	}
     }
-
   syntax_error("Bad string");
   dbprintf("ret1");
   return(0);
