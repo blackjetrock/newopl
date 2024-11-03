@@ -1,10 +1,18 @@
 
 
-X%
+A%
 
-Y% := (A% - (- B%))
-X% := (- X%)
-A := -2.3
-A := (- 4095)
-X% := ((- X%) - (- X%))
-X% := (X% - (- X%))
+TRAP
+APPEND()
+TRAP
+BACK()
+TRAP
+CLOSE()
+TRAP
+DELETE()
+TRAP
+ERASE()
+TRAP
+FIRST()
+TRAP
+UPDATE()
