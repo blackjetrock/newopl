@@ -48,6 +48,7 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_STR",
     "EXP_BUFF_ID_FUNCTION",
     "EXP_BUFF_ID_OPERATOR",
+    "EXP_BUFF_ID_OPERATOR_UNARY",
     "EXP_BUFF_ID_AUTOCON",
     "EXP_BUFF_ID_COMMAND",
     "EXP_BUFF_ID_PROC_CALL",
@@ -323,28 +324,30 @@ NOBJ_VARTYPE function_arg_type_n(char *fname, int n)
 OP_INFO  op_info[] =
   {
     // Array dereference internal operator
-    { "@",    9, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "=",    1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "<>",   1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { ":=",   1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "+",    3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "-",    3, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "**",   5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-    { "*",    5, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-    { "/",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-    { ">=",   2, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "<=",   2, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { ">",    2, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "<",    2, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "AND",  1, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-    { "OR",   1, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-    //{ ";",    0, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "@",    9, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "=",    1, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "<>",   1, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { ":=",   1, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "+",    3, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "-",    3, 1, "UMIN", 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "**",   5, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    { "*",    5, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    { "/",    5, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    { ">=",   2, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "<=",   2, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { ">",    2, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "<",    2, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     // (Handle bitwise on integer, logical on floats somewhere)
-    //{ ",",  0, 0 }, /// Not used?
-    
+    { "AND",  1, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    { "OR",   1, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+
     // LZ only
-    { "+%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
-    { "-%",   5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
+    { "+%",   5, 0, "",     1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
+    { "-%",   5, 0, "",     1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
+
+
+    // Unary versions
+    { "UMIN", 6, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
   };
 
 
@@ -1861,8 +1864,13 @@ int check_hex(int *index)
 
   intval[0] = '\0';
 
-  // We must have a '$' at the start
-  if( (cline[idx]) != '$' )
+  // We must have a '$' at the start, or a '-$'
+  
+  if( ((cline[idx]) == '$') )
+    {
+      // All OK, positive
+    }
+  else
     {
       dbprintf("%s:ret0 not '$'", __FUNCTION__);
       return(0);
@@ -2484,9 +2492,31 @@ int check_expression(int *index, int ignore_comma)
     }
   else
     {
-      // We allow an empty expression when scanning but not when checking
-      dbprintf("ret1 '%s'", &(cline[idx]));
-      return(0);
+      // We allow an operator at the start, for unary operators
+      if( check_operator(&idx, &is_comma, ignore_comma) )
+	{
+	  // All OK, after the unary operator there should be an eitem, we scan for it
+	  // here so the while() below works on the foloowing operator
+	  if( check_eitem(&idx, &n_commas2, ignore_comma) )
+	    {
+	      n_commas += n_commas2;
+	      dbprintf("n commas now:%d", n_commas);
+	      
+	      // All OK
+	    }
+	  else
+	    {
+	      syntax_error("Expression error, expecting term");
+	      dbprintf("ret0 '%s'", &(cline[cline_i]));
+	      return(0);
+	    }
+	}
+      else
+	{
+	  // We allow an empty expression when scanning but not when checking
+	  dbprintf("ret0 '%s'", &(cline[idx]));
+	  return(0);
+	}
     }
 
   // Now perform
@@ -2498,6 +2528,10 @@ int check_expression(int *index, int ignore_comma)
   
   while( check_operator(&idx, &is_comma, ignore_comma) )
     {
+      // We allow any number of operstors between eitems (for unary operstors)
+      while( check_operator(&idx, &is_comma, ignore_comma) )
+	{
+	}
       
       if( check_eitem(&idx, &n_commas2, ignore_comma) )
 	{
@@ -2546,24 +2580,48 @@ int scan_expression(int *num_commas, int ignore_comma)
       
       if( scan_eitem(&n_commas2, ignore_comma) )
 	{
-	  
 	  // All OK
-	}
-      else
-	{
-	  // Logic error
-	  syntax_error("Expression error, expecting term");
-	  dbprintf("ret0 '%s'", &(cline[cline_i]));
-	  return(0);
 	}
     }
   else
     {
-      // We allow an empty expression when scanning but not when checking
-      dbprintf("ret1 '%s'", &(cline[cline_i]));
-      return(1);
+      // We allow an operator at the start, for unary operators
+      if( check_operator(&idx, &is_comma, ignore_comma) )
+	{
+	  // All OK
+	  if( scan_operator(&is_comma, ignore_comma) )
+	    {
+	      // All OK, after the unary operator there should be an eitem, we scan for it
+	      // here so the while() below works on the foloowing operator
+	      if( scan_eitem(&n_commas2, ignore_comma) )
+		{
+		  n_commas += n_commas2;
+		  dbprintf("n commas now:%d", n_commas);
+		  
+		  // All OK
+		}
+	      else
+		{
+		  syntax_error("Expression error, expecting term");
+		  dbprintf("ret0 '%s'", &(cline[cline_i]));
+		  return(0);
+		}
+	    }
+	  else
+	    {
+	      syntax_error("Expression error, expecting operator");
+	      dbprintf("ret0 '%s'", &(cline[cline_i]));
+	      return(0);
+	    }
+	}
+      else
+	{
+	  // We allow an empty expression when scanning but not when checking
+	  dbprintf("ret1 '%s'", &(cline[cline_i]));
+	  return(1);
+	}
     }
-
+  
   // Now perform
   //
   // (<operator> <eitem>)+
@@ -2574,10 +2632,31 @@ int scan_expression(int *num_commas, int ignore_comma)
   dbprintf("'%s' Before while igncomma:%d", &(cline[idx]), ignore_comma);
   while( check_operator(&idx, &is_comma, ignore_comma) )
     {
+      // We allow any number of operstors between eitems, for unary operstors
+      while( check_operator(&idx, &is_comma, ignore_comma) )
+	{
+	  if( scan_operator(&is_comma, ignore_comma) )
+	    {
+	      // All OK
+	      // After an operator, we can have an operator (unary)
+	      idx = cline_i;
+	    }
+	  else
+	    {
+	      syntax_error("Expression error, expecting operator");
+	      dbprintf("ret0 '%s'", &(cline[cline_i]));
+	      return(0);
+	    }
+	  
+	}
+      
       dbprintf("'%s' Before scan op igncomma:%d", &(cline[idx]), ignore_comma);
+#if 0
       if( scan_operator(&is_comma, ignore_comma) )
 	{
 	  // All OK
+	  // After an operator, we can have an operator (unary)
+	  idx = cline_i;
 	}
       else
 	{
@@ -2585,7 +2664,8 @@ int scan_expression(int *num_commas, int ignore_comma)
 	  dbprintf("ret0 '%s'", &(cline[cline_i]));
 	  return(0);
 	}
-
+#endif
+      
       dbprintf("'%s' Before scan_eitem igncomma:%d", &(cline[idx]), ignore_comma);
       if( scan_eitem(&n_commas2, ignore_comma) )
 	{

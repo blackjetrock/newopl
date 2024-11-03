@@ -30,6 +30,7 @@ enum
     EXP_BUFF_ID_STR,
     EXP_BUFF_ID_FUNCTION,
     EXP_BUFF_ID_OPERATOR,
+    EXP_BUFF_ID_OPERATOR_UNARY,
     EXP_BUFF_ID_AUTOCON,
     EXP_BUFF_ID_COMMAND,
     EXP_BUFF_ID_PROC_CALL,
@@ -71,6 +72,8 @@ typedef struct _OP_INFO
 {
   char          *name;
   int           precedence;
+  int           can_be_unary;             // Can be a unary operator
+  char          *unaryop;                 // Unary version of operator name
   int           left_assoc;
   int           immutable;                // Is the operator type mutable?
   int           assignment;               // Special code for assignment

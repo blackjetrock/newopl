@@ -157,53 +157,6 @@ void dbpf(const char *caller, char *fmt, ...)
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//
-// Operator info
-//
-// Some operators have a mutable type, they are polymorphic. Some are not.
-// The possible types for operators are listed here
-//
-
-#if 0
-#define MAX_OPERATOR_TYPES 3
-#define IMMUTABLE_TYPE     1
-#define   MUTABLE_TYPE     0
-
-typedef struct _OP_INFO
-{
-  char          *name;
-  int           precedence;
-  int           left_assoc;
-  int           immutable;                // Is the operator type mutable?
-  int           assignment;               // Special code for assignment
-  NOBJ_VARTYPE  type[MAX_OPERATOR_TYPES];
-  int           qcode;                     // Easily translatable qcodes
-} OP_INFO;
-
-OP_INFO  op_info[] =
-  {
-    // Array dereference internal operator
-   { "@",         9, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { "=",         1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { ":=",        1, 0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { "+",         3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { "-",         3, 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   { "*"     ,    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-   { "/     ",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-   { "     >",    5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-   {      "AND",  5, 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-   // (Handle bitwise on integer, logical on floats somewhere)
-   //{ ",",  0, 0 }, /// Not used?
-    
-   // LZ only
-   { "+%",        5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
-   { "-%",        5, 1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
-  };
-
-#endif
-
-
 int find_op_info(char *name, OP_INFO *op)
 {
   for(int i=0; i<NUM_OPERATORS; i++)
@@ -366,7 +319,7 @@ int token_is_string(char *token)
 // to minimise memory usage.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#if 1
+
 int token_is_operator(char *token, char **tokstr)
 {
   for(int i=0; i<NUM_OPERATORS; i++)
@@ -416,7 +369,30 @@ int operator_left_assoc(char *token)
   
   return(0);
 }
-#endif
+
+//------------------------------------------------------------------------------
+
+// Turn operator into unary version if possible
+
+void operator_can_be_unary(OP_STACK_ENTRY *op)
+{
+  for(int i=0; i<NUM_OPERATORS; i++)
+    {
+      if( strcmp(op->name, op_info[i].name) == 0 )
+	{
+	  // Convert to unary if it can be
+	  if( op_info[i].can_be_unary )
+	    {
+	      op->buf_id = EXP_BUFF_ID_OPERATOR_UNARY;
+	      strcpy(op->name, op_info[i].unaryop);
+	      dbprintf("Operator converted to unary. Now '%s'", op->name);
+	      return;
+	    }
+	}
+    }
+  
+  return;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -471,7 +447,7 @@ void output_qcode(void)
 	  dbprintf("\nN%d op.buf_id invalid", token.node_id);
 	}
       
-      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
+      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %-25s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
       
       fprintf(ofp, "  %d:", token.p_idx);
       for(int pi=0; pi<token.p_idx; pi++)
@@ -904,7 +880,7 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 	  }
 
 	
-	fprintf(fp, "\n(%16s) N%d %-24s %s %c rq:%c '%s' npar:%d nidx:%d",
+	fprintf(fp, "\n(%16s) N%d %-30s %s %c rq:%c '%s' npar:%d nidx:%d",
 		__FUNCTION__,
 		token.node_id,
 		exp_buffer_id_str[token.op.buf_id],
@@ -1217,6 +1193,12 @@ char *infix_from_rpn(void)
 	  infix_stack_pop(op1);
 	  infix_stack_pop(op2);
 	  sprintf(newstr, "(%s %s %s)", op2, be.name, op1);
+	  infix_stack_push(newstr);
+	  break;
+
+	case EXP_BUFF_ID_OPERATOR_UNARY:
+	  infix_stack_pop(op1);
+	  sprintf(newstr, "(%s %s)", be.name, op1);
 	  infix_stack_push(newstr);
 	  break;
 	  
@@ -1804,23 +1786,13 @@ void output_integer(OP_STACK_ENTRY token)
   add_exp_buffer_entry(token, EXP_BUFF_ID_INTEGER);
 }
 
+// Operators can be unary
 void output_operator(OP_STACK_ENTRY op)
 {
   char *tokptr;
   
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
-#if 0
-  if( token_is_function(op.name, &tokptr) )
-    {
-      add_exp_buffer_entry(op, EXP_BUFF_ID_FUNCTION);
-    }
-  else
-    {
-      add_exp_buffer_entry(op, EXP_BUFF_ID_OPERATOR);
-    }
-#else
   add_exp_buffer_entry(op, op.buf_id);
-#endif
 }
 
 void output_function(OP_STACK_ENTRY op)
@@ -2168,7 +2140,7 @@ NOBJ_VARTYPE exp_type_pop(void)
   else
     {
       fprintf(ofp, "\nExp stack empty on pop");
-      typecheck_error("EXxression stack empty on pop");
+      typecheck_error("Expression stack empty on pop");
       return(NOBJ_VARTYPE_UNKNOWN);
     }
 }
@@ -2183,6 +2155,14 @@ NOBJ_VARTYPE exp_type_pop(void)
 // with no return value)
 //
 ////////////////////////////////////////////////////////////////////////////////
+
+// For unary operators (we only have '-')
+// The next token is unary (if it can be) if it is at the start of th einput, or follows an operator
+// or follows a left parenthesis.
+
+int unary_next = 0;
+
+#define CAN_BE_UNARY (first_token || unary_next)
 
 void process_token(OP_STACK_ENTRY *token)
 {
@@ -2208,28 +2188,6 @@ void process_token(OP_STACK_ENTRY *token)
   opr1 = operator_precedence(o1.name);
   opr2 = operator_precedence(o2.name);
 
-  // Commas are now handled in the parser.
-#if 0  
-  if( strcmp(o1.name, ",")==0 )
-    {
-      while( (strlen(op_stack_top().name) != 0) &&
-	     strcmp(op_stack_top().name, "(") != 0 )
-	{
-	  dbprintf("\nPop 2");
-	  o2 = op_stack_pop();
-	  output_operator(o2);
-	}
-
-      //output_marker("-------- Comma 2");
-      output_sub_start();
-      
-      // Commas delimit sub expressions, reset the expression type.
-      expression_type = NOBJ_VARTYPE_UNKNOWN;
-      first_token = 0;
-      return;
-    }
-#endif
-  
   if( strcmp(o1.name, "(")==0 )
     {
       OP_STACK_ENTRY o;
@@ -2249,7 +2207,7 @@ void process_token(OP_STACK_ENTRY *token)
       exp_type_push(expression_type);
       expression_type = NOBJ_VARTYPE_UNKNOWN;
       first_token = 0;
-      
+      unary_next = 1;
       return;
     }
 
@@ -2271,11 +2229,9 @@ void process_token(OP_STACK_ENTRY *token)
 	  return;
 	}
 
-#if 1
       // Pop the open bracket off the operator stack
       fprintf(ofp, "\nPop 4");
       o2 = op_stack_pop();
-#endif
       
       //output_marker("-------- Sub E 2");
       output_sub_end();
@@ -2285,20 +2241,12 @@ void process_token(OP_STACK_ENTRY *token)
 	  dbprintf("\n**** Should be left parenthesis");
 	  return;
 	}
-#if 0
-      if( token_is_function(op_stack_top().name, &tokptr) )
-	{
-	  fprintf(ofp, "\nPop 5");
-	  o2 = op_stack_pop();
-	  output_function(o2);
-	}
-#endif
       
       expression_type = exp_type_pop();
 
       output_sub_end();
-      //output_marker("-------- Sub E 3");
       first_token = 0;
+      unary_next = 0;
       return;
     }
 
@@ -2312,7 +2260,6 @@ void process_token(OP_STACK_ENTRY *token)
     case EXP_BUFF_ID_LPRINT_NEWLINE:
       fprintf(ofp, "\nBuff id print");
       
-#if 1      
       NOBJ_VARTYPE vt;
       
       // The type of the function is known, use that, not the expression type
@@ -2325,16 +2272,8 @@ void process_token(OP_STACK_ENTRY *token)
       o1.req_type = NOBJ_VARTYPE_UNKNOWN;
       op_stack_push(o1);
       first_token = 0;
+      unary_next = 0;
       return;
-#else
-      
-      // PRINT has special parsing and the CRLF flag processing
-      o1.req_type = expression_type;
-      o1.buf_id = token->buf_id;
-
-      output_print(o1);
-      return;
-#endif
       break;
 
     case EXP_BUFF_ID_RETURN:
@@ -2344,6 +2283,7 @@ void process_token(OP_STACK_ENTRY *token)
       // The type of that expression must also match that of the procedure we are translating
       o1.req_type = expression_type;
       output_return(o1);
+      unary_next = 0;
       return;
       break;
       
@@ -2353,6 +2293,7 @@ void process_token(OP_STACK_ENTRY *token)
       // Parser supplies type
       o1.req_type = expression_type;
       output_proc_call(o1);
+      unary_next = 0;
       return;
       break;
 
@@ -2367,6 +2308,7 @@ void process_token(OP_STACK_ENTRY *token)
       // Parser supplies type
       o1.req_type = expression_type;
       output_generic(o1, o1.name, o1.buf_id);
+      unary_next = 0;
       return;
       break;
 
@@ -2377,20 +2319,9 @@ void process_token(OP_STACK_ENTRY *token)
       o1.req_type = NOBJ_VARTYPE_VAR_ADDR;
       o1.type     = NOBJ_VARTYPE_VAR_ADDR;
       output_var_addr_name(o1);
+      unary_next = 0;
       return;
       break;
-
-      
-#if 0
-    case EXP_BUFF_ID_ASSIGN:
-      fprintf(ofp, "\nBuff id assign");
-      
-      // Parser supplies type
-      o1.req_type = expression_type;
-      output_assign(o1);
-      return;
-      break;
-#endif 
     }
 
 #define OP_PREC(OP) (operator_precedence(OP.name))
@@ -2399,6 +2330,17 @@ void process_token(OP_STACK_ENTRY *token)
     {
       dbprintf("\nToken is operator o1 name:%s o2 name:%s", o1.name, o2.name);
       dbprintf("\nopr1:%d opr2:%d", opr1, opr2);
+      
+      // Turn token into unary version if we can
+      if( CAN_BE_UNARY )
+	{
+	  operator_can_be_unary(&o1);
+	  dbprintf("Operator turned into unary version");
+	  opr1 = operator_precedence(o1.name);
+
+	}
+      
+      unary_next = 1;
       
       while( (strlen(op_stack_top().name) != 0) && (strcmp(op_stack_top().name, "(") != 0 ) &&
 	     ( OP_PREC(op_stack_top()) > opr1) || ((opr1 == OP_PREC(op_stack_top()) && operator_left_assoc(o1.name)))
@@ -2435,6 +2377,7 @@ void process_token(OP_STACK_ENTRY *token)
       
       output_float(o1);
       first_token = 0;
+      unary_next = 0;
       return;
     }
 
@@ -2446,6 +2389,7 @@ void process_token(OP_STACK_ENTRY *token)
       o1.req_type = expression_type;
       output_integer(o1);
       first_token = 0;
+      unary_next = 0;
       return;
     }
 
@@ -2464,6 +2408,7 @@ void process_token(OP_STACK_ENTRY *token)
       o1.req_type = vt;
       op_stack_push(o1);
       first_token = 0;
+      unary_next = 0;
       return;
     }
 
@@ -2526,28 +2471,11 @@ void process_token(OP_STACK_ENTRY *token)
 	  // Syntax error
 	}
 
-            if( o1.vi.is_array )
-	{
-#if 0
-	  OP_STACK_ENTRY ob;
-
-	  init_op_stack_entry(&ob);
-	  ob.req_type = o1.req_type;
-	  ob.type = o1.type;
-	  strcpy(ob.name, "@");
-	  
-	  // Array index calculations will follow, we use an operator to
-	  // bind them to the variable reference
-	  //	  output_operator(ob);
-
-	  process_token(&ob);	  
-#endif
-	}
-
       // The type of the variable will affect the expression type
       
       output_variable(o1);
       first_token = 0;
+      unary_next = 0;
 
       
       return;
@@ -2559,11 +2487,14 @@ void process_token(OP_STACK_ENTRY *token)
       output_string(o1);
       modify_expression_type(o1.type);
       first_token = 0;
+      unary_next = 0;
       return;
     }
   
   first_token = 0;
+  unary_next = 0;
 
+  dbprintf("**Unknown token **      '%s'", o1.name);
 }
 
 int is_op_delimiter(char ch)
