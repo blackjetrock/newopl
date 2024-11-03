@@ -71,6 +71,7 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_WHILE",
     "EXP_BUFF_ID_ENDWH",
     "EXP_BUFF_ID_TRAP",
+    "EXP_BUFF_ID_LABEL",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -3637,6 +3638,7 @@ int scan_onerr(void)
   char label[NOPL_MAX_LABEL+1];
   int word = 0;
   int ok = 0;
+  int output_label = 0;
   
   indent_more();
   
@@ -3654,9 +3656,9 @@ int scan_onerr(void)
 	{
 	  if( scan_label(label) )
 	    {
-	      
-	      dbprintf("ret1 Label '%s'", label);
 
+	      output_label = 1;
+	      
 	      // The qcode has a word after it which is 
 	      word = 0x1ab1;
 	      ok = 1;	      
@@ -3682,7 +3684,14 @@ int scan_onerr(void)
 	  
 	  strcpy(op.name, "ONERR");
 	  process_token(&op);
-	  
+
+	  if( output_label )
+	    {
+	      output_generic(op, label, EXP_BUFF_ID_LABEL);
+	      dbprintf("Label '%s'", label);
+	      
+	    }
+	  dbprintf("ret1");
 	  return(1);
 	}
       else
@@ -3703,7 +3712,7 @@ int scan_onerr(void)
 ////////////////////////////////////////////////////////////////////////////////
 //
 
-// The different type of print
+// The different types of print
 
 #define PRINT_TYPE_PRINT 0
 #define PRINT_TYPE_LPRINT 1
@@ -4869,6 +4878,13 @@ int scan_line(LEVEL_INFO levels)
     {
       if( scan_label(label) )
 	{
+	  OP_STACK_ENTRY op;
+
+	  init_op_stack_entry(&op);
+	  
+	  // Put a token in the output stream to mark the label position
+	  output_generic(op, label, EXP_BUFF_ID_LABEL);
+
 	  dbprintf("ret1 label");
 	  return(1);
 	}

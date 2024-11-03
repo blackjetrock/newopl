@@ -2,13 +2,9 @@
 ( dump_exp_buffer) N1 EXP_BUFF_ID_VARIABLE                   f rq:f 'LOCAL' npar:0 nidx:0  0:  nb 0:()
 ( dump_exp_buffer) N2 EXP_BUFF_ID_VARIABLE                   i rq:i 'A%' npar:0 nidx:0  0:  nb 0:()
 
-( dump_exp_buffer) N1 EXP_BUFF_ID_VARIABLE                   i rq:i 'A%' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 EXP_BUFF_ID_INTEGER                    i rq:i '2' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N3 EXP_BUFF_ID_OPERATOR                   i rq:i '=' npar:0 nidx:25937  2: 2 1  nb 0:()
-( dump_exp_buffer) N4 EXP_BUFF_ID_IF                 L:1     i rq:i 'IF' npar:0 nidx:25937  0:  nb 0:()
+( dump_exp_buffer) N1 EXP_BUFF_ID_LABEL                      i rq:i 'handler' npar:0 nidx:1919221808  0:  nb 0:()
 
-( dump_exp_buffer) N1 EXP_BUFF_ID_ELSE               L:1     i rq:i 'ELSE' npar:0 nidx:25937  0:  nb 0:()
+( dump_exp_buffer) N1 EXP_BUFF_ID_VARIABLE                   f rq:f 'ONERR' npar:0 nidx:32766  0:  nb 2:( 00 00)
 
-( dump_exp_buffer) N1 EXP_BUFF_ID_VARIABLE                   i rq:i 'A%' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 EXP_BUFF_ID_INTEGER                    i rq:i '6' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N3 EXP_BUFF_ID_OPERATOR                   i rq:i ':=' npar:0 nidx:32765  2: 2 1  nb 0:()
+( dump_exp_buffer) N1 EXP_BUFF_ID_VARIABLE                   f rq:f 'ONERR' npar:0 nidx:32766  0:  nb 2:( 1A B1)
+( dump_exp_buffer) N2 EXP_BUFF_ID_LABEL                      i rq:i 'handler' npar:0 nidx:32766  0:  nb 2:( 1A B1)

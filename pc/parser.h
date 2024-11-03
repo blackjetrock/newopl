@@ -53,6 +53,7 @@ enum
     EXP_BUFF_ID_WHILE,
     EXP_BUFF_ID_ENDWH,
     EXP_BUFF_ID_TRAP,
+    EXP_BUFF_ID_LABEL,
     EXP_BUFF_ID_MAX,
   };
 
