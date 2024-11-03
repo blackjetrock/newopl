@@ -347,7 +347,7 @@ OP_INFO  op_info[] =
 
 
     // Unary versions
-    { "UMIN", 6, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
+    { "UMIN", 6, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
   };
 
 
@@ -2628,10 +2628,13 @@ int scan_expression(int *num_commas, int ignore_comma)
   //
 
   idx = cline_i;
-
+  int idx2 = idx;
+  
   dbprintf("'%s' Before while igncomma:%d", &(cline[idx]), ignore_comma);
   while( check_operator(&idx, &is_comma, ignore_comma) )
     {
+      idx = idx2;
+      
       // We allow any number of operstors between eitems, for unary operstors
       while( check_operator(&idx, &is_comma, ignore_comma) )
 	{
@@ -4412,9 +4415,7 @@ int check_if(int *index)
 }
 
 //------------------------------------------------------------------------------
-
-#define FINALISE 0
-
+//
 // The conditional commands have a 'level associated with them. That allows, for instance,
 // an IF to be matched with an ENDIF or ELSE even when nesting occurs.
 
@@ -4443,23 +4444,17 @@ int scan_if(LEVEL_INFO levels)
       if( scan_expression(&num_sub_expr, IGNORE_COMMA) )
 	{
 	  // Finish the expression and then output the IF token
-#if FINALISE
-	  finalise_expression();
-	  output_expression_start(&cline[cline_i]);
-#else
 	  // Just flush the operator stack so the IF is at the end of the output
 	  op_stack_finalise();
-#endif
+
 	  // Put the IF token after the expression
 	  op.level = levels.if_level;
 	  
 	  op.buf_id = EXP_BUFF_ID_IF;
 	  strcpy(op.name, "IF");
-#if FINALISE
-	  process_token(&op);
-#else
+
 	  output_if(op);
-#endif
+
 	  int else_seen = 0;
 
 	  idx = cline_i;
