@@ -106,7 +106,6 @@ struct _FN_INFO
 }
   fn_info[] =
   {
-    //    { "EOL",      0,  0, ' ',  "ii",        "f", 0x00 },
     { "ABS",      0,  0, ' ',  "f",         "f", 0x00 },
     { "ACOS",     0,  0, ' ',  "f",         "f", 0x00 },
     { "ADDR",     0,  0, 'V',  "V",         "i", 0x00 },
@@ -187,6 +186,7 @@ struct _FN_INFO
     { "MONTH",    0,  0, ' ',  "",          "i", 0x00 },
     { "NEXT",     0,  1, ' ',  "",          "v", 0x00 },
     { "NUM$",     0,  0, ' ',  "fi",        "s", 0x00 },
+    { "OFFX",     1,  0, ' ',  "i",         "v", 0x00 },    // OFF or OFF x%
     { "OFF",      1,  0, ' ',  "",          "v", 0x00 },    // OFF or OFF x%
     { "OPEN",     1,  1, ' ',  "ii",        "v", 0x00 },    // File format
     //    { "ONERR",    1,  0, ' ',  "",          "v", 0x00 },    
@@ -629,9 +629,20 @@ void syntax_error(char *fmt, ...)
   vsprintf(line, fmt, valist);
   va_end(valist);
 
+  dbprintf("Syntax error\n");
+  dbprintf("'%s'", cline);
+  
+  for(int i=0; i<cline_i-1; i++)
+    {
+      dbprintf(" ");
+    }
+  dbprintf("^");
+  dbprintf("\n\n   %s", line);
+    
   printf("\n\n\nSyntax error\n");
   printf("\n%s", cline);
   printf("\n");
+
   for(int i=0; i<cline_i-1; i++)
     {
       printf(" ");
@@ -2901,7 +2912,9 @@ int scan_addr_name(void)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
+//
+// Case insensitive string compare
+//
 
 int strn_match(char *s1, char *s2, int n)
 {
@@ -2912,19 +2925,30 @@ int strn_match(char *s1, char *s2, int n)
     {
       return(0);
     }
+
+  //dbprintf("n:%d", n);
   
-  while( (i < n) && ((*s1) |= '\0') )
+  while( (i < n) )
     {
+      //dbprintf("i:%d", i);
+
+      if( *s1 == '\0' )
+	{
+	  match = 0;
+	  break;
+	}
+      
       if( *s2 == '\0' )
 	{
 	  break;
 	}
 
-      //printf("\n%c ?? %c", *s1, *s2);
+      //dbprintf("\n%c ?? %c", *s1, *s2);
+      
       if( toupper(*s1) != toupper(*s2) )
 	{
 	  match = 0;
-	  //break;
+	  break;
 	}
       
       s1++;
@@ -3080,73 +3104,6 @@ int scan_command(char *cmd_dest, int trappable_only)
   return(0);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//
-// It is possible to use a variable that has the same 'name' as a function, if the last character is
-// different and a type character.
-//
-// So, 'POS' is a function and you can have a variable with the name:
-//
-// POS%
-//
-
-
-int check_function_orig(int *index)
-{
-  int idx = *index;
-  int origidx = idx;
-  
-  indent_more();
-  
-  drop_space(&idx);
-  
-  dbprintf(" '%s'", &(cline[idx]));
-    
-  for(int i=0; i<NUM_FUNCTIONS; i++)
-    {
-      if( (!fn_info[i].command) && strn_match(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name)) )
-	{
-	  // If last character of function name isn't a '%' or '$' then check there isn't a '%' or '$'
-	  // in the line after the matching name.
-
-	  idx = idx+strlen(fn_info[i].name);
-
-	  dbprintf(" '%s'", &(cline[idx]));
-	  dbprintf(" '%c'", fn_info[i].name[strlen(fn_info[i].name)-1]);
-	   
-	  switch( fn_info[i].name[strlen(fn_info[i].name)-1] )
-	    {
-	    case '%':
-	    case '$':
-	      break;
-	      
-	    default:
-	      // The function does not end in type character
-	      switch(cline[idx] )
-		{
-		case '%':
-		case '$':
-		  // The line token does have a type character at the end, so it's not a match
-		  dbprintf("%s: ret0", __FUNCTION__);
-		  *index = origidx;
-		  return(0);
-		  break;
-		}
-	      break;
-	    }
-	  
-	  // Match
-	  dbprintf("%s: ret1 Found fn=>'%s'", __FUNCTION__, fn_info[i].name);
-	  *index = idx;
-	  return(1);
-	}
-    }
-  
-  dbprintf("%s: ret0", __FUNCTION__);
-  *index = origidx;
-  return(0);
-}
-
 //------------------------------------------------------------------------------
 
 int scan_function(char *cmd_dest)
@@ -3254,6 +3211,8 @@ int check_function(int *index)
     {
       if( !(fn_info[i].command) && strn_match(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name)) )
 	{
+	  dbprintf("Match '%s' with '%s'", &(cline[idx]), fn_info[i].name);
+	  
 	  // Match
 	  idx += strlen(fn_info[i].name);
 	  
@@ -4741,6 +4700,15 @@ int check_line(int *index)
       *index = idx;
       return(1);
     }
+
+  idx = cline_i;
+  if( check_literal(&idx," OFF"))
+    {
+      dbprintf("ret1");
+      *index = idx;
+      return(1);
+    }
+
   
   idx = cline_i;
   if( check_command(&idx) )
@@ -4799,6 +4767,7 @@ int check_line(int *index)
       *index = idx;
       return(1);
     }
+
   
   dbprintf("ret1");
   *index = idx;
@@ -5007,6 +4976,53 @@ int scan_line(LEVEL_INFO levels)
       return(1);
     }
 
+  // Off has two forms. One, with a number following is for the LZ
+  
+  idx = cline_i;
+  if( check_literal(&idx," OFF"))
+    {
+      OP_STACK_ENTRY op;
+      int num_subexpr;
+      
+      init_op_stack_entry(&op);
+      op.buf_id = EXP_BUFF_ID_FUNCTION;
+      
+      // Scan the function name
+      // We accept the check() result as we may want to adjust the function name
+      cline_i = idx;
+      
+      // Optional number
+      if( check_expression(&idx, HEED_COMMA) )
+	{
+	  // We will use the OFFX command
+	  strcpy(op.name, "OFFX");
+	  process_token(&op);
+	  
+	  if( scan_expression(&num_subexpr, HEED_COMMA) )
+	    {
+	      dbprintf("ret1");
+	      return(1);
+	    }
+	  else
+	    {
+	      dbprintf("ret0: Expected a number");
+	      return(0);
+	    }
+	}
+      else
+	{
+	  // Use the OFF command
+	  strcpy(op.name, "OFF");
+	  process_token(&op);
+	  dbprintf("ret1");
+	  return(1);    
+	}
+      
+      cline_i = idx;
+      dbprintf("ret0");
+      return(0);    
+    }
+
   idx = cline_i;
   if( check_command(&idx) )
     {
@@ -5087,12 +5103,8 @@ int scan_line(LEVEL_INFO levels)
 	  return(0);
 	}
     }
-  
-  cline_i = idx;
-  dbprintf("%s: ret0 END", __FUNCTION__);
-  return(0);    
-}
 
+}
 
 
 FILE *infp;

@@ -23,7 +23,8 @@
                     <if> | <while> | <do> |
 	            'GOTO' <label> |
 	            <return> |
-	            <addr_cmd>
+	            <addr_cmd> | <off_cmd>
+<off_cmd>         : 'OFF' | 'OFF' <number>		    
 <addr_cmd>        : 'ADDR' '(' <addr_names> ')'
 <addr_names>      :  <vname>':' | <vname>'%:' | <vname>'$:' |
                      <vname>'()' | <vname>'%()' | <vname>'$()'
