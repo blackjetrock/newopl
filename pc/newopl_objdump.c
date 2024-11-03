@@ -12,6 +12,9 @@
 #include "nopl_obj.h"
 #include "newopl_lib.h"
 
+#define QCO_OPEN     0x65
+#define QCO_CREATE   0x5E
+
 struct _QCODE_DESC
 {
   uint8_t qcode;
@@ -471,6 +474,90 @@ void pr_parameter_types(NOBJ_PROC *p)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+void decode_qc(int *i,  NOBJ_QCODE **qc)
+{
+  int found = 0;
+
+  for(int j=0; j<(sizeof(qcode_decode)/sizeof(struct _QCODE_DESC)); j++)
+    {
+      
+      if( qcode_decode[j].qcode == **qc )
+	{
+	  printf("\n%04X: %02X       %s", *i, **qc, qcode_decode[j].desc);
+	  printf("     (bytes code:%s)", qcode_decode[j].bytes);
+	  
+	  for(int qcb = 0; qcb < (sizeof(qc_byte_code)/sizeof(QC_BYTE_CODE)); qcb++)
+	    {
+	      if( strcmp(qcode_decode[j].bytes, qc_byte_code[qcb].code) == 0 )
+		{
+		  printf("%s", (*qc_byte_code[qcb].prt_fn)(*i, *qc));
+		  *qc +=       (*qc_byte_code[qcb].len_fn)(*i, *qc);
+		  *i +=        (*qc_byte_code[qcb].len_fn)(*i, *qc);
+		}
+	    }
+	  
+	  found = 1;
+	  break;
+	}
+    }
+  
+  if( !found )
+    {
+      printf("\n%04X: %02X ????", *i, **qc);
+    }
+}
+////////////////////////////////////////////////////////////////////////////////
+
+char *type_to_string(NOBJ_VARTYPE t)
+{
+  switch(t)
+    {
+    case NOBJ_VARTYPE_INT:
+      return("Integer");
+      break;
+
+    case NOBJ_VARTYPE_FLT:
+      return("Float");
+      break;
+
+    case NOBJ_VARTYPE_STR:
+      return("String");
+      break;
+
+    case NOBJ_VARTYPE_INTARY:
+      return("Integer Array");
+      break;
+
+    case NOBJ_VARTYPE_FLTARY:
+      return("Float Array");
+      break;
+
+    case NOBJ_VARTYPE_STRARY:
+      return("String Array");
+      break;
+
+    case NOBJ_VARTYPE_VAR_ADDR:
+      return("Variable Address");
+      break;
+
+    case NOBJ_VARTYPE_UNKNOWN:
+      return("Unknown");
+      break;
+
+    case NOBJ_VARTYPE_VOID:
+      return("Void");
+      break;
+      
+    default:
+      return("????");
+      break;
+    }
+  
+  return("????");
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
@@ -551,54 +638,65 @@ void dump_proc(NOBJ_PROC *proc)
 	{
 	  int found = 0;
 	  
-	  for(int j=0; j<(sizeof(qcode_decode)/sizeof(struct _QCODE_DESC)); j++)
+	  // The fields that are after certain file qcodes needs a different decode
+	  switch(*qc)
 	    {
-	      if( qcode_decode[j].qcode == *qc )
+	    case QCO_OPEN:
+	    case QCO_CREATE:
+	      decode_qc(&i, &qc);
+
+	      // Decode the field information
+	      qc++;
+	      i++;
+	      printf("\n      Logical file:%02X (%c)", *qc, 'A'+*qc);
+	      qc++;
+	      i++;
+	      
+	      while( (*qc) != 0x88 )
 		{
-		  printf("\n%04X: %02X       %s", i, *qc, qcode_decode[j].desc);
-		  printf("     (bytes code:%s)", qcode_decode[j].bytes);
-		  
-		  for(int qcb = 0; qcb < (sizeof(qc_byte_code)/sizeof(QC_BYTE_CODE)); qcb++)
+		  printf("\n        Type:%02X (%s)", *qc, type_to_string(*qc));
+		  qc++;
+		  i++;
+		  printf("\n        ");
+
+		  int len = *(qc++);
+		  i++;
+		  for(int ii=0; ii<len; ii++)
 		    {
-		      if( strcmp(qcode_decode[j].bytes, qc_byte_code[qcb].code) == 0 )
-			{
-			  printf("%s", (*qc_byte_code[qcb].prt_fn)(i, qc));
-			  qc +=        (*qc_byte_code[qcb].len_fn)(i, qc);
-			  i +=         (*qc_byte_code[qcb].len_fn)(i, qc);
-			}
+		      printf("%c", *(qc++));
+		      i++;
 		    }
-		  
-		  found = 1;
-		  break;
 		}
-	    }
-	  
-	  if( !found )
-	    {
-	      printf("\n%04X: %02X ????", i, *qc);
+	      
+	      decode_qc(&i, &qc);
+	      break;
+
+	    default:
+	      decode_qc(&i, &qc);
+	      break;
 	    }
 	}
-      
-      
-      printf("\n");
-      
-      printf("\nQCode Data\n");
-      
-      qc = proc->qcode;
-      
-      for(int i=0; i<proc->qcode_space_size.size; qc++, i++)
-	{
-	  if( (i % 16)==0 )
-	    {
-	      printf("\n%04X:", i);
-	    }
-	  
-	  printf("%02X ", *qc);
-	}
-      
-      printf("\n");
     }
+      
+  printf("\n");
+      
+  printf("\nQCode Data\n");
+      
+  qc = proc->qcode;
+      
+  for(int i=0; i<proc->qcode_space_size.size; qc++, i++)
+    {
+      if( (i % 16)==0 )
+	{
+	  printf("\n%04X:", i);
+	}
+	  
+      printf("%02X ", *qc);
+    }
+      
+  printf("\n");
 }
+
 
 
 
