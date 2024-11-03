@@ -72,6 +72,8 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_ENDWH",
     "EXP_BUFF_ID_TRAP",
     "EXP_BUFF_ID_LABEL",
+    "EXP_BUFF_ID_CONTINUE",
+    "EXP_BUFF_ID_BREAK",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -116,12 +118,12 @@ struct _FN_INFO
     { "ATAN",     0,  0, ' ',  "f",         "f", 0x00 },
     { "BACK",     1,  1, ' ',  "",          "v", 0x00 },
     { "BEEP",     1,  0, ' ',  "ii",        "v", 0x00 },
-    { "BREAK",    1,  0, ' ',  "",          "v", 0x00 },
+    //{ "BREAK",    1,  0, ' ',  "",          "v", 0x00 },
     { "CHR$",     0,  0, ' ',  "i",         "s", 0x00 },
     { "CLOCK",    0,  0, ' ',  "i",         "i", 0x00 },
     { "CLOSE",    1,  1, ' ',  "",          "v", 0x00 },
     { "CLS",      1,  0, ' ',  "",          "v", 0x00 },
-    { "CONTINUE", 1,  0, ' ',  "",          "v", 0x00 },  // Conditional
+    //    { "CONTINUE", 1,  0, ' ',  "",          "v", 0x00 },  // Conditional
     { "COPYW",    1,  1, ' ',  "ss",        "v", 0x00 },
     { "COPY",     1,  1, ' ',  "ss",        "v", 0x00 },
     { "COS",      0,  0, ' ',  "f",         "f", 0x00 },
@@ -4192,6 +4194,37 @@ int scan_do(LEVEL_INFO levels)
 	      
 	      idx = cline_i;
 	      
+	      if( check_literal(&idx, " CONTINUE") )
+		{
+		  // Accept the token
+		  cline_i = idx;
+
+		  // Add a token to the output stream
+		  init_op_stack_entry(&op);
+		  op.level = levels.if_level;
+		  
+		  // Just flush the operator stack so the UNTIL is at the end of the output
+		  output_generic(op, "CONTINUE", EXP_BUFF_ID_CONTINUE);
+		  continue;
+		}
+
+	      idx = cline_i;
+	      if( check_literal(&idx, " BREAK") )
+		{
+		  // Accept the token
+		  cline_i = idx;
+
+		  // Add a token to the output stream
+		  init_op_stack_entry(&op);
+		  op.level = levels.if_level;
+		  
+		  // Just flush the operator stack so the UNTIL is at the end of the output
+		  output_generic(op, "BREAK", EXP_BUFF_ID_BREAK);
+		  continue;
+		}
+	      
+	      idx = cline_i;
+	      
 	      if( check_literal(&idx, " UNTIL") )
 		{
 		  dbprintf("UNTIL found in DO");
@@ -4316,6 +4349,38 @@ int scan_while(LEVEL_INFO levels)
 	      else
 		{
 		  dbprintf("Checking for conditionals");
+
+		  idx = cline_i;
+		  
+		  if( check_literal(&idx, " CONTINUE") )
+		    {
+		      // Accept the token
+		      cline_i = idx;
+		      
+		      // Add a token to the output stream
+		      init_op_stack_entry(&op);
+		      op.level = levels.if_level;
+		      
+		      // Just flush the operator stack so the UNTIL is at the end of the output
+		      output_generic(op, "CONTINUE", EXP_BUFF_ID_CONTINUE);
+		      continue;
+		    }
+
+		  idx = cline_i;
+		  
+		  if( check_literal(&idx, " BREAK") )
+		    {
+		      // Accept the token
+		      cline_i = idx;
+		      
+		      // Add a token to the output stream
+		      init_op_stack_entry(&op);
+		      op.level = levels.if_level;
+		      
+		      // Just flush the operator stack so the UNTIL is at the end of the output
+		      output_generic(op, "BREAK", EXP_BUFF_ID_BREAK);
+		      continue;
+		    }
 		  
 		  idx = cline_i;
 		  
