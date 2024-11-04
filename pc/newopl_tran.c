@@ -2357,7 +2357,7 @@ void process_token(OP_STACK_ENTRY *token)
 
       dbprintf("Push %s", exp_buffer_id_str[o1.buf_id]);
       
-      strcpy(o1.name, tokptr);
+      //strcpy(o1.name, tokptr);
 
       o1.type = expression_type;
       o1.req_type = expression_type;

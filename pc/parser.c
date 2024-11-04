@@ -321,8 +321,8 @@ OP_INFO  op_info[] =
   {
     // Array dereference internal operator
     { "@",    9, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "=",    1, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "<>",   1, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "=",    2, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "<>",   2, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { ":=",   1, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "+",    3, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "-",    3, 1, "UMIN", 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
@@ -337,7 +337,7 @@ OP_INFO  op_info[] =
     // (Handle bitwise on integer, logical on floats somewhere)
     { "AND",  1, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     { "OR",   1, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
-    //{ "NOT",  1, 1, "UNOT", 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    { "NOT",  1, 1, "UNOT", 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
 
     // LZ only
     { "+%",   5, 0, "",     1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
@@ -346,7 +346,7 @@ OP_INFO  op_info[] =
 
     // Unary versions
     { "UMIN", 6, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
-    //{ "UNOT", 6, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
+    { "UNOT", 1, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
   };
 
 
@@ -4157,11 +4157,11 @@ int scan_do(LEVEL_INFO levels)
   
   if( check_literal(&idx, " DO"))
     {
-      levels.if_level = ++unique_level;;
+      levels.do_level = ++unique_level;;
       
       cline_i = idx;
 
-      op.level = levels.if_level;
+      op.level = levels.do_level;
       
       // Just flush the operator stack so the UNTIL is at the end of the output
       output_generic(op, "DO", EXP_BUFF_ID_DO);
@@ -4197,7 +4197,7 @@ int scan_do(LEVEL_INFO levels)
 
 		  // Add a token to the output stream
 		  init_op_stack_entry(&op);
-		  op.level = levels.if_level;
+		  op.level = levels.do_level;
 		  
 		  // Just flush the operator stack so the UNTIL is at the end of the output
 		  output_generic(op, "CONTINUE", EXP_BUFF_ID_CONTINUE);
@@ -4212,7 +4212,7 @@ int scan_do(LEVEL_INFO levels)
 
 		  // Add a token to the output stream
 		  init_op_stack_entry(&op);
-		  op.level = levels.if_level;
+		  op.level = levels.do_level;
 		  
 		  // Just flush the operator stack so the UNTIL is at the end of the output
 		  output_generic(op, "BREAK", EXP_BUFF_ID_BREAK);
@@ -4235,7 +4235,7 @@ int scan_do(LEVEL_INFO levels)
 		    {
 		      // All OK
 			  
-		      op.level = levels.if_level;
+		      op.level = levels.do_level;
 			  
 		      // Just flush the operator stack so the UNTIL is at the end of the output
 		      op_stack_finalise();
@@ -4309,7 +4309,7 @@ int scan_while(LEVEL_INFO levels)
   
   if( check_literal(&idx, " WHILE"))
     {
-      levels.if_level = ++unique_level;;
+      levels.do_level = ++unique_level;;
       
       cline_i = idx;
 
@@ -4323,7 +4323,7 @@ int scan_while(LEVEL_INFO levels)
 	  op_stack_finalise();
 
 	  // Put the WHILE token after the expression
-	  op.level = levels.if_level;
+	  op.level = levels.do_level;
 	  output_generic(op, "WHILE", EXP_BUFF_ID_WHILE);
 
 	  idx = cline_i;
@@ -4355,7 +4355,7 @@ int scan_while(LEVEL_INFO levels)
 		      
 		      // Add a token to the output stream
 		      init_op_stack_entry(&op);
-		      op.level = levels.if_level;
+		      op.level = levels.do_level;
 		      
 		      // Just flush the operator stack so the UNTIL is at the end of the output
 		      output_generic(op, "CONTINUE", EXP_BUFF_ID_CONTINUE);
@@ -4371,7 +4371,7 @@ int scan_while(LEVEL_INFO levels)
 		      
 		      // Add a token to the output stream
 		      init_op_stack_entry(&op);
-		      op.level = levels.if_level;
+		      op.level = levels.do_level;
 		      
 		      // Just flush the operator stack so the UNTIL is at the end of the output
 		      output_generic(op, "BREAK", EXP_BUFF_ID_BREAK);
@@ -4386,7 +4386,7 @@ int scan_while(LEVEL_INFO levels)
 		      
 		      cline_i = idx;
 		      
-		      op.level = levels.if_level;
+		      op.level = levels.do_level;
 		      op.buf_id = EXP_BUFF_ID_ENDWH;
 		      strcpy(op.name, "ENDWH");
 		      process_token(&op);
@@ -4523,6 +4523,37 @@ int scan_if(LEVEL_INFO levels)
 	      else
 		{
 		  dbprintf("Checking for conditionals");
+		  idx = cline_i;
+		  
+		  if( check_literal(&idx, " CONTINUE") )
+		    {
+		      // Accept the token
+		      cline_i = idx;
+		      
+		      // Add a token to the output stream
+		      init_op_stack_entry(&op);
+		      op.level = levels.do_level;
+		      
+		      // Just flush the operator stack so the UNTIL is at the end of the output
+		      output_generic(op, "CONTINUE", EXP_BUFF_ID_CONTINUE);
+		      continue;
+		    }
+
+		  idx = cline_i;
+		  
+		  if( check_literal(&idx, " BREAK") )
+		    {
+		      // Accept the token
+		      cline_i = idx;
+		      
+		      // Add a token to the output stream
+		      init_op_stack_entry(&op);
+		      op.level = levels.do_level;
+		      
+		      // Just flush the operator stack so the UNTIL is at the end of the output
+		      output_generic(op, "BREAK", EXP_BUFF_ID_BREAK);
+		      continue;
+		    }
 		  
 		  idx = cline_i;
 		  
