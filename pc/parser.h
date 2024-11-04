@@ -67,6 +67,9 @@ extern int exp_buffer_i;
 extern EXP_BUFFER_ENTRY exp_buffer2[MAX_EXP_BUFFER];
 extern int exp_buffer2_i;
 
+//------------------------------------------------------------------------------
+
+
 #define MAX_OPERATOR_TYPES 3
 #define IMMUTABLE_TYPE     1
 #define   MUTABLE_TYPE     0
@@ -110,6 +113,34 @@ typedef struct _LEVEL_INFO
 // scan_command can scan for just trappable commands
 #define SCAN_ALL          0
 #define SCAN_TRAPPABLE    1
+
+//------------------------------------------------------------------------------
+#if 0
+typedef enum
+  {
+    NOBJ_VC_LOCAL,
+    NOBJ_VC_GLOBAL,
+    NOBJ_VC_EXTERNAL,
+  }
+  NOBJ_VAR_CLASS;
+
+// Variable information
+typedef struct _VAR_INFO_ENTRY
+{
+  char            name[NOBJ_VARNAME_MAXLEN];
+  NOBJ_VAR_CLASS  var_class;
+  uint16_t        offset;
+  NOBJ_VARTYPE    type;
+  int             string_max;
+  int             is_array;
+  int             array_size;
+} VAR_INFO_ENTRY;
+#endif
+
+extern NOBJ_VAR_INFO var_info[MAX_VAR_INFO];
+extern int num_var_info;
+
+////////////////////////////////////////////////////////////////////////////////
 
 int scan_addr_name(void);
 int check_addr_name(int *index);

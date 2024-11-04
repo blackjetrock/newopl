@@ -79,18 +79,10 @@ char *exp_buffer_id_str[] =
 
 #define NUM_BUFF_ID (sizeof(exp_buffer_id_str) / sizeof(char *))
 
+////////////////////////////////////////////////////////////////////////////////
 
-#if 0
-// Per-expression
-// Indices start at 1, 0 is 'no p'
-int node_id_index = 1;
-
-EXP_BUFFER_ENTRY exp_buffer[MAX_EXP_BUFFER];
-int exp_buffer_i = 0;
-
-EXP_BUFFER_ENTRY exp_buffer2[MAX_EXP_BUFFER];
-int exp_buffer2_i = 0;
-#endif
+NOBJ_VAR_INFO var_info[MAX_VAR_INFO];
+int num_var_info = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -188,6 +180,7 @@ struct _FN_INFO
     { "MONTH",    0,  0, ' ',  "",          "i", 0x00 },
     { "NEXT",     0,  1, ' ',  "",          "v", 0x00 },
     { "NUM$",     0,  0, ' ',  "fi",        "s", 0x00 },
+    // { "NOT",      0,  0, ' ',  "i",         "i", 0x00 },
     { "OFFX",     1,  0, ' ',  "i",         "v", 0x00 },    // OFF or OFF x%
     { "OFF",      1,  0, ' ',  "",          "v", 0x00 },    // OFF or OFF x%
     { "OPEN",     1,  1, ' ',  "ii",        "v", 0x00 },    // File format
@@ -340,9 +333,11 @@ OP_INFO  op_info[] =
     { "<=",   2, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { ">",    2, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "<",    2, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+
     // (Handle bitwise on integer, logical on floats somewhere)
     { "AND",  1, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     { "OR",   1, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
+    //{ "NOT",  1, 1, "UNOT", 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
 
     // LZ only
     { "+%",   5, 0, "",     1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
@@ -351,6 +346,7 @@ OP_INFO  op_info[] =
 
     // Unary versions
     { "UMIN", 6, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
+    //{ "UNOT", 6, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT} },
   };
 
 
@@ -5388,6 +5384,11 @@ int scan_localglobal(int local_nglobal)
 
       if( cline[cline_i] == '\0' )
 	{
+	  // Store info about the variable
+	  var_info[num_var_info] = vi;
+	  var_info[num_var_info].is_ext = 0;
+	  
+	  num_var_info++;
 	  dbprintf("ret1");
 	  return(1);
 	}

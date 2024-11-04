@@ -2688,6 +2688,21 @@ void translate_file(FILE *fp, FILE *ofp)
   dbprintf("");
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+void dump_vars(FILE *fp)
+{
+
+  fprintf(fp, "\nVariables");
+  fprintf(fp, "\n");
+
+  for(int i=0; i<num_var_info; i++)
+    {
+      fprintf(fp, "\n%s: ", var_info[i].name);
+    }
+  fprintf(fp, "\n");
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -2703,6 +2718,7 @@ void translate_file(FILE *fp, FILE *ofp)
 int main(int argc, char *argv[])
 {
   FILE *fp;
+  FILE *vfp;
   
   init_output();
   
@@ -2729,6 +2745,9 @@ int main(int argc, char *argv[])
   fclose(chkfp);
   fclose(trfp);
 
+  vfp = fopen("vars.txt", "w");
+  dump_vars(vfp);
+  fclose(vfp); 
 
   dbprintf("\n");
   dbprintf("\n %d lines scanned OK",       n_lines_ok);

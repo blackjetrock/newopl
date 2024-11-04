@@ -149,6 +149,7 @@ typedef struct _NOBJ_VAR_INFO
 {
   char name[NOBJ_VARNAME_MAXLEN];
   int is_global;
+  int is_ext;
   int is_ref;
   int is_array;
   int is_integer;
@@ -160,6 +161,8 @@ typedef struct _NOBJ_VAR_INFO
   NOBJ_VARTYPE type;
   uint16_t offset;    // Offset from FP
 } NOBJ_VAR_INFO;
+
+#define MAX_VAR_INFO  30
 
 typedef struct _NOBJ_COND_INFO
 {

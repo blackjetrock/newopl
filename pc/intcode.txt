@@ -1,46 +1,27 @@
 
-( dump_exp_buffer) N1 EXP_BUFF_ID_VARIABLE                   f rq:f 'LOCAL' npar:0 nidx:0  0:  nb 0:()
+( dump_exp_buffer) N1 EXP_BUFF_ID_VARIABLE                   f rq:f 'LOCAL' npar:0 nidx:-1281785184  0:  nb 0:()
 ( dump_exp_buffer) N2 EXP_BUFF_ID_VARIABLE                   i rq:i 'A%' npar:0 nidx:0  0:  nb 0:()
+( dump_exp_buffer) N3 EXP_BUFF_ID_SUB_START                  U rq:i '' npar:0 nidx:-1283997097  0:  nb 0:()
+( dump_exp_buffer) N4 EXP_BUFF_ID_INTEGER                    i rq:i '10' npar:0 nidx:0  0:  nb 0:()
+( dump_exp_buffer) N5 EXP_BUFF_ID_SUB_END                    U rq:i '' npar:0 nidx:1797222400  0:  nb 0:()
+( dump_exp_buffer) N6 EXP_BUFF_ID_SUB_END                    U rq:i '' npar:0 nidx:1797222400  0:  nb 0:()
+( dump_exp_buffer) N7 EXP_BUFF_ID_VARIABLE                   i rq:i 's$' npar:0 nidx:0  0:  nb 0:()
+( dump_exp_buffer) N8 EXP_BUFF_ID_VARIABLE                   f rq:f 'F' npar:0 nidx:0  0:  nb 0:()
 
-( dump_exp_buffer) N1 EXP_BUFF_ID_VARIABLE                   s rq:s 'A$' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 EXP_BUFF_ID_INTEGER                    i rq:s '10' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N4 EXP_BUFF_ID_AUTOCON                    s rq:s 'autocon i->s' npar:0 nidx:48  2: 2 1  nb 0:()
-( dump_exp_buffer) N3 EXP_BUFF_ID_OPERATOR                   s rq:s '=' npar:0 nidx:22692  2: 2 1  nb 0:()
-( dump_exp_buffer) N5 EXP_BUFF_ID_WHILE              L:1     i rq:i 'WHILE' npar:0 nidx:22692  0:  nb 0:()
-
-( dump_exp_buffer) N1 EXP_BUFF_ID_CONTINUE           L:1     i rq:i 'CONTINUE' npar:0 nidx:22692  0:  nb 0:()
-
-( dump_exp_buffer) N1 EXP_BUFF_ID_VARIABLE                   i rq:i 'a%' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 EXP_BUFF_ID_PRINT                      i rq:i 'PRINT' npar:0 nidx:22692  0:  nb 0:()
-
-( dump_exp_buffer) N1 EXP_BUFF_ID_PRINT_NEWLINE              U rq:U 'PRINT' npar:0 nidx:22692  0:  nb 0:()
-
-( dump_exp_buffer) N1 EXP_BUFF_ID_ENDWH              L:1     U rq:U 'ENDWH' npar:0 nidx:22692  0:  nb 0:()
-
-( dump_exp_buffer) N1 EXP_BUFF_ID_VARIABLE                   s rq:s 'A$' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 EXP_BUFF_ID_INTEGER                    i rq:s '10' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N4 EXP_BUFF_ID_AUTOCON                    s rq:s 'autocon i->s' npar:0 nidx:48  2: 2 1  nb 0:()
-( dump_exp_buffer) N3 EXP_BUFF_ID_OPERATOR                   s rq:s '=' npar:0 nidx:22692  2: 2 1  nb 0:()
-( dump_exp_buffer) N5 EXP_BUFF_ID_WHILE              L:2     i rq:i 'WHILE' npar:0 nidx:22692  0:  nb 0:()
-
-( dump_exp_buffer) N1 EXP_BUFF_ID_VARIABLE                   i rq:i 'a%' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 EXP_BUFF_ID_PRINT                      i rq:i 'PRINT' npar:0 nidx:22692  0:  nb 0:()
-
-( dump_exp_buffer) N1 EXP_BUFF_ID_PRINT_NEWLINE              U rq:U 'PRINT' npar:0 nidx:22692  0:  nb 0:()
-
-( dump_exp_buffer) N1 EXP_BUFF_ID_VARIABLE                   s rq:s 'A$' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 EXP_BUFF_ID_INTEGER                    i rq:s '10' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N4 EXP_BUFF_ID_AUTOCON                    s rq:s 'autocon i->s' npar:0 nidx:48  2: 2 1  nb 0:()
-( dump_exp_buffer) N3 EXP_BUFF_ID_OPERATOR                   s rq:s '=' npar:0 nidx:22692  2: 2 1  nb 0:()
-( dump_exp_buffer) N5 EXP_BUFF_ID_WHILE              L:3     i rq:i 'WHILE' npar:0 nidx:22692  0:  nb 0:()
-
-( dump_exp_buffer) N1 EXP_BUFF_ID_BREAK              L:3     i rq:i 'BREAK' npar:0 nidx:22692  0:  nb 0:()
-
-( dump_exp_buffer) N1 EXP_BUFF_ID_VARIABLE                   i rq:i 'a%' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 EXP_BUFF_ID_PRINT                      i rq:i 'PRINT' npar:0 nidx:22692  0:  nb 0:()
-
-( dump_exp_buffer) N1 EXP_BUFF_ID_PRINT_NEWLINE              U rq:U 'PRINT' npar:0 nidx:22692  0:  nb 0:()
-
-( dump_exp_buffer) N1 EXP_BUFF_ID_ENDWH              L:3     U rq:U 'ENDWH' npar:0 nidx:22692  0:  nb 0:()
-
-( dump_exp_buffer) N1 EXP_BUFF_ID_ENDWH              L:2     U rq:U 'ENDWH' npar:0 nidx:22692  0:  nb 0:()
+( dump_exp_buffer) N1 EXP_BUFF_ID_VARIABLE                   f rq:f 'LOCAL' npar:0 nidx:-1281785184  0:  nb 0:()
+( dump_exp_buffer) N2 EXP_BUFF_ID_SUB_START                  U rq:i '' npar:0 nidx:-1283997097  0:  nb 0:()
+( dump_exp_buffer) N3 EXP_BUFF_ID_INTEGER                    i rq:i '5' npar:0 nidx:0  0:  nb 0:()
+( dump_exp_buffer) N4 EXP_BUFF_ID_SUB_END                    U rq:i '' npar:0 nidx:1797222400  0:  nb 0:()
+( dump_exp_buffer) N5 EXP_BUFF_ID_SUB_END                    U rq:i '' npar:0 nidx:1797222400  0:  nb 0:()
+( dump_exp_buffer) N6 EXP_BUFF_ID_VARIABLE                   i rq:i 'x%' npar:0 nidx:0  0:  nb 0:()
+( dump_exp_buffer) N7 EXP_BUFF_ID_SUB_START                  U rq:i '' npar:0 nidx:-1283997097  0:  nb 0:()
+( dump_exp_buffer) N8 EXP_BUFF_ID_INTEGER                    i rq:i '5' npar:0 nidx:0  0:  nb 0:()
+( dump_exp_buffer) N9 EXP_BUFF_ID_INTEGER                    i rq:i '7' npar:0 nidx:0  0:  nb 0:()
+( dump_exp_buffer) N10 EXP_BUFF_ID_SUB_END                    U rq:i '' npar:0 nidx:1797222400  0:  nb 0:()
+( dump_exp_buffer) N11 EXP_BUFF_ID_SUB_END                    U rq:i '' npar:0 nidx:1797222400  0:  nb 0:()
+( dump_exp_buffer) N12 EXP_BUFF_ID_VARIABLE                   i rq:i 's$' npar:0 nidx:0  0:  nb 0:()
+( dump_exp_buffer) N13 EXP_BUFF_ID_SUB_START                  U rq:i '' npar:0 nidx:-1283997097  0:  nb 0:()
+( dump_exp_buffer) N14 EXP_BUFF_ID_INTEGER                    i rq:i '20' npar:0 nidx:0  0:  nb 0:()
+( dump_exp_buffer) N15 EXP_BUFF_ID_SUB_END                    U rq:i '' npar:0 nidx:1797222400  0:  nb 0:()
+( dump_exp_buffer) N16 EXP_BUFF_ID_SUB_END                    U rq:i '' npar:0 nidx:1797222400  0:  nb 0:()
+( dump_exp_buffer) N17 EXP_BUFF_ID_VARIABLE                   f rq:f 'f' npar:0 nidx:0  0:  nb 0:()
