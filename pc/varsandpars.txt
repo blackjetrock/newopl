@@ -1,0 +1,21 @@
+REM CM/XP procedure
+LOCAL A$(16),K$(1),K%,I%
+
+A$: FFED
+K$: FFEA
+K%: FFE7
+I%: FFE5
+
+//------------------------------------------------------------------------------
+
+
+ EX4:(PPP$)
+                LOCAL A$(5)
+                GLOBAL B,C%(3),D$(5)
+
+PPP$: FFEB
+A$:
+B:
+C%:
+D$:
+J$:   FFE9
