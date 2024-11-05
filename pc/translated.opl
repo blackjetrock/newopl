@@ -1,8 +1,37 @@
 
 
-F2
-f()
-POSITION$
-FLOAT()
+j%
 
-EXTTOP% := 8
+DO
+i% := MENU("BANK,EXPENSES,NPV,IRR,COMPOUND,BOND,MORTGAGE,APR,END" )
+IF (i% = 1)
+bank:
+ELSEIF (i% = 2)
+expenses:
+ELSEIF (i% = 3)
+npv:
+ELSEIF (i% = 4)
+irr:
+ELSEIF (i% = 5)
+DO
+j% := MENU("VALUE,FUTURE,PAYMENT,DURATION,INTEREST,END" )
+IF (j% = 1)
+value:
+ELSEIF (j% = 2)
+future:
+ELSEIF (j% = 3)
+payment:
+ELSEIF (j% = 4)
+duration:
+ELSEIF (j% = 5)
+interest:
+ENDIF
+UNTIL ((j% = 0) OR (j% = 6))
+ELSEIF (i% = 6)
+bond:
+ELSEIF (i% = 7)
+mortgage:
+ELSEIF (i% = 8)
+apr:
+ENDIF
+UNTIL ((i% = 0) OR (i% = 9))

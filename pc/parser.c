@@ -409,7 +409,7 @@ int token_is_other_keyword(char *token)
 void fprint_var_info(FILE *fp, NOBJ_VAR_INFO *vi)
 {
   
-  fprintf(fp, "\nVAR INFO: '%18s' %s %s %s int:%d flt:%d str:%d %s max_str:%d max_ary:%d num_ind:%d",
+  fprintf(fp, "VAR INFO: '%18s' %s %s %s int:%d flt:%d str:%d %s max_str:%3d max_ary:%3d num_ind:%3d",
  	 vi->name,
 	  (vi->is_global)? "GLOBAL":"LOCAL ",
 	  (vi->is_ext)?    "EXTERNAL":"        ",
@@ -426,6 +426,7 @@ void fprint_var_info(FILE *fp, NOBJ_VAR_INFO *vi)
 
 void print_var_info(NOBJ_VAR_INFO *vi)
 {
+  fprintf(ofp, "\n");
   fprint_var_info(ofp, vi);
 }
 
@@ -769,8 +770,6 @@ void typecheck_error(char *fmt, ...)
   
   printf("\n\n   %s", line);
   printf("\n");
-  
-
 }
 
 //------------------------------------------------------------------------------
@@ -801,7 +800,7 @@ void internal_error(char *fmt, ...)
   printf("\n\n   %s", line);
   printf("\n");
   
-  exit(-1);
+  //exit(-1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

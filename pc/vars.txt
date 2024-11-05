@@ -1,16 +1,5 @@
 
 Variables
 
-VAR INFO: '                A%' LOCAL           DECLARE int:1 flt:0 str:0       max_str:0 max_ary:0 num_ind:0
-VAR INFO: '               s1$' LOCAL           DECLARE int:0 flt:0 str:1       max_str:10 max_ary:0 num_ind:0
-VAR INFO: '                F2' LOCAL           DECLARE int:0 flt:1 str:0       max_str:0 max_ary:0 num_ind:0
-VAR INFO: '                x%' LOCAL           DECLARE int:1 flt:0 str:0 ARRAY max_str:0 max_ary:5 num_ind:0
-VAR INFO: '                s$' LOCAL           DECLARE int:0 flt:0 str:1 ARRAY max_str:7 max_ary:5 num_ind:0
-VAR INFO: '                 f' LOCAL           DECLARE int:0 flt:1 str:0 ARRAY max_str:0 max_ary:20 num_ind:0
-VAR INFO: '             PEAR%' GLOBAL          DECLARE int:1 flt:0 str:0       max_str:0 max_ary:0 num_ind:0
-VAR INFO: '             DOOR$' GLOBAL          DECLARE int:0 flt:0 str:1       max_str:10 max_ary:0 num_ind:0
-VAR INFO: '         POSITION$' GLOBAL          DECLARE int:0 flt:0 str:1       max_str:0 max_ary:0 num_ind:0
-VAR INFO: '             OPEN%' GLOBAL          DECLARE int:1 flt:0 str:0 ARRAY max_str:0 max_ary:50 num_ind:0
-VAR INFO: '              POS$' GLOBAL          DECLARE int:0 flt:0 str:1 ARRAY max_str:300 max_ary:20 num_ind:0
-VAR INFO: '             FLOAT' GLOBAL          DECLARE int:0 flt:1 str:0 ARRAY max_str:0 max_ary:123 num_ind:0
-VAR INFO: '           EXTTOP%' LOCAL  EXTERNAL REFRNCE int:1 flt:0 str:0       max_str:0 max_ary:0 num_ind:1
+   0:  VAR INFO: '                i%' LOCAL           DECLARE int:1 flt:0 str:0       max_str:  0 max_ary:  0 num_ind:  0
+   1:  VAR INFO: '                j%' LOCAL           DECLARE int:1 flt:0 str:0       max_str:  0 max_ary:  0 num_ind:  0

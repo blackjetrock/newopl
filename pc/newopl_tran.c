@@ -1508,7 +1508,8 @@ void typecheck_expression(void)
 		    {
 		      // Error
 		      fprintf(ofp, "\nType of %s or %s is not %c", op1.name, op2.name, type_to_char(op_info.type[0]));
-		      exit(-1);
+		      internal_error("Type of %s or %s is not %c", op1.name, op2.name, type_to_char(op_info.type[0]));
+		      //		      exit(-1);
 		    }
 		}
 	      else
@@ -1605,7 +1606,8 @@ void typecheck_expression(void)
 				  // No auto conversion is available, so this is an error
 				  fprintf(ofp, "\nType is not the required type and no auto conversion available,");
 				  fprintf(ofp, "\n Node N%d", be.node_id);
-				  exit(-1);
+				  //exit(-1);
+				  syntax_error("Type is not the required type and no auto conversion available,");
 				  break;
 				}
 			    }
@@ -1688,7 +1690,8 @@ void typecheck_expression(void)
 		      type_check_stack_display();
 
 		      dump_exp_buffer(ofp, 1);
-		      exit(-1);
+		      internal_error("Syntax error at node N%d", be.node_id);
+		      //exit(-1);
 		    }
 		}		
 	    }
@@ -1963,7 +1966,8 @@ void op_stack_push(OP_STACK_ENTRY entry)
   else
     {
       fprintf(ofp, "\n%s: Operator stack full", __FUNCTION__);
-      exit(-1);
+      internal_error("Operator stack full");
+      //exit(-1);
     }
   op_stack_print();
 
@@ -2698,6 +2702,7 @@ void dump_vars(FILE *fp)
 
   for(int i=0; i<num_var_info; i++)
     {
+      fprintf(fp, "\n%4d:  ", i);
       fprint_var_info(fp, &(var_info[i]));
     }
   fprintf(fp, "\n");
@@ -2728,6 +2733,7 @@ int main(int argc, char *argv[])
   if( fp == NULL )
     {
       fprintf(ofp, "\nCould not open '%s'", argv[1]);
+      printf("\nCould not open '%s'", argv[1]);
       exit(-1);
     }
 
@@ -2753,10 +2759,12 @@ int main(int argc, char *argv[])
   dbprintf("\n %d lines scanned OK",       n_lines_ok);
   dbprintf("\n %d lines scanned failed",   n_lines_bad);
   dbprintf("\n %d lines blank",            n_lines_blank);
+  dbprintf("\n %d variables",              num_var_info);
   dbprintf("\n");
 
   printf("\n %d lines scanned Ok",       n_lines_ok);
   printf("  %d lines scanned failed",   n_lines_bad);
+  printf("  %d variables",              num_var_info);
   printf("  %d lines blank\n",            n_lines_blank);
 
   uninit_output();  

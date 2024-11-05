@@ -162,7 +162,7 @@ typedef struct _NOBJ_VAR_INFO
   uint16_t offset;    // Offset from FP
 } NOBJ_VAR_INFO;
 
-#define MAX_VAR_INFO  30
+#define MAX_VAR_INFO  300
 
 typedef struct _NOBJ_COND_INFO
 {

@@ -187,5 +187,6 @@ int check_proc_call(int *index);
 int scan_proc_call(void);
 void typecheck_error(char *fmt, ...);
 void fprint_var_info(FILE *fp, NOBJ_VAR_INFO *vi);
+void internal_error(char *fmt, ...);
 
 
