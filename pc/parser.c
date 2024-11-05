@@ -406,26 +406,34 @@ int token_is_other_keyword(char *token)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void print_var_info(NOBJ_VAR_INFO *vi)
+void fprint_var_info(FILE *fp, NOBJ_VAR_INFO *vi)
 {
-  dbprintf( "\nVAR INFO: '%18s' gbl:%d ref:%d int:%d flt:%d str:%d ary:%d max_str:%d max_ary:%d num_ind:%d",
+  
+  fprintf(fp, "\nVAR INFO: '%18s' %s %s %s int:%d flt:%d str:%d %s max_str:%d max_ary:%d num_ind:%d",
  	 vi->name,
-	 vi->is_global,
-	 vi->is_ref,
+	  (vi->is_global)? "GLOBAL":"LOCAL ",
+	  (vi->is_ext)?    "EXTERNAL":"        ",
+	  (vi->is_ref)?    "REFRNCE":"DECLARE",
 	 vi->is_integer,
 	 vi->is_float,
 	 vi->is_string,
-	 vi->is_array,
+	  (vi->is_array)?  "ARRAY":"     ",
 	 vi->max_string,
 	 vi->max_array,
 	 vi->num_indices
 	 );
 }
 
+void print_var_info(NOBJ_VAR_INFO *vi)
+{
+  fprint_var_info(ofp, vi);
+}
+
 void init_var_info(NOBJ_VAR_INFO *vi)
 {
   vi->name[0]     = '\0';
   vi->is_global   = 0;
+  vi->is_ext      = 0;
   vi->is_ref      = 0;
   vi->is_integer  = 0;
   vi->is_float    = 0;
@@ -434,6 +442,93 @@ void init_var_info(NOBJ_VAR_INFO *vi)
   vi->max_string  = 0;
   vi->max_array   = 0;
   vi->num_indices = 0;
+}
+
+NOBJ_VAR_INFO *find_var_info(char *name)
+{
+  for(int i=0; i<num_var_info; i++)
+    {
+      // Must be an exact match, case insensitive
+      if( strlen(name) != strlen(var_info[i].name) )
+	{
+	  continue;
+	}
+      
+      if( strn_match(name, var_info[i].name, strlen(var_info[i].name)) )
+	{
+	  // Got a match
+	  return(&(var_info[i]));
+	}
+    }
+  
+  // Not found
+  return(NULL);
+}
+
+  
+//------------------------------------------------------------------------------
+//
+// Adds variable to info list
+//
+// If this is a declare then:
+//
+// Checks for it already being present, error if so
+// Adds to list if room
+//
+// If reference:
+//
+// Checks for it already being present, ok, if so
+// If not present then adds as an esternal
+//
+
+void add_var_entry(NOBJ_VAR_INFO *vi)
+{
+  if(num_var_info < (MAX_VAR_INFO-1))
+    {
+      var_info[num_var_info] = *vi;
+      num_var_info++;
+    }
+  else
+    {
+      syntax_error("Too many variables");
+    }
+}
+
+void add_var_info(NOBJ_VAR_INFO *vi)
+{
+  NOBJ_VAR_INFO *srch_vi;
+  
+  // See if variable name already present
+  srch_vi = find_var_info(vi->name);
+
+  if( srch_vi == NULL )
+    {
+      // Not present
+      if( vi->is_ref )
+	{
+	  // This is an external, add it to the list
+	  vi->is_ext = 1;
+	  add_var_entry(vi);	  
+	}
+      else
+	{
+	  // Declaring a new variable
+	  add_var_entry(vi);	  
+	}
+    }
+  else
+    {
+      // Variable already present
+      if( vi->is_ref )
+	{
+	  // This is OK, just referring to the variable
+	}
+      else
+	{
+	  // This isn't OK, we have th evariable declared twice
+	  syntax_error("Variable '%s' declared twice", vi->name);
+	}
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -3341,6 +3436,8 @@ int scan_assignment(void)
 	  if( scan_expression(&num_subexpr, HEED_COMMA) )
 	    {
 	      vi.num_indices = num_subexpr+1;
+
+	      add_var_info(&vi);
 	      dbprintf("%s: ret1", __FUNCTION__);
 	      return(1);
 	    }
@@ -5397,12 +5494,17 @@ int scan_localglobal(int local_nglobal)
 	{
 	  init_var_info(&vi);
 	  
-	  scan_variable(&vi, VAR_DECLARE);
-	  vi.is_global = !local_nglobal;
-	  vi.is_ref = 0;
-	  
-	  dbprintf("%s variable:'%s'", keyword, vi.name);
-	  print_var_info(&vi);
+	  if( scan_variable(&vi, VAR_DECLARE))
+	    {
+	      vi.is_global = !local_nglobal;
+	      vi.is_ref = 0;
+	      
+	      dbprintf("%s variable:'%s'", keyword, vi.name);
+	      print_var_info(&vi);
+	      
+	      // Store info about the variable
+	      add_var_info(&vi);
+	    }
 	  
 	  idx = cline_i;
 	  if( check_literal(&idx, " ,") )
@@ -5415,11 +5517,11 @@ int scan_localglobal(int local_nglobal)
 
       if( cline[cline_i] == '\0' )
 	{
+#if 0
 	  // Store info about the variable
 	  var_info[num_var_info] = vi;
-	  var_info[num_var_info].is_ext = 0;
-	  
 	  num_var_info++;
+#endif
 	  dbprintf("ret1");
 	  return(1);
 	}

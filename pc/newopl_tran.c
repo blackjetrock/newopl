@@ -2698,7 +2698,7 @@ void dump_vars(FILE *fp)
 
   for(int i=0; i<num_var_info; i++)
     {
-      fprintf(fp, "\n%s: ", var_info[i].name);
+      fprint_var_info(fp, &(var_info[i]));
     }
   fprintf(fp, "\n");
 }
