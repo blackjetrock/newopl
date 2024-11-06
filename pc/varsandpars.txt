@@ -1,11 +1,45 @@
 REM CM/XP procedure
 LOCAL A$(16),K$(1),K%,I%
 
-A$: FFED
-K$: FFEA
-K%: FFE7
-I%: FFE5
+A$: FFED  10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+K$: FFEA  01 00
+K%: FFE7  00 00
+I%: FFE5  00 00
 
+
+
+
+FFFF-FE   Global name table length (0000)
+FFFD      Parameters,none
+FFFD      Globals none
+FFFD      A$(16) 10 max len
+FFFC      Actual len
+FFFB      0
+FFFA      1
+FFF9      2
+FFF8      3
+FFF7      4
+FFF6      5
+FFF5      6
+FFF4      7
+FFF3      8
+FFF2      9
+FFF1      A
+FFF0      B
+FFEF      C
+FFEE      D
+FFED      E
+FFEC      F
+FFEB      K$ max len
+FFEA      K$ actual len
+FFE9      K$ data
+
+
+
+-FFED      00..00 (16 bytes)
+FFEC-FFEA      K$ (max length, actual length 1 byte data
+FFE9-FFE8      K%
+FFE7-FFE5
 //------------------------------------------------------------------------------
 
 

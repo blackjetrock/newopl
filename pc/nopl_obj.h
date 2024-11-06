@@ -145,20 +145,41 @@ typedef struct _NOBJ_MACHINE
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#define VAR_DECLARE     0
+#define VAR_REF         1
+#define VAR_PARAMETER   2
+
+typedef enum _NOPL_VAR_CLASS
+  {
+    NOPL_VAR_CLASS_UNKNOWN,
+    NOPL_VAR_CLASS_LOCAL,
+    NOPL_VAR_CLASS_GLOBAL,
+    NOPL_VAR_CLASS_EXTERNAL,
+    NOPL_VAR_CLASS_PARAMETER,
+    
+  } NOPL_VAR_CLASS;
 typedef struct _NOBJ_VAR_INFO
 {
   char name[NOBJ_VARNAME_MAXLEN];
+#if 0
   int is_global;
   int is_ext;
-  int is_ref;
+  int is_param;
+#endif
+
+  int is_ref;     // Reference or declare
+  NOPL_VAR_CLASS class;
+  NOBJ_VARTYPE type;
+#if 0
   int is_array;
   int is_integer;
   int is_float;
   int is_string;
+#endif
   int max_array;
   int max_string;
   int num_indices;
-  NOBJ_VARTYPE type;
+
   uint16_t offset;    // Offset from FP
 } NOBJ_VAR_INFO;
 

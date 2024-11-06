@@ -24,9 +24,6 @@ int unique_level = 0;
 #define SAVE_I     1
 #define NO_SAVE_I  0
 
-#define VAR_REF      1
-#define VAR_DECLARE  0
-
 char procedure_name[NOBJ_VARNAME_MAXLEN+1];
 
 #define I_WHERE     &(cline[cline_i])
@@ -249,8 +246,9 @@ int token_is_function(char *token, char **tokstr)
   
 }
 
-
+//------------------------------------------------------------------------------
 // Return the function return value type
+
 NOBJ_VARTYPE function_return_type(char *fname)
 {
   char *rtype;
@@ -386,6 +384,49 @@ OTHER_KEYWORD_INFO other_keywords[] =
 
 //------------------------------------------------------------------------------
 
+void make_var_type_array(NOBJ_VARTYPE *vt)
+{
+  switch(*vt)
+    {
+    case NOBJ_VARTYPE_INT:
+      *vt = NOBJ_VARTYPE_INTARY;
+      return;
+      break;
+
+    case NOBJ_VARTYPE_FLT:
+      *vt = NOBJ_VARTYPE_FLTARY;
+      return;
+      break;
+
+    case NOBJ_VARTYPE_STR:
+      *vt = NOBJ_VARTYPE_STRARY;
+      return;
+      break;
+    }
+
+  // A type that cannot be turned into an array
+  internal_error("Type %s canot be turned into an array", type_to_str(*vt));
+  
+}
+
+//------------------------------------------------------------------------------
+
+int var_type_is_array(NOBJ_VARTYPE vt)
+{
+  switch(vt)
+    {
+    case NOBJ_VARTYPE_INTARY:
+    case NOBJ_VARTYPE_FLTARY:
+    case NOBJ_VARTYPE_STRARY:
+      return(1);
+      break;
+    }
+  
+  return(0);  
+}
+
+//------------------------------------------------------------------------------
+
 int token_is_other_keyword(char *token)
 {
   dbprintf( "");
@@ -403,21 +444,55 @@ int token_is_other_keyword(char *token)
   
 }
 
+char *var_class_to_str(NOPL_VAR_CLASS vc)
+{
+  switch(vc)
+    {
+    case NOPL_VAR_CLASS_UNKNOWN:
+      return("Unknown");
+      break;
+
+    case NOPL_VAR_CLASS_LOCAL:
+      return("Local");
+      break;
+
+    case NOPL_VAR_CLASS_GLOBAL:
+      return("Global");
+      break;
+
+    case NOPL_VAR_CLASS_EXTERNAL:
+      return("External");
+      break;
+
+    case NOPL_VAR_CLASS_PARAMETER:
+      return("Parameter");
+      break;
+    }
+
+  return("????");
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void fprint_var_info(FILE *fp, NOBJ_VAR_INFO *vi)
 {
   
-  fprintf(fp, "VAR INFO: '%18s' %s %s %s int:%d flt:%d str:%d %s max_str:%3d max_ary:%3d num_ind:%3d",
+  fprintf(fp, "VAR INFO: '%18s' %10s %-14s %10s max_str:%3d max_ary:%3d num_ind:%3d",
  	 vi->name,
+	  var_class_to_str(vi->class),
+	  type_to_str(vi->type),
+#if 0
 	  (vi->is_global)? "GLOBAL":"LOCAL ",
 	  (vi->is_ext)?    "EXTERNAL":"        ",
+#endif
 	  (vi->is_ref)?    "REFRNCE":"DECLARE",
-	 vi->is_integer,
+#if 0
+	  vi->is_integer,
 	 vi->is_float,
 	 vi->is_string,
 	  (vi->is_array)?  "ARRAY":"     ",
+#endif
 	 vi->max_string,
 	 vi->max_array,
 	 vi->num_indices
@@ -433,13 +508,19 @@ void print_var_info(NOBJ_VAR_INFO *vi)
 void init_var_info(NOBJ_VAR_INFO *vi)
 {
   vi->name[0]     = '\0';
+  vi->class       = NOPL_VAR_CLASS_UNKNOWN;
+#if 0
   vi->is_global   = 0;
   vi->is_ext      = 0;
+#endif
   vi->is_ref      = 0;
+#if 0
   vi->is_integer  = 0;
   vi->is_float    = 0;
   vi->is_string   = 0;
   vi->is_array    = 0;
+#endif
+  vi->type = NOBJ_VARTYPE_UNKNOWN;
   vi->max_string  = 0;
   vi->max_array   = 0;
   vi->num_indices = 0;
@@ -508,7 +589,7 @@ void add_var_info(NOBJ_VAR_INFO *vi)
       if( vi->is_ref )
 	{
 	  // This is an external, add it to the list
-	  vi->is_ext = 1;
+	  vi->class = NOPL_VAR_CLASS_EXTERNAL;
 	  add_var_entry(vi);	  
 	}
       else
@@ -621,53 +702,52 @@ void dump_exp_buffer2(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if 0
-char type_to_char(NOBJ_VARTYPE t)
+
+char *type_to_str(NOBJ_VARTYPE t)
 {
-  char c;
+  char *c;
   
   switch(t)
     {
     case NOBJ_VARTYPE_INT:
-      c = 'i';
+      c = "Integer";
       break;
 
     case NOBJ_VARTYPE_FLT:
-      c = 'f';
+      c = "Float";
       break;
 
     case NOBJ_VARTYPE_STR:
-      c = 's';
+      c = "String";
       break;
 
     case NOBJ_VARTYPE_INTARY:
-      c = 'I';
+      c = "Integer array";
       break;
 
     case NOBJ_VARTYPE_FLTARY:
-      c = 'F';
+      c = "Float   array";
       break;
 
     case NOBJ_VARTYPE_STRARY:
-      c = 'S';
+      c = "String  array";
       break;
 
     case NOBJ_VARTYPE_UNKNOWN:
-      c = 'U';
+      c = "Unknown";
       break;
 
     case NOBJ_VARTYPE_VOID:
-      c = 'v';
+      c = "Void";
       break;
       
     default:
-      c = '?';
+      c = "?????";
       break;
     }
   
   return(c);
 }
-#endif
 
 NOBJ_VARTYPE char_to_type(char ch)
 {
@@ -1281,6 +1361,7 @@ int check_vname(int *index)
 
 void set_op_var_type(OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
 {
+#if 0
   if( vi->is_array )
     {
       if( vi->is_integer )
@@ -1315,6 +1396,8 @@ void set_op_var_type(OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
 	  op->type = NOBJ_VARTYPE_STR;
 	}
     }
+#endif
+  op->type = vi->type;
 }
 
 //------------------------------------------------------------------------------
@@ -1335,7 +1418,7 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
   vi->is_ref = ref_ndeclare;
 
   // Default to local, this can be overridden for global later.
-  vi->is_global = 0;
+  vi->class = NOPL_VAR_CLASS_LOCAL;
   
   chstr[1] = '\0';
   
@@ -1347,19 +1430,19 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
       switch( chstr[0] = cline[cline_i] )
 	{
 	case '%':
-	  vi->is_integer = 1;
+	  vi->type = NOBJ_VARTYPE_INT;
 	  strcat(vname, chstr);
 	  cline_i++;
 	  break;
 	  
 	case '$':
-	  vi->is_string = 1;
+	  vi->type = NOBJ_VARTYPE_STR;
 	  strcat(vname, chstr);
 	  cline_i++;
 	  break;
 
 	default:
-	  vi->is_float = 1;
+	  vi->type = NOBJ_VARTYPE_FLT;
 	  break;
 	}
 
@@ -1385,7 +1468,7 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	  
 	  dbprintf("'%s' is array", vname);
 	  
-	  vi->is_array = 1;
+	  make_var_type_array(&(vi->type));
 	  
 	  // Add token to output stream for index or indices
 
@@ -1399,10 +1482,10 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	  else
 	    {
 	      //scan_integer(&(vi->max_array));
-	      if( vi->is_string )
+	      if( vi->type == NOBJ_VARTYPE_STR )
 		{
 		  // Strings are arrays only if there are two indices
-		  vi->is_array = 0;
+		  //		  vi->is_array = 0;
 		  scan_integer(&(vi->max_string));
 		}
 	      else
@@ -1419,12 +1502,13 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	  idx = cline_i;
 	  if( check_literal(&idx," ,") )
 	    {
-	      if( vi->is_string )
+	      if( vi->type == NOBJ_VARTYPE_STRARY )
 		{
 		  // All OK, string array
-		  vi->is_array = 1;
+		  //make_var_type_array(&vi->type);
+		  
 		  scan_literal(" ,");
-
+		  
 		  if( ref_ndeclare )
 		    {
 		      int num_subexpr;
@@ -1440,19 +1524,16 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
 		}
 	      else
 		{
-		  syntax_error("Two indices in non-string variable name");
+		  syntax_error("Two indices in non-string variable '%s' of type %s",
+			       vi->name,
+			       type_to_str(vi->type));
 		}
 	    }
 #endif
+	  
 	  if( scan_literal(" )") )
 	    {
-	      dbprintf("%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
-		     vname,
-		     vi->is_string,
-		     vi->is_integer,
-		     vi->is_float,
-		     vi->is_array
-		     );
+	      dbprintf("%s:ret1 vname='%s' %s", __FUNCTION__, vname, type_to_str(vi->type) );
 	      
 	      strcpy(vi->name, vname);
 	      strcpy(op.name, vname);
@@ -1463,13 +1544,7 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	    }
 	}
       
-      dbprintf("%s:ret1 vname='%s' is str:%d int:%d flt:%d ary:%d", __FUNCTION__,
-	     vname,
-	     vi->is_string,
-	     vi->is_integer,
-	     vi->is_float,
-	     vi->is_array
-	     );
+      dbprintf("%s:ret1 vname='%s' %s", __FUNCTION__, vname, type_to_str(vi->type) );
       
       strcpy(vi->name, vname);
       strcpy(op.name, vname);
@@ -1484,6 +1559,7 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
   dbprintf("%s:ret0", __FUNCTION__);
   return(0);
 }
+
 
 int check_variable(int *index)
 {
@@ -5428,6 +5504,66 @@ int pull_next_line(void)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+//
+
+int scan_param_list(void)
+{
+  int idx = cline_i;
+  NOBJ_VAR_INFO vi;
+
+  idx = cline_i;
+
+  // If there's an open bracket then we have parameters
+  if( check_literal(&idx, " (") )
+    {
+      scan_literal(" (");
+
+      while( check_variable(&idx) )
+	{
+	  init_var_info(&vi);
+	  
+	  if( scan_variable(&vi, VAR_PARAMETER))
+	    {
+	      vi.class = NOPL_VAR_CLASS_PARAMETER;
+	      //vi.is_global = !local_nglobal;
+	      vi.is_ref = 0;
+	      //vi.is_param = 1;
+	      
+	      dbprintf("Parameter list variable:'%s'", vi.name);
+	      print_var_info(&vi);
+	      
+	      // Store info about the variable
+	      add_var_info(&vi);
+	    }
+	  
+	  idx = cline_i;
+	  if( check_literal(&idx, " ,") )
+	    {
+	      scan_literal(" ,");
+	    }
+	}
+
+      // End of paramter list
+      if( check_literal(&idx, " )") )
+	{
+	  scan_literal(" )");
+	}
+      
+      drop_space(&cline_i);
+      
+      if( cline[cline_i] == '\0' )
+	{
+	  dbprintf("ret1");
+	  return(1);
+	}
+    } 
+
+  dbprintf("%s:ret0", __FUNCTION__);
+  return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 int scan_procdef(void)
 {
@@ -5446,7 +5582,9 @@ int scan_procdef(void)
 	{
 	  dbprintf("ret1");
 	  strcpy(procedure_name, textlabel);
-	  
+
+	  // Now scan the parameter list
+	  scan_param_list();
 	  return(1);
 	}
     }
@@ -5459,7 +5597,7 @@ int scan_procdef(void)
 //
 // Scans LOCAL and GLOBAL
 //
-// We don't want any tokens in th eoutput stream for this
+// We don't want any tokens in the output stream for this
 //
 
 #define SCAN_LOCAL   1
@@ -5495,7 +5633,7 @@ int scan_localglobal(int local_nglobal)
 	  
 	  if( scan_variable(&vi, VAR_DECLARE))
 	    {
-	      vi.is_global = !local_nglobal;
+	      vi.class = local_nglobal?NOPL_VAR_CLASS_LOCAL:NOPL_VAR_CLASS_GLOBAL;
 	      vi.is_ref = 0;
 	      
 	      dbprintf("%s variable:'%s'", keyword, vi.name);

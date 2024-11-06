@@ -41,9 +41,6 @@ int exp_type_stack_ptr = 0;
 #define SAVE_I     1
 #define NO_SAVE_I  0
 
-#define VAR_REF      1
-#define VAR_DECLARE  0
-
 ////////////////////////////////////////////////////////////////////////////////
 
 // Per-expression
@@ -1070,11 +1067,11 @@ char *infix_from_rpn(void)
 	  break;
 	  
 	case EXP_BUFF_ID_VARIABLE:
-	  fprintf(ofp, "\nVar: %s ary:%d NumIdx:%d", be.name,
-		  be.op.vi.is_array,
+	  fprintf(ofp, "\nVar: %s %s NumIdx:%d", be.name,
+		  type_to_str(be.op.vi.type),
 		  be.op.vi.num_indices);
 
-	  if( be.op.vi.is_array )
+	  if( var_type_is_array(be.op.vi.type) )
 	    {
 	      // Pop the number of array indices the variable has off the stack
 	      // and build the variable name plus indices.

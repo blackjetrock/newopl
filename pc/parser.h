@@ -115,28 +115,9 @@ typedef struct _LEVEL_INFO
 #define SCAN_TRAPPABLE    1
 
 //------------------------------------------------------------------------------
-#if 0
-typedef enum
-  {
-    NOBJ_VC_LOCAL,
-    NOBJ_VC_GLOBAL,
-    NOBJ_VC_EXTERNAL,
-  }
-  NOBJ_VAR_CLASS;
 
-// Variable information
-typedef struct _VAR_INFO_ENTRY
-{
-  char            name[NOBJ_VARNAME_MAXLEN];
-  NOBJ_VAR_CLASS  var_class;
-  uint16_t        offset;
-  NOBJ_VARTYPE    type;
-  int             string_max;
-  int             is_array;
-  int             array_size;
-} VAR_INFO_ENTRY;
-#endif
 
+  
 extern NOBJ_VAR_INFO var_info[MAX_VAR_INFO];
 extern int num_var_info;
 
@@ -188,5 +169,9 @@ int scan_proc_call(void);
 void typecheck_error(char *fmt, ...);
 void fprint_var_info(FILE *fp, NOBJ_VAR_INFO *vi);
 void internal_error(char *fmt, ...);
+char *type_to_str(NOBJ_VARTYPE t);
+void make_var_type_array(NOBJ_VARTYPE *vt);
+int var_type_is_array(NOBJ_VARTYPE vt);
+
 
 
