@@ -613,6 +613,407 @@ void add_var_info(NOBJ_VAR_INFO *vi)
     }
 }
 
+
+//------------------------------------------------------------------------------
+//
+// Look at the variable table and calculate all the offsets that shoiuld be used in the QCode
+// to access variables.
+//
+//
+// All referenced from FP on the stack:
+//
+//
+// 2 bytes         FP
+// 2 bytes         Global table address (Also has parameter addresses) (Start of glob table)
+// globsize bytes  Global table
+//                 Indirect addresses to parameters
+//                 Global data
+//                 External indirection table
+//                 Locals
+//
+// Each procedure header has the form:
+// 
+//                           Device (zero if top procedure)
+//                           Return RTA_PC
+//                           ONERR address
+//                           BASE_SP
+// RTA_FP points at:         Previous RTA_FP
+//                           Start address of the global name table
+//                           Global name table
+//                           Indirection table for externals/parameters
+//                           This is followed by the variables, and finally by the Q code.
+//
+// Local variables and global variables declared in the current procedure are
+// accessed directly. A reference to such variables is by an offset from the
+// current RTA_FP.
+// Parameters and externally declared
+//  global
+//  variables
+//  are
+//  accessed
+// indirectly.
+//  The addresses of these variables are held in the indirection
+// table, the required address in this table is found by adding the offset in
+// the Q code to the current RTA_FP.
+//
+// The header itself:
+//
+
+// size of the variables on stack
+// size of Q code length
+// number of parameters
+// type of parameter
+// size of global area
+// global name
+// global type
+// offset
+// global name
+// global type
+// offset
+// global name
+// global type
+// offset
+// bytes of externals
+// external name
+// external type
+// bytes of string fix-ups
+// string fix-up offset (from FP)
+// max length of string
+// string fix-up offset (from FP)
+// max length of string
+// bytes of array fix-ups
+// array fix-up offset (from FP)
+// size of array
+
+
+// 0000 : 017D Size of variable space
+// 
+// 014C     Size of the qcode  LOCAL L1, L2%, L3$(5)
+// 03       Number of parameters
+// 
+// 02 00 01 Parameter types
+// 
+// 0008 : 00 2F  Size of global varname table
+// 
+// 02 47 31 01 FFB3
+// G1, float type, address
+// 
+// 03 47 32 25 00 FFB1
+// G2%, integer type, address
+// 
+// 03 47 33 24 02 FFA3
+// G3$, string type, address
+// 
+// 02 47 34 04 FF80
+// G4, float array type, address
+// 
+// 03 47 35 25 03 FF74
+// G5%, integer array type, address
+// 
+// 03 47 36 24 05 FF18
+// G6$, string array type, address
+// 
+// 03 47 37 25 00 FF15
+// G7%, integer type, address
+// 
+// 
+// 
+// 
+// 0039 : 0020 
+// Size of external varname table
+// 
+// 02 45 31 01 
+// E1, float type
+// 
+// 03 45 32 25 00 
+// E2%, integer type
+// 
+// 03 45 33 24 02 
+// E3$, string type
+// 
+// 02 45 34 04 
+// E4, float array type
+// 
+// 03 45 35 25 03 
+// E5%, integer array type
+// 
+// 03 45 36 24 05 
+// E6$, string array type
+// 
+// 02 4C 35 04 
+// E7%, integer type
+// 
+// 
+// 
+// 
+// 005B : 000C 
+// Size of string fixups
+// 
+// FF04 05 
+// Fixup for L3$ maximum string length
+// 
+// FE85 0C 
+// Fixup for L6$() maximum string length
+// 
+// FFA2 0D 
+// Fixup for G3$ maximum string length
+// 
+// FF17 0E 
+// Fixup for G6$() maximum string length
+// 
+// 0069 : 0018 
+// Size of array fixups
+// 
+// FEE2 0004 
+// Fixup for L4() array length
+// 
+// FED6 0005 
+// Fixup for L5%() array length
+// 
+// FE86 0006 
+// Fixup for L6$() array length
+// 
+// FF80 0004 
+// Fixup for G4() array length
+// 
+// FF74 0005 
+// Fixup for G5%() array length
+// 
+// FF18 0006 
+// Fixup for G6$() array length
+// 
+// 0083 : 
+// Start of the QCode instructions
+// 
+
+int qcode_header_len = 0;
+
+typedef struct _NOPL_QCH_FIELD
+{
+  char *name;
+  int length;
+} NOPL_QCH_FIELD;
+
+NOPL_QCH_FIELD qch_fields[] =
+  {
+    {"size of the variables on stack", 2},
+    {"size of Q code length",          2},
+    {"number of parameters",           1},
+    {"size of global area",            2},
+    {"bytes of externals",             2},
+    {"bytes of string fix-ups",        2},
+    {"bytes of array fix-ups",         2},
+  };
+
+// Offsets into QCode header
+#define NOPL_QCH_SIZE_VARS      0x00
+#define NOPL_QCH_SIZE_QCODE     0x02
+#define NOPL_QCH_NUM_PARAM      0x04
+
+uint8_t qcode_header[ MAX_QCODE_HEADER];
+
+int calculate_num_in_class( NOPL_VAR_CLASS class)
+{
+  int num_param = 0;
+  
+  for(int i=0; i<num_var_info; i++)
+    {
+      // Must be an exact match, case insensitive
+      if( var_info[i].class == class  )
+	{
+	  num_param++;
+	}
+    }
+  return(num_param);
+}
+
+NOBJ_VAR_INFO *get_class_vi_n( NOPL_VAR_CLASS class, int n)
+{
+  int ni = 0;
+  
+  for(int i=0; i<num_var_info; i++)
+    {
+      // Must be an exact match, case insensitive
+      if( var_info[i].class == class  )
+	{
+	  if( ni == n )
+	    {
+	      return(&(var_info[i]));
+	    }
+	  ni++;
+
+	}
+    }
+
+  internal_error("QCH entry not found");
+  return(NULL);
+}
+
+
+void calculate_var_offsets(void)
+{
+  // Start with globals, the global table is after the previous FP. It has
+  // <name length> <name string> <globa offset (of data) from FP>
+  
+}
+
+uint8_t qcode_header[MAX_QCODE_HEADER];
+
+void build_qcode_header(void)
+{
+  int num_params = 0;
+  int num_globals = 0;
+  int num_externals = 0;
+  int idx = 0;
+
+  // Size of variables
+  idx = set_qcode_header_byte_at(idx, 2, 0x0000);
+
+  // Size of QCode
+  idx = set_qcode_header_byte_at(idx, 2, 0x0000);
+
+  num_params    = calculate_num_in_class(NOPL_VAR_CLASS_PARAMETER);
+  num_globals   = calculate_num_in_class(NOPL_VAR_CLASS_GLOBAL);
+  num_externals = calculate_num_in_class(NOPL_VAR_CLASS_EXTERNAL);
+
+  // Num Parameters
+  idx = set_qcode_header_byte_at(idx, 1, num_params);
+    
+  // Now the types of the parameters
+  for(int i=0; i<num_params; i++)
+    {
+      idx = set_qcode_header_byte_at(idx, 1, get_class_vi_n(NOPL_VAR_CLASS_PARAMETER, ((num_params-1)-i))->type);
+    }
+
+  // Now the size of the global table (fixed up later)
+  int idx_global_size = idx;
+  
+  idx = set_qcode_header_byte_at(idx, 2, 0x0000);
+
+  // Now the globals
+  int idx_global_start = idx;
+
+  for(int i=0; i<num_globals; i++)
+    {
+      NOBJ_VAR_INFO *vi;
+      vi = get_class_vi_n(NOPL_VAR_CLASS_GLOBAL, i);
+
+      idx = set_qcode_header_string_at(idx, vi->name);
+      idx = set_qcode_header_byte_at(idx, 1, vi->type);
+      idx = set_qcode_header_byte_at(idx, 2, vi->offset);
+    }
+
+  int idx_global_end = idx;
+  set_qcode_header_byte_at(idx_global_size, 2, idx_global_end-idx_global_start);
+  printf("\n%04X", idx_global_end-idx_global_start);
+
+  qcode_header_len = idx;
+  
+}
+
+int print_qch_field(int idx, FILE *fp, char *title, int len)
+{
+  fprintf(fp, "\n%04X: %s: ", idx, title);
+
+  for(int i=0; i<len; i++)
+    {
+      fprintf(fp, "%02X", (int)qcode_header[idx++]);
+    }
+  
+  return(idx);
+}
+
+int set_qcode_header_byte_at(int idx, int len, int val)
+{
+  
+  switch(len)
+    {
+    case 1:
+      qcode_header[idx++] = val;    
+      break;
+
+    case 2:
+      qcode_header[idx++] = val >>  8;    
+      qcode_header[idx++] = val &   0xFF;    
+      break;
+
+    default:
+      internal_error("Bad length in %s", __FUNCTION__);
+      break;
+    }
+  
+  return(idx);
+}
+
+// Put string into QCode
+int set_qcode_header_string_at(int idx, char *str)
+{
+  int len = strlen(str);
+
+  printf("\nlen of %s is %ld", str, strlen(str));
+  qcode_header[idx++] = len;
+  
+  for(int i=0; i<len; i++)
+    {
+      qcode_header[idx++] = *(str++);
+    }
+  
+  return idx;
+}
+
+
+void dump_qcode_data(void)
+{
+  FILE *fp;
+  int idx = 0;
+  int num_param, num_global, num_ext;
+  
+  fp = fopen("qcode_data.txt", "w");
+
+  idx = print_qch_field(idx, fp, "size of the variables on stack", 2);
+  idx = print_qch_field(idx, fp, "size of Q code", 2);
+
+  num_param = qcode_header[idx];
+  idx = print_qch_field(idx, fp, "number of parameters", 1);
+
+  for(int i=0; i<num_param;i++)
+    {
+      idx = print_qch_field(idx, fp, "param_type", 1);
+    }
+
+  int global_size = (int)(qcode_header[idx]<<8) + (int)(qcode_header[idx+1]);
+  printf("\nglobal size:%04X", global_size);
+  
+  idx = print_qch_field(idx, fp, "size of global area", 2);
+
+  int idx_global_start = idx;
+
+  while((idx-idx_global_start) < global_size)
+    {
+      int gname_len = qcode_header[idx];
+
+      //fprintf(fp, "idx=%02X", idx);
+      idx = print_qch_field(idx, fp, "Len", 1);
+
+      for(int i=0; i<gname_len; i++)
+	{
+	  idx = print_qch_field(idx, fp, "name", 1);
+	}
+      
+      idx = print_qch_field(idx, fp, "Type", 1);
+      idx = print_qch_field(idx, fp, "Offset", 2);
+    }
+
+  fprintf(fp, "\n\n\nQCode header_len: %04X", qcode_header_len);
+  
+  for(int i=0; i<qcode_header_len; i++)
+    {
+      fprintf(fp, "\n%04X:%02X", i, qcode_header[i]);
+    }
+  
+  fclose (fp);
+}
+
 //------------------------------------------------------------------------------
 //
 

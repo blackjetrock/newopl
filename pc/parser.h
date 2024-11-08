@@ -172,6 +172,13 @@ void internal_error(char *fmt, ...);
 char *type_to_str(NOBJ_VARTYPE t);
 void make_var_type_array(NOBJ_VARTYPE *vt);
 int var_type_is_array(NOBJ_VARTYPE vt);
+void dump_qcode_data(void);
+void build_qcode_header(void);
+int set_qcode_header_byte_at(int idx, int len, int val);
+int set_qcode_header_string_at(int idx, char *str);
+
+
+
 
 
 

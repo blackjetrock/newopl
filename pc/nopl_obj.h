@@ -10,6 +10,8 @@
 #define NOPL_MAX_LOCAL           16
 #define NOPL_MAX_GLOBAL          16
 
+#define MAX_QCODE_HEADER         1000
+
 
 typedef uint8_t NOBJ_PARAMETER_TYPE;
 typedef uint16_t NOBJ_INT;
@@ -161,21 +163,9 @@ typedef enum _NOPL_VAR_CLASS
 typedef struct _NOBJ_VAR_INFO
 {
   char name[NOBJ_VARNAME_MAXLEN];
-#if 0
-  int is_global;
-  int is_ext;
-  int is_param;
-#endif
-
   int is_ref;     // Reference or declare
   NOPL_VAR_CLASS class;
   NOBJ_VARTYPE type;
-#if 0
-  int is_array;
-  int is_integer;
-  int is_float;
-  int is_string;
-#endif
   int max_array;
   int max_string;
   int num_indices;
