@@ -854,7 +854,13 @@ void calculate_var_offsets(void)
 {
   // Start with globals, the global table is after the previous FP. It has
   // <name length> <name string> <globa offset (of data) from FP>
-  
+  //
+  // Location of first global (offset) is negative (Sizeof global table) +
+  //                                                     ([size of start of global table ptr])
+  //                                                     (size of ext/parameter indirection table)
+  //
+  // Offsets cant be calcuated until all of these values are known
+  //
 }
 
 uint8_t qcode_header[MAX_QCODE_HEADER];
@@ -1882,8 +1888,10 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	    }
 	  else
 	    {
+	      (vi->num_indices)++;
+	      
 	      //scan_integer(&(vi->max_array));
-	      if( vi->type == NOBJ_VARTYPE_STR )
+	      if( vi->type == NOBJ_VARTYPE_STRARY )
 		{
 		  // Strings are arrays only if there are two indices
 		  //		  vi->is_array = 0;
@@ -1897,7 +1905,6 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	  
 	  print_var_info(vi);
       
-#if 1
 	  // Could be string array, which has two expressions in
 	  // the brackets
 	  idx = cline_i;
@@ -1913,14 +1920,20 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
 		  if( ref_ndeclare )
 		    {
 		      int num_subexpr;
-		      scan_expression(&num_subexpr, HEED_COMMA);
-		      vi->num_indices = vi->num_indices+1;
+		      // A reference with two indices in brackets is a syntax error
+		      syntax_error("Bad string array");
+		      return(0);
+		       
+		      //scan_expression(&num_subexpr, HEED_COMMA);
+		      //vi->num_indices = vi->num_indices+1;
+		      
 		    }
 		  else
 		    {
 		      // Set the values correctly
 		      vi->max_array = vi->max_string;
 		      scan_integer(&(vi->max_string));
+		      (vi->num_indices)++;
 		    }
 		}
 	      else
@@ -1930,7 +1943,18 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
 			       type_to_str(vi->type));
 		}
 	    }
-#endif
+
+	  // There's a correction here. If a string array has just one index, then it's
+	  // actually a string, not an array.
+	  if( vi->type == NOBJ_VARTYPE_STRARY )
+	    {
+	      if( vi->num_indices == 1 )
+		{
+		  // the brackets define the length of the string, not an array
+		  vi->type = NOBJ_VARTYPE_STR;
+		  
+		}
+	    }
 	  
 	  if( scan_literal(" )") )
 	    {

@@ -6,17 +6,17 @@ Variables
    2:  VAR INFO: '               P3$'  Parameter String            DECLARE max_str:  0 max_ary:  0 num_ind:  0
    3:  VAR INFO: '                L1'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0
    4:  VAR INFO: '               L2%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0
-   5:  VAR INFO: '               L3$'      Local String  array     DECLARE max_str:  0 max_ary:  5 num_ind:  0
-   6:  VAR INFO: '                L4'      Local Float   array     DECLARE max_str:  0 max_ary:  4 num_ind:  0
-   7:  VAR INFO: '               L5%'      Local Integer array     DECLARE max_str:  0 max_ary:  5 num_ind:  0
-   8:  VAR INFO: '               L6$'      Local String  array     DECLARE max_str: 12 max_ary:  0 num_ind:  0
+   5:  VAR INFO: '               L3$'      Local String            DECLARE max_str:  5 max_ary:  0 num_ind:  1
+   6:  VAR INFO: '                L4'      Local Float   array     DECLARE max_str:  0 max_ary:  4 num_ind:  1
+   7:  VAR INFO: '               L5%'      Local Integer array     DECLARE max_str:  0 max_ary:  5 num_ind:  1
+   8:  VAR INFO: '               L6$'      Local String  array     DECLARE max_str: 12 max_ary:  6 num_ind:  2
    9:  VAR INFO: '               L7%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0
   10:  VAR INFO: '                G1'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0
   11:  VAR INFO: '               G2%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0
-  12:  VAR INFO: '               G3$'     Global String  array     DECLARE max_str:  0 max_ary: 13 num_ind:  0
-  13:  VAR INFO: '                G4'     Global Float   array     DECLARE max_str:  0 max_ary:  4 num_ind:  0
-  14:  VAR INFO: '               G5%'     Global Integer array     DECLARE max_str:  0 max_ary:  5 num_ind:  0
-  15:  VAR INFO: '               G6$'     Global String  array     DECLARE max_str: 14 max_ary:  0 num_ind:  0
+  12:  VAR INFO: '               G3$'     Global String            DECLARE max_str: 13 max_ary:  0 num_ind:  1
+  13:  VAR INFO: '                G4'     Global Float   array     DECLARE max_str:  0 max_ary:  4 num_ind:  1
+  14:  VAR INFO: '               G5%'     Global Integer array     DECLARE max_str:  0 max_ary:  5 num_ind:  1
+  15:  VAR INFO: '               G6$'     Global String  array     DECLARE max_str: 14 max_ary:  6 num_ind:  2
   16:  VAR INFO: '               G7%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0
   17:  VAR INFO: '                L5'   External Float   array     REFRNCE max_str:  0 max_ary:  0 num_ind:  1
   18:  VAR INFO: '                E1'   External Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  1
@@ -24,4 +24,4 @@ Variables
   20:  VAR INFO: '               E3$'   External String            REFRNCE max_str:  0 max_ary:  0 num_ind:  1
   21:  VAR INFO: '                E4'   External Float   array     REFRNCE max_str:  0 max_ary:  0 num_ind:  1
   22:  VAR INFO: '               E5%'   External Integer array     REFRNCE max_str:  0 max_ary:  0 num_ind:  1
-  23:  VAR INFO: '               E6$'   External String  array     REFRNCE max_str:  0 max_ary:  0 num_ind:  1
+  23:  VAR INFO: '               E6$'   External String            REFRNCE max_str:  0 max_ary:  0 num_ind:  1
