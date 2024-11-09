@@ -859,7 +859,7 @@ void calculate_var_offsets(void)
   //                                                     ([size of start of global table ptr])
   //                                                     (size of ext/parameter indirection table)
   //
-  // Offsets cant be calcuated until all of these values are known
+  // Offsets can't be calcuated until all of these values are known
   //
 }
 
@@ -896,6 +896,8 @@ void build_qcode_header(void)
   
   idx = set_qcode_header_byte_at(idx, 2, 0x0000);
 
+  //------------------------------------------------------------------------------
+  
   // Now the globals
   int idx_global_start = idx;
 
@@ -911,7 +913,30 @@ void build_qcode_header(void)
 
   int idx_global_end = idx;
   set_qcode_header_byte_at(idx_global_size, 2, idx_global_end-idx_global_start);
-  printf("\n%04X", idx_global_end-idx_global_start);
+
+  //------------------------------------------------------------------------------
+  
+  // Now Externals and parameters
+  // Now the size of the external table (fixed up later)
+  int idx_external_size = idx;
+  
+  idx = set_qcode_header_byte_at(idx, 2, 0x0000);
+
+  // Now the externals
+  int idx_externl_start = idx;
+
+  for(int i=0; i<num_externals; i++)
+    {
+      NOBJ_VAR_INFO *vi;
+      vi = get_class_vi_n(NOPL_VAR_CLASS_EXTERNAL, i);
+
+      idx = set_qcode_header_string_at(idx, vi->name);
+      idx = set_qcode_header_byte_at(idx, 1, vi->type);
+      //    idx = set_qcode_header_byte_at(idx, 2, vi->offset);
+    }
+
+  int idx_external_end = idx;
+  set_qcode_header_byte_at(idx_external_size, 2, idx_external_end-idx_externl_start);
 
   qcode_header_len = idx;
   
@@ -967,6 +992,8 @@ int set_qcode_header_string_at(int idx, char *str)
   return idx;
 }
 
+//------------------------------------------------------------------------------
+
 
 void dump_qcode_data(void)
 {
@@ -987,6 +1014,7 @@ void dump_qcode_data(void)
       idx = print_qch_field(idx, fp, "param_type", 1);
     }
 
+  // Globals
   int global_size = (int)(qcode_header[idx]<<8) + (int)(qcode_header[idx+1]);
   printf("\nglobal size:%04X", global_size);
   
@@ -1008,6 +1036,31 @@ void dump_qcode_data(void)
       
       idx = print_qch_field(idx, fp, "Type", 1);
       idx = print_qch_field(idx, fp, "Offset", 2);
+    }
+
+  // Externals
+  
+  int external_size = (int)(qcode_header[idx]<<8) + (int)(qcode_header[idx+1]);
+  printf("\nExternals size:%04X", external_size);
+  
+  idx = print_qch_field(idx, fp, "size of external area", 2);
+
+  int idx_external_start = idx;
+
+  while((idx-idx_external_start) < external_size)
+    {
+      int ename_len = qcode_header[idx];
+
+      //fprintf(fp, "idx=%02X", idx);
+      idx = print_qch_field(idx, fp, "Len", 1);
+
+      for(int i=0; i<ename_len; i++)
+	{
+	  idx = print_qch_field(idx, fp, "name", 1);
+	}
+      
+      idx = print_qch_field(idx, fp, "Type", 1);
+      //      idx = print_qch_field(idx, fp, "Offset", 2);
     }
 
   fprintf(fp, "\n\n\nQCode header_len: %04X", qcode_header_len);
