@@ -478,25 +478,16 @@ char *var_class_to_str(NOPL_VAR_CLASS vc)
 void fprint_var_info(FILE *fp, NOBJ_VAR_INFO *vi)
 {
   
-  fprintf(fp, "VAR INFO: '%18s' %10s %-14s %10s max_str:%3d max_ary:%3d num_ind:%3d",
- 	 vi->name,
+  fprintf(fp, "VAR: '%18s' %10s %-14s %10s max_str:%3d max_ary:%3d num_ind:%3d offset:%04X",
+	  vi->name,
 	  var_class_to_str(vi->class),
 	  type_to_str(vi->type),
-#if 0
-	  (vi->is_global)? "GLOBAL":"LOCAL ",
-	  (vi->is_ext)?    "EXTERNAL":"        ",
-#endif
 	  (vi->is_ref)?    "REFRNCE":"DECLARE",
-#if 0
-	  vi->is_integer,
-	 vi->is_float,
-	 vi->is_string,
-	  (vi->is_array)?  "ARRAY":"     ",
-#endif
-	 vi->max_string,
-	 vi->max_array,
-	 vi->num_indices
-	 );
+	  vi->max_string,
+	  vi->max_array,
+	  vi->num_indices,
+	  vi->offset
+	  );
 }
 
 void print_var_info(NOBJ_VAR_INFO *vi)
@@ -849,6 +840,90 @@ NOBJ_VAR_INFO *get_class_vi_n( NOPL_VAR_CLASS class, int n)
   return(NULL);
 }
 
+int size_of_type(NOBJ_VAR_INFO *vi)
+{
+  switch(vi->type)
+    {
+    case NOBJ_VARTYPE_INT:
+      return(2);
+      break;
+      
+    case NOBJ_VARTYPE_FLT:
+      return(8);
+      break;
+      
+    case NOBJ_VARTYPE_STR:
+      return(vi->max_string+1);
+      break;
+
+    case NOBJ_VARTYPE_INTARY:
+      return(2*vi->max_array+2);
+      break;
+
+    case NOBJ_VARTYPE_FLTARY:
+      return(8*vi->max_array+2);
+      break;
+
+    case NOBJ_VARTYPE_STRARY:
+      return((vi->max_string + 1)*vi->max_array+3);
+      break;
+
+    case NOBJ_VARTYPE_VAR_ADDR:
+      internal_error("Var addr has no size");
+      break;
+
+    case NOBJ_VARTYPE_UNKNOWN:
+      internal_error("Unkown has no size");
+      break;
+
+    case NOBJ_VARTYPE_VOID:
+      internal_error("Void has no size");
+      break;
+    }
+}
+
+int data_offset_of_type(NOBJ_VAR_INFO *vi)
+{
+  switch(vi->type)
+    {
+    case NOBJ_VARTYPE_INT:
+      return(0);
+      break;
+      
+    case NOBJ_VARTYPE_FLT:
+      return(0);
+      break;
+      
+    case NOBJ_VARTYPE_STR:
+      return(0);
+      break;
+
+    case NOBJ_VARTYPE_INTARY:
+      return(1);
+      break;
+
+    case NOBJ_VARTYPE_FLTARY:
+      return(1);
+      break;
+
+    case NOBJ_VARTYPE_STRARY:
+      return(0);
+      break;
+
+    case NOBJ_VARTYPE_VAR_ADDR:
+      internal_error("Var addr has no data offset");
+      break;
+
+    case NOBJ_VARTYPE_UNKNOWN:
+      internal_error("Unkown has no data offset");
+      break;
+
+    case NOBJ_VARTYPE_VOID:
+      internal_error("Void has no data offset");
+      break;
+    }
+}
+
 
 void calculate_var_offsets(void)
 {
@@ -860,6 +935,7 @@ void calculate_var_offsets(void)
   //                                                     (size of ext/parameter indirection table)
   //
   // Offsets can't be calcuated until all of these values are known
+  // Once offsets are known then the fixups can be calculated
   //
 }
 
@@ -912,8 +988,9 @@ void build_qcode_header(void)
     }
 
   int idx_global_end = idx;
-  set_qcode_header_byte_at(idx_global_size, 2, idx_global_end-idx_global_start);
-
+  int global_table_size = idx_global_end-idx_global_start;
+  set_qcode_header_byte_at(idx_global_size, 2, global_table_size);
+  
   //------------------------------------------------------------------------------
   
   // Now Externals and parameters
@@ -923,7 +1000,7 @@ void build_qcode_header(void)
   idx = set_qcode_header_byte_at(idx, 2, 0x0000);
 
   // Now the externals
-  int idx_externl_start = idx;
+  int idx_external_start = idx;
 
   for(int i=0; i<num_externals; i++)
     {
@@ -936,8 +1013,32 @@ void build_qcode_header(void)
     }
 
   int idx_external_end = idx;
-  set_qcode_header_byte_at(idx_external_size, 2, idx_external_end-idx_externl_start);
+  set_qcode_header_byte_at(idx_external_size, 2, idx_external_end-idx_external_start);
 
+  // Now the offsets can be calculated
+  //
+  int first_byte_after_global_table = 2 + global_table_size;
+  int first_byte_of_globals = first_byte_after_global_table+num_params*2+num_externals*2;
+
+  // First globals
+  int var_ptr = first_byte_of_globals;
+  
+  for(int i=0; i<num_var_info; i++)
+    {
+
+      // Must be an exact match, case insensitive
+      if( var_info[i].class == NOPL_VAR_CLASS_GLOBAL )
+	{
+
+	  var_ptr += size_of_type(&(var_info[i]) );
+	  var_info[i].offset = -(var_ptr+data_offset_of_type(&(var_info[i])));
+	  //var_info[i].offset = -(var_ptr);
+	  printf("\n%d %d", i, var_ptr);
+	}
+    }
+  
+  // Now the fixups can be calculated
+  
   qcode_header_len = idx;
   
 }

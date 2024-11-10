@@ -2748,13 +2748,14 @@ int main(int argc, char *argv[])
   fclose(chkfp);
   fclose(trfp);
 
+
+  build_qcode_header();
+  dump_qcode_data();
+
   vfp = fopen("vars.txt", "w");
   dump_vars(vfp);
   fclose(vfp); 
 
-  build_qcode_header();
-  dump_qcode_data();
-  
   dbprintf("\n");
   dbprintf("\n %d lines scanned OK",       n_lines_ok);
   dbprintf("\n %d lines scanned failed",   n_lines_bad);
