@@ -1036,6 +1036,7 @@ void build_qcode_header(void)
 	  printf("\n%d %d", i, var_ptr);
 	}
     }
+
   
   // Now the fixups can be calculated
   
