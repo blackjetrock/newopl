@@ -2647,7 +2647,7 @@ void translate_file(FILE *fp, FILE *ofp)
       pull_next_line();
       idx = cline_i;  
     }
-  
+
   indent_none();
 
   LEVEL_INFO levels;
@@ -2748,7 +2748,8 @@ int main(int argc, char *argv[])
   fclose(chkfp);
   fclose(trfp);
 
-
+  dump_exp_buffer(ofp, 2);
+  
   build_qcode_header();
   dump_qcode_data();
 

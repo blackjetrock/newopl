@@ -1134,7 +1134,69 @@ void build_qcode_header(void)
   set_qcode_header_byte_at(idx_size_of_vars_on_stack, 2, var_ptr);
   
   qcode_header_len = idx;
+
+  //------------------------------------------------------------------------------
+  // We are now able to append qcode to the qcode output
+  // Run through the exp_buffer and convert the tokens into QCode...
+  int skip_def = 1;
+
+  dbprintf("================================================================================");
+  dbprintf("Generating QCode     Buf2_i:%d", exp_buffer2_i);
+  dbprintf("================================================================================");
   
+  for(int i=0; i<exp_buffer2_i; i++)
+    {
+      EXP_BUFFER_ENTRY token = exp_buffer2[i];
+
+      dbprintf("QC: i:%d", i);
+      
+      if( skip_def )
+	{
+	  // Skip the first line, it's the PROC def
+	  while( exp_buffer2[i].node_id != 1 )
+	    {
+	      i++;
+	    }
+	  i--;
+	  skip_def = 0;
+	  continue;
+	}
+      
+      if( (exp_buffer2[i].op.buf_id < 0) || (exp_buffer2[i].op.buf_id > EXP_BUFF_ID_MAX) )
+	{
+	  dbprintf("N%d buf_id invalid", token.node_id);
+	}
+      
+      switch(exp_buffer2[i].op.buf_id)
+	{
+	case EXP_BUFF_ID_VARIABLE:
+	  // Skip LOCAL and GLOBAL lines
+	  if( (strcmp(exp_buffer2[i].name, "LOCAL")==0) || (strcmp(exp_buffer2[i].name, "GLOBAL")==0) )
+	    {
+	      while( exp_buffer2[i].node_id != 1 )
+		{
+		  i++;
+		}
+	      i--;
+	      continue;
+	    }
+	  break;
+
+	case EXP_BUFF_ID_STR:
+	  // String literal
+	  dbprintf("\nQC:String Literal");
+	  
+	  idx = set_qcode_header_byte_at(idx, 1, 0x24);
+	  idx = set_qcode_header_byte_at(idx, 1, strlen(exp_buffer[i].name));
+	  
+	  for(int j=0; j<strlen(exp_buffer2[j].name); j++)
+	    {
+	      idx = set_qcode_header_byte_at(idx, 1, exp_buffer[i].name[j]);
+	    }
+	  break;
+	  
+	}
+    }
 }
 
 int print_qch_field(int idx, FILE *fp, char *title, int len)
@@ -1298,80 +1360,6 @@ char *cline_now(int idx)
   return(cln);
 }
 
-#if 0
-
-void clear_exp_buffer(void)
-{
-  exp_buffer_i = 0;
-}
-
-void add_exp_buffer_entry(OP_STACK_ENTRY op, int id)
-{
-  exp_buffer[exp_buffer_i].op = op;
-  exp_buffer[exp_buffer_i].buf_id = id;
-  strcpy(&(exp_buffer[exp_buffer_i].name[0]), op.name);
-  exp_buffer_i++;
-}
-
-void add_exp_buffer2_entry(OP_STACK_ENTRY op, int id)
-{
-  exp_buffer2[exp_buffer2_i].op = op;
-  exp_buffer2[exp_buffer2_i].buf_id = id;
-  strcpy(&(exp_buffer2[exp_buffer2_i].name[0]), op.name);
-  exp_buffer2_i++;
-}
-
-void dump_exp_buffer(void)
-{
-  char *idstr;
-  
-  dbprintf( "\nExpression buffer");
-  dbprintf( "\n=================");
-  
-  for(int i=0; i<exp_buffer_i; i++)
-    {
-      EXP_BUFFER_ENTRY token = exp_buffer[i];
-      
-      dbprintf( "\n(%16s) N%d %-24s %c rq:%c %s nidx:%d", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer[i].buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer[i].name, token,op,vi,num_indices);
-      
-      dbprintf( "  %d:", token.p_idx);
-      for(int pi=0; pi<token.p_idx; pi++)
-	{
-	  dbprintf( " %d", token.p[pi]);
-	}
-    }
-  
-  dbprintf( "\n=================");
-}
-
-void dump_exp_buffer2(void)
-{
-  char *idstr;
-  
-  dbprintf( "\nExpression buffer 2");
-  dbprintf( "\n===================");
-  
-  for(int i=0; i<exp_buffer2_i; i++)
-    {
-      EXP_BUFFER_ENTRY token = exp_buffer2[i];
-
-      if( (exp_buffer2[i].buf_id < 0) || (exp_buffer2[i].buf_id > EXP_BUFF_ID_MAX) )
-	{
-	  dbprintf("N%d buf_id invalid", token.node_id);
-	}
-      
-      dbprintf( "\n(%16s) N%d %-24s %c rq:%c %s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
-      
-      dbprintf( "  %d:", token.p_idx);
-      for(int pi=0; pi<token.p_idx; pi++)
-	{
-	  dbprintf( " %d", token.p[pi]);
-	}
-    }
-  dbprintf( "\n=================");
-}
-
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
