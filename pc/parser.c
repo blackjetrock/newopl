@@ -853,7 +853,7 @@ int size_of_type(NOBJ_VAR_INFO *vi)
       break;
       
     case NOBJ_VARTYPE_STR:
-      return(vi->max_string+1);
+      return(vi->max_string+2);
       break;
 
     case NOBJ_VARTYPE_INTARY:
@@ -895,19 +895,19 @@ int data_offset_of_type(NOBJ_VAR_INFO *vi)
       break;
       
     case NOBJ_VARTYPE_STR:
-      return(0);
+      return(1);
       break;
 
     case NOBJ_VARTYPE_INTARY:
-      return(1);
+      return(0);
       break;
 
     case NOBJ_VARTYPE_FLTARY:
-      return(1);
+      return(0);
       break;
 
     case NOBJ_VARTYPE_STRARY:
-      return(0);
+      return(1);
       break;
 
     case NOBJ_VARTYPE_VAR_ADDR:
@@ -1022,6 +1022,7 @@ void build_qcode_header(void)
 
   // First globals
   int var_ptr = first_byte_of_globals;
+  int last_v_ptr = 0;
   
   for(int i=0; i<num_var_info; i++)
     {
@@ -1029,11 +1030,29 @@ void build_qcode_header(void)
       // Must be an exact match, case insensitive
       if( var_info[i].class == NOPL_VAR_CLASS_GLOBAL )
 	{
-
+	  last_v_ptr = var_ptr;
 	  var_ptr += size_of_type(&(var_info[i]) );
-	  var_info[i].offset = -(var_ptr+data_offset_of_type(&(var_info[i])));
+
+	  var_info[i].offset = -(var_ptr-data_offset_of_type(&(var_info[i])));
 	  //var_info[i].offset = -(var_ptr);
-	  printf("\n%d %d", i, var_ptr);
+	  printf("\n%d %s %04X delta:%d offset:%04X", i, var_info[i].name, -var_ptr, var_ptr - last_v_ptr,-(var_ptr-data_offset_of_type(&(var_info[i]))));
+	}
+    }
+
+  // Now the Locals
+  
+  for(int i=0; i<num_var_info; i++)
+    {
+
+      // Must be an exact match, case insensitive
+      if( var_info[i].class == NOPL_VAR_CLASS_LOCAL )
+	{
+	  last_v_ptr = var_ptr;
+	  var_ptr += size_of_type(&(var_info[i]) );
+	  var_info[i].offset = -(var_ptr-data_offset_of_type(&(var_info[i])));
+
+	  //var_info[i].offset = -(var_ptr);
+	  printf("\n%d %s %04X delta:%d", i, var_info[i].name, -var_ptr, var_ptr - last_v_ptr);
 	}
     }
 
