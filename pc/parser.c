@@ -1039,6 +1039,19 @@ void build_qcode_header(void)
 	}
     }
 
+  // rewrite the globals in order to write the offsets with the correct values
+  int idx2 = idx_global_start;
+
+  for(int i=0; i<num_globals; i++)
+    {
+      NOBJ_VAR_INFO *vi;
+      vi = get_class_vi_n(NOPL_VAR_CLASS_GLOBAL, i);
+
+      idx2 = set_qcode_header_string_at(idx2, vi->name);
+      idx2 = set_qcode_header_byte_at(idx2, 1, vi->type);
+      idx2 = set_qcode_header_byte_at(idx2, 2, vi->offset);
+    }
+
   // Now the Locals
   
   for(int i=0; i<num_var_info; i++)
@@ -1079,6 +1092,38 @@ void build_qcode_header(void)
 	}
     }
 
+  int len_string_fixups = idx - size_of_string_fixup_idx - 2;
+  idx = set_qcode_header_byte_at(size_of_string_fixup_idx, 2, len_string_fixups);
+
+  printf("\nSize of string fixups:%02X", len_string_fixups);
+
+  // Now the arry sizes
+  // Length of array fixups, fill in later
+  int size_of_array_fixup_idx = idx;
+  idx = set_qcode_header_byte_at(idx, 2, 0x0000);
+						  
+  for(int i=0; i<num_var_info; i++)
+    {
+      if(
+	 ((var_info[i].type == NOBJ_VARTYPE_INTARY) ||
+	  (var_info[i].type == NOBJ_VARTYPE_FLTARY) ||
+	  (var_info[i].type == NOBJ_VARTYPE_STRARY)) &&
+	 ((var_info[i].class == NOPL_VAR_CLASS_GLOBAL) ||
+	  (var_info[i].class == NOPL_VAR_CLASS_LOCAL))
+	 )
+	{
+	  idx = set_qcode_header_byte_at(idx, 2, var_info[i].offset-0);
+	  idx = set_qcode_header_byte_at(idx, 1, (var_info[i].max_array) >> 8);
+	  idx = set_qcode_header_byte_at(idx, 1, (var_info[i].max_array) &  0xff);
+	  printf("\n%04X %04X", var_info[i].offset-0, var_info[i].max_array);
+	}
+    }
+
+  int len_array_fixups = idx - size_of_array_fixup_idx - 2;
+  idx = set_qcode_header_byte_at(size_of_array_fixup_idx, 2, len_array_fixups);
+
+  printf("\nSize of array fixups:%02X", len_array_fixups);
+  
   qcode_header_len = idx;
   
 }
@@ -1212,6 +1257,20 @@ void dump_qcode_data(void)
     }
   
   fclose (fp);
+
+  // Binary output
+  FILE *objfp;
+
+  objfp = fopen("ob3_nopl.bin", "w");
+
+  fprintf(objfp, "ORG%c%c%c%c%c", 0x03, 0xc9, 0x83, 0x01, 0xca);
+  
+  for(int i=0; i<qcode_header_len; i++)
+    {
+      fprintf(objfp, "%c", qcode_header[i]);
+    }
+  fclose(objfp);
+  
 }
 
 //------------------------------------------------------------------------------
