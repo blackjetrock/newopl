@@ -949,6 +949,9 @@ void build_qcode_header(void)
   int idx = 0;
 
   // Size of variables
+  int idx_size_of_vars_on_stack = idx;
+  int     size_of_vars_on_stack = 0;
+  
   idx = set_qcode_header_byte_at(idx, 2, 0x0000);
 
   // Size of QCode
@@ -1123,6 +1126,12 @@ void build_qcode_header(void)
   idx = set_qcode_header_byte_at(size_of_array_fixup_idx, 2, len_array_fixups);
 
   printf("\nSize of array fixups:%02X", len_array_fixups);
+
+  // Write the size of variables into the header
+  size_of_vars_on_stack = var_ptr - first_byte_of_globals;
+
+  printf("\nVar_ptr:%04X firstbytegkob:%04X size vars:%04X", var_ptr, first_byte_of_globals, size_of_vars_on_stack);
+  set_qcode_header_byte_at(idx_size_of_vars_on_stack, 2, var_ptr);
   
   qcode_header_len = idx;
   
@@ -1261,13 +1270,17 @@ void dump_qcode_data(void)
   // Binary output
   FILE *objfp;
 
-  objfp = fopen("ob3_nopl.bin", "w");
+  printf("\nWriting binary...");
+  printf("\nLength:%04X", qcode_header_len);
+  
+  objfp = fopen("ob3_nopl.bin", "wb");
 
   fprintf(objfp, "ORG%c%c%c%c%c", 0x03, 0xc9, 0x83, 0x01, 0xca);
   
   for(int i=0; i<qcode_header_len; i++)
     {
-      fprintf(objfp, "%c", qcode_header[i]);
+      //      fprintf(objfp, "%c", qcode_header[i]);
+      fputc(qcode_header[i], objfp);
     }
   fclose(objfp);
   
@@ -2198,8 +2211,10 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	    }
 
 	  // There's a correction here. If a string array has just one index, then it's
-	  // actually a string, not an array.
-	  if( vi->type == NOBJ_VARTYPE_STRARY )
+	  // actually a string, not an array, if this is a declaration. For references
+	  // string arrays have just one index
+	  
+	  if( (vi->type == NOBJ_VARTYPE_STRARY) && (!ref_ndeclare) )
 	    {
 	      if( vi->num_indices == 1 )
 		{
