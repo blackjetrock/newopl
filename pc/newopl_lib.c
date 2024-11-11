@@ -422,7 +422,7 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
 
       // Add variable to list of globals
       p->arysz_fixup[num_arysz_fixup].address  = swap_uint16(addr);
-      p->arysz_fixup[num_arysz_fixup].len      = arysz;
+      p->arysz_fixup[num_arysz_fixup].len      = swap_uint16(arysz);
       
       num_arysz_fixup++;      
     }

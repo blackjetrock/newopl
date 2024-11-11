@@ -616,7 +616,7 @@ void dump_proc(NOBJ_PROC *proc)
   
   for(int i=0; i<proc->arysz_fixup_num; i++)
     {
-      printf("\n%2d: %04X %02X",
+      printf("\n%2d: %04X %04X",
 	     i,
 	     proc->arysz_fixup[i].address,
 	     proc->arysz_fixup[i].len

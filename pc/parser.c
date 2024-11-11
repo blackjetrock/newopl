@@ -1058,7 +1058,27 @@ void build_qcode_header(void)
 
   
   // Now the fixups can be calculated
-  
+  // First the string max lengths
+
+  // Length of string fixups, fill in later
+  int size_of_string_fixup_idx = idx;
+  idx = set_qcode_header_byte_at(idx, 2, 0x0000);
+						  
+  for(int i=0; i<num_var_info; i++)
+    {
+      if(
+	 ((var_info[i].type == NOBJ_VARTYPE_STR) ||
+	  (var_info[i].type == NOBJ_VARTYPE_STRARY)) &&
+	 ((var_info[i].class == NOPL_VAR_CLASS_GLOBAL) ||
+	  (var_info[i].class == NOPL_VAR_CLASS_LOCAL))
+	 )
+	{
+	  idx = set_qcode_header_byte_at(idx, 2, var_info[i].offset-1);
+	  idx = set_qcode_header_byte_at(idx, 1, var_info[i].max_string);
+	  printf("\n%04X %02X", var_info[i].offset-1, var_info[i].max_string);
+	}
+    }
+
   qcode_header_len = idx;
   
 }
