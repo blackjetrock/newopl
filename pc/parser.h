@@ -181,7 +181,7 @@ int set_qcode_header_string_at(int idx, char *str);
 
 extern int qcode_idx;
 extern int pass_number;
-
+extern int qcode_header_len;
 
 
 

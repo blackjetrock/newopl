@@ -37,6 +37,7 @@ char procedure_name[NOBJ_VARNAME_MAXLEN+1];
 
 int qcode_idx = 0;
 int pass_number = 0;
+int qcode_header_len = 0;     // Actually length of ob3 file, header and qcodes
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -610,7 +611,7 @@ void add_var_info(NOBJ_VAR_INFO *vi)
 	{
 	  // This isn't necessarily OK, we have the variable declared twice
 	  // It is OK on pass 2, pass 1 will check for doubly defined variables
-	  if( pass_number == 2 )
+	  if( pass_number == 1 )
 	    {
 	      syntax_error("Variable '%s' declared twice", vi->name);
 	    }
@@ -791,7 +792,7 @@ void add_var_info(NOBJ_VAR_INFO *vi)
 // Start of the QCode instructions
 // 
 
-int qcode_header_len = 0;
+
 
 typedef struct _NOPL_QCH_FIELD
 {
@@ -967,7 +968,7 @@ void build_qcode_header(void)
   int num_params = 0;
   int num_globals = 0;
   int num_externals = 0;
-  int idx = 0;
+  int idx = qcode_idx;
 
   // Size of variables
   int idx_size_of_vars_on_stack = idx;
@@ -1163,6 +1164,8 @@ void build_qcode_header(void)
 
   // Leave the qcode index pointing after the header
   qcode_idx = idx;
+
+  
 }
 
 int print_qch_field(int idx, FILE *fp, char *title, int len)

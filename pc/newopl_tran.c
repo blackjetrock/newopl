@@ -445,19 +445,21 @@ int global_info_index = 0;
 
 void output_qcode_for_line(void)
 {
-
+  // Do nothing on first pass
+  if( pass_number == 1 )
+    {
+      return;
+    }
+  
   dump_exp_buffer(icfp, 2);
-
-  return;
-
-  int skip_def = 1;
 
   //------------------------------------------------------------------------------
   // We are now able to append qcode to the qcode output
   // Run through the exp_buffer and convert the tokens into QCode...
-
+  //------------------------------------------------------------------------------
+  
   dbprintf("================================================================================");
-  dbprintf("Generating QCode     Buf2_i:%d", exp_buffer2_i);
+  dbprintf("Generating QCode     Buf2_i:%d qcode_idx:%04X", exp_buffer2_i, qcode_idx);
   dbprintf("================================================================================");
   
   for(int i=0; i<exp_buffer2_i; i++)
@@ -466,20 +468,6 @@ void output_qcode_for_line(void)
 
       dbprintf("QC: i:%d", i);
       
-      if( skip_def )
-	{
-	  dbprintf("Skipping def");
-	  
-	  // Skip the first line, it's the PROC def
-	  while( exp_buffer2[i].node_id != 1 )
-	    {
-	      i++;
-	    }
-	  i--;
-	  skip_def = 0;
-	  continue;
-	}
-      
       if( (exp_buffer2[i].op.buf_id < 0) || (exp_buffer2[i].op.buf_id > EXP_BUFF_ID_MAX) )
 	{
 	  dbprintf("N%d buf_id invalid", token.node_id);
@@ -487,17 +475,27 @@ void output_qcode_for_line(void)
       
       switch(exp_buffer2[i].op.buf_id)
 	{
-	case EXP_BUFF_ID_VARIABLE:
-	  // Skip LOCAL and GLOBAL lines
-	  if( (strcmp(exp_buffer2[i].name, "LOCAL")==0) || (strcmp(exp_buffer2[i].name, "GLOBAL")==0) )
+	case EXP_BUFF_ID_META:
+	  // On pass 2 when we see the PROCDEF we generate the qcode header,
+	  // each line then generates qcodes after that
+	  dbprintf("QC:META");
+	  
+	  if( pass_number == 2 )
 	    {
-	      while( exp_buffer2[i].node_id != 1 )
+	      if( strcmp(exp_buffer[i].name, "PROCDEF")==0 )
 		{
-		  i++;
+		  dbprintf("QC:Building QCode header");
+		  qcode_idx = 0;
+		  build_qcode_header();
+		  fprintf(icfp, "Header built qcode_idx:%04X", qcode_idx);
+		  exit(0);
 		}
-	      i--;
-	      continue;
 	    }
+	  break;
+	  
+	case EXP_BUFF_ID_VARIABLE:
+	  // Output a variable reference push
+	  dbprintf("QC:Variable reference");
 	  break;
 
 	case EXP_BUFF_ID_STR:
@@ -505,9 +503,9 @@ void output_qcode_for_line(void)
 	  dbprintf("\nQC:String Literal");
 	  
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x24);
-	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, strlen(exp_buffer[i].name));
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, strlen(exp_buffer[i].name)-2);
 	  
-	  for(int j=0; j<strlen(exp_buffer2[j].name); j++)
+	  for(int j=1; j<strlen(exp_buffer2[j].name)-1; j++)
 	    {
 	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer[i].name[j]);
 	    }
@@ -516,6 +514,7 @@ void output_qcode_for_line(void)
 	}
     }
 
+  qcode_header_len = qcode_idx;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2809,7 +2808,7 @@ int main(int argc, char *argv[])
 	}
 
       translate_file(fp, ofp);
-      build_qcode_header();
+      //      build_qcode_header();
       fclose(fp);
     }
 
