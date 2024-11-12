@@ -56,6 +56,7 @@ enum
     EXP_BUFF_ID_LABEL,
     EXP_BUFF_ID_CONTINUE,
     EXP_BUFF_ID_BREAK,
+    EXP_BUFF_ID_META,
     EXP_BUFF_ID_MAX,
   };
 
@@ -178,6 +179,8 @@ int set_qcode_header_byte_at(int idx, int len, int val);
 int set_qcode_header_string_at(int idx, char *str);
 
 
+extern int qcode_idx;
+extern int pass_number;
 
 
 

@@ -30,6 +30,15 @@ char procedure_name[NOBJ_VARNAME_MAXLEN+1];
 #define IDX_WHERE   &(cline[idx])
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// Index for QCode generation
+//
+// Set up by header building to point at position where qcode should go
+
+int qcode_idx = 0;
+int pass_number = 0;
+
+////////////////////////////////////////////////////////////////////////////////
 
 
 char *exp_buffer_id_str[] =
@@ -71,6 +80,7 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_LABEL",
     "EXP_BUFF_ID_CONTINUE",
     "EXP_BUFF_ID_BREAK",
+    "EXP_BUFF_ID_META",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -598,8 +608,12 @@ void add_var_info(NOBJ_VAR_INFO *vi)
 	}
       else
 	{
-	  // This isn't OK, we have th evariable declared twice
-	  syntax_error("Variable '%s' declared twice", vi->name);
+	  // This isn't necessarily OK, we have the variable declared twice
+	  // It is OK on pass 2, pass 1 will check for doubly defined variables
+	  if( pass_number == 2 )
+	    {
+	      syntax_error("Variable '%s' declared twice", vi->name);
+	    }
 	}
     }
 }
@@ -937,9 +951,16 @@ void calculate_var_offsets(void)
   // Offsets can't be calcuated until all of these values are known
   // Once offsets are known then the fixups can be calculated
   //
+  // The translation of the file is performed on pass 1 in order to get the variable
+  // information. Then on pass2 the qcode (OB3) header is created, and qcode generation
+  // is performed on each line.
+  //
 }
 
 uint8_t qcode_header[MAX_QCODE_HEADER];
+
+// We need not generate any qcode on the first pass
+// That pass is only generating a full variable table, including externals
 
 void build_qcode_header(void)
 {
@@ -951,6 +972,11 @@ void build_qcode_header(void)
   // Size of variables
   int idx_size_of_vars_on_stack = idx;
   int     size_of_vars_on_stack = 0;
+
+  if( pass_number == 1 )
+    {
+      return;
+    }
   
   idx = set_qcode_header_byte_at(idx, 2, 0x0000);
 
@@ -1135,68 +1161,8 @@ void build_qcode_header(void)
   
   qcode_header_len = idx;
 
-  //------------------------------------------------------------------------------
-  // We are now able to append qcode to the qcode output
-  // Run through the exp_buffer and convert the tokens into QCode...
-  int skip_def = 1;
-
-  dbprintf("================================================================================");
-  dbprintf("Generating QCode     Buf2_i:%d", exp_buffer2_i);
-  dbprintf("================================================================================");
-  
-  for(int i=0; i<exp_buffer2_i; i++)
-    {
-      EXP_BUFFER_ENTRY token = exp_buffer2[i];
-
-      dbprintf("QC: i:%d", i);
-      
-      if( skip_def )
-	{
-	  // Skip the first line, it's the PROC def
-	  while( exp_buffer2[i].node_id != 1 )
-	    {
-	      i++;
-	    }
-	  i--;
-	  skip_def = 0;
-	  continue;
-	}
-      
-      if( (exp_buffer2[i].op.buf_id < 0) || (exp_buffer2[i].op.buf_id > EXP_BUFF_ID_MAX) )
-	{
-	  dbprintf("N%d buf_id invalid", token.node_id);
-	}
-      
-      switch(exp_buffer2[i].op.buf_id)
-	{
-	case EXP_BUFF_ID_VARIABLE:
-	  // Skip LOCAL and GLOBAL lines
-	  if( (strcmp(exp_buffer2[i].name, "LOCAL")==0) || (strcmp(exp_buffer2[i].name, "GLOBAL")==0) )
-	    {
-	      while( exp_buffer2[i].node_id != 1 )
-		{
-		  i++;
-		}
-	      i--;
-	      continue;
-	    }
-	  break;
-
-	case EXP_BUFF_ID_STR:
-	  // String literal
-	  dbprintf("\nQC:String Literal");
-	  
-	  idx = set_qcode_header_byte_at(idx, 1, 0x24);
-	  idx = set_qcode_header_byte_at(idx, 1, strlen(exp_buffer[i].name));
-	  
-	  for(int j=0; j<strlen(exp_buffer2[j].name); j++)
-	    {
-	      idx = set_qcode_header_byte_at(idx, 1, exp_buffer[i].name[j]);
-	    }
-	  break;
-	  
-	}
-    }
+  // Leave the qcode index pointing after the header
+  qcode_idx = idx;
 }
 
 int print_qch_field(int idx, FILE *fp, char *title, int len)
@@ -5930,7 +5896,7 @@ int scan_line(LEVEL_INFO levels)
       int num_subexpr;
       
       init_op_stack_entry(&op);
-      op.buf_id = EXP_BUFF_ID_FUNCTION;
+      op.buf_id = EXP_BUFF_ID_META;
       
       // Scan the function name
       // We accept the check() result as we may want to adjust the function name
@@ -6250,6 +6216,14 @@ int scan_procdef(void)
 {
   int idx = cline_i;
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
+  OP_STACK_ENTRY op;
+  int num_subexpr;
+  
+  init_op_stack_entry(&op);
+  op.buf_id = EXP_BUFF_ID_META;
+  strcpy(op.name, "PROCDEF");   
+  process_token(&op);
+
   indent_more();
   
   dbprintf("");
@@ -6289,8 +6263,11 @@ int scan_localglobal(int local_nglobal)
   int idx = cline_i;
   NOBJ_VAR_INFO vi;
   char *keyword;
-  indent_more();
+  OP_STACK_ENTRY op;
+
+  indent_more();  
   
+  init_op_stack_entry(&op);
   init_var_info(&vi);
   
   if( local_nglobal )
@@ -6301,13 +6278,16 @@ int scan_localglobal(int local_nglobal)
     {
       keyword = " GLOBAL";
     }
-
-  dbprintf("'%s'", I_WHERE);
   
-  if( scan_literal(keyword) )
-    {
-      idx = cline_i;
+  op.buf_id = EXP_BUFF_ID_META;
+  strcpy(op.name, keyword);
+  
+  dbprintf("'%s'", I_WHERE);
 
+  if( check_literal(&idx, keyword) )
+    {
+      process_token(&op);
+      
       while( check_variable(&idx) )
 	{
 	  init_var_info(&vi);

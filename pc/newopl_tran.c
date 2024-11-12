@@ -190,6 +190,7 @@ int is_a_valid_type(NOBJ_VARTYPE type, OP_INFO *op_info)
 //
 // This is a global to avoid passing it down to every function in the translate call stack.
 // If translating is ever to be a parallel process then that will have to change.
+//
 
 NOBJ_VARTYPE expression_type = NOBJ_VARTYPE_UNKNOWN;
 
@@ -404,10 +405,24 @@ void operator_can_be_unary(OP_STACK_ENTRY *op)
 // Variable offsets have to be inserted instea dof variable names.
 // Tables of variables are maintained
 //
-//
-//
 // Fixed size tables for variables
 //
+// This is called after each line is processed, That generates enough intermediate
+// code to generate QCode for one line.
+//
+// NOTE:
+// As we want to reduce the amount of RAM needed to generate Qcode, we want to generate
+// code for a line at a time so we don't have to hold all the intermediate code for
+// the entire PROC in memory at once. One problem is that we need to genrate the output
+// (OB3) header before the QCode can be generated. We need variable offsets and types
+// before the qcode is created. This is fine for the locals and globals and parameters as
+// they are always declared at the start of the PROC. Externals aren't, however, we find
+// them as we translate the PROC lines. That means we can't generate the qcode until we
+// have translated and found al the externals. To get around this the translation is done twice.
+// The first pass is to collect the externals, although error will also be found then. The entire
+// variable table is built and kept for the second pass.
+// The second pass then generates the header and qcode, as it has all the information it needs.
+// There's a pass number that tells the code what it needs to do
 
 typedef struct _VAR_INFO
 {
@@ -428,33 +443,79 @@ VAR_INFO global_info[NOPL_MAX_GLOBAL];
 int local_info_index  = 0;
 int global_info_index = 0;
 
-void output_qcode(void)
+void output_qcode_for_line(void)
 {
 
   dump_exp_buffer(icfp, 2);
 
-#if 0
-  // Run through the final expression buffer, converting into QCode
+  return;
+
+  int skip_def = 1;
+
+  //------------------------------------------------------------------------------
+  // We are now able to append qcode to the qcode output
+  // Run through the exp_buffer and convert the tokens into QCode...
+
+  dbprintf("================================================================================");
+  dbprintf("Generating QCode     Buf2_i:%d", exp_buffer2_i);
+  dbprintf("================================================================================");
+  
   for(int i=0; i<exp_buffer2_i; i++)
     {
       EXP_BUFFER_ENTRY token = exp_buffer2[i];
 
-      if( (exp_buffer2[i].op.buf_id < 0) || (exp_buffer2[i].op.buf_id > EXP_BUFF_ID_MAX) )
+      dbprintf("QC: i:%d", i);
+      
+      if( skip_def )
 	{
-	  dbprintf("\nN%d op.buf_id invalid", token.node_id);
+	  dbprintf("Skipping def");
+	  
+	  // Skip the first line, it's the PROC def
+	  while( exp_buffer2[i].node_id != 1 )
+	    {
+	      i++;
+	    }
+	  i--;
+	  skip_def = 0;
+	  continue;
 	}
       
-      fprintf(ofp, "\n(%16s) N%d %-24s %c rq:%c %-25s", __FUNCTION__, token.node_id, exp_buffer_id_str[exp_buffer2[i].op.buf_id], type_to_char(token.op.type), type_to_char(token.op.req_type), exp_buffer2[i].name);
-      
-      fprintf(ofp, "  %d:", token.p_idx);
-      for(int pi=0; pi<token.p_idx; pi++)
+      if( (exp_buffer2[i].op.buf_id < 0) || (exp_buffer2[i].op.buf_id > EXP_BUFF_ID_MAX) )
 	{
-	  fprintf(ofp, " %d", token.p[pi]);
+	  dbprintf("N%d buf_id invalid", token.node_id);
+	}
+      
+      switch(exp_buffer2[i].op.buf_id)
+	{
+	case EXP_BUFF_ID_VARIABLE:
+	  // Skip LOCAL and GLOBAL lines
+	  if( (strcmp(exp_buffer2[i].name, "LOCAL")==0) || (strcmp(exp_buffer2[i].name, "GLOBAL")==0) )
+	    {
+	      while( exp_buffer2[i].node_id != 1 )
+		{
+		  i++;
+		}
+	      i--;
+	      continue;
+	    }
+	  break;
+
+	case EXP_BUFF_ID_STR:
+	  // String literal
+	  dbprintf("\nQC:String Literal");
+	  
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x24);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, strlen(exp_buffer[i].name));
+	  
+	  for(int j=0; j<strlen(exp_buffer2[j].name); j++)
+	    {
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer[i].name[j]);
+	    }
+	  break;
+	  
 	}
     }
 
-    dump_exp_buffer(icfp, 2);
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1349,6 +1410,9 @@ void typecheck_expression(void)
 	case EXP_BUFF_ID_SUB_END:
 	  break;
 
+	case EXP_BUFF_ID_META:
+	  break;
+
 	case EXP_BUFF_ID_VARIABLE:
 	  be.p_idx = 0;
 	  type_check_stack_push(be);
@@ -1888,7 +1952,6 @@ void output_marker(char *marker, ...)
 
 void output_sub_start(void)
 {
-#if 1
   OP_STACK_ENTRY op;
   init_op_stack_entry(&op);
   
@@ -1897,12 +1960,10 @@ void output_sub_start(void)
   strcpy(op.name,  "");
   op.type = NOBJ_VARTYPE_UNKNOWN;
   add_exp_buffer_entry(op, EXP_BUFF_ID_SUB_START);
-#endif
 }
 
 void output_sub_end(void)
 {
-#if 1
   OP_STACK_ENTRY op;
 
   init_op_stack_entry(&op);
@@ -1912,7 +1973,6 @@ void output_sub_end(void)
   strcpy(op.name, "");
   op.type = NOBJ_VARTYPE_UNKNOWN;
   add_exp_buffer_entry(op, EXP_BUFF_ID_SUB_END);
-#endif
 }
 
 void output_expression_start(char *expr)
@@ -2086,8 +2146,11 @@ void process_expression_types(void)
       dbprintf("==%s==", infix = infix_from_rpn());
       dbprintf("\n\n",0);
       
-      // Generate the QCode from the tree output
-      output_qcode();
+      // Generate the QCode from the tree output, but only on pass 2
+      if( pass_number == 2 )
+	{
+	  output_qcode_for_line();
+	}
     }
 }
 
@@ -2253,6 +2316,7 @@ void process_token(OP_STACK_ENTRY *token)
 
   switch( o1.buf_id )
     {
+
     case EXP_BUFF_ID_PRINT:
     case EXP_BUFF_ID_PRINT_SPACE:
     case EXP_BUFF_ID_PRINT_NEWLINE:
@@ -2304,6 +2368,7 @@ void process_token(OP_STACK_ENTRY *token)
     case EXP_BUFF_ID_ENDIF:
     case EXP_BUFF_ID_ENDWH:
     case EXP_BUFF_ID_TRAP:
+    case EXP_BUFF_ID_META:
       dbprintf("Buff id %s", o1.name);
       
       // Parser supplies type
@@ -2575,6 +2640,7 @@ void finalise_expression(void)
   dbprintf("Finalise expression done.");
 }
 
+#if 0
 void dummy(void)
 {
   int num_commas;
@@ -2582,8 +2648,9 @@ void dummy(void)
   // Assignment can be done using an expression
   scan_expression(&num_commas, HEED_COMMA);
   finalise_expression();
-  process_expression_types();
+  process_expression_types);
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -2723,35 +2790,34 @@ int main(int argc, char *argv[])
   FILE *vfp;
   
   init_output();
-  
-  // Open file and process on a line by line basis
-  fp = fopen(argv[1], "r");
-
-  if( fp == NULL )
-    {
-      fprintf(ofp, "\nCould not open '%s'", argv[1]);
-      printf("\nCould not open '%s'", argv[1]);
-      exit(-1);
-    }
 
   //ofp = fopen("out.opl.tran", "w");
 
   parser_check();
-  
-  translate_file(fp, ofp);
 
-  dump_exp_buffer(ofp, 1);
+  // Perform two passes of translation and qcode generation
+  for(pass_number = 1; pass_number<=2; pass_number++)
+    {
+      // Open file and process on a line by line basis
+      fp = fopen(argv[1], "r");
+      
+      if( fp == NULL )
+	{
+	  fprintf(ofp, "\nCould not open '%s'", argv[1]);
+	  printf("\nCould not open '%s'", argv[1]);
+	  exit(-1);
+	}
+
+      translate_file(fp, ofp);
+      build_qcode_header();
+      fclose(fp);
+    }
+
   dump_exp_buffer(ofp, 2);
-  
-  fclose(fp);
+  dump_qcode_data();
 
   fclose(chkfp);
   fclose(trfp);
-
-  dump_exp_buffer(ofp, 2);
-  
-  build_qcode_header();
-  dump_qcode_data();
 
   vfp = fopen("vars.txt", "w");
   dump_vars(vfp);
