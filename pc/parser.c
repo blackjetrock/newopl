@@ -6287,6 +6287,8 @@ int scan_localglobal(int local_nglobal)
   if( check_literal(&idx, keyword) )
     {
       process_token(&op);
+
+      cline_i = idx;
       
       while( check_variable(&idx) )
 	{
