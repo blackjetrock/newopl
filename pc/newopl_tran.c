@@ -394,6 +394,22 @@ void operator_can_be_unary(OP_STACK_ENTRY *op)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+// Table with simple BUFF_ID to QCode mappings
+//
+
+typedef struct _SIMPLE_QC_MAP
+{
+  int           buf_id;
+  NOBJ_VARTYPE  type;
+  int           qcode;
+} SIMPLE_QC_MAP;
+
+SIMPLE_QC_MAP qc_map[] =
+  {
+  };
+
+////////////////////////////////////////////////////////////////////////////////
+//
 // QCode output stream
 //
 //
@@ -491,19 +507,103 @@ void output_qcode_for_line(void)
 		  fprintf(icfp, "Header built qcode_idx:%04X", qcode_idx);
 		  //		  exit(0);
 		}
+
+	      // Do not process line fuirther
+	      return;
 	    }
 	  break;
 	  
 	case EXP_BUFF_ID_VARIABLE:
 	  // Output a variable reference push
 	  dbprintf("QC:Variable reference");
+
+	  // Locals and globals are directly addressed, externals and parameters
+	  // are indirectly addressed.
+
+	  // Find the info about this variable
+	  NOBJ_VAR_INFO *vi;
+
+	  vi = find_var_info(tokop.name);
+
+	  // Use the appropriate qcode
+	  switch(vi->class)
+	    {
+	    case NOPL_VAR_CLASS_EXTERNAL:
+	    case NOPL_VAR_CLASS_PARAMETER:
+	      switch(token.op.type)
+		{
+		case NOBJ_VARTYPE_INT:
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_INT_SIM_IND);
+		  break;
+		  
+		case NOBJ_VARTYPE_FLT:
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_NUM_SIM_IND);
+		  break;
+		  
+		case NOBJ_VARTYPE_STR:
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_STR_SIM_IND);
+		  break;
+		}
+	      break;
+
+	    case NOPL_VAR_CLASS_GLOBAL:
+	    case NOPL_VAR_CLASS_LOCAL:
+	      switch(token.op.type)
+		{
+		case NOBJ_VARTYPE_INT:
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_INT_SIM_FP);
+		  break;
+		  
+		case NOBJ_VARTYPE_FLT:
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_NUM_SIM_FP);
+		  break;
+		  
+		case NOBJ_VARTYPE_STR:
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_STR_SIM_FP);
+		  break;
+		}
+	      break;
+	      
+	    }
+
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (vi->offset) >> 8);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (vi->offset) & 0xFF);
+			  
+	  break;
+
+	case EXP_BUFF_ID_PRINT_NEWLINE:
+	  dbprintf("QC:PRINT");
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_PRINT_CR);
+	  break;
+
+	case EXP_BUFF_ID_PRINT_SPACE:
+	  dbprintf("QC:PRINT");
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_PRINT_SP);
+	  break;
+	  
+	case EXP_BUFF_ID_PRINT:
+	  dbprintf("QC:PRINT");
+	  switch(token.op.type)
+	    {
+	    case NOBJ_VARTYPE_INT:
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_PRINT_INT);
+	      break;
+
+	    case NOBJ_VARTYPE_FLT:
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_PRINT_NUM);
+	      break;
+
+	    case NOBJ_VARTYPE_STR:
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_PRINT_STR);
+	      break;
+	    }
 	  break;
 
 	case EXP_BUFF_ID_STR:
 	  // String literal
 	  dbprintf("\nQC:String Literal");
 	  
-	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x24);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_STR_CON);
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, strlen(exp_buffer[i].name)-2);
 	  
 	  for(int j=1; j<strlen(exp_buffer2[i].name)-1; j++)
@@ -1845,8 +1945,11 @@ void output_integer(OP_STACK_ENTRY token)
 void output_operator(OP_STACK_ENTRY op)
 {
   char *tokptr;
-  
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
+
+  op.type = expression_type;
+  op.req_type = expression_type;
+
+  dbprintf("%s %c %c %s", type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
   add_exp_buffer_entry(op, op.buf_id);
 }
 
@@ -1858,6 +1961,8 @@ void output_function(OP_STACK_ENTRY op)
 
 void output_variable(OP_STACK_ENTRY op)
 {
+  expression_type = op.type;
+  
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
   add_exp_buffer_entry(op, EXP_BUFF_ID_VARIABLE);
 }
@@ -1878,12 +1983,18 @@ void output_string(OP_STACK_ENTRY op)
 
 void output_return(OP_STACK_ENTRY op)
 {
+  op.type = expression_type;
+  op.req_type = expression_type;
+  
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_RETURN);
 }
 
 void output_print(OP_STACK_ENTRY op)
 {
+  op.type = expression_type;
+  op.req_type = expression_type;
+
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, op.buf_id);
 }
@@ -1904,13 +2015,12 @@ void output_generic(OP_STACK_ENTRY op, char *name, int buf_id)
 {
   char line[20];
   
-  sprintf(line, "op_%s", name);
   strcpy(op.name, name);
   op.buf_id = buf_id;
   op.type = expression_type;
   op.req_type = expression_type;
   
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  dbprintf("%s %c %c %s exp_type:%c", type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name, type_to_char(expression_type) ); 
   add_exp_buffer_entry(op, buf_id);
 }
 

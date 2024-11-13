@@ -1107,6 +1107,25 @@ void build_qcode_header(void)
 	}
     }
 
+  //------------------------------------------------------------------------------
+  //
+  // Now the Parameters and external offsets, which are offsets into the indirection
+  // table. These are only use din the QCode generation
+  
+  int ind_ptr = -51;
+  
+  for(int i=0; i<num_var_info; i++)
+    {
+      if( (var_info[i].class == NOPL_VAR_CLASS_EXTERNAL) ||
+	  (var_info[i].class == NOPL_VAR_CLASS_PARAMETER) )
+	{
+	  var_info[i].offset = ind_ptr;
+
+	  dbprintf("%d %s offset:%04X", i, var_info[i].name, ind_ptr);
+
+	  ind_ptr -= 2;
+	}
+    }
   
   // Now the fixups can be calculated
   // First the string max lengths
@@ -4636,7 +4655,7 @@ int scan_print(int print_type)
 
 	      // We may need a PRINT token generated, we do it like this so we don't get a
 	      // spurious token at the end of every line. (Actually a spurious command/expression)
-	      if( print_token_needed )
+	      if( print_token_needed,0 )
 		{
 		  dbprintf("Print token needed");
 		  
