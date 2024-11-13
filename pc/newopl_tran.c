@@ -530,7 +530,7 @@ void output_qcode_for_line(void)
 	    {
 	    case NOPL_VAR_CLASS_EXTERNAL:
 	    case NOPL_VAR_CLASS_PARAMETER:
-	      switch(token.op.type)
+	      switch(vi->type)
 		{
 		case NOBJ_VARTYPE_INT:
 		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_INT_SIM_IND);
@@ -543,12 +543,24 @@ void output_qcode_for_line(void)
 		case NOBJ_VARTYPE_STR:
 		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_STR_SIM_IND);
 		  break;
+
+		case NOBJ_VARTYPE_INTARY:
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_INT_ARR_IND);
+		  break;
+		  
+		case NOBJ_VARTYPE_FLTARY:
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_NUM_ARR_IND);
+		  break;
+		  
+		case NOBJ_VARTYPE_STRARY:
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_STR_ARR_IND);
+		  break;
 		}
 	      break;
 
 	    case NOPL_VAR_CLASS_GLOBAL:
 	    case NOPL_VAR_CLASS_LOCAL:
-	      switch(token.op.type)
+	      switch(vi->type)
 		{
 		case NOBJ_VARTYPE_INT:
 		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_INT_SIM_FP);
@@ -561,6 +573,18 @@ void output_qcode_for_line(void)
 		case NOBJ_VARTYPE_STR:
 		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_STR_SIM_FP);
 		  break;
+
+		case NOBJ_VARTYPE_INTARY:
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_INT_ARR_FP);
+		  break;
+		  
+		case NOBJ_VARTYPE_FLTARY:
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_NUM_ARR_FP);
+		  break;
+		  
+		case NOBJ_VARTYPE_STRARY:
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_STR_ARR_FP);
+		  break;
 		}
 	      break;
 	      
@@ -571,6 +595,18 @@ void output_qcode_for_line(void)
 			  
 	  break;
 
+	case EXP_BUFF_ID_INTEGER:
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_INT_CON);
+
+	  // Convert integer and add to qcode
+	  int intval;
+
+	  sscanf(tokop.name, "%d", &intval);
+	  
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (intval) >> 8);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (intval) & 0xFF);
+	  break;
+	  
 	case EXP_BUFF_ID_PRINT_NEWLINE:
 	  dbprintf("QC:PRINT");
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_PRINT_CR);
