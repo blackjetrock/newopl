@@ -506,7 +506,7 @@ void output_qcode_for_line(void)
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x24);
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, strlen(exp_buffer[i].name)-2);
 	  
-	  for(int j=1; j<strlen(exp_buffer2[j].name)-1; j++)
+	  for(int j=1; j<strlen(exp_buffer2[i].name)-1; j++)
 	    {
 	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer[i].name[j]);
 	    }
@@ -720,9 +720,11 @@ void modify_expression_type(NOBJ_VARTYPE t)
 	case NOBJ_VARTYPE_INT:
 	case NOBJ_VARTYPE_FLT:
 	  // Syntax error
+	  //expression_type = t;
 	  break;
 
 	case NOBJ_VARTYPE_STR:
+	  expression_type = t;
 	  break;
 	}
       break;
@@ -1017,7 +1019,10 @@ int insert_buf2_entry_after_node_id(int node_id, EXP_BUFFER_ENTRY e)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// return a type that can be reached by as few type conversions as possible.
+// Return a type that can be reached by as few type conversions as possible.
+//
+////////////////////////////////////////////////////////////////////////////////
+
 
 NOBJ_VARTYPE type_with_least_conversion_from(NOBJ_VARTYPE t1, NOBJ_VARTYPE t2)
 {
@@ -1369,20 +1374,6 @@ void typecheck_expression(void)
   // We can check for an assignment and adjust the assignment token to
   // differentiate it from the equality token.
 
-  // TODO ignore this, parser does it
-#if 0
-  // If first token is a variable
-  if( exp_buffer[0].op.buf_id ==  EXP_BUFF_ID_VARIABLE)
-    {
-      // and the last token is an '=', then this is an assignment
-      if( strcmp(exp_buffer[exp_buffer_i-1].name, "=") == 0 )
-	{
-	  // Assignment, make token more specific
-	  strcpy(exp_buffer[exp_buffer_i-1].name, ":=");
-	}
-    }
-#endif
-  
   type_check_stack_init();
 
   for(int i=0; i<exp_buffer_i; i++)
@@ -1879,7 +1870,9 @@ void output_var_addr_name(OP_STACK_ENTRY op)
 
 void output_string(OP_STACK_ENTRY op)
 {
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
+  // Always a string type
+  op.req_type = NOBJ_VARTYPE_STR;
   add_exp_buffer_entry(op, EXP_BUFF_ID_STR);
 }
 
@@ -1914,6 +1907,8 @@ void output_generic(OP_STACK_ENTRY op, char *name, int buf_id)
   sprintf(line, "op_%s", name);
   strcpy(op.name, name);
   op.buf_id = buf_id;
+  op.type = expression_type;
+  op.req_type = expression_type;
   
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, buf_id);
@@ -2046,7 +2041,7 @@ OP_STACK_ENTRY op_stack_pop(void)
   op_stack_ptr --;
 
   o = op_stack[op_stack_ptr];
-  fprintf(ofp, "\nPop '%s'", o.name);
+  dbprintf("Pop '%s' type:%c ", o.name, type_to_char(o.type));
   op_stack_print();
   return(o);
 }
@@ -2112,17 +2107,26 @@ void op_stack_finalise(void)
 {
   OP_STACK_ENTRY o;
 
-  fprintf(ofp, "\nFinalise stack");
+  dbprintf("Finalise stack");
+
   while( strlen(op_stack_top().name) != 0 )
     {
       o = op_stack_pop();
 
-      if( o.req_type = NOBJ_VARTYPE_UNKNOWN )
+      dbprintf("Popped:%s rqt:%c", o.name, type_to_char(o.req_type));
+      if( o.req_type == NOBJ_VARTYPE_UNKNOWN )
 	{
 	  o.req_type = expression_type;
 	  o.type = expression_type;
 	}
-      
+
+      // PRINT command sneed to match the expression type
+      if( o.buf_id == EXP_BUFF_ID_PRINT )
+	{
+	  // Force the type
+	  o.req_type = expression_type;
+	  o.type = expression_type;
+	}
       output_operator(o);
     }
 
@@ -2341,6 +2345,7 @@ void process_token(OP_STACK_ENTRY *token)
       return;
       break;
 
+    
     case EXP_BUFF_ID_RETURN:
       fprintf(ofp, "\nBuff id return");
 

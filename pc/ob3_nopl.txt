@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:017B
-QCode Space Size:0034
+QCode Space Size:0040
 Number of parameters:03
 Parameter types:
  0 STR    (2)
@@ -49,46 +49,47 @@ QCode
 0001: B2       SIN     (bytes code:-)
 0002: 24       Push string literal     (bytes code:S)
 0003: Len:3
-0004: 'P$'
-0007: 4C       AT     (bytes code:-)
-0008: 4C       AT     (bytes code:-)
-0009: 4C       AT     (bytes code:-)
-000A: 22       Push integer literal     (bytes code:I)
-000B: 2402       (9218)
-000D: 4C       AT     (bytes code:-)
-000E: 4C       AT     (bytes code:-)
-000F: 22       Push integer literal     (bytes code:I)
-0010: 0024       (36)
-0012: 03       Pop integer index and push local/global integer array variable value     (bytes code:v)
-0013: 4747       (18247)
-0015: 47       Greater than string     (bytes code:-)
-0016: 24       Push string literal     (bytes code:S)
-0017: Len:2
-0018: 'GG'
-001A: 22       Push integer literal     (bytes code:I)
-001B: 2403       (9219)
-001D: 45       Less than string     (bytes code:-)
-001E: 45       Less than string     (bytes code:-)
-001F: 45       Less than string     (bytes code:-)
-0020: 24       Push string literal     (bytes code:S)
-0021: Len:2
-0022: 'EE'
-0024: 22       Push integer literal     (bytes code:I)
-0025: 2403       (9219)
-0027: 42       NOT float     (bytes code:-)
-0028: 24       Push string literal     (bytes code:S)
-0029: Len:3
-002A: '$D'
-002D: 24       Push string literal     (bytes code:S)
-002E: Len:3
-002F: '$F'
-0032: 24       Push string literal     (bytes code:S)
-0033: Len:3
-0034: ''
+0004: 'PPP'
+0007: 24       Push string literal     (bytes code:S)
+0008: Len:3
+0009: 'LLL'
+000C: 24       Push string literal     (bytes code:S)
+000D: Len:2
+000E: 'LL'
+0010: 24       Push string literal     (bytes code:S)
+0011: Len:3
+0012: 'GGG'
+0015: 24       Push string literal     (bytes code:S)
+0016: Len:2
+0017: 'GG'
+0019: 24       Push string literal     (bytes code:S)
+001A: Len:3
+001B: 'EEE'
+001E: 24       Push string literal     (bytes code:S)
+001F: Len:2
+0020: 'EE'
+0022: 24       Push string literal     (bytes code:S)
+0023: Len:3
+0024: 'BCD'
+0027: 24       Push string literal     (bytes code:S)
+0028: Len:3
+0029: 'CDE'
+002C: 24       Push string literal     (bytes code:S)
+002D: Len:3
+002E: 'DEF'
+0031: 24       Push string literal     (bytes code:S)
+0032: Len:3
+0033: 'EFG'
+0036: 24       Push string literal     (bytes code:S)
+0037: Len:3
+0038: 'FGH'
+003B: 24       Push string literal     (bytes code:S)
+003C: Len:3
+003D: 'GHI'
 
 QCode Data
 
-0000:59 B2 24 03 50 24 03 4C 4C 4C 22 24 02 4C 4C 22 
-0010:00 24 03 47 47 47 24 02 47 47 22 24 03 45 45 45 
-0020:24 02 45 45 22 24 03 42 24 03 24 03 44 24 03 24 
-0030:03 46 24 03 
+0000:59 B2 24 03 50 50 50 24 03 4C 4C 4C 24 02 4C 4C 
+0010:24 03 47 47 47 24 02 47 47 24 03 45 45 45 24 02 
+0020:45 45 24 03 42 43 44 24 03 43 44 45 24 03 44 45 
+0030:46 24 03 45 46 47 24 03 46 47 48 24 03 47 48 49 
