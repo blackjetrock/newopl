@@ -35,9 +35,12 @@ char procedure_name[NOBJ_VARNAME_MAXLEN+1];
 //
 // Set up by header building to point at position where qcode should go
 
-int qcode_idx = 0;
-int pass_number = 0;
-int qcode_header_len = 0;     // Actually length of ob3 file, header and qcodes
+int qcode_idx         = 0;
+int pass_number       = 0;
+int qcode_header_len  = 0;     // Actually length of ob3 file, header and qcodes
+int qcode_start_idx   = 0;      // Where the QCode starts
+int qcode_len         = 0;     // Length of QCode
+int size_of_qcode_idx = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -973,15 +976,20 @@ void build_qcode_header(void)
   // Size of variables
   int idx_size_of_vars_on_stack = idx;
   int     size_of_vars_on_stack = 0;
-
+  
+  dbprintf("Pass number:%d qcode_idx:%04X", pass_number, qcode_idx);
+  
   if( pass_number == 1 )
     {
       return;
     }
+
+  dbprintf("Building qcode header");
   
   idx = set_qcode_header_byte_at(idx, 2, 0x0000);
 
   // Size of QCode
+  size_of_qcode_idx = idx;
   idx = set_qcode_header_byte_at(idx, 2, 0x0000);
 
   num_params    = calculate_num_in_class(NOPL_VAR_CLASS_PARAMETER);
@@ -1065,7 +1073,7 @@ void build_qcode_header(void)
 
 	  var_info[i].offset = -(var_ptr-data_offset_of_type(&(var_info[i])));
 	  //var_info[i].offset = -(var_ptr);
-	  printf("\n%d %s %04X delta:%d offset:%04X", i, var_info[i].name, -var_ptr, var_ptr - last_v_ptr,-(var_ptr-data_offset_of_type(&(var_info[i]))));
+	  dbprintf("%d %s %04X delta:%d offset:%04X", i, var_info[i].name, -var_ptr, var_ptr - last_v_ptr,-(var_ptr-data_offset_of_type(&(var_info[i]))));
 	}
     }
 
@@ -1095,7 +1103,7 @@ void build_qcode_header(void)
 	  var_info[i].offset = -(var_ptr-data_offset_of_type(&(var_info[i])));
 
 	  //var_info[i].offset = -(var_ptr);
-	  printf("\n%d %s %04X delta:%d", i, var_info[i].name, -var_ptr, var_ptr - last_v_ptr);
+	  dbprintf("%d %s %04X delta:%d", i, var_info[i].name, -var_ptr, var_ptr - last_v_ptr);
 	}
     }
 
@@ -1105,6 +1113,9 @@ void build_qcode_header(void)
 
   // Length of string fixups, fill in later
   int size_of_string_fixup_idx = idx;
+
+  dbprintf("size of string fixup idx:%04X idx:%04X", size_of_string_fixup_idx, idx);
+  
   idx = set_qcode_header_byte_at(idx, 2, 0x0000);
 						  
   for(int i=0; i<num_var_info; i++)
@@ -1118,14 +1129,14 @@ void build_qcode_header(void)
 	{
 	  idx = set_qcode_header_byte_at(idx, 2, var_info[i].offset-1);
 	  idx = set_qcode_header_byte_at(idx, 1, var_info[i].max_string);
-	  printf("\n%04X %02X", var_info[i].offset-1, var_info[i].max_string);
+	  dbprintf("%04X %02X", var_info[i].offset-1, var_info[i].max_string);
 	}
     }
 
   int len_string_fixups = idx - size_of_string_fixup_idx - 2;
-  idx = set_qcode_header_byte_at(size_of_string_fixup_idx, 2, len_string_fixups);
+  set_qcode_header_byte_at(size_of_string_fixup_idx, 2, len_string_fixups);
 
-  printf("\nSize of string fixups:%02X", len_string_fixups);
+  dbprintf("Size of string fixups:%02X", len_string_fixups);
 
   // Now the arry sizes
   // Length of array fixups, fill in later
@@ -1145,27 +1156,34 @@ void build_qcode_header(void)
 	  idx = set_qcode_header_byte_at(idx, 2, var_info[i].offset-0);
 	  idx = set_qcode_header_byte_at(idx, 1, (var_info[i].max_array) >> 8);
 	  idx = set_qcode_header_byte_at(idx, 1, (var_info[i].max_array) &  0xff);
-	  printf("\n%04X %04X", var_info[i].offset-0, var_info[i].max_array);
+	  dbprintf("%04X %04X", var_info[i].offset-0, var_info[i].max_array);
 	}
     }
 
   int len_array_fixups = idx - size_of_array_fixup_idx - 2;
-  idx = set_qcode_header_byte_at(size_of_array_fixup_idx, 2, len_array_fixups);
+  set_qcode_header_byte_at(size_of_array_fixup_idx, 2, len_array_fixups);
 
-  printf("\nSize of array fixups:%02X", len_array_fixups);
+  dbprintf("Size of array fixups:%02X", len_array_fixups);
 
   // Write the size of variables into the header
   size_of_vars_on_stack = var_ptr - first_byte_of_globals;
 
-  printf("\nVar_ptr:%04X firstbytegkob:%04X size vars:%04X", var_ptr, first_byte_of_globals, size_of_vars_on_stack);
+  dbprintf("Var_ptr:%04X first byte glob:%04X size vars:%04X", var_ptr, first_byte_of_globals, size_of_vars_on_stack);
   set_qcode_header_byte_at(idx_size_of_vars_on_stack, 2, var_ptr);
   
   qcode_header_len = idx;
 
-  // Leave the qcode index pointing after the header
+  // The header is done, we now generate the first two bytes of the QCode, the STOP SIGN
+  qcode_start_idx = idx;
+  dbprintf("First byte of QCode:%04X", qcode_start_idx);
+  
+  idx = set_qcode_header_byte_at(idx, 1, QCO_STOP);
+  idx = set_qcode_header_byte_at(idx, 1, RTF_SIN);
+  
+  // Leave the qcode index pointing after the header and stop sine
   qcode_idx = idx;
 
-  
+  dbprintf("After build qcode_idx:%04X", qcode_idx);
 }
 
 int print_qch_field(int idx, FILE *fp, char *title, int len)
@@ -1182,7 +1200,7 @@ int print_qch_field(int idx, FILE *fp, char *title, int len)
 
 int set_qcode_header_byte_at(int idx, int len, int val)
 {
-  
+  dbprintf("idx:%04X len:%d val:%02X", idx, len, val);
   switch(len)
     {
     case 1:
@@ -1207,7 +1225,7 @@ int set_qcode_header_string_at(int idx, char *str)
 {
   int len = strlen(str);
 
-  printf("\nlen of %s is %ld", str, strlen(str));
+  dbprintf("len of %s is %ld", str, strlen(str));
   qcode_header[idx++] = len;
   
   for(int i=0; i<len; i++)
@@ -1308,7 +1326,7 @@ void dump_qcode_data(void)
 
   fprintf(objfp, "ORG%c%c%c%c%c", 0x03, 0xc9, 0x83, 0x01, 0xca);
   
-  for(int i=0; i<qcode_header_len; i++)
+  for(int i=0; i<qcode_header_len+qcode_len; i++)
     {
       //      fprintf(objfp, "%c", qcode_header[i]);
       fputc(qcode_header[i], objfp);
@@ -1441,7 +1459,7 @@ void syntax_error(char *fmt, ...)
       dbprintf(" ");
     }
   dbprintf("^");
-  dbprintf("\n\n   %s", line);
+  dbprintf("\n   %s", line);
     
   printf("\n\n\nSyntax error\n");
   printf("\n%s", cline);
@@ -3761,7 +3779,7 @@ int strn_match(char *s1, char *s2, int n)
 	  break;
 	}
 
-      //dbprintf("\n%c ?? %c", *s1, *s2);
+      //dbprintf("%c ?? %c", *s1, *s2);
       
       if( toupper(*s1) != toupper(*s2) )
 	{
@@ -3797,7 +3815,7 @@ int check_command(int *index)
   
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
-      //dbprintf("\nChecking '%s' against '%s'", &(cline[idx]), fn_info[i].name);
+      //dbprintf("Checking '%s' against '%s'", &(cline[idx]), fn_info[i].name);
       //printf("\n%s", fn_info[i].name);
       if( fn_info[i].command && (strn_match(&(cline[idx]), fn_info[i].name, strlen(fn_info[i].name))) )
 	{

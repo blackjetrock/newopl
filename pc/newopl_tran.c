@@ -465,7 +465,8 @@ void output_qcode_for_line(void)
   for(int i=0; i<exp_buffer2_i; i++)
     {
       EXP_BUFFER_ENTRY token = exp_buffer2[i];
-
+#define tokop token.op
+      
       dbprintf("QC: i:%d", i);
       
       if( (exp_buffer2[i].op.buf_id < 0) || (exp_buffer2[i].op.buf_id > EXP_BUFF_ID_MAX) )
@@ -473,12 +474,12 @@ void output_qcode_for_line(void)
 	  dbprintf("N%d buf_id invalid", token.node_id);
 	}
       
-      switch(exp_buffer2[i].op.buf_id)
+      switch(token.op.buf_id)
 	{
 	case EXP_BUFF_ID_META:
 	  // On pass 2 when we see the PROCDEF we generate the qcode header,
 	  // each line then generates qcodes after that
-	  dbprintf("QC:META");
+	  dbprintf("QC:META %s", tokop.name);
 	  
 	  if( pass_number == 2 )
 	    {
@@ -488,7 +489,7 @@ void output_qcode_for_line(void)
 		  qcode_idx = 0;
 		  build_qcode_header();
 		  fprintf(icfp, "Header built qcode_idx:%04X", qcode_idx);
-		  exit(0);
+		  //		  exit(0);
 		}
 	    }
 	  break;
@@ -514,7 +515,7 @@ void output_qcode_for_line(void)
 	}
     }
 
-  qcode_header_len = qcode_idx;
+  qcode_len = qcode_idx - qcode_start_idx;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2811,6 +2812,10 @@ int main(int argc, char *argv[])
       //      build_qcode_header();
       fclose(fp);
     }
+
+  // Fill in the qcode length field
+  set_qcode_header_byte_at(size_of_qcode_idx,   1, qcode_len >> 8);
+  set_qcode_header_byte_at(size_of_qcode_idx+1, 1, qcode_len &  0xFF);
 
   dump_exp_buffer(ofp, 2);
   dump_qcode_data();
