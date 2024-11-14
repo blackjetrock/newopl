@@ -93,6 +93,7 @@ void modify_expression_type(NOBJ_VARTYPE t);
 void op_stack_display(void);
 void op_stack_print(void);
 char type_to_char(NOBJ_VARTYPE t);
+char access_to_char(NOPL_OP_ACCESS a);
 NOBJ_VARTYPE char_to_type(char ch);
 void dump_exp_buffer(FILE *fp, int bufnum);
 
@@ -399,14 +400,104 @@ void operator_can_be_unary(OP_STACK_ENTRY *op)
 
 typedef struct _SIMPLE_QC_MAP
 {
-  int           buf_id;
-  NOBJ_VARTYPE  type;
-  int           qcode;
+  int            buf_id;
+  char           *name;     // Name of OP
+  NOBJ_VARTYPE   optype;    // Type of OP
+  NOPL_VAR_CLASS class;
+  NOBJ_VARTYPE   type;      // Type of variable
+  NOPL_OP_ACCESS access;
+  int            qcode;
 } SIMPLE_QC_MAP;
+
+// A value that will never match
+#define __  200
+
 
 SIMPLE_QC_MAP qc_map[] =
   {
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_EXTERNAL,  NOBJ_VARTYPE_INT,    NOPL_OP_ACCESS_READ, QI_INT_SIM_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_EXTERNAL,  NOBJ_VARTYPE_FLT,    NOPL_OP_ACCESS_READ, QI_NUM_SIM_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_EXTERNAL,  NOBJ_VARTYPE_STR,    NOPL_OP_ACCESS_READ, QI_STR_SIM_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_EXTERNAL,  NOBJ_VARTYPE_INTARY, NOPL_OP_ACCESS_READ, QI_INT_ARR_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_EXTERNAL,  NOBJ_VARTYPE_FLTARY, NOPL_OP_ACCESS_READ, QI_NUM_ARR_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_EXTERNAL,  NOBJ_VARTYPE_STRARY, NOPL_OP_ACCESS_READ, QI_STR_ARR_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_PARAMETER, NOBJ_VARTYPE_INT,    NOPL_OP_ACCESS_READ, QI_INT_SIM_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_PARAMETER, NOBJ_VARTYPE_FLT,    NOPL_OP_ACCESS_READ, QI_NUM_SIM_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_PARAMETER, NOBJ_VARTYPE_STR,    NOPL_OP_ACCESS_READ, QI_STR_SIM_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_PARAMETER, NOBJ_VARTYPE_INTARY, NOPL_OP_ACCESS_READ, QI_INT_ARR_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_PARAMETER, NOBJ_VARTYPE_FLTARY, NOPL_OP_ACCESS_READ, QI_NUM_ARR_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_PARAMETER, NOBJ_VARTYPE_STRARY, NOPL_OP_ACCESS_READ, QI_STR_ARR_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_GLOBAL,    NOBJ_VARTYPE_INT,       NOPL_OP_ACCESS_READ, QI_INT_SIM_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_GLOBAL,    NOBJ_VARTYPE_FLT,       NOPL_OP_ACCESS_READ, QI_NUM_SIM_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_GLOBAL,    NOBJ_VARTYPE_STR,       NOPL_OP_ACCESS_READ, QI_STR_SIM_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_GLOBAL,    NOBJ_VARTYPE_INTARY,    NOPL_OP_ACCESS_READ, QI_INT_ARR_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_GLOBAL,    NOBJ_VARTYPE_FLTARY,    NOPL_OP_ACCESS_READ, QI_NUM_ARR_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_GLOBAL,    NOBJ_VARTYPE_STRARY,    NOPL_OP_ACCESS_READ, QI_STR_ARR_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_LOCAL,     NOBJ_VARTYPE_INT,        NOPL_OP_ACCESS_READ, QI_INT_SIM_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_LOCAL,     NOBJ_VARTYPE_FLT,        NOPL_OP_ACCESS_READ, QI_NUM_SIM_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_LOCAL,     NOBJ_VARTYPE_STR,        NOPL_OP_ACCESS_READ, QI_STR_SIM_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_LOCAL,     NOBJ_VARTYPE_INTARY,     NOPL_OP_ACCESS_READ, QI_INT_ARR_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_LOCAL,     NOBJ_VARTYPE_FLTARY,     NOPL_OP_ACCESS_READ, QI_NUM_ARR_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_LOCAL,     NOBJ_VARTYPE_STRARY,     NOPL_OP_ACCESS_READ, QI_STR_ARR_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_EXTERNAL,  NOBJ_VARTYPE_INT,    NOPL_OP_ACCESS_WRITE, QI_LS_INT_SIM_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_EXTERNAL,  NOBJ_VARTYPE_FLT,    NOPL_OP_ACCESS_WRITE, QI_LS_NUM_SIM_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_EXTERNAL,  NOBJ_VARTYPE_STR,    NOPL_OP_ACCESS_WRITE, QI_LS_STR_SIM_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_EXTERNAL,  NOBJ_VARTYPE_INTARY, NOPL_OP_ACCESS_WRITE, QI_LS_INT_ARR_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_EXTERNAL,  NOBJ_VARTYPE_FLTARY, NOPL_OP_ACCESS_WRITE, QI_LS_NUM_ARR_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_EXTERNAL,  NOBJ_VARTYPE_STRARY, NOPL_OP_ACCESS_WRITE, QI_LS_STR_ARR_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_PARAMETER, NOBJ_VARTYPE_INT,    NOPL_OP_ACCESS_WRITE, QI_LS_INT_SIM_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_PARAMETER, NOBJ_VARTYPE_FLT,    NOPL_OP_ACCESS_WRITE, QI_LS_NUM_SIM_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_PARAMETER, NOBJ_VARTYPE_STR,    NOPL_OP_ACCESS_WRITE, QI_LS_STR_SIM_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_PARAMETER, NOBJ_VARTYPE_INTARY, NOPL_OP_ACCESS_WRITE, QI_LS_INT_ARR_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_PARAMETER, NOBJ_VARTYPE_FLTARY, NOPL_OP_ACCESS_WRITE, QI_LS_NUM_ARR_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_PARAMETER, NOBJ_VARTYPE_STRARY, NOPL_OP_ACCESS_WRITE, QI_LS_STR_ARR_IND},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_GLOBAL,    NOBJ_VARTYPE_INT,       NOPL_OP_ACCESS_WRITE, QI_LS_INT_SIM_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_GLOBAL,    NOBJ_VARTYPE_FLT,       NOPL_OP_ACCESS_WRITE, QI_LS_NUM_SIM_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_GLOBAL,    NOBJ_VARTYPE_STR,       NOPL_OP_ACCESS_WRITE, QI_LS_STR_SIM_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_GLOBAL,    NOBJ_VARTYPE_INTARY,    NOPL_OP_ACCESS_WRITE, QI_LS_INT_ARR_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_GLOBAL,    NOBJ_VARTYPE_FLTARY,    NOPL_OP_ACCESS_WRITE, QI_LS_NUM_ARR_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_GLOBAL,    NOBJ_VARTYPE_STRARY,    NOPL_OP_ACCESS_WRITE, QI_LS_STR_ARR_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_LOCAL,     NOBJ_VARTYPE_INT,        NOPL_OP_ACCESS_WRITE, QI_LS_INT_SIM_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_LOCAL,     NOBJ_VARTYPE_FLT,        NOPL_OP_ACCESS_WRITE, QI_LS_NUM_SIM_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_LOCAL,     NOBJ_VARTYPE_STR,        NOPL_OP_ACCESS_WRITE, QI_LS_STR_SIM_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_LOCAL,     NOBJ_VARTYPE_INTARY,     NOPL_OP_ACCESS_WRITE, QI_LS_INT_ARR_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_LOCAL,     NOBJ_VARTYPE_FLTARY,     NOPL_OP_ACCESS_WRITE, QI_LS_NUM_ARR_FP},
+    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_LOCAL,     NOBJ_VARTYPE_STRARY,     NOPL_OP_ACCESS_WRITE, QI_LS_STR_ARR_FP},
+    {EXP_BUFF_ID_AUTOCON,  "",    NOBJ_VARTYPE_INT,     __,                      __,     __,               QCO_NUM_TO_INT},
+    {EXP_BUFF_ID_AUTOCON,  "",    NOBJ_VARTYPE_FLT,     __,                      __,     __,               QCO_INT_TO_NUM},
+    {EXP_BUFF_ID_OPERATOR, ":=",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_ASS_INT},
+    {EXP_BUFF_ID_OPERATOR, ":=",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_ASS_NUM},
+    {EXP_BUFF_ID_OPERATOR, ":=",  NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_ASS_STR},
+
+    {EXP_BUFF_ID_RETURN, "",      NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_RETURN_NOUGHT},
+    {EXP_BUFF_ID_RETURN, "",      NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_RETURN_ZERO},
+    {EXP_BUFF_ID_RETURN, "",      NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_RETURN_NULL},
+
   };
+
+#define NUM_SIMPLE_QC_MAP (sizeof(qc_map)/sizeof(SIMPLE_QC_MAP))
+
+int add_simple_qcode(int idx, OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
+{
+  for(int i=0; i<NUM_SIMPLE_QC_MAP; i++)
+    {
+      if( op->buf_id == qc_map[i].buf_id )
+	{
+	  // See if other values match
+	  if( ((qc_map[i].class  == vi->class)         || (qc_map[i].class == __))   &&
+	      ((qc_map[i].type   == vi->type)          || (qc_map[i].type == __)) &&
+	      ((qc_map[i].optype == op->type)          || (qc_map[i].optype == __)) &&
+	      ((qc_map[i].access == op->access)        || (qc_map[i].access == __)) &&
+	      (((strcmp(qc_map[i].name, op->name) == 0) && (strlen(qc_map[i].name) != 0)) || (strlen(qc_map[i].name) == 0))
+	      )
+	    {
+	      // We have a match and a qcode
+	      return(set_qcode_header_byte_at(idx, 1, qc_map[i].qcode));
+	    }
+	}
+    }
+  return(idx);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -492,6 +583,7 @@ void output_qcode_for_line(void)
       
       switch(token.op.buf_id)
 	{
+
 	case EXP_BUFF_ID_META:
 	  // On pass 2 when we see the PROCDEF we generate the qcode header,
 	  // each line then generates qcodes after that
@@ -512,7 +604,8 @@ void output_qcode_for_line(void)
 	      return;
 	    }
 	  break;
-	  
+
+#if 0	  
 	case EXP_BUFF_ID_VARIABLE:
 	  // Output a variable reference push
 	  dbprintf("QC:Variable reference");
@@ -594,7 +687,18 @@ void output_qcode_for_line(void)
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (vi->offset) & 0xFF);
 			  
 	  break;
+#endif
+	case EXP_BUFF_ID_VARIABLE:
+	  // Find the info about this variable
+	  NOBJ_VAR_INFO *vi;
 
+	  vi = find_var_info(tokop.name);
+
+	  qcode_idx = add_simple_qcode(qcode_idx, &(token.op), vi);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (vi->offset) >> 8);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (vi->offset) & 0xFF);
+	  break;
+	  
 	case EXP_BUFF_ID_INTEGER:
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_INT_CON);
 
@@ -647,7 +751,11 @@ void output_qcode_for_line(void)
 	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer[i].name[j]);
 	    }
 	  break;
-	  
+
+	default:
+	  // Check the simple mapping table
+	  qcode_idx = add_simple_qcode(qcode_idx, &(token.op), vi);
+	  break;
 	}
     }
 
@@ -790,6 +898,34 @@ char type_to_char(NOBJ_VARTYPE t)
 
     case NOBJ_VARTYPE_VOID:
       c = 'v';
+      break;
+      
+    default:
+      c = '?';
+      break;
+    }
+  
+  return(c);
+}
+
+//------------------------------------------------------------------------------
+
+char access_to_char(NOPL_OP_ACCESS a)
+{
+  char c;
+  
+  switch(a)
+    {
+    case NOPL_OP_ACCESS_UNKNOWN:
+      c = 'U';
+      break;
+
+    case NOPL_OP_ACCESS_READ:
+      c = 'R';
+      break;
+
+    case NOPL_OP_ACCESS_WRITE:
+      c = 'W';
       break;
       
     default:
@@ -1076,9 +1212,10 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 	  }
 
 	
-	fprintf(fp, "\n(%16s) N%d %-30s %s %c rq:%c '%s' npar:%d nidx:%d",
+	fprintf(fp, "\n(%16s) N%d %c %-30s %s %c rq:%c '%s' npar:%d nidx:%d",
 		__FUNCTION__,
 		token.node_id,
+		access_to_char(token.op.access),
 		exp_buffer_id_str[token.op.buf_id],
 		levstr,
 		type_to_char(token.op.type),
@@ -1958,7 +2095,8 @@ void init_op_stack_entry(OP_STACK_ENTRY *op)
   op->num_bytes      = 0;
   op->level          = 0;
   op->num_parameters = 0;
-    
+  op->access         = NOPL_OP_ACCESS_READ;  // Default to reading things
+  
   for(int i=0; i<NOPL_MAX_SUFFIX_BYTES; i++)
     {
       op->bytes[i] = 0xCC;

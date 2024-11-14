@@ -2069,7 +2069,7 @@ void set_op_var_type(OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
 
 //------------------------------------------------------------------------------
 
-int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
+int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access)
 {
   char vname[300];
   char chstr[2];
@@ -2221,6 +2221,7 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	  if( scan_literal(" )") )
 	    {
 	      dbprintf("%s:ret1 vname='%s' %s", __FUNCTION__, vname, type_to_str(vi->type) );
+	      op.access = access;
 	      
 	      strcpy(vi->name, vname);
 	      strcpy(op.name, vname);
@@ -2232,6 +2233,10 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare)
 	}
       
       dbprintf("%s:ret1 vname='%s' %s", __FUNCTION__, vname, type_to_str(vi->type) );
+
+      // Use correct access depending on variable access (ref or value)
+      // which is really read or write
+      op.access = access;
       
       strcpy(vi->name, vname);
       strcpy(op.name, vname);
@@ -3219,7 +3224,7 @@ int scan_atom(void)
     {
       // Variable
       init_var_info(&vi);
-      if(scan_variable(&vi, VAR_REF))
+      if(scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_READ))
 	{
 	  print_var_info(&vi);
 	  dbprintf("ret1");
@@ -4179,6 +4184,8 @@ int check_assignment(int *index)
   return(0);
 }
 
+//------------------------------------------------------------------------------
+
 int scan_assignment(void)
 {
   NOBJ_VAR_INFO vi;
@@ -4189,7 +4196,7 @@ int scan_assignment(void)
   init_var_info(&vi);
   dbprintf("%s:", __FUNCTION__);
 
-  if( scan_variable(&vi, VAR_REF) )
+  if( scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_WRITE) )
     {
       print_var_info(&vi);
       
@@ -4853,7 +4860,7 @@ int scan_input(void)
 
   if( scan_literal(" INPUT") )
     {
-      if(scan_variable(&vi, VAR_REF))
+      if(scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_READ))
 	{
 	  print_var_info(&vi);
 	  dbprintf("ret1");
@@ -6210,7 +6217,7 @@ int scan_param_list(void)
 	{
 	  init_var_info(&vi);
 	  
-	  if( scan_variable(&vi, VAR_PARAMETER))
+	  if( scan_variable(&vi, VAR_PARAMETER, NOPL_OP_ACCESS_READ))
 	    {
 	      vi.class = NOPL_VAR_CLASS_PARAMETER;
 	      //vi.is_global = !local_nglobal;
@@ -6334,7 +6341,7 @@ int scan_localglobal(int local_nglobal)
 	{
 	  init_var_info(&vi);
 	  
-	  if( scan_variable(&vi, VAR_DECLARE))
+	  if( scan_variable(&vi, VAR_DECLARE, NOPL_OP_ACCESS_READ))
 	    {
 	      vi.class = local_nglobal?NOPL_VAR_CLASS_LOCAL:NOPL_VAR_CLASS_GLOBAL;
 	      vi.is_ref = 0;

@@ -160,6 +160,14 @@ typedef enum _NOPL_VAR_CLASS
     NOPL_VAR_CLASS_PARAMETER,
     
   } NOPL_VAR_CLASS;
+
+typedef enum _NOPL_OP_ACCESS
+  {
+    NOPL_OP_ACCESS_UNKNOWN,
+    NOPL_OP_ACCESS_READ,
+    NOPL_OP_ACCESS_WRITE,
+  } NOPL_OP_ACCESS;
+
 typedef struct _NOBJ_VAR_INFO
 {
   char name[NOBJ_VARNAME_MAXLEN];
@@ -184,18 +192,19 @@ typedef struct _NOBJ_COND_INFO
 
 typedef struct _OP_STACK_ENTRY
 {
-  char           name[256];  // Needs to be large as we put string literals here
-  int            buf_id;
-  NOBJ_INT       integer;
-  NOBJ_VARTYPE   type;       // Original type
-  NOBJ_VARTYPE   req_type;   // Required type
-  struct _NOBJ_VAR_INFO  vi;
-  struct _NOBJ_COND_INFO ci;
+  char                    name[256];  // Needs to be large as we put string literals here
+  int                     buf_id;
+  NOBJ_INT                integer;
+  NOBJ_VARTYPE            type;       // Original type
+  NOBJ_VARTYPE            req_type;   // Required type
+  struct _NOBJ_VAR_INFO   vi;
+  struct _NOBJ_COND_INFO  ci;
   // Bytes may be added after the qcode
-  int num_bytes;
-  int bytes[NOPL_MAX_SUFFIX_BYTES];
-  int level;                 // Used for conditionals
-  int num_parameters;
+  int                     num_bytes;
+  int                     bytes[NOPL_MAX_SUFFIX_BYTES];
+  int                     level;                 // Used for conditionals
+  int                     num_parameters;
+  NOPL_OP_ACCESS          access;                // Read or write (variables)
 } OP_STACK_ENTRY;
 
 #define MAX_EXP_BUF_P   12
