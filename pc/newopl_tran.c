@@ -469,9 +469,9 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_OPERATOR, ":=",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_ASS_NUM},
     {EXP_BUFF_ID_OPERATOR, ":=",  NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_ASS_STR},
 
-    {EXP_BUFF_ID_RETURN, "",      NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_RETURN_NOUGHT},
-    {EXP_BUFF_ID_RETURN, "",      NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_RETURN_ZERO},
-    {EXP_BUFF_ID_RETURN, "",      NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_RETURN_NULL},
+    //{EXP_BUFF_ID_RETURN, "",      NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_RETURN_NOUGHT},
+    //{EXP_BUFF_ID_RETURN, "",      NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_RETURN_ZERO},
+    //{EXP_BUFF_ID_RETURN, "",      NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_RETURN_NULL},
 
   };
 
@@ -605,89 +605,35 @@ void output_qcode_for_line(void)
 	    }
 	  break;
 
-#if 0	  
-	case EXP_BUFF_ID_VARIABLE:
-	  // Output a variable reference push
-	  dbprintf("QC:Variable reference");
-
-	  // Locals and globals are directly addressed, externals and parameters
-	  // are indirectly addressed.
-
-	  // Find the info about this variable
-	  NOBJ_VAR_INFO *vi;
-
-	  vi = find_var_info(tokop.name);
-
-	  // Use the appropriate qcode
-	  switch(vi->class)
+	  // If there's a return keyword then there would have been a return value that should have been stacked.
+	  // The qcode for this situation is  QCO_RETURN
+	  // If there's no RETURN then a code that stacks a zero/null has to be added once the translating ends.
+	case EXP_BUFF_ID_RETURN:
+	  procedure_has_return = 1;
+	  
+	  if( token.op.access == NOPL_OP_ACCESS_EXP )
 	    {
-	    case NOPL_VAR_CLASS_EXTERNAL:
-	    case NOPL_VAR_CLASS_PARAMETER:
-	      switch(vi->type)
-		{
-		case NOBJ_VARTYPE_INT:
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_INT_SIM_IND);
-		  break;
-		  
-		case NOBJ_VARTYPE_FLT:
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_NUM_SIM_IND);
-		  break;
-		  
-		case NOBJ_VARTYPE_STR:
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_STR_SIM_IND);
-		  break;
-
-		case NOBJ_VARTYPE_INTARY:
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_INT_ARR_IND);
-		  break;
-		  
-		case NOBJ_VARTYPE_FLTARY:
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_NUM_ARR_IND);
-		  break;
-		  
-		case NOBJ_VARTYPE_STRARY:
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_STR_ARR_IND);
-		  break;
-		}
-	      break;
-
-	    case NOPL_VAR_CLASS_GLOBAL:
-	    case NOPL_VAR_CLASS_LOCAL:
-	      switch(vi->type)
-		{
-		case NOBJ_VARTYPE_INT:
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_INT_SIM_FP);
-		  break;
-		  
-		case NOBJ_VARTYPE_FLT:
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_NUM_SIM_FP);
-		  break;
-		  
-		case NOBJ_VARTYPE_STR:
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_STR_SIM_FP);
-		  break;
-
-		case NOBJ_VARTYPE_INTARY:
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_INT_ARR_FP);
-		  break;
-		  
-		case NOBJ_VARTYPE_FLTARY:
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_NUM_ARR_FP);
-		  break;
-		  
-		case NOBJ_VARTYPE_STRARY:
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_STR_ARR_FP);
-		  break;
-		}
-	      break;
-	      
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_RETURN);
 	    }
+	  else
+	    {
+	      switch(procedure_type)
+		{
+		case NOBJ_VARTYPE_INT:
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_RETURN_NOUGHT);
+		  break;
 
-	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (vi->offset) >> 8);
-	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (vi->offset) & 0xFF);
-			  
+		case NOBJ_VARTYPE_FLT:
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_RETURN_ZERO);
+		  break;
+
+		case NOBJ_VARTYPE_STR:
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_RETURN_NULL);
+		  break;
+		}
+	    }
 	  break;
-#endif
+	  
 	case EXP_BUFF_ID_VARIABLE:
 	  // Find the info about this variable
 	  NOBJ_VAR_INFO *vi;
@@ -761,6 +707,27 @@ void output_qcode_for_line(void)
 
   qcode_len = qcode_idx - qcode_start_idx;
 }
+
+void output_qcode_suffix(void)
+{
+  switch(procedure_type)
+    {
+    case NOBJ_VARTYPE_INT:
+      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_RETURN_NOUGHT);
+      break;
+      
+    case NOBJ_VARTYPE_FLT:
+      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_RETURN_ZERO);
+      break;
+      
+    case NOBJ_VARTYPE_STR:
+      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_RETURN_NULL);
+      break;
+    }
+
+  qcode_len = qcode_idx - qcode_start_idx;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -924,8 +891,12 @@ char access_to_char(NOPL_OP_ACCESS a)
       c = 'R';
       break;
 
-    case NOPL_OP_ACCESS_WRITE:
-      c = 'W';
+    case NOPL_OP_ACCESS_EXP:
+      c = 'X';
+      break;
+
+    case NOPL_OP_ACCESS_NO_EXP:
+      c = 'x';
       break;
       
     default:
@@ -3098,10 +3069,11 @@ int main(int argc, char *argv[])
 	}
 
       translate_file(fp, ofp);
-      //      build_qcode_header();
       fclose(fp);
     }
 
+  output_qcode_suffix();
+  
   // Fill in the qcode length field
   set_qcode_header_byte_at(size_of_qcode_idx,   1, qcode_len >> 8);
   set_qcode_header_byte_at(size_of_qcode_idx+1, 1, qcode_len &  0xFF);

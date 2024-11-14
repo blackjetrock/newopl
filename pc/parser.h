@@ -393,5 +393,7 @@ extern int qcode_header_len;
 extern int qcode_start_idx;
 extern int qcode_len;
 extern int size_of_qcode_idx;
+extern int procedure_has_return;
+extern NOBJ_VARTYPE  procedure_type;
 
 

@@ -166,6 +166,9 @@ typedef enum _NOPL_OP_ACCESS
     NOPL_OP_ACCESS_UNKNOWN,
     NOPL_OP_ACCESS_READ,
     NOPL_OP_ACCESS_WRITE,
+    NOPL_OP_ACCESS_EXP,
+    NOPL_OP_ACCESS_NO_EXP,
+    
   } NOPL_OP_ACCESS;
 
 typedef struct _NOBJ_VAR_INFO
@@ -205,6 +208,7 @@ typedef struct _OP_STACK_ENTRY
   int                     level;                 // Used for conditionals
   int                     num_parameters;
   NOPL_OP_ACCESS          access;                // Read or write (variables)
+                                                 // EXP or NO_EXP for RETURN
 } OP_STACK_ENTRY;
 
 #define MAX_EXP_BUF_P   12

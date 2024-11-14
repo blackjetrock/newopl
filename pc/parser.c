@@ -24,7 +24,10 @@ int unique_level = 0;
 #define SAVE_I     1
 #define NO_SAVE_I  0
 
-char procedure_name[NOBJ_VARNAME_MAXLEN+1];
+// Information about the procedure being translated
+char          procedure_name[NOBJ_VARNAME_MAXLEN+1];
+NOBJ_VARTYPE  procedure_type;
+int           procedure_has_return = 0;
 
 #define I_WHERE     &(cline[cline_i])
 #define IDX_WHERE   &(cline[idx])
@@ -1335,7 +1338,13 @@ void dump_qcode_data(void)
   
   fclose (fp);
 
+  ////////////////////////////////////////////////////////////////////////////////
+  //
   // Binary output
+  //
+  ////////////////////////////////////////////////////////////////////////////////
+  
+
   FILE *objfp;
 
   printf("\nWriting binary...");
@@ -1343,13 +1352,16 @@ void dump_qcode_data(void)
   
   objfp = fopen("ob3_nopl.bin", "wb");
 
-  fprintf(objfp, "ORG%c%c%c%c%c", 0x03, 0xc9, 0x83, 0x01, 0xca);
+  fprintf(objfp, "ORG%c%c%c%c%c", 0x01, 0xce, 0x83, 0x01, 0xca);
   
   for(int i=0; i<qcode_header_len+qcode_len; i++)
     {
       //      fprintf(objfp, "%c", qcode_header[i]);
       fputc(qcode_header[i], objfp);
     }
+
+  fputc(0x00, objfp);
+  fputc(0x00, objfp);
   fclose(objfp);
   
 }
@@ -4237,7 +4249,7 @@ int is_textlabelchar(char c)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int check_textlabel(int *index, char *label_dest)
+int check_textlabel(int *index, char *label_dest, NOBJ_VARTYPE *type)
 {
   int idx = *index;
   char chstr[2];
@@ -4265,6 +4277,7 @@ int check_textlabel(int *index, char *label_dest)
 	{
 	  break;
 	}
+      
       chstr[0] = cline[idx];
       strcat(label_dest, chstr);
       idx++;
@@ -4272,15 +4285,24 @@ int check_textlabel(int *index, char *label_dest)
 
   dbprintf("'%s' is a text label", label_dest);
   
-#if 0  
-  if( cline[idx] == ':' )
-    {
-      *index = idx;
-      dbprintf("ret1");
-      return(1);
-    }
-#endif
   *index = idx;
+
+  // Work out the type of the label
+  switch(chstr[0])
+    {
+    case '%':
+      *type = NOBJ_VARTYPE_INT;
+      break;
+
+    case '$':
+      *type = NOBJ_VARTYPE_STR;
+      break;
+
+    default:
+      *type = NOBJ_VARTYPE_FLT;
+      break;
+    }
+  
   dbprintf("%s:ret0", __FUNCTION__);  
   return(1);
 }
@@ -4292,17 +4314,23 @@ int check_label(int *index)
 {
   int idx = *index;
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
+  NOBJ_VARTYPE type;
+
   indent_more();
   
   dbprintf("%s:", __FUNCTION__);
   
-  if( check_textlabel(&idx, textlabel))
+  if( check_textlabel(&idx, textlabel, &type))
     {
-      if( check_literal(&idx, "::") )
+      // labels should not have any type character after them, so that's type FLT
+      if( type == NOBJ_VARTYPE_FLT )
 	{
-	  dbprintf("ret1");
-	  *index = idx;
-	  return(1);
+	  if( check_literal(&idx, "::") )
+	    {
+	      dbprintf("ret1");
+	      *index = idx;
+	      return(1);
+	    }
 	}
     }
   
@@ -4317,18 +4345,23 @@ int scan_label(char *dest_label)
 {
   int idx = cline_i;
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
+  NOBJ_VARTYPE type;
+
   indent_more();
   
   dbprintf("%s:", __FUNCTION__);
-  if( check_textlabel(&idx, textlabel))
+  if( type == NOBJ_VARTYPE_FLT )
     {
-      cline_i = idx;
-      
-      if( scan_literal("::") )
+      if( check_textlabel(&idx, textlabel, &type))
 	{
-	  strcpy(dest_label, textlabel);
-	  dbprintf("ret1");
-	  return(1);
+	  cline_i = idx;
+	  
+	  if( scan_literal("::") )
+	    {
+	      strcpy(dest_label, textlabel);
+	      dbprintf("ret1");
+	      return(1);
+	    }
 	}
     }
 
@@ -4367,7 +4400,9 @@ int check_return(int *index)
 }
 
 //------------------------------------------------------------------------------
-
+//
+// RETURN can be present with or without an expression, the qcode genrated is different
+// depending on the presence of an expression. We set the 
 int scan_return(void)
 {
   int idx = cline_i;
@@ -4397,6 +4432,7 @@ int scan_return(void)
 	      // are translating.
 	      
 	      //	      op.type = NOBJ_VARTY;
+	      op.access = NOPL_OP_ACCESS_EXP;
 	      op.buf_id = EXP_BUFF_ID_RETURN;
 	      strcpy(op.name, "RETURN");
 	      process_token(&op);
@@ -4410,6 +4446,7 @@ int scan_return(void)
 	  
 	  dbprintf("%s:ret1 Expression not present", __FUNCTION__);
 	  op.buf_id = EXP_BUFF_ID_RETURN;
+	  op.access = NOPL_OP_ACCESS_NO_EXP;
 	  op.type = NOBJ_VARTYPE_VOID;
 	  strcpy(op.name, "RETURN");
 	  process_token(&op);
@@ -4879,11 +4916,12 @@ int check_proc_call(int *index)
 {
   int idx = *index;
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
+  NOBJ_VARTYPE type;
   
   indent_more();
   
   dbprintf("%s:", __FUNCTION__);
-  if( check_textlabel(&idx, textlabel))
+  if( check_textlabel(&idx, textlabel, &type))
     {
       dbprintf("'%s' is text label", textlabel);
       if( check_literal(&idx, ":") )
@@ -4936,13 +4974,14 @@ int scan_proc_call(void)
   OP_STACK_ENTRY op;
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
   int num_expr = 0;
-    
+  NOBJ_VARTYPE type;
+      
   indent_more();
   
   init_op_stack_entry(&op);
   
   dbprintf("%s:", __FUNCTION__);
-  if( check_textlabel(&idx, textlabel))
+  if( check_textlabel(&idx, textlabel, &type))
     {
       dbprintf("%s:*** '%s'", __FUNCTION__, textlabel);
       fflush(ofp);
@@ -6265,7 +6304,7 @@ int scan_procdef(void)
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
   OP_STACK_ENTRY op;
   int num_subexpr;
-  
+    
   init_op_stack_entry(&op);
   op.buf_id = EXP_BUFF_ID_META;
   strcpy(op.name, "PROCDEF");   
@@ -6275,14 +6314,14 @@ int scan_procdef(void)
   
   dbprintf("");
   
-  if( check_textlabel(&idx, textlabel))
+  if( check_textlabel(&idx, textlabel, &procedure_type))
     {
       cline_i = idx;
 
       dbprintf("Text label:'%s'", textlabel);
       if( scan_literal(":") )
 	{
-	  dbprintf("ret1");
+	  dbprintf("ret1 Type:%c", type_to_char(procedure_type));
 	  strcpy(procedure_name, textlabel);
 
 	  // Now scan the parameter list
@@ -6447,11 +6486,19 @@ int scan_declare(void)
   return(0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// Checks and initialises the parser
+//
+
 void parser_check(void)
 {
+  procedure_has_return = 0;
+  
   dbprintf("NUM_BUFF_ID    :%d", NUM_BUFF_ID);
   dbprintf("EXP_BUFF_ID_MAX:%d", EXP_BUFF_ID_MAX);
   dbprintf("");
   
   assert( NUM_BUFF_ID == (EXP_BUFF_ID_MAX +1));
 }
+
