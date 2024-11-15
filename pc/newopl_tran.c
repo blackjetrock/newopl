@@ -474,6 +474,8 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "AT",                __,     __,                   __,        __,               QCO_AT},
     {EXP_BUFF_ID_FUNCTION, "PAUSE",             __,     __,                   __,        __,               QCO_PAUSE},
     {EXP_BUFF_ID_FUNCTION, "KEY",               __,     __,                   __,        __,               RTF_KEY},
+    {EXP_BUFF_ID_FUNCTION, "IABS", NOBJ_VARTYPE_INT,    __,                   __,        __,               RTF_IABS},
+    {EXP_BUFF_ID_FUNCTION, "ABS", NOBJ_VARTYPE_FLT,     __,                   __,        __,               RTF_ABS},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_LT_INT},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_LT_NUM},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_LT_STR},
