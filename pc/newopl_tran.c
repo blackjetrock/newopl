@@ -1822,6 +1822,7 @@ void typecheck_expression(void)
 	  
 	  // Set up the function return value
 	  ret_type = function_return_type(be.name);
+
 	  fprintf(ofp, "\nret_type;%d %c", ret_type, type_to_char(ret_type));
 	  fprintf(ofp, "\n%s:Ret type of %s : %c", __FUNCTION__, be.name, type_to_char(ret_type));
 	  
@@ -2883,7 +2884,7 @@ void process_token(OP_STACK_ENTRY *token)
       // which is more of a hint.
       strcpy(o1.name, tokptr);
       vt = function_return_type(o1.name);
-
+      
       fprintf(ofp, "\n%s: '%s' t=>%c", __FUNCTION__, o1.name, type_to_char(vt));
       
       o1.type = vt;
