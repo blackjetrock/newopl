@@ -468,10 +468,50 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_OPERATOR, ":=",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_ASS_INT},
     {EXP_BUFF_ID_OPERATOR, ":=",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_ASS_NUM},
     {EXP_BUFF_ID_OPERATOR, ":=",  NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_ASS_STR},
+    {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_EQ_INT},
+    {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_EQ_NUM},
+    {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_EQ_STR},
+    {EXP_BUFF_ID_FUNCTION, "AT",                __,     __,                   __,        __,               QCO_AT},
+    {EXP_BUFF_ID_FUNCTION, "PAUSE",             __,     __,                   __,        __,               QCO_PAUSE},
+    {EXP_BUFF_ID_FUNCTION, "KEY",               __,     __,                   __,        __,               RTF_KEY},
+    {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_LT_INT},
+    {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_LT_NUM},
+    {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_LT_STR},
+    {EXP_BUFF_ID_OPERATOR, "<=",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_LTE_INT},
+    {EXP_BUFF_ID_OPERATOR, "<=",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_LTE_NUM},
+    {EXP_BUFF_ID_OPERATOR, "<=",  NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_LTE_STR},
+    {EXP_BUFF_ID_OPERATOR, ">",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_GT_INT},
+    {EXP_BUFF_ID_OPERATOR, ">",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_GT_NUM},
+    {EXP_BUFF_ID_OPERATOR, ">",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_GT_STR},
+    {EXP_BUFF_ID_OPERATOR, ">=",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_GTE_INT},
+    {EXP_BUFF_ID_OPERATOR, ">=",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_GTE_NUM},
+    {EXP_BUFF_ID_OPERATOR, ">=",  NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_GTE_STR},
+    {EXP_BUFF_ID_OPERATOR, "<>",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_NE_INT},
+    {EXP_BUFF_ID_OPERATOR, "<>",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_NE_NUM},
+    {EXP_BUFF_ID_OPERATOR, "<>",  NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_NE_STR},
+    {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_EQ_INT},
+    {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_EQ_NUM},
+    {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_EQ_STR},
+    {EXP_BUFF_ID_OPERATOR, "+",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_ADD_INT},
+    {EXP_BUFF_ID_OPERATOR, "+",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_ADD_NUM},
+    {EXP_BUFF_ID_OPERATOR, "+",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_ADD_STR},
+    {EXP_BUFF_ID_OPERATOR, "-",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_SUB_INT},
+    {EXP_BUFF_ID_OPERATOR, "-",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_SUB_NUM},
+    {EXP_BUFF_ID_OPERATOR, "*",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_MUL_INT},
+    {EXP_BUFF_ID_OPERATOR, "*",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_MUL_NUM},
+    {EXP_BUFF_ID_OPERATOR, "/",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_DIV_INT},
+    {EXP_BUFF_ID_OPERATOR, "/",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_DIV_NUM},
+    {EXP_BUFF_ID_OPERATOR, "**",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_POW_INT},
+    {EXP_BUFF_ID_OPERATOR, "**",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_POW_NUM},
+    {EXP_BUFF_ID_OPERATOR, "UMIN",NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_UMIN_INT},
+    {EXP_BUFF_ID_OPERATOR, "UMIN",NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_UMIN_NUM},
+    {EXP_BUFF_ID_OPERATOR, "NOT", NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_NOT_INT},
+    {EXP_BUFF_ID_OPERATOR, "NOT", NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_NOT_NUM},
+    {EXP_BUFF_ID_OPERATOR, "AND", NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_AND_INT},
+    {EXP_BUFF_ID_OPERATOR, "AND", NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_AND_NUM},
+    {EXP_BUFF_ID_OPERATOR, "OR",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_OR_INT},
+    {EXP_BUFF_ID_OPERATOR, "OR",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_OR_NUM},
 
-    //{EXP_BUFF_ID_RETURN, "",      NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_RETURN_NOUGHT},
-    //{EXP_BUFF_ID_RETURN, "",      NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_RETURN_ZERO},
-    //{EXP_BUFF_ID_RETURN, "",      NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_RETURN_NULL},
 
   };
 
@@ -498,6 +538,81 @@ int add_simple_qcode(int idx, OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
     }
   return(idx);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Conditional branch offset fixups
+
+typedef struct _COND_FIXUP_ENTRY
+{
+  int idx;
+  int buf_id;       // The type of point in the qcode that this is
+  int level;
+} COND_FIXUP_ENTRY;
+
+#define MAX_COND_FIXUP 100
+
+COND_FIXUP_ENTRY cond_fixup[MAX_COND_FIXUP];
+int cond_fixup_i = 0;
+
+void add_cond_fixup(int idx, int buf_id, int level)
+{
+  if( cond_fixup_i < MAX_COND_FIXUP-1 )
+    {
+      cond_fixup[cond_fixup_i].idx    = idx;
+      cond_fixup[cond_fixup_i].buf_id = buf_id;
+      cond_fixup[cond_fixup_i].level  = level;
+      cond_fixup_i++;
+    }
+  else
+    {
+      internal_error("Too many conditionals");
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+// Find an index given a level and buf_id
+
+int find_idx(int buf_id, int level)
+{
+  for(int i=0; i<cond_fixup_i; i++)
+    {
+      if( (buf_id == cond_fixup[i].buf_id) && (level == cond_fixup[i].level) )
+	{
+	  return(cond_fixup[i].idx);
+	}
+    }
+  return(0);
+}
+
+//------------------------------------------------------------------------------
+//
+// Fix up conditional branches
+//
+
+void do_cond_fixup(void)
+{
+  for(int i=0; i<cond_fixup_i; i++)
+    {
+      switch(cond_fixup[i].buf_id)
+	{
+	case EXP_BUFF_ID_UNTIL:
+	  // Find matching DO and get idx
+	  int do_idx = find_idx(EXP_BUFF_ID_DO, cond_fixup[i].level);
+
+	  // Calculate offset
+	  int branch_offset = (do_idx - cond_fixup[i].idx);
+	  int until_offset = branch_offset;
+	  
+	  // Fill in the offset
+	  set_qcode_header_byte_at(cond_fixup[i].idx+0, 1, (until_offset) >> 8);
+	  set_qcode_header_byte_at(cond_fixup[i].idx+1, 1, (until_offset) & 0xFF);
+	  break;
+	}
+    }
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -568,6 +683,18 @@ void output_qcode_for_line(void)
   dbprintf("================================================================================");
   dbprintf("Generating QCode     Buf2_i:%d qcode_idx:%04X", exp_buffer2_i, qcode_idx);
   dbprintf("================================================================================");
+
+  // Things need to be detected so qcode can be generated earlier than the normal token generation
+  // would have created them.
+  int elseif_present = 0;
+  
+  for(int i=0; i<exp_buffer2_i; i++)
+    {
+      if(  exp_buffer2[i].op.buf_id == EXP_BUFF_ID_ELSEIF )
+	{
+	  elseif_present = 1;
+	}
+    }
   
   for(int i=0; i<exp_buffer2_i; i++)
     {
@@ -685,6 +812,21 @@ void output_qcode_for_line(void)
 	    }
 	  break;
 
+	case EXP_BUFF_ID_UNTIL:
+	case EXP_BUFF_ID_IF:
+	  // We put zero in as a dummy jump offset and add it to the conditionals fixup table
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_BRA_FALSE);
+	  add_cond_fixup(qcode_idx, token.op.buf_id, token.op.level);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  
+	  break;
+
+	case EXP_BUFF_ID_DO:
+	  // No Qcode, we just create a point where UNTIL can branch back to
+	  add_cond_fixup(qcode_idx, token.op.buf_id, token.op.level);
+	  break;
+	  
 	case EXP_BUFF_ID_STR:
 	  // String literal
 	  dbprintf("\nQC:String Literal");
@@ -1196,12 +1338,14 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 		token.op.vi.num_indices);
       
       fprintf(fp, "  %d:", token.p_idx);
+
       for(int pi=0; pi<token.p_idx; pi++)
 	{
 	  fprintf(fp, " %d", token.p[pi]);
 	}
 
       fprintf(fp, "  nb %d:(", token.op.num_bytes);
+      
       for(int i=0; (i<token.op.num_bytes) & (i < NOPL_MAX_SUFFIX_BYTES); i++)
 	{
 	  fprintf(fp, " %02X", token.op.bytes[i]);
@@ -3073,6 +3217,9 @@ int main(int argc, char *argv[])
     }
 
   output_qcode_suffix();
+
+  // Fill in the conditional offsets
+  do_cond_fixup();
   
   // Fill in the qcode length field
   set_qcode_header_byte_at(size_of_qcode_idx,   1, qcode_len >> 8);

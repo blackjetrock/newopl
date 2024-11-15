@@ -1,11 +1,109 @@
 
 
-o%
+success%
 
-A% := (23.4 * 9)
+tPos% := 10
+
+sPos% := 1
+
+AT(tPos% 2 )
+PRINT("X")
+<nl>
+
+
+c% := 0
+DO
+
+AT(sPos% 1 )
+PRINT(" ")
+<nl>
+
+
+sPos% := (sPos% + 1)
+IF (sPos% > 20)
+sPos% := 1
+
+ENDIF
+
+AT(sPos% 1 )
+PRINT("A")
+<nl>
+
+
+PAUSE(5 )
+c% := (c% + 1)
+UNTIL (KEY() OR (c% = 30))
+
+
+success% := (ABS((sPos% - tPos%) ) <= 2)
+
+
+IF success%
+PRINT("Hit!")
+<nl>
+
+GET()
+ELSE
+PRINT("Miss!")
+<nl>
+
+GET()
+ENDIF
+
+WHILE (KEY$() <> "")
+ENDWH
 
 
 
-o%
+success%
 
-A% := (23.4 * 9)
+tPos% := 10
+
+sPos% := 1
+
+AT(tPos% 2 )
+PRINT("X")
+<nl>
+
+
+c% := 0
+DO
+
+AT(sPos% 1 )
+PRINT(" ")
+<nl>
+
+
+sPos% := (sPos% + 1)
+IF (sPos% > 20)
+sPos% := 1
+
+ENDIF
+
+AT(sPos% 1 )
+PRINT("A")
+<nl>
+
+
+PAUSE(5 )
+c% := (c% + 1)
+UNTIL (KEY() OR (c% = 30))
+
+
+success% := (ABS((sPos% - tPos%) ) <= 2)
+
+
+IF success%
+PRINT("Hit!")
+<nl>
+
+GET()
+ELSE
+PRINT("Miss!")
+<nl>
+
+GET()
+ENDIF
+
+WHILE (KEY$() <> "")
+ENDWH
