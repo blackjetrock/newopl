@@ -79,6 +79,7 @@ typedef struct _OP_INFO
 {
   char          *name;
   int           precedence;
+  NOBJ_VARTYPE  output_type;              // If not unknown then returns this type
   int           can_be_unary;             // Can be a unary operator
   char          *unaryop;                 // Unary version of operator name
   int           left_assoc;

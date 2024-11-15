@@ -1894,6 +1894,7 @@ void typecheck_expression(void)
 	  // operands. Some of them are mutable (polymorphic) and we have to bind them to their
 	  // type here.
 	  // Some are immutable and cause errors if theior operators are not correct
+	  // Some have a fixed type (>= for example, but still have mutable inputs)
 	  
 	case EXP_BUFF_ID_OPERATOR:
 	  // Check that the operands are correct, i.e. all of them are the same and in
@@ -1941,8 +1942,17 @@ void typecheck_expression(void)
 		      res.p[0] = op1.node_id;
 		      res.p[1] = op2.node_id;
 		      strcpy(res.name, "000");
-		      res.op.type      = op1.op.type;
-		      res.op.req_type  = op1.op.type;
+		      
+		      if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+			{
+			  res.op.type      = op1.op.type;
+			  res.op.req_type  = op1.op.type;
+			}
+		      else
+			{
+			  res.op.type      = op_info.output_type;
+			  res.op.req_type  = op_info.output_type;
+			}
 		      type_check_stack_push(res);
 					    
 		    }
