@@ -609,17 +609,21 @@ int find_idx(int buf_id, int level)
 
 void do_cond_fixup(void)
 {
+  int do_idx;
+  int branch_offset;
+  int until_offset;
+  
   for(int i=0; i<cond_fixup_i; i++)
     {
       switch(cond_fixup[i].buf_id)
 	{
 	case EXP_BUFF_ID_UNTIL:
 	  // Find matching DO and get idx
-	  int do_idx = find_idx(EXP_BUFF_ID_DO, cond_fixup[i].level);
+	  do_idx = find_idx(EXP_BUFF_ID_DO, cond_fixup[i].level);
 
 	  // Calculate offset
-	  int branch_offset = (do_idx - cond_fixup[i].idx);
-	  int until_offset = branch_offset;
+	  branch_offset = (do_idx - cond_fixup[i].idx);
+	  until_offset = branch_offset;
 	  
 	  // Fill in the offset
 	  set_qcode_header_byte_at(cond_fixup[i].idx+0, 1, (until_offset) >> 8);
@@ -683,6 +687,8 @@ int global_info_index = 0;
 
 void output_qcode_for_line(void)
 {
+  NOBJ_VAR_INFO *vi;
+  
   // Do nothing on first pass
   if( pass_number == 1 )
     {
@@ -779,7 +785,6 @@ void output_qcode_for_line(void)
 	  
 	case EXP_BUFF_ID_VARIABLE:
 	  // Find the info about this variable
-	  NOBJ_VAR_INFO *vi;
 
 	  vi = find_var_info(tokop.name);
 
