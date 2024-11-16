@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:000A
-QCode Space Size:009F
+QCode Space Size:00A1
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -129,16 +129,18 @@ QCode
 008C: 'Hit!'
 0090: 71       PRINT string     (bytes code:-)
 0091: 73       PRINT newline     (bytes code:-)
-0092: 24       Push string literal     (bytes code:S)
-0093: Len:5
-0094: 'Miss!'
-0099: 71       PRINT string     (bytes code:-)
-009A: 73       PRINT newline     (bytes code:-)
-009B: 24       Push string literal     (bytes code:S)
-009C: Len:0
-009D: ''
-009D: 49       Not equal string     (bytes code:-)
-009E: 7B       RETURN (float 0)     (bytes code:-)
+0092: 91       GET     (bytes code:-)
+0093: 24       Push string literal     (bytes code:S)
+0094: Len:5
+0095: 'Miss!'
+009A: 71       PRINT string     (bytes code:-)
+009B: 73       PRINT newline     (bytes code:-)
+009C: 91       GET     (bytes code:-)
+009D: 24       Push string literal     (bytes code:S)
+009E: Len:0
+009F: ''
+009F: 49       Not equal string     (bytes code:-)
+00A0: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
@@ -151,4 +153,5 @@ QCode Data
 0060:F8 22 00 01 2D 7F 95 00 FF F8 22 00 1E 2C 35 7E 
 0070:FF B3 0D FF F6 00 FF FA 00 FF FC 2E 86 A6 22 00 
 0080:02 86 37 7F 00 FF F6 7E 00 00 24 04 48 69 74 21 
-0090:71 73 24 05 4D 69 73 73 21 71 73 24 00 49 7B 
+0090:71 73 91 24 05 4D 69 73 73 21 71 73 91 24 00 49 
+00A0:7B 

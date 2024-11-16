@@ -472,6 +472,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_EQ_NUM},
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_EQ_STR},
     {EXP_BUFF_ID_FUNCTION, "AT",                __,     __,                   __,        __,               QCO_AT},
+    {EXP_BUFF_ID_FUNCTION, "GET",               __,     __,                   __,        __,               RTF_GET},
     {EXP_BUFF_ID_FUNCTION, "PAUSE",             __,     __,                   __,        __,               QCO_PAUSE},
     {EXP_BUFF_ID_FUNCTION, "KEY",               __,     __,                   __,        __,               RTF_KEY},
     {EXP_BUFF_ID_FUNCTION, "IABS", NOBJ_VARTYPE_INT,    __,                   __,        __,               RTF_IABS},
@@ -1749,6 +1750,10 @@ char *infix_from_rpn(void)
 // isn't used on the output or result of an operator or function. This is to
 // avoid double application of conversion tokens.
 //
+// Using a function that leaves an unused stacked value can be detected,
+//   e.g.  GET
+// That caused a drop to be added
+//
 ////////////////////////////////////////////////////////////////////////////////
 
 void typecheck_expression(void)
@@ -1887,17 +1892,21 @@ void typecheck_expression(void)
 		    }
 		}
 	    }
-	  
-	  // Push dummy result
-	  EXP_BUFFER_ENTRY res;
-	  res.node_id = be.node_id;          // Result id is that of the operator
-	  res.p_idx = function_num_args(be.name);
-	  res.p[0] = op1.node_id;
-	  res.p[1] = op2.node_id;
-	  strcpy(res.name, "000");
-	  res.op.type      = ret_type;
-	  res.op.req_type  = ret_type;
-	  type_check_stack_push(res);
+
+	  // Only push a result if the function is non-void
+	  if( ret_type != NOBJ_VARTYPE_VOID )
+	    {
+	      // Push dummy result
+	      EXP_BUFFER_ENTRY res;
+	      res.node_id = be.node_id;          // Result id is that of the operator
+	      res.p_idx = function_num_args(be.name);
+	      res.p[0] = op1.node_id;
+	      res.p[1] = op2.node_id;
+	      strcpy(res.name, "000");
+	      res.op.type      = ret_type;
+	      res.op.req_type  = ret_type;
+	      type_check_stack_push(res);
+	    }
 	  
 	  // The return type opf the function is known
 	  be.op.type = ret_type;
@@ -2236,7 +2245,12 @@ void typecheck_expression(void)
 
       type_check_stack_display();
     }
-  
+
+  // Do we have a value stacked that isn't going to be used?
+  if( type_check_stack_ptr > 0 )
+    {
+      dbprintf("\n+++ Value left stacked");
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
