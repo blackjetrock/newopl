@@ -521,14 +521,27 @@ SIMPLE_QC_MAP qc_map[] =
 
 int add_simple_qcode(int idx, OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
 {
+  int op_type = NOBJ_VARTYPE_UNKNOWN;
+  
   for(int i=0; i<NUM_SIMPLE_QC_MAP; i++)
     {
       if( op->buf_id == qc_map[i].buf_id )
 	{
+	  // Some operators should have their types forced to the qcode_type as that is based on their inputs.
+	  // the '.type' field is based on the output and is used for typechecking.
+	  if( op->qcode_type != NOBJ_VARTYPE_UNKNOWN )
+	    {
+	      op_type = op->qcode_type;
+	    }
+	  else
+	    {
+	      op_type = op->type;
+	    }
+	  
 	  // See if other values match
 	  if( ((qc_map[i].class  == vi->class)         || (qc_map[i].class == __))   &&
 	      ((qc_map[i].type   == vi->type)          || (qc_map[i].type == __)) &&
-	      ((qc_map[i].optype == op->type)          || (qc_map[i].optype == __)) &&
+	      ((qc_map[i].optype == op_type)           || (qc_map[i].optype == __)) &&
 	      ((qc_map[i].access == op->access)        || (qc_map[i].access == __)) &&
 	      (((strcmp(qc_map[i].name, op->name) == 0) && (strlen(qc_map[i].name) != 0)) || (strlen(qc_map[i].name) == 0))
 	      )
@@ -1327,7 +1340,7 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 	  }
 
 	
-	fprintf(fp, "\n(%16s) N%d %c %-30s %s %c rq:%c '%s' npar:%d nidx:%d",
+	fprintf(fp, "\n(%16s) N%d %c %-30s %s ty:%c rq:%c qcty:%c '%s' npar:%d nidx:%d",
 		__FUNCTION__,
 		token.node_id,
 		access_to_char(token.op.access),
@@ -1335,6 +1348,7 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 		levstr,
 		type_to_char(token.op.type),
 		type_to_char(token.op.req_type),
+		type_to_char(token.op.qcode_type),
 		token.name,
 		token.op.num_parameters,
 		token.op.vi.num_indices);
@@ -1891,11 +1905,14 @@ void typecheck_expression(void)
 	  
 	  break;
 
+	  //------------------------------------------------------------------------------
+	  //
 	  // Operators have to be typed correctly depending on their
 	  // operands. Some of them are mutable (polymorphic) and we have to bind them to their
 	  // type here.
 	  // Some are immutable and cause errors if theior operators are not correct
-	  // Some have a fixed type (>= for example, but still have mutable inputs)
+	  // Some have a fixed output type (>= for example, but still have mutable inputs)
+	  //
 	  
 	case EXP_BUFF_ID_OPERATOR:
 	  // Check that the operands are correct, i.e. all of them are the same and in
@@ -1943,7 +1960,8 @@ void typecheck_expression(void)
 		      res.p[0] = op1.node_id;
 		      res.p[1] = op2.node_id;
 		      strcpy(res.name, "000");
-		      
+
+		      // Now set up output type
 		      if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
 			{
 			  res.op.type      = op1.op.type;
@@ -1954,6 +1972,7 @@ void typecheck_expression(void)
 			  res.op.type      = op_info.output_type;
 			  res.op.req_type  = op_info.output_type;
 			}
+		      
 		      type_check_stack_push(res);
 					    
 		    }
@@ -1971,14 +1990,14 @@ void typecheck_expression(void)
 		  //  A$ = "RTY"
 		  // requires that a string equality is used, similarly
 		  // INT and FLT need the correctly typed operator.
-
+		  //
 		  // INT and FLT have an additional requirement where INT is used
 		  // as long as possible, and also assignment can turn FLT into INT
 		  // or INT into FLT
 		  
 		  fprintf(ofp, "\n Mutable type %c %c", type_to_char(op1.op.type), type_to_char(op2.op.type));
 		  
-		  // Check types are valid for this operator
+		  // Check input types are valid for this operator
 		  if( is_a_valid_type(op1.op.type, &op_info) && is_a_valid_type(op2.op.type, &op_info))
 		    {
 		      // We have types here. We need to insert auto type conversion qcodes here
@@ -2022,13 +2041,26 @@ void typecheck_expression(void)
 			  fprintf(ofp, "\n Same type");
 			  if( op1.op.type == be.op.req_type )
 			    {
-			      // The types of the operands are the same as the required type, all ok
+			      // The input types of the operands are the same as the required type, all ok
 			      be.op.type = op1.op.type;
 			      be.op.req_type = op1.op.req_type;
+
+			      // Now set up output type
+			      if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+				{
+				  // Do not force
+				}
+			      else
+				{
+				  dbprintf("(A) Forced type to %c", type_to_char(op1.op.type));
+				  be.op.type      = op_info.output_type;
+				  be.op.req_type  = op_info.output_type;
+				  be.op.qcode_type = op1.op.type;
+				}
 			    }
 			  else
 			    {
-			      // The types of the argument aren't the required type, we may be able to
+			      // The input types of the argument aren't the required type, we may be able to
 			      // auto convert.
 			      switch(op1.op.type)
 				{
@@ -2047,7 +2079,18 @@ void typecheck_expression(void)
 				  autocon.p[1] = op2.node_id;
 				  autocon.op.type      = be.op.type;
 				  autocon.op.req_type  = be.op.type;
+				  
 				  //exp_buffer2[exp_buffer2_i++] = be;
+				  // Now set up output type
+				  if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+				    {
+				      // Do not force
+				    }
+				  else
+				    {
+				      dbprintf("(B) Forced type to %c", type_to_char(be.op.type));
+				      be.op.qcode_type = be.op.type;
+				    }
 
 				  // Insert entry
 				  insert_buf2_entry_after_node_id(op1.node_id, autocon);
@@ -2081,8 +2124,23 @@ void typecheck_expression(void)
 			    {
 			      // Operator type follows the second operand, which is the variable we
 			      // are assigning to
+
+			      // Now set up output type
+			      if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+				{
+				  // Do not force
+				}
+			      else
+				{
+				  dbprintf("(C) Forced type to %c", type_to_char(op2.op.type));
+				  be.op.type       = op_info.output_type;
+				  be.op.req_type   = op_info.output_type;
+				  be.op.qcode_type = op2.op.type;
+				}
+#if 0
 			      be.op.type = op2.op.type;
 			      be.op.req_type = op2.op.req_type;
+#endif
 			    }
 			  else
 			    {
@@ -2092,6 +2150,7 @@ void typecheck_expression(void)
 				  // Force operator to FLT
 				  be.op.type = NOBJ_VARTYPE_FLT;
 				  be.op.req_type = NOBJ_VARTYPE_FLT;
+
 				}
 			    }
 
@@ -2118,12 +2177,21 @@ void typecheck_expression(void)
 			      sprintf(autocon.name, "autocon %c->%c", type_to_char(op2.op.type), type_to_char(be.op.req_type));
 			      insert_buf2_entry_after_node_id(op2.node_id, autocon);
 			    }
-
-
-			  //			  exp_buffer2[exp_buffer2_i++] = be;
- 
+			  
+			  // Now set up output type
+			  if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+			    {
+			      // Do not force
+			    }
+			  else
+			    {
+			      dbprintf("(D) Forced type to %c", type_to_char(be.op.req_type));
+			      be.op.type      = op_info.output_type;
+			      be.op.req_type  = op_info.output_type;
+			      be.op.qcode_type = autocon.op.req_type;
+			    }
 			}
-
+		      
 		      EXP_BUFFER_ENTRY res;
 		      strcpy(res.name, "000");
 		      res.node_id = be.node_id;   //Dummy result carries the operator node id as that is the tree node
@@ -2224,6 +2292,7 @@ void init_op_stack_entry(OP_STACK_ENTRY *op)
   op->level          = 0;
   op->num_parameters = 0;
   op->access         = NOPL_OP_ACCESS_READ;  // Default to reading things
+  op->qcode_type     = NOBJ_VARTYPE_UNKNOWN; // Ignored if UNKNOWN, only some operators use this
   
   for(int i=0; i<NOPL_MAX_SUFFIX_BYTES; i++)
     {
@@ -2332,16 +2401,6 @@ void output_endif(OP_STACK_ENTRY op)
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_ENDIF);
 }
-
-#if 0
-void output_assign(OP_STACK_ENTRY op)
-{
-  strcpy(op.name, ":=");
-  
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
-  add_exp_buffer_entry(op, EXP_BUFF_ID_OPERATOR);
-}
-#endif
 
 // Markers used as comments, and hints
 void output_marker(char *marker, ...)
