@@ -1,10 +1,10 @@
 
-Filename:'ob3_nopl'
-File ext:'bin
+Filename:'IF'
+File ext:'OB3
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:0006
-QCode Space Size:007A
+QCode Space Size:0080
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -27,7 +27,7 @@ QCode
 0006: 0002       (2)
 0008: 2C       Equal integer     (bytes code:-)
 0009: 7E       Branch if false     (bytes code:D)
-000A: Dest:0079 (Dist:006F)
+000A: Dest:007F (Dist:0075)
 000C: 00       Push local/global integer variable value     (bytes code:v)
 000D: FFFC       (65532)
 000F: 22       Push integer literal     (bytes code:I)
@@ -58,7 +58,7 @@ QCode
 0032: 0002       (2)
 0034: 2C       Equal integer     (bytes code:-)
 0035: 7E       Branch if false     (bytes code:D)
-0036: Dest:0079 (Dist:0043)
+0036: Dest:007F (Dist:0049)
 0038: 0D       Push local/global integer variable reference     (bytes code:v)
 0039: FFFC       (65532)
 003B: 22       Push integer literal     (bytes code:I)
@@ -82,38 +82,42 @@ QCode
 0054: 0014       (20)
 0056: 2C       Equal integer     (bytes code:-)
 0057: 7E       Branch if false     (bytes code:D)
-0058: Dest:0072 (Dist:001A)
+0058: Dest:0064 (Dist:000C)
 005A: 0D       Push local/global integer variable reference     (bytes code:v)
 005B: FFFA       (65530)
 005D: 22       Push integer literal     (bytes code:I)
 005E: 0001       (1)
 0060: 7F       Assign integer     (bytes code:-)
-0061: 00       Push local/global integer variable value     (bytes code:v)
-0062: FFFC       (65532)
-0064: 22       Push integer literal     (bytes code:I)
-0065: 0015       (21)
-0067: 2C       Equal integer     (bytes code:-)
-0068: 0D       Push local/global integer variable reference     (bytes code:v)
-0069: FFFA       (65530)
-006B: 22       Push integer literal     (bytes code:I)
-006C: 0002       (2)
-006E: 7F       Assign integer     (bytes code:-)
-006F: 51       GOTO     (bytes code:D)
-0070: Dest:0079 (Dist:0009)
-0072: 0D       Push local/global integer variable reference     (bytes code:v)
-0073: FFFA       (65530)
-0075: 22       Push integer literal     (bytes code:I)
-0076: 0003       (3)
-0078: 7F       Assign integer     (bytes code:-)
-0079: 7B       RETURN (float 0)     (bytes code:-)
+0061: 51       GOTO     (bytes code:D)
+0062: Dest:007F (Dist:001D)
+0064: 00       Push local/global integer variable value     (bytes code:v)
+0065: FFFC       (65532)
+0067: 22       Push integer literal     (bytes code:I)
+0068: 0015       (21)
+006A: 2C       Equal integer     (bytes code:-)
+006B: 7E       Branch if false     (bytes code:D)
+006C: Dest:0078 (Dist:000C)
+006E: 0D       Push local/global integer variable reference     (bytes code:v)
+006F: FFFA       (65530)
+0071: 22       Push integer literal     (bytes code:I)
+0072: 0002       (2)
+0074: 7F       Assign integer     (bytes code:-)
+0075: 51       GOTO     (bytes code:D)
+0076: Dest:007F (Dist:0009)
+0078: 0D       Push local/global integer variable reference     (bytes code:v)
+0079: FFFA       (65530)
+007B: 22       Push integer literal     (bytes code:I)
+007C: 0003       (3)
+007E: 7F       Assign integer     (bytes code:-)
+007F: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
-0000:59 B2 00 FF FA 22 00 02 2C 7E 00 6F 00 FF FC 22 
+0000:59 B2 00 FF FA 22 00 02 2C 7E 00 75 00 FF FC 22 
 0010:00 02 2C 7E 00 1A 0D FF FC 22 00 C8 7F 00 FF FC 
 0020:22 00 0A 2C 7E 00 09 0D FF FC 22 00 64 7F 00 FF 
-0030:FC 22 00 02 2C 7E 00 43 0D FF FC 22 00 C8 7F 00 
+0030:FC 22 00 02 2C 7E 00 49 0D FF FC 22 00 C8 7F 00 
 0040:FF FC 22 00 0A 2C 7E 00 09 0D FF FC 22 00 64 7F 
-0050:00 FF FC 22 00 14 2C 7E 00 1A 0D FF FA 22 00 01 
-0060:7F 00 FF FC 22 00 15 2C 0D FF FA 22 00 02 7F 51 
-0070:00 09 0D FF FA 22 00 03 7F 7B 
+0050:00 FF FC 22 00 14 2C 7E 00 0C 0D FF FA 22 00 01 
+0060:7F 51 00 1D 00 FF FC 22 00 15 2C 7E 00 0C 0D FF 
+0070:FA 22 00 02 7F 51 00 09 0D FF FA 22 00 03 7F 7B 

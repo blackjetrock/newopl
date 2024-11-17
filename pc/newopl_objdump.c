@@ -709,12 +709,12 @@ int main(int argc, char *argv[])
   strcpy(filename, argv[1]);
   sscanf(filename, "%[^.].%s", name, extension);
 
-  if( (argc == 3) && (strcmp(argv[2], "--no-filenames")!=0) )
+  if( (argc == 3) && (strcmp(argv[2], "--no-filenames")!=0),1 )
     {
       printf("\nFilename:'%s'", name);
       printf("\nFile ext:'%s", extension);
     }
-  
+
   NOBJ_PROC proc;
 
   FILE *fp;

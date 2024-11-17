@@ -20,7 +20,7 @@ proc compare_results {basename f1 f2} {
     close $f2fp
 
     set identical 1
-    
+
     foreach l1 [split $f1txt "\n"] l2 [split $f2txt "\n"] {
 	if { [string first "Filename" $l1] != -1 } {
 	    continue
@@ -59,10 +59,10 @@ foreach file $TR_TEST_FILES {
     if { [regexp -- {(.*)_psion.tr.test} $file all basename] } {
 	# Re-translate the source to get the file we need to test against
 	exec ./newopl_tran $basename\.opl
-	exec ./newopl_objdump ob3_nopl.bin --no-filenames > $file
+	exec ./newopl_objdump ob3_nopl.bin > $basename\_nopl.tr.test
 
 	# Compare the results
-	compare_results $basename $file $basename\_psion.tr.test
+	compare_results $basename $file $basename\_nopl.tr.test
     }
 }
 

@@ -3,12 +3,6 @@ MEM:
 REM CM/XP procedure
 LOCAL A$(16),K$(1),K%,I%
 
-A$: FFED
-K$: FFEA
-K%: FFE7
-I%: FFE5
-
-
 Loop::
 CLS
 K%=VIEW(1,"Press any key (S=Stop)")

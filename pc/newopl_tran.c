@@ -659,6 +659,7 @@ void do_cond_fixup(void)
 	  break;
 
 	case EXP_BUFF_ID_IF:
+	case EXP_BUFF_ID_ELSEIF:
 	  // Find earliest token after the IF that is an endif, else or elseif and branch there
 	  
 	  if( (target_idx = find_target_idx(EXP_BUFF_ID_ELSEIF, cond_fixup[i].level)) != -1 )
@@ -836,6 +837,17 @@ void output_qcode_for_line(void)
       if(  exp_buffer2[i].op.buf_id == EXP_BUFF_ID_ELSEIF )
 	{
 	  elseif_present = 1;
+
+	  // This line is for an elseif, so we need to put a goto here to skip over the code we
+	  // are about to generate
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_GOTO);
+
+	  // Add an entry to the qcode fixups to fill in the goto offset
+	  // Add an index for the IF to branch to, make it look like an else
+	  add_cond_fixup(qcode_idx, qcode_idx+2, EXP_BUFF_ID_ELSE, exp_buffer2[i].op.level);	  
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  break;
 	}
     }
 
@@ -988,7 +1000,18 @@ void output_qcode_for_line(void)
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
 	  break;
-	  
+
+	case EXP_BUFF_ID_ELSEIF:
+	  // Put a branch in to skip over the IF clause code if the test fails
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_BRA_FALSE);
+
+	  // Add an entry to the qcode fixups
+	  add_cond_fixup(qcode_idx, qcode_idx, token.op.buf_id, token.op.level);
+
+	  // We find the offset of the next item
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  break;
 	  
 	case EXP_BUFF_ID_IF:
 	  // Put a branch in to skip over the IF clause code if the test fails
@@ -1675,7 +1698,7 @@ void infix_stack_pop(char *entry)
   if( infix_stack_ptr == 0 )
     {
       fprintf(ofp, "\n%s: Operator stack empty", __FUNCTION__);
-      typecheck_error("Operator stack empty");
+      typecheck_error("%s: Operator stack empty", __FUNCTION__);
       return;
     }
   
@@ -1943,6 +1966,7 @@ void typecheck_expression(void)
   NOBJ_VARTYPE     op1_reqtype, op2_reqtype;
   NOBJ_VARTYPE     ret_type;
   int              copied;
+  NOBJ_VAR_INFO    *vi;
 
   dbprintf("");
   
@@ -1990,6 +2014,18 @@ void typecheck_expression(void)
 	  break;
 
 	case EXP_BUFF_ID_VARIABLE:
+	  // If the variable is an array then we need to pop the index
+
+	  if( pass_number == 2 )
+	    {
+	      vi = find_var_info(be.name);
+	      
+	      if( var_type_is_array(vi->type) )
+		{
+		  type_check_stack_pop();
+		}
+	    }
+
 	  be.p_idx = 0;
 	  type_check_stack_push(be);
 	  break;
@@ -1997,11 +2033,12 @@ void typecheck_expression(void)
 	case EXP_BUFF_ID_VAR_ADDR_NAME:
 	  be.p_idx = 0;
 	  type_check_stack_push(be);
-	  break;
+	  break; 
 
 	  // These need to pop a value off the stack to keep the stack
 	  // correct for cleaning up at the end with a drop code.
 	case EXP_BUFF_ID_IF:
+	case EXP_BUFF_ID_ELSEIF:
 	case EXP_BUFF_ID_PRINT:
 	case EXP_BUFF_ID_WHILE:
 	case EXP_BUFF_ID_UNTIL:
@@ -2439,12 +2476,12 @@ void typecheck_expression(void)
     }
 
   // Do we have a value stacked that isn't going to be used?
-  if( type_check_stack_ptr > 0 )
+  if( (pass_number == 2) && (type_check_stack_ptr > 0) )
     {
       dbprintf("\n+++ Value left stacked");
 
-      // We want a drop qcode to be generated to remove any value left on the stack. Thuis is typed
-      // so to avoid duplicating code the internal command DROP is used. That uses the dtructure we have for
+      // We want a drop qcode to be generated to remove any value left on the stack. This is typed
+      // so to avoid duplicating code the internal command DROP is used. That uses the structure we have for
       // translating functions and commands to qcode, taking the type into account.
       
       EXP_BUFFER_ENTRY res;
@@ -2726,7 +2763,7 @@ OP_STACK_ENTRY op_stack_pop(void)
   if( op_stack_ptr == 0 )
     {
       fprintf(ofp, "\n%s: Operator stack empty", __FUNCTION__);
-      typecheck_error("Operatior stack empty");
+      typecheck_error("%s:Operator stack empty", __FUNCTION__);
       return(o);
     }
   
