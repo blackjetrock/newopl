@@ -478,6 +478,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "GET",               __,     __,                   __,        __,               RTF_GET},
     {EXP_BUFF_ID_FUNCTION, "PAUSE",             __,     __,                   __,        __,               QCO_PAUSE},
     {EXP_BUFF_ID_FUNCTION, "KEY",               __,     __,                   __,        __,               RTF_KEY},
+    {EXP_BUFF_ID_FUNCTION, "KEY$",              __,     __,                   __,        __,               RTF_SKEY},
     {EXP_BUFF_ID_FUNCTION, "IABS", NOBJ_VARTYPE_INT,    __,                   __,        __,               RTF_IABS},
     {EXP_BUFF_ID_FUNCTION, "ABS", NOBJ_VARTYPE_FLT,     __,                   __,        __,               RTF_ABS},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_LT_INT},
@@ -564,7 +565,8 @@ int add_simple_qcode(int idx, OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
 
 typedef struct _COND_FIXUP_ENTRY
 {
-  int idx;
+  int offset_idx;   // Where the offset has to be written
+  int target_idx;   // The index that the offset is calculated from (jump target)
   int buf_id;       // The type of point in the qcode that this is
   int level;
 } COND_FIXUP_ENTRY;
@@ -574,11 +576,12 @@ typedef struct _COND_FIXUP_ENTRY
 COND_FIXUP_ENTRY cond_fixup[MAX_COND_FIXUP];
 int cond_fixup_i = 0;
 
-void add_cond_fixup(int idx, int buf_id, int level)
+void add_cond_fixup(int offset_idx, int target_idx, int buf_id, int level)
 {
   if( cond_fixup_i < MAX_COND_FIXUP-1 )
     {
-      cond_fixup[cond_fixup_i].idx    = idx;
+      cond_fixup[cond_fixup_i].offset_idx    = offset_idx;
+      cond_fixup[cond_fixup_i].target_idx    = target_idx;
       cond_fixup[cond_fixup_i].buf_id = buf_id;
       cond_fixup[cond_fixup_i].level  = level;
       cond_fixup_i++;
@@ -591,18 +594,32 @@ void add_cond_fixup(int idx, int buf_id, int level)
 
 //------------------------------------------------------------------------------
 //
-// Find an index given a level and buf_id
+// Find an offset index given a level and buf_id
 
-int find_idx(int buf_id, int level)
+int find_offset_idx(int buf_id, int level)
 {
   for(int i=0; i<cond_fixup_i; i++)
     {
       if( (buf_id == cond_fixup[i].buf_id) && (level == cond_fixup[i].level) )
 	{
-	  return(cond_fixup[i].idx);
+	  return(cond_fixup[i].offset_idx);
 	}
     }
-  return(0);
+  return(-1);
+}
+
+// Find a target index given a level and buf_id
+
+int find_target_idx(int buf_id, int level)
+{
+  for(int i=0; i<cond_fixup_i; i++)
+    {
+      if( (buf_id == cond_fixup[i].buf_id) && (level == cond_fixup[i].level) )
+	{
+	  return(cond_fixup[i].target_idx);
+	}
+    }
+  return(-1);
 }
 
 //------------------------------------------------------------------------------
@@ -612,7 +629,8 @@ int find_idx(int buf_id, int level)
 
 void do_cond_fixup(void)
 {
-  int do_idx;
+  int target_idx;
+  int offset_idx;
   int branch_offset;
   int until_offset;
   
@@ -622,16 +640,116 @@ void do_cond_fixup(void)
 	{
 	case EXP_BUFF_ID_UNTIL:
 	  // Find matching DO and get idx
-	  do_idx = find_idx(EXP_BUFF_ID_DO, cond_fixup[i].level);
+	  
+	  target_idx = find_target_idx(EXP_BUFF_ID_DO, cond_fixup[i].level);
 
+	  if( target_idx == -1 )
+	    {
+	      syntax_error("Bad UNTIL");
+	      return;
+	    }
+	  
 	  // Calculate offset
-	  branch_offset = (do_idx - cond_fixup[i].idx);
+	  branch_offset = (target_idx - cond_fixup[i].offset_idx);
 	  until_offset = branch_offset;
 	  
 	  // Fill in the offset
-	  set_qcode_header_byte_at(cond_fixup[i].idx+0, 1, (until_offset) >> 8);
-	  set_qcode_header_byte_at(cond_fixup[i].idx+1, 1, (until_offset) & 0xFF);
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
 	  break;
+
+	case EXP_BUFF_ID_IF:
+	  // Find earliest token after the IF that is an endif, else or elseif and branch there
+	  
+	  if( (target_idx = find_target_idx(EXP_BUFF_ID_ELSEIF, cond_fixup[i].level)) != -1 )
+	    {
+	    }
+	  else
+	    {
+	      if( (target_idx = find_target_idx(EXP_BUFF_ID_ELSE, cond_fixup[i].level)) != -1 )
+		{
+		}
+	      else
+		{
+		  if( (target_idx = find_target_idx(EXP_BUFF_ID_ENDIF, cond_fixup[i].level)) != -1 )
+		    {
+		    }
+		  else
+		    {
+		      syntax_error("Bad IF");
+		      return;
+		    }
+		}
+	    }
+
+	  // Calculate offset
+	  branch_offset = (target_idx - cond_fixup[i].offset_idx);
+	  until_offset = branch_offset;
+	  
+	  // Fill in the offset
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
+	  break;
+
+	case EXP_BUFF_ID_ELSE:
+	  // Find the ENDIF	  
+	  if( (target_idx = find_target_idx(EXP_BUFF_ID_ENDIF, cond_fixup[i].level)) != -1 )
+	    {
+	      // Calculate offset
+	      branch_offset = (target_idx - cond_fixup[i].offset_idx);
+	      until_offset = branch_offset;
+	      
+	      // Fill in the offset
+	      set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
+	      set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
+	    }
+	  else
+	    {
+	      syntax_error("No ENDIF for ELSE");
+	      return;
+	    }
+	  break;
+
+	case EXP_BUFF_ID_WHILE:
+	  // Find matching ENDWH and get idx
+	  
+	  target_idx = find_target_idx(EXP_BUFF_ID_ENDWH, cond_fixup[i].level);
+
+	  if( target_idx == -1 )
+	    {
+	      syntax_error("Bad WHILE");
+	      return;
+	    }
+	  
+	  // Calculate offset
+	  branch_offset = (target_idx - cond_fixup[i].offset_idx);
+	  until_offset = branch_offset;
+	  
+	  // Fill in the offset
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
+	  break;
+
+	case EXP_BUFF_ID_ENDWH:
+	  // Find the WHILE	  
+	  if( (target_idx = find_target_idx(EXP_BUFF_ID_WHILE, cond_fixup[i].level)) != -1 )
+	    {
+	      // Calculate offset
+	      branch_offset = (target_idx - cond_fixup[i].offset_idx);
+	      until_offset = branch_offset;
+	      
+	      // Fill in the offset
+	      set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
+	      set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
+	    }
+	  else
+	    {
+	      syntax_error("No WHILE for ENDWH");
+	      return;
+	    }
+	  break;
+
+	  
 	}
     }
 }
@@ -720,6 +838,9 @@ void output_qcode_for_line(void)
 	  elseif_present = 1;
 	}
     }
+
+  // We need to know where the line starts for the WHILE
+  int start_of_line_qcode_idx = qcode_idx;
   
   for(int i=0; i<exp_buffer2_i; i++)
     {
@@ -837,18 +958,65 @@ void output_qcode_for_line(void)
 	  break;
 
 	case EXP_BUFF_ID_UNTIL:
-	case EXP_BUFF_ID_IF:
 	  // We put zero in as a dummy jump offset and add it to the conditionals fixup table
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_BRA_FALSE);
-	  add_cond_fixup(qcode_idx, token.op.buf_id, token.op.level);
-	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
-	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  add_cond_fixup(qcode_idx, qcode_idx, token.op.buf_id, token.op.level);
 	  
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  break;
+	  	  
+	case EXP_BUFF_ID_WHILE:
+	  // Branch to skip the while clause if test false
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_BRA_FALSE);
+
+	  // Add fixup entry
+	  add_cond_fixup(qcode_idx, start_of_line_qcode_idx, token.op.buf_id, token.op.level);
+
+	  // We find the offset of the next item
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
 	  break;
 
+	case EXP_BUFF_ID_ENDWH:
+	  // Use a goto to loop back to the WHILE
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_GOTO);
+
+	  // Add an entry to the qcode fixups to fill in the goto offset
+	  // Add an index for the IF to branch to
+	  add_cond_fixup(qcode_idx, qcode_idx+2, token.op.buf_id, token.op.level);	  
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  break;
+	  
+	  
+	case EXP_BUFF_ID_IF:
+	  // Put a branch in to skip over the IF clause code if the test fails
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_BRA_FALSE);
+
+	  // Add an entry to the qcode fixups
+	  add_cond_fixup(qcode_idx, qcode_idx, token.op.buf_id, token.op.level);
+
+	  // We find the offset of the next item
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  break;
+
+	case EXP_BUFF_ID_ELSE:
+	  // Use a goto for the previous IF or ELSEIF code to jump over the ELSE clause.
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_GOTO);
+
+	  // Add an entry to the qcode fixups to fill in the goto offset
+	  // Add an index for the IF to branch to
+	  add_cond_fixup(qcode_idx, qcode_idx+2, token.op.buf_id, token.op.level);	  
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  break;
+	  
 	case EXP_BUFF_ID_DO:
+	case EXP_BUFF_ID_ENDIF:
 	  // No Qcode, we just create a point where UNTIL can branch back to
-	  add_cond_fixup(qcode_idx, token.op.buf_id, token.op.level);
+	  add_cond_fixup(qcode_idx, qcode_idx, token.op.buf_id, token.op.level);
 	  break;
 	  
 	case EXP_BUFF_ID_STR:

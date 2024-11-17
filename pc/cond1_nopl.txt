@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:000A
-QCode Space Size:00A3
+QCode Space Size:00AD
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -70,7 +70,7 @@ QCode
 003E: 0014       (20)
 0040: 29       Greater than integer     (bytes code:-)
 0041: 7E       Branch if false     (bytes code:D)
-0042: Dest:0042 (Dist:0000)
+0042: Dest:004B (Dist:0009)
 0044: 0D       Push local/global integer variable reference     (bytes code:v)
 0045: FFFA       (65530)
 0047: 22       Push integer literal     (bytes code:I)
@@ -123,7 +123,7 @@ QCode
 0084: 00       Push local/global integer variable value     (bytes code:v)
 0085: FFF6       (65526)
 0087: 7E       Branch if false     (bytes code:D)
-0088: Dest:0088 (Dist:0000)
+0088: Dest:0097 (Dist:000F)
 008A: 24       Push string literal     (bytes code:S)
 008B: Len:4
 008C: 'Hit!'
@@ -131,18 +131,25 @@ QCode
 0091: 73       PRINT newline     (bytes code:-)
 0092: 91       GET     (bytes code:-)
 0093: 83       drop integer from stack     (bytes code:-)
-0094: 24       Push string literal     (bytes code:S)
-0095: Len:5
-0096: 'Miss!'
-009B: 71       PRINT string     (bytes code:-)
-009C: 73       PRINT newline     (bytes code:-)
-009D: 91       GET     (bytes code:-)
-009E: 83       drop integer from stack     (bytes code:-)
-009F: 24       Push string literal     (bytes code:S)
-00A0: Len:0
-00A1: ''
-00A1: 49       Not equal string     (bytes code:-)
-00A2: 7B       RETURN (float 0)     (bytes code:-)
+0094: 51       GOTO     (bytes code:D)
+0095: Dest:00A2 (Dist:000D)
+0097: 24       Push string literal     (bytes code:S)
+0098: Len:5
+0099: 'Miss!'
+009E: 71       PRINT string     (bytes code:-)
+009F: 73       PRINT newline     (bytes code:-)
+00A0: 91       GET     (bytes code:-)
+00A1: 83       drop integer from stack     (bytes code:-)
+00A2: BF       KEY$     (bytes code:-)
+00A3: 24       Push string literal     (bytes code:S)
+00A4: Len:0
+00A5: ''
+00A5: 49       Not equal string     (bytes code:-)
+00A6: 7E       Branch if false     (bytes code:D)
+00A7: Dest:00AC (Dist:0005)
+00A9: 51       GOTO     (bytes code:D)
+00AA: Dest:00A2 (Dist:FFFFFFF8)
+00AC: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
@@ -150,10 +157,10 @@ QCode Data
 0010:00 FF FC 22 00 02 4C 24 01 58 71 73 0D FF F8 22 
 0020:00 00 7F 00 FF FA 22 00 01 4C 24 01 20 71 73 0D 
 0030:FF FA 00 FF FA 22 00 01 2D 7F 00 FF FA 22 00 14 
-0040:29 7E 00 00 0D FF FA 22 00 01 7F 00 FF FA 22 00 
+0040:29 7E 00 09 0D FF FA 22 00 01 7F 00 FF FA 22 00 
 0050:01 4C 24 01 41 71 73 22 00 05 54 0D FF F8 00 FF 
 0060:F8 22 00 01 2D 7F 95 00 FF F8 22 00 1E 2C 35 7E 
 0070:FF B3 0D FF F6 00 FF FA 00 FF FC 2E 86 A6 22 00 
-0080:02 86 37 7F 00 FF F6 7E 00 00 24 04 48 69 74 21 
-0090:71 73 91 83 24 05 4D 69 73 73 21 71 73 91 83 24 
-00A0:00 49 7B 
+0080:02 86 37 7F 00 FF F6 7E 00 0F 24 04 48 69 74 21 
+0090:71 73 91 83 51 00 0D 24 05 4D 69 73 73 21 71 73 
+00A0:91 83 BF 24 00 49 7E 00 05 51 FF F8 7B 
