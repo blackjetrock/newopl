@@ -708,9 +708,13 @@ int main(int argc, char *argv[])
 
   strcpy(filename, argv[1]);
   sscanf(filename, "%[^.].%s", name, extension);
-  printf("\nFilename:'%s'", name);
-  printf("\nFile ext:'%s", extension);
 
+  if( (argc == 3) && (strcmp(argv[2], "--no-filenames")!=0) )
+    {
+      printf("\nFilename:'%s'", name);
+      printf("\nFile ext:'%s", extension);
+    }
+  
   NOBJ_PROC proc;
 
   FILE *fp;
