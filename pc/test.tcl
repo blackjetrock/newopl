@@ -9,7 +9,7 @@
 set ::PASS 0
 set ::FAIL 0
 
-proc compare_results {f1 f2} {
+proc compare_results {basename f1 f2} {
 
     set f1fp [open $f1]
     set f1txt [read $f1fp]
@@ -36,32 +36,34 @@ proc compare_results {f1 f2} {
     }
 
     if { $identical } {
-	puts "$f1 $f2 identical"
+	set r " identical"
 	incr ::PASS 1
     } else {
-	puts "$f1 $f2 not identical"
+	set r " not identical"
 	incr ::FAIL 1
     }
+    
+    puts [format "%-20s   %s" $basename\.opl $r]
 }
 
 
 # Find all files that are nopl translation tests
 
-set TR_TEST_FILES [glob *.tr.test]
+set TR_TEST_FILES [glob *_psion.tr.test]
 
 # Rebuild the nopl version of the test file
+puts "\n"
 
 foreach file $TR_TEST_FILES {
-    puts "$file"
 
-    if { [regexp -- {(.*)_nopl.tr.test} $file all basename] } {
+    if { [regexp -- {(.*)_psion.tr.test} $file all basename] } {
 	# Re-translate the source to get the file we need to test against
 	exec ./newopl_tran $basename\.opl
 	exec ./newopl_objdump ob3_nopl.bin --no-filenames > $file
 
 	# Compare the results
-	compare_results $file $basename\_psion.tr.test
+	compare_results $basename $file $basename\_psion.tr.test
     }
 }
 
-puts "$::PASS tests passed $::FAIL tests failed"
+puts "\n$::PASS tests passed $::FAIL tests failed"
