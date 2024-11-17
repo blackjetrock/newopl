@@ -200,6 +200,10 @@ typedef struct _OP_STACK_ENTRY
   NOBJ_INT                integer;
   NOBJ_VARTYPE            type;       // Original type
   NOBJ_VARTYPE            req_type;   // Required type
+  NOBJ_VARTYPE            qcode_type; // Type the QCode needs to be (base don inputs for
+                                      // forced operators like <=. They need to have an
+                                      // output type that is forced (int for <=) but
+                                      // use a FLT type if the inputs are FLT
   struct _NOBJ_VAR_INFO   vi;
   struct _NOBJ_COND_INFO  ci;
   // Bytes may be added after the qcode

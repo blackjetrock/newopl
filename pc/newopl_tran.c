@@ -471,9 +471,14 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_EQ_INT},
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_EQ_NUM},
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_EQ_STR},
+    {EXP_BUFF_ID_FUNCTION, "DROP",NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_DROP_WORD},
+    {EXP_BUFF_ID_FUNCTION, "DROP",NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_DROP_NUM},
+    {EXP_BUFF_ID_FUNCTION, "DROP",NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_DROP_STR},
     {EXP_BUFF_ID_FUNCTION, "AT",                __,     __,                   __,        __,               QCO_AT},
+    {EXP_BUFF_ID_FUNCTION, "GET",               __,     __,                   __,        __,               RTF_GET},
     {EXP_BUFF_ID_FUNCTION, "PAUSE",             __,     __,                   __,        __,               QCO_PAUSE},
     {EXP_BUFF_ID_FUNCTION, "KEY",               __,     __,                   __,        __,               RTF_KEY},
+    {EXP_BUFF_ID_FUNCTION, "KEY$",              __,     __,                   __,        __,               RTF_SKEY},
     {EXP_BUFF_ID_FUNCTION, "IABS", NOBJ_VARTYPE_INT,    __,                   __,        __,               RTF_IABS},
     {EXP_BUFF_ID_FUNCTION, "ABS", NOBJ_VARTYPE_FLT,     __,                   __,        __,               RTF_ABS},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_LT_INT},
@@ -521,14 +526,27 @@ SIMPLE_QC_MAP qc_map[] =
 
 int add_simple_qcode(int idx, OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
 {
+  int op_type = NOBJ_VARTYPE_UNKNOWN;
+  
   for(int i=0; i<NUM_SIMPLE_QC_MAP; i++)
     {
       if( op->buf_id == qc_map[i].buf_id )
 	{
+	  // Some operators should have their types forced to the qcode_type as that is based on their inputs.
+	  // the '.type' field is based on the output and is used for typechecking.
+	  if( op->qcode_type != NOBJ_VARTYPE_UNKNOWN )
+	    {
+	      op_type = op->qcode_type;
+	    }
+	  else
+	    {
+	      op_type = op->type;
+	    }
+	  
 	  // See if other values match
 	  if( ((qc_map[i].class  == vi->class)         || (qc_map[i].class == __))   &&
 	      ((qc_map[i].type   == vi->type)          || (qc_map[i].type == __)) &&
-	      ((qc_map[i].optype == op->type)          || (qc_map[i].optype == __)) &&
+	      ((qc_map[i].optype == op_type)           || (qc_map[i].optype == __)) &&
 	      ((qc_map[i].access == op->access)        || (qc_map[i].access == __)) &&
 	      (((strcmp(qc_map[i].name, op->name) == 0) && (strlen(qc_map[i].name) != 0)) || (strlen(qc_map[i].name) == 0))
 	      )
@@ -547,7 +565,8 @@ int add_simple_qcode(int idx, OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
 
 typedef struct _COND_FIXUP_ENTRY
 {
-  int idx;
+  int offset_idx;   // Where the offset has to be written
+  int target_idx;   // The index that the offset is calculated from (jump target)
   int buf_id;       // The type of point in the qcode that this is
   int level;
 } COND_FIXUP_ENTRY;
@@ -557,11 +576,12 @@ typedef struct _COND_FIXUP_ENTRY
 COND_FIXUP_ENTRY cond_fixup[MAX_COND_FIXUP];
 int cond_fixup_i = 0;
 
-void add_cond_fixup(int idx, int buf_id, int level)
+void add_cond_fixup(int offset_idx, int target_idx, int buf_id, int level)
 {
   if( cond_fixup_i < MAX_COND_FIXUP-1 )
     {
-      cond_fixup[cond_fixup_i].idx    = idx;
+      cond_fixup[cond_fixup_i].offset_idx    = offset_idx;
+      cond_fixup[cond_fixup_i].target_idx    = target_idx;
       cond_fixup[cond_fixup_i].buf_id = buf_id;
       cond_fixup[cond_fixup_i].level  = level;
       cond_fixup_i++;
@@ -574,18 +594,32 @@ void add_cond_fixup(int idx, int buf_id, int level)
 
 //------------------------------------------------------------------------------
 //
-// Find an index given a level and buf_id
+// Find an offset index given a level and buf_id
 
-int find_idx(int buf_id, int level)
+int find_offset_idx(int buf_id, int level)
 {
   for(int i=0; i<cond_fixup_i; i++)
     {
       if( (buf_id == cond_fixup[i].buf_id) && (level == cond_fixup[i].level) )
 	{
-	  return(cond_fixup[i].idx);
+	  return(cond_fixup[i].offset_idx);
 	}
     }
-  return(0);
+  return(-1);
+}
+
+// Find a target index given a level and buf_id
+
+int find_target_idx(int buf_id, int level)
+{
+  for(int i=0; i<cond_fixup_i; i++)
+    {
+      if( (buf_id == cond_fixup[i].buf_id) && (level == cond_fixup[i].level) )
+	{
+	  return(cond_fixup[i].target_idx);
+	}
+    }
+  return(-1);
 }
 
 //------------------------------------------------------------------------------
@@ -595,22 +629,127 @@ int find_idx(int buf_id, int level)
 
 void do_cond_fixup(void)
 {
+  int target_idx;
+  int offset_idx;
+  int branch_offset;
+  int until_offset;
+  
   for(int i=0; i<cond_fixup_i; i++)
     {
       switch(cond_fixup[i].buf_id)
 	{
 	case EXP_BUFF_ID_UNTIL:
 	  // Find matching DO and get idx
-	  int do_idx = find_idx(EXP_BUFF_ID_DO, cond_fixup[i].level);
+	  
+	  target_idx = find_target_idx(EXP_BUFF_ID_DO, cond_fixup[i].level);
 
+	  if( target_idx == -1 )
+	    {
+	      syntax_error("Bad UNTIL");
+	      return;
+	    }
+	  
 	  // Calculate offset
-	  int branch_offset = (do_idx - cond_fixup[i].idx);
-	  int until_offset = branch_offset;
+	  branch_offset = (target_idx - cond_fixup[i].offset_idx);
+	  until_offset = branch_offset;
 	  
 	  // Fill in the offset
-	  set_qcode_header_byte_at(cond_fixup[i].idx+0, 1, (until_offset) >> 8);
-	  set_qcode_header_byte_at(cond_fixup[i].idx+1, 1, (until_offset) & 0xFF);
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
 	  break;
+
+	case EXP_BUFF_ID_IF:
+	  // Find earliest token after the IF that is an endif, else or elseif and branch there
+	  
+	  if( (target_idx = find_target_idx(EXP_BUFF_ID_ELSEIF, cond_fixup[i].level)) != -1 )
+	    {
+	    }
+	  else
+	    {
+	      if( (target_idx = find_target_idx(EXP_BUFF_ID_ELSE, cond_fixup[i].level)) != -1 )
+		{
+		}
+	      else
+		{
+		  if( (target_idx = find_target_idx(EXP_BUFF_ID_ENDIF, cond_fixup[i].level)) != -1 )
+		    {
+		    }
+		  else
+		    {
+		      syntax_error("Bad IF");
+		      return;
+		    }
+		}
+	    }
+
+	  // Calculate offset
+	  branch_offset = (target_idx - cond_fixup[i].offset_idx);
+	  until_offset = branch_offset;
+	  
+	  // Fill in the offset
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
+	  break;
+
+	case EXP_BUFF_ID_ELSE:
+	  // Find the ENDIF	  
+	  if( (target_idx = find_target_idx(EXP_BUFF_ID_ENDIF, cond_fixup[i].level)) != -1 )
+	    {
+	      // Calculate offset
+	      branch_offset = (target_idx - cond_fixup[i].offset_idx);
+	      until_offset = branch_offset;
+	      
+	      // Fill in the offset
+	      set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
+	      set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
+	    }
+	  else
+	    {
+	      syntax_error("No ENDIF for ELSE");
+	      return;
+	    }
+	  break;
+
+	case EXP_BUFF_ID_WHILE:
+	  // Find matching ENDWH and get idx
+	  
+	  target_idx = find_target_idx(EXP_BUFF_ID_ENDWH, cond_fixup[i].level);
+
+	  if( target_idx == -1 )
+	    {
+	      syntax_error("Bad WHILE");
+	      return;
+	    }
+	  
+	  // Calculate offset
+	  branch_offset = (target_idx - cond_fixup[i].offset_idx);
+	  until_offset = branch_offset;
+	  
+	  // Fill in the offset
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
+	  break;
+
+	case EXP_BUFF_ID_ENDWH:
+	  // Find the WHILE	  
+	  if( (target_idx = find_target_idx(EXP_BUFF_ID_WHILE, cond_fixup[i].level)) != -1 )
+	    {
+	      // Calculate offset
+	      branch_offset = (target_idx - cond_fixup[i].offset_idx);
+	      until_offset = branch_offset;
+	      
+	      // Fill in the offset
+	      set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
+	      set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
+	    }
+	  else
+	    {
+	      syntax_error("No WHILE for ENDWH");
+	      return;
+	    }
+	  break;
+
+	  
 	}
     }
 }
@@ -669,6 +808,8 @@ int global_info_index = 0;
 
 void output_qcode_for_line(void)
 {
+  NOBJ_VAR_INFO *vi;
+  
   // Do nothing on first pass
   if( pass_number == 1 )
     {
@@ -697,6 +838,9 @@ void output_qcode_for_line(void)
 	  elseif_present = 1;
 	}
     }
+
+  // We need to know where the line starts for the WHILE
+  int start_of_line_qcode_idx = qcode_idx;
   
   for(int i=0; i<exp_buffer2_i; i++)
     {
@@ -765,7 +909,6 @@ void output_qcode_for_line(void)
 	  
 	case EXP_BUFF_ID_VARIABLE:
 	  // Find the info about this variable
-	  NOBJ_VAR_INFO *vi;
 
 	  vi = find_var_info(tokop.name);
 
@@ -815,18 +958,65 @@ void output_qcode_for_line(void)
 	  break;
 
 	case EXP_BUFF_ID_UNTIL:
-	case EXP_BUFF_ID_IF:
 	  // We put zero in as a dummy jump offset and add it to the conditionals fixup table
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_BRA_FALSE);
-	  add_cond_fixup(qcode_idx, token.op.buf_id, token.op.level);
-	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
-	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  add_cond_fixup(qcode_idx, qcode_idx, token.op.buf_id, token.op.level);
 	  
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  break;
+	  	  
+	case EXP_BUFF_ID_WHILE:
+	  // Branch to skip the while clause if test false
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_BRA_FALSE);
+
+	  // Add fixup entry
+	  add_cond_fixup(qcode_idx, start_of_line_qcode_idx, token.op.buf_id, token.op.level);
+
+	  // We find the offset of the next item
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
 	  break;
 
+	case EXP_BUFF_ID_ENDWH:
+	  // Use a goto to loop back to the WHILE
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_GOTO);
+
+	  // Add an entry to the qcode fixups to fill in the goto offset
+	  // Add an index for the IF to branch to
+	  add_cond_fixup(qcode_idx, qcode_idx+2, token.op.buf_id, token.op.level);	  
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  break;
+	  
+	  
+	case EXP_BUFF_ID_IF:
+	  // Put a branch in to skip over the IF clause code if the test fails
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_BRA_FALSE);
+
+	  // Add an entry to the qcode fixups
+	  add_cond_fixup(qcode_idx, qcode_idx, token.op.buf_id, token.op.level);
+
+	  // We find the offset of the next item
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  break;
+
+	case EXP_BUFF_ID_ELSE:
+	  // Use a goto for the previous IF or ELSEIF code to jump over the ELSE clause.
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_GOTO);
+
+	  // Add an entry to the qcode fixups to fill in the goto offset
+	  // Add an index for the IF to branch to
+	  add_cond_fixup(qcode_idx, qcode_idx+2, token.op.buf_id, token.op.level);	  
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  break;
+	  
 	case EXP_BUFF_ID_DO:
+	case EXP_BUFF_ID_ENDIF:
 	  // No Qcode, we just create a point where UNTIL can branch back to
-	  add_cond_fixup(qcode_idx, token.op.buf_id, token.op.level);
+	  add_cond_fixup(qcode_idx, qcode_idx, token.op.buf_id, token.op.level);
 	  break;
 	  
 	case EXP_BUFF_ID_STR:
@@ -1327,7 +1517,7 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 	  }
 
 	
-	fprintf(fp, "\n(%16s) N%d %c %-30s %s %c rq:%c '%s' npar:%d nidx:%d",
+	fprintf(fp, "\n(%16s) N%d %c %-30s %s ty:%c rq:%c qcty:%c '%s' npar:%d nidx:%d",
 		__FUNCTION__,
 		token.node_id,
 		access_to_char(token.op.access),
@@ -1335,6 +1525,7 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 		levstr,
 		type_to_char(token.op.type),
 		type_to_char(token.op.req_type),
+		type_to_char(token.op.qcode_type),
 		token.name,
 		token.op.num_parameters,
 		token.op.vi.num_indices);
@@ -1735,6 +1926,10 @@ char *infix_from_rpn(void)
 // isn't used on the output or result of an operator or function. This is to
 // avoid double application of conversion tokens.
 //
+// Using a function that leaves an unused stacked value can be detected,
+//   e.g.  GET
+// That caused a drop to be added
+//
 ////////////////////////////////////////////////////////////////////////////////
 
 void typecheck_expression(void)
@@ -1804,10 +1999,22 @@ void typecheck_expression(void)
 	  type_check_stack_push(be);
 	  break;
 
+	  // These need to pop a value off the stack to keep the stack
+	  // correct for cleaning up at the end with a drop code.
 	case EXP_BUFF_ID_IF:
-	case EXP_BUFF_ID_ENDIF:
+	case EXP_BUFF_ID_PRINT:
 	case EXP_BUFF_ID_WHILE:
+	case EXP_BUFF_ID_UNTIL:
+	  dbprintf("%d args", function_num_args(be.name));
+	  op1 = type_check_stack_pop();
+	  break;
+	  
+
+	case EXP_BUFF_ID_ENDIF:
+
 	case EXP_BUFF_ID_ENDWH:
+	  break;
+	  
 	case EXP_BUFF_ID_FLT:
 	case EXP_BUFF_ID_INTEGER:
 	case EXP_BUFF_ID_STR:
@@ -1822,6 +2029,7 @@ void typecheck_expression(void)
 	  
 	  // Set up the function return value
 	  ret_type = function_return_type(be.name);
+
 	  fprintf(ofp, "\nret_type;%d %c", ret_type, type_to_char(ret_type));
 	  fprintf(ofp, "\n%s:Ret type of %s : %c", __FUNCTION__, be.name, type_to_char(ret_type));
 	  
@@ -1872,17 +2080,21 @@ void typecheck_expression(void)
 		    }
 		}
 	    }
-	  
-	  // Push dummy result
-	  EXP_BUFFER_ENTRY res;
-	  res.node_id = be.node_id;          // Result id is that of the operator
-	  res.p_idx = function_num_args(be.name);
-	  res.p[0] = op1.node_id;
-	  res.p[1] = op2.node_id;
-	  strcpy(res.name, "000");
-	  res.op.type      = ret_type;
-	  res.op.req_type  = ret_type;
-	  type_check_stack_push(res);
+
+	  // Only push a result if the function is non-void
+	  if( ret_type != NOBJ_VARTYPE_VOID )
+	    {
+	      // Push dummy result
+	      EXP_BUFFER_ENTRY res;
+	      res.node_id = be.node_id;          // Result id is that of the operator
+	      res.p_idx = function_num_args(be.name);
+	      res.p[0] = op1.node_id;
+	      res.p[1] = op2.node_id;
+	      strcpy(res.name, "000");
+	      res.op.type      = ret_type;
+	      res.op.req_type  = ret_type;
+	      type_check_stack_push(res);
+	    }
 	  
 	  // The return type opf the function is known
 	  be.op.type = ret_type;
@@ -1890,11 +2102,14 @@ void typecheck_expression(void)
 	  
 	  break;
 
+	  //------------------------------------------------------------------------------
+	  //
 	  // Operators have to be typed correctly depending on their
 	  // operands. Some of them are mutable (polymorphic) and we have to bind them to their
 	  // type here.
 	  // Some are immutable and cause errors if theior operators are not correct
-	  // Some have a fixed type (>= for example, but still have mutable inputs)
+	  // Some have a fixed output type (>= for example, but still have mutable inputs)
+	  //
 	  
 	case EXP_BUFF_ID_OPERATOR:
 	  // Check that the operands are correct, i.e. all of them are the same and in
@@ -1935,26 +2150,30 @@ void typecheck_expression(void)
 		    {
 		      // Types correct, push a dummy result so we have a correct execution stack
 
-		      // Push dummy result
-		      EXP_BUFFER_ENTRY res;
-		      res.node_id = be.node_id;          // Result id is that of the operator
-		      res.p_idx = 2;
-		      res.p[0] = op1.node_id;
-		      res.p[1] = op2.node_id;
-		      strcpy(res.name, "000");
-		      
-		      if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+		      // Push dummy result if there is one
+		      if( op_info.returns_result )
 			{
-			  res.op.type      = op1.op.type;
-			  res.op.req_type  = op1.op.type;
-			}
-		      else
-			{
-			  res.op.type      = op_info.output_type;
-			  res.op.req_type  = op_info.output_type;
-			}
-		      type_check_stack_push(res);
-					    
+			  EXP_BUFFER_ENTRY res;
+			  res.node_id = be.node_id;          // Result id is that of the operator
+			  res.p_idx = 2;
+			  res.p[0] = op1.node_id;
+			  res.p[1] = op2.node_id;
+			  strcpy(res.name, "000");
+			  
+			  // Now set up output type
+			  if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+			    {
+			      res.op.type      = op1.op.type;
+			      res.op.req_type  = op1.op.type;
+			    }
+			  else
+			    {
+			      res.op.type      = op_info.output_type;
+			      res.op.req_type  = op_info.output_type;
+			    }
+			  
+			  type_check_stack_push(res);
+			}		    
 		    }
 		  else
 		    {
@@ -1970,14 +2189,14 @@ void typecheck_expression(void)
 		  //  A$ = "RTY"
 		  // requires that a string equality is used, similarly
 		  // INT and FLT need the correctly typed operator.
-
+		  //
 		  // INT and FLT have an additional requirement where INT is used
 		  // as long as possible, and also assignment can turn FLT into INT
 		  // or INT into FLT
 		  
 		  fprintf(ofp, "\n Mutable type %c %c", type_to_char(op1.op.type), type_to_char(op2.op.type));
 		  
-		  // Check types are valid for this operator
+		  // Check input types are valid for this operator
 		  if( is_a_valid_type(op1.op.type, &op_info) && is_a_valid_type(op2.op.type, &op_info))
 		    {
 		      // We have types here. We need to insert auto type conversion qcodes here
@@ -2021,13 +2240,26 @@ void typecheck_expression(void)
 			  fprintf(ofp, "\n Same type");
 			  if( op1.op.type == be.op.req_type )
 			    {
-			      // The types of the operands are the same as the required type, all ok
+			      // The input types of the operands are the same as the required type, all ok
 			      be.op.type = op1.op.type;
 			      be.op.req_type = op1.op.req_type;
+
+			      // Now set up output type
+			      if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+				{
+				  // Do not force
+				}
+			      else
+				{
+				  dbprintf("(A) Forced type to %c", type_to_char(op1.op.type));
+				  be.op.type      = op_info.output_type;
+				  be.op.req_type  = op_info.output_type;
+				  be.op.qcode_type = op1.op.type;
+				}
 			    }
 			  else
 			    {
-			      // The types of the argument aren't the required type, we may be able to
+			      // The input types of the argument aren't the required type, we may be able to
 			      // auto convert.
 			      switch(op1.op.type)
 				{
@@ -2046,7 +2278,18 @@ void typecheck_expression(void)
 				  autocon.p[1] = op2.node_id;
 				  autocon.op.type      = be.op.type;
 				  autocon.op.req_type  = be.op.type;
+				  
 				  //exp_buffer2[exp_buffer2_i++] = be;
+				  // Now set up output type
+				  if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+				    {
+				      // Do not force
+				    }
+				  else
+				    {
+				      dbprintf("(B) Forced type to %c", type_to_char(be.op.type));
+				      be.op.qcode_type = be.op.type;
+				    }
 
 				  // Insert entry
 				  insert_buf2_entry_after_node_id(op1.node_id, autocon);
@@ -2080,8 +2323,23 @@ void typecheck_expression(void)
 			    {
 			      // Operator type follows the second operand, which is the variable we
 			      // are assigning to
+
+			      // Now set up output type
+			      if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+				{
+				  // Do not force
+				}
+			      else
+				{
+				  dbprintf("(C) Forced type to %c", type_to_char(op2.op.type));
+				  be.op.type       = op_info.output_type;
+				  be.op.req_type   = op_info.output_type;
+				  be.op.qcode_type = op2.op.type;
+				}
+#if 0
 			      be.op.type = op2.op.type;
 			      be.op.req_type = op2.op.req_type;
+#endif
 			    }
 			  else
 			    {
@@ -2091,6 +2349,7 @@ void typecheck_expression(void)
 				  // Force operator to FLT
 				  be.op.type = NOBJ_VARTYPE_FLT;
 				  be.op.req_type = NOBJ_VARTYPE_FLT;
+
 				}
 			    }
 
@@ -2117,22 +2376,33 @@ void typecheck_expression(void)
 			      sprintf(autocon.name, "autocon %c->%c", type_to_char(op2.op.type), type_to_char(be.op.req_type));
 			      insert_buf2_entry_after_node_id(op2.node_id, autocon);
 			    }
-
-
-			  //			  exp_buffer2[exp_buffer2_i++] = be;
- 
+			  
+			  // Now set up output type
+			  if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+			    {
+			      // Do not force
+			    }
+			  else
+			    {
+			      dbprintf("(D) Forced type to %c", type_to_char(be.op.req_type));
+			      be.op.type      = op_info.output_type;
+			      be.op.req_type  = op_info.output_type;
+			      be.op.qcode_type = autocon.op.req_type;
+			    }
 			}
-
-		      EXP_BUFFER_ENTRY res;
-		      strcpy(res.name, "000");
-		      res.node_id = be.node_id;   //Dummy result carries the operator node id as that is the tree node
-		      res.p_idx = 2;
-		      res.p[0] = op1.node_id;
-		      res.p[1] = op2.node_id;
-		      res.op.type      = be.op.type;
-		      res.op.req_type  = be.op.type;
-		      type_check_stack_push(res);
-
+		      
+		      if( op_info.returns_result )
+			{
+			  EXP_BUFFER_ENTRY res;
+			  strcpy(res.name, "000");
+			  res.node_id = be.node_id;   //Dummy result carries the operator node id as that is the tree node
+			  res.p_idx = 2;
+			  res.p[0] = op1.node_id;
+			  res.p[1] = op2.node_id;
+			  res.op.type      = be.op.type;
+			  res.op.req_type  = be.op.type;
+			  type_check_stack_push(res);
+			}
 		    }
 		  else
 		    {
@@ -2167,7 +2437,27 @@ void typecheck_expression(void)
 
       type_check_stack_display();
     }
-  
+
+  // Do we have a value stacked that isn't going to be used?
+  if( type_check_stack_ptr > 0 )
+    {
+      dbprintf("\n+++ Value left stacked");
+
+      // We want a drop qcode to be generated to remove any value left on the stack. Thuis is typed
+      // so to avoid duplicating code the internal command DROP is used. That uses the dtructure we have for
+      // translating functions and commands to qcode, taking the type into account.
+      
+      EXP_BUFFER_ENTRY res;
+      strcpy(be.name, "DROP");
+      strcpy(be.op.name, be.name);
+      be.node_id = EXP_BUFF_ID_FUNCTION;
+      be.p_idx = 0;
+      //res.p[0] = 0;
+      //res.p[1] = op2.node_id;
+      be.op.type      = be.op.type;
+      be.op.req_type  = be.op.type;
+      exp_buffer2[exp_buffer2_i++] = be;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2223,6 +2513,7 @@ void init_op_stack_entry(OP_STACK_ENTRY *op)
   op->level          = 0;
   op->num_parameters = 0;
   op->access         = NOPL_OP_ACCESS_READ;  // Default to reading things
+  op->qcode_type     = NOBJ_VARTYPE_UNKNOWN; // Ignored if UNKNOWN, only some operators use this
   
   for(int i=0; i<NOPL_MAX_SUFFIX_BYTES; i++)
     {
@@ -2331,16 +2622,6 @@ void output_endif(OP_STACK_ENTRY op)
   fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_ENDIF);
 }
-
-#if 0
-void output_assign(OP_STACK_ENTRY op)
-{
-  strcpy(op.name, ":=");
-  
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
-  add_exp_buffer_entry(op, EXP_BUFF_ID_OPERATOR);
-}
-#endif
 
 // Markers used as comments, and hints
 void output_marker(char *marker, ...)
@@ -2883,7 +3164,7 @@ void process_token(OP_STACK_ENTRY *token)
       // which is more of a hint.
       strcpy(o1.name, tokptr);
       vt = function_return_type(o1.name);
-
+      
       fprintf(ofp, "\n%s: '%s' t=>%c", __FUNCTION__, o1.name, type_to_char(vt));
       
       o1.type = vt;
