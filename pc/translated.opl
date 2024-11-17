@@ -1,6 +1,6 @@
 
 
-success%
+DROP
 
 tPos% := 10
 
@@ -42,12 +42,12 @@ IF success%
 PRINT("Hit!")
 <nl>
 
-GET()
+DROP()
 ELSE
 PRINT("Miss!")
 <nl>
 
-GET()
+DROP()
 ENDIF
 
 WHILE (KEY$() <> "")
@@ -55,7 +55,7 @@ ENDWH
 
 
 
-success%
+DROP
 
 tPos% := 10
 
@@ -97,12 +97,12 @@ IF success%
 PRINT("Hit!")
 <nl>
 
-GET()
+DROP()
 ELSE
 PRINT("Miss!")
 <nl>
 
-GET()
+DROP()
 ENDIF
 
 WHILE (KEY$() <> "")

@@ -471,6 +471,9 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_EQ_INT},
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_EQ_NUM},
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_EQ_STR},
+    {EXP_BUFF_ID_FUNCTION, "DROP",NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_DROP_WORD},
+    {EXP_BUFF_ID_FUNCTION, "DROP",NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_DROP_NUM},
+    {EXP_BUFF_ID_FUNCTION, "DROP",NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_DROP_STR},
     {EXP_BUFF_ID_FUNCTION, "AT",                __,     __,                   __,        __,               QCO_AT},
     {EXP_BUFF_ID_FUNCTION, "GET",               __,     __,                   __,        __,               RTF_GET},
     {EXP_BUFF_ID_FUNCTION, "PAUSE",             __,     __,                   __,        __,               QCO_PAUSE},
@@ -1828,10 +1831,22 @@ void typecheck_expression(void)
 	  type_check_stack_push(be);
 	  break;
 
+	  // These need to pop a value off the stack to keep the stack
+	  // correct for cleaning up at the end with a drop code.
 	case EXP_BUFF_ID_IF:
-	case EXP_BUFF_ID_ENDIF:
+	case EXP_BUFF_ID_PRINT:
 	case EXP_BUFF_ID_WHILE:
+	case EXP_BUFF_ID_UNTIL:
+	  dbprintf("%d args", function_num_args(be.name));
+	  op1 = type_check_stack_pop();
+	  break;
+	  
+
+	case EXP_BUFF_ID_ENDIF:
+
 	case EXP_BUFF_ID_ENDWH:
+	  break;
+	  
 	case EXP_BUFF_ID_FLT:
 	case EXP_BUFF_ID_INTEGER:
 	case EXP_BUFF_ID_STR:
@@ -1967,28 +1982,30 @@ void typecheck_expression(void)
 		    {
 		      // Types correct, push a dummy result so we have a correct execution stack
 
-		      // Push dummy result
-		      EXP_BUFFER_ENTRY res;
-		      res.node_id = be.node_id;          // Result id is that of the operator
-		      res.p_idx = 2;
-		      res.p[0] = op1.node_id;
-		      res.p[1] = op2.node_id;
-		      strcpy(res.name, "000");
-
-		      // Now set up output type
-		      if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+		      // Push dummy result if there is one
+		      if( op_info.returns_result )
 			{
-			  res.op.type      = op1.op.type;
-			  res.op.req_type  = op1.op.type;
-			}
-		      else
-			{
-			  res.op.type      = op_info.output_type;
-			  res.op.req_type  = op_info.output_type;
-			}
-		      
-		      type_check_stack_push(res);
-					    
+			  EXP_BUFFER_ENTRY res;
+			  res.node_id = be.node_id;          // Result id is that of the operator
+			  res.p_idx = 2;
+			  res.p[0] = op1.node_id;
+			  res.p[1] = op2.node_id;
+			  strcpy(res.name, "000");
+			  
+			  // Now set up output type
+			  if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+			    {
+			      res.op.type      = op1.op.type;
+			      res.op.req_type  = op1.op.type;
+			    }
+			  else
+			    {
+			      res.op.type      = op_info.output_type;
+			      res.op.req_type  = op_info.output_type;
+			    }
+			  
+			  type_check_stack_push(res);
+			}		    
 		    }
 		  else
 		    {
@@ -2206,16 +2223,18 @@ void typecheck_expression(void)
 			    }
 			}
 		      
-		      EXP_BUFFER_ENTRY res;
-		      strcpy(res.name, "000");
-		      res.node_id = be.node_id;   //Dummy result carries the operator node id as that is the tree node
-		      res.p_idx = 2;
-		      res.p[0] = op1.node_id;
-		      res.p[1] = op2.node_id;
-		      res.op.type      = be.op.type;
-		      res.op.req_type  = be.op.type;
-		      type_check_stack_push(res);
-
+		      if( op_info.returns_result )
+			{
+			  EXP_BUFFER_ENTRY res;
+			  strcpy(res.name, "000");
+			  res.node_id = be.node_id;   //Dummy result carries the operator node id as that is the tree node
+			  res.p_idx = 2;
+			  res.p[0] = op1.node_id;
+			  res.p[1] = op2.node_id;
+			  res.op.type      = be.op.type;
+			  res.op.req_type  = be.op.type;
+			  type_check_stack_push(res);
+			}
 		    }
 		  else
 		    {
@@ -2255,6 +2274,21 @@ void typecheck_expression(void)
   if( type_check_stack_ptr > 0 )
     {
       dbprintf("\n+++ Value left stacked");
+
+      // We want a drop qcode to be generated to remove any value left on the stack. Thuis is typed
+      // so to avoid duplicating code the internal command DROP is used. That uses the dtructure we have for
+      // translating functions and commands to qcode, taking the type into account.
+      
+      EXP_BUFFER_ENTRY res;
+      strcpy(be.name, "DROP");
+      strcpy(be.op.name, be.name);
+      be.node_id = EXP_BUFF_ID_FUNCTION;
+      be.p_idx = 0;
+      //res.p[0] = 0;
+      //res.p[1] = op2.node_id;
+      be.op.type      = be.op.type;
+      be.op.req_type  = be.op.type;
+      exp_buffer2[exp_buffer2_i++] = be;
     }
 }
 

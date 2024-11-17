@@ -78,6 +78,7 @@ extern int exp_buffer2_i;
 typedef struct _OP_INFO
 {
   char          *name;
+  int           returns_result;           // Some operators do not create a result (e.g. ':=')
   int           precedence;
   NOBJ_VARTYPE  output_type;              // If not unknown then returns this type
   int           can_be_unary;             // Can be a unary operator
