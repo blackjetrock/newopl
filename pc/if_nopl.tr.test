@@ -82,7 +82,7 @@ QCode
 0054: 0014       (20)
 0056: 2C       Equal integer     (bytes code:-)
 0057: 7E       Branch if false     (bytes code:D)
-0058: Dest:006C (Dist:0014)
+0058: Dest:0064 (Dist:000C)
 005A: 0D       Push local/global integer variable reference     (bytes code:v)
 005B: FFFA       (65530)
 005D: 22       Push integer literal     (bytes code:I)
@@ -96,7 +96,7 @@ QCode
 0068: 0015       (21)
 006A: 2C       Equal integer     (bytes code:-)
 006B: 7E       Branch if false     (bytes code:D)
-006C: Dest:006C (Dist:0000)
+006C: Dest:0078 (Dist:000C)
 006E: 0D       Push local/global integer variable reference     (bytes code:v)
 006F: FFFA       (65530)
 0071: 22       Push integer literal     (bytes code:I)
@@ -118,6 +118,6 @@ QCode Data
 0020:22 00 0A 2C 7E 00 09 0D FF FC 22 00 64 7F 00 FF 
 0030:FC 22 00 02 2C 7E 00 49 0D FF FC 22 00 C8 7F 00 
 0040:FF FC 22 00 0A 2C 7E 00 09 0D FF FC 22 00 64 7F 
-0050:00 FF FC 22 00 14 2C 7E 00 14 0D FF FA 22 00 01 
-0060:7F 51 00 1D 00 FF FC 22 00 15 2C 7E 00 00 0D FF 
+0050:00 FF FC 22 00 14 2C 7E 00 0C 0D FF FA 22 00 01 
+0060:7F 51 00 1D 00 FF FC 22 00 15 2C 7E 00 0C 0D FF 
 0070:FA 22 00 02 7F 51 00 09 0D FF FA 22 00 03 7F 7B 

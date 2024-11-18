@@ -88,6 +88,7 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_CONTINUE",
     "EXP_BUFF_ID_BREAK",
     "EXP_BUFF_ID_META",
+    "EXP_BUFF_ID_BRAENDIF",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -375,7 +376,7 @@ int num_operators(void)
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Keyword that aren't in the tables above as they are handled differently,
-// but still can't be used s variables etc.
+// but still can't be used as variables etc.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -5505,6 +5506,14 @@ int scan_if(LEVEL_INFO levels)
 			      
 			      // Just flush the operator stack so the IF is at the end of the output
 			      op_stack_finalise();
+
+			      // Insert a jump to the ENDIF of the clause so the previous IF or ELSEIF
+			      // jumps over the rest of the IF clauses.
+			      op.buf_id = EXP_BUFF_ID_META;
+			      strcpy(op.name, "BRAENDIF");   
+			      process_token(&op);
+
+
 			      output_generic(op, "ELSEIF", EXP_BUFF_ID_ELSEIF);
 			      dbprintf("Done ELSEIF");
 			      

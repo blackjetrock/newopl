@@ -608,6 +608,8 @@ int find_offset_idx(int buf_id, int level)
   return(-1);
 }
 
+//------------------------------------------------------------------------------
+
 // Find a target index given a level and buf_id
 
 int find_target_idx(int buf_id, int level)
@@ -620,6 +622,47 @@ int find_target_idx(int buf_id, int level)
 	}
     }
   return(-1);
+}
+
+//------------------------------------------------------------------------------
+//
+// Find a forward target index given a level and buf_id and a starting index
+
+int find_forward_target_idx(int start, int buf_id, int level)
+{
+  for(int i=start+1; i<cond_fixup_i; i++)
+    {
+      if( (buf_id == cond_fixup[i].buf_id) && (level == cond_fixup[i].level) )
+	{
+	  return(cond_fixup[i].target_idx);
+	}
+    }
+  return(-1);
+}
+
+//------------------------------------------------------------------------------
+
+void dump_cond_fixup(void)
+{
+  FILE *cffp = fopen("cond_fixup.txt", "w");
+
+  if( cffp == NULL )
+    {
+      return;
+    }
+  
+  for(int i=0; i<cond_fixup_i; i++)
+    {
+      fprintf(cffp, "\n%04d: %-25s Level:%3d Offset:%04X Target:%04X",
+	      i,
+	      exp_buffer_id_str[cond_fixup[i].buf_id],
+	      cond_fixup[i].level,
+	      cond_fixup[i].offset_idx - qcode_start_idx,
+	      cond_fixup[i].target_idx - qcode_start_idx);
+    }
+  
+  fprintf(cffp, "\n");
+  fclose(cffp);
 }
 
 //------------------------------------------------------------------------------
@@ -638,6 +681,7 @@ void do_cond_fixup(void)
     {
       switch(cond_fixup[i].buf_id)
 	{
+
 	case EXP_BUFF_ID_UNTIL:
 	  // Find matching DO and get idx
 	  
@@ -662,17 +706,17 @@ void do_cond_fixup(void)
 	case EXP_BUFF_ID_ELSEIF:
 	  // Find earliest token after the IF that is an endif, else or elseif and branch there
 	  
-	  if( (target_idx = find_target_idx(EXP_BUFF_ID_ELSEIF, cond_fixup[i].level)) != -1 )
+	  if( (target_idx = find_forward_target_idx(i, EXP_BUFF_ID_BRAENDIF, cond_fixup[i].level)) != -1 )
 	    {
 	    }
 	  else
 	    {
-	      if( (target_idx = find_target_idx(EXP_BUFF_ID_ELSE, cond_fixup[i].level)) != -1 )
+	      if( (target_idx = find_forward_target_idx(i, EXP_BUFF_ID_ELSE, cond_fixup[i].level)) != -1 )
 		{
 		}
 	      else
 		{
-		  if( (target_idx = find_target_idx(EXP_BUFF_ID_ENDIF, cond_fixup[i].level)) != -1 )
+		  if( (target_idx = find_forward_target_idx(i, EXP_BUFF_ID_ENDIF, cond_fixup[i].level)) != -1 )
 		    {
 		    }
 		  else
@@ -692,6 +736,7 @@ void do_cond_fixup(void)
 	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
 	  break;
 
+	case EXP_BUFF_ID_BRAENDIF:
 	case EXP_BUFF_ID_ELSE:
 	  // Find the ENDIF	  
 	  if( (target_idx = find_target_idx(EXP_BUFF_ID_ENDIF, cond_fixup[i].level)) != -1 )
@@ -825,7 +870,7 @@ void output_qcode_for_line(void)
   //------------------------------------------------------------------------------
   
   dbprintf("================================================================================");
-  dbprintf("Generating QCode     Buf2_i:%d qcode_idx:%04X", exp_buffer2_i, qcode_idx);
+  dbprintf("Generating QCode     Pass:%d Buf2_i:%d qcode_idx:%04X", pass_number, exp_buffer2_i, qcode_idx);
   dbprintf("================================================================================");
 
   // Things need to be detected so qcode can be generated earlier than the normal token generation
@@ -834,7 +879,7 @@ void output_qcode_for_line(void)
   
   for(int i=0; i<exp_buffer2_i; i++)
     {
-      if(  exp_buffer2[i].op.buf_id == EXP_BUFF_ID_ELSEIF )
+      if(  (exp_buffer2[i].op.buf_id == EXP_BUFF_ID_META) && (strcmp(exp_buffer2[i].op.name, "BRAENDIF")==0) )
 	{
 	  elseif_present = 1;
 
@@ -844,7 +889,7 @@ void output_qcode_for_line(void)
 
 	  // Add an entry to the qcode fixups to fill in the goto offset
 	  // Add an index for the IF to branch to, make it look like an else
-	  add_cond_fixup(qcode_idx, qcode_idx+2, EXP_BUFF_ID_ELSE, exp_buffer2[i].op.level);	  
+	  add_cond_fixup(qcode_idx, qcode_idx+2, EXP_BUFF_ID_BRAENDIF, exp_buffer2[i].op.level);	  
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
 	  break;
@@ -872,7 +917,7 @@ void output_qcode_for_line(void)
 	case EXP_BUFF_ID_META:
 	  // On pass 2 when we see the PROCDEF we generate the qcode header,
 	  // each line then generates qcodes after that
-	  dbprintf("QC:META %s", tokop.name);
+	  dbprintf("QC:META '%s'", tokop.name);
 	  
 	  if( pass_number == 2 )
 	    {
@@ -883,10 +928,33 @@ void output_qcode_for_line(void)
 		  build_qcode_header();
 		  fprintf(icfp, "Header built qcode_idx:%04X", qcode_idx);
 		  //		  exit(0);
+		  // Do not process line further
+		  return;
 		}
 
-	      // Do not process line fuirther
-	      return;
+	      if( strcmp(tokop.name, " LOCAL")==0 )
+		{
+		  return;
+		}
+
+	      if( strcmp(tokop.name, " GLOBAL")==0 )
+		{
+		  return;
+		}
+#if 0
+	      if( strcmp(exp_buffer[i].name, "BRAENDIF")==0 )
+		{
+		  dbprintf("QC:Inserting branch to ENDIF");
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_BRA_FALSE);
+		  
+		  // Add an entry to the qcode fixups
+		  add_cond_fixup(qcode_idx, qcode_idx+2, EXP_BUFF_ID_BRAENDIF, token.op.level);
+		  
+		  // We find the offset of the next item
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+		}
+#endif
 	    }
 	  break;
 
@@ -1002,15 +1070,17 @@ void output_qcode_for_line(void)
 	  break;
 
 	case EXP_BUFF_ID_ELSEIF:
+#if 1
 	  // Put a branch in to skip over the IF clause code if the test fails
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_BRA_FALSE);
 
 	  // Add an entry to the qcode fixups
-	  add_cond_fixup(qcode_idx, qcode_idx, token.op.buf_id, token.op.level);
+	  add_cond_fixup(qcode_idx, qcode_idx+2, token.op.buf_id, token.op.level);
 
 	  // We find the offset of the next item
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+#endif
 	  break;
 	  
 	case EXP_BUFF_ID_IF:
@@ -3557,7 +3627,8 @@ int main(int argc, char *argv[])
 
   dump_exp_buffer(ofp, 2);
   dump_qcode_data();
-
+  dump_cond_fixup();
+  
   fclose(chkfp);
   fclose(trfp);
 
