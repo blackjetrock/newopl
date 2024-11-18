@@ -57,7 +57,7 @@ enum
     EXP_BUFF_ID_CONTINUE,
     EXP_BUFF_ID_BREAK,
     EXP_BUFF_ID_META,
-    EXP_BUFF_ID_BRAENDIF,    
+    EXP_BUFF_ID_BRAENDIF,              // Only used in qcode generation
     EXP_BUFF_ID_MAX,
   };
 

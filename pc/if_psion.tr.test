@@ -4,7 +4,7 @@ File ext:'OB3
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:0006
-QCode Space Size:0080
+QCode Space Size:0094
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -27,7 +27,7 @@ QCode
 0006: 0002       (2)
 0008: 2C       Equal integer     (bytes code:-)
 0009: 7E       Branch if false     (bytes code:D)
-000A: Dest:007F (Dist:0075)
+000A: Dest:0093 (Dist:0089)
 000C: 00       Push local/global integer variable value     (bytes code:v)
 000D: FFFC       (65532)
 000F: 22       Push integer literal     (bytes code:I)
@@ -58,7 +58,7 @@ QCode
 0032: 0002       (2)
 0034: 2C       Equal integer     (bytes code:-)
 0035: 7E       Branch if false     (bytes code:D)
-0036: Dest:007F (Dist:0049)
+0036: Dest:0093 (Dist:005D)
 0038: 0D       Push local/global integer variable reference     (bytes code:v)
 0039: FFFC       (65532)
 003B: 22       Push integer literal     (bytes code:I)
@@ -89,7 +89,7 @@ QCode
 005E: 0001       (1)
 0060: 7F       Assign integer     (bytes code:-)
 0061: 51       GOTO     (bytes code:D)
-0062: Dest:007F (Dist:001D)
+0062: Dest:0093 (Dist:0031)
 0064: 00       Push local/global integer variable value     (bytes code:v)
 0065: FFFC       (65532)
 0067: 22       Push integer literal     (bytes code:I)
@@ -103,21 +103,37 @@ QCode
 0072: 0002       (2)
 0074: 7F       Assign integer     (bytes code:-)
 0075: 51       GOTO     (bytes code:D)
-0076: Dest:007F (Dist:0009)
-0078: 0D       Push local/global integer variable reference     (bytes code:v)
-0079: FFFA       (65530)
+0076: Dest:0093 (Dist:001D)
+0078: 00       Push local/global integer variable value     (bytes code:v)
+0079: FFFC       (65532)
 007B: 22       Push integer literal     (bytes code:I)
-007C: 0003       (3)
-007E: 7F       Assign integer     (bytes code:-)
-007F: 7B       RETURN (float 0)     (bytes code:-)
+007C: 0017       (23)
+007E: 2C       Equal integer     (bytes code:-)
+007F: 7E       Branch if false     (bytes code:D)
+0080: Dest:008C (Dist:000C)
+0082: 0D       Push local/global integer variable reference     (bytes code:v)
+0083: FFFA       (65530)
+0085: 22       Push integer literal     (bytes code:I)
+0086: 0003       (3)
+0088: 7F       Assign integer     (bytes code:-)
+0089: 51       GOTO     (bytes code:D)
+008A: Dest:0093 (Dist:0009)
+008C: 0D       Push local/global integer variable reference     (bytes code:v)
+008D: FFFA       (65530)
+008F: 22       Push integer literal     (bytes code:I)
+0090: 0003       (3)
+0092: 7F       Assign integer     (bytes code:-)
+0093: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
-0000:59 B2 00 FF FA 22 00 02 2C 7E 00 75 00 FF FC 22 
+0000:59 B2 00 FF FA 22 00 02 2C 7E 00 89 00 FF FC 22 
 0010:00 02 2C 7E 00 1A 0D FF FC 22 00 C8 7F 00 FF FC 
 0020:22 00 0A 2C 7E 00 09 0D FF FC 22 00 64 7F 00 FF 
-0030:FC 22 00 02 2C 7E 00 49 0D FF FC 22 00 C8 7F 00 
+0030:FC 22 00 02 2C 7E 00 5D 0D FF FC 22 00 C8 7F 00 
 0040:FF FC 22 00 0A 2C 7E 00 09 0D FF FC 22 00 64 7F 
 0050:00 FF FC 22 00 14 2C 7E 00 0C 0D FF FA 22 00 01 
-0060:7F 51 00 1D 00 FF FC 22 00 15 2C 7E 00 0C 0D FF 
-0070:FA 22 00 02 7F 51 00 09 0D FF FA 22 00 03 7F 7B 
+0060:7F 51 00 31 00 FF FC 22 00 15 2C 7E 00 0C 0D FF 
+0070:FA 22 00 02 7F 51 00 1D 00 FF FC 22 00 17 2C 7E 
+0080:00 0C 0D FF FA 22 00 03 7F 51 00 09 0D FF FA 22 
+0090:00 03 7F 7B 

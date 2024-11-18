@@ -18,6 +18,8 @@ IF X%=2
    X% = 1
   ELSEIF A%=21
    X%=2
+  ELSEIF A% = 23
+   X%=3
   ELSE
    X%=3
   endif
