@@ -1,9 +1,6 @@
 
 Variables
 
-   0:  VAR: '                 A'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF0
-   1:  VAR: '                 B'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE8
-   2:  VAR: '                 C'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE0
-   3:  VAR: '                X%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:FFCD
-   4:  VAR: '                Y%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:FFCB
-   5:  VAR: '                z%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:FFC9
+   0:  VAR: '             TEXT$'      Local String            DECLARE max_str: 10 max_ary:  0 num_ind:  1 offset:FFF3
+   1:  VAR: '                m%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF0
+   2:  VAR: '              IND$'      Local String            DECLARE max_str:  2 max_ary:  0 num_ind:  1 offset:FFED
