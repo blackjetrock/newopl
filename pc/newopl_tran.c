@@ -474,9 +474,13 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "DROP",NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_DROP_WORD},
     {EXP_BUFF_ID_FUNCTION, "DROP",NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_DROP_NUM},
     {EXP_BUFF_ID_FUNCTION, "DROP",NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_DROP_STR},
+    {EXP_BUFF_ID_FUNCTION, "MENU",NOBJ_VARTYPE_INT,     __,                   __,        __,               RTF_MENU},
     {EXP_BUFF_ID_FUNCTION, "AT",                __,     __,                   __,        __,               QCO_AT},
     {EXP_BUFF_ID_FUNCTION, "GET",               __,     __,                   __,        __,               RTF_GET},
     {EXP_BUFF_ID_FUNCTION, "PAUSE",             __,     __,                   __,        __,               QCO_PAUSE},
+    {EXP_BUFF_ID_FUNCTION, "KSTAT",             __,     __,                   __,        __,               QCO_KSTAT},
+    {EXP_BUFF_ID_FUNCTION, "STOP",              __,     __,                   __,        __,               QCO_STOP},
+    {EXP_BUFF_ID_FUNCTION, "CLS",               __,     __,                   __,        __,               QCO_CLS},
     {EXP_BUFF_ID_FUNCTION, "KEY",               __,     __,                   __,        __,               RTF_KEY},
     {EXP_BUFF_ID_FUNCTION, "KEY$",              __,     __,                   __,        __,               RTF_SKEY},
     {EXP_BUFF_ID_FUNCTION, "IABS", NOBJ_VARTYPE_INT,    __,                   __,        __,               RTF_IABS},
@@ -565,10 +569,12 @@ int add_simple_qcode(int idx, OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
 
 typedef struct _COND_FIXUP_ENTRY
 {
-  int offset_idx;   // Where the offset has to be written
-  int target_idx;   // The index that the offset is calculated from (jump target)
-  int buf_id;       // The type of point in the qcode that this is
-  int level;
+  int  offset_idx;   // Where the offset has to be written
+  int  target_idx;   // The index that the offset is calculated from (jump target)
+  int  buf_id;       // The type of point in the qcode that this is
+  int  level;
+  char label[NOBJ_VARNAME_MAXLEN+1];    // For label and goto
+
 } COND_FIXUP_ENTRY;
 
 #define MAX_COND_FIXUP 100
@@ -582,8 +588,29 @@ void add_cond_fixup(int offset_idx, int target_idx, int buf_id, int level)
     {
       cond_fixup[cond_fixup_i].offset_idx    = offset_idx;
       cond_fixup[cond_fixup_i].target_idx    = target_idx;
-      cond_fixup[cond_fixup_i].buf_id = buf_id;
-      cond_fixup[cond_fixup_i].level  = level;
+      cond_fixup[cond_fixup_i].buf_id        = buf_id;
+      cond_fixup[cond_fixup_i].level         = level;
+      strcpy(cond_fixup[cond_fixup_i].label, "");
+      cond_fixup_i++;
+    }
+  else
+    {
+      internal_error("Too many conditionals");
+    }
+}
+
+//------------------------------------------------------------------------------
+
+// Add a fixup entry with a label
+void add_cond_fixup_label(int offset_idx, int target_idx, int buf_id, char *label)
+{
+  if( cond_fixup_i < MAX_COND_FIXUP-1 )
+    {
+      cond_fixup[cond_fixup_i].offset_idx      = offset_idx;
+      cond_fixup[cond_fixup_i].target_idx      = target_idx;
+      cond_fixup[cond_fixup_i].buf_id          = buf_id;
+      strcpy(cond_fixup[cond_fixup_i].label, label);
+      cond_fixup[cond_fixup_i].level           = 0;
       cond_fixup_i++;
     }
   else
@@ -609,7 +636,6 @@ int find_offset_idx(int buf_id, int level)
 }
 
 //------------------------------------------------------------------------------
-
 // Find a target index given a level and buf_id
 
 int find_target_idx(int buf_id, int level)
@@ -617,6 +643,21 @@ int find_target_idx(int buf_id, int level)
   for(int i=0; i<cond_fixup_i; i++)
     {
       if( (buf_id == cond_fixup[i].buf_id) && (level == cond_fixup[i].level) )
+	{
+	  return(cond_fixup[i].target_idx);
+	}
+    }
+  return(-1);
+}
+
+//------------------------------------------------------------------------------
+// Find a target index given a label
+
+int find_target_idx_from_label(char *label)
+{
+  for(int i=0; i<cond_fixup_i; i++)
+    {
+      if( strcmp(cond_fixup[i].label, label)==0 )
 	{
 	  return(cond_fixup[i].target_idx);
 	}
@@ -653,12 +694,13 @@ void dump_cond_fixup(void)
   
   for(int i=0; i<cond_fixup_i; i++)
     {
-      fprintf(cffp, "\n%04d: %-25s Level:%3d Offset:%04X Target:%04X",
+      fprintf(cffp, "\n%04d: %-25s Level:%3d Offset:%04X Target:%04X Label:'%s'",
 	      i,
 	      exp_buffer_id_str[cond_fixup[i].buf_id],
 	      cond_fixup[i].level,
 	      cond_fixup[i].offset_idx - qcode_start_idx,
-	      cond_fixup[i].target_idx - qcode_start_idx);
+	      cond_fixup[i].target_idx - qcode_start_idx,
+      cond_fixup[i].label);
     }
   
   fprintf(cffp, "\n");
@@ -681,7 +723,23 @@ void do_cond_fixup(void)
     {
       switch(cond_fixup[i].buf_id)
 	{
+	case EXP_BUFF_ID_LABEL:
+	  // Do nothing
+	  break;
 
+	case EXP_BUFF_ID_GOTO:
+	  // Find the label, get the offset and fill it in
+	  target_idx = find_target_idx_from_label(cond_fixup[i].label);
+
+	  // Calculate offset
+	  branch_offset = (target_idx - cond_fixup[i].offset_idx);
+	  until_offset = branch_offset;
+	  
+	  // Fill in the offset
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
+	  break;
+	  
 	case EXP_BUFF_ID_UNTIL:
 	  // Find matching DO and get idx
 	  
@@ -1037,6 +1095,20 @@ void output_qcode_for_line(void)
 	    }
 	  break;
 
+	  // Put the offset of the label into the fixup table
+	case EXP_BUFF_ID_LABEL:
+	  add_cond_fixup(qcode_idx, qcode_idx, token.op.buf_id, token.op.level);
+	  break;
+
+	  // Put an entry into the fixup table to fill in the offset
+	case EXP_BUFF_ID_GOTO:
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_GOTO);
+	  add_cond_fixup(qcode_idx, qcode_idx, token.op.buf_id, token.op.level);
+	  
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  break;
+	  
 	case EXP_BUFF_ID_UNTIL:
 	  // We put zero in as a dummy jump offset and add it to the conditionals fixup table
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_BRA_FALSE);
@@ -1070,7 +1142,6 @@ void output_qcode_for_line(void)
 	  break;
 
 	case EXP_BUFF_ID_ELSEIF:
-#if 1
 	  // Put a branch in to skip over the IF clause code if the test fails
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_BRA_FALSE);
 
@@ -1080,7 +1151,6 @@ void output_qcode_for_line(void)
 	  // We find the offset of the next item
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
-#endif
 	  break;
 	  
 	case EXP_BUFF_ID_IF:
@@ -1844,8 +1914,9 @@ char *infix_from_rpn(void)
 	    }
 	  break;
 
-	  // Just put the name in the outout
+	  // Just put the name in the output
 	case EXP_BUFF_ID_UNTIL:
+
 	case EXP_BUFF_ID_ELSEIF:
 	case EXP_BUFF_ID_WHILE:
 	case EXP_BUFF_ID_IF:
@@ -1855,6 +1926,7 @@ char *infix_from_rpn(void)
 	  infix_stack_push(newstr2);
 	  break;
 
+	  
 	case EXP_BUFF_ID_DO:
 	case EXP_BUFF_ID_TRAP:
 	case EXP_BUFF_ID_ELSE:
@@ -1864,6 +1936,20 @@ char *infix_from_rpn(void)
 	  snprintf(newstr2, MAX_INFIX_STR, "%s", be.name);
 	  infix_stack_push(newstr2);
 	  dbprintf("endif done");
+	  break;
+
+	case EXP_BUFF_ID_LABEL:
+	  dbprintf("%s::", be.name);
+	  snprintf(newstr2, MAX_INFIX_STR, "%s::", be.name);
+	  infix_stack_push(newstr2);
+	  dbprintf("Label %s done", be.name);
+	  break;
+	  
+	case EXP_BUFF_ID_GOTO:
+	  dbprintf("GOTO %s", be.name);
+	  snprintf(newstr2, MAX_INFIX_STR, "GOTO %s", be.name);
+	  infix_stack_push(newstr2);
+	  dbprintf("GOTO done");
 	  break;
 	  
 	case EXP_BUFF_ID_PRINT:
@@ -2118,6 +2204,7 @@ void typecheck_expression(void)
 	  
 
 	case EXP_BUFF_ID_ENDIF:
+	case EXP_BUFF_ID_GOTO:
 
 	case EXP_BUFF_ID_ENDWH:
 	  break;
@@ -3172,6 +3259,7 @@ void process_token(OP_STACK_ENTRY *token)
     case EXP_BUFF_ID_ENDIF:
     case EXP_BUFF_ID_ENDWH:
     case EXP_BUFF_ID_TRAP:
+    case EXP_BUFF_ID_GOTO:
     case EXP_BUFF_ID_META:
       dbprintf("Buff id %s", o1.name);
       
@@ -3561,6 +3649,9 @@ void translate_file(FILE *fp, FILE *ofp)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// Dump the variable table.
+//
 
 void dump_vars(FILE *fp)
 {
@@ -3602,6 +3693,10 @@ int main(int argc, char *argv[])
   // Perform two passes of translation and qcode generation
   for(pass_number = 1; pass_number<=2; pass_number++)
     {
+      dbprintf("********************************************************************************");
+      dbprintf("**                         Pass %d                                             **", pass_number);
+      dbprintf("********************************************************************************");
+      
       // Open file and process on a line by line basis
       fp = fopen(argv[1], "r");
       
@@ -3644,9 +3739,9 @@ int main(int argc, char *argv[])
   dbprintf("\n");
 
   printf("\n %d lines scanned Ok",       n_lines_ok);
-  printf("  %d lines scanned failed",   n_lines_bad);
-  printf("  %d variables",              num_var_info);
-  printf("  %d lines blank\n",            n_lines_blank);
+  printf("  %d lines scanned failed",    n_lines_bad);
+  printf("  %d variables",               num_var_info);
+  printf("  %d lines blank\n",           n_lines_blank);
 
   uninit_output();  
 }

@@ -83,6 +83,7 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_UNTIL",
     "EXP_BUFF_ID_WHILE",
     "EXP_BUFF_ID_ENDWH",
+    "EXP_BUFF_ID_GOTO",
     "EXP_BUFF_ID_TRAP",
     "EXP_BUFF_ID_LABEL",
     "EXP_BUFF_ID_CONTINUE",
@@ -629,7 +630,7 @@ void add_var_info(NOBJ_VAR_INFO *vi)
 
 //------------------------------------------------------------------------------
 //
-// Look at the variable table and calculate all the offsets that shoiuld be used in the QCode
+// Look at the variable table and calculate all the offsets that should be used in the QCode
 // to access variables.
 //
 //
@@ -4319,7 +4320,7 @@ int check_label(int *index)
 
   indent_more();
   
-  dbprintf("%s:", __FUNCTION__);
+  dbprintf("");
   
   if( check_textlabel(&idx, textlabel, &type))
     {
@@ -4350,10 +4351,11 @@ int scan_label(char *dest_label)
 
   indent_more();
   
-  dbprintf("%s:", __FUNCTION__);
-  if( type == NOBJ_VARTYPE_FLT )
+  dbprintf("");
+  
+  if( check_textlabel(&idx, textlabel, &type))
     {
-      if( check_textlabel(&idx, textlabel, &type))
+      if( type == NOBJ_VARTYPE_FLT )
 	{
 	  cline_i = idx;
 	  
@@ -5415,15 +5417,7 @@ int scan_if(LEVEL_INFO levels)
 		  idx = cline_i;
 		  drop_colon(&idx);
 		  cline_i = idx;
-#if 0      
-		  if ( check_literal(&idx," :") )
-		    {
-		      dbprintf("Dropping colon");
-		      fprintf(chkfp, "  dropping colon");
-		      cline_i = idx;
-		      //scan_literal(" :");
-		    }
-#endif
+
 		  // After scanning a line we need to 
 		}
 	      else
@@ -5774,7 +5768,6 @@ int check_line(int *index)
       return(1);
     }
 
-  
   dbprintf("ret1");
   *index = idx;
   return(0);
@@ -6072,12 +6065,16 @@ int scan_line(LEVEL_INFO levels)
   if( check_literal(&idx," GOTO"))
     {
       char label[NOPL_MAX_LABEL];
+      OP_STACK_ENTRY op;
+
+      init_op_stack_entry(&op);
       
       cline_i = idx;
       
       if( scan_label(label) )
 	{
 	  dbprintf("ret1 goto");
+	  output_generic(op, label, EXP_BUFF_ID_GOTO);
 	  return(1);
 	}
     }

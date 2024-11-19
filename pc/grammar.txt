@@ -21,9 +21,10 @@
 	            <function> '(' <expression-list> ')' |
                     TRAP <trapable_command> |
                     <if> | <while> | <do> |
-	            'GOTO' <label> |
+		    <goto> |
 	            <return> |
 	            <addr_cmd> | <off_cmd>
+<goto>            : 'GOTO' <label> |
 <off_cmd>         : 'OFF' | 'OFF' <number>		    
 <addr_cmd>        : 'ADDR' '(' <addr_names> ')'
 <addr_names>      :  <vname>':' | <vname>'%:' | <vname>'$:' |
