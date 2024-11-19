@@ -486,6 +486,10 @@ char *var_class_to_str(NOPL_VAR_CLASS vc)
     case NOPL_VAR_CLASS_PARAMETER:
       return("Parameter");
       break;
+
+    case NOPL_VAR_CLASS_CALC_MEMORY:
+      return("Calc Memory");
+      break;
     }
 
   return("????");
@@ -589,6 +593,8 @@ void add_var_entry(NOBJ_VAR_INFO *vi)
 void add_var_info(NOBJ_VAR_INFO *vi)
 {
   NOBJ_VAR_INFO *srch_vi;
+  int mem_n = 0;
+  
   
   // See if variable name already present
   srch_vi = find_var_info(vi->name);
@@ -599,7 +605,16 @@ void add_var_info(NOBJ_VAR_INFO *vi)
       if( vi->is_ref )
 	{
 	  // This is an external, add it to the list
-	  vi->class = NOPL_VAR_CLASS_EXTERNAL;
+	  // See if this is a calc memory
+	  if( sscanf(vi->name, " M%d", &mem_n) == 1 )
+	    {
+	      vi->class = NOPL_VAR_CLASS_CALC_MEMORY;
+	      vi->offset = mem_n;
+	    }
+	  else
+	    {
+	      vi->class = NOPL_VAR_CLASS_EXTERNAL;
+	    }
 	  add_var_entry(vi);	  
 	}
       else
