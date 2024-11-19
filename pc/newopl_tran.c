@@ -3148,7 +3148,10 @@ void process_token(OP_STACK_ENTRY *token)
 
   o1 = *token;
   //strcpy(o1.name, token);
-  o1.type = expression_type;
+  if( o1.type == NOBJ_VARTYPE_UNKNOWN )
+    {
+      o1.type = expression_type;
+    }
   o1.buf_id = token->buf_id;
   
   // Another token has arrived, process it using the shunting algorithm
@@ -3436,8 +3439,8 @@ void process_token(OP_STACK_ENTRY *token)
 	    {
 	      fprintf(ofp, "\n%s:type:%c req_type:%c", __FUNCTION__, type_to_char(o1.type), type_to_char(o1.req_type));
 	      modify_expression_type(type);
-	      o1.req_type = expression_type;
-	      o1.type = expression_type;
+	      //o1.req_type = expression_type;
+	      //o1.type = expression_type;
 	    }
 	}
       else

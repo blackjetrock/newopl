@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:0014
-QCode Space Size:011E
+QCode Space Size:011F
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -76,7 +76,7 @@ QCode
 0067: 0000       (0)
 0069: 29       Greater than integer     (bytes code:-)
 006A: 7E       Branch if false     (bytes code:D)
-006B: Dest:0095 (Dist:002A)
+006B: Dest:0096 (Dist:002B)
 006D: 0F       Push local/global string variable reference     (bytes code:v)
 006E: FFF3       (65523)
 0070: 24       Push string literal     (bytes code:S)
@@ -97,96 +97,97 @@ QCode
 0089: 0010       (M2)
 008B: 00       Push local/global integer variable value     (bytes code:v)
 008C: FFF0       (65520)
-008E: 80       Assign float     (bytes code:-)
-008F: 51       GOTO     (bytes code:D)
-0090: Dest:0006 (Dist:FFFFFF76)
-0092: 51       GOTO     (bytes code:D)
-0093: Dest:0098 (Dist:0005)
-0095: 51       GOTO     (bytes code:D)
-0096: Dest:0006 (Dist:FFFFFF70)
-0098: 4E       CLS     (bytes code:-)
-0099: 02       Push local/global string variable value     (bytes code:v)
-009A: FFF3       (65523)
-009C: 71       PRINT string     (bytes code:-)
-009D: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
-009E: 0000       (M0)
-00A0: 70       PRINT float     (bytes code:-)
-00A1: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
-00A2: 0008       (M1)
-00A4: 22       Push integer literal     (bytes code:I)
-00A5: 000A       (10)
-00A7: 86       autoconversion int to float     (bytes code:-)
-00A8: 36       Less than float     (bytes code:-)
-00A9: 7E       Branch if false     (bytes code:D)
-00AA: Dest:00B7 (Dist:000D)
-00AC: 0F       Push local/global string variable reference     (bytes code:v)
-00AD: FFED       (65517)
-00AF: 24       Push string literal     (bytes code:S)
-00B0: Len:2
-00B1: ':0'
-00B3: 81       Assign string     (bytes code:-)
-00B4: 51       GOTO     (bytes code:D)
-00B5: Dest:00BE (Dist:0009)
-00B7: 0F       Push local/global string variable reference     (bytes code:v)
-00B8: FFED       (65517)
-00BA: 24       Push string literal     (bytes code:S)
-00BB: Len:1
-00BC: ':'
-00BD: 81       Assign string     (bytes code:-)
-00BE: 02       Push local/global string variable value     (bytes code:v)
-00BF: FFED       (65517)
-00C1: 71       PRINT string     (bytes code:-)
-00C2: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
-00C3: 0008       (M1)
-00C5: 70       PRINT float     (bytes code:-)
-00C6: 73       PRINT newline     (bytes code:-)
-00C7: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
-00C8: 0010       (M2)
-00CA: 87       autoconversion float to int     (bytes code:-)
-00CB: 22       Push integer literal     (bytes code:I)
-00CC: 0001       (1)
-00CE: 2C       Equal integer     (bytes code:-)
-00CF: 7E       Branch if false     (bytes code:D)
-00D0: Dest:00E6 (Dist:0016)
-00D2: 22       Push integer literal     (bytes code:I)
-00D3: 000F       (15)
-00D5: 24       Push string literal     (bytes code:S)
-00D6: Len:10
-00D7: 'IBUPROFIN.'
-00E1: 71       PRINT string     (bytes code:-)
-00E2: 73       PRINT newline     (bytes code:-)
-00E3: 51       GOTO     (bytes code:D)
-00E4: Dest:0117 (Dist:0033)
-00E6: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
-00E7: 0010       (M2)
-00E9: 87       autoconversion float to int     (bytes code:-)
-00EA: 22       Push integer literal     (bytes code:I)
-00EB: 0002       (2)
-00ED: 2C       Equal integer     (bytes code:-)
-00EE: 7E       Branch if false     (bytes code:D)
-00EF: Dest:0106 (Dist:0017)
-00F1: 22       Push integer literal     (bytes code:I)
-00F2: 000F       (15)
-00F4: 24       Push string literal     (bytes code:S)
-00F5: Len:11
-00F6: 'PARACETAMOL'
-0101: 71       PRINT string     (bytes code:-)
-0102: 73       PRINT newline     (bytes code:-)
-0103: 51       GOTO     (bytes code:D)
-0104: Dest:0117 (Dist:0013)
-0106: 22       Push integer literal     (bytes code:I)
-0107: 000F       (15)
-0109: 24       Push string literal     (bytes code:S)
-010A: Len:10
-010B: 'NO RECORD.'
-0115: 71       PRINT string     (bytes code:-)
-0116: 73       PRINT newline     (bytes code:-)
-0117: 0D       Push local/global integer variable reference     (bytes code:v)
-0118: FFF0       (65520)
-011A: 91       GET     (bytes code:-)
-011B: 7F       Assign integer     (bytes code:-)
-011C: 59       STOP     (bytes code:-)
-011D: 7B       RETURN (float 0)     (bytes code:-)
+008E: 86       autoconversion int to float     (bytes code:-)
+008F: 80       Assign float     (bytes code:-)
+0090: 51       GOTO     (bytes code:D)
+0091: Dest:0006 (Dist:FFFFFF75)
+0093: 51       GOTO     (bytes code:D)
+0094: Dest:0099 (Dist:0005)
+0096: 51       GOTO     (bytes code:D)
+0097: Dest:0006 (Dist:FFFFFF6F)
+0099: 4E       CLS     (bytes code:-)
+009A: 02       Push local/global string variable value     (bytes code:v)
+009B: FFF3       (65523)
+009D: 71       PRINT string     (bytes code:-)
+009E: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
+009F: 0000       (M0)
+00A1: 70       PRINT float     (bytes code:-)
+00A2: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
+00A3: 0008       (M1)
+00A5: 22       Push integer literal     (bytes code:I)
+00A6: 000A       (10)
+00A8: 86       autoconversion int to float     (bytes code:-)
+00A9: 36       Less than float     (bytes code:-)
+00AA: 7E       Branch if false     (bytes code:D)
+00AB: Dest:00B8 (Dist:000D)
+00AD: 0F       Push local/global string variable reference     (bytes code:v)
+00AE: FFED       (65517)
+00B0: 24       Push string literal     (bytes code:S)
+00B1: Len:2
+00B2: ':0'
+00B4: 81       Assign string     (bytes code:-)
+00B5: 51       GOTO     (bytes code:D)
+00B6: Dest:00BF (Dist:0009)
+00B8: 0F       Push local/global string variable reference     (bytes code:v)
+00B9: FFED       (65517)
+00BB: 24       Push string literal     (bytes code:S)
+00BC: Len:1
+00BD: ':'
+00BE: 81       Assign string     (bytes code:-)
+00BF: 02       Push local/global string variable value     (bytes code:v)
+00C0: FFED       (65517)
+00C2: 71       PRINT string     (bytes code:-)
+00C3: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
+00C4: 0008       (M1)
+00C6: 70       PRINT float     (bytes code:-)
+00C7: 73       PRINT newline     (bytes code:-)
+00C8: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
+00C9: 0010       (M2)
+00CB: 87       autoconversion float to int     (bytes code:-)
+00CC: 22       Push integer literal     (bytes code:I)
+00CD: 0001       (1)
+00CF: 2C       Equal integer     (bytes code:-)
+00D0: 7E       Branch if false     (bytes code:D)
+00D1: Dest:00E7 (Dist:0016)
+00D3: 22       Push integer literal     (bytes code:I)
+00D4: 000F       (15)
+00D6: 24       Push string literal     (bytes code:S)
+00D7: Len:10
+00D8: 'IBUPROFIN.'
+00E2: 71       PRINT string     (bytes code:-)
+00E3: 73       PRINT newline     (bytes code:-)
+00E4: 51       GOTO     (bytes code:D)
+00E5: Dest:0118 (Dist:0033)
+00E7: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
+00E8: 0010       (M2)
+00EA: 87       autoconversion float to int     (bytes code:-)
+00EB: 22       Push integer literal     (bytes code:I)
+00EC: 0002       (2)
+00EE: 2C       Equal integer     (bytes code:-)
+00EF: 7E       Branch if false     (bytes code:D)
+00F0: Dest:0107 (Dist:0017)
+00F2: 22       Push integer literal     (bytes code:I)
+00F3: 000F       (15)
+00F5: 24       Push string literal     (bytes code:S)
+00F6: Len:11
+00F7: 'PARACETAMOL'
+0102: 71       PRINT string     (bytes code:-)
+0103: 73       PRINT newline     (bytes code:-)
+0104: 51       GOTO     (bytes code:D)
+0105: Dest:0118 (Dist:0013)
+0107: 22       Push integer literal     (bytes code:I)
+0108: 000F       (15)
+010A: 24       Push string literal     (bytes code:S)
+010B: Len:10
+010C: 'NO RECORD.'
+0116: 71       PRINT string     (bytes code:-)
+0117: 73       PRINT newline     (bytes code:-)
+0118: 0D       Push local/global integer variable reference     (bytes code:v)
+0119: FFF0       (65520)
+011B: 91       GET     (bytes code:-)
+011C: 7F       Assign integer     (bytes code:-)
+011D: 59       STOP     (bytes code:-)
+011E: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
@@ -196,15 +197,15 @@ QCode Data
 0030:FF F3 24 0A 4C 41 53 54 20 54 49 4D 45 3A 81 51 
 0040:FF C6 51 00 03 59 4E 0D FF F0 24 15 49 42 55 50 
 0050:52 4F 46 49 4E 2C 50 41 52 41 43 45 54 45 4D 4F 
-0060:4C 98 7F 00 FF F0 22 00 00 29 7E 00 2A 0F FF F3 
+0060:4C 98 7F 00 FF F0 22 00 00 29 7E 00 2B 0F FF F3 
 0070:24 09 52 45 43 4F 52 44 45 44 2E 81 13 00 00 92 
-0080:86 80 13 00 08 99 86 80 13 00 10 00 FF F0 80 51 
-0090:FF 76 51 00 05 51 FF 70 4E 02 FF F3 71 06 00 00 
-00A0:70 06 00 08 22 00 0A 86 36 7E 00 0D 0F FF ED 24 
-00B0:02 3A 30 81 51 00 09 0F FF ED 24 01 3A 81 02 FF 
-00C0:ED 71 06 00 08 70 73 06 00 10 87 22 00 01 2C 7E 
-00D0:00 16 22 00 0F 24 0A 49 42 55 50 52 4F 46 49 4E 
-00E0:2E 71 73 51 00 33 06 00 10 87 22 00 02 2C 7E 00 
-00F0:17 22 00 0F 24 0B 50 41 52 41 43 45 54 41 4D 4F 
-0100:4C 71 73 51 00 13 22 00 0F 24 0A 4E 4F 20 52 45 
-0110:43 4F 52 44 2E 71 73 0D FF F0 91 7F 59 7B 
+0080:86 80 13 00 08 99 86 80 13 00 10 00 FF F0 86 80 
+0090:51 FF 75 51 00 05 51 FF 6F 4E 02 FF F3 71 06 00 
+00A0:00 70 06 00 08 22 00 0A 86 36 7E 00 0D 0F FF ED 
+00B0:24 02 3A 30 81 51 00 09 0F FF ED 24 01 3A 81 02 
+00C0:FF ED 71 06 00 08 70 73 06 00 10 87 22 00 01 2C 
+00D0:7E 00 16 22 00 0F 24 0A 49 42 55 50 52 4F 46 49 
+00E0:4E 2E 71 73 51 00 33 06 00 10 87 22 00 02 2C 7E 
+00F0:00 17 22 00 0F 24 0B 50 41 52 41 43 45 54 41 4D 
+0100:4F 4C 71 73 51 00 13 22 00 0F 24 0A 4E 4F 20 52 
+0110:45 43 4F 52 44 2E 71 73 0D FF F0 91 7F 59 7B 

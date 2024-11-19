@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:0020
-QCode Space Size:013D
+QCode Space Size:013F
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -239,31 +239,33 @@ QCode
 011A: FFF0       (65520)
 011C: 07       Push parameter/external integer variable value     (bytes code:V)
 011D: FFCD       (65485)
-011F: 3E       Multiply float     (bytes code:-)
-0120: 80       Assign float     (bytes code:-)
-0121: 0E       Push local/global float variable reference     (bytes code:v)
-0122: FFF0       (65520)
-0124: 07       Push parameter/external integer variable value     (bytes code:V)
-0125: FFCD       (65485)
-0127: 3E       Multiply float     (bytes code:-)
-0128: 3C       Plus float     (bytes code:-)
-0129: 80       Assign float     (bytes code:-)
-012A: 0E       Push local/global float variable reference     (bytes code:v)
-012B: FFF0       (65520)
-012D: 3E       Multiply float     (bytes code:-)
-012E: 3C       Plus float     (bytes code:-)
-012F: 80       Assign float     (bytes code:-)
-0130: 0E       Push local/global float variable reference     (bytes code:v)
-0131: FFF0       (65520)
-0133: 3C       Plus float     (bytes code:-)
-0134: 3E       Multiply float     (bytes code:-)
-0135: 80       Assign float     (bytes code:-)
-0136: 0E       Push local/global float variable reference     (bytes code:v)
-0137: FFF0       (65520)
-0139: 3C       Plus float     (bytes code:-)
-013A: 3E       Multiply float     (bytes code:-)
-013B: 80       Assign float     (bytes code:-)
-013C: 7B       RETURN (float 0)     (bytes code:-)
+011F: 86       autoconversion int to float     (bytes code:-)
+0120: 3E       Multiply float     (bytes code:-)
+0121: 80       Assign float     (bytes code:-)
+0122: 0E       Push local/global float variable reference     (bytes code:v)
+0123: FFF0       (65520)
+0125: 07       Push parameter/external integer variable value     (bytes code:V)
+0126: FFCD       (65485)
+0128: 86       autoconversion int to float     (bytes code:-)
+0129: 3E       Multiply float     (bytes code:-)
+012A: 3C       Plus float     (bytes code:-)
+012B: 80       Assign float     (bytes code:-)
+012C: 0E       Push local/global float variable reference     (bytes code:v)
+012D: FFF0       (65520)
+012F: 3E       Multiply float     (bytes code:-)
+0130: 3C       Plus float     (bytes code:-)
+0131: 80       Assign float     (bytes code:-)
+0132: 0E       Push local/global float variable reference     (bytes code:v)
+0133: FFF0       (65520)
+0135: 3C       Plus float     (bytes code:-)
+0136: 3E       Multiply float     (bytes code:-)
+0137: 80       Assign float     (bytes code:-)
+0138: 0E       Push local/global float variable reference     (bytes code:v)
+0139: FFF0       (65520)
+013B: 3C       Plus float     (bytes code:-)
+013C: 3E       Multiply float     (bytes code:-)
+013D: 80       Assign float     (bytes code:-)
+013E: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
@@ -284,6 +286,6 @@ QCode Data
 00E0:86 22 00 09 86 3E 80 0E FF F0 22 00 01 86 3E 80 
 00F0:14 FF CD 86 80 14 FF CD 86 22 00 01 86 22 00 02 
 0100:86 22 00 03 86 3E 3E 3E 80 0E FF F0 3E 80 0E FF 
-0110:F0 3E 3C 80 0E FF F0 3E 80 0E FF F0 07 FF CD 3E 
-0120:80 0E FF F0 07 FF CD 3E 3C 80 0E FF F0 3E 3C 80 
-0130:0E FF F0 3C 3E 80 0E FF F0 3C 3E 80 7B 
+0110:F0 3E 3C 80 0E FF F0 3E 80 0E FF F0 07 FF CD 86 
+0120:3E 80 0E FF F0 07 FF CD 86 3E 3C 80 0E FF F0 3E 
+0130:3C 80 0E FF F0 3C 3E 80 0E FF F0 3C 3E 80 7B 
