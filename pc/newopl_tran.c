@@ -2548,7 +2548,7 @@ void typecheck_expression(void)
 		      if( types_identical(op1.op.type, op2.op.type) )
 			{
 			  dbprintf("Same type");
-			  if( op1.op.type == be.op.req_type )
+			  if( types_identical(op1.op.type, be.op.req_type) )
 			    {
 			      // The input types of the operands are the same as the required type, all ok
 			      be.op.type = op1.op.type;
