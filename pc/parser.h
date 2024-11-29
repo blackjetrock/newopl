@@ -73,7 +73,7 @@ extern int exp_buffer2_i;
 //------------------------------------------------------------------------------
 
 
-#define MAX_OPERATOR_TYPES 3
+#define MAX_OPERATOR_TYPES 6
 #define IMMUTABLE_TYPE     1
 #define   MUTABLE_TYPE     0
 

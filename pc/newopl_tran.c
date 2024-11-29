@@ -465,11 +465,16 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_LOCAL,       NOBJ_VARTYPE_STRARY,     NOPL_OP_ACCESS_WRITE, QI_LS_STR_ARR_FP},
     {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_CALC_MEMORY, NOBJ_VARTYPE_FLT,       NOPL_OP_ACCESS_READ,  QI_NUM_SIM_ABS},
     {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_CALC_MEMORY, NOBJ_VARTYPE_FLT,       NOPL_OP_ACCESS_WRITE, QI_LS_NUM_SIM_ABS},
+    {EXP_BUFF_ID_AUTOCON,  "",    NOBJ_VARTYPE_INTARY,  __,                      __,     __,               QCO_NUM_TO_INT},
+    {EXP_BUFF_ID_AUTOCON,  "",    NOBJ_VARTYPE_FLTARY,  __,                      __,     __,               QCO_INT_TO_NUM},
     {EXP_BUFF_ID_AUTOCON,  "",    NOBJ_VARTYPE_INT,     __,                      __,     __,               QCO_NUM_TO_INT},
     {EXP_BUFF_ID_AUTOCON,  "",    NOBJ_VARTYPE_FLT,     __,                      __,     __,               QCO_INT_TO_NUM},
     {EXP_BUFF_ID_OPERATOR, ":=",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_ASS_INT},
     {EXP_BUFF_ID_OPERATOR, ":=",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_ASS_NUM},
     {EXP_BUFF_ID_OPERATOR, ":=",  NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_ASS_STR},
+    {EXP_BUFF_ID_OPERATOR, ":=",  NOBJ_VARTYPE_INTARY,  __,                   __,        __,               QCO_ASS_INT},
+    {EXP_BUFF_ID_OPERATOR, ":=",  NOBJ_VARTYPE_FLTARY,  __,                   __,        __,               QCO_ASS_NUM},
+    {EXP_BUFF_ID_OPERATOR, ":=",  NOBJ_VARTYPE_STRARY,  __,                   __,        __,               QCO_ASS_STR},
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_EQ_INT},
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_EQ_NUM},
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_EQ_STR},
@@ -1098,14 +1103,17 @@ void output_qcode_for_line(void)
 	  switch(token.op.type)
 	    {
 	    case NOBJ_VARTYPE_INT:
+	    case NOBJ_VARTYPE_INTARY:
 	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_PRINT_INT);
 	      break;
 
 	    case NOBJ_VARTYPE_FLT:
+	    case NOBJ_VARTYPE_FLTARY:
 	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_PRINT_NUM);
 	      break;
 
 	    case NOBJ_VARTYPE_STR:
+	    case NOBJ_VARTYPE_STRARY:
 	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_PRINT_STR);
 	      break;
 	    }
@@ -1545,7 +1553,7 @@ int type_check_stack_ptr = 0;
 
 void type_check_stack_push(EXP_BUFFER_ENTRY entry)
 {
-  fprintf(ofp, "\n%s: '%s'", __FUNCTION__, entry.name);
+  dbprintf(" %s: '%s'", __FUNCTION__, entry.name);
   
   if( type_check_stack_ptr < MAX_TYPE_CHECK_STACK )
     {
@@ -1579,7 +1587,7 @@ EXP_BUFFER_ENTRY type_check_stack_pop(void)
 
   o = type_check_stack[type_check_stack_ptr];
   
-  fprintf(ofp, "\n%s: '%s'", __FUNCTION__, o.name);
+  dbprintf("  %s: '%s'", __FUNCTION__, o.name);
   type_check_stack_print();
   return(o);
 }
@@ -1604,16 +1612,16 @@ void type_check_stack_print(void)
 {
   char *s;
 
-  dbprintf("\n------------------");
-  dbprintf("\nType Check Stack     (%d)\n", type_check_stack_ptr);
+  dbprintf("------------------");
+  dbprintf("Type Check Stack     (%d)\n", type_check_stack_ptr);
   
   for(int i=0; i<type_check_stack_ptr; i++)
     {
       s = type_check_stack[i].name;
-      dbprintf("\n%03d: '%s' type:%d", i, s, type_check_stack[i].op.type);
+      dbprintf(" %03d: '%s' type:%d", i, s, type_check_stack[i].op.type);
     }
 
-  dbprintf("\n------------------\n");
+  dbprintf("------------------\n");
 }
 
 void type_check_stack_init(void)
@@ -1808,8 +1816,54 @@ NOBJ_VARTYPE type_with_least_conversion_from(NOBJ_VARTYPE t1, NOBJ_VARTYPE t2)
       ret = NOBJ_VARTYPE_FLT;
     }
 
+#if 1
+  if( (t1 == NOBJ_VARTYPE_INTARY) && (t2 == NOBJ_VARTYPE_INTARY) )
+    {
+      ret = NOBJ_VARTYPE_INTARY;
+    }
+
+  if( (t1 == NOBJ_VARTYPE_FLTARY) && (t2 == NOBJ_VARTYPE_FLTARY) )
+    {
+      ret = NOBJ_VARTYPE_FLTARY;
+    }
+
+  if( (t1 == NOBJ_VARTYPE_FLTARY) && (t2 == NOBJ_VARTYPE_INTARY) )
+    {
+      ret = NOBJ_VARTYPE_FLTARY;
+    }
+
+  if( (t1 == NOBJ_VARTYPE_INTARY) && (t2 == NOBJ_VARTYPE_FLTARY) )
+    {
+      ret = NOBJ_VARTYPE_FLTARY;
+    }
+#endif
   fprintf(ofp, "\n%s: %c %c => %c",  __FUNCTION__, type_to_char(t1), type_to_char(t2), type_to_char(ret));
   return(ret);
+}
+
+int types_identical(NOBJ_VARTYPE t1, NOBJ_VARTYPE t2)
+{
+  if( t1 == t2 )
+    {
+      return(1);
+    }
+
+  if( (t1 == NOBJ_VARTYPE_INT) && (t2 == NOBJ_VARTYPE_INTARY) )
+    {
+      return(1);
+    }
+
+  if( (t1 == NOBJ_VARTYPE_FLT) && (t2 == NOBJ_VARTYPE_FLTARY) )
+    {
+      return(1);
+    }
+
+  if( (t1 == NOBJ_VARTYPE_STR) && (t2 == NOBJ_VARTYPE_STRARY) )
+    {
+      return(1);
+    }
+
+  return(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2140,7 +2194,7 @@ void typecheck_expression(void)
   int              copied;
   NOBJ_VAR_INFO    *vi;
 
-  dbprintf("");
+  dbprintf("Pass:%d", pass_number);
   
   // Initialise
   init_op_stack_entry(&(autocon.op));
@@ -2166,7 +2220,7 @@ void typecheck_expression(void)
       // Give every entry a node id
       be.node_id = node_id_index++;
       
-      fprintf(ofp, "\n BE:%s", be.name);
+      dbprintf(" *** BE:%s", be.name);
 		  
       switch(be.op.buf_id)
 	{
@@ -2187,6 +2241,7 @@ void typecheck_expression(void)
 
 	case EXP_BUFF_ID_VARIABLE:
 	  // If the variable is an array then we need to pop the index
+	  // The index is an integer, we need to convert from a float if its not an int
 
 	  if( pass_number == 2 )
 	    {
@@ -2194,10 +2249,39 @@ void typecheck_expression(void)
 	      
 	      if( var_type_is_array(vi->type) )
 		{
-		  type_check_stack_pop();
+		  op1 = type_check_stack_pop();
+
+		  dbprintf(" Array type, checking index");
+		  
+		  // If index isn't an INT then see if we can type convert it.
+		  if( op1.op.type == NOBJ_VARTYPE_INT)
+		    {
+		      dbprintf("  Index ok");
+		      // All OK
+		    }
+		  else
+		    {
+		      dbprintf("  Index not OK");
+		      
+		      sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(NOBJ_VARTYPE_INT));
+		      
+		      // Can we use an auto conversion?
+		      // There's only one option, FLT -> INT
+		      if( (op1.op.type == NOBJ_VARTYPE_FLT) )
+			{
+			  autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
+			  
+			  autocon.p_idx = 0;
+			  autocon.op.type      = NOBJ_VARTYPE_INT;
+			  autocon.op.req_type  = NOBJ_VARTYPE_INT;
+			  
+			  autocon.node_id = node_id_index++;
+			  insert_buf2_entry_after_node_id(op1.node_id, autocon);
+			}
+		    }
 		}
 	    }
-
+      
 	  be.p_idx = 0;
 	  type_check_stack_push(be);
 	  break;
@@ -2276,6 +2360,7 @@ void typecheck_expression(void)
 		  fprintf(ofp, "  Arg not OK");
 
 		  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(function_arg_type_n(be.name, i)));
+
 		  // Can we use an auto conversion?
 		  if( (op1.op.type == NOBJ_VARTYPE_INT) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_FLT))
 		    {
@@ -2284,6 +2369,18 @@ void typecheck_expression(void)
 		    }
 
 		  if( (op1.op.type == NOBJ_VARTYPE_FLT) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_INT))
+		    {
+		      autocon.node_id = node_id_index++;
+		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
+		    }
+
+		  if( (op1.op.type == NOBJ_VARTYPE_INTARY) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_FLTARY))
+		    {
+		      autocon.node_id = node_id_index++;
+		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
+		    }
+
+		  if( (op1.op.type == NOBJ_VARTYPE_FLTARY) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_INTARY))
 		    {
 		      autocon.node_id = node_id_index++;
 		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
@@ -2324,11 +2421,11 @@ void typecheck_expression(void)
 	case EXP_BUFF_ID_OPERATOR:
 	  // Check that the operands are correct, i.e. all of them are the same and in
 	  // the list of acceptable types
-	  fprintf(ofp, "\nBUFF_ID_OPERATOR");
+	  dbprintf("BUFF_ID_OPERATOR");
 	  
 	  if( find_op_info(be.name, &op_info) )
 	    {
-	      fprintf(ofp, "\nFound operator %s", be.name);
+	      dbprintf("Found operator %s", be.name);
 
 	      // We only handle binary operators here
 	      // Pop arguments off stack, this is an analogue of execution of the operator
@@ -2352,6 +2449,8 @@ void typecheck_expression(void)
 	      // Check all operands are of correct type.
 	      if( op_info.immutable )
 		{
+		  dbprintf("Immutable type");
+		  
 		  // Immutable types for this operator so we don't do any
 		  // auto conversion here. Just check that the correct type
 		  // is present, if not, it's an error
@@ -2403,8 +2502,9 @@ void typecheck_expression(void)
 		  // INT and FLT have an additional requirement where INT is used
 		  // as long as possible, and also assignment can turn FLT into INT
 		  // or INT into FLT
+		  // For our purposes here, arrays are the same as their element type
 		  
-		  fprintf(ofp, "\n Mutable type %c %c", type_to_char(op1.op.type), type_to_char(op2.op.type));
+		  dbprintf("Mutable type (%s) %c %c", op1.name, type_to_char(op1.op.type), type_to_char(op2.op.type));
 		  
 		  // Check input types are valid for this operator
 		  if( is_a_valid_type(op1.op.type, &op_info) && is_a_valid_type(op2.op.type, &op_info))
@@ -2429,12 +2529,12 @@ void typecheck_expression(void)
 			  be.op.req_type = type_with_least_conversion_from(op1.op.type, op2.op.type);
 			}
 
-		      if( be.op.type == NOBJ_VARTYPE_INT)
+		      if( (be.op.type == NOBJ_VARTYPE_INT) || (be.op.type == NOBJ_VARTYPE_INTARY))
 			{
 			  be.op.type = type_with_least_conversion_from(op1.op.type, op2.op.type);
 			}
 
-		      if( be.op.req_type == NOBJ_VARTYPE_INT)
+		      if( (be.op.req_type == NOBJ_VARTYPE_INT) || (be.op.req_type == NOBJ_VARTYPE_INTARY))
 			{
 			  be.op.req_type = type_with_least_conversion_from(op1.op.type, op2.op.type);
 			}
@@ -2445,9 +2545,9 @@ void typecheck_expression(void)
 		      // INT or FLT then it's an error
 		      // INT or FLT can be auto converted to the required type
 		      
-		      if( op1.op.type == op2.op.type )
+		      if( types_identical(op1.op.type, op2.op.type) )
 			{
-			  fprintf(ofp, "\n Same type");
+			  dbprintf("Same type");
 			  if( op1.op.type == be.op.req_type )
 			    {
 			      // The input types of the operands are the same as the required type, all ok
@@ -2469,12 +2569,16 @@ void typecheck_expression(void)
 			    }
 			  else
 			    {
+			      dbprintf("Different types");
+			      
 			      // The input types of the argument aren't the required type, we may be able to
 			      // auto convert.
 			      switch(op1.op.type)
 				{
 				case NOBJ_VARTYPE_INT:
 				case NOBJ_VARTYPE_FLT:
+				case NOBJ_VARTYPE_INTARY:
+				case NOBJ_VARTYPE_FLTARY:
 				  // We need to auto convert both operands. We don't change the operator type
 				  // to match as the operator has a required type. This is probably quite unusual.
 				  
@@ -2555,6 +2659,13 @@ void typecheck_expression(void)
 			    {
 			      // Must be INT/FLT or FLT/INT
 			      if( (op1.op.type == NOBJ_VARTYPE_FLT) || (op2.op.type == NOBJ_VARTYPE_FLT) )
+				{
+				  // Force operator to FLT
+				  be.op.type = NOBJ_VARTYPE_FLT;
+				  be.op.req_type = NOBJ_VARTYPE_FLT;
+
+				}
+			      else if( (op1.op.type == NOBJ_VARTYPE_FLTARY) || (op2.op.type == NOBJ_VARTYPE_FLTARY) )
 				{
 				  // Force operator to FLT
 				  be.op.type = NOBJ_VARTYPE_FLT;
