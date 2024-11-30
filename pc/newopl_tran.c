@@ -668,8 +668,9 @@ int find_target_idx_from_label(char *label)
 {
   for(int i=0; i<cond_fixup_i; i++)
     {
-      if( strcmp(cond_fixup[i].label, label)==0 )
+      if( (strcmp(cond_fixup[i].label, label)==0) && (cond_fixup[i].buf_id == EXP_BUFF_ID_LABEL) )
 	{
+	  dbprintf("i:%d target:%04X", i, cond_fixup[i].target_idx);
 	  return(cond_fixup[i].target_idx);
 	}
     }
@@ -729,6 +730,8 @@ void do_cond_fixup(void)
   int offset_idx;
   int branch_offset;
   int until_offset;
+
+  dbprintf("Conditional fixup");
   
   for(int i=0; i<cond_fixup_i; i++)
     {
@@ -745,6 +748,7 @@ void do_cond_fixup(void)
 	  // Calculate offset
 	  branch_offset = (target_idx - cond_fixup[i].offset_idx);
 	  until_offset = branch_offset;
+	  dbprintf("GOTO %s %04X %04X", cond_fixup[i].label, target_idx, branch_offset);
 	  
 	  // Fill in the offset
 	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
@@ -1122,13 +1126,13 @@ void output_qcode_for_line(void)
 
 	  // Put the offset of the label into the fixup table
 	case EXP_BUFF_ID_LABEL:
-	  add_cond_fixup(qcode_idx, qcode_idx, token.op.buf_id, token.op.level);
+	  add_cond_fixup_label(qcode_idx, qcode_idx, token.op.buf_id, token.name);
 	  break;
 
 	  // Put an entry into the fixup table to fill in the offset
 	case EXP_BUFF_ID_GOTO:
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_GOTO);
-	  add_cond_fixup(qcode_idx, qcode_idx, token.op.buf_id, token.op.level);
+	  add_cond_fixup_label(qcode_idx, qcode_idx, token.op.buf_id, token.name);
 	  
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
