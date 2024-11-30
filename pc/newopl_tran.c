@@ -493,7 +493,8 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "CLS",               __,     __,                   __,        __,               QCO_CLS},
     {EXP_BUFF_ID_FUNCTION, "KEY",               __,     __,                   __,        __,               RTF_KEY},
     {EXP_BUFF_ID_FUNCTION, "KEY$",              __,     __,                   __,        __,               RTF_SKEY},
-    {EXP_BUFF_ID_FUNCTION, "IABS", NOBJ_VARTYPE_INT,    __,                   __,        __,               RTF_IABS},
+    {EXP_BUFF_ID_FUNCTION, "CHR$",              __,     __,                   __,        __,               RTF_CHR},
+    {EXP_BUFF_ID_FUNCTION, "IABS",NOBJ_VARTYPE_INT,     __,                   __,        __,               RTF_IABS},
     {EXP_BUFF_ID_FUNCTION, "ABS", NOBJ_VARTYPE_FLT,     __,                   __,        __,               RTF_ABS},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_LT_INT},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_LT_NUM},
@@ -2295,11 +2296,18 @@ void typecheck_expression(void)
 	  // correct for cleaning up at the end with a drop code.
 	case EXP_BUFF_ID_IF:
 	case EXP_BUFF_ID_ELSEIF:
-	case EXP_BUFF_ID_PRINT:
 	case EXP_BUFF_ID_WHILE:
 	case EXP_BUFF_ID_UNTIL:
 	  dbprintf("%d args", function_num_args(be.name));
 	  op1 = type_check_stack_pop();
+	  break;
+	  
+	case EXP_BUFF_ID_PRINT:
+	  dbprintf("PRINT type adjust", function_num_args(be.name));
+	  op1 = type_check_stack_pop();
+	  be.op.type = op1.op.type;
+	  be.op.req_type = op1.op.req_type;
+	  
 	  break;
 	  
 

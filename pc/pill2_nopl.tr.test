@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:0014
-QCode Space Size:011F
+QCode Space Size:0125
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -148,46 +148,52 @@ QCode
 00CD: 0001       (1)
 00CF: 2C       Equal integer     (bytes code:-)
 00D0: 7E       Branch if false     (bytes code:D)
-00D1: Dest:00E7 (Dist:0016)
+00D1: Dest:00E9 (Dist:0018)
 00D3: 22       Push integer literal     (bytes code:I)
 00D4: 000F       (15)
-00D6: 24       Push string literal     (bytes code:S)
-00D7: Len:10
-00D8: 'IBUPROFIN.'
-00E2: 71       PRINT string     (bytes code:-)
-00E3: 73       PRINT newline     (bytes code:-)
-00E4: 51       GOTO     (bytes code:D)
-00E5: Dest:0118 (Dist:0033)
-00E7: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
-00E8: 0010       (M2)
-00EA: 87       autoconversion float to int     (bytes code:-)
-00EB: 22       Push integer literal     (bytes code:I)
-00EC: 0002       (2)
-00EE: 2C       Equal integer     (bytes code:-)
-00EF: 7E       Branch if false     (bytes code:D)
-00F0: Dest:0107 (Dist:0017)
-00F2: 22       Push integer literal     (bytes code:I)
-00F3: 000F       (15)
-00F5: 24       Push string literal     (bytes code:S)
-00F6: Len:11
-00F7: 'PARACETAMOL'
-0102: 71       PRINT string     (bytes code:-)
-0103: 73       PRINT newline     (bytes code:-)
-0104: 51       GOTO     (bytes code:D)
-0105: Dest:0118 (Dist:0013)
-0107: 22       Push integer literal     (bytes code:I)
-0108: 000F       (15)
-010A: 24       Push string literal     (bytes code:S)
-010B: Len:10
-010C: 'NO RECORD.'
-0116: 71       PRINT string     (bytes code:-)
-0117: 73       PRINT newline     (bytes code:-)
-0118: 0D       Push local/global integer variable reference     (bytes code:v)
-0119: FFF0       (65520)
-011B: 91       GET     (bytes code:-)
-011C: 7F       Assign integer     (bytes code:-)
-011D: 59       STOP     (bytes code:-)
-011E: 7B       RETURN (float 0)     (bytes code:-)
+00D6: B8       CHR$     (bytes code:-)
+00D7: 71       PRINT string     (bytes code:-)
+00D8: 24       Push string literal     (bytes code:S)
+00D9: Len:10
+00DA: 'IBUPROFIN.'
+00E4: 71       PRINT string     (bytes code:-)
+00E5: 73       PRINT newline     (bytes code:-)
+00E6: 51       GOTO     (bytes code:D)
+00E7: Dest:011E (Dist:0037)
+00E9: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
+00EA: 0010       (M2)
+00EC: 87       autoconversion float to int     (bytes code:-)
+00ED: 22       Push integer literal     (bytes code:I)
+00EE: 0002       (2)
+00F0: 2C       Equal integer     (bytes code:-)
+00F1: 7E       Branch if false     (bytes code:D)
+00F2: Dest:010B (Dist:0019)
+00F4: 22       Push integer literal     (bytes code:I)
+00F5: 000F       (15)
+00F7: B8       CHR$     (bytes code:-)
+00F8: 71       PRINT string     (bytes code:-)
+00F9: 24       Push string literal     (bytes code:S)
+00FA: Len:11
+00FB: 'PARACETAMOL'
+0106: 71       PRINT string     (bytes code:-)
+0107: 73       PRINT newline     (bytes code:-)
+0108: 51       GOTO     (bytes code:D)
+0109: Dest:011E (Dist:0015)
+010B: 22       Push integer literal     (bytes code:I)
+010C: 000F       (15)
+010E: B8       CHR$     (bytes code:-)
+010F: 71       PRINT string     (bytes code:-)
+0110: 24       Push string literal     (bytes code:S)
+0111: Len:10
+0112: 'NO RECORD.'
+011C: 71       PRINT string     (bytes code:-)
+011D: 73       PRINT newline     (bytes code:-)
+011E: 0D       Push local/global integer variable reference     (bytes code:v)
+011F: FFF0       (65520)
+0121: 91       GET     (bytes code:-)
+0122: 7F       Assign integer     (bytes code:-)
+0123: 59       STOP     (bytes code:-)
+0124: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
@@ -204,8 +210,9 @@ QCode Data
 00A0:00 70 06 00 08 22 00 0A 86 36 7E 00 0D 0F FF ED 
 00B0:24 02 3A 30 81 51 00 09 0F FF ED 24 01 3A 81 02 
 00C0:FF ED 71 06 00 08 70 73 06 00 10 87 22 00 01 2C 
-00D0:7E 00 16 22 00 0F 24 0A 49 42 55 50 52 4F 46 49 
-00E0:4E 2E 71 73 51 00 33 06 00 10 87 22 00 02 2C 7E 
-00F0:00 17 22 00 0F 24 0B 50 41 52 41 43 45 54 41 4D 
-0100:4F 4C 71 73 51 00 13 22 00 0F 24 0A 4E 4F 20 52 
-0110:45 43 4F 52 44 2E 71 73 0D FF F0 91 7F 59 7B 
+00D0:7E 00 18 22 00 0F B8 71 24 0A 49 42 55 50 52 4F 
+00E0:46 49 4E 2E 71 73 51 00 37 06 00 10 87 22 00 02 
+00F0:2C 7E 00 19 22 00 0F B8 71 24 0B 50 41 52 41 43 
+0100:45 54 41 4D 4F 4C 71 73 51 00 15 22 00 0F B8 71 
+0110:24 0A 4E 4F 20 52 45 43 4F 52 44 2E 71 73 0D FF 
+0120:F0 91 7F 59 7B 
