@@ -3708,7 +3708,13 @@ void translate_file(FILE *fp, FILE *ofp)
 {
   char line[MAX_NOPL_LINE+1];
   int idx;
-  
+
+  dbprintf("********************************************************************************");
+  dbprintf("**                                                                            **");
+  dbprintf("**                 TRANSLATE FILE                                             **");
+  dbprintf("**                                                                            **");
+  dbprintf("********************************************************************************");
+
   // Initialise the line supplier
   initialise_line_supplier(fp);
 

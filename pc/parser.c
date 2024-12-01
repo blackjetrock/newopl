@@ -558,6 +558,11 @@ NOBJ_VAR_INFO *find_var_info(char *name)
     }
   
   // Not found
+  dump_vars(ofp);
+  
+  dbprintf("******");
+  dbprintf("\nCould not find var '%s'", name);
+  dbprintf("******");
   return(NULL);
 }
 
@@ -574,7 +579,7 @@ NOBJ_VAR_INFO *find_var_info(char *name)
 // If reference:
 //
 // Checks for it already being present, ok, if so
-// If not present then adds as an esternal
+// If not present then adds as an external
 //
 
 void add_var_entry(NOBJ_VAR_INFO *vi)
@@ -594,13 +599,16 @@ void add_var_info(NOBJ_VAR_INFO *vi)
 {
   NOBJ_VAR_INFO *srch_vi;
   int mem_n = 0;
-  
+
+  dbprintf("Name:%s", vi->name);
   
   // See if variable name already present
   srch_vi = find_var_info(vi->name);
 
   if( srch_vi == NULL )
     {
+      dbprintf("Not already present");
+      
       // Not present
       if( vi->is_ref )
 	{
@@ -625,13 +633,18 @@ void add_var_info(NOBJ_VAR_INFO *vi)
     }
   else
     {
+      dbprintf("Already present");
+      
       // Variable already present
       if( vi->is_ref )
 	{
+	  dbprintf("  reference so OK");
 	  // This is OK, just referring to the variable
 	}
       else
 	{
+	  dbprintf("  Declaration so possibly BAD");
+	  
 	  // This isn't necessarily OK, we have the variable declared twice
 	  // It is OK on pass 2, pass 1 will check for doubly defined variables
 	  if( pass_number == 1 )
@@ -1016,6 +1029,8 @@ void build_qcode_header(void)
   num_globals   = calculate_num_in_class(NOPL_VAR_CLASS_GLOBAL);
   num_externals = calculate_num_in_class(NOPL_VAR_CLASS_EXTERNAL);
 
+  dbprintf("Num ext:%d", num_externals);
+					  
   // Num Parameters
   idx = set_qcode_header_byte_at(idx, 1, num_params);
     
@@ -2249,6 +2264,8 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access)
 	  
 	  if( scan_literal(" )") )
 	    {
+
+	      
 	      dbprintf("%s:ret1 vname='%s' %s", __FUNCTION__, vname, type_to_str(vi->type) );
 	      op.access = access;
 	      
@@ -2257,6 +2274,11 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access)
 	      set_op_var_type(&op, vi);
 	      op.vi = *vi;
 	      process_token(&op);
+
+	      if( pass_number == 2,1 )
+		{
+		  add_var_info(vi);
+		}
 	      return(1);
 	    }
 	}
@@ -2272,7 +2294,12 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access)
       set_op_var_type(&op, vi);
       op.vi = *vi;
       process_token(&op);
-      
+
+      if( pass_number == 2,1 )
+	{
+	  add_var_info(vi);
+	}
+
       dbprintf("ret1");
       return(1);
     }
@@ -2701,7 +2728,7 @@ int check_float(int *index)
 // fit in a word as an integer.
 // The scanning and checking first checks for an integer, if it won't fit then the float
 // is scanned or checked for. That has to accept these larger nunbers.
-]
+
 int scan_float(char *fltdest)
 {
 
@@ -3197,7 +3224,7 @@ int scan_atom(void)
     {
       if( scan_literal(" %" ) )
 	{
-	  // Hxadecimal number
+	  // Hexadecimal number
 	  if(scan_character())
 	    {
 	      dbprintf("ret1");
@@ -4330,7 +4357,7 @@ int check_textlabel(int *index, char *label_dest, NOBJ_VARTYPE *type)
       break;
     }
   
-  dbprintf("%s:ret0", __FUNCTION__);  
+  dbprintf("%s:ret1", __FUNCTION__);  
   return(1);
 }
 
@@ -6134,15 +6161,23 @@ int scan_line(LEVEL_INFO levels)
 
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 
 FILE *infp;
+int output_expression_started = 0;
 
 void initialise_line_supplier(FILE *fp)
 {
   infp = fp;
+
+  output_expression_started = 0;
+  cline_i = 0;
+  cline[0] = '\0';
+  
 }
 
-int output_expression_started = 0;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -6166,6 +6201,9 @@ int is_all_spaces(int idx)
   dbprintf("Is %sall spaces", all_spaces?"":"not ");
   return(all_spaces);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
 
 int pull_next_line(void)
 {
@@ -6275,7 +6313,8 @@ int scan_param_list(void)
 {
   int idx = cline_i;
   NOBJ_VAR_INFO vi;
-
+  NOBJ_VAR_INFO *srch_vi;
+  
   idx = cline_i;
 
   // If there's an open bracket then we have parameters
@@ -6289,16 +6328,23 @@ int scan_param_list(void)
 	  
 	  if( scan_variable(&vi, VAR_PARAMETER, NOPL_OP_ACCESS_READ))
 	    {
-	      vi.class = NOPL_VAR_CLASS_PARAMETER;
-	      //vi.is_global = !local_nglobal;
-	      vi.is_ref = 0;
-	      //vi.is_param = 1;
-	      
-	      dbprintf("Parameter list variable:'%s'", vi.name);
-	      print_var_info(&vi);
+
+	      // Find the variable just added and make it a parameter
+	      srch_vi = find_var_info(vi.name);
+	      if( srch_vi != NULL )
+		{
+		  
+		  srch_vi->class = NOPL_VAR_CLASS_PARAMETER;
+		  //vi.is_global = !local_nglobal;
+		  srch_vi->is_ref = 0;
+		  //vi.is_param = 1;
+		  
+		  dbprintf("Parameter list variable:'%s'", vi.name);
+		  print_var_info(&vi);
+		}
 	      
 	      // Store info about the variable
-	      add_var_info(&vi);
+	      //add_var_info(&vi);
 	    }
 	  
 	  idx = cline_i;
@@ -6352,11 +6398,12 @@ int scan_procdef(void)
       dbprintf("Text label:'%s'", textlabel);
       if( scan_literal(":") )
 	{
-	  dbprintf("ret1 Type:%c", type_to_char(procedure_type));
+
 	  strcpy(procedure_name, textlabel);
 
 	  // Now scan the parameter list
 	  scan_param_list();
+	  dbprintf("ret1 Type:%c", type_to_char(procedure_type));
 	  return(1);
 	}
     }
@@ -6379,6 +6426,8 @@ int scan_localglobal(int local_nglobal)
 {
   int idx = cline_i;
   NOBJ_VAR_INFO vi;
+  NOBJ_VAR_INFO *srch_vi;
+  
   char *keyword;
   OP_STACK_ENTRY op;
 
@@ -6413,14 +6462,20 @@ int scan_localglobal(int local_nglobal)
 	  
 	  if( scan_variable(&vi, VAR_DECLARE, NOPL_OP_ACCESS_READ))
 	    {
-	      vi.class = local_nglobal?NOPL_VAR_CLASS_LOCAL:NOPL_VAR_CLASS_GLOBAL;
-	      vi.is_ref = 0;
-	      
-	      dbprintf("%s variable:'%s'", keyword, vi.name);
-	      print_var_info(&vi);
-	      
-	      // Store info about the variable
-	      add_var_info(&vi);
+	      // Find the variable and update to make it a local or global
+	      srch_vi = find_var_info(vi.name);
+
+	      if( srch_vi != NULL )
+		{
+		  srch_vi->class = local_nglobal?NOPL_VAR_CLASS_LOCAL:NOPL_VAR_CLASS_GLOBAL;
+		  srch_vi->is_ref = 0;
+		  
+		  dbprintf("%s variable:'%s'", keyword, vi.name);
+		  print_var_info(&vi);
+		  
+		  // Store info about the variable
+		  //add_var_info(&vi);
+		}
 	    }
 	  
 	  idx = cline_i;
