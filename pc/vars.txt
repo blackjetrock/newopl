@@ -1,9 +1,7 @@
 
 Variables
 
-   0:  VAR: '             TEXT$'      Local String            DECLARE max_str: 10 max_ary:  0 num_ind:  1 offset:FFF3
-   1:  VAR: '                M%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF0
-   2:  VAR: '              IND$'      Local String            DECLARE max_str:  2 max_ary:  0 num_ind:  1 offset:FFED
-   3:  VAR: '                M0' Calc Memory Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:0000
-   4:  VAR: '                M1' Calc Memory Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:0001
-   5:  VAR: '                M2' Calc Memory Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:0002
+   0:  VAR: '                 A'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF4
+   1:  VAR: '                 B'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFEC
+   2:  VAR: '                 C'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE4
+   3:  VAR: '                 D'   External Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:FFCD

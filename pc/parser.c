@@ -2696,6 +2696,12 @@ int check_float(int *index)
 
 //------------------------------------------------------------------------------
 
+// Any number with a decimal point in it is a float.
+// The Psion also allows any number without a decimal point to be a float if it won't
+// fit in a word as an integer.
+// The scanning and checking first checks for an integer, if it won't fit then the float
+// is scanned or checked for. That has to accept these larger nunbers.
+]
 int scan_float(char *fltdest)
 {
 
@@ -2857,6 +2863,10 @@ int scan_hex(int *intdest)
 }
 
 //------------------------------------------------------------------------------
+//
+// Check integer before float.
+// If we have an integer that is greater than will fit in a word, then we fil it
+// as an integer and allow it to be a float constant. this is what the Psion appesrs to do.
 
 int check_number(int *index)
 {
@@ -2866,15 +2876,15 @@ int check_number(int *index)
   dbprintf("%s:", __FUNCTION__);
 
   drop_space(&idx);
-	     
-  if( check_float(&idx) )
+  
+  if( check_integer(&idx) )
     {
       dbprintf("%s: ret1", __FUNCTION__);
       *index = idx;
       return(1);
     }
-
-  if( check_integer(&idx) )
+	     
+  if( check_float(&idx) )
     {
       dbprintf("%s: ret1", __FUNCTION__);
       *index = idx;
@@ -2905,18 +2915,18 @@ int scan_number(void)
   dbprintf("%s:", __FUNCTION__);
   
   drop_space(&cline_i);
-  
-  if( check_float(&idx) )
-    {
-      scan_float(fltval);
-      return(1);
-    }
 
-  idx = cline_i;
   if( check_integer(&idx) )
     {
       int intval;
       scan_integer(&intval);
+      return(1);
+    }
+  
+  idx = cline_i;
+  if( check_float(&idx) )
+    {
+      scan_float(fltval);
       return(1);
     }
 
