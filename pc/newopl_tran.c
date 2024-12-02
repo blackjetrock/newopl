@@ -885,11 +885,14 @@ void do_cond_fixup(void)
 //  1.23456E-12
 // -1.23456E-12
 
+#define NORM_MANT_LEN 12
+
 int convert_to_compact_float(int qcode_idx, char *fltstr)
 {
-  int len = 1;   // Exponent always present
-  int exponent = 0;
-
+  int len       = 1;   // Exponent always present
+  int exponent  = 0;
+  int sign      = 0;
+  char normalised_mantissa[NORM_MANT_LEN+1+1+1];
   
   dbprintf("Idx:%d fltstr:'%s'", qcode_idx, fltstr);
 
@@ -909,11 +912,58 @@ int convert_to_compact_float(int qcode_idx, char *fltstr)
   
   dbprintf("Exponent:%d", exponent);
   dbprintf("Idx:%d fltstr:'%s'", qcode_idx, fltstr);
+
+  // Remove sign
+  int start;
+  if( fltstr[0] == '-' )
+    {
+      sign = 1;
+      start = 1;
+    }
+  else
+    {
+      sign = 0;
+      start = 0;
+    }
   
   // Normalise the mantissa, adjusting the exponent as we normalise
-  for(int i=0; i<strlen(fltstr); i++)
+  if( fltstr[start] == '0' )
     {
+      // Need to make larger to normalise, find first significant digit
+      for(int i=start; i<strlen(fltstr); i++)
+	{
+	  if( fltstr[i] == '.' )
+	    {
+	      continue;
+	    }
+	  
+	  if( fltstr[i] == '0' )
+	    {
+	      // Not found sig dig
+	      exponent--;
+	    }
+	  else
+	    {
+	      int j;
+	      
+	      // Found sig dig, copy over to normlised string
+	      for(j=0; i<strlen(fltstr) && (j < NORM_MANT_LEN); i++,j++)
+		{
+		  normalised_mantissa[j] = fltstr[i];
+		}
+	      normalised_mantissa[j] = '\0';
+	    }
+	}
     }
+  else
+    {
+      // Need to make smaller to normalise
+      for(int i=start; i<strlen(fltstr); i++)
+	{
+	}
+    }
+
+  dbprintf("Norm mant:'%s' Sign:%d Exponent:%d", normalised_mantissa, sign, exponent);
   
   return(qcode_idx);
 }
