@@ -893,8 +893,8 @@ int convert_to_compact_float(int qcode_idx, char *fltstr)
   int exponent  = 0;
   int sign      = 0;
   char normalised_mantissa[NORM_MANT_LEN+1+1+1];
-  
-  dbprintf("Idx:%d fltstr:'%s'", qcode_idx, fltstr);
+
+  dbprintf("INPUT:Idx:%d fltstr:'%s'", qcode_idx, fltstr);
 
   // First extract any exponent
   for(int i=0; i<strlen(fltstr); i++)
@@ -925,9 +925,18 @@ int convert_to_compact_float(int qcode_idx, char *fltstr)
       sign = 0;
       start = 0;
     }
+
+  // Remove leading zeroes
+  while( fltstr[start] == '0' )
+    {
+      start++;
+    }
+
+  dbprintf("Normalising:'%s'", &(fltstr[start]));
+  normalised_mantissa[0] = '\0';
   
   // Normalise the mantissa, adjusting the exponent as we normalise
-  if( fltstr[start] == '0' )
+  if( fltstr[start] == '.' )
     {
       // Need to make larger to normalise, find first significant digit
       for(int i=start; i<strlen(fltstr); i++)
@@ -954,16 +963,40 @@ int convert_to_compact_float(int qcode_idx, char *fltstr)
 	      normalised_mantissa[j] = '\0';
 	    }
 	}
+
+      // Correct exponent
+      exponent--;
     }
   else
     {
+      int j = 0;
+      int mod_exp = 1;
+      
       // Need to make smaller to normalise
       for(int i=start; i<strlen(fltstr); i++)
 	{
+	  if( fltstr[i] == '.' )
+	    {
+	      // We are done modifying the exponent
+	      mod_exp = 0;
+	      continue;
+	    }
+	  
+	  normalised_mantissa[j++] = fltstr[i];
+	  
+	  if( mod_exp )
+	    {
+	      exponent++;
+	    }
 	}
+      
+      normalised_mantissa[j] = '\0';
+
+      // Correct exponent
+      exponent--;
     }
 
-  dbprintf("Norm mant:'%s' Sign:%d Exponent:%d", normalised_mantissa, sign, exponent);
+  dbprintf("RESULT: Input:'%s' Norm mant:'%s' Sign:%d Exponent:%d", fltstr, normalised_mantissa, sign, exponent);
   
   return(qcode_idx);
 }
