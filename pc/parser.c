@@ -336,10 +336,10 @@ NOBJ_VARTYPE function_arg_type_n(char *fname, int n)
 
 OP_INFO  op_info[] =
   {
-    // Array dereference internal operator
+    // Array dereference internal operator (not used)
     { "@",    1, 9, NOBJ_VARTYPE_UNKNOWN, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "=",    1, 2, NOBJ_VARTYPE_INT,     0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "<>",   1, 2, NOBJ_VARTYPE_INT,     0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "<>",   1, 2, NOBJ_VARTYPE_INT,     0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { ":=",   0, 1, NOBJ_VARTYPE_UNKNOWN, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY} },
     { "+",    1, 3, NOBJ_VARTYPE_UNKNOWN, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "-",    1, 3, NOBJ_VARTYPE_UNKNOWN, 1, "UMIN", 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
@@ -2676,24 +2676,30 @@ int isfloatdigit(char c)
   return(0);
 }
 
+//------------------------------------------------------------------------------
+
 int check_float(int *index)
 {
   int idx = *index;
   char chstr[2];
   int decimal_present = 0;
   int num_digits = 0;
-
+  char fltval[20];
+  double float_val = 0.0;
+  
   indent_more();
   
   dbprintf("%s:", __FUNCTION__);
   
   drop_space(&idx);
-
+  
+  fltval[0] = '\0';
   chstr[1] = '\0';
   
   // Can start with '-'
   if(  (chstr[0] = cline[idx]) == '-' )
     {
+      strcat(fltval, chstr);
       idx++;
     }
 
@@ -2704,12 +2710,17 @@ int check_float(int *index)
 	  decimal_present = 1;
 	}
       
+      strcat(fltval, chstr);
       idx++;
       num_digits++;
     }
 
+  sscanf(fltval, "%le", &float_val);
 
-  if( (num_digits > 0) &&  decimal_present )
+  dbprintf("Fltval:'%s' float:%le", fltval, float_val);
+  
+  if( ((num_digits > 0) &&  decimal_present) ||
+      ((!decimal_present) && (float_val > 65535.0)) )
     {
       dbprintf("%s: ret1", __FUNCTION__);
       *index = idx;
@@ -2737,6 +2748,7 @@ int scan_float(char *fltdest)
   int decimal_present = 0;
   int num_digits = 0;
   OP_STACK_ENTRY op;
+  double float_val = 0.0;
 
   indent_more();
   
@@ -2767,8 +2779,13 @@ int scan_float(char *fltdest)
       num_digits++;
     }
 
+  sscanf(fltval, "%le", &float_val);
   strcpy(fltdest, fltval);
-  if( (num_digits > 0) &&  decimal_present )
+  dbprintf("Fltval:'%s' float:%le", fltval, float_val);
+  
+  //  if( (num_digits > 0) &&  decimal_present )
+  if( ((num_digits > 0) &&  decimal_present) ||
+      ((!decimal_present) && (float_val > 65535.0)) )
     {
       dbprintf("%s: ret1", __FUNCTION__);
       strcpy(op.name, fltval);
@@ -2892,7 +2909,7 @@ int scan_hex(int *intdest)
 //------------------------------------------------------------------------------
 //
 // Check integer before float.
-// If we have an integer that is greater than will fit in a word, then we fil it
+// If we have an integer that is greater than will fit in a word, then we fail it
 // as an integer and allow it to be a float constant. this is what the Psion appesrs to do.
 
 int check_number(int *index)
@@ -2903,13 +2920,6 @@ int check_number(int *index)
   dbprintf("%s:", __FUNCTION__);
 
   drop_space(&idx);
-  
-  if( check_integer(&idx) )
-    {
-      dbprintf("%s: ret1", __FUNCTION__);
-      *index = idx;
-      return(1);
-    }
 	     
   if( check_float(&idx) )
     {
@@ -2918,6 +2928,13 @@ int check_number(int *index)
       return(1);
     }
 
+  if( check_integer(&idx) )
+    {
+      dbprintf("%s: ret1", __FUNCTION__);
+      *index = idx;
+      return(1);
+    }
+  
   if( check_hex(&idx) )
     {
       dbprintf("%s: ret1", __FUNCTION__);
@@ -2943,12 +2960,6 @@ int scan_number(void)
   
   drop_space(&cline_i);
 
-  if( check_integer(&idx) )
-    {
-      int intval;
-      scan_integer(&intval);
-      return(1);
-    }
   
   idx = cline_i;
   if( check_float(&idx) )
@@ -2956,7 +2967,15 @@ int scan_number(void)
       scan_float(fltval);
       return(1);
     }
-
+  
+  idx = cline_i;
+  if( check_integer(&idx) )
+    {
+      int intval;
+      scan_integer(&intval);
+      return(1);
+    }
+  
   idx = cline_i;
   if( check_hex(&idx) )
     {

@@ -3,15 +3,16 @@ Filename:'ob3_nopl'
 File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
-Var Space Size:001A
-QCode Space Size:001B
+Var Space Size:001C
+QCode Space Size:0053
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
 Global variables (0)
 
-External varname Size:0000
-External variables (0)
+External varname Size:0003
+External variables (1)
+ 0: D                FLT    (01)
 
 String length fixups (0)
 
@@ -22,26 +23,72 @@ QCode
 0000: 59       STOP     (bytes code:-)
 0001: B2       SIN     (bytes code:-)
 0002: 0E       Push local/global float variable reference     (bytes code:v)
-0003: FFF6       (65526)
+0003: FFF4       (65524)
 0005: 22       Push integer literal     (bytes code:I)
 0006: 614E       (24910)
 0008: 86       autoconversion int to float     (bytes code:-)
 0009: 80       Assign float     (bytes code:-)
 000A: 0E       Push local/global float variable reference     (bytes code:v)
-000B: FFEE       (65518)
+000B: FFEC       (65516)
 000D: 22       Push integer literal     (bytes code:I)
 000E: 9EB2       (40626)
 0010: 86       autoconversion int to float     (bytes code:-)
 0011: 80       Assign float     (bytes code:-)
 0012: 0E       Push local/global float variable reference     (bytes code:v)
-0013: FFE6       (65510)
-0015: 22       Push integer literal     (bytes code:I)
-0016: 000C       (12)
-0018: 86       autoconversion int to float     (bytes code:-)
+0013: FFE4       (65508)
+0015: 80       Assign float     (bytes code:-)
+0016: 15       Push parameter/external float variable reference     (bytes code:V)
+0017: FFCD       (65485)
 0019: 80       Assign float     (bytes code:-)
-001A: 7B       RETURN (float 0)     (bytes code:-)
+001A: 0E       Push local/global float variable reference     (bytes code:v)
+001B: FFF4       (65524)
+001D: 80       Assign float     (bytes code:-)
+001E: 0E       Push local/global float variable reference     (bytes code:v)
+001F: FFF4       (65524)
+0021: 22       Push integer literal     (bytes code:I)
+0022: 04D2       (1234)
+0024: 86       autoconversion int to float     (bytes code:-)
+0025: 80       Assign float     (bytes code:-)
+0026: 0E       Push local/global float variable reference     (bytes code:v)
+0027: FFF4       (65524)
+0029: 22       Push integer literal     (bytes code:I)
+002A: FB2E       (64302)
+002C: 86       autoconversion int to float     (bytes code:-)
+002D: 80       Assign float     (bytes code:-)
+002E: 0E       Push local/global float variable reference     (bytes code:v)
+002F: FFF4       (65524)
+0031: 22       Push integer literal     (bytes code:I)
+0032: 0FF0       (4080)
+0034: 86       autoconversion int to float     (bytes code:-)
+0035: 80       Assign float     (bytes code:-)
+0036: 0E       Push local/global float variable reference     (bytes code:v)
+0037: FFF4       (65524)
+0039: 22       Push integer literal     (bytes code:I)
+003A: FFFF       (65535)
+003C: 86       autoconversion int to float     (bytes code:-)
+003D: 80       Assign float     (bytes code:-)
+003E: 0E       Push local/global float variable reference     (bytes code:v)
+003F: FFF4       (65524)
+0041: 22       Push integer literal     (bytes code:I)
+0042: 2000       (8192)
+0044: 86       autoconversion int to float     (bytes code:-)
+0045: 80       Assign float     (bytes code:-)
+0046: 0E       Push local/global float variable reference     (bytes code:v)
+0047: FFF4       (65524)
+0049: 80       Assign float     (bytes code:-)
+004A: 0E       Push local/global float variable reference     (bytes code:v)
+004B: FFF4       (65524)
+004D: 22       Push integer literal     (bytes code:I)
+004E: 04D2       (1234)
+0050: 86       autoconversion int to float     (bytes code:-)
+0051: 80       Assign float     (bytes code:-)
+0052: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
-0000:59 B2 0E FF F6 22 61 4E 86 80 0E FF EE 22 9E B2 
-0010:86 80 0E FF E6 22 00 0C 86 80 7B 
+0000:59 B2 0E FF F4 22 61 4E 86 80 0E FF EC 22 9E B2 
+0010:86 80 0E FF E4 80 15 FF CD 80 0E FF F4 80 0E FF 
+0020:F4 22 04 D2 86 80 0E FF F4 22 FB 2E 86 80 0E FF 
+0030:F4 22 0F F0 86 80 0E FF F4 22 FF FF 86 80 0E FF 
+0040:F4 22 20 00 86 80 0E FF F4 80 0E FF F4 22 04 D2 
+0050:86 80 7B 
