@@ -1,9 +1,26 @@
 
 Variables
 
-   0:  VAR: '             TEXT$'      Local String            DECLARE max_str: 10 max_ary:  0 num_ind:  1 offset:FFF3
-   1:  VAR: '                M%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF0
-   2:  VAR: '              IND$'      Local String            DECLARE max_str:  2 max_ary:  0 num_ind:  1 offset:FFED
-   3:  VAR: '                M0' Calc Memory Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:0000
-   4:  VAR: '                M1' Calc Memory Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:0001
-   5:  VAR: '                M2' Calc Memory Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:0002
+   0:  VAR: '                P1'  Parameter Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFCD
+   1:  VAR: '               P2%'  Parameter Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFCB
+   2:  VAR: '               P3$'  Parameter String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFC9
+   3:  VAR: '                L1'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF0F
+   4:  VAR: '               L2%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF0D
+   5:  VAR: '               L3$'      Local String            DECLARE max_str:  5 max_ary:  0 num_ind:  1 offset:FF07
+   6:  VAR: '                L4'      Local Float   array     DECLARE max_str:  0 max_ary:  4 num_ind:  1 offset:FEE4
+   7:  VAR: '               L5%'      Local Integer array     DECLARE max_str:  0 max_ary:  5 num_ind:  1 offset:FED8
+   8:  VAR: '               L6$'      Local String  array     DECLARE max_str: 12 max_ary:  6 num_ind:  2 offset:FE88
+   9:  VAR: '               L7%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE85
+  10:  VAR: '                G1'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFB5
+  11:  VAR: '               G2%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFB3
+  12:  VAR: '               G3$'     Global String            DECLARE max_str: 13 max_ary:  0 num_ind:  1 offset:FFA5
+  13:  VAR: '                G4'     Global Float   array     DECLARE max_str:  0 max_ary:  4 num_ind:  1 offset:FF82
+  14:  VAR: '               G5%'     Global Integer array     DECLARE max_str:  0 max_ary:  5 num_ind:  1 offset:FF76
+  15:  VAR: '               G6$'     Global String  array     DECLARE max_str: 14 max_ary:  6 num_ind:  2 offset:FF1A
+  16:  VAR: '               G7%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF17
+  17:  VAR: '                E1'   External Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFC7
+  18:  VAR: '               E2%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFC5
+  19:  VAR: '               E3$'   External String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFC3
+  20:  VAR: '                E4'   External Float   array     REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:FFC1
+  21:  VAR: '               E5%'   External Integer array     REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:FFBF
+  22:  VAR: '               E6$'   External String  array     REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:FFBD

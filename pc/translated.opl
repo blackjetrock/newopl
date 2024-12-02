@@ -1,118 +1,134 @@
 
+P3$
+L3$
+L7%
+G3$
+G7%
 
-IND$
-
-KSTAT(1 )
-START::
-M% := MENU("NEW,LAST" )
-IF (M% = 1)
-GOTO NEW
-ELSEIF (M% = 2)
-TEXT$ := "LAST TIME:"
-GOTO LAST
-ELSE
-STOP()
-ENDIF
-NEW::
-CLS()
-M% := MENU("IBUPROFIN,PARACETEMOL" )
-IF (M% > 0)
-TEXT$ := "RECORDED."
-M0 := HOUR()
-M1 := MINUTE()
-M2 := M%
-GOTO LAST
-ELSE
-GOTO START
-ENDIF
-LAST::
-CLS()
-PRINT(TEXT$)
-PRINT(M0)
-
-IF (M1 < 10)
-IND$ := ":0"
-ELSE
-IND$ := ":"
-ENDIF
-PRINT(IND$)
-PRINT(M1)
+PRINT("PPP")
+PRINT(P1)
+PRINT(P2%)
+PRINT(P3$)
 <nl>
 
-IF (M2 = 1)
-PRINT(CHR$(15 ))
-PRINT("IBUPROFIN.")
+PRINT("LLL")
+PRINT(L1)
+PRINT(L2%)
+PRINT(L3$)
 <nl>
 
-ELSEIF (M2 = 2)
-PRINT(CHR$(15 ))
-PRINT("PARACETAMOL")
+PRINT("LL")
+PRINT(L4(4))
+PRINT(L5%(5))
+PRINT(L6$(6))
 <nl>
 
-ELSE
-PRINT(CHR$(15 ))
-PRINT("NO RECORD.")
+PRINT("GGG")
+PRINT(G1)
+PRINT(G2%)
+PRINT(G3$)
 <nl>
 
-ENDIF
-M% := GET()
-STOP()
+PRINT("GG")
+PRINT(G4(4))
+PRINT(G5%(5))
+PRINT(G6$(6))
+<nl>
 
+PRINT("EEE")
+PRINT(E1)
+PRINT(E2%)
+PRINT(E3$)
+<nl>
 
+PRINT("EE")
+PRINT(E4(4))
+PRINT(E5%(5))
+PRINT(E6$(6))
+<nl>
+
+L1 := 234
+L2% := 345
+L3$ := "BCD"
+L4(2) := 345
+L5%(3) := 456
+L6$(4) := "CDE"
+G1 := 12
+G2% := 23
+G3$ := "DEF"
+G4(3) := 34
+G5%(4) := 4
+G6$(5) := "EFG"
+E1 := 45
+E2% := 56
+E3$ := "FGH"
+E4(4) := 67
+E5%(5) := 78
+E6$(6) := "GHI"
+
+P3$
+DROP
+DROP
+DROP
 DROP
 
-KSTAT(1 )
-START::
-M% := MENU("NEW,LAST" )
-IF (M% = 1)
-GOTO NEW
-ELSEIF (M% = 2)
-TEXT$ := "LAST TIME:"
-GOTO LAST
-ELSE
-STOP()
-ENDIF
-NEW::
-CLS()
-M% := MENU("IBUPROFIN,PARACETEMOL" )
-IF (M% > 0)
-TEXT$ := "RECORDED."
-M0 := HOUR()
-M1 := MINUTE()
-M2 := M%
-GOTO LAST
-ELSE
-GOTO START
-ENDIF
-LAST::
-CLS()
-PRINT(TEXT$)
-PRINT(M0)
-
-IF (M1 < 10)
-IND$ := ":0"
-ELSE
-IND$ := ":"
-ENDIF
-PRINT(IND$)
-PRINT(M1)
+PRINT("PPP")
+PRINT(P1)
+PRINT(P2%)
+PRINT(P3$)
 <nl>
 
-IF (M2 = 1)
-PRINT(CHR$(15 ))
-PRINT("IBUPROFIN.")
+PRINT("LLL")
+PRINT(L1)
+PRINT(L2%)
+PRINT(L3$)
 <nl>
 
-ELSEIF (M2 = 2)
-PRINT(CHR$(15 ))
-PRINT("PARACETAMOL")
+PRINT("LL")
+PRINT(L4(4))
+PRINT(L5%(5))
+PRINT(L6$(6))
 <nl>
 
-ELSE
-PRINT(CHR$(15 ))
-PRINT("NO RECORD.")
+PRINT("GGG")
+PRINT(G1)
+PRINT(G2%)
+PRINT(G3$)
 <nl>
 
-ENDIF
-M% := GET()
-STOP()
+PRINT("GG")
+PRINT(G4(4))
+PRINT(G5%(5))
+PRINT(G6$(6))
+<nl>
+
+PRINT("EEE")
+PRINT(E1)
+PRINT(E2%)
+PRINT(E3$)
+<nl>
+
+PRINT("EE")
+PRINT(E4(4))
+PRINT(E5%(5))
+PRINT(E6$(6))
+<nl>
+
+L1 := 234
+L2% := 345
+L3$ := "BCD"
+L4(2) := 345
+L5%(3) := 456
+L6$(4) := "CDE"
+G1 := 12
+G2% := 23
+G3$ := "DEF"
+G4(3) := 34
+G5%(4) := 4
+G6$(5) := "EFG"
+E1 := 45
+E2% := 56
+E3$ := "FGH"
+E4(4) := 67
+E5%(5) := 78
+E6$(6) := "GHI"
