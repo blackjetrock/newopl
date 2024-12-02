@@ -143,10 +143,10 @@ QCode
 00C7: 73       PRINT newline     (bytes code:-)
 00C8: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
 00C9: 0010       (M2)
-00CB: 87       autoconversion float to int     (bytes code:-)
-00CC: 22       Push integer literal     (bytes code:I)
-00CD: 0001       (1)
-00CF: 2C       Equal integer     (bytes code:-)
+00CB: 22       Push integer literal     (bytes code:I)
+00CC: 0001       (1)
+00CE: 86       autoconversion int to float     (bytes code:-)
+00CF: 3B       Equal float     (bytes code:-)
 00D0: 7E       Branch if false     (bytes code:D)
 00D1: Dest:00E9 (Dist:0018)
 00D3: 22       Push integer literal     (bytes code:I)
@@ -162,10 +162,10 @@ QCode
 00E7: Dest:011E (Dist:0037)
 00E9: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
 00EA: 0010       (M2)
-00EC: 87       autoconversion float to int     (bytes code:-)
-00ED: 22       Push integer literal     (bytes code:I)
-00EE: 0002       (2)
-00F0: 2C       Equal integer     (bytes code:-)
+00EC: 22       Push integer literal     (bytes code:I)
+00ED: 0002       (2)
+00EF: 86       autoconversion int to float     (bytes code:-)
+00F0: 3B       Equal float     (bytes code:-)
 00F1: 7E       Branch if false     (bytes code:D)
 00F2: Dest:010B (Dist:0019)
 00F4: 22       Push integer literal     (bytes code:I)
@@ -209,10 +209,10 @@ QCode Data
 0090:51 00 08 51 00 05 51 FF 6F 4E 02 FF F3 71 06 00 
 00A0:00 70 06 00 08 22 00 0A 86 36 7E 00 0D 0F FF ED 
 00B0:24 02 3A 30 81 51 00 09 0F FF ED 24 01 3A 81 02 
-00C0:FF ED 71 06 00 08 70 73 06 00 10 87 22 00 01 2C 
+00C0:FF ED 71 06 00 08 70 73 06 00 10 22 00 01 86 3B 
 00D0:7E 00 18 22 00 0F B8 71 24 0A 49 42 55 50 52 4F 
-00E0:46 49 4E 2E 71 73 51 00 37 06 00 10 87 22 00 02 
-00F0:2C 7E 00 19 22 00 0F B8 71 24 0B 50 41 52 41 43 
+00E0:46 49 4E 2E 71 73 51 00 37 06 00 10 22 00 02 86 
+00F0:3B 7E 00 19 22 00 0F B8 71 24 0B 50 41 52 41 43 
 0100:45 54 41 4D 4F 4C 71 73 51 00 15 22 00 0F B8 71 
 0110:24 0A 4E 4F 20 52 45 43 4F 52 44 2E 71 73 0D FF 
 0120:F0 91 7F 59 7B 
