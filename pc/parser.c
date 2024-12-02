@@ -2668,7 +2668,7 @@ int scan_integer(int *intdest)
 int isfloatdigit(char c)
 {
   dbprintf("%s:", __FUNCTION__);
-  if( isdigit(c) || (c == '.') )
+  if( isdigit(c) || (c == '.') || (c == 'E') || (c == '-') )
     {
       return(1);
     }

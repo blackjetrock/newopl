@@ -210,7 +210,7 @@ int token_is_float(char *token)
   
   for(int i=0; i < len; i++)
     {
-      if( !( isdigit(*token) || (*token == '.') || (*token == '-') ))
+      if( !( isdigit(*token) || (*token == '.') || (*token == '-') || (*token == 'E') ))
 	{
 	  all_digits = 0;
 	}
@@ -873,6 +873,51 @@ void do_cond_fixup(void)
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// Convert float (in string form) to comapct qcode format and add it to
+// the qcode stream.
+//
+//  1.23456
+// -1.23456
+//  1.23456E12
+// -1.23456E12
+//  1.23456E-12
+// -1.23456E-12
+
+int convert_to_compact_float(int qcode_idx, char *fltstr)
+{
+  int len = 1;   // Exponent always present
+  int exponent = 0;
+
+  
+  dbprintf("Idx:%d fltstr:'%s'", qcode_idx, fltstr);
+
+  // First extract any exponent
+  for(int i=0; i<strlen(fltstr); i++)
+    {
+      if( fltstr[i] == 'E' )
+	{
+	  // found exponent
+	  sscanf(&(fltstr[i]), "E%d", &exponent);
+	  dbprintf("Exponent:E%d found", exponent);
+
+	  // End the string at the 'E'
+	  fltstr[i] = '\0';
+	}
+    }
+  
+  dbprintf("Exponent:%d", exponent);
+  dbprintf("Idx:%d fltstr:'%s'", qcode_idx, fltstr);
+  
+  // Normalise the mantissa, adjusting the exponent as we normalise
+  for(int i=0; i<strlen(fltstr); i++)
+    {
+    }
+  
+  return(qcode_idx);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -1092,6 +1137,23 @@ void output_qcode_for_line(void)
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (intval) >> 8);
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (intval) & 0xFF);
 	  break;
+
+	case EXP_BUFF_ID_FLT:
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_NUM_CON);
+
+	  // Convert to 'compact' float form
+	  // Float may or may not have a decimal point.
+	  // We can handle up to 12 significant digits
+	  
+	  qcode_idx = convert_to_compact_float(qcode_idx, tokop.name);
+#if 0
+	  dbprintf("fltval:%f %lf", float_val, float_val);
+	  
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (intval) >> 8);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (intval) & 0xFF);
+#endif
+	  break;
+
 	  
 	case EXP_BUFF_ID_PRINT_NEWLINE:
 	  dbprintf("QC:PRINT");
@@ -2426,7 +2488,7 @@ void typecheck_expression(void)
 	  // Operators have to be typed correctly depending on their
 	  // operands. Some of them are mutable (polymorphic) and we have to bind them to their
 	  // type here.
-	  // Some are immutable and cause errors if theior operators are not correct
+	  // Some are immutable and cause errors if their operators are not correct
 	  // Some have a fixed output type (>= for example, but still have mutable inputs)
 	  //
 	  
