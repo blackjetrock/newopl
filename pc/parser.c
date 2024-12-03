@@ -2595,7 +2595,7 @@ int check_integer(int *index)
 
   *index = idx;
   
-  if( num_digits > 0 )
+  if( (num_digits > 0) && (num_digits <= 5) )
     {
       dbprintf("ret1");
       return(1);
@@ -2646,7 +2646,7 @@ int scan_integer(int *intdest)
   sscanf(intval, "%d", intdest);
   //x  strcpy(intdest, intval);
   
-  if( num_digits > 0 )
+  if( (num_digits > 0) && (num_digits <=5) )
     {
       dbprintf("ret1");
 
@@ -2656,7 +2656,7 @@ int scan_integer(int *intdest)
       op.type = NOBJ_VARTYPE_INT;
       process_token(&op);
 
-      dbprintf("%s:ret1  intval='%s'", __FUNCTION__, intval);
+      dbprintf("ret1  num_dig:%d intval='%s'", num_digits, intval);
 
       return(1);
     }
@@ -2668,7 +2668,11 @@ int scan_integer(int *intdest)
 int isfloatdigit(char c)
 {
   dbprintf("%s:", __FUNCTION__);
-  if( isdigit(c) || (c == '.') || (c == 'E') || (c == '-') )
+  if( isdigit(c) || (c == '.') || (c == 'E')
+#if FLT_INCLUDES_SIGN
+      || (c == '-')
+#endif
+      )
     {
       return(1);
     }
@@ -2695,14 +2699,16 @@ int check_float(int *index)
   
   fltval[0] = '\0';
   chstr[1] = '\0';
-  
+
+  #if FLT_INCLUDES_SIGN
   // Can start with '-'
   if(  (chstr[0] = cline[idx]) == '-' )
     {
       strcat(fltval, chstr);
       idx++;
     }
-
+#endif
+  
   while( isfloatdigit(chstr[0] = cline[idx]) )
     {
       if( chstr[0] == '.' )
@@ -2760,13 +2766,15 @@ int scan_float(char *fltdest)
   fltval[0] = '\0';
   chstr[1] = '\0';
 
+#if FLT_INCLUDES_SIGN
   // Can start with '-'
   if(  (chstr[0] = cline[cline_i]) == '-' )
     {
       strcat(fltval, chstr);
       cline_i++;
     }
-
+#endif
+  
   while( isfloatdigit(chstr[0] = cline[cline_i]) )
     {
       if( chstr[0] == '.' )
@@ -2789,6 +2797,7 @@ int scan_float(char *fltdest)
     {
       dbprintf("%s: ret1", __FUNCTION__);
       strcpy(op.name, fltval);
+      op.buf_id = EXP_BUFF_ID_FLT;
       process_token(&op);
       return(1);
     }

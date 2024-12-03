@@ -1,64 +1,26 @@
 
-( dump_exp_buffer) N1 R EXP_BUFF_ID_META                       ty:U rq:U qcty:U 'PROCDEF' npar:0 nidx:32766  0:  nb 0:()
+( dump_exp_buffer) N1 R EXP_BUFF_ID_META                       ty:U rq:U qcty:U 'PROCDEF' npar:0 nidx:32767  0:  nb 0:()
 Header built qcode_idx:0012
-( dump_exp_buffer) N1 R EXP_BUFF_ID_META                       ty:U rq:U qcty:U ' LOCAL' npar:0 nidx:32766  0:  nb 0:()
+( dump_exp_buffer) N1 R EXP_BUFF_ID_META                       ty:U rq:U qcty:U ' LOCAL' npar:0 nidx:32767  0:  nb 0:()
 ( dump_exp_buffer) N2 R EXP_BUFF_ID_VARIABLE                   ty:f rq:f qcty:U 'A' npar:0 nidx:0  0:  nb 0:()
 ( dump_exp_buffer) N3 R EXP_BUFF_ID_VARIABLE                   ty:f rq:i qcty:U 'B' npar:0 nidx:0  0:  nb 0:()
 ( dump_exp_buffer) N4 R EXP_BUFF_ID_VARIABLE                   ty:f rq:i qcty:U 'C' npar:0 nidx:0  0:  nb 0:()
 ( dump_exp_buffer) N9 R EXP_BUFF_ID_VARIABLE                   ty:f rq:f qcty:U 'DROP' npar:0 nidx:0  0:  nb 0:()
 
 ( dump_exp_buffer) N1 ? EXP_BUFF_ID_VARIABLE                   ty:f rq:f qcty:U 'A' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 R EXP_BUFF_ID_INTEGER                    ty:i rq:f qcty:U '12345678' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N4 R EXP_BUFF_ID_AUTOCON                    ty:f rq:f qcty:U 'autocon i->f' npar:0 nidx:0  2: 2 1  nb 0:()
-( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:25156  2: 2 1  nb 0:()
+( dump_exp_buffer) N2 R EXP_BUFF_ID_FLT                        ty:f rq:f qcty:U '12345678' npar:0 nidx:0  0:  nb 0:()
+( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:24169  2: 2 1  nb 0:()
 
 ( dump_exp_buffer) N1 ? EXP_BUFF_ID_VARIABLE                   ty:f rq:f qcty:U 'B' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 R EXP_BUFF_ID_INTEGER                    ty:i rq:f qcty:U '-12345678' npar:0 nidx:25156  0:  nb 0:()
-( dump_exp_buffer) N4 R EXP_BUFF_ID_AUTOCON                    ty:f rq:f qcty:U 'autocon i->f' npar:0 nidx:0  2: 2 1  nb 0:()
-( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:25156  2: 2 1  nb 0:()
+( dump_exp_buffer) N2 R EXP_BUFF_ID_FLT                        ty:f rq:f qcty:U '12345678' npar:0 nidx:0  0:  nb 0:()
+( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR_UNARY             ty:f rq:f qcty:U 'UMIN' npar:0 nidx:24169  0:  nb 0:()
+( dump_exp_buffer) N4 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:24169  2: 2 1  nb 0:()
 
 ( dump_exp_buffer) N1 ? EXP_BUFF_ID_VARIABLE                   ty:f rq:f qcty:U 'C' npar:0 nidx:0  0:  nb 0:()
 ( dump_exp_buffer) N2 R EXP_BUFF_ID_FLT                        ty:f rq:f qcty:U '12.345678' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:25156  2: 2 1  nb 0:()
+( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:24169  2: 2 1  nb 0:()
 
 ( dump_exp_buffer) N1 ? EXP_BUFF_ID_VARIABLE                   ty:f rq:f qcty:U 'D' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 R EXP_BUFF_ID_FLT                        ty:f rq:f qcty:U '-12.345678' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:25156  2: 2 1  nb 0:()
-
-( dump_exp_buffer) N1 ? EXP_BUFF_ID_VARIABLE                   ty:f rq:f qcty:U 'A' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 R EXP_BUFF_ID_FLT                        ty:f rq:f qcty:U '0.00001234' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:25156  2: 2 1  nb 0:()
-
-( dump_exp_buffer) N1 ? EXP_BUFF_ID_VARIABLE                   ty:f rq:f qcty:U 'A' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 R EXP_BUFF_ID_INTEGER                    ty:i rq:f qcty:U '1234' npar:0 nidx:25156  0:  nb 0:()
+( dump_exp_buffer) N2 R EXP_BUFF_ID_INTEGER                    ty:i rq:f qcty:U '-12' npar:0 nidx:24169  0:  nb 0:()
 ( dump_exp_buffer) N4 R EXP_BUFF_ID_AUTOCON                    ty:f rq:f qcty:U 'autocon i->f' npar:0 nidx:0  2: 2 1  nb 0:()
-( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:25156  2: 2 1  nb 0:()
-
-( dump_exp_buffer) N1 ? EXP_BUFF_ID_VARIABLE                   ty:f rq:f qcty:U 'A' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 R EXP_BUFF_ID_INTEGER                    ty:i rq:f qcty:U '-1234' npar:0 nidx:25156  0:  nb 0:()
-( dump_exp_buffer) N4 R EXP_BUFF_ID_AUTOCON                    ty:f rq:f qcty:U 'autocon i->f' npar:0 nidx:0  2: 2 1  nb 0:()
-( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:25156  2: 2 1  nb 0:()
-
-( dump_exp_buffer) N1 ? EXP_BUFF_ID_VARIABLE                   ty:f rq:f qcty:U 'A' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 R EXP_BUFF_ID_INTEGER                    ty:i rq:f qcty:U '4080' npar:0 nidx:25156  0:  nb 0:()
-( dump_exp_buffer) N4 R EXP_BUFF_ID_AUTOCON                    ty:f rq:f qcty:U 'autocon i->f' npar:0 nidx:0  2: 2 1  nb 0:()
-( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:25156  2: 2 1  nb 0:()
-
-( dump_exp_buffer) N1 ? EXP_BUFF_ID_VARIABLE                   ty:f rq:f qcty:U 'A' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 R EXP_BUFF_ID_INTEGER                    ty:i rq:f qcty:U '65535' npar:0 nidx:25156  0:  nb 0:()
-( dump_exp_buffer) N4 R EXP_BUFF_ID_AUTOCON                    ty:f rq:f qcty:U 'autocon i->f' npar:0 nidx:0  2: 2 1  nb 0:()
-( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:25156  2: 2 1  nb 0:()
-
-( dump_exp_buffer) N1 ? EXP_BUFF_ID_VARIABLE                   ty:f rq:f qcty:U 'A' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 R EXP_BUFF_ID_INTEGER                    ty:i rq:f qcty:U '8192' npar:0 nidx:25156  0:  nb 0:()
-( dump_exp_buffer) N4 R EXP_BUFF_ID_AUTOCON                    ty:f rq:f qcty:U 'autocon i->f' npar:0 nidx:0  2: 2 1  nb 0:()
-( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:25156  2: 2 1  nb 0:()
-
-( dump_exp_buffer) N1 ? EXP_BUFF_ID_VARIABLE                   ty:f rq:f qcty:U 'A' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 R EXP_BUFF_ID_FLT                        ty:f rq:f qcty:U '1234.0' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:25156  2: 2 1  nb 0:()
-
-( dump_exp_buffer) N1 ? EXP_BUFF_ID_VARIABLE                   ty:f rq:f qcty:U 'A' npar:0 nidx:0  0:  nb 0:()
-( dump_exp_buffer) N2 R EXP_BUFF_ID_INTEGER                    ty:i rq:f qcty:U '1234' npar:0 nidx:25156  0:  nb 0:()
-( dump_exp_buffer) N4 R EXP_BUFF_ID_AUTOCON                    ty:f rq:f qcty:U 'autocon i->f' npar:0 nidx:0  2: 2 1  nb 0:()
-( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:25156  2: 2 1  nb 0:()
+( dump_exp_buffer) N3 R EXP_BUFF_ID_OPERATOR                   ty:f rq:f qcty:U ':=' npar:0 nidx:24169  2: 2 1  nb 0:()

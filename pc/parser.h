@@ -401,3 +401,4 @@ extern int procedure_has_return;
 extern NOBJ_VARTYPE  procedure_type;
 
 
+#define FLT_INCLUDES_SIGN   0

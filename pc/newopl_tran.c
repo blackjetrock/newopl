@@ -525,8 +525,8 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_OPERATOR, "/",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_DIV_NUM},
     {EXP_BUFF_ID_OPERATOR, "**",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_POW_INT},
     {EXP_BUFF_ID_OPERATOR, "**",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_POW_NUM},
-    {EXP_BUFF_ID_OPERATOR, "UMIN",NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_UMIN_INT},
-    {EXP_BUFF_ID_OPERATOR, "UMIN",NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_UMIN_NUM},
+    {EXP_BUFF_ID_OPERATOR_UNARY, "UMIN",NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_UMIN_INT},
+    {EXP_BUFF_ID_OPERATOR_UNARY, "UMIN",NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_UMIN_NUM},
     {EXP_BUFF_ID_OPERATOR, "NOT", NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_NOT_INT},
     {EXP_BUFF_ID_OPERATOR, "NOT", NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_NOT_NUM},
     {EXP_BUFF_ID_OPERATOR, "AND", NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_AND_INT},
@@ -3629,7 +3629,7 @@ void process_token(OP_STACK_ENTRY *token)
       return;
     }
 
-  if( token_is_float(o1.name) )
+  if( token_is_float(o1.name) || (o1.buf_id == EXP_BUFF_ID_FLT) )
     {
 
       o1.type = NOBJ_VARTYPE_FLT;
