@@ -399,6 +399,7 @@ extern int qcode_len;
 extern int size_of_qcode_idx;
 extern int procedure_has_return;
 extern NOBJ_VARTYPE  procedure_type;
+void dump_vars(FILE *fp);
 
 
 #define FLT_INCLUDES_SIGN   0

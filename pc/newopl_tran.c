@@ -2822,9 +2822,9 @@ void typecheck_expression(void)
 			{
 			  dbprintf(" Autoconversion");
 			  dbprintf(" --------------");
-			  dbprintf(" Op1: type:%d req type:%d", op1.op.type, op1.op.req_type);
-			  dbprintf(" Op2: type:%d req type:%d", op2.op.type, op2.op.req_type);
-			  dbprintf(" BE:  type:%d req type:%d",  be.op.type,  be.op.req_type);
+			  dbprintf(" Op1: type:%c req type:%c", type_to_char(op1.op.type), type_to_char(op1.op.req_type));
+			  dbprintf(" Op2: type:%c req type:%c", type_to_char(op2.op.type), type_to_char(op2.op.req_type));
+			  dbprintf(" BE:  type:%c req type:%c",  type_to_char(be.op.type),  type_to_char(be.op.req_type));
 		 
 			  // We insert auto conversion nodes to force the type of the arguments to match the
 			  // operator type. For INT and FLT we can force the operator to FLT if required
@@ -2855,10 +2855,46 @@ void typecheck_expression(void)
 #endif
 			      dbprintf(" Assignment Autoconversion");
 			      dbprintf(" --------------");
-			      dbprintf(" Op1: type:%d req type:%d", op1.op.type, op1.op.req_type);
-			      dbprintf(" Op2: type:%d req type:%d", op2.op.type, op2.op.req_type);
-			      dbprintf(" BE:  type:%d req type:%d",  be.op.type,  be.op.req_type);
+			      dbprintf(" Op1: type:%c req type:%c", type_to_char(op1.op.type), type_to_char(op1.op.req_type));
+			      dbprintf(" Op2: type:%c req type:%c", type_to_char(op2.op.type), type_to_char(op2.op.req_type));
+			      dbprintf(" BE:  type:%c req type:%c",  type_to_char(be.op.type),  type_to_char(be.op.req_type));
 
+			      // Now insert auto convert node
+			      // Only convert the value being assigned.
+			      sprintf(autocon.name, "autocon %c->%c", type_to_char(op2.op.type), type_to_char(op1.op.type));
+
+			      autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
+			      autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
+			      autocon.p_idx = 2;
+			      autocon.p[0] = op2.node_id;
+			      autocon.p[1] = op1.node_id;
+			      autocon.op.type      = be.op.type;
+			      autocon.op.req_type  = be.op.type;
+#if 0			      
+			      if( (op1.op.type != be.op.req_type) )
+				{
+				  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.req_type));
+				  insert_buf2_entry_after_node_id(op1.node_id, autocon);
+				}
+#endif
+			      //			      if( (op2.op.type != be.op.req_type) )
+				{
+				  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(op2.op.type));
+				  insert_buf2_entry_after_node_id(op1.node_id, autocon);
+				}
+			      
+			      // Now set up output type
+			      if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+				{
+				  // Do not force
+				}
+			      else
+				{
+				  dbprintf("(D) Forced type to %c", type_to_char(be.op.req_type));
+				  be.op.type      = op_info.output_type;
+				  be.op.req_type  = op_info.output_type;
+				  be.op.qcode_type = autocon.op.req_type;
+				}
 			    }
 			  else
 			    {
@@ -2879,41 +2915,44 @@ void typecheck_expression(void)
 				}
 			    }
 
-			  // If type of operator is unknown, 
-			  
-			  // Now insert auto convert nodes if required
-			  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.req_type));
-			  autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
-			  autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
-			  autocon.p_idx = 2;
-			  autocon.p[0] = op1.node_id;
-			  autocon.p[1] = op2.node_id;
-			  autocon.op.type      = be.op.type;
-			  autocon.op.req_type  = be.op.type;
-
-			  if( (op1.op.type != be.op.req_type) )
+			  if( !op_info.assignment )
 			    {
+			      // If type of operator is unknown, 
+			      
+			      // Now insert auto convert nodes if required
 			      sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.req_type));
-			      insert_buf2_entry_after_node_id(op1.node_id, autocon);
-			    }
-
-			  if( (op2.op.type != be.op.req_type) )
-			    {
-			      sprintf(autocon.name, "autocon %c->%c", type_to_char(op2.op.type), type_to_char(be.op.req_type));
-			      insert_buf2_entry_after_node_id(op2.node_id, autocon);
-			    }
-			  
-			  // Now set up output type
-			  if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
-			    {
-			      // Do not force
-			    }
-			  else
-			    {
-			      dbprintf("(D) Forced type to %c", type_to_char(be.op.req_type));
-			      be.op.type      = op_info.output_type;
-			      be.op.req_type  = op_info.output_type;
-			      be.op.qcode_type = autocon.op.req_type;
+			      autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
+			      autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
+			      autocon.p_idx = 2;
+			      autocon.p[0] = op1.node_id;
+			      autocon.p[1] = op2.node_id;
+			      autocon.op.type      = be.op.type;
+			      autocon.op.req_type  = be.op.type;
+			      
+			      if( (op1.op.type != be.op.req_type) )
+				{
+				  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.req_type));
+				  insert_buf2_entry_after_node_id(op1.node_id, autocon);
+				}
+			      
+			      if( (op2.op.type != be.op.req_type) )
+				{
+				  sprintf(autocon.name, "autocon %c->%c", type_to_char(op2.op.type), type_to_char(be.op.req_type));
+				  insert_buf2_entry_after_node_id(op2.node_id, autocon);
+				}
+			      
+			      // Now set up output type
+			      if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+				{
+				  // Do not force
+				}
+			      else
+				{
+				  dbprintf("(D) Forced type to %c", type_to_char(be.op.req_type));
+				  be.op.type      = op_info.output_type;
+				  be.op.req_type  = op_info.output_type;
+				  be.op.qcode_type = autocon.op.req_type;
+				}
 			    }
 			}
 		      
