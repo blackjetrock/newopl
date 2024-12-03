@@ -996,6 +996,28 @@ int convert_to_compact_float(int qcode_idx, char *fltstr)
       exponent--;
     }
 
+  // Drop trailing zeros
+  for(int t=strlen(normalised_mantissa)-1; t>=0; t--)
+    {
+      if( normalised_mantissa[t] == '0' )
+	{
+	  // Remove trailing zero
+	  normalised_mantissa[t] = '\0';
+	}
+      else
+	{
+	  // Not a zero, all done
+	  break;
+	}
+    }
+
+  // If mantissa has an odd number of digits, add a zero back in
+  if( (strlen(normalised_mantissa) % 2) != 0 )
+    {
+      // This zero allows the byte packing to work properly
+      strcat(normalised_mantissa, "0");
+    }
+  
   // Now build the qcode compact form
   qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, strlen(normalised_mantissa)/2+1);
   

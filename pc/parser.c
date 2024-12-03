@@ -2579,12 +2579,14 @@ int check_integer(int *index)
   chstr[1] = '\0';
   intval[0] = '\0';
 
+#if FLT_INCLUDES_SIGN
   // Can start with '-'
   if(  (chstr[0] = cline[idx]) == '-' )
     {
       strcat(intval, chstr);
       idx++;
     }
+#endif
   
   while( isdigit(chstr[0] = cline[idx]) )
     {
@@ -2628,13 +2630,15 @@ int scan_integer(int *intdest)
   chstr[1] = '\0';
   intval[0] = '\0';
 
+#if FLT_INCLUDES_SIGN
   // Can start with '-'
   if(  (chstr[0] = cline[cline_i]) == '-' )
     {
       strcat(intval, chstr);
       cline_i++;
     }
-
+#endif
+  
   while( isdigit(chstr[0] = cline[cline_i]) )
     {
       strcat(intval, chstr);
