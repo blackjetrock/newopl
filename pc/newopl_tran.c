@@ -996,6 +996,24 @@ int convert_to_compact_float(int qcode_idx, char *fltstr)
       exponent--;
     }
 
+  // Now build the qcode compact form
+  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, strlen(normalised_mantissa)/2+1);
+  
+  for(int k=strlen(normalised_mantissa)-1; k>=0; k-=2)
+    {
+      int byte = 0;
+
+      byte = normalised_mantissa[k-1]-'0';
+      byte <<=4;
+      byte += normalised_mantissa[k]-'0';
+
+      dbprintf("%02X", byte);
+      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, byte);
+
+    }
+
+  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (int8_t)exponent);
+  
   dbprintf("RESULT: Input:'%s' Norm mant:'%s' Sign:%d Exponent:%d", fltstr, normalised_mantissa, sign, exponent);
   
   return(qcode_idx);
