@@ -184,9 +184,9 @@ QCode
 00B8: 0002       (2)
 00BA: 11       Pop integer index and push local/global float array variable reference     (bytes code:v)
 00BB: FEE4       (65252)
-00BD: 22       Push integer literal     (bytes code:I)
-00BE: 0159       (345)
-00C0: 86       autoconversion int to float     (bytes code:-)
+00BD: 86       autoconversion int to float     (bytes code:-)
+00BE: 22       Push integer literal     (bytes code:I)
+00BF: 0159       (345)
 00C1: 80       Assign float     (bytes code:-)
 00C2: 22       Push integer literal     (bytes code:I)
 00C3: 0003       (3)
@@ -224,9 +224,9 @@ QCode
 00F1: 0003       (3)
 00F3: 11       Pop integer index and push local/global float array variable reference     (bytes code:v)
 00F4: FF82       (65410)
-00F6: 22       Push integer literal     (bytes code:I)
-00F7: 0022       (34)
-00F9: 86       autoconversion int to float     (bytes code:-)
+00F6: 86       autoconversion int to float     (bytes code:-)
+00F7: 22       Push integer literal     (bytes code:I)
+00F8: 0022       (34)
 00FA: 80       Assign float     (bytes code:-)
 00FB: 22       Push integer literal     (bytes code:I)
 00FC: 0004       (4)
@@ -264,9 +264,9 @@ QCode
 012A: 0004       (4)
 012C: 18       Pop integer index and push parameter/external float array variable reference     (bytes code:V)
 012D: FFC1       (65473)
-012F: 22       Push integer literal     (bytes code:I)
-0130: 0043       (67)
-0132: 86       autoconversion int to float     (bytes code:-)
+012F: 86       autoconversion int to float     (bytes code:-)
+0130: 22       Push integer literal     (bytes code:I)
+0131: 0043       (67)
 0133: 80       Assign float     (bytes code:-)
 0134: 22       Push integer literal     (bytes code:I)
 0135: 0005       (5)
@@ -298,13 +298,13 @@ QCode Data
 0080:FF C3 71 73 24 02 45 45 71 22 00 04 0B FF C1 70 
 0090:22 00 05 0A FF BF 6F 22 00 06 0C FF BD 71 73 0E 
 00A0:FF 0F 22 00 EA 86 80 0D FF 0D 22 01 59 7F 0F FF 
-00B0:07 24 03 42 43 44 81 22 00 02 11 FE E4 22 01 59 
-00C0:86 80 22 00 03 10 FE D8 22 01 C8 7F 22 00 04 12 
+00B0:07 24 03 42 43 44 81 22 00 02 11 FE E4 86 22 01 
+00C0:59 80 22 00 03 10 FE D8 22 01 C8 7F 22 00 04 12 
 00D0:FE 88 24 03 43 44 45 81 0E FF B5 22 00 0C 86 80 
 00E0:0D FF B3 22 00 17 7F 0F FF A5 24 03 44 45 46 81 
-00F0:22 00 03 11 FF 82 22 00 22 86 80 22 00 04 10 FF 
+00F0:22 00 03 11 FF 82 86 22 00 22 80 22 00 04 10 FF 
 0100:76 22 00 04 7F 22 00 05 12 FF 1A 24 03 45 46 47 
 0110:81 15 FF C7 22 00 2D 86 80 14 FF C5 22 00 38 7F 
-0120:16 FF C3 24 03 46 47 48 81 22 00 04 18 FF C1 22 
-0130:00 43 86 80 22 00 05 17 FF BF 22 00 4E 7F 22 00 
+0120:16 FF C3 24 03 46 47 48 81 22 00 04 18 FF C1 86 
+0130:22 00 43 80 22 00 05 17 FF BF 22 00 4E 7F 22 00 
 0140:06 19 FF BD 24 03 47 48 49 81 7B 

@@ -2820,11 +2820,11 @@ void typecheck_expression(void)
 			}
 		      else
 			{
-			  fprintf(ofp, "\n Autoconversion");
-			  fprintf(ofp, "\n --------------");
-			  fprintf(ofp, "\n Op1: type:%d req type:%d", op1.op.type, op1.op.req_type);
-			  fprintf(ofp, "\n Op2: type:%d req type:%d", op2.op.type, op2.op.req_type);
-			  fprintf(ofp, "\n BE:  type:%d req type:%d",  be.op.type,  be.op.req_type);
+			  dbprintf(" Autoconversion");
+			  dbprintf(" --------------");
+			  dbprintf(" Op1: type:%d req type:%d", op1.op.type, op1.op.req_type);
+			  dbprintf(" Op2: type:%d req type:%d", op2.op.type, op2.op.req_type);
+			  dbprintf(" BE:  type:%d req type:%d",  be.op.type,  be.op.req_type);
 		 
 			  // We insert auto conversion nodes to force the type of the arguments to match the
 			  // operator type. For INT and FLT we can force the operator to FLT if required
@@ -2832,6 +2832,8 @@ void typecheck_expression(void)
 			  // Special treatment for assignment operator
 			  if( op_info.assignment )
 			    {
+			      dbprintf("Assignment");
+			      
 			      // Operator type follows the second operand, which is the variable we
 			      // are assigning to
 
@@ -2847,10 +2849,16 @@ void typecheck_expression(void)
 				  be.op.req_type   = op_info.output_type;
 				  be.op.qcode_type = op2.op.type;
 				}
-#if 0
+#if 1
 			      be.op.type = op2.op.type;
 			      be.op.req_type = op2.op.req_type;
 #endif
+			      dbprintf(" Assignment Autoconversion");
+			      dbprintf(" --------------");
+			      dbprintf(" Op1: type:%d req type:%d", op1.op.type, op1.op.req_type);
+			      dbprintf(" Op2: type:%d req type:%d", op2.op.type, op2.op.req_type);
+			      dbprintf(" BE:  type:%d req type:%d",  be.op.type,  be.op.req_type);
+
 			    }
 			  else
 			    {
