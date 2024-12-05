@@ -42,7 +42,7 @@ QCode
 001E: '78563412E1
 0023: 80       Assign float     (bytes code:-)
 0024: 15       Push parameter/external float variable reference     (bytes code:V)
-0025: FFCD       (65485)
+0025: FFFC       (65532)
 0027: 23       Push float literal     (bytes code:F)
 0028: Len:5
 0029: '78563412E1
@@ -103,7 +103,7 @@ QCode Data
 
 0000:59 B2 0E FF F4 23 05 78 56 34 12 07 80 0E FF EC 
 0010:23 05 78 56 34 12 07 41 80 0E FF E4 23 05 78 56 
-0020:34 12 01 80 15 FF CD 23 05 78 56 34 12 01 41 80 
+0020:34 12 01 80 15 FF FC 23 05 78 56 34 12 01 41 80 
 0030:0E FF F4 23 03 34 12 FB 80 0E FF F4 22 04 D2 86 
 0040:80 0E FF F4 22 04 D2 86 41 80 0E FF F4 22 0F F0 
 0050:86 80 0E FF F4 22 FF FF 86 80 0E FF F4 22 20 00 

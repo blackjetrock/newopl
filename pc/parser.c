@@ -992,6 +992,12 @@ void calculate_var_offsets(void)
   // information. Then on pass2 the qcode (OB3) header is created, and qcode generation
   // is performed on each line.
   //
+  // Variables ar ein this order (which determines offsets used in the QCode)
+  //
+  // Globals
+  // Indirection table (parameters and externals
+  // Locals
+  //
 }
 
 uint8_t qcode_header[MAX_QCODE_HEADER];
@@ -1010,14 +1016,14 @@ void build_qcode_header(void)
   int idx_size_of_vars_on_stack = idx;
   int     size_of_vars_on_stack = 0;
   
-  dbprintf("Pass number:%d qcode_idx:%04X", pass_number, qcode_idx);
+  dbprintf("===Pass number:%d qcode_idx:%04X===", pass_number, qcode_idx);
   
   if( pass_number == 1 )
     {
       return;
     }
 
-  dbprintf("Building qcode header");
+  dbprintf("===Building qcode header===");
   
   idx = set_qcode_header_byte_at(idx, 2, 0x0000);
 
@@ -1029,7 +1035,8 @@ void build_qcode_header(void)
   num_globals   = calculate_num_in_class(NOPL_VAR_CLASS_GLOBAL);
   num_externals = calculate_num_in_class(NOPL_VAR_CLASS_EXTERNAL);
 
-  dbprintf("Num ext:%d", num_externals);
+  dbprintf("===Num externals: %d===", num_externals);
+  dbprintf("===Num parameters:%d===", num_params);
 					  
   // Num Parameters
   idx = set_qcode_header_byte_at(idx, 1, num_params);
@@ -1050,6 +1057,9 @@ void build_qcode_header(void)
   // Now the globals
   int idx_global_start = idx;
 
+  dbprintf("===Num globals:%d===", num_globals);
+  dbprintf("**Globals**");
+  
   for(int i=0; i<num_globals; i++)
     {
       NOBJ_VAR_INFO *vi;
@@ -1063,12 +1073,15 @@ void build_qcode_header(void)
   int idx_global_end = idx;
   int global_table_size = idx_global_end-idx_global_start;
   set_qcode_header_byte_at(idx_global_size, 2, global_table_size);
-  
+
+  dbprintf("Global start:%d Global end:%d global_table_size:%d", idx_global_start, idx_global_end, global_table_size);
   //------------------------------------------------------------------------------
   
   // Now Externals and parameters
   // Now the size of the external table (fixed up later)
   int idx_external_size = idx;
+
+  dbprintf("**Externals**");
   
   idx = set_qcode_header_byte_at(idx, 2, 0x0000);
 
@@ -1093,6 +1106,8 @@ void build_qcode_header(void)
   int first_byte_after_global_table = 2 + global_table_size;
   int first_byte_of_globals = first_byte_after_global_table+num_params*2+num_externals*2;
 
+  dbprintf("===First byte after global table:%04X  first_byte_of_globals:%04X===", first_byte_after_global_table, first_byte_of_globals);
+
   // First globals
   int var_ptr = first_byte_of_globals;
   int last_v_ptr = 0;
@@ -1101,7 +1116,7 @@ void build_qcode_header(void)
     {
 
       // Must be an exact match, case insensitive
-      if( var_info[i].class == NOPL_VAR_CLASS_GLOBAL )
+      if( (var_info[i].class == NOPL_VAR_CLASS_GLOBAL) )
 	{
 	  last_v_ptr = var_ptr;
 	  var_ptr += size_of_type(&(var_info[i]) );
@@ -1112,6 +1127,8 @@ void build_qcode_header(void)
 	}
     }
 
+  dbprintf("**Rewriting globals**");
+  
   // rewrite the globals in order to write the offsets with the correct values
   int idx2 = idx_global_start;
 
@@ -1125,6 +1142,27 @@ void build_qcode_header(void)
       idx2 = set_qcode_header_byte_at(idx2, 2, vi->offset);
     }
 
+  //------------------------------------------------------------------------------
+  //
+  // Now the Parameters and external offsets, which are offsets into the indirection
+  // table. These are only used in the QCode generation
+  
+  int ind_ptr = -(first_byte_after_global_table+2);
+  
+  for(int i=0; i<num_var_info; i++)
+    {
+      if( (var_info[i].class == NOPL_VAR_CLASS_EXTERNAL) ||
+	  (var_info[i].class == NOPL_VAR_CLASS_PARAMETER) )
+	{
+	  var_info[i].offset = ind_ptr;
+
+	  dbprintf("%d %s offset:%04X", i, var_info[i].name, ind_ptr);
+
+	  ind_ptr -= 2;
+	}
+    }
+
+  //------------------------------------------------------------------------------
   // Now the Locals
   
   for(int i=0; i<num_var_info; i++)
@@ -1143,24 +1181,6 @@ void build_qcode_header(void)
     }
 
   //------------------------------------------------------------------------------
-  //
-  // Now the Parameters and external offsets, which are offsets into the indirection
-  // table. These are only use din the QCode generation
-  
-  int ind_ptr = -51;
-  
-  for(int i=0; i<num_var_info; i++)
-    {
-      if( (var_info[i].class == NOPL_VAR_CLASS_EXTERNAL) ||
-	  (var_info[i].class == NOPL_VAR_CLASS_PARAMETER) )
-	{
-	  var_info[i].offset = ind_ptr;
-
-	  dbprintf("%d %s offset:%04X", i, var_info[i].name, ind_ptr);
-
-	  ind_ptr -= 2;
-	}
-    }
   
   // Now the fixups can be calculated
   // First the string max lengths
