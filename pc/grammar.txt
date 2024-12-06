@@ -13,7 +13,9 @@
 <if>              : 'IF' <expression> <line>* 'ENDIF' |
 
 		    'IF' <expression> <line>* ('ELSEIF' <expression> <line>*)* ('ELSE' <line>*){1} 'ENDIF'
-		    
+
+<open>            : OPEN <expression_list>
+<create>          : CREATE <expression_list>
 <expression-list> : <expression> | <expression> (',' <expression>)+
 <line>            : 'REM' <text> | <proc_call> |
                     <print> |
@@ -23,6 +25,8 @@
                     <if> | <while> | <do> |
 		    <goto> |
 	            <return> |
+		    <open> |
+		    <create> |
 	            <addr_cmd> | <off_cmd>
 <goto>            : 'GOTO' <label> |
 <off_cmd>         : 'OFF' | 'OFF' <number>		    

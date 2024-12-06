@@ -150,6 +150,7 @@ typedef struct _NOBJ_MACHINE
 #define VAR_DECLARE     0
 #define VAR_REF         1
 #define VAR_PARAMETER   2
+#define VAR_FIELD       3
 
 typedef enum _NOPL_VAR_CLASS
   {
@@ -159,6 +160,8 @@ typedef enum _NOPL_VAR_CLASS
     NOPL_VAR_CLASS_EXTERNAL,
     NOPL_VAR_CLASS_CALC_MEMORY,
     NOPL_VAR_CLASS_PARAMETER,
+    NOPL_VAR_CLASS_CREATE,
+    NOPL_VAR_CLASS_OPEN,
     
   } NOPL_VAR_CLASS;
 
@@ -169,7 +172,7 @@ typedef enum _NOPL_OP_ACCESS
     NOPL_OP_ACCESS_WRITE,
     NOPL_OP_ACCESS_EXP,
     NOPL_OP_ACCESS_NO_EXP,
-    
+    NOPL_OP_ACCESS_FIELDVAR,
   } NOPL_OP_ACCESS;
 
 typedef struct _NOBJ_VAR_INFO

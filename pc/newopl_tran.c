@@ -1143,6 +1143,8 @@ void output_qcode_for_line(void)
   for(int i=0; i<exp_buffer2_i; i++)
     {
       EXP_BUFFER_ENTRY token = exp_buffer2[i];
+      NOBJ_QCODE qc;
+      
 #define tokop token.op
       
       dbprintf("QC: i:%d", i);
@@ -1159,6 +1161,24 @@ void output_qcode_for_line(void)
 	  // On pass 2 when we see the PROCDEF we generate the qcode header,
 	  // each line then generates qcodes after that
 	  dbprintf("QC:META '%s'", tokop.name);
+	  
+	  if( (strcmp(exp_buffer[i].name, " CREATE") == 0) || (strcmp(exp_buffer[i].name, " OPEN") == 0) )
+	    {
+	      // Work out the qcode for the CREATE or OPEN
+	      if( (strcmp(exp_buffer[i].name, " CREATE") == 0) )
+		{
+		  qc =  QCO_CREATE;
+		}
+	      else
+		{
+		  qc =  QCO_OPEN;
+		}
+		
+	      // Get file name and create qcode to stack it
+	      i++;
+	      
+	      return;
+	    }
 	  
 	  if( pass_number == 2 )
 	    {
@@ -1798,6 +1818,35 @@ void type_check_stack_display(void)
     }
 }
 
+int type_check_stack_only_field_data(void)
+{
+  char *s;
+  NOBJ_VARTYPE type;
+  int only_field_data = 1;
+  
+  dbprintf("Type Check Stack ptr:(%d)", type_check_stack_ptr);
+
+  for(int i=0; i<type_check_stack_ptr; i++)
+    {
+      s = type_check_stack[i].name;
+      type = type_check_stack[i].op.type;
+      
+      dbprintf("%03d: '%s' type:%c (%d)", i, s, type_to_char(type), type);
+      switch(type_check_stack[i].op.buf_id )
+	{
+	case EXP_BUFF_ID_FIELDVAR:
+	case EXP_BUFF_ID_LOGICALFILE:
+	  break;
+
+	default:
+	  only_field_data = 0;
+	  break;
+	}
+    }
+  
+  return(only_field_data);
+}
+
 void type_check_stack_print(void)
 {
   char *s;
@@ -2427,6 +2476,30 @@ void typecheck_expression(void)
 	  break;
 
 	case EXP_BUFF_ID_META:
+	  if( (strcmp(be.op.name, " OPEN") == 0) || (strcmp(be.op.name, " CREATE") == 0) )
+	    {
+	      // Pop file name off stack
+	      op1 = type_check_stack_pop();
+	      type_check_stack_push(be);	      
+	    }
+	  
+	  if( (strcmp(be.op.name, "ENDFIELDS") == 0) )
+	    {
+	      // We need to unstack the arguments to this command
+
+	      // File name
+	      op1 = type_check_stack_pop();
+
+	      // Logical file name
+	      op1 = type_check_stack_pop();
+
+	      do
+		{
+		  op1 = type_check_stack_pop();
+		}
+	      while( !((strcmp(op1.name, " CREATE") == 0) || (strcmp(op1.name, " OPEN") == 0)) );
+	    }
+	  
 	  break;
 
 	case EXP_BUFF_ID_VARIABLE:
@@ -2436,6 +2509,12 @@ void typecheck_expression(void)
 	  if( pass_number == 2 )
 	    {
 	      vi = find_var_info(be.name);
+
+	      if( vi == NULL )
+		{
+		  dbprintf("\nCould not find variable '%s'", be.name);
+		  exit(-1);
+		}
 	      
 	      if( var_type_is_array(vi->type) )
 		{
@@ -2481,6 +2560,15 @@ void typecheck_expression(void)
 	  type_check_stack_push(be);
 	  break; 
 
+	  // Field variable name
+	case EXP_BUFF_ID_LOGICALFILE:
+	case EXP_BUFF_ID_FIELDVAR:
+#if 1
+	  be.p_idx = 0;
+	  type_check_stack_push(be);
+#endif
+	  break;
+	  
 	  // These need to pop a value off the stack to keep the stack
 	  // correct for cleaning up at the end with a drop code.
 	case EXP_BUFF_ID_IF:
@@ -3006,22 +3094,30 @@ void typecheck_expression(void)
   // Do we have a value stacked that isn't going to be used?
   if( (pass_number == 2) && (type_check_stack_ptr > 0) )
     {
-      dbprintf("\n+++ Value left stacked");
-
-      // We want a drop qcode to be generated to remove any value left on the stack. This is typed
-      // so to avoid duplicating code the internal command DROP is used. That uses the structure we have for
-      // translating functions and commands to qcode, taking the type into account.
-      
-      EXP_BUFFER_ENTRY res;
-      strcpy(be.name, "DROP");
-      strcpy(be.op.name, be.name);
-      be.node_id = EXP_BUFF_ID_FUNCTION;
-      be.p_idx = 0;
-      //res.p[0] = 0;
-      //res.p[1] = op2.node_id;
-      be.op.type      = be.op.type;
-      be.op.req_type  = be.op.type;
-      exp_buffer2[exp_buffer2_i++] = be;
+      // If we only have logical file names or field variables then we ignore those
+      if( type_check_stack_only_field_data() )
+	{
+	  dbprintf("Only field data left, so no DROP needed");
+	}
+      else
+	{
+	  dbprintf("Value left stacked so DROP needed");
+	  
+	  // We want a drop qcode to be generated to remove any value left on the stack. This is typed
+	  // so to avoid duplicating code the internal command DROP is used. That uses the structure we have for
+	  // translating functions and commands to qcode, taking the type into account.
+	  
+	  EXP_BUFFER_ENTRY res;
+	  strcpy(be.name, "DROP");
+	  strcpy(be.op.name, be.name);
+	  be.node_id = EXP_BUFF_ID_FUNCTION;
+	  be.p_idx = 0;
+	  //res.p[0] = 0;
+	  //res.p[1] = op2.node_id;
+	  be.op.type      = be.op.type;
+	  be.op.req_type  = be.op.type;
+	  exp_buffer2[exp_buffer2_i++] = be;
+	}
     }
 }
 
@@ -3578,6 +3674,9 @@ void process_token(OP_STACK_ENTRY *token)
       return;
     }
 
+  dbprintf("Before switch, bufid:'%s'",
+	  exp_buffer_id_str[token->buf_id]);
+
   switch( o1.buf_id )
     {
 
@@ -3635,6 +3734,8 @@ void process_token(OP_STACK_ENTRY *token)
     case EXP_BUFF_ID_TRAP:
     case EXP_BUFF_ID_GOTO:
     case EXP_BUFF_ID_META:
+    case EXP_BUFF_ID_FIELDVAR:
+    case EXP_BUFF_ID_LOGICALFILE:
       dbprintf("Buff id %s", o1.name);
       
       // Parser supplies type

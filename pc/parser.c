@@ -90,6 +90,8 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_BREAK",
     "EXP_BUFF_ID_META",
     "EXP_BUFF_ID_BRAENDIF",
+    "EXP_BUFF_ID_FIELDVAR",
+    "EXP_BUFF_ID_LOGICALFILE",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -136,7 +138,7 @@ struct _FN_INFO
     { "COPY",     1,  1, ' ',  "ss",        "v", 0x00 },
     { "COS",      0,  0, ' ',  "f",         "f", 0x00 },
     { "COUNT",    0,  0, ' ',  "",          "i", 0x00 },
-    { "CREATE",   1,  1, ' ',  "ii",        "v", 0x00 },  // file format
+    //{ "CREATE",   1,  1, ' ',  "ii",        "v", 0x00 },  // file format
     { "CURSOR",   1,  0, 'O',  "i",         "v", 0x00 },
     { "DATIM$",   0,  0, ' ',  "",          "s", 0x00 },
     { "DAYNAME$", 0,  0, ' ',  "i",         "s", 0x00 },
@@ -199,7 +201,7 @@ struct _FN_INFO
     // { "NOT",      0,  0, ' ',  "i",         "i", 0x00 },
     { "OFFX",     1,  0, ' ',  "i",         "v", 0x00 },    // OFF or OFF x%
     { "OFF",      1,  0, ' ',  "",          "v", 0x00 },    // OFF or OFF x%
-    { "OPEN",     1,  1, ' ',  "ii",        "v", 0x00 },    // File format
+    //{ "OPEN",     1,  1, ' ',  "ii",        "v", 0x00 },    // File format
     //    { "ONERR",    1,  0, ' ',  "",          "v", 0x00 },    
     { "PAUSE",    1,  0, ' ',  "i" ,        "v", 0x00 },
     { "PEEKB",    0,  0, ' ',  "i",         "i", 0x00 },
@@ -1999,6 +2001,29 @@ int check_literal(int *index, char *lit)
 
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+
+int is_logfile_char(char ch)
+{
+  switch(ch)
+    {
+    case 'A':
+    case 'B':
+    case 'C':
+    case 'D':
+      return(1);
+      break;
+    }
+
+  return(0);
+}
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 // Scans for a variable name string part
 int scan_vname(char *vname_dest)
@@ -2012,7 +2037,7 @@ int scan_vname(char *vname_dest)
 
   drop_space(&cline_i);
   
-  if( isalpha(cline[cline_i]) || (cline[cline_i] == '.') )
+  if( isalpha(cline[cline_i]) || is_logfile_char(cline[cline_i]) )
     {
       ch = cline[cline_i];
       cline_i++;
@@ -2284,8 +2309,6 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access)
 	  
 	  if( scan_literal(" )") )
 	    {
-
-	      
 	      dbprintf("%s:ret1 vname='%s' %s", __FUNCTION__, vname, type_to_str(vi->type) );
 	      op.access = access;
 	      
@@ -2293,6 +2316,13 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access)
 	      strcpy(op.name, vname);
 	      set_op_var_type(&op, vi);
 	      op.vi = *vi;
+
+	       // Create and open field variables aren't real variables. They need to be handled differently
+	      if( access == NOPL_OP_ACCESS_FIELDVAR )
+		{ 
+		  op.buf_id = EXP_BUFF_ID_FIELDVAR;
+		}
+	      
 	      process_token(&op);
 
 	      if( pass_number == 2,1 )
@@ -2313,6 +2343,13 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access)
       strcpy(op.name, vname);
       set_op_var_type(&op, vi);
       op.vi = *vi;
+
+      // Create and open field variables aren't real variables. They need to be handled differently
+      if( access == NOPL_OP_ACCESS_FIELDVAR )
+	{
+	  op.buf_id = EXP_BUFF_ID_FIELDVAR;
+	}
+      
       process_token(&op);
 
       if( pass_number == 2,1 )
@@ -3807,6 +3844,185 @@ int scan_expression_list(int *num_expressions)
   return(0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+
+int scan_logical_file(void)
+{
+  OP_STACK_ENTRY op;
+  int idx = cline_i;
+  
+  indent_more();
+  
+  init_op_stack_entry(&op);
+  
+  dbprintf("%s:", __FUNCTION__);
+  
+  idx = cline_i;
+  
+  if( check_literal(&idx, " A") )
+    {
+      cline_i = idx;
+      op.buf_id = EXP_BUFF_ID_LOGICALFILE;
+      strcpy(op.name, "A");
+      process_token(&op);
+      dbprintf("ret1:");
+      return(1);
+    }
+
+  idx = cline_i;
+  
+  if( check_literal(&idx, " B") )
+    {
+      cline_i = idx;
+      op.buf_id = EXP_BUFF_ID_LOGICALFILE;
+      strcpy(op.name, "B");
+      process_token(&op);
+      dbprintf("ret1:");
+      return(1);
+    }
+
+  idx = cline_i;
+  
+  if( check_literal(&idx, " C") )
+    {
+      cline_i = idx;
+      op.buf_id = EXP_BUFF_ID_LOGICALFILE;
+      strcpy(op.name, "C");
+      process_token(&op);
+      dbprintf("ret1:");
+      return(1);
+    }
+
+  idx = cline_i;
+  
+  if( check_literal(&idx, " D") )
+    {
+      cline_i = idx;
+      op.buf_id = EXP_BUFF_ID_LOGICALFILE;
+      strcpy(op.name, "D");
+      process_token(&op);
+      dbprintf("ret1:");
+      return(1);
+    }
+
+  dbprintf("ret0:");
+  return(0);
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Scan list for CREATE or OPEN.
+// this is a list like an expression list, except that:
+// the first element is a string expression (file name),
+// the second is a logical file name
+// and the rest are variable names
+//
+// We also want to put the CREATE or OPEN after the file name so insert the token there
+
+int scan_createopen_list(char *keyword, int create_nopen)
+{
+  int is_comma = 0;
+  int idx = cline_i;
+  char fnval[40];
+  OP_STACK_ENTRY op;
+  int num_commas = 0;
+  NOBJ_VAR_INFO *srch_vi;
+  NOBJ_VAR_INFO vi;
+  
+  indent_more();
+  
+  init_op_stack_entry(&op);
+  
+  dbprintf("%s:", __FUNCTION__);
+
+  // File name first
+   if( scan_expression(&num_commas, HEED_COMMA) )
+     {
+       // All OK if this is a string
+
+       idx = cline_i;
+       if( check_literal(&idx, " ,") )
+	 {
+	   scan_literal(" ,");
+	 }
+       
+     }
+   else
+     {
+       dbprintf("ret0: Not an expression for file name");
+       return(0);
+     }
+   
+   
+   // We now put the command into the output
+   op.buf_id = EXP_BUFF_ID_META;
+   strcpy(op.name, keyword);
+   process_token(&op);
+  
+   // logical file next
+   if( scan_logical_file() )
+     {
+       // All OK if this is a string
+       idx = cline_i;
+       if( check_literal(&idx, " ,") )
+	 {
+	   scan_literal(" ,");
+	 }
+       
+     }
+   else
+     {
+       dbprintf("ret0: Not a logical file");
+       return(0);
+     }
+
+   while( check_variable(&idx) )
+     {
+       init_var_info(&vi);
+       
+       if( scan_variable(&vi, VAR_FIELD, NOPL_OP_ACCESS_FIELDVAR))
+	 {
+	   // Find the variable and update to make it a local or global
+	   srch_vi = find_var_info(vi.name);
+	   
+	   if( srch_vi != NULL )
+	     {
+	       srch_vi->class = create_nopen?NOPL_VAR_CLASS_CREATE:NOPL_VAR_CLASS_OPEN;
+	       srch_vi->is_ref = 0;
+	       
+	       dbprintf("%s variable:'%s'", keyword, vi.name);
+	       print_var_info(&vi);
+	       
+	       // Store info about the variable
+	       //add_var_info(&vi);
+	     }
+	 }
+       
+       idx = cline_i;
+       if( check_literal(&idx, " ,") )
+	 {
+	   scan_literal(" ,");
+	 }
+     }
+   
+   drop_space(&cline_i);
+   
+   if( cline[cline_i] == '\0' )
+     {
+#if 0
+       // Store info about the variable
+       var_info[num_var_info] = vi;
+       num_var_info++;
+#endif
+       dbprintf("ret1");
+       return(1);
+     }
+   
+   dbprintf("ret0");
+   return(0);
+}
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -5694,6 +5910,209 @@ int scan_if(LEVEL_INFO levels)
   return(0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// Check CREATE/OPEN
+//
+// We need the intermediate code to be :
+//
+// CREATE/OPEN
+// Logical file
+// List of field variables
+// End of field variables marker
+//
+// This structure allows the QCode to be easily generated
+//
+
+int check_createopen(int *index, int create_nopen)
+{
+  //  OP_STACK_ENTRY op;
+  int idx = *index;
+  char *c_no_s;
+  
+  //init_op_stack_entry(&op);
+  
+  indent_more();
+  
+  drop_space(&idx);
+  
+  dbprintf("Create:%d Open:%d", create_nopen, !create_nopen);
+
+  if( create_nopen )
+    {
+      c_no_s = "CREATE";
+    }
+  else
+    {
+      c_no_s = "OPEN";
+    }
+  
+  idx = cline_i;
+  if( check_literal(&idx, c_no_s) )
+    {
+      dbprintf("ret1");
+      return(1);
+    }
+
+  dbprintf("ret0");
+  return(0);
+  
+}
+
+//------------------------------------------------------------------------------
+
+
+int scan_createopen2(int create_nopen)
+{
+  int idx = cline_i;
+  NOBJ_VAR_INFO vi;
+  NOBJ_VAR_INFO *srch_vi;
+  
+  char *keyword;
+  OP_STACK_ENTRY op;
+
+  indent_more();  
+  
+  init_op_stack_entry(&op);
+  init_var_info(&vi);
+  
+  if( create_nopen )
+    {
+      keyword = " CREATE";
+    }
+  else
+    {
+      keyword = " OPEN";
+    }
+  
+  op.buf_id = EXP_BUFF_ID_META;
+  strcpy(op.name, keyword);
+  
+  dbprintf("'%s'", I_WHERE);
+
+  if( check_literal(&idx, keyword) )
+    {
+      process_token(&op);
+
+      cline_i = idx;
+      
+      while( check_variable(&idx) )
+	{
+	  init_var_info(&vi);
+	  
+	  if( scan_variable(&vi, VAR_DECLARE, NOPL_OP_ACCESS_READ))
+	    {
+	      // Find the variable and update to make it a local or global
+	      srch_vi = find_var_info(vi.name);
+
+	      if( srch_vi != NULL )
+		{
+		  srch_vi->class = create_nopen?NOPL_VAR_CLASS_CREATE:NOPL_VAR_CLASS_OPEN;
+		  srch_vi->is_ref = 0;
+		  
+		  dbprintf("%s variable:'%s'", keyword, vi.name);
+		  print_var_info(&vi);
+		  
+		  // Store info about the variable
+		  add_var_info(&vi);
+		}
+	    }
+	  
+	  idx = cline_i;
+	  if( check_literal(&idx, " ,") )
+	    {
+	      scan_literal(" ,");
+	    }
+	}
+
+      drop_space(&cline_i);
+
+      if( cline[cline_i] == '\0' )
+	{
+#if 0
+	  // Store info about the variable
+	  var_info[num_var_info] = vi;
+	  num_var_info++;
+#endif
+
+	  op.buf_id = EXP_BUFF_ID_META;
+	  strcpy(op.name, "ENDFIELDS");
+	  process_token(&op);
+	  
+	  dbprintf("ret1");
+	  return(1);
+	}
+    }
+
+  dbprintf("%s:ret0", __FUNCTION__);
+  return(0);
+}
+
+
+
+int scan_createopen(int create_nopen)
+{
+  int idx = cline_i;
+  NOBJ_VAR_INFO vi;
+  NOBJ_VAR_INFO *srch_vi;
+  
+  char *keyword;
+  OP_STACK_ENTRY op;
+
+  indent_more();  
+  
+  init_op_stack_entry(&op);
+  init_var_info(&vi);
+  
+  if( create_nopen )
+    {
+      keyword = " CREATE";
+    }
+  else
+    {
+      keyword = " OPEN";
+    }
+  
+  op.buf_id = EXP_BUFF_ID_META;
+  strcpy(op.name, keyword);
+  
+  dbprintf("'%s'", I_WHERE);
+
+  int num_expr = 0;
+  
+  if( check_literal(&idx, keyword) )
+    {
+      //process_token(&op);
+
+      cline_i = idx;
+
+      if( scan_createopen_list(keyword, create_nopen) )
+	{
+	  dbprintf("ret1");
+	  dbprintf( "ENDEXP");
+#if 0
+	  sprintf(op.name, ")");
+	  process_token(&op);
+#endif
+	  
+	  op.buf_id = EXP_BUFF_ID_META;
+	  strcpy(op.name, "ENDFIELDS");
+	  process_token(&op);
+
+	  return(1);
+	}
+      else
+	{
+	  dbprintf("ret0Expression failed");
+	  return(0);
+	}
+    }
+
+  dbprintf("ret0");
+  return(0);
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -5801,6 +6220,22 @@ int check_line(int *index)
   if( check_do(&idx) )
     {
       dbprintf("ret1 do");
+      *index = idx;
+      return(1);
+    }
+
+  idx = cline_i;
+  if( check_createopen(&idx, 1))
+    {
+      dbprintf("ret1");
+      *index = idx;
+      return(1);
+    }
+
+  idx = cline_i;
+  if( check_createopen(&idx,0))
+    {
+      dbprintf("ret1");
       *index = idx;
       return(1);
     }
@@ -6149,6 +6584,22 @@ int scan_line(LEVEL_INFO levels)
     {
       scan_literal(" DO");
       dbprintf("ret1 do");
+      return(1);
+    }
+
+  idx = cline_i;
+  if( check_createopen(&idx, 1))
+    {
+      scan_createopen(1);
+      dbprintf("ret1");
+      return(1);
+    }
+  
+  idx = cline_i;
+  if( check_createopen(&idx, 0))
+    {
+      scan_createopen(0);
+      dbprintf("ret1");
       return(1);
     }
 
