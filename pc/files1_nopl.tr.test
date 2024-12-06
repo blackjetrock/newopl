@@ -1,0 +1,81 @@
+
+Filename:'ob3_nopl'
+File ext:'bin
+Dropping OB3 header...
+Enter:dump_proc
+Var Space Size:000A
+QCode Space Size:0045
+Number of parameters:00
+Parameter types:
+Global varname Size:0000
+Global variables (0)
+
+External varname Size:0016
+External variables (4)
+ 0: A.A              FLT    (01)
+ 1: A.B              FLT    (01)
+ 2: A.C$             STR    (02)
+ 3: A.A%             INT    (00)
+
+String length fixups (0)
+
+Array size fixups (0)
+
+QCode
+
+0000: 59       STOP     (bytes code:-)
+0001: B2       SIN     (bytes code:-)
+0002: 24       Push string literal     (bytes code:S)
+0003: Len:5
+0004: 'B:ABC'
+0009: 24       Push string literal     (bytes code:S)
+000A: Len:5
+000B: 'A:ABC'
+0010: 15       Push parameter/external float variable reference     (bytes code:V)
+0011: FFFC       (65532)
+0013: 22       Push integer literal     (bytes code:I)
+0014: 000C       (12)
+0016: 86       autoconversion int to float     (bytes code:-)
+0017: 80       Assign float     (bytes code:-)
+0018: 15       Push parameter/external float variable reference     (bytes code:V)
+0019: FFFA       (65530)
+001B: 23       Push float literal     (bytes code:F)
+001C: Len:2
+001D: '34E0
+001F: 80       Assign float     (bytes code:-)
+0020: 16       Push parameter/external string variable reference     (bytes code:V)
+0021: FFF8       (65528)
+0023: 24       Push string literal     (bytes code:S)
+0024: Len:3
+0025: 'XYZ'
+0028: 81       Assign string     (bytes code:-)
+0029: 14       Push parameter/external integer variable reference     (bytes code:V)
+002A: FFF6       (65526)
+002C: 22       Push integer literal     (bytes code:I)
+002D: 00D2       (210)
+002F: 7F       Assign integer     (bytes code:-)
+0030: 08       Push parameter/external float variable value     (bytes code:V)
+0031: FFFC       (65532)
+0033: 70       PRINT float     (bytes code:-)
+0034: 72       PRINT ,     (bytes code:-)
+0035: 07       Push parameter/external integer variable value     (bytes code:V)
+0036: FFF6       (65526)
+0038: 6F       PRINT integer     (bytes code:-)
+0039: 72       PRINT ,     (bytes code:-)
+003A: 08       Push parameter/external float variable value     (bytes code:V)
+003B: FFFA       (65530)
+003D: 70       PRINT float     (bytes code:-)
+003E: 72       PRINT ,     (bytes code:-)
+003F: 09       Push parameter/external string variable value     (bytes code:V)
+0040: FFF8       (65528)
+0042: 71       PRINT string     (bytes code:-)
+0043: 73       PRINT newline     (bytes code:-)
+0044: 7B       RETURN (float 0)     (bytes code:-)
+
+QCode Data
+
+0000:59 B2 24 05 42 3A 41 42 43 24 05 41 3A 41 42 43 
+0010:15 FF FC 22 00 0C 86 80 15 FF FA 23 02 34 00 80 
+0020:16 FF F8 24 03 58 59 5A 81 14 FF F6 22 00 D2 7F 
+0030:08 FF FC 70 72 07 FF F6 6F 72 08 FF FA 70 72 09 
+0040:FF F8 71 73 7B 
