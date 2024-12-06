@@ -597,11 +597,14 @@ void add_var_entry(NOBJ_VAR_INFO *vi)
     }
 }
 
+// We don't add field variables to the bariable list as they are referred to by name
+// and they don't appear in the qcode tables.
+
 void add_var_info(NOBJ_VAR_INFO *vi)
 {
   NOBJ_VAR_INFO *srch_vi;
   int mem_n = 0;
-
+  
   dbprintf("Name:%s", vi->name);
   
   // See if variable name already present
@@ -615,15 +618,24 @@ void add_var_info(NOBJ_VAR_INFO *vi)
       if( vi->is_ref )
 	{
 	  // This is an external, add it to the list
-	  // See if this is a calc memory
-	  if( sscanf(vi->name, " M%d", &mem_n) == 1 )
+	  
+	  if( vi->name[1] == '.' )
 	    {
-	      vi->class = NOPL_VAR_CLASS_CALC_MEMORY;
-	      vi->offset = mem_n;
+	      vi->class = NOPL_VAR_CLASS_FIELDVAR;
 	    }
 	  else
 	    {
-	      vi->class = NOPL_VAR_CLASS_EXTERNAL;
+	      // See if this is a calc memory
+	      
+	      if( sscanf(vi->name, " M%d", &mem_n) == 1 )
+		{
+		  vi->class = NOPL_VAR_CLASS_CALC_MEMORY;
+		  vi->offset = mem_n;
+		}
+	      else
+		{
+		  vi->class = NOPL_VAR_CLASS_EXTERNAL;
+		}
 	    }
 	  add_var_entry(vi);	  
 	}

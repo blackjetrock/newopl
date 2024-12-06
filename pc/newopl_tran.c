@@ -1115,10 +1115,16 @@ void output_qcode_for_line(void)
   // Things need to be detected so qcode can be generated earlier than the normal token generation
   // would have created them.
   int elseif_present = 0;
+  int is_an_assignment = 0;
   
   for(int i=0; i<exp_buffer2_i; i++)
     {
-      if(  (exp_buffer2[i].op.buf_id == EXP_BUFF_ID_META) && (strcmp(exp_buffer2[i].op.name, "BRAENDIF")==0) )
+      if( (exp_buffer2[i].op.buf_id == EXP_BUFF_ID_OPERATOR) && (strcmp(exp_buffer2[i].op.name, ":=")==0) )
+	{
+	  is_an_assignment = 1;
+	}
+      
+      if( (exp_buffer2[i].op.buf_id == EXP_BUFF_ID_META) && (strcmp(exp_buffer2[i].op.name, "BRAENDIF")==0) )
 	{
 	  elseif_present = 1;
 
@@ -1273,23 +1279,78 @@ void output_qcode_for_line(void)
 	  break;
 	  
 	case EXP_BUFF_ID_VARIABLE:
-	  // Find the info about this variable
 
-	  vi = find_var_info(tokop.name);
-
-	  switch(vi->class)
+	  // If the variable is a field variable then we generate different QCode
+	  if( tokop.name[1] == '.' )
 	    {
-	    case NOPL_VAR_CLASS_CALC_MEMORY:
-	      qcode_idx = add_simple_qcode(qcode_idx, &(token.op), vi);
-	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, ((vi->offset)*8) >> 8);
-	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, ((vi->offset)*8) & 0xFF);
-	      break;
+	      // Push the name as a string literal
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QI_STR_CON);
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  strlen(tokop.name)-2);
 
-	    default:
-	      qcode_idx = add_simple_qcode(qcode_idx, &(token.op), vi);
-	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (vi->offset) >> 8);
-	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (vi->offset) & 0xFF);
-	      break;
+	      for(int s=0; s<strlen(tokop.name)-2; s++)
+		{
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  tokop.name[s+2]);
+		}
+
+	      // Now the reference push
+	      if( is_an_assignment )
+		{
+		  switch(token.op.type)
+		    {
+		    case NOBJ_VARTYPE_INT:
+		      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,   QI_LS_INT_FLD);
+		      break;
+		      
+		    case NOBJ_VARTYPE_FLT:
+		      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,   QI_LS_NUM_FLD);
+		      break;
+		      
+		    case NOBJ_VARTYPE_STR:
+		      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,   QI_LS_STR_FLD);
+		      break;
+		    }
+		}
+	      else
+		{
+		  switch(token.op.type)
+		    {
+		    case NOBJ_VARTYPE_INT:
+		      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,   QI_INT_FLD);
+		      break;
+		      
+		    case NOBJ_VARTYPE_FLT:
+		      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,   QI_NUM_FLD);
+		      break;
+		      
+		    case NOBJ_VARTYPE_STR:
+		      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,   QI_STR_FLD);
+		      break;
+		    }
+		}
+	      
+	      // Now logical file
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  tokop.name[0]-'A');
+	    }
+	  else
+	    {
+	      // Find the info about this variable
+	      
+	      vi = find_var_info(tokop.name);
+	      
+	      switch(vi->class)
+		{
+		case NOPL_VAR_CLASS_CALC_MEMORY:
+		  qcode_idx = add_simple_qcode(qcode_idx, &(token.op), vi);
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, ((vi->offset)*8) >> 8);
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, ((vi->offset)*8) & 0xFF);
+		  break;
+		  
+		default:
+		  qcode_idx = add_simple_qcode(qcode_idx, &(token.op), vi);
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (vi->offset) >> 8);
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (vi->offset) & 0xFF);
+		  break;
+		}
 	    }
 	  break;
 	  
@@ -2532,6 +2593,11 @@ void typecheck_expression(void)
 
 	  if( pass_number == 2 )
 	    {
+	      // If the variable is a field then we don't look for it in the var info
+	      if( be.name[1] == '.' )
+		{
+		}
+	      
 	      vi = find_var_info(be.name);
 
 	      if( vi == NULL )
