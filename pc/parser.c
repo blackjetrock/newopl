@@ -2348,6 +2348,7 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access)
       if( access == NOPL_OP_ACCESS_FIELDVAR )
 	{
 	  op.buf_id = EXP_BUFF_ID_FIELDVAR;
+	  op.type = vi->type;
 	}
       
       process_token(&op);

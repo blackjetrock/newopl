@@ -533,8 +533,6 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_OPERATOR, "AND", NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_AND_NUM},
     {EXP_BUFF_ID_OPERATOR, "OR",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_OR_INT},
     {EXP_BUFF_ID_OPERATOR, "OR",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_OR_NUM},
-
-
   };
 
 #define NUM_SIMPLE_QC_MAP (sizeof(qc_map)/sizeof(SIMPLE_QC_MAP))
@@ -1173,10 +1171,36 @@ void output_qcode_for_line(void)
 		{
 		  qc =  QCO_OPEN;
 		}
-		
-	      // Get file name and create qcode to stack it
+
+	      // Filename is already stacked as an expression
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, qc);
+
+	      // Add the logical file name
+	      i++;
+	      if( exp_buffer2[i].op.buf_id == EXP_BUFF_ID_LOGICALFILE )
+		{
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer2[i].op.name[0] - 'A');
+		}
+	      else
+		{
+		  syntax_error("Logical file missing");
+		}
+	      
 	      i++;
 	      
+	      // Now add the field variables
+	      while( !((exp_buffer2[i].op.buf_id == EXP_BUFF_ID_META) && (strcmp(exp_buffer2[i].op.name, "ENDFIELDS")==0)) )
+		{
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer2[i].op.type);
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, strlen(exp_buffer2[i].op.name));
+		  for(int n=0;n<strlen(exp_buffer2[i].op.name);n++)
+		    {
+		      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer2[i].op.name[n]);
+		    }
+		  i++;
+		}
+	      
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_END_FIELDS);
 	      return;
 	    }
 	  
@@ -3277,6 +3301,19 @@ void output_generic(OP_STACK_ENTRY op, char *name, int buf_id)
   add_exp_buffer_entry(op, buf_id);
 }
 
+void output_fieldvar(OP_STACK_ENTRY op, char *name, int buf_id)
+{
+  char line[20];
+  
+  strcpy(op.name, name);
+  op.buf_id = buf_id;
+  //  op.type = expression_type;
+  //op.req_type = expression_type;
+  
+  dbprintf("%s %c %c %s exp_type:%c", type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name, type_to_char(expression_type) ); 
+  add_exp_buffer_entry(op, buf_id);
+}
+
 void output_endif(OP_STACK_ENTRY op)
 {
   printf("\nop if");
@@ -3592,8 +3629,9 @@ void process_token(OP_STACK_ENTRY *token)
   OP_STACK_ENTRY o2;
   int opr1, opr2;
   
-  dbprintf("   Frst:%d T:'%s' exptype:%c bufid:'%s'",
+  dbprintf("   Frst:%d T:'%s' toktype:%c exptype:%c bufid:'%s'",
 	  first_token, token->name,
+	   type_to_char(token->type),
 	  type_to_char(expression_type),
 	  exp_buffer_id_str[token->buf_id]);
 
@@ -3734,7 +3772,7 @@ void process_token(OP_STACK_ENTRY *token)
     case EXP_BUFF_ID_TRAP:
     case EXP_BUFF_ID_GOTO:
     case EXP_BUFF_ID_META:
-    case EXP_BUFF_ID_FIELDVAR:
+
     case EXP_BUFF_ID_LOGICALFILE:
       dbprintf("Buff id %s", o1.name);
       
@@ -3744,7 +3782,27 @@ void process_token(OP_STACK_ENTRY *token)
       unary_next = 0;
       return;
       break;
+      
+    case EXP_BUFF_ID_FIELDVAR:
+      dbprintf("Buff id %s", o1.name);
 
+      // Get variable names
+      init_get_name(o1.name);
+
+      NOBJ_VARTYPE type;
+      
+      if( get_name(o1.name, &type) )
+	{
+	  o1.type = type;
+	  //	  modify_expression_type(type);
+	}
+      
+      //      o1.req_type = expression_type;
+      output_fieldvar(o1, o1.name, o1.buf_id);
+      unary_next = 0;
+      return;
+      break;
+	    
     case EXP_BUFF_ID_VAR_ADDR_NAME:
       fprintf(ofp, "\nBuff id var addr name");
       
