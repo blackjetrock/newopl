@@ -27,65 +27,65 @@ QCode
 0005: 23       Push float literal     (bytes code:F)
 0006: Len:5
 0007: '78563412E7
-000C: 86       autoconversion int to float     (bytes code:-)
-000D: 80       Assign float     (bytes code:-)
-000E: 0E       Push local/global float variable reference     (bytes code:v)
-000F: FFEC       (65516)
-0011: 23       Push float literal     (bytes code:F)
-0012: Len:5
-0013: '78563412E7
-0018: 86       autoconversion int to float     (bytes code:-)
-0019: 41       Unary minus float     (bytes code:-)
-001A: 80       Assign float     (bytes code:-)
-001B: 0E       Push local/global float variable reference     (bytes code:v)
-001C: FFE4       (65508)
-001E: 23       Push float literal     (bytes code:F)
-001F: Len:5
-0020: '78563412E1
-0025: 86       autoconversion int to float     (bytes code:-)
-0026: 80       Assign float     (bytes code:-)
-0027: 15       Push parameter/external float variable reference     (bytes code:V)
-0028: FFFC       (65532)
-002A: 23       Push float literal     (bytes code:F)
-002B: Len:5
-002C: '78563412E1
-0031: 86       autoconversion int to float     (bytes code:-)
-0032: 41       Unary minus float     (bytes code:-)
-0033: 80       Assign float     (bytes code:-)
-0034: 0E       Push local/global float variable reference     (bytes code:v)
-0035: FFF4       (65524)
-0037: 23       Push float literal     (bytes code:F)
-0038: Len:3
-0039: '3412E-5
+000C: 80       Assign float     (bytes code:-)
+000D: 0E       Push local/global float variable reference     (bytes code:v)
+000E: FFEC       (65516)
+0010: 23       Push float literal     (bytes code:F)
+0011: Len:5
+0012: '78563412E7
+0017: 41       Unary minus float     (bytes code:-)
+0018: 80       Assign float     (bytes code:-)
+0019: 0E       Push local/global float variable reference     (bytes code:v)
+001A: FFE4       (65508)
+001C: 23       Push float literal     (bytes code:F)
+001D: Len:5
+001E: '78563412E1
+0023: 80       Assign float     (bytes code:-)
+0024: 15       Push parameter/external float variable reference     (bytes code:V)
+0025: FFFC       (65532)
+0027: 23       Push float literal     (bytes code:F)
+0028: Len:5
+0029: '78563412E1
+002E: 41       Unary minus float     (bytes code:-)
+002F: 80       Assign float     (bytes code:-)
+0030: 0E       Push local/global float variable reference     (bytes code:v)
+0031: FFF4       (65524)
+0033: 23       Push float literal     (bytes code:F)
+0034: Len:3
+0035: '3412E-5
+0038: 80       Assign float     (bytes code:-)
+0039: 0E       Push local/global float variable reference     (bytes code:v)
+003A: FFF4       (65524)
 003C: 86       autoconversion int to float     (bytes code:-)
-003D: 80       Assign float     (bytes code:-)
-003E: 0E       Push local/global float variable reference     (bytes code:v)
-003F: FFF4       (65524)
-0041: 22       Push integer literal     (bytes code:I)
-0042: 04D2       (1234)
-0044: 86       autoconversion int to float     (bytes code:-)
-0045: 80       Assign float     (bytes code:-)
-0046: 0E       Push local/global float variable reference     (bytes code:v)
-0047: FFF4       (65524)
-0049: 22       Push integer literal     (bytes code:I)
-004A: 04D2       (1234)
-004C: 86       autoconversion int to float     (bytes code:-)
-004D: 41       Unary minus float     (bytes code:-)
-004E: 80       Assign float     (bytes code:-)
-004F: 0E       Push local/global float variable reference     (bytes code:v)
-0050: FFF4       (65524)
-0052: 22       Push integer literal     (bytes code:I)
-0053: 0FF0       (4080)
-0055: 86       autoconversion int to float     (bytes code:-)
-0056: 80       Assign float     (bytes code:-)
-0057: 0E       Push local/global float variable reference     (bytes code:v)
-0058: FFF4       (65524)
-005A: 22       Push integer literal     (bytes code:I)
-005B: FFFF       (65535)
-005D: 86       autoconversion int to float     (bytes code:-)
-005E: 80       Assign float     (bytes code:-)
-005F: 0E       Push local/global float variable reference     (bytes code:v)
-0060: FFF4       (65524)
+003D: 22       Push integer literal     (bytes code:I)
+003E: 04D2       (1234)
+0040: 86       autoconversion int to float     (bytes code:-)
+0041: 80       Assign float     (bytes code:-)
+0042: 0E       Push local/global float variable reference     (bytes code:v)
+0043: FFF4       (65524)
+0045: 86       autoconversion int to float     (bytes code:-)
+0046: 22       Push integer literal     (bytes code:I)
+0047: 04D2       (1234)
+0049: 86       autoconversion int to float     (bytes code:-)
+004A: 41       Unary minus float     (bytes code:-)
+004B: 80       Assign float     (bytes code:-)
+004C: 0E       Push local/global float variable reference     (bytes code:v)
+004D: FFF4       (65524)
+004F: 86       autoconversion int to float     (bytes code:-)
+0050: 22       Push integer literal     (bytes code:I)
+0051: 0FF0       (4080)
+0053: 86       autoconversion int to float     (bytes code:-)
+0054: 80       Assign float     (bytes code:-)
+0055: 0E       Push local/global float variable reference     (bytes code:v)
+0056: FFF4       (65524)
+0058: 86       autoconversion int to float     (bytes code:-)
+0059: 22       Push integer literal     (bytes code:I)
+005A: FFFF       (65535)
+005C: 86       autoconversion int to float     (bytes code:-)
+005D: 80       Assign float     (bytes code:-)
+005E: 0E       Push local/global float variable reference     (bytes code:v)
+005F: FFF4       (65524)
+0061: 86       autoconversion int to float     (bytes code:-)
 0062: 22       Push integer literal     (bytes code:I)
 0063: 2000       (8192)
 0065: 86       autoconversion int to float     (bytes code:-)
@@ -95,10 +95,10 @@ QCode
 006A: 23       Push float literal     (bytes code:F)
 006B: Len:3
 006C: '3412E3
-006F: 86       autoconversion int to float     (bytes code:-)
-0070: 80       Assign float     (bytes code:-)
-0071: 0E       Push local/global float variable reference     (bytes code:v)
-0072: FFF4       (65524)
+006F: 80       Assign float     (bytes code:-)
+0070: 0E       Push local/global float variable reference     (bytes code:v)
+0071: FFF4       (65524)
+0073: 86       autoconversion int to float     (bytes code:-)
 0074: 22       Push integer literal     (bytes code:I)
 0075: 04D2       (1234)
 0077: 86       autoconversion int to float     (bytes code:-)
@@ -107,11 +107,11 @@ QCode
 
 QCode Data
 
-0000:59 B2 0E FF F4 23 05 78 56 34 12 07 86 80 0E FF 
-0010:EC 23 05 78 56 34 12 07 86 41 80 0E FF E4 23 05 
-0020:78 56 34 12 01 86 80 15 FF FC 23 05 78 56 34 12 
-0030:01 86 41 80 0E FF F4 23 03 34 12 FB 86 80 0E FF 
-0040:F4 22 04 D2 86 80 0E FF F4 22 04 D2 86 41 80 0E 
-0050:FF F4 22 0F F0 86 80 0E FF F4 22 FF FF 86 80 0E 
-0060:FF F4 22 20 00 86 80 0E FF F4 23 03 34 12 03 86 
-0070:80 0E FF F4 22 04 D2 86 80 7B 
+0000:59 B2 0E FF F4 23 05 78 56 34 12 07 80 0E FF EC 
+0010:23 05 78 56 34 12 07 41 80 0E FF E4 23 05 78 56 
+0020:34 12 01 80 15 FF FC 23 05 78 56 34 12 01 41 80 
+0030:0E FF F4 23 03 34 12 FB 80 0E FF F4 86 22 04 D2 
+0040:86 80 0E FF F4 86 22 04 D2 86 41 80 0E FF F4 86 
+0050:22 0F F0 86 80 0E FF F4 86 22 FF FF 86 80 0E FF 
+0060:F4 86 22 20 00 86 80 0E FF F4 23 03 34 12 03 80 
+0070:0E FF F4 86 22 04 D2 86 80 7B 
