@@ -2903,7 +2903,7 @@ void typecheck_expression(void)
 			{
 			  be.op.req_type = type_with_least_conversion_from(op1.op.type, op2.op.type);
 			}
-
+		      
 		      if( (be.op.type == NOBJ_VARTYPE_INT) || (be.op.type == NOBJ_VARTYPE_INTARY))
 			{
 			  be.op.type = type_with_least_conversion_from(op1.op.type, op2.op.type);

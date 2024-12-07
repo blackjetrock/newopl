@@ -1,13 +1,9 @@
 
 Variables
 
-   0:  VAR: '              AAA$'       ???? String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:0002
-   1:  VAR: '                B%'       ???? Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:0002
-   2:  VAR: '                CC'       ???? Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:0002
-   3:  VAR: '                A%'       ???? Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:0002
-   4:  VAR: '                 B'       ???? Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:0002
-   5:  VAR: '                C$'       ???? String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:0002
-   6:  VAR: '               A.A'       ???? Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:0007
-   7:  VAR: '               A.B'       ???? Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:0008
-   8:  VAR: '              A.C$'       ???? String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:000B
-   9:  VAR: '              A.A%'       ???? Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:0009
+   0:  VAR: '                 A'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF0
+   1:  VAR: '                 B'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE8
+   2:  VAR: '                 C'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE0
+   3:  VAR: '                X%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFC
+   4:  VAR: '                Y%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFA
+   5:  VAR: '                z%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF8
