@@ -2791,7 +2791,7 @@ void typecheck_expression(void)
 	  // type here.
 	  // Some are immutable and cause errors if their operators are not correct
 	  // Some have a fixed output type (>= for example, but still have mutable inputs)
-	  //
+	  // The assignment operator type is determined by the variable being assigned to
 	  
 	case EXP_BUFF_ID_OPERATOR:
 	  // Check that the operands are correct, i.e. all of them are the same and in
