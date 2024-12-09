@@ -2035,7 +2035,6 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 		exp_buffer_id_str[token.op.buf_id],
 		levstr,
 		type_to_char(token.op.type),
-		//		type_to_char(token.op.req_type),
 		type_to_char(token.op.qcode_type),
 		token.name,
 		token.op.num_parameters,
@@ -2141,7 +2140,6 @@ NOBJ_VARTYPE type_with_least_conversion_from(NOBJ_VARTYPE t1, NOBJ_VARTYPE t2)
       ret = NOBJ_VARTYPE_FLT;
     }
 
-#if 1
   if( (t1 == NOBJ_VARTYPE_INTARY) && (t2 == NOBJ_VARTYPE_INTARY) )
     {
       ret = NOBJ_VARTYPE_INTARY;
@@ -2161,7 +2159,7 @@ NOBJ_VARTYPE type_with_least_conversion_from(NOBJ_VARTYPE t1, NOBJ_VARTYPE t2)
     {
       ret = NOBJ_VARTYPE_FLTARY;
     }
-#endif
+
   fprintf(ofp, "\n%s: %c %c => %c",  __FUNCTION__, type_to_char(t1), type_to_char(t2), type_to_char(ret));
   return(ret);
 }
@@ -2399,8 +2397,6 @@ char *infix_from_rpn(void)
 
 	      sprintf(newstr2, "%s %s", op1, newstr);
 	      strcpy(newstr, newstr2);
-
-	      //	      strcat(newstr, ",");
 	    }
 	  
 	  snprintf(newstr2, MAX_INFIX_STR, "%s(%s)", be.name, newstr);
@@ -2510,12 +2506,10 @@ void typecheck_operator_immutable(EXP_BUFFER_ENTRY be, OP_INFO op_info, EXP_BUFF
 	  if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
 	    {
 	      res.op.type      = op1.op.type;
-	      //	      res.op.req_type  = op1.op.type;
 	    }
 	  else
 	    {
 	      res.op.type      = op_info.output_type;
-	      //res.op.req_type  = op_info.output_type;
 	    }
 	  
 	  type_check_stack_push(res);
@@ -2526,7 +2520,6 @@ void typecheck_operator_immutable(EXP_BUFFER_ENTRY be, OP_INFO op_info, EXP_BUFF
       // Error
       fprintf(ofp, "\nType of %s or %s is not %c", op1.name, op2.name, type_to_char(op_info.type[0]));
       internal_error("Type of %s or %s is not %c", op1.name, op2.name, type_to_char(op_info.type[0]));
-      //		      exit(-1);
     }
 }
 
@@ -2675,9 +2668,8 @@ void typecheck_expression(void)
 			  
 			  autocon.p_idx = 0;
 			  autocon.op.type      = NOBJ_VARTYPE_INT;
-			  //			  autocon.op.req_type  = NOBJ_VARTYPE_INT;
+			  //autocon.op.req_type  = NOBJ_VARTYPE_INT;
 			  
-			  //autocon.node_id = node_id_index++;
 			  insert_buf2_entry_after_node_id(op1.node_id, autocon);
 			}
 		    }
@@ -2696,10 +2688,8 @@ void typecheck_expression(void)
 	  // Field variable name
 	case EXP_BUFF_ID_LOGICALFILE:
 	case EXP_BUFF_ID_FIELDVAR:
-#if 1
 	  be.p_idx = 0;
 	  type_check_stack_push(be);
-#endif
 	  break;
 	  
 	  // These need to pop a value off the stack to keep the stack
@@ -2716,14 +2706,10 @@ void typecheck_expression(void)
 	  dbprintf("PRINT type adjust", function_num_args(be.name));
 	  op1 = type_check_stack_pop();
 	  be.op.type = op1.op.type;
-	  //	  be.op.req_type = op1.op.req_type;
-	  
 	  break;
 	  
-
 	case EXP_BUFF_ID_ENDIF:
 	case EXP_BUFF_ID_GOTO:
-
 	case EXP_BUFF_ID_ENDWH:
 	  break;
 	  
@@ -2748,12 +2734,8 @@ void typecheck_expression(void)
 	  // Now insert auto convert nodes if required
 
 	  autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
-
 	  autocon.p_idx = 0;
-	  //	  autocon.p[0] = op1.node_id;
-	  //autocon.p[1] = op2.node_id;
 	  autocon.op.type      = ret_type;
-	  //	  autocon.op.req_type  = ret_type;
 
 	  // Now check that all arguments have the correct type or
 	  // can with an auto type conversion
@@ -2782,25 +2764,21 @@ void typecheck_expression(void)
 		  // Can we use an auto conversion?
 		  if( (op1.op.type == NOBJ_VARTYPE_INT) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_FLT))
 		    {
-		      //autocon.node_id = node_id_index++;
 		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
 		    }
 
 		  if( (op1.op.type == NOBJ_VARTYPE_FLT) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_INT))
 		    {
-		      //autocon.node_id = node_id_index++;
 		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
 		    }
 
 		  if( (op1.op.type == NOBJ_VARTYPE_INTARY) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_FLTARY))
 		    {
-		      //autocon.node_id = node_id_index++;
 		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
 		    }
 
 		  if( (op1.op.type == NOBJ_VARTYPE_FLTARY) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_INTARY))
 		    {
-		      //autocon.node_id = node_id_index++;
 		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
 		    }
 		}
@@ -2817,15 +2795,11 @@ void typecheck_expression(void)
 	      res.p[1] = op2.node_id;
 	      strcpy(res.name, "000");
 	      res.op.type      = ret_type;
-	      //	      res.op.req_type  = ret_type;
 	      type_check_stack_push(res);
 	    }
 	  
 	  // The return type opf the function is known
 	  be.op.type = ret_type;
-	  
-	  //	  be.op.req_type = ret_type;
-	  
 	  break;
 
 	  //------------------------------------------------------------------------------
@@ -2907,25 +2881,11 @@ void typecheck_expression(void)
 			  be.op.type = type_with_least_conversion_from(op1.op.type, op2.op.type);
 			}
 
-#if 0		      
-		      if( be.op.req_type == NOBJ_VARTYPE_UNKNOWN)
-			{
-			  be.op.req_type = type_with_least_conversion_from(op1.op.type, op2.op.type);
-			}
-#endif
-		      
 		      if( (be.op.type == NOBJ_VARTYPE_INT) || (be.op.type == NOBJ_VARTYPE_INTARY))
 			{
 			  be.op.type = type_with_least_conversion_from(op1.op.type, op2.op.type);
 			}
 
-#if 0		      
-		      if( (be.op.req_type == NOBJ_VARTYPE_INT) || (be.op.req_type == NOBJ_VARTYPE_INTARY))
-			{
-			  be.op.req_type = type_with_least_conversion_from(op1.op.type, op2.op.type);
-			}
-#endif
-		      
 		      // Types are both OK
 		      // If they are the same then we will bind the operator type to that type
 		      // as long as they are both the required type, if not then if types aren't
@@ -2938,7 +2898,6 @@ void typecheck_expression(void)
 
 			  // The input types of the operands are the same as the required type, all ok
 			  be.op.type = op1.op.type;
-			  //			  be.op.req_type = op1.op.req_type;
 			  
 			  // Now set up output type
 			  if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
@@ -2949,7 +2908,6 @@ void typecheck_expression(void)
 			    {
 			      dbprintf("(A) Forced type to %c", type_to_char(op1.op.type));
 			      be.op.type      = op_info.output_type;
-			      //			      be.op.req_type  = op_info.output_type;
 			      be.op.qcode_type = op1.op.type;
 			    }
 			}
@@ -2981,13 +2939,11 @@ void typecheck_expression(void)
 				{
 				  dbprintf("(C) Forced type to %c", type_to_char(op2.op.type));
 				  be.op.type       = op_info.output_type;
-				  //				  be.op.req_type   = op_info.output_type;
 				  be.op.qcode_type = op2.op.type;
 				}
-#if 1
+
 			      be.op.type = op2.op.type;
-			      //			      be.op.req_type = op2.op.req_type;
-#endif
+
 			      dbprintf(" Assignment Autoconversion");
 			      dbprintf(" --------------");
 			      dbprintf(" Op1: type:%c", type_to_char(op1.op.type));
@@ -3003,7 +2959,6 @@ void typecheck_expression(void)
 			      autocon.p[0] = op2.node_id;
 			      autocon.p[1] = op1.node_id;
 			      autocon.op.type      = be.op.type;
-			      //			      autocon.op.req_type  = be.op.type;
 
 			      //autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
 			      sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(op2.op.type));
@@ -3019,7 +2974,6 @@ void typecheck_expression(void)
 				{
 				  dbprintf("(D) Forced type to %c", type_to_char(op_info.output_type));
 				  be.op.type      = op_info.output_type;
-				  //				  be.op.req_type  = op_info.output_type;
 				  be.op.qcode_type = autocon.op.type;
 				}
 			    }
@@ -3030,15 +2984,11 @@ void typecheck_expression(void)
 				{
 				  // Force operator to FLT
 				  be.op.type = NOBJ_VARTYPE_FLT;
-				  //				  be.op.req_type = NOBJ_VARTYPE_FLT;
-
 				}
 			      else if( (op1.op.type == NOBJ_VARTYPE_FLTARY) || (op2.op.type == NOBJ_VARTYPE_FLTARY) )
 				{
 				  // Force operator to FLT
 				  be.op.type = NOBJ_VARTYPE_FLT;
-				  //				  be.op.req_type = NOBJ_VARTYPE_FLT;
-
 				}
 			    }
 
@@ -3054,19 +3004,16 @@ void typecheck_expression(void)
 			      autocon.p[0] = op1.node_id;
 			      autocon.p[1] = op2.node_id;
 			      autocon.op.type      = be.op.type;
-			      //			      autocon.op.req_type  = be.op.type;
 			      
 			      if( (op1.op.type != be.op.type) )
 				{
 				  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.type));
-				  //autocon.node_id = node_id_index++;
 				  insert_buf2_entry_after_node_id(op1.node_id, autocon);
 				}
 			      
 			      if( (op2.op.type != be.op.type) )
 				{
 				  sprintf(autocon.name, "autocon %c->%c", type_to_char(op2.op.type), type_to_char(be.op.type));
-				  //autocon.node_id = node_id_index++;
 				  insert_buf2_entry_after_node_id(op2.node_id, autocon);
 				}
 			      
@@ -3079,7 +3026,6 @@ void typecheck_expression(void)
 				{
 				  dbprintf("(D) Forced type to %c", type_to_char(op_info.output_type));
 				  be.op.type      = op_info.output_type;
-				  //				  be.op.req_type  = op_info.output_type;
 				  be.op.qcode_type = autocon.op.type;
 				}
 			    }
@@ -3094,7 +3040,6 @@ void typecheck_expression(void)
 			  res.p[0] = op1.node_id;
 			  res.p[1] = op2.node_id;
 			  res.op.type      = be.op.type;
-			  //			  res.op.req_type  = be.op.type;
 			  type_check_stack_push(res);
 			}
 		    }
@@ -3126,7 +3071,6 @@ void typecheck_expression(void)
       if( !copied )
 	{
 	  exp_buffer2[exp_buffer2_i++] = be;
-	  //add_exp_buffer2_entry(be.op, be.op.buf_id);
 	}
 
       type_check_stack_display();
@@ -3153,10 +3097,7 @@ void typecheck_expression(void)
 	  strcpy(be.op.name, be.name);
 	  be.node_id = EXP_BUFF_ID_FUNCTION;
 	  be.p_idx = 0;
-	  //res.p[0] = 0;
-	  //res.p[1] = op2.node_id;
 	  be.op.type      = be.op.type;
-	  //	  be.op.req_type  = be.op.type;
 	  exp_buffer2[exp_buffer2_i++] = be;
 	}
     }
@@ -3181,7 +3122,6 @@ void expression_tree_process(char *expr)
   typecheck_expression();
   dump_exp_buffer(ofp, 1);
   dump_exp_buffer(ofp, 2);
-  //  dump_exp_buffer(icfp, 2);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3241,7 +3181,6 @@ void output_operator(OP_STACK_ENTRY op)
   char *tokptr;
 
   op.type = expression_type;
-  //  op.req_type = expression_type;
 
   dbprintf("%s %c %s", type_stack_str(), type_to_char(op.type), op.name);
   add_exp_buffer_entry(op, op.buf_id);
@@ -3271,14 +3210,12 @@ void output_string(OP_STACK_ENTRY op)
 {
   fprintf(ofp, "\n(%16s) %s %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), op.name);
   // Always a string type
-  //  op.req_type = NOBJ_VARTYPE_STR;
   add_exp_buffer_entry(op, EXP_BUFF_ID_STR);
 }
 
 void output_return(OP_STACK_ENTRY op)
 {
   op.type = expression_type;
-  //op.req_type = expression_type;
   
   fprintf(ofp, "\n(%16s) %s %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_RETURN);
@@ -3287,7 +3224,6 @@ void output_return(OP_STACK_ENTRY op)
 void output_print(OP_STACK_ENTRY op)
 {
   op.type = expression_type;
-  //op.req_type = expression_type;
 
   fprintf(ofp, "\n(%16s) %s %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), op.name); 
   add_exp_buffer_entry(op, op.buf_id);
@@ -3312,7 +3248,6 @@ void output_generic(OP_STACK_ENTRY op, char *name, int buf_id)
   strcpy(op.name, name);
   op.buf_id = buf_id;
   op.type = expression_type;
-  //  op.req_type = expression_type;
   
   dbprintf("%s %c %s exp_type:%c", type_stack_str(), type_to_char(op.type), op.name, type_to_char(expression_type) ); 
   add_exp_buffer_entry(op, buf_id);
@@ -3325,7 +3260,6 @@ void output_fieldvar(OP_STACK_ENTRY op, char *name, int buf_id)
   strcpy(op.name, name);
   op.buf_id = buf_id;
   //  op.type = expression_type;
-  //op.req_type = expression_type;
   
   dbprintf("%s %c %s exp_type:%c", type_stack_str(), type_to_char(op.type), op.name, type_to_char(expression_type) ); 
   add_exp_buffer_entry(op, buf_id);
