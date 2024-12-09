@@ -204,7 +204,7 @@ typedef struct _OP_STACK_ENTRY
   int                     buf_id;
   NOBJ_INT                integer;
   NOBJ_VARTYPE            type;       // Original type
-  NOBJ_VARTYPE            req_type;   // Required type
+  //  NOBJ_VARTYPE            req_type;   // Required type
   NOBJ_VARTYPE            qcode_type; // Type the QCode needs to be (base don inputs for
                                       // forced operators like <=. They need to have an
                                       // output type that is forced (int for <=) but

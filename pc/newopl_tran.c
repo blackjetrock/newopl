@@ -2028,14 +2028,14 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 	  }
 
 	
-	fprintf(fp, "\n(%16s) N%d %c %-30s %s ty:%c rq:%c qcty:%c '%s' npar:%d nidx:%d",
+	fprintf(fp, "\n(%16s) N%d %c %-30s %s ty:%c qcty:%c '%s' npar:%d nidx:%d",
 		__FUNCTION__,
 		token.node_id,
 		access_to_char(token.op.access),
 		exp_buffer_id_str[token.op.buf_id],
 		levstr,
 		type_to_char(token.op.type),
-		type_to_char(token.op.req_type),
+		//		type_to_char(token.op.req_type),
 		type_to_char(token.op.qcode_type),
 		token.name,
 		token.op.num_parameters,
@@ -2510,12 +2510,12 @@ void typecheck_operator_immutable(EXP_BUFFER_ENTRY be, OP_INFO op_info, EXP_BUFF
 	  if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
 	    {
 	      res.op.type      = op1.op.type;
-	      res.op.req_type  = op1.op.type;
+	      //	      res.op.req_type  = op1.op.type;
 	    }
 	  else
 	    {
 	      res.op.type      = op_info.output_type;
-	      res.op.req_type  = op_info.output_type;
+	      //res.op.req_type  = op_info.output_type;
 	    }
 	  
 	  type_check_stack_push(res);
@@ -2675,7 +2675,7 @@ void typecheck_expression(void)
 			  
 			  autocon.p_idx = 0;
 			  autocon.op.type      = NOBJ_VARTYPE_INT;
-			  autocon.op.req_type  = NOBJ_VARTYPE_INT;
+			  //			  autocon.op.req_type  = NOBJ_VARTYPE_INT;
 			  
 			  //autocon.node_id = node_id_index++;
 			  insert_buf2_entry_after_node_id(op1.node_id, autocon);
@@ -2716,7 +2716,7 @@ void typecheck_expression(void)
 	  dbprintf("PRINT type adjust", function_num_args(be.name));
 	  op1 = type_check_stack_pop();
 	  be.op.type = op1.op.type;
-	  be.op.req_type = op1.op.req_type;
+	  //	  be.op.req_type = op1.op.req_type;
 	  
 	  break;
 	  
@@ -2753,7 +2753,7 @@ void typecheck_expression(void)
 	  //	  autocon.p[0] = op1.node_id;
 	  //autocon.p[1] = op2.node_id;
 	  autocon.op.type      = ret_type;
-	  autocon.op.req_type  = ret_type;
+	  //	  autocon.op.req_type  = ret_type;
 
 	  // Now check that all arguments have the correct type or
 	  // can with an auto type conversion
@@ -2854,10 +2854,7 @@ void typecheck_expression(void)
 
 	      op1_type = op1.op.type;
 	      op2_type = op2.op.type;
-#if 0	      
-	      op1_reqtype = op1.op.req_type;
-	      op2_reqtype - op2.op.req_type;
-#endif
+
 	      dbprintf("op1 type:%c op2 type:%c", type_to_char(op1.op.type), type_to_char(op2.op.type));
 	      
 	      // Get the node ids of the argumenmts so we can find them if we need to
@@ -2941,7 +2938,7 @@ void typecheck_expression(void)
 
 			  // The input types of the operands are the same as the required type, all ok
 			  be.op.type = op1.op.type;
-			  be.op.req_type = op1.op.req_type;
+			  //			  be.op.req_type = op1.op.req_type;
 			  
 			  // Now set up output type
 			  if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
@@ -2952,7 +2949,7 @@ void typecheck_expression(void)
 			    {
 			      dbprintf("(A) Forced type to %c", type_to_char(op1.op.type));
 			      be.op.type      = op_info.output_type;
-			      be.op.req_type  = op_info.output_type;
+			      //			      be.op.req_type  = op_info.output_type;
 			      be.op.qcode_type = op1.op.type;
 			    }
 			}
@@ -2960,9 +2957,9 @@ void typecheck_expression(void)
 			{
 			  dbprintf(" Autoconversion");
 			  dbprintf(" --------------");
-			  dbprintf(" Op1: type:%c req type:%c", type_to_char(op1.op.type), type_to_char(op1.op.req_type));
-			  dbprintf(" Op2: type:%c req type:%c", type_to_char(op2.op.type), type_to_char(op2.op.req_type));
-			  dbprintf(" BE:  type:%c req type:%c",  type_to_char(be.op.type),  type_to_char(be.op.req_type));
+			  dbprintf(" Op1: type:%c", type_to_char(op1.op.type));
+			  dbprintf(" Op2: type:%c", type_to_char(op2.op.type));
+			  dbprintf(" BE:  type:%c",  type_to_char(be.op.type));
 		 
 			  // We insert auto conversion nodes to force the type of the arguments to match the
 			  // operator type. For INT and FLT we can force the operator to FLT if required
@@ -2984,18 +2981,18 @@ void typecheck_expression(void)
 				{
 				  dbprintf("(C) Forced type to %c", type_to_char(op2.op.type));
 				  be.op.type       = op_info.output_type;
-				  be.op.req_type   = op_info.output_type;
+				  //				  be.op.req_type   = op_info.output_type;
 				  be.op.qcode_type = op2.op.type;
 				}
 #if 1
 			      be.op.type = op2.op.type;
-			      be.op.req_type = op2.op.req_type;
+			      //			      be.op.req_type = op2.op.req_type;
 #endif
 			      dbprintf(" Assignment Autoconversion");
 			      dbprintf(" --------------");
-			      dbprintf(" Op1: type:%c req type:%c", type_to_char(op1.op.type), type_to_char(op1.op.req_type));
-			      dbprintf(" Op2: type:%c req type:%c", type_to_char(op2.op.type), type_to_char(op2.op.req_type));
-			      dbprintf(" BE:  type:%c req type:%c",  type_to_char(be.op.type),  type_to_char(be.op.req_type));
+			      dbprintf(" Op1: type:%c", type_to_char(op1.op.type));
+			      dbprintf(" Op2: type:%c", type_to_char(op2.op.type));
+			      dbprintf(" BE:  type:%c",  type_to_char(be.op.type));
 
 			      // Now insert auto convert node
 			      // Only convert the value being assigned.
@@ -3006,7 +3003,7 @@ void typecheck_expression(void)
 			      autocon.p[0] = op2.node_id;
 			      autocon.p[1] = op1.node_id;
 			      autocon.op.type      = be.op.type;
-			      autocon.op.req_type  = be.op.type;
+			      //			      autocon.op.req_type  = be.op.type;
 
 			      //autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
 			      sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(op2.op.type));
@@ -3020,10 +3017,10 @@ void typecheck_expression(void)
 				}
 			      else
 				{
-				  dbprintf("(D) Forced type to %c", type_to_char(be.op.req_type));
+				  dbprintf("(D) Forced type to %c", type_to_char(op_info.output_type));
 				  be.op.type      = op_info.output_type;
-				  be.op.req_type  = op_info.output_type;
-				  be.op.qcode_type = autocon.op.req_type;
+				  //				  be.op.req_type  = op_info.output_type;
+				  be.op.qcode_type = autocon.op.type;
 				}
 			    }
 			  else
@@ -3033,14 +3030,14 @@ void typecheck_expression(void)
 				{
 				  // Force operator to FLT
 				  be.op.type = NOBJ_VARTYPE_FLT;
-				  be.op.req_type = NOBJ_VARTYPE_FLT;
+				  //				  be.op.req_type = NOBJ_VARTYPE_FLT;
 
 				}
 			      else if( (op1.op.type == NOBJ_VARTYPE_FLTARY) || (op2.op.type == NOBJ_VARTYPE_FLTARY) )
 				{
 				  // Force operator to FLT
 				  be.op.type = NOBJ_VARTYPE_FLT;
-				  be.op.req_type = NOBJ_VARTYPE_FLT;
+				  //				  be.op.req_type = NOBJ_VARTYPE_FLT;
 
 				}
 			    }
@@ -3050,25 +3047,25 @@ void typecheck_expression(void)
 			      // If type of operator is unknown, 
 			      
 			      // Now insert auto convert nodes if required
-			      sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.req_type));
+			      sprintf(autocon.name, "autocon ?->?"); //type_to_char(op1.op.type), type_to_char(be.op.req_type));
 			      autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
 
 			      autocon.p_idx = 2;
 			      autocon.p[0] = op1.node_id;
 			      autocon.p[1] = op2.node_id;
 			      autocon.op.type      = be.op.type;
-			      autocon.op.req_type  = be.op.type;
+			      //			      autocon.op.req_type  = be.op.type;
 			      
-			      if( (op1.op.type != be.op.req_type) )
+			      if( (op1.op.type != be.op.type) )
 				{
-				  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.req_type));
+				  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.type));
 				  //autocon.node_id = node_id_index++;
 				  insert_buf2_entry_after_node_id(op1.node_id, autocon);
 				}
 			      
-			      if( (op2.op.type != be.op.req_type) )
+			      if( (op2.op.type != be.op.type) )
 				{
-				  sprintf(autocon.name, "autocon %c->%c", type_to_char(op2.op.type), type_to_char(be.op.req_type));
+				  sprintf(autocon.name, "autocon %c->%c", type_to_char(op2.op.type), type_to_char(be.op.type));
 				  //autocon.node_id = node_id_index++;
 				  insert_buf2_entry_after_node_id(op2.node_id, autocon);
 				}
@@ -3080,10 +3077,10 @@ void typecheck_expression(void)
 				}
 			      else
 				{
-				  dbprintf("(D) Forced type to %c", type_to_char(be.op.req_type));
+				  dbprintf("(D) Forced type to %c", type_to_char(op_info.output_type));
 				  be.op.type      = op_info.output_type;
-				  be.op.req_type  = op_info.output_type;
-				  be.op.qcode_type = autocon.op.req_type;
+				  //				  be.op.req_type  = op_info.output_type;
+				  be.op.qcode_type = autocon.op.type;
 				}
 			    }
 			}
@@ -3097,7 +3094,7 @@ void typecheck_expression(void)
 			  res.p[0] = op1.node_id;
 			  res.p[1] = op2.node_id;
 			  res.op.type      = be.op.type;
-			  res.op.req_type  = be.op.type;
+			  //			  res.op.req_type  = be.op.type;
 			  type_check_stack_push(res);
 			}
 		    }
@@ -3159,7 +3156,7 @@ void typecheck_expression(void)
 	  //res.p[0] = 0;
 	  //res.p[1] = op2.node_id;
 	  be.op.type      = be.op.type;
-	  be.op.req_type  = be.op.type;
+	  //	  be.op.req_type  = be.op.type;
 	  exp_buffer2[exp_buffer2_i++] = be;
 	}
     }
@@ -3228,13 +3225,13 @@ void init_op_stack_entry(OP_STACK_ENTRY *op)
 
 void output_float(OP_STACK_ENTRY token)
 {
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(token.type), type_to_char(token.req_type), token.name);
+  fprintf(ofp, "\n(%16s) %s %c %s", __FUNCTION__, type_stack_str(), type_to_char(token.type), token.name);
   add_exp_buffer_entry(token, EXP_BUFF_ID_FLT);
 }
 
 void output_integer(OP_STACK_ENTRY token)
 {
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(token.type), type_to_char(token.req_type), token.name);
+  fprintf(ofp, "\n(%16s) %s %c %s", __FUNCTION__, type_stack_str(), type_to_char(token.type), token.name);
   add_exp_buffer_entry(token, EXP_BUFF_ID_INTEGER);
 }
 
@@ -3244,15 +3241,15 @@ void output_operator(OP_STACK_ENTRY op)
   char *tokptr;
 
   op.type = expression_type;
-  op.req_type = expression_type;
+  //  op.req_type = expression_type;
 
-  dbprintf("%s %c %c %s", type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
+  dbprintf("%s %c %s", type_stack_str(), type_to_char(op.type), op.name);
   add_exp_buffer_entry(op, op.buf_id);
 }
 
 void output_function(OP_STACK_ENTRY op)
 {
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
+  fprintf(ofp, "\n(%16s) %s %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), op.name);
   add_exp_buffer_entry(op, EXP_BUFF_ID_FUNCTION);
 }
 
@@ -3260,51 +3257,51 @@ void output_variable(OP_STACK_ENTRY op)
 {
   expression_type = op.type;
   
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
+  fprintf(ofp, "\n(%16s) %s %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), op.name);
   add_exp_buffer_entry(op, EXP_BUFF_ID_VARIABLE);
 }
 
 void output_var_addr_name(OP_STACK_ENTRY op)
 {
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
+  fprintf(ofp, "\n(%16s) %s %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), op.name);
   add_exp_buffer_entry(op, EXP_BUFF_ID_VAR_ADDR_NAME);
 }
 
 void output_string(OP_STACK_ENTRY op)
 {
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name);
+  fprintf(ofp, "\n(%16s) %s %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), op.name);
   // Always a string type
-  op.req_type = NOBJ_VARTYPE_STR;
+  //  op.req_type = NOBJ_VARTYPE_STR;
   add_exp_buffer_entry(op, EXP_BUFF_ID_STR);
 }
 
 void output_return(OP_STACK_ENTRY op)
 {
   op.type = expression_type;
-  op.req_type = expression_type;
+  //op.req_type = expression_type;
   
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  fprintf(ofp, "\n(%16s) %s %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_RETURN);
 }
 
 void output_print(OP_STACK_ENTRY op)
 {
   op.type = expression_type;
-  op.req_type = expression_type;
+  //op.req_type = expression_type;
 
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  fprintf(ofp, "\n(%16s) %s %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), op.name); 
   add_exp_buffer_entry(op, op.buf_id);
 }
 
 void output_proc_call(OP_STACK_ENTRY op)
 {
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  fprintf(ofp, "\n(%16s) %s %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_PROC_CALL);
 }
 
 void output_if(OP_STACK_ENTRY op)
 {
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  fprintf(ofp, "\n(%16s) %s %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_IF);
 }
 
@@ -3315,9 +3312,9 @@ void output_generic(OP_STACK_ENTRY op, char *name, int buf_id)
   strcpy(op.name, name);
   op.buf_id = buf_id;
   op.type = expression_type;
-  op.req_type = expression_type;
+  //  op.req_type = expression_type;
   
-  dbprintf("%s %c %c %s exp_type:%c", type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name, type_to_char(expression_type) ); 
+  dbprintf("%s %c %s exp_type:%c", type_stack_str(), type_to_char(op.type), op.name, type_to_char(expression_type) ); 
   add_exp_buffer_entry(op, buf_id);
 }
 
@@ -3330,14 +3327,14 @@ void output_fieldvar(OP_STACK_ENTRY op, char *name, int buf_id)
   //  op.type = expression_type;
   //op.req_type = expression_type;
   
-  dbprintf("%s %c %c %s exp_type:%c", type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name, type_to_char(expression_type) ); 
+  dbprintf("%s %c %s exp_type:%c", type_stack_str(), type_to_char(op.type), op.name, type_to_char(expression_type) ); 
   add_exp_buffer_entry(op, buf_id);
 }
 
 void output_endif(OP_STACK_ENTRY op)
 {
   printf("\nop if");
-  fprintf(ofp, "\n(%16s) %s %c %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), type_to_char(op.req_type), op.name); 
+  fprintf(ofp, "\n(%16s) %s %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_ENDIF);
 }
 
@@ -3523,18 +3520,18 @@ void op_stack_finalise(void)
     {
       o = op_stack_pop();
 
-      dbprintf("Popped:%s rqt:%c", o.name, type_to_char(o.req_type));
-      if( o.req_type == NOBJ_VARTYPE_UNKNOWN )
+      dbprintf("Popped:%s %c", o.name, type_to_char(o.type));
+      if( o.type == NOBJ_VARTYPE_UNKNOWN )
 	{
-	  o.req_type = expression_type;
+	  //	  o.req_type = expression_type;
 	  o.type = expression_type;
 	}
 
-      // PRINT command sneed to match the expression type
+      // PRINT commands need to match the expression type
       if( o.buf_id == EXP_BUFF_ID_PRINT )
 	{
 	  // Force the type
-	  o.req_type = expression_type;
+	  //	  o.req_type = expression_type;
 	  o.type = expression_type;
 	}
       output_operator(o);
@@ -3755,7 +3752,7 @@ void process_token(OP_STACK_ENTRY *token)
       fprintf(ofp, "\n%s: '%s' t=>%c", __FUNCTION__, o1.name, type_to_char(vt));
 
       o1.type = NOBJ_VARTYPE_UNKNOWN;
-      o1.req_type = NOBJ_VARTYPE_UNKNOWN;
+      //      o1.req_type = NOBJ_VARTYPE_UNKNOWN;
       op_stack_push(o1);
       first_token = 0;
       unary_next = 0;
@@ -3768,7 +3765,7 @@ void process_token(OP_STACK_ENTRY *token)
 
       // RETURN needs to change depending on the type of the expression we are to return.
       // The type of that expression must also match that of the procedure we are translating
-      o1.req_type = expression_type;
+      //      o1.req_type = expression_type;
       output_return(o1);
       unary_next = 0;
       return;
@@ -3778,7 +3775,7 @@ void process_token(OP_STACK_ENTRY *token)
       fprintf(ofp, "\nBuff id proc call");
       
       // Parser supplies type
-      o1.req_type = expression_type;
+      //      o1.req_type = expression_type;
       output_proc_call(o1);
       unary_next = 0;
       return;
@@ -3797,7 +3794,7 @@ void process_token(OP_STACK_ENTRY *token)
       dbprintf("Buff id %s", o1.name);
       
       // Parser supplies type
-      o1.req_type = expression_type;
+      //      o1.req_type = expression_type;
       output_generic(o1, o1.name, o1.buf_id);
       unary_next = 0;
       return;
@@ -3827,7 +3824,7 @@ void process_token(OP_STACK_ENTRY *token)
       fprintf(ofp, "\nBuff id var addr name");
       
       // Parser supplies type
-      o1.req_type = NOBJ_VARTYPE_VAR_ADDR;
+      //      o1.req_type = NOBJ_VARTYPE_VAR_ADDR;
       o1.type     = NOBJ_VARTYPE_VAR_ADDR;
       output_var_addr_name(o1);
       unary_next = 0;
@@ -3871,7 +3868,7 @@ void process_token(OP_STACK_ENTRY *token)
       //strcpy(o1.name, tokptr);
 
       o1.type = expression_type;
-      o1.req_type = expression_type;
+      //      o1.req_type = expression_type;
       op_stack_push(o1);
       first_token = 0;
       return;
@@ -3884,7 +3881,7 @@ void process_token(OP_STACK_ENTRY *token)
 
       modify_expression_type(o1.type);
 
-      o1.req_type = expression_type;
+      //      o1.req_type = expression_type;
       
       output_float(o1);
       first_token = 0;
@@ -3897,7 +3894,7 @@ void process_token(OP_STACK_ENTRY *token)
       o1.type = NOBJ_VARTYPE_INT;
       
       modify_expression_type(o1.type);
-      o1.req_type = expression_type;
+      //      o1.req_type = expression_type;
       output_integer(o1);
       first_token = 0;
       unary_next = 0;
@@ -3916,7 +3913,7 @@ void process_token(OP_STACK_ENTRY *token)
       fprintf(ofp, "\n%s: '%s' t=>%c", __FUNCTION__, o1.name, type_to_char(vt));
       
       o1.type = vt;
-      o1.req_type = vt;
+      //      o1.req_type = vt;
       op_stack_push(o1);
       first_token = 0;
       unary_next = 0;
@@ -3966,12 +3963,12 @@ void process_token(OP_STACK_ENTRY *token)
 		  modify_expression_type(type);
 		}
 	      
-	      o1.req_type = type;
+	      //	      o1.req_type = type;
 	      o1.type = type;
 	    }
 	  else
 	    {
-	      fprintf(ofp, "\n%s:type:%c req_type:%c", __FUNCTION__, type_to_char(o1.type), type_to_char(o1.req_type));
+	      fprintf(ofp, "\n%s:type:%c", __FUNCTION__, type_to_char(o1.type));
 	      modify_expression_type(type);
 	      //o1.req_type = expression_type;
 	      //o1.type = expression_type;
