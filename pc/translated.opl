@@ -1,108 +1,118 @@
 
 
-success%
+IND$
 
-tPos% := 10
-
-sPos% := 1
-
-AT(tPos% 2 )
-PRINT("X")
-<nl>
-
-
-c% := 0
-DO
-
-AT(sPos% 1 )
-PRINT(" ")
-<nl>
-
-
-sPos% := (sPos% + 1)
-IF (sPos% > 20)
-sPos% := 1
-
-ENDIF
-
-AT(sPos% 1 )
-PRINT("A")
-<nl>
-
-
-PAUSE(5 )
-c% := (c% + 1)
-UNTIL (KEY() OR (c% = 30))
-
-
-success% := (ABS((sPos% - tPos%) ) <= 2)
-
-
-IF success%
-PRINT("Hit!")
-<nl>
-
-GET()
+KSTAT(1 )
+START::
+M% := MENU("NEW,LAST" )
+IF (M% = 1)
+GOTO NEW
+ELSEIF (M% = 2)
+TEXT$ := "LAST TIME:"
+GOTO LAST
 ELSE
-PRINT("Miss!")
+STOP()
+ENDIF
+NEW::
+CLS()
+M% := MENU("IBUPROFIN,PARACETEMOL" )
+IF (M% > 0)
+TEXT$ := "RECORDED."
+M0 := HOUR()
+M1 := MINUTE()
+M2 := M%
+GOTO LAST
+ELSE
+GOTO START
+ENDIF
+LAST::
+CLS()
+PRINT(TEXT$)
+PRINT(M0)
+
+IF (M1 < 10)
+IND$ := ":0"
+ELSE
+IND$ := ":"
+ENDIF
+PRINT(IND$)
+PRINT(M1)
 <nl>
 
-GET()
-ENDIF
+IF (M2 = 1)
+PRINT(CHR$(15 ))
+PRINT("IBUPROFIN.")
+<nl>
 
-WHILE (KEY$() <> "")
-ENDWH
+ELSEIF (M2 = 2)
+PRINT(CHR$(15 ))
+PRINT("PARACETAMOL")
+<nl>
+
+ELSE
+PRINT(CHR$(15 ))
+PRINT("NO RECORD.")
+<nl>
+
+ENDIF
+M% := GET()
+STOP()
 
 
 DROP
 
-tPos% := 10
-
-sPos% := 1
-
-AT(tPos% 2 )
-PRINT("X")
-<nl>
-
-
-c% := 0
-DO
-
-AT(sPos% 1 )
-PRINT(" ")
-<nl>
-
-
-sPos% := (sPos% + 1)
-IF (sPos% > 20)
-sPos% := 1
-
-ENDIF
-
-AT(sPos% 1 )
-PRINT("A")
-<nl>
-
-
-PAUSE(5 )
-c% := (c% + 1)
-UNTIL (KEY() OR (c% = 30))
-
-
-success% := (ABS((sPos% - tPos%) ) <= 2)
-
-
-IF success%
-PRINT("Hit!")
-<nl>
-
-DROP()
+KSTAT(1 )
+START::
+M% := MENU("NEW,LAST" )
+IF (M% = 1)
+GOTO NEW
+ELSEIF (M% = 2)
+TEXT$ := "LAST TIME:"
+GOTO LAST
 ELSE
-PRINT("Miss!")
+STOP()
+ENDIF
+NEW::
+CLS()
+M% := MENU("IBUPROFIN,PARACETEMOL" )
+IF (M% > 0)
+TEXT$ := "RECORDED."
+M0 := HOUR()
+M1 := MINUTE()
+M2 := M%
+GOTO LAST
+ELSE
+GOTO START
+ENDIF
+LAST::
+CLS()
+PRINT(TEXT$)
+PRINT(M0)
+
+IF (M1 < 10)
+IND$ := ":0"
+ELSE
+IND$ := ":"
+ENDIF
+PRINT(IND$)
+PRINT(M1)
 <nl>
 
-DROP()
-ENDIF
+IF (M2 = 1)
+PRINT(CHR$(15 ))
+PRINT("IBUPROFIN.")
+<nl>
 
-WHILE (KEY$() <> "")
-ENDWH
+ELSEIF (M2 = 2)
+PRINT(CHR$(15 ))
+PRINT("PARACETAMOL")
+<nl>
+
+ELSE
+PRINT(CHR$(15 ))
+PRINT("NO RECORD.")
+<nl>
+
+ENDIF
+M% := GET()
+STOP()

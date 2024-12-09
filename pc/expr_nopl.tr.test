@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:0020
-QCode Space Size:01D5
+QCode Space Size:01D4
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -216,158 +216,157 @@ QCode
 0100: FFF0       (65520)
 0102: 22       Push integer literal     (bytes code:I)
 0103: 0001       (1)
-0105: 86       autoconversion int to float     (bytes code:-)
-0106: 22       Push integer literal     (bytes code:I)
-0107: 0009       (9)
+0105: 22       Push integer literal     (bytes code:I)
+0106: 0009       (9)
+0108: 2F       Multiply integer     (bytes code:-)
 0109: 86       autoconversion int to float     (bytes code:-)
-010A: 3E       Multiply float     (bytes code:-)
-010B: 80       Assign float     (bytes code:-)
-010C: 0E       Push local/global float variable reference     (bytes code:v)
-010D: FFF0       (65520)
-010F: 22       Push integer literal     (bytes code:I)
-0110: 0001       (1)
-0112: 86       autoconversion int to float     (bytes code:-)
-0113: 23       Push float literal     (bytes code:F)
-0114: Len:2
-0115: '90E0
-0117: 3E       Multiply float     (bytes code:-)
-0118: 80       Assign float     (bytes code:-)
-0119: 14       Push parameter/external integer variable reference     (bytes code:V)
-011A: FFFC       (65532)
-011C: 23       Push float literal     (bytes code:F)
-011D: Len:2
-011E: '12E0
-0120: 87       autoconversion float to int     (bytes code:-)
-0121: 7F       Assign integer     (bytes code:-)
-0122: 14       Push parameter/external integer variable reference     (bytes code:V)
-0123: FFFC       (65532)
-0125: 22       Push integer literal     (bytes code:I)
-0126: 0001       (1)
-0128: 86       autoconversion int to float     (bytes code:-)
-0129: 22       Push integer literal     (bytes code:I)
-012A: 0002       (2)
-012C: 86       autoconversion int to float     (bytes code:-)
-012D: 22       Push integer literal     (bytes code:I)
-012E: 0003       (3)
-0130: 86       autoconversion int to float     (bytes code:-)
-0131: 23       Push float literal     (bytes code:F)
-0132: Len:2
-0133: '40E0
+010A: 80       Assign float     (bytes code:-)
+010B: 0E       Push local/global float variable reference     (bytes code:v)
+010C: FFF0       (65520)
+010E: 22       Push integer literal     (bytes code:I)
+010F: 0001       (1)
+0111: 86       autoconversion int to float     (bytes code:-)
+0112: 23       Push float literal     (bytes code:F)
+0113: Len:2
+0114: '90E0
+0116: 3E       Multiply float     (bytes code:-)
+0117: 80       Assign float     (bytes code:-)
+0118: 14       Push parameter/external integer variable reference     (bytes code:V)
+0119: FFFC       (65532)
+011B: 23       Push float literal     (bytes code:F)
+011C: Len:2
+011D: '12E0
+011F: 87       autoconversion float to int     (bytes code:-)
+0120: 7F       Assign integer     (bytes code:-)
+0121: 14       Push parameter/external integer variable reference     (bytes code:V)
+0122: FFFC       (65532)
+0124: 22       Push integer literal     (bytes code:I)
+0125: 0001       (1)
+0127: 86       autoconversion int to float     (bytes code:-)
+0128: 22       Push integer literal     (bytes code:I)
+0129: 0002       (2)
+012B: 86       autoconversion int to float     (bytes code:-)
+012C: 22       Push integer literal     (bytes code:I)
+012D: 0003       (3)
+012F: 86       autoconversion int to float     (bytes code:-)
+0130: 23       Push float literal     (bytes code:F)
+0131: Len:2
+0132: '40E0
+0134: 3E       Multiply float     (bytes code:-)
 0135: 3E       Multiply float     (bytes code:-)
 0136: 3E       Multiply float     (bytes code:-)
-0137: 3E       Multiply float     (bytes code:-)
-0138: 87       autoconversion float to int     (bytes code:-)
-0139: 7F       Assign integer     (bytes code:-)
-013A: 0E       Push local/global float variable reference     (bytes code:v)
-013B: FFF0       (65520)
-013D: 23       Push float literal     (bytes code:F)
-013E: Len:3
-013F: '3012E0
-0142: 23       Push float literal     (bytes code:F)
-0143: Len:3
-0144: '6045E0
-0147: 3E       Multiply float     (bytes code:-)
-0148: 80       Assign float     (bytes code:-)
-0149: 0E       Push local/global float variable reference     (bytes code:v)
-014A: FFF0       (65520)
-014C: 23       Push float literal     (bytes code:F)
-014D: Len:3
-014E: '3012E0
-0151: 23       Push float literal     (bytes code:F)
-0152: Len:3
-0153: '5634E0
-0156: 23       Push float literal     (bytes code:F)
-0157: Len:3
-0158: '9078E0
-015B: 3E       Multiply float     (bytes code:-)
-015C: 3C       Plus float     (bytes code:-)
-015D: 80       Assign float     (bytes code:-)
-015E: 0E       Push local/global float variable reference     (bytes code:v)
-015F: FFF0       (65520)
-0161: 23       Push float literal     (bytes code:F)
-0162: Len:3
-0163: '3412E0
-0166: 41       Unary minus float     (bytes code:-)
-0167: 23       Push float literal     (bytes code:F)
-0168: Len:3
-0169: '5034E0
-016C: 3E       Multiply float     (bytes code:-)
-016D: 80       Assign float     (bytes code:-)
-016E: 0E       Push local/global float variable reference     (bytes code:v)
-016F: FFF0       (65520)
-0171: 07       Push parameter/external integer variable value     (bytes code:V)
-0172: FFFC       (65532)
-0174: 86       autoconversion int to float     (bytes code:-)
-0175: 23       Push float literal     (bytes code:F)
-0176: Len:3
-0177: '3012E0
-017A: 41       Unary minus float     (bytes code:-)
-017B: 3E       Multiply float     (bytes code:-)
-017C: 80       Assign float     (bytes code:-)
-017D: 0E       Push local/global float variable reference     (bytes code:v)
-017E: FFF0       (65520)
-0180: 07       Push parameter/external integer variable value     (bytes code:V)
-0181: FFFC       (65532)
-0183: 86       autoconversion int to float     (bytes code:-)
-0184: 23       Push float literal     (bytes code:F)
-0185: Len:3
-0186: '3012E0
-0189: 41       Unary minus float     (bytes code:-)
-018A: 23       Push float literal     (bytes code:F)
-018B: Len:3
-018C: '9078E0
-018F: 41       Unary minus float     (bytes code:-)
-0190: 3E       Multiply float     (bytes code:-)
-0191: 3C       Plus float     (bytes code:-)
-0192: 80       Assign float     (bytes code:-)
-0193: 0E       Push local/global float variable reference     (bytes code:v)
-0194: FFF0       (65520)
-0196: 23       Push float literal     (bytes code:F)
-0197: Len:3
-0198: '3012E0
-019B: 41       Unary minus float     (bytes code:-)
-019C: 23       Push float literal     (bytes code:F)
-019D: Len:3
-019E: '5014E0
-01A1: 41       Unary minus float     (bytes code:-)
-01A2: 23       Push float literal     (bytes code:F)
-01A3: Len:2
-01A4: '98E0
-01A6: 41       Unary minus float     (bytes code:-)
-01A7: 3E       Multiply float     (bytes code:-)
-01A8: 3C       Plus float     (bytes code:-)
-01A9: 80       Assign float     (bytes code:-)
-01AA: 0E       Push local/global float variable reference     (bytes code:v)
-01AB: FFF0       (65520)
-01AD: 23       Push float literal     (bytes code:F)
-01AE: Len:3
-01AF: '3012E0
-01B2: 23       Push float literal     (bytes code:F)
-01B3: Len:3
-01B4: '5014E0
-01B7: 3C       Plus float     (bytes code:-)
-01B8: 23       Push float literal     (bytes code:F)
-01B9: Len:2
-01BA: '90E0
-01BC: 3E       Multiply float     (bytes code:-)
-01BD: 80       Assign float     (bytes code:-)
-01BE: 0E       Push local/global float variable reference     (bytes code:v)
-01BF: FFF0       (65520)
-01C1: 23       Push float literal     (bytes code:F)
-01C2: Len:3
-01C3: '3012E0
-01C6: 41       Unary minus float     (bytes code:-)
-01C7: 23       Push float literal     (bytes code:F)
-01C8: Len:3
-01C9: '5014E0
-01CC: 41       Unary minus float     (bytes code:-)
-01CD: 3C       Plus float     (bytes code:-)
-01CE: 23       Push float literal     (bytes code:F)
-01CF: Len:2
-01D0: '90E0
-01D2: 3E       Multiply float     (bytes code:-)
-01D3: 80       Assign float     (bytes code:-)
-01D4: 7B       RETURN (float 0)     (bytes code:-)
+0137: 87       autoconversion float to int     (bytes code:-)
+0138: 7F       Assign integer     (bytes code:-)
+0139: 0E       Push local/global float variable reference     (bytes code:v)
+013A: FFF0       (65520)
+013C: 23       Push float literal     (bytes code:F)
+013D: Len:3
+013E: '3012E0
+0141: 23       Push float literal     (bytes code:F)
+0142: Len:3
+0143: '6045E0
+0146: 3E       Multiply float     (bytes code:-)
+0147: 80       Assign float     (bytes code:-)
+0148: 0E       Push local/global float variable reference     (bytes code:v)
+0149: FFF0       (65520)
+014B: 23       Push float literal     (bytes code:F)
+014C: Len:3
+014D: '3012E0
+0150: 23       Push float literal     (bytes code:F)
+0151: Len:3
+0152: '5634E0
+0155: 23       Push float literal     (bytes code:F)
+0156: Len:3
+0157: '9078E0
+015A: 3E       Multiply float     (bytes code:-)
+015B: 3C       Plus float     (bytes code:-)
+015C: 80       Assign float     (bytes code:-)
+015D: 0E       Push local/global float variable reference     (bytes code:v)
+015E: FFF0       (65520)
+0160: 23       Push float literal     (bytes code:F)
+0161: Len:3
+0162: '3412E0
+0165: 41       Unary minus float     (bytes code:-)
+0166: 23       Push float literal     (bytes code:F)
+0167: Len:3
+0168: '5034E0
+016B: 3E       Multiply float     (bytes code:-)
+016C: 80       Assign float     (bytes code:-)
+016D: 0E       Push local/global float variable reference     (bytes code:v)
+016E: FFF0       (65520)
+0170: 07       Push parameter/external integer variable value     (bytes code:V)
+0171: FFFC       (65532)
+0173: 86       autoconversion int to float     (bytes code:-)
+0174: 23       Push float literal     (bytes code:F)
+0175: Len:3
+0176: '3012E0
+0179: 41       Unary minus float     (bytes code:-)
+017A: 3E       Multiply float     (bytes code:-)
+017B: 80       Assign float     (bytes code:-)
+017C: 0E       Push local/global float variable reference     (bytes code:v)
+017D: FFF0       (65520)
+017F: 07       Push parameter/external integer variable value     (bytes code:V)
+0180: FFFC       (65532)
+0182: 86       autoconversion int to float     (bytes code:-)
+0183: 23       Push float literal     (bytes code:F)
+0184: Len:3
+0185: '3012E0
+0188: 41       Unary minus float     (bytes code:-)
+0189: 23       Push float literal     (bytes code:F)
+018A: Len:3
+018B: '9078E0
+018E: 41       Unary minus float     (bytes code:-)
+018F: 3E       Multiply float     (bytes code:-)
+0190: 3C       Plus float     (bytes code:-)
+0191: 80       Assign float     (bytes code:-)
+0192: 0E       Push local/global float variable reference     (bytes code:v)
+0193: FFF0       (65520)
+0195: 23       Push float literal     (bytes code:F)
+0196: Len:3
+0197: '3012E0
+019A: 41       Unary minus float     (bytes code:-)
+019B: 23       Push float literal     (bytes code:F)
+019C: Len:3
+019D: '5014E0
+01A0: 41       Unary minus float     (bytes code:-)
+01A1: 23       Push float literal     (bytes code:F)
+01A2: Len:2
+01A3: '98E0
+01A5: 41       Unary minus float     (bytes code:-)
+01A6: 3E       Multiply float     (bytes code:-)
+01A7: 3C       Plus float     (bytes code:-)
+01A8: 80       Assign float     (bytes code:-)
+01A9: 0E       Push local/global float variable reference     (bytes code:v)
+01AA: FFF0       (65520)
+01AC: 23       Push float literal     (bytes code:F)
+01AD: Len:3
+01AE: '3012E0
+01B1: 23       Push float literal     (bytes code:F)
+01B2: Len:3
+01B3: '5014E0
+01B6: 3C       Plus float     (bytes code:-)
+01B7: 23       Push float literal     (bytes code:F)
+01B8: Len:2
+01B9: '90E0
+01BB: 3E       Multiply float     (bytes code:-)
+01BC: 80       Assign float     (bytes code:-)
+01BD: 0E       Push local/global float variable reference     (bytes code:v)
+01BE: FFF0       (65520)
+01C0: 23       Push float literal     (bytes code:F)
+01C1: Len:3
+01C2: '3012E0
+01C5: 41       Unary minus float     (bytes code:-)
+01C6: 23       Push float literal     (bytes code:F)
+01C7: Len:3
+01C8: '5014E0
+01CB: 41       Unary minus float     (bytes code:-)
+01CC: 3C       Plus float     (bytes code:-)
+01CD: 23       Push float literal     (bytes code:F)
+01CE: Len:2
+01CF: '90E0
+01D1: 3E       Multiply float     (bytes code:-)
+01D2: 80       Assign float     (bytes code:-)
+01D3: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
@@ -387,17 +386,17 @@ QCode Data
 00D0:FF F8 23 02 12 00 87 7F 14 FF F8 23 02 12 00 23 
 00E0:04 60 45 33 00 3E 87 7F 0E FF F0 23 02 12 00 80 
 00F0:0E FF F0 23 02 12 00 23 04 60 45 33 00 3E 80 0E 
-0100:FF F0 22 00 01 86 22 00 09 86 3E 80 0E FF F0 22 
-0110:00 01 86 23 02 90 00 3E 80 14 FF FC 23 02 12 00 
-0120:87 7F 14 FF FC 22 00 01 86 22 00 02 86 22 00 03 
-0130:86 23 02 40 00 3E 3E 3E 87 7F 0E FF F0 23 03 30 
-0140:12 00 23 03 60 45 00 3E 80 0E FF F0 23 03 30 12 
-0150:00 23 03 56 34 00 23 03 90 78 00 3E 3C 80 0E FF 
-0160:F0 23 03 34 12 00 41 23 03 50 34 00 3E 80 0E FF 
-0170:F0 07 FF FC 86 23 03 30 12 00 41 3E 80 0E FF F0 
-0180:07 FF FC 86 23 03 30 12 00 41 23 03 90 78 00 41 
-0190:3E 3C 80 0E FF F0 23 03 30 12 00 41 23 03 50 14 
-01A0:00 41 23 02 98 00 41 3E 3C 80 0E FF F0 23 03 30 
-01B0:12 00 23 03 50 14 00 3C 23 02 90 00 3E 80 0E FF 
-01C0:F0 23 03 30 12 00 41 23 03 50 14 00 41 3C 23 02 
-01D0:90 00 3E 80 7B 
+0100:FF F0 22 00 01 22 00 09 2F 86 80 0E FF F0 22 00 
+0110:01 86 23 02 90 00 3E 80 14 FF FC 23 02 12 00 87 
+0120:7F 14 FF FC 22 00 01 86 22 00 02 86 22 00 03 86 
+0130:23 02 40 00 3E 3E 3E 87 7F 0E FF F0 23 03 30 12 
+0140:00 23 03 60 45 00 3E 80 0E FF F0 23 03 30 12 00 
+0150:23 03 56 34 00 23 03 90 78 00 3E 3C 80 0E FF F0 
+0160:23 03 34 12 00 41 23 03 50 34 00 3E 80 0E FF F0 
+0170:07 FF FC 86 23 03 30 12 00 41 3E 80 0E FF F0 07 
+0180:FF FC 86 23 03 30 12 00 41 23 03 90 78 00 41 3E 
+0190:3C 80 0E FF F0 23 03 30 12 00 41 23 03 50 14 00 
+01A0:41 23 02 98 00 41 3E 3C 80 0E FF F0 23 03 30 12 
+01B0:00 23 03 50 14 00 3C 23 02 90 00 3E 80 0E FF F0 
+01C0:23 03 30 12 00 41 23 03 50 14 00 41 3C 23 02 90 
+01D0:00 3E 80 7B 

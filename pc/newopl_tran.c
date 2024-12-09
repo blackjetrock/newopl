@@ -2485,7 +2485,49 @@ char *infix_from_rpn(void)
   dbprintf("exit  '%s'", res);  
   return(result+1);
 }
+////////////////////////////////////////////////////////////////////////////////
 
+
+void typecheck_operator_immutable(EXP_BUFFER_ENTRY be, OP_INFO op_info, EXP_BUFFER_ENTRY op1, EXP_BUFFER_ENTRY op2)
+{		      
+  if( (op1.op.type ==  op_info.type[0]) )
+    {
+      
+      // Types correct, push a dummy result so we have a correct execution stack
+      
+      // Push dummy result if there is one
+      if( op_info.returns_result )
+	{
+	  EXP_BUFFER_ENTRY res;
+	  res.node_id = be.node_id;          // Result id is that of the operator
+	  res.p_idx = 2;
+	  res.p[0] = op1.node_id;
+	  res.p[1] = op2.node_id;
+	  strcpy(res.name, "000");
+	  
+	  // Now set up output type
+	  if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
+	    {
+	      res.op.type      = op1.op.type;
+	      res.op.req_type  = op1.op.type;
+	    }
+	  else
+	    {
+	      res.op.type      = op_info.output_type;
+	      res.op.req_type  = op_info.output_type;
+	    }
+	  
+	  type_check_stack_push(res);
+	}		    
+    }
+  else
+    {
+      // Error
+      fprintf(ofp, "\nType of %s or %s is not %c", op1.name, op2.name, type_to_char(op_info.type[0]));
+      internal_error("Type of %s or %s is not %c", op1.name, op2.name, type_to_char(op_info.type[0]));
+      //		      exit(-1);
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -2830,42 +2872,7 @@ void typecheck_expression(void)
 		  // auto conversion here. Just check that the correct type
 		  // is present, if not, it's an error
 		  
-		  if( (op1.op.type ==  op_info.type[0]) )
-		    {
-		      // Types correct, push a dummy result so we have a correct execution stack
-
-		      // Push dummy result if there is one
-		      if( op_info.returns_result )
-			{
-			  EXP_BUFFER_ENTRY res;
-			  res.node_id = be.node_id;          // Result id is that of the operator
-			  res.p_idx = 2;
-			  res.p[0] = op1.node_id;
-			  res.p[1] = op2.node_id;
-			  strcpy(res.name, "000");
-			  
-			  // Now set up output type
-			  if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
-			    {
-			      res.op.type      = op1.op.type;
-			      res.op.req_type  = op1.op.type;
-			    }
-			  else
-			    {
-			      res.op.type      = op_info.output_type;
-			      res.op.req_type  = op_info.output_type;
-			    }
-			  
-			  type_check_stack_push(res);
-			}		    
-		    }
-		  else
-		    {
-		      // Error
-		      fprintf(ofp, "\nType of %s or %s is not %c", op1.name, op2.name, type_to_char(op_info.type[0]));
-		      internal_error("Type of %s or %s is not %c", op1.name, op2.name, type_to_char(op_info.type[0]));
-		      //		      exit(-1);
-		    }
+		  typecheck_operator_immutable(be, op_info, op1, op2);
 		}
 	      else
 		{
@@ -2892,7 +2899,7 @@ void typecheck_expression(void)
 		      // Expressions start as integer and turn into float if a float is found.
 		      //
 
-		      // If the operator type is unknown then we use the types of the arguments
+		      // If the operator result type is unknown then we use the types of the arguments
 		      // Unknown types arise when brackets are used.
 		      if( be.op.type == NOBJ_VARTYPE_UNKNOWN)
 			{
@@ -2923,7 +2930,7 @@ void typecheck_expression(void)
 		      if( types_identical(op1.op.type, op2.op.type) )
 			{
 			  dbprintf("Same type");
-			  if( types_identical(op1.op.type, be.op.req_type) )
+			  if( types_identical(op1.op.type, be.op.req_type),1 )
 			    {
 			      // The input types of the operands are the same as the required type, all ok
 			      be.op.type = op1.op.type;
