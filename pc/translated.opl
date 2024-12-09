@@ -1,108 +1,32 @@
 
 
-success%
+C
 
-tPos% := 10
-
-sPos% := 1
-
-AT(tPos% 2 )
-PRINT("X")
-<nl>
-
-
-c% := 0
-DO
-
-AT(sPos% 1 )
-PRINT(" ")
-<nl>
-
-
-sPos% := (sPos% + 1)
-IF (sPos% > 20)
-sPos% := 1
-
-ENDIF
-
-AT(sPos% 1 )
-PRINT("A")
-<nl>
-
-
-PAUSE(5 )
-c% := (c% + 1)
-UNTIL (KEY() OR (c% = 30))
-
-
-success% := (ABS((sPos% - tPos%) ) <= 2)
-
-
-IF success%
-PRINT("Hit!")
-<nl>
-
-GET()
-ELSE
-PRINT("Miss!")
-<nl>
-
-GET()
-ENDIF
-
-WHILE (KEY$() <> "")
-ENDWH
+A := 12345678
+B := (UMIN 12345678)
+C := 12.345678
+D := (UMIN 12.345678)
+A := 0.00001234
+A := 1234
+A := (UMIN 1234)
+A := 4080
+A := 65535
+A := 8192
+A := 1234.0
+A := 1234
 
 
 DROP
 
-tPos% := 10
-
-sPos% := 1
-
-AT(tPos% 2 )
-PRINT("X")
-<nl>
-
-
-c% := 0
-DO
-
-AT(sPos% 1 )
-PRINT(" ")
-<nl>
-
-
-sPos% := (sPos% + 1)
-IF (sPos% > 20)
-sPos% := 1
-
-ENDIF
-
-AT(sPos% 1 )
-PRINT("A")
-<nl>
-
-
-PAUSE(5 )
-c% := (c% + 1)
-UNTIL (KEY() OR (c% = 30))
-
-
-success% := (ABS((sPos% - tPos%) ) <= 2)
-
-
-IF success%
-PRINT("Hit!")
-<nl>
-
-DROP()
-ELSE
-PRINT("Miss!")
-<nl>
-
-DROP()
-ENDIF
-
-WHILE (KEY$() <> "")
-ENDWH
+A := 12345678
+B := (UMIN 12345678)
+C := 12.345678
+D := (UMIN 12.345678)
+A := 0.00001234
+A := 1234
+A := (UMIN 1234)
+A := 4080
+A := 65535
+A := 8192
+A := 1234.0
+A := 1234
