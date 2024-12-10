@@ -111,3 +111,11 @@ The control structures (IF/ENDIF, DO/UNTIL and WHILE/ENDWH) all have their own p
 
 Negative integers are parsed in the recursive descent parser and so the negation of positive integers to get negative integers isn't used. The recursive descent parser does have unary operator support, however, so the unary '-' can be used in expressions.
 
+Things I didn't know about OPL when I started
+=============================================
+
+You can have a variable called p% and also an array called p%() and they are different variables
+
+REM statements can occur before and between LOCAL and GLOBAL
+
+
