@@ -491,9 +491,13 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "DAY",    NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_DAY},
     {EXP_BUFF_ID_FUNCTION, "MONTH",  NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_MONTH},
     {EXP_BUFF_ID_FUNCTION, "YEAR",   NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_YEAR},
+    {EXP_BUFF_ID_FUNCTION, "COUNT",  NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_COUNT},
     {EXP_BUFF_ID_FUNCTION, "KSTAT",             __,     __,                   __,        __,               QCO_KSTAT},
     {EXP_BUFF_ID_FUNCTION, "STOP",              __,     __,                   __,        __,               QCO_STOP},
     {EXP_BUFF_ID_FUNCTION, "CLS",               __,     __,                   __,        __,               QCO_CLS},
+    {EXP_BUFF_ID_FUNCTION, "FIRST",             __,     __,                   __,        __,               QCO_FIRST},
+    {EXP_BUFF_ID_FUNCTION, "LAST",              __,     __,                   __,        __,               QCO_LAST},
+    {EXP_BUFF_ID_FUNCTION, "NEXT",              __,     __,                   __,        __,               QCO_NEXT},
     {EXP_BUFF_ID_FUNCTION, "KEY",               __,     __,                   __,        __,               RTF_KEY},
     {EXP_BUFF_ID_FUNCTION, "KEY$",              __,     __,                   __,        __,               RTF_SKEY},
     {EXP_BUFF_ID_FUNCTION, "CHR$",              __,     __,                   __,        __,               RTF_CHR},
@@ -2192,6 +2196,21 @@ int types_identical(NOBJ_VARTYPE t1, NOBJ_VARTYPE t2)
       return(1);
     }
 
+  if( (t2 == NOBJ_VARTYPE_INT) && (t1 == NOBJ_VARTYPE_INTARY) )
+    {
+      return(1);
+    }
+
+  if( (t2 == NOBJ_VARTYPE_FLT) && (t1 == NOBJ_VARTYPE_FLTARY) )
+    {
+      return(1);
+    }
+
+  if( (t2 == NOBJ_VARTYPE_STR) && (t1 == NOBJ_VARTYPE_STRARY) )
+    {
+      return(1);
+    }
+
   return(0);
 }
 
@@ -2958,7 +2977,7 @@ void typecheck_expression(void)
 
 			      // Now insert auto convert node
 			      // Only convert the value being assigned.
-			      sprintf(autocon.name, "autocon %c->%c", type_to_char(op2.op.type), type_to_char(op1.op.type));
+			      sprintf(autocon.name, "autocon %c->%c (assignment target)", type_to_char(op2.op.type), type_to_char(op1.op.type));
 
 			      autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
 			      autocon.p_idx = 2;
@@ -2967,7 +2986,7 @@ void typecheck_expression(void)
 			      autocon.op.type      = be.op.type;
 
 			      //autocon.node_id = node_id_index++;   //Dummy result carries the operator node id as that is the tree node
-			      sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(op2.op.type));
+			      sprintf(autocon.name, "autocon %c->%c (assign target)", type_to_char(op1.op.type), type_to_char(op2.op.type));
 			      insert_buf2_entry_after_node_id(op1.node_id, autocon);
 
 			      
@@ -3013,13 +3032,13 @@ void typecheck_expression(void)
 			      
 			      if( (op1.op.type != be.op.type) )
 				{
-				  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(be.op.type));
+				  sprintf(autocon.name, "autocon %c->%c (operator 1)", type_to_char(op1.op.type), type_to_char(be.op.type));
 				  insert_buf2_entry_after_node_id(op1.node_id, autocon);
 				}
 			      
 			      if( (op2.op.type != be.op.type) )
 				{
-				  sprintf(autocon.name, "autocon %c->%c", type_to_char(op2.op.type), type_to_char(be.op.type));
+				  sprintf(autocon.name, "autocon %c->%c (operator 2)", type_to_char(op2.op.type), type_to_char(be.op.type));
 				  insert_buf2_entry_after_node_id(op2.node_id, autocon);
 				}
 			      
