@@ -1,4 +1,4 @@
-<file>            : <procdef> <declares> <cline>*
+<file>            : <procdef> <cline>*
 <declare>         : <local> | <global>
 <local>           : 'LOCAL' <decvarlist>
 <global>          : 'GLOBAL' <decvarlist>
@@ -17,7 +17,7 @@
 <open>            : OPEN <expression_list>
 <create>          : CREATE <expression_list>
 <expression-list> : <expression> | <expression> (',' <expression>)+
-<line>            : 'REM' <text> | <proc_call> |
+<line>            : 'REM' <text> | <proc_call> | <declare> |
                     <print> |
                     <onerr> | <label> | <assignment> | <command> |
 	            <function> '(' <expression-list> ')' |

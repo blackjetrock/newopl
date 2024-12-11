@@ -390,7 +390,7 @@ void dump_qcode_data(void);
 void build_qcode_header(void);
 int set_qcode_header_byte_at(int idx, int len, int val);
 int set_qcode_header_string_at(int idx, char *str);
-NOBJ_VAR_INFO *find_var_info(char *name);
+NOBJ_VAR_INFO *find_var_info(char *name, NOBJ_VARTYPE type);
 
 
 extern int qcode_idx;

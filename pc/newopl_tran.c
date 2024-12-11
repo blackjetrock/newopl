@@ -1232,20 +1232,6 @@ void output_qcode_for_line(void)
 		{
 		  return;
 		}
-#if 0
-	      if( strcmp(exp_buffer[i].name, "BRAENDIF")==0 )
-		{
-		  dbprintf("QC:Inserting branch to ENDIF");
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_BRA_FALSE);
-		  
-		  // Add an entry to the qcode fixups
-		  add_cond_fixup(qcode_idx, qcode_idx+2, EXP_BUFF_ID_BRAENDIF, token.op.level);
-		  
-		  // We find the offset of the next item
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
-		}
-#endif
 	    }
 	  break;
 
@@ -1335,7 +1321,7 @@ void output_qcode_for_line(void)
 	    {
 	      // Find the info about this variable
 	      
-	      vi = find_var_info(tokop.name);
+	      vi = find_var_info(tokop.name, tokop.type);
 	      
 	      switch(vi->class)
 		{
@@ -1419,6 +1405,15 @@ void output_qcode_for_line(void)
 	  add_cond_fixup_label(qcode_idx, qcode_idx, token.op.buf_id, token.name);
 	  break;
 
+#if 0
+	case EXP_BUFF_ID_ONERR:
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_ONERR);
+	  add_cond_fixup_label(qcode_idx, qcode_idx, token.op.buf_id, token.name);
+	  
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  break;
+#endif
 	  // Put an entry into the fixup table to fill in the offset
 	case EXP_BUFF_ID_GOTO:
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_GOTO);
@@ -2634,7 +2629,7 @@ void typecheck_expression(void)
 		{
 		}
 	      
-	      vi = find_var_info(be.name);
+	      vi = find_var_info(be.name, be.op.type);
 
 	      if( vi == NULL )
 		{
@@ -3045,13 +3040,12 @@ void typecheck_expression(void)
 		    }
 		  else
 		    {
-		      // unknown required types exist, this probably shoudn't happen is a syntax error
-		      dbprintf("Syntax error at node N%d", be.node_id);
-		      dbprintf("Unknown required type");
+		      // Unknown required types exist, this probably shoudn't happen is a syntax error
+		      dbprintf("Syntax error at node N%d, unknown required type", be.node_id);
 		      type_check_stack_display();
 
 		      dump_exp_buffer(ofp, 1);
-		      internal_error("Syntax error at node N%d", be.node_id);
+		      internal_error("Syntax error at node N%d, unknown required type", be.node_id);
 		      //exit(-1);
 		    }
 		}		
@@ -4016,18 +4010,6 @@ void finalise_expression(void)
   dbprintf("Finalise expression done.");
 }
 
-#if 0
-void dummy(void)
-{
-  int num_commas;
-  
-  // Assignment can be done using an expression
-  scan_expression(&num_commas, HEED_COMMA);
-  finalise_expression();
-  process_expression_types);
-}
-#endif
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -4078,7 +4060,8 @@ void translate_file(FILE *fp, FILE *ofp)
     }
 
   pull_next_line();
-  
+
+#if 0
   idx = cline_i;  
 
   while( check_declare(&idx) )
@@ -4096,7 +4079,8 @@ void translate_file(FILE *fp, FILE *ofp)
       pull_next_line();
       idx = cline_i;  
     }
-
+#endif
+  
   indent_none();
 
   LEVEL_INFO levels;

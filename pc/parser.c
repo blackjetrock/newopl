@@ -202,7 +202,7 @@ struct _FN_INFO
     { "OFFX",     1,  0, ' ',  "i",         "v", 0x00 },    // OFF or OFF x%
     { "OFF",      1,  0, ' ',  "",          "v", 0x00 },    // OFF or OFF x%
     //{ "OPEN",     1,  1, ' ',  "ii",        "v", 0x00 },    // File format
-    //    { "ONERR",    1,  0, ' ',  "",          "v", 0x00 },    
+    { "ONERR",    1,  0, ' ',  "",          "v", 0x00 },    
     { "PAUSE",    1,  0, ' ',  "i" ,        "v", 0x00 },
     { "PEEKB",    0,  0, ' ',  "i",         "i", 0x00 },
     { "PEEKW",    0,  0, ' ',  "i",         "i", 0x00 },
@@ -341,10 +341,10 @@ OP_INFO  op_info[] =
     // Array dereference internal operator (not used)
     { "@",    1, 9, NOBJ_VARTYPE_UNKNOWN, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
     { "=",    1, 2, NOBJ_VARTYPE_INT,     0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "<>",   1, 2, NOBJ_VARTYPE_INT,     0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "<>",   1, 2, NOBJ_VARTYPE_INT,     0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY} },
     { ":=",   0, 1, NOBJ_VARTYPE_UNKNOWN, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY} },
-    { "+",    1, 3, NOBJ_VARTYPE_UNKNOWN, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "-",    1, 3, NOBJ_VARTYPE_UNKNOWN, 1, "UMIN", 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "+",    1, 3, NOBJ_VARTYPE_UNKNOWN, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY} },
+    { "-",    1, 3, NOBJ_VARTYPE_UNKNOWN, 1, "UMIN", 1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY} },
     { "**",   1, 5, NOBJ_VARTYPE_UNKNOWN, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     { "*",    1, 5, NOBJ_VARTYPE_UNKNOWN, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
     { "/",    1, 5, NOBJ_VARTYPE_UNKNOWN, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT} },
@@ -542,11 +542,18 @@ void init_var_info(NOBJ_VAR_INFO *vi)
   vi->num_indices = 0;
 }
 
-NOBJ_VAR_INFO *find_var_info(char *name)
+NOBJ_VAR_INFO *find_var_info(char *name, NOBJ_VARTYPE type)
 {
   for(int i=0; i<num_var_info; i++)
     {
       // Must be an exact match, case insensitive
+      // type must match as well.
+
+      if( type != var_info[i].type )
+	{
+	  continue;
+	}
+      
       if( strlen(name) != strlen(var_info[i].name) )
 	{
 	  continue;
@@ -597,8 +604,13 @@ void add_var_entry(NOBJ_VAR_INFO *vi)
     }
 }
 
-// We don't add field variables to the bariable list as they are referred to by name
+//------------------------------------------------------------------------------
+//
+// We don't add field variables to the variable list as they are referred to by name
 // and they don't appear in the qcode tables.
+//
+// Note that P% and P%() can co-exist
+//
 
 void add_var_info(NOBJ_VAR_INFO *vi)
 {
@@ -608,7 +620,7 @@ void add_var_info(NOBJ_VAR_INFO *vi)
   dbprintf("Name:%s", vi->name);
   
   // See if variable name already present
-  srch_vi = find_var_info(vi->name);
+  srch_vi = find_var_info(vi->name, vi->type);
 
   if( srch_vi == NULL )
     {
@@ -1558,6 +1570,7 @@ void syntax_error(char *fmt, ...)
   dbprintf("^");
   dbprintf("\n   %s", line);
     
+  printf("*** Syntax error ***");
   printf("\n\n\nSyntax error\n");
   printf("\n%s", cline);
   printf("\n");
@@ -1584,6 +1597,7 @@ void typecheck_error(char *fmt, ...)
   vsprintf(line, fmt, valist);
   va_end(valist);
 
+  printf("*** Type check error ***");
   printf("\n\n\nType check error\n");
   printf("\n%s", cline);
   printf("\n");
@@ -1612,6 +1626,7 @@ void internal_error(char *fmt, ...)
   vsprintf(line, fmt, valist);
   va_end(valist);
 
+  printf("Internal compiler error ***");
   printf("\n\n\n*** Internal compiler error ***\n");
   
   printf("\n%s", cline);
@@ -3164,11 +3179,11 @@ int check_atom(int *index)
   if( check_literal(&idx," %") )
     {
       // Character code
-      if( (cline[idx] != '\0') && (cline[idx] != ' ') )
+      if( (cline[idx] != '\0') )
 	{
 	  idx++; 
 	  *index = idx;
-	  dbprintf("ret1");
+	  dbprintf("ret1 Found character constant");
 	  return(1);
 	}
     }
@@ -3301,13 +3316,37 @@ int scan_string(void)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// Scan a character constant, which is actually an integer
 
 int scan_character(void)
 {
-  if( (cline[cline_i] != '\0') && (cline[cline_i] != ' ') )
+  OP_STACK_ENTRY op;
+  char   chconst_str[4];
+  int chconst_val = 0;
+  
+  indent_more();
+  
+  init_op_stack_entry(&op);
+
+  dbprintf("'%s'", I_WHERE);
+  
+  if( (cline[cline_i] != '\0') )
     {
+      chconst_val = cline[cline_i++];
+      sprintf(chconst_str, "%d",  chconst_val);
+      
+      strcpy(op.name, chconst_str);
+
+      op.integer = chconst_val;
+      op.type = NOBJ_VARTYPE_INT;
+      process_token(&op);
+
+      dbprintf("ret1  chconst_val='%d'", chconst_val);
       return(1);
     }
+
+  dbprintf("ret0");
   return(0);
 }
 
@@ -3324,21 +3363,21 @@ int scan_atom(void)
   idx = cline_i;
   if( check_literal(&idx," %") )
     {
-      if( scan_literal(" %" ) )
+      cline_i = idx;
+      
+      // Character constant
+      if(scan_character())
 	{
-	  // Hexadecimal number
-	  if(scan_character())
-	    {
-	      dbprintf("ret1");
-	      return(1);
-	    }
-	  else
-	    {
-	      dbprintf("%s:ret0", __FUNCTION__);
-	      return(0);
-	    }
+	  dbprintf("ret1");
+	  return(1);
+	}
+      else
+	{
+	  dbprintf("%s:ret0", __FUNCTION__);
+	  return(0);
 	}
     }
+
 
   idx = cline_i;
   if( check_literal(&idx," \"") )
@@ -3998,7 +4037,7 @@ int scan_createopen_list(char *keyword, int create_nopen)
        if( scan_variable(&vi, VAR_FIELD, NOPL_OP_ACCESS_FIELDVAR))
 	 {
 	   // Find the variable and update to make it a local or global
-	   srch_vi = find_var_info(vi.name);
+	   srch_vi = find_var_info(vi.name, vi.type);
 	   
 	   if( srch_vi != NULL )
 	     {
@@ -6016,7 +6055,7 @@ int scan_createopen2(int create_nopen)
 	  if( scan_variable(&vi, VAR_DECLARE, NOPL_OP_ACCESS_READ))
 	    {
 	      // Find the variable and update to make it a local or global
-	      srch_vi = find_var_info(vi.name);
+	      srch_vi = find_var_info(vi.name, vi.type);
 
 	      if( srch_vi != NULL )
 		{
@@ -6376,6 +6415,17 @@ int scan_line(LEVEL_INFO levels)
       return(1);
     }
 
+  idx = cline_i;
+  if( check_declare(&idx) )
+    {
+
+      if( scan_declare() )
+	{
+	  dbprintf("ret1");
+	  return(1);
+	}
+    }
+  
   idx = cline_i;
   if( check_assignment(&idx) )
     {
@@ -6846,7 +6896,7 @@ int scan_param_list(void)
 	    {
 
 	      // Find the variable just added and make it a parameter
-	      srch_vi = find_var_info(vi.name);
+	      srch_vi = find_var_info(vi.name, vi.type);
 	      if( srch_vi != NULL )
 		{
 		  
@@ -6979,7 +7029,7 @@ int scan_localglobal(int local_nglobal)
 	  if( scan_variable(&vi, VAR_DECLARE, NOPL_OP_ACCESS_READ))
 	    {
 	      // Find the variable and update to make it a local or global
-	      srch_vi = find_var_info(vi.name);
+	      srch_vi = find_var_info(vi.name, vi.type);
 
 	      if( srch_vi != NULL )
 		{

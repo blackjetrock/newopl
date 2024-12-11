@@ -51,11 +51,15 @@ proc compare_results {basename f1 f2} {
 
 set TR_TEST_FILES [glob *_psion.tr.test]
 
+foreach file [lsort $TR_TEST_FILES] {
+    puts $file
+}
+
 # Rebuild the nopl version of the test file
 puts "\n"
 
 foreach file [lsort $TR_TEST_FILES] {
-
+    
     if { [regexp -- {(.*)_psion.tr.test} $file all basename] } {
 	# Re-translate the source to get the file we need to test against
 	exec ./newopl_tran $basename\.opl
