@@ -120,9 +120,13 @@ Things I didn't know about OPL when I started
 * You can have a variable called p% and also an array called p%() and they are different variables
 * REM statements can occur before and between LOCAL and GLOBAL
 * You can have a character constant for the space character:
+     <code>
      C% = %
+     </code>
   The statement:
+  <code>
      C%=%%+%++% +%A
+  </code>
   is valid.
   
 
