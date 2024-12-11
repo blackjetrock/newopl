@@ -61,6 +61,7 @@ enum
     EXP_BUFF_ID_BRAENDIF,              // Only used in qcode generation
     EXP_BUFF_ID_FIELDVAR,
     EXP_BUFF_ID_LOGICALFILE,
+    EXP_BUFF_ID_ONERR,
     EXP_BUFF_ID_MAX,
   };
 

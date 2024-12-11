@@ -740,6 +740,7 @@ void do_cond_fixup(void)
 	  break;
 
 	case EXP_BUFF_ID_GOTO:
+	case EXP_BUFF_ID_ONERR:
 	  // Find the label, get the offset and fill it in
 	  target_idx = find_target_idx_from_label(cond_fixup[i].label);
 
@@ -1405,10 +1406,17 @@ void output_qcode_for_line(void)
 	  add_cond_fixup_label(qcode_idx, qcode_idx, token.op.buf_id, token.name);
 	  break;
 
-#if 0
+#if 1
 	case EXP_BUFF_ID_ONERR:
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_ONERR);
-	  add_cond_fixup_label(qcode_idx, qcode_idx, token.op.buf_id, token.name);
+
+	  if( strcmp(token.name, "0")==0 )
+	    {
+	    }
+	  else
+	    {
+	      add_cond_fixup_label(qcode_idx, qcode_idx, token.op.buf_id, token.name);
+	    }
 	  
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);

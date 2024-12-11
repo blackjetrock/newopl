@@ -92,6 +92,7 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_BRAENDIF",
     "EXP_BUFF_ID_FIELDVAR",
     "EXP_BUFF_ID_LOGICALFILE",
+    "EXP_BUFF_ID_ONERR",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -202,7 +203,7 @@ struct _FN_INFO
     { "OFFX",     1,  0, ' ',  "i",         "v", 0x00 },    // OFF or OFF x%
     { "OFF",      1,  0, ' ',  "",          "v", 0x00 },    // OFF or OFF x%
     //{ "OPEN",     1,  1, ' ',  "ii",        "v", 0x00 },    // File format
-    { "ONERR",    1,  0, ' ',  "",          "v", 0x00 },    
+    //    { "ONERR",    1,  0, ' ',  "",          "v", 0x00 },    
     { "PAUSE",    1,  0, ' ',  "i" ,        "v", 0x00 },
     { "PEEKB",    0,  0, ' ',  "i",         "i", 0x00 },
     { "PEEKW",    0,  0, ' ',  "i",         "i", 0x00 },
@@ -4891,12 +4892,16 @@ int scan_onerr(void)
 	{
 	  if( scan_label(label) )
 	    {
-
+	      dbprintf("ret1: label;%s", label);
+	      output_generic(op, label, EXP_BUFF_ID_ONERR);
+	      return(1);
+#if 0	      
 	      output_label = 1;
 	      
 	      // The qcode has a word after it which is 
 	      word = 0x1ab1;
 	      ok = 1;	      
+#endif
 	    }
 	}
       
@@ -4905,14 +4910,18 @@ int scan_onerr(void)
 	  cline_i = idx;
 	  
 	  dbprintf("ret1: OFF");
+	  output_generic(op, "0", EXP_BUFF_ID_ONERR);
+	  return(1);
+#if 0
 	  word = 0;
 	  ok = 1;
+#endif
 	}
-      
+#if 0      
       if( ok)
 	{
 	  // All OK, output the code and two bytes following it	  
-	  op.buf_id = EXP_BUFF_ID_FUNCTION;
+	  op.buf_id = EXP_BUFF_ID_ONERR;
 	  op.num_bytes = 2;
 	  op.bytes[0] = word >> 8;
 	  op.bytes[1] = word  & 0xFF;
@@ -4931,10 +4940,11 @@ int scan_onerr(void)
 	}
       else
 	{
+#endif	  
 	  syntax_error("Bad ONERR");
 	  dbprintf("ret0");
 	  return(0);
-	}
+	  //	}
     }
   
   // Error
