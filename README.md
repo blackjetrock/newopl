@@ -88,7 +88,7 @@ The translation model at the moment is to use a recursive descent parser to pars
 
 Commands are generally treated as expressions, so:
 
-<code>X% = X5 + 1</code>
+<code>X% = X% + 1</code>
 
 is regarded as an expression with operators of '=' and '+' and atoms of X% (a variable reference) and 1 (an integer.
 
