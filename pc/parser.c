@@ -93,6 +93,7 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_FIELDVAR",
     "EXP_BUFF_ID_LOGICALFILE",
     "EXP_BUFF_ID_ONERR",
+    "EXP_BUFF_ID_INPUT",
     "EXP_BUFF_ID_MAX",
   };
 
@@ -114,6 +115,9 @@ struct _FN_INFO
                        //                         V: varname list
                        //                         otherwise: scan_expression()
   char *argtypes;
+                       //  i: integer (value)
+                       //  f: float (value)
+                       //  s: string (value) 
   char *resulttype;
   uint8_t qcode;
 }
@@ -173,7 +177,7 @@ struct _FN_INFO
     { "HEX$",     0,  0, ' ',  "i",         "s", 0x00 },
     { "HOUR",     0,  0, ' ',  "",          "i", 0x00 },
     { "IABS",     0,  0, ' ',  "i",         "i", 0x00 },
-    { "INPUT",    1,  1, ' ',  "i",         "i", 0x00 },
+    //    { "INPUT",    1,  1, ' ',  "I",         "i", 0x00 },
     { "INTF",     0,  0, ' ',  "f",         "f", 0x00 },
     { "INT",      0,  0, ' ',  "f",         "i", 0x00 },
     //    { "IF",       1,  0, ' ',  "i",         "v", 0x00 },
@@ -310,6 +314,8 @@ int function_num_args(char *fname)
   return(0);
 }
 
+// Returns the type of an argument (without ref/value information)
+
 NOBJ_VARTYPE function_arg_type_n(char *fname, int n)
 {
   char *atypes;
@@ -320,8 +326,9 @@ NOBJ_VARTYPE function_arg_type_n(char *fname, int n)
 	{
 	  atypes = fn_info[i].argtypes;
 	  
-	  //dbprintf( "\n%s: n:%d at:'%s' =>%c", __FUNCTION__, n, atypes, *(atypes+n));	  
-	  return(char_to_type(*(atypes+n)));
+	  char type = *(atypes+n);
+	  
+	  return(char_to_type(type));
 	}
     }
   
@@ -5017,8 +5024,7 @@ struct
     {" LPRINT", "LPRINT", EXP_BUFF_ID_LPRINT_NEWLINE, EXP_BUFF_ID_LPRINT_SPACE,  EXP_BUFF_ID_LPRINT},
   };
 
-  
-  
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // PRINT
@@ -5320,10 +5326,18 @@ int check_input(int *index)
 int scan_input(void)
 {
   NOBJ_VAR_INFO vi;
+  OP_STACK_ENTRY op;
 
+  indent_more();
+  
+  init_op_stack_entry(&op);
+ 
   if( scan_literal(" INPUT") )
     {
-      if(scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_READ))
+      strcpy(op.name, "INPUT");
+      output_generic(op, "INPUT", EXP_BUFF_ID_INPUT);
+
+      if(scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_WRITE))
 	{
 	  print_var_info(&vi);
 	  dbprintf("ret1");
@@ -6249,6 +6263,15 @@ int check_line(int *index)
     }
 
   idx = cline_i;
+  if( check_input(&idx) )
+    {
+      dbprintf("ret1");
+  
+      *index = idx;
+      return(1);
+    }
+
+  idx = cline_i;
   if( check_print(&idx, PRINT_TYPE_PRINT) )
     {
       dbprintf("ret1");
@@ -6532,6 +6555,21 @@ int scan_line(LEVEL_INFO levels)
     }
 
   idx = cline_i;
+  if( check_input(&idx) )
+    {
+      if(scan_input())
+	{
+	  dbprintf("ret1");
+	  return(1);
+	}
+      else
+	{
+	  dbprintf("ret0");
+	  return(0);
+	}
+    }
+
+  idx = cline_i;
   if( check_print(&idx, PRINT_TYPE_PRINT) )
     {
       if(scan_print(PRINT_TYPE_PRINT))
@@ -6558,22 +6596,6 @@ int scan_line(LEVEL_INFO levels)
       else
 	{
 	  dbprintf("ret0 lprint");
-	  return(0);
-	}
-
-    }
-
-  idx = cline_i;
-  if( check_input(&idx) )
-    {
-      if(scan_input())
-      	{
-	  dbprintf("ret1 input");
-	  return(1);
-	}
-      else
-	{
-	  dbprintf("ret0 input");
 	  return(0);
 	}
 

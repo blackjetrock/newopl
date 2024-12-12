@@ -2845,9 +2845,11 @@ void typecheck_expression(void)
 	  autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
 	  autocon.p_idx = 0;
 
-
 	  // Now check that all arguments have the correct type or
 	  // can with an auto type conversion
+
+	  // Build an argument list (constructs part of the syntax tree)
+	  be.p_idx = 0;
 	  for(int i=function_num_args(be.name)-1; i>=0; i--)
 	    {
 	      NOBJ_VARTYPE this_arg_type = function_arg_type_n(be.name, i);
@@ -2855,6 +2857,9 @@ void typecheck_expression(void)
 	      // Pop an argument off and check it
 	      op1 = type_check_stack_pop();
 
+	      // Add to list of arguments
+	      be.p[be.p_idx++] = op1.node_id;
+	      
 	      dbprintf("FN ARG %d type:%c %s %d(%c)", i,
 		      type_to_char(this_arg_type),
 		      op1.name,
