@@ -5308,7 +5308,7 @@ int check_input(int *index)
 
   indent_more();
   
-  dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
+  dbprintf("'%s'", &(cline[idx]));
   
   if( check_literal(&idx, " INPUT"))
     {
@@ -5338,12 +5338,13 @@ int scan_input(void)
   if( check_literal(&idx, " INPUT") )
     {
       cline_i = idx;
-      
-      strcpy(op.name, "INPUT");
-      output_generic(op, "INPUT", EXP_BUFF_ID_INPUT);
 
       if(scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_WRITE))
 	{
+      
+	  strcpy(op.name, "INPUT");
+	  output_generic(op, "INPUT", EXP_BUFF_ID_INPUT);
+
 	  print_var_info(&vi);
 	  dbprintf("ret1");
 	  return(1);
@@ -6779,13 +6780,14 @@ int scan_line(LEVEL_INFO levels)
   if( check_literal(&idx," TRAP"))
     {
       OP_STACK_ENTRY op;
-      int idx;
       
       init_op_stack_entry(&op);
 
       // Accept the TRAP and insert a TRAP token
       cline_i = idx;
 
+      dbprintf("TRAP found cline:'%s'", &(cline[cline_i]));
+      
       output_generic(op, "TRAP", EXP_BUFF_ID_TRAP);
 
       // We want the TRAP before the next command
@@ -6797,9 +6799,11 @@ int scan_line(LEVEL_INFO levels)
       dbprintf("Checking for INPUT command");
       if( check_input(&idx) )
 	{
-	  cline_i = idx;
+	  
+	  //	  cline_i = idx;
 	  if( scan_input() )
 	    {
+	      dbprintf("Scanned for INPUT");
 	      dbprintf("ret1");
 	      return(1);
 	    }

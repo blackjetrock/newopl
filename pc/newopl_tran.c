@@ -484,8 +484,12 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "DROP",NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_DROP_WORD},
     {EXP_BUFF_ID_FUNCTION, "DROP",NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_DROP_NUM},
     {EXP_BUFF_ID_FUNCTION, "DROP",NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_DROP_STR},
+    {EXP_BUFF_ID_INPUT,    "INPUT",NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_INPUT_INT},
+    {EXP_BUFF_ID_INPUT,    "INPUT",NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_INPUT_NUM},
+    {EXP_BUFF_ID_INPUT,    "INPUT",NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_INPUT_STR},
     {EXP_BUFF_ID_FUNCTION, "MENU",NOBJ_VARTYPE_INT,     __,                   __,        __,               RTF_MENU},
     {EXP_BUFF_ID_FUNCTION, "AT",                __,     __,                   __,        __,               QCO_AT},
+    {EXP_BUFF_ID_FUNCTION, "ERR",                __,     __,                   __,        __,               RTF_ERR},
     {EXP_BUFF_ID_FUNCTION, "GET",               __,     __,                   __,        __,               RTF_GET},
     {EXP_BUFF_ID_FUNCTION, "PAUSE",             __,     __,                   __,        __,               QCO_PAUSE},
     {EXP_BUFF_ID_FUNCTION, "HOUR",   NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_HOUR},
@@ -495,11 +499,13 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "MONTH",  NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_MONTH},
     {EXP_BUFF_ID_FUNCTION, "YEAR",   NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_YEAR},
     {EXP_BUFF_ID_FUNCTION, "COUNT",  NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_COUNT},
+    {EXP_BUFF_ID_FUNCTION, "RAISE",             __ ,    __,                   __,        __,               QCO_RAISE},
     {EXP_BUFF_ID_FUNCTION, "KSTAT",             __,     __,                   __,        __,               QCO_KSTAT},
     {EXP_BUFF_ID_FUNCTION, "STOP",              __,     __,                   __,        __,               QCO_STOP},
     {EXP_BUFF_ID_FUNCTION, "CLS",               __,     __,                   __,        __,               QCO_CLS},
     {EXP_BUFF_ID_FUNCTION, "FIRST",             __,     __,                   __,        __,               QCO_FIRST},
     {EXP_BUFF_ID_FUNCTION, "LAST",              __,     __,                   __,        __,               QCO_LAST},
+    {EXP_BUFF_ID_FUNCTION, "APPEND",            __,     __,                   __,        __,               QCO_APPEND},
     {EXP_BUFF_ID_FUNCTION, "NEXT",              __,     __,                   __,        __,               QCO_NEXT},
     {EXP_BUFF_ID_FUNCTION, "KEY",               __,     __,                   __,        __,               RTF_KEY},
     {EXP_BUFF_ID_FUNCTION, "KEY$",              __,     __,                   __,        __,               RTF_SKEY},
@@ -507,10 +513,15 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "LEFT$",             __,     __,                   __,        __,               RTF_LEFT},
     {EXP_BUFF_ID_FUNCTION, "RIGHT$",            __,     __,                   __,        __,               RTF_RIGHT},
     {EXP_BUFF_ID_FUNCTION, "REPT$",             __,     __,                   __,        __,               RTF_REPT},
+    {EXP_BUFF_ID_FUNCTION, "MID$",              __,     __,                   __,        __,               RTF_MID},
+    {EXP_BUFF_ID_FUNCTION, "UPPER$",            __,     __,                   __,        __,               RTF_UPPER},
+    {EXP_BUFF_ID_FUNCTION, "LOWER$",            __,     __,                   __,        __,               RTF_LOWER},
+    {EXP_BUFF_ID_FUNCTION, "LEN",               __,     __,                   __,        __,               RTF_LEN},
     {EXP_BUFF_ID_FUNCTION, "NUM$",              __,     __,                   __,        __,               RTF_NUM},
     {EXP_BUFF_ID_FUNCTION, "DOW",               __,     __,                   __,        __,               RTF_DOW},
     {EXP_BUFF_ID_FUNCTION, "DAYNAME$",          __,     __,                   __,        __,               RTF_DAYNAME},
-    {EXP_BUFF_ID_FUNCTION, "MONTH$",            __,     __,                   __,        __,               RTF_MONTHSTR},    
+    {EXP_BUFF_ID_FUNCTION, "MONTH$",            __,     __,                   __,        __,               RTF_MONTHSTR},
+    {EXP_BUFF_ID_TRAP,     "TRAP",              __,     __,                   __,        __,               QCO_TRAP},    
     {EXP_BUFF_ID_FUNCTION, "IABS",NOBJ_VARTYPE_INT,     __,                   __,        __,               RTF_IABS},
     {EXP_BUFF_ID_FUNCTION, "ABS", NOBJ_VARTYPE_FLT,     __,                   __,        __,               RTF_ABS},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_LT_INT},
@@ -1215,10 +1226,10 @@ void output_qcode_for_line(void)
 	  // each line then generates qcodes after that
 	  dbprintf("QC:META '%s'", tokop.name);
 	  
-	  if( (strcmp(exp_buffer[i].name, " CREATE") == 0) || (strcmp(exp_buffer[i].name, " OPEN") == 0) )
+	  if( (strcmp(exp_buffer2[i].name, " CREATE") == 0) || (strcmp(exp_buffer2[i].name, " OPEN") == 0) )
 	    {
 	      // Work out the qcode for the CREATE or OPEN
-	      if( (strcmp(exp_buffer[i].name, " CREATE") == 0) )
+	      if( (strcmp(exp_buffer2[i].name, " CREATE") == 0) )
 		{
 		  qc =  QCO_CREATE;
 		}
@@ -1261,7 +1272,7 @@ void output_qcode_for_line(void)
 	  
 	  if( pass_number == 2 )
 	    {
-	      if( strcmp(exp_buffer[i].name, "PROCDEF")==0 )
+	      if( strcmp(exp_buffer2[i].name, "PROCDEF")==0 )
 		{
 		  dbprintf("QC:Building QCode header");
 		  qcode_idx = 0;
@@ -1557,14 +1568,14 @@ void output_qcode_for_line(void)
 	  
 	case EXP_BUFF_ID_STR:
 	  // String literal
-	  dbprintf("\nQC:String Literal");
+	  dbprintf("QC:%d String Literal '%s' %s", i, exp_buffer2[i].name, exp_buffer_id_str[exp_buffer2[i].op.buf_id]);
 	  
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_STR_CON);
-	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, strlen(exp_buffer[i].name)-2);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, strlen(exp_buffer2[i].name)-2);
 	  
 	  for(int j=1; j<strlen(exp_buffer2[i].name)-1; j++)
 	    {
-	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer[i].name[j]);
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer2[i].name[j]);
 	    }
 	  break;
 
@@ -2086,8 +2097,8 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 	  }
 
 	
-	fprintf(fp, "\n(%16s) N%d %c %-30s %s ty:%c qcty:%c '%s' npar:%d nidx:%d",
-		__FUNCTION__,
+	fprintf(fp, "\n%d: N%d %c %-30s %s ty:%c qcty:%c '%s' npar:%d nidx:%d",
+		i,
 		token.node_id,
 		access_to_char(token.op.access),
 		exp_buffer_id_str[token.op.buf_id],
@@ -3319,6 +3330,8 @@ void init_op_stack_entry(OP_STACK_ENTRY *op)
   op->num_bytes      = 0;
   op->level          = 0;
   op->num_parameters = 0;
+  op->vi.num_indices = 0;
+  
   op->access         = NOPL_OP_ACCESS_READ;  // Default to reading things
   op->qcode_type     = NOBJ_VARTYPE_UNKNOWN; // Ignored if UNKNOWN, only some operators use this
   
