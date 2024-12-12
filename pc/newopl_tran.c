@@ -464,8 +464,8 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_LOCAL,       NOBJ_VARTYPE_FLTARY,     NOPL_OP_ACCESS_WRITE, QI_LS_NUM_ARR_FP},
     {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_LOCAL,       NOBJ_VARTYPE_STRARY,     NOPL_OP_ACCESS_WRITE, QI_LS_STR_ARR_FP},
     {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_CALC_MEMORY, NOBJ_VARTYPE_FLT,       NOPL_OP_ACCESS_READ,  QI_NUM_SIM_ABS},
-    {EXP_BUFF_ID_VARIABLE, "",    __, NOPL_VAR_CLASS_CALC_MEMORY, NOBJ_VARTYPE_FLT,       NOPL_OP_ACCESS_WRITE, QI_LS_NUM_SIM_ABS},
-    {EXP_BUFF_ID_AUTOCON,  "",    NOBJ_VARTYPE_INTARY,  __,                      __,     __,               QCO_NUM_TO_INT},
+    {EXP_BUFF_ID_VARIABLE, "",                          __, NOPL_VAR_CLASS_CALC_MEMORY, NOBJ_VARTYPE_FLT,       NOPL_OP_ACCESS_WRITE, QI_LS_NUM_SIM_ABS},
+    {EXP_BUFF_ID_AUTOCON,  "",    NOBJ_VARTYPE_INTARY,  __,                         __,     __,               QCO_NUM_TO_INT},
     {EXP_BUFF_ID_AUTOCON,  "",    NOBJ_VARTYPE_FLTARY,  __,                      __,     __,               QCO_INT_TO_NUM},
     {EXP_BUFF_ID_AUTOCON,  "",    NOBJ_VARTYPE_INT,     __,                      __,     __,               QCO_NUM_TO_INT},
     {EXP_BUFF_ID_AUTOCON,  "",    NOBJ_VARTYPE_FLT,     __,                      __,     __,               QCO_INT_TO_NUM},
@@ -478,6 +478,9 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_EQ_INT},
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_EQ_NUM},
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_EQ_STR},
+    {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_INTARY,  __,                   __,        __,               QCO_EQ_INT},
+    {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_FLTARY,  __,                   __,        __,               QCO_EQ_NUM},
+    {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_STRARY,  __,                   __,        __,               QCO_EQ_STR},
     {EXP_BUFF_ID_FUNCTION, "DROP",NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_DROP_WORD},
     {EXP_BUFF_ID_FUNCTION, "DROP",NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_DROP_NUM},
     {EXP_BUFF_ID_FUNCTION, "DROP",NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_DROP_STR},
@@ -503,48 +506,81 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "CHR$",              __,     __,                   __,        __,               RTF_CHR},
     {EXP_BUFF_ID_FUNCTION, "LEFT$",             __,     __,                   __,        __,               RTF_LEFT},
     {EXP_BUFF_ID_FUNCTION, "RIGHT$",            __,     __,                   __,        __,               RTF_RIGHT},
+    {EXP_BUFF_ID_FUNCTION, "REPT$",             __,     __,                   __,        __,               RTF_REPT},
     {EXP_BUFF_ID_FUNCTION, "NUM$",              __,     __,                   __,        __,               RTF_NUM},
     {EXP_BUFF_ID_FUNCTION, "DOW",               __,     __,                   __,        __,               RTF_DOW},
     {EXP_BUFF_ID_FUNCTION, "DAYNAME$",          __,     __,                   __,        __,               RTF_DAYNAME},
+    {EXP_BUFF_ID_FUNCTION, "MONTH$",            __,     __,                   __,        __,               RTF_MONTHSTR},    
     {EXP_BUFF_ID_FUNCTION, "IABS",NOBJ_VARTYPE_INT,     __,                   __,        __,               RTF_IABS},
     {EXP_BUFF_ID_FUNCTION, "ABS", NOBJ_VARTYPE_FLT,     __,                   __,        __,               RTF_ABS},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_LT_INT},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_LT_NUM},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_LT_STR},
+    {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_LT_INT},
+    {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_LT_NUM},
+    {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_STRARY,     __,                   __,        __,               QCO_LT_STR},
     {EXP_BUFF_ID_OPERATOR, "<=",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_LTE_INT},
     {EXP_BUFF_ID_OPERATOR, "<=",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_LTE_NUM},
     {EXP_BUFF_ID_OPERATOR, "<=",  NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_LTE_STR},
+    {EXP_BUFF_ID_OPERATOR, "<=",  NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_LTE_INT},
+    {EXP_BUFF_ID_OPERATOR, "<=",  NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_LTE_NUM},
+    {EXP_BUFF_ID_OPERATOR, "<=",  NOBJ_VARTYPE_STRARY,     __,                   __,        __,               QCO_LTE_STR},
     {EXP_BUFF_ID_OPERATOR, ">",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_GT_INT},
     {EXP_BUFF_ID_OPERATOR, ">",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_GT_NUM},
     {EXP_BUFF_ID_OPERATOR, ">",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_GT_STR},
+    {EXP_BUFF_ID_OPERATOR, ">",   NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_GT_INT},
+    {EXP_BUFF_ID_OPERATOR, ">",   NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_GT_NUM},
+    {EXP_BUFF_ID_OPERATOR, ">",   NOBJ_VARTYPE_STRARY,     __,                   __,        __,               QCO_GT_STR},
     {EXP_BUFF_ID_OPERATOR, ">=",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_GTE_INT},
     {EXP_BUFF_ID_OPERATOR, ">=",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_GTE_NUM},
     {EXP_BUFF_ID_OPERATOR, ">=",  NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_GTE_STR},
+    {EXP_BUFF_ID_OPERATOR, ">=",  NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_GTE_INT},
+    {EXP_BUFF_ID_OPERATOR, ">=",  NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_GTE_NUM},
+    {EXP_BUFF_ID_OPERATOR, ">=",  NOBJ_VARTYPE_STRARY,     __,                   __,        __,               QCO_GTE_STR},
     {EXP_BUFF_ID_OPERATOR, "<>",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_NE_INT},
     {EXP_BUFF_ID_OPERATOR, "<>",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_NE_NUM},
     {EXP_BUFF_ID_OPERATOR, "<>",  NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_NE_STR},
-    {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_EQ_INT},
-    {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_EQ_NUM},
-    {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_EQ_STR},
+    {EXP_BUFF_ID_OPERATOR, "<>",  NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_NE_INT},
+    {EXP_BUFF_ID_OPERATOR, "<>",  NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_NE_NUM},
+    {EXP_BUFF_ID_OPERATOR, "<>",  NOBJ_VARTYPE_STRARY,     __,                   __,        __,               QCO_NE_STR},
     {EXP_BUFF_ID_OPERATOR, "+",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_ADD_INT},
     {EXP_BUFF_ID_OPERATOR, "+",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_ADD_NUM},
     {EXP_BUFF_ID_OPERATOR, "+",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_ADD_STR},
+    {EXP_BUFF_ID_OPERATOR, "+",   NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_ADD_INT},
+    {EXP_BUFF_ID_OPERATOR, "+",   NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_ADD_NUM},
+    {EXP_BUFF_ID_OPERATOR, "+",   NOBJ_VARTYPE_STRARY,     __,                   __,        __,               QCO_ADD_STR},
     {EXP_BUFF_ID_OPERATOR, "-",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_SUB_INT},
     {EXP_BUFF_ID_OPERATOR, "-",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_SUB_NUM},
+    {EXP_BUFF_ID_OPERATOR, "-",   NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_SUB_INT},
+    {EXP_BUFF_ID_OPERATOR, "-",   NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_SUB_NUM},
     {EXP_BUFF_ID_OPERATOR, "*",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_MUL_INT},
     {EXP_BUFF_ID_OPERATOR, "*",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_MUL_NUM},
+    {EXP_BUFF_ID_OPERATOR, "*",   NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_MUL_INT},
+    {EXP_BUFF_ID_OPERATOR, "*",   NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_MUL_NUM},
     {EXP_BUFF_ID_OPERATOR, "/",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_DIV_INT},
     {EXP_BUFF_ID_OPERATOR, "/",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_DIV_NUM},
+    {EXP_BUFF_ID_OPERATOR, "/",   NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_DIV_INT},
+    {EXP_BUFF_ID_OPERATOR, "/",   NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_DIV_NUM},
     {EXP_BUFF_ID_OPERATOR, "**",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_POW_INT},
     {EXP_BUFF_ID_OPERATOR, "**",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_POW_NUM},
+    {EXP_BUFF_ID_OPERATOR, "**",  NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_POW_INT},
+    {EXP_BUFF_ID_OPERATOR, "**",  NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_POW_NUM},
     {EXP_BUFF_ID_OPERATOR_UNARY, "UMIN",NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_UMIN_INT},
     {EXP_BUFF_ID_OPERATOR_UNARY, "UMIN",NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_UMIN_NUM},
+    {EXP_BUFF_ID_OPERATOR_UNARY, "UMIN",NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_UMIN_INT},
+    {EXP_BUFF_ID_OPERATOR_UNARY, "UMIN",NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_UMIN_NUM},
     {EXP_BUFF_ID_OPERATOR, "NOT", NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_NOT_INT},
     {EXP_BUFF_ID_OPERATOR, "NOT", NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_NOT_NUM},
     {EXP_BUFF_ID_OPERATOR, "AND", NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_AND_INT},
     {EXP_BUFF_ID_OPERATOR, "AND", NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_AND_NUM},
     {EXP_BUFF_ID_OPERATOR, "OR",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_OR_INT},
     {EXP_BUFF_ID_OPERATOR, "OR",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_OR_NUM},
+    {EXP_BUFF_ID_OPERATOR, "NOT", NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_NOT_INT},
+    {EXP_BUFF_ID_OPERATOR, "NOT", NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_NOT_NUM},
+    {EXP_BUFF_ID_OPERATOR, "AND", NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_AND_INT},
+    {EXP_BUFF_ID_OPERATOR, "AND", NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_AND_NUM},
+    {EXP_BUFF_ID_OPERATOR, "OR",  NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_OR_INT},
+    {EXP_BUFF_ID_OPERATOR, "OR",  NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_OR_NUM},
   };
 
 #define NUM_SIMPLE_QC_MAP (sizeof(qc_map)/sizeof(SIMPLE_QC_MAP))
@@ -3149,6 +3185,43 @@ void typecheck_expression(void)
 	    }
 	  break;
 
+	case EXP_BUFF_ID_OPERATOR_UNARY:
+	  dbprintf("BUFF_ID_OPERATOR_UNARY");
+	  
+	  if( find_op_info(be.name, &op_info) )
+	    {
+	      dbprintf("Found unary operator %s", be.name);
+
+	      // Unary operators don't change the type, just the value
+	      op1 = type_check_stack_pop();
+	      op1_type = op1.op.type;
+
+	      dbprintf("op1 type:%c", type_to_char(op1.op.type));
+
+	      // Set the copied entry to the same type
+	      be.op.type = op1.op.type;
+
+	      // Create a link to the argument.
+	      be.p_idx = 1;
+	      be.p[0] = op1.node_id;
+	      
+	      // Push result
+	      EXP_BUFFER_ENTRY res;
+	      strcpy(res.name, "000");
+	      res.node_id = be.node_id;   //Dummy result carries the operator node id as that is the tree node
+	      res.p_idx = 1;
+	      res.p[0] = op1.node_id;
+	      res.op.type      = be.op.type;
+	      type_check_stack_push(res);
+
+	    }
+	  else
+	    {
+	      dbprintf("Unkown unary operator '%s'", be.name);
+	      syntax_error("Unkown unary operator '%s'", be.name);
+	    }
+	  break;
+	  
 	default:
 	  fprintf(ofp, "\ndefault buf_id");
 	  break;
