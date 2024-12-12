@@ -327,6 +327,35 @@ typedef struct _LEVEL_INFO
 #define RTF_SUSR                0xC8    
 #define RTF_SADDR               0xC9    
 
+// LZ QCode
+#define RTF_DOW                 0xD7
+#define RTF_LTPERCENT           0xCC
+#define RTF_GTPERCENT           0xCD
+#define RTF_PLUSPERCENT         0xCE
+#define RTF_MINUSPERCENT        0xCF
+#define RTF_TIMESPERCENT        0xD0
+#define RTF_DIVIDEPERCENT       0xD1
+#define RTF_OFFX                0xD2
+#define RTF_COPYW               0xD3
+#define RTF_DELETEW             0xD4
+#define RTF_UDG                 0xD5
+#define RTF_CLOCK               0xD6
+#define RTF_DOW                 0xD7
+#define RTF_FINDW               0xD8
+#define RTF_MENUN               0xD9
+#define RTF_WEEK                0xDA
+#define RTF_ACOS                0xDB
+#define RTF_ASIN                0xDC
+#define RTF_DAYS                0xDD
+#define RTF_MAX                 0xDE
+#define RTF_MEAN                0xDF
+#define RTF_MIN                 0xE0
+#define RTF_STD                 0xE1
+#define RTF_SUM                 0xE2
+#define RTF_VAR                 0xE3
+#define RTF_DAYNAME             0xE4
+#define RTF_DIRW$               0xE5
+#define RTF_MONTHSTR            0xE6
 
 //------------------------------------------------------------------------------
 

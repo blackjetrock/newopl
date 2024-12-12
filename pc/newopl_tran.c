@@ -502,6 +502,10 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "KEY$",              __,     __,                   __,        __,               RTF_SKEY},
     {EXP_BUFF_ID_FUNCTION, "CHR$",              __,     __,                   __,        __,               RTF_CHR},
     {EXP_BUFF_ID_FUNCTION, "LEFT$",             __,     __,                   __,        __,               RTF_LEFT},
+    {EXP_BUFF_ID_FUNCTION, "RIGHT$",            __,     __,                   __,        __,               RTF_RIGHT},
+    {EXP_BUFF_ID_FUNCTION, "NUM$",              __,     __,                   __,        __,               RTF_NUM},
+    {EXP_BUFF_ID_FUNCTION, "DOW",               __,     __,                   __,        __,               RTF_DOW},
+    {EXP_BUFF_ID_FUNCTION, "DAYNAME$",          __,     __,                   __,        __,               RTF_DAYNAME},
     {EXP_BUFF_ID_FUNCTION, "IABS",NOBJ_VARTYPE_INT,     __,                   __,        __,               RTF_IABS},
     {EXP_BUFF_ID_FUNCTION, "ABS", NOBJ_VARTYPE_FLT,     __,                   __,        __,               RTF_ABS},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_LT_INT},
@@ -2558,6 +2562,42 @@ void typecheck_operator_immutable(EXP_BUFFER_ENTRY be, OP_INFO op_info, EXP_BUFF
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+// Can autocon be used with these type?
+
+struct _CAN_USE
+{
+  NOBJ_VARTYPE f;
+  NOBJ_VARTYPE t;
+}
+  ft_types[] =
+  {
+    {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT},
+    {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLTARY},
+    {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT},
+    {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INTARY},
+    {NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLT},
+    {NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY},
+    {NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INT},
+    {NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY},
+  };
+
+#define NUM_CAN_USE (sizeof(ft_types)/sizeof(struct _CAN_USE))
+
+int can_use_autocon(NOBJ_VARTYPE from_type, NOBJ_VARTYPE to_type)
+{
+  for(int i=0; i<NUM_CAN_USE; i++)
+    {
+      if( (from_type == ft_types[i].f) && (to_type == ft_types[i].t))
+	{
+	  return(1);
+	}
+    }
+  
+  return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
 // Take the expression buffer and execute it for types
 // Copies expression from one buffer to another, moving closer to QCode in
 // the second buffer
@@ -2768,22 +2808,29 @@ void typecheck_expression(void)
 
 	  autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
 	  autocon.p_idx = 0;
-	  autocon.op.type      = ret_type;
+
 
 	  // Now check that all arguments have the correct type or
 	  // can with an auto type conversion
 	  for(int i=function_num_args(be.name)-1; i>=0; i--)
 	    {
+	      NOBJ_VARTYPE this_arg_type = function_arg_type_n(be.name, i);
+	      
 	      // Pop an argument off and check it
 	      op1 = type_check_stack_pop();
 
-	      fprintf(ofp, "\nFN ARG %d r%c %s %d(%c)", i,
-		      type_to_char(function_arg_type_n(be.name, i)),
+	      dbprintf("FN ARG %d type:%c %s %d(%c)", i,
+		      type_to_char(this_arg_type),
 		      op1.name,
 		      op1.op.type,
 		      type_to_char(op1.op.type));
+
+	      // If there's an autocon then the type of it is the argument type for this argument
+	      // of the function
 	      
-	      if( op1.op.type == function_arg_type_n(be.name, i))
+	      autocon.op.type      = this_arg_type;
+	      
+	      if( op1.op.type == this_arg_type)
 		{
 		  fprintf(ofp, "  Arg ok");
 		  // All OK
@@ -2792,28 +2839,36 @@ void typecheck_expression(void)
 		{
 		  fprintf(ofp, "  Arg not OK");
 
-		  sprintf(autocon.name, "autocon (Arg) %c->%c", type_to_char(op1.op.type), type_to_char(function_arg_type_n(be.name, i)));
+		  sprintf(autocon.name, "autocon (Arg) %c->%c", type_to_char(op1.op.type), type_to_char(this_arg_type));
 
+#if 0
 		  // Can we use an auto conversion?
-		  if( (op1.op.type == NOBJ_VARTYPE_INT) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_FLT))
+		  if( (op1.op.type == NOBJ_VARTYPE_INT) && (this_arg_type == NOBJ_VARTYPE_FLT))
 		    {
 		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
 		    }
 
-		  if( (op1.op.type == NOBJ_VARTYPE_FLT) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_INT))
+		  if( (op1.op.type == NOBJ_VARTYPE_FLT) && (this_arg_type == NOBJ_VARTYPE_INT))
 		    {
 		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
 		    }
 
-		  if( (op1.op.type == NOBJ_VARTYPE_INTARY) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_FLTARY))
+		  if( (op1.op.type == NOBJ_VARTYPE_INTARY) && (this_arg_type == NOBJ_VARTYPE_FLTARY))
+		    {
+		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
+		    }
+		  if( (op1.op.type == NOBJ_VARTYPE_FLTARY) && (this_arg_type == NOBJ_VARTYPE_INTARY))
 		    {
 		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
 		    }
 
-		  if( (op1.op.type == NOBJ_VARTYPE_FLTARY) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_INTARY))
+#else
+		  if( ( can_use_autocon(op1.op.type, this_arg_type)))
 		    {
 		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
 		    }
+		  
+#endif
 		}
 	    }
 
