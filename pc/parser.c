@@ -177,7 +177,7 @@ struct _FN_INFO
     { "HEX$",     0,  0, ' ',  "i",         "s", 0x00 },
     { "HOUR",     0,  0, ' ',  "",          "i", 0x00 },
     { "IABS",     0,  0, ' ',  "i",         "i", 0x00 },
-    //    { "INPUT",    1,  1, ' ',  "I",         "i", 0x00 },
+    //{ "INPUT",    1,  1, ' ',  "i",         "i", 0x00 },
     { "INTF",     0,  0, ' ',  "f",         "f", 0x00 },
     { "INT",      0,  0, ' ',  "f",         "i", 0x00 },
     //    { "IF",       1,  0, ' ',  "i",         "v", 0x00 },
@@ -5327,13 +5327,18 @@ int scan_input(void)
 {
   NOBJ_VAR_INFO vi;
   OP_STACK_ENTRY op;
-
+  int idx;
+  
   indent_more();
   
   init_op_stack_entry(&op);
- 
-  if( scan_literal(" INPUT") )
+
+  idx = cline_i;
+  
+  if( check_literal(&idx, " INPUT") )
     {
+      cline_i = idx;
+      
       strcpy(op.name, "INPUT");
       output_generic(op, "INPUT", EXP_BUFF_ID_INPUT);
 
@@ -6774,6 +6779,7 @@ int scan_line(LEVEL_INFO levels)
   if( check_literal(&idx," TRAP"))
     {
       OP_STACK_ENTRY op;
+      int idx;
       
       init_op_stack_entry(&op);
 
@@ -6786,17 +6792,40 @@ int scan_line(LEVEL_INFO levels)
       finalise_expression();
       output_expression_start(&cline[cline_i]);
 
-      if( scan_command(cmdname, SCAN_TRAPPABLE) )
+      idx = cline_i;
+
+      dbprintf("Checking for INPUT command");
+      if( check_input(&idx) )
 	{
-	  dbprintf("ret1");
-	  return(1);
+	  cline_i = idx;
+	  if( scan_input() )
+	    {
+	      dbprintf("ret1");
+	      return(1);
+	    }
+	  else
+	    {
+	      dbprintf("ret0");
+	      return(0);
+	    }
 	}
       else
 	{
-	  dbprintf("ret0: Scanning for trappable command failed");
-	  return(0);
+	  if( scan_command(cmdname, SCAN_TRAPPABLE) )
+	    {
+	      dbprintf("ret1");
+	      return(1);
+	    }
+	  else
+	    {
+	      dbprintf("ret0: Scanning for trappable command failed");
+	      return(0);
+	    }
 	}
     }
+
+  dbprintf("ret0");
+  return(0);
 
 }
 
