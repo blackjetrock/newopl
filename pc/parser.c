@@ -341,7 +341,7 @@ OP_INFO  op_info[] =
   {
     // Array dereference internal operator (not used)
     { "@",    1, 9, NOBJ_VARTYPE_UNKNOWN, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
-    { "=",    1, 2, NOBJ_VARTYPE_INT,     0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR} },
+    { "=",    1, 2, NOBJ_VARTYPE_INT,     0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY} },
     { "<>",   1, 2, NOBJ_VARTYPE_INT,     0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY} },
     { ":=",   0, 1, NOBJ_VARTYPE_UNKNOWN, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY} },
     { "+",    1, 3, NOBJ_VARTYPE_UNKNOWN, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY} },
@@ -543,8 +543,19 @@ void init_var_info(NOBJ_VAR_INFO *vi)
   vi->num_indices = 0;
 }
 
+void to_upper_str(char *str)
+{
+  while(*str != '\0')
+    {
+      *str = toupper(*str);
+      str++;
+    }
+}
+
 NOBJ_VAR_INFO *find_var_info(char *name, NOBJ_VARTYPE type)
 {
+  to_upper_str(name);
+  
   for(int i=0; i<num_var_info; i++)
     {
       // Must be an exact match, case insensitive
@@ -613,10 +624,14 @@ void add_var_entry(NOBJ_VAR_INFO *vi)
 // Note that P% and P%() can co-exist
 //
 
+
 void add_var_info(NOBJ_VAR_INFO *vi)
 {
   NOBJ_VAR_INFO *srch_vi;
   int mem_n = 0;
+
+  // Convert name to upper case
+  to_upper_str(vi->name);
   
   dbprintf("Name:%s", vi->name);
   

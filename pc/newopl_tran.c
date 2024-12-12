@@ -501,6 +501,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "KEY",               __,     __,                   __,        __,               RTF_KEY},
     {EXP_BUFF_ID_FUNCTION, "KEY$",              __,     __,                   __,        __,               RTF_SKEY},
     {EXP_BUFF_ID_FUNCTION, "CHR$",              __,     __,                   __,        __,               RTF_CHR},
+    {EXP_BUFF_ID_FUNCTION, "LEFT$",             __,     __,                   __,        __,               RTF_LEFT},
     {EXP_BUFF_ID_FUNCTION, "IABS",NOBJ_VARTYPE_INT,     __,                   __,        __,               RTF_IABS},
     {EXP_BUFF_ID_FUNCTION, "ABS", NOBJ_VARTYPE_FLT,     __,                   __,        __,               RTF_ABS},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_LT_INT},
@@ -1283,12 +1284,14 @@ void output_qcode_for_line(void)
 
 	      for(int s=0; s<strlen(tokop.name)-2; s++)
 		{
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  tokop.name[s+2]);
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  toupper(tokop.name[s+2]));
 		}
 
 	      // Now the reference push
-	      if( is_an_assignment )
+	      switch( token.op.access )
 		{
+		case NOPL_OP_ACCESS_WRITE:
+		  
 		  switch(token.op.type)
 		    {
 		    case NOBJ_VARTYPE_INT:
@@ -1303,9 +1306,10 @@ void output_qcode_for_line(void)
 		      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,   QI_LS_STR_FLD);
 		      break;
 		    }
-		}
-	      else
-		{
+		  break;
+
+		case NOPL_OP_ACCESS_READ:
+
 		  switch(token.op.type)
 		    {
 		    case NOBJ_VARTYPE_INT:
@@ -1715,6 +1719,10 @@ char access_to_char(NOPL_OP_ACCESS a)
 
     case NOPL_OP_ACCESS_READ:
       c = 'R';
+      break;
+
+    case NOPL_OP_ACCESS_WRITE:
+      c = 'W';
       break;
 
     case NOPL_OP_ACCESS_EXP:
@@ -2683,7 +2691,7 @@ void typecheck_expression(void)
 		    {
 		      dbprintf("  Index not OK");
 		      
-		      sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(NOBJ_VARTYPE_INT));
+		      sprintf(autocon.name, "autocon (index) %c->%c", type_to_char(op1.op.type), type_to_char(NOBJ_VARTYPE_INT));
 		      
 		      // Can we use an auto conversion?
 		      // There's only one option, FLT -> INT
@@ -2784,7 +2792,7 @@ void typecheck_expression(void)
 		{
 		  fprintf(ofp, "  Arg not OK");
 
-		  sprintf(autocon.name, "autocon %c->%c", type_to_char(op1.op.type), type_to_char(function_arg_type_n(be.name, i)));
+		  sprintf(autocon.name, "autocon (Arg) %c->%c", type_to_char(op1.op.type), type_to_char(function_arg_type_n(be.name, i)));
 
 		  // Can we use an auto conversion?
 		  if( (op1.op.type == NOBJ_VARTYPE_INT) && (function_arg_type_n(be.name, i) == NOBJ_VARTYPE_FLT))
