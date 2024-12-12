@@ -1,12 +1,278 @@
 
 
 
-d$(3,4)
-d$(3) := NUM$(4 YEAR() )
-UDG(1 2 3 4 5 6 7 8 SIN(9 ) )
 
 
 
-DROP(3,D$(3,4))
-D$(3) := NUM$(4 YEAR() )
-UDG(1 2 3 4 5 6 7 8 SIN(9 ) )
+
+
+
+
+t%
+p%(3)
+n$
+
+k%
+j% := 0
+jmn% := 1
+jmx% := 3
+p%(1) := 11
+p%(2) := (p%(1) + 4)
+p%(3) := (p%(1) + 9)
+p% := p%(1)
+t% := p%(3)
+
+dat%(1) := DAY()
+dat%(2) := MONTH()
+dat%(3) := YEAR()
+
+mx%(1) := 31
+mx%(2) := 12
+mx%(3) := 2155
+
+mn%(1) := 1
+mn%(2) := 1
+mn%(3) := 1900
+
+IF (COUNT() > 0)
+LAST()
+d$(3) := LEFT$(A.date$ 4 )
+ELSE
+d$(3) := NUM$(YEAR() 4 )
+ENDIF
+
+PRINT("Input to")
+< > 
+PRINT(dbase$)
+<nl>
+
+PRINT("DOB:")
+<nl>
+
+DO
+xyz::
+j% := 0
+
+AT(6 3 )
+PRINT(DAYNAME$(DOW(dat%(1) dat%(2) dat%(3) ) ))
+< > 
+PRINT(NUM$(dat%(1) (UMIN 2) ))
+< > 
+PRINT(MONTH$(dat%(2) ))
+< > 
+PRINT(dat%(3))
+<nl>
+
+AT(t% 4 )
+PRINT(" ")
+<nl>
+
+AT(p% 4 )
+PRINT("^")
+<nl>
+
+k% := GET()
+DO
+j% := (j% + 1)
+UNTIL (p% = p%(j%))
+t% := p%
+IF (k% = 1)
+
+ELSEIF (k% = 3)
+dat%(j%) := (dat%(j%) + 1)
+IF (dat%(j%) > mx%(j%))
+dat%(j%) := mn%(j%)
+ENDIF
+ELSEIF (k% = 4)
+dat%(j%) := (dat%(j%) - 1)
+IF (dat%(j%) < mn%(j%))
+dat%(j%) := mx%(j%)
+ENDIF
+ELSEIF (k% = 5)
+IF (j% = jmn%)
+j% := (jmx% + 1)
+ENDIF
+p% := p%((j% - 1))
+ELSEIF (k% = 6)
+IF (j% = jmx%)
+j% := (jmn% - 1)
+ENDIF
+p% := p%((j% + 1))
+ENDIF
+UNTIL (k% = 13)
+d$(1) := (REPT$("0" (UMIN (dat%(1) < 10)) ) + NUM$(dat%(1) 2 ))
+d$(2) := (REPT$("0" (UMIN (dat%(2) < 10)) ) + NUM$(dat%(2) 2 ))
+A.date$ := (d$(3) + (d$(2) + (d$(1) + "07000100")))
+
+AT(1 4 )
+PRINT("Name:")
+< > 
+
+TRAP
+INPUT(n$ )
+IF (ERR() = 206)
+
+ENDIF
+
+IF (LEFT$(n$ 1 ) = "*")
+A.event$ := (UPPER$(MID$(n$ 2 1 ) ) + LOWER$(RIGHT$(n$ (LEN(n$ ) - 2) ) ))
+ELSE
+A.event$ := (UPPER$(LEFT$(n$ 1 ) ) + (LOWER$(RIGHT$(n$ (LEN(n$ ) - 1) ) ) + (" (" + (NUM$(dat%(3) 4 ) + ") jarig"))))
+
+ENDIF
+CLS()
+PRINT("Saving...")
+<nl>
+
+APPEND()
+
+errh::
+
+IF (ERR() = 194)
+RAISE(ERR() )
+ENDIF
+IF ((k% = 3) AND (p% = p%(1)))
+dat%(1) := 1
+ELSE
+dat%(1) := (dat%(1) - 1)
+ENDIF
+GOTO xyz
+
+
+
+
+
+
+
+
+
+
+DROP
+DROP(P%(3))
+DROP
+
+DROP
+J% := 0
+JMN% := 1
+JMX% := 3
+P%(1) := 11
+P%(2) := (P%(1) + 4)
+P%(3) := (P%(1) + 9)
+P% := P%(1)
+T% := P%(3)
+
+DAT%(1) := DAY()
+DAT%(2) := MONTH()
+DAT%(3) := YEAR()
+
+MX%(1) := 31
+MX%(2) := 12
+MX%(3) := 2155
+
+MN%(1) := 1
+MN%(2) := 1
+MN%(3) := 1900
+
+IF (COUNT() > 0)
+LAST()
+D$(3) := LEFT$(A.DATE$ 4 )
+ELSE
+D$(3) := NUM$(YEAR() 4 )
+ENDIF
+
+PRINT("Input to")
+< > 
+PRINT(DBASE$)
+<nl>
+
+PRINT("DOB:")
+<nl>
+
+DO
+xyz::
+J% := 0
+
+AT(6 3 )
+PRINT(DAYNAME$(DOW(DAT%(1) DAT%(2) DAT%(3) ) ))
+< > 
+PRINT(NUM$(DAT%(1) (UMIN 2) ))
+< > 
+PRINT(MONTH$(DAT%(2) ))
+< > 
+PRINT(DAT%(3))
+<nl>
+
+AT(T% 4 )
+PRINT(" ")
+<nl>
+
+AT(P% 4 )
+PRINT("^")
+<nl>
+
+K% := GET()
+DO
+J% := (J% + 1)
+UNTIL (P% = P%(J%))
+T% := P%
+IF (K% = 1)
+
+ELSEIF (K% = 3)
+DAT%(J%) := (DAT%(J%) + 1)
+IF (DAT%(J%) > MX%(J%))
+DAT%(J%) := MN%(J%)
+ENDIF
+ELSEIF (K% = 4)
+DAT%(J%) := (DAT%(J%) - 1)
+IF (DAT%(J%) < MN%(J%))
+DAT%(J%) := MX%(J%)
+ENDIF
+ELSEIF (K% = 5)
+IF (J% = JMN%)
+J% := (JMX% + 1)
+ENDIF
+P% := P%((J% - 1))
+ELSEIF (K% = 6)
+IF (J% = JMX%)
+J% := (JMN% - 1)
+ENDIF
+P% := P%((J% + 1))
+ENDIF
+UNTIL (K% = 13)
+D$(1) := (REPT$("0" (UMIN (DAT%(1) < 10)) ) + NUM$(DAT%(1) 2 ))
+D$(2) := (REPT$("0" (UMIN (DAT%(2) < 10)) ) + NUM$(DAT%(2) 2 ))
+A.DATE$ := (D$(3) + (D$(2) + (D$(1) + "07000100")))
+
+AT(1 4 )
+PRINT("Name:")
+< > 
+
+TRAP
+DROP()
+IF (ERR() = 206)
+
+ENDIF
+
+IF (LEFT$(N$ 1 ) = "*")
+A.EVENT$ := (UPPER$(MID$(N$ 2 1 ) ) + LOWER$(RIGHT$(N$ (LEN(N$ ) - 2) ) ))
+ELSE
+A.EVENT$ := (UPPER$(LEFT$(N$ 1 ) ) + (LOWER$(RIGHT$(N$ (LEN(N$ ) - 1) ) ) + (" (" + (NUM$(DAT%(3) 4 ) + ") jarig"))))
+
+ENDIF
+CLS()
+PRINT("Saving...")
+<nl>
+
+APPEND()
+
+errh::
+
+IF (ERR() = 194)
+RAISE(ERR() )
+ENDIF
+IF ((K% = 3) AND (P% = P%(1)))
+DAT%(1) := 1
+ELSE
+DAT%(1) := (DAT%(1) - 1)
+ENDIF
+GOTO xyz

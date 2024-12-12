@@ -3843,7 +3843,7 @@ int check_expression_list(int *index)
 	  if( !check_expression(&idx, HEED_COMMA) )
 	    {
 	      // Should have had an expression after the comma
-	      dbprintf("ret0 No expression after comma '%s'", &(cline[idx]));
+	      dbprintf("ret0: No expression after comma '%s'", &(cline[idx]));
 	      *index = idx;
 	      return(0);
 	    }
@@ -3879,9 +3879,17 @@ int scan_expression_list(int *num_expressions)
   init_op_stack_entry(&op);
   
   dbprintf("%s:", __FUNCTION__);
+  
+  dbprintf( "\nSTARTEXP");
+  sprintf(op.name, "(");
+  process_token(&op);
 
   if( scan_expression(&num_commas, HEED_COMMA) )
     {
+      dbprintf( "\nENDEXP");
+      sprintf(op.name, ")");
+      process_token(&op);
+      
       idx = cline_i;
       (*num_expressions)++;
 	  
@@ -3889,7 +3897,14 @@ int scan_expression_list(int *num_expressions)
 	{
 	  scan_literal(" ,");
 
+	  // Expressions separated by commas are sub-expressions. This stops functions from being moved
+	  // to the end of the list as would happen if this was one large expression. The comma is not
+	  // recognised by the shunting algorithm used.
 	  
+	  dbprintf( "\nSTARTEXP");
+	  sprintf(op.name, "(");
+	  process_token(&op);
+
 	  if( !scan_expression(&idx, HEED_COMMA) )
 	    {
 	      // Should have had an expression after the comma
@@ -3897,6 +3912,10 @@ int scan_expression_list(int *num_expressions)
 	      return(0);
 	    }
 
+	  dbprintf( "\nENDEXP");
+	  sprintf(op.name, ")");
+	  process_token(&op);
+	  
 	  (*num_expressions)++;
 	  // Set up idx for next iteration
 	  idx = cline_i;
@@ -3906,7 +3925,14 @@ int scan_expression_list(int *num_expressions)
       dbprintf("ret1 '%s'", &(cline[idx]));
       return(1);
     }
+  else
+    {
+      dbprintf( "\nENDEXP");
+      sprintf(op.name, ")");
+      process_token(&op);
 
+    }
+  
   // Bad
   dbprintf("ret0 No initial expression '%s'", &(cline[idx]));
   return(0);

@@ -175,9 +175,9 @@ QCode
 00CC: 0003       (3)
 00CE: 12       Pop integer index and push local/global string array variable reference     (bytes code:v)
 00CF: FFC1       (65473)
-00D1: 22       Push integer literal     (bytes code:I)
-00D2: 0004       (4)
-00D4: A1       YEAR     (bytes code:-)
+00D1: A1       YEAR     (bytes code:-)
+00D2: 22       Push integer literal     (bytes code:I)
+00D3: 0004       (4)
 00D5: 81       Assign string     (bytes code:-)
 00D6: 24       Push string literal     (bytes code:S)
 00D7: Len:8
@@ -225,7 +225,7 @@ QCode
 0118: FFEA       (65514)
 011A: 22       Push integer literal     (bytes code:I)
 011B: 0002       (2)
-011D: 2E       Minus integer     (bytes code:-)
+011D: 32       unary minus integer     (bytes code:-)
 011E: 71       PRINT string     (bytes code:-)
 011F: 72       PRINT ,     (bytes code:-)
 0120: 22       Push integer literal     (bytes code:I)
@@ -668,11 +668,11 @@ QCode Data
 00A0:7F 22 00 03 10 FF E2 22 07 6C 7F A2 22 00 00 29 
 00B0:7E 00 1A 62 22 00 03 12 FF C1 24 05 44 41 54 45 
 00C0:24 1C 00 22 00 04 C0 81 51 00 0D 22 00 03 12 FF 
-00D0:C1 22 00 04 A1 81 24 08 49 6E 70 75 74 20 74 6F 
+00D0:C1 A1 22 00 04 81 24 08 49 6E 70 75 74 20 74 6F 
 00E0:71 72 09 FF FC 71 73 24 04 44 4F 42 3A 71 73 0D 
 00F0:FF FA 22 00 00 7F 53 02 51 22 00 06 22 00 03 4C 
 0100:22 00 01 03 FF EA 22 00 02 03 FF EA 22 00 03 03 
-0110:FF EA 71 72 22 00 01 03 FF EA 22 00 02 2E 71 72 
+0110:FF EA 71 72 22 00 01 03 FF EA 22 00 02 32 71 72 
 0120:22 00 02 03 FF EA 71 72 22 00 03 03 FF EA 6F 73 
 0130:00 FF F2 22 00 04 4C 24 01 20 71 73 00 FF F4 22 
 0140:00 04 4C 24 01 5E 71 73 0D FF 8A 91 7F 0D FF FA 
