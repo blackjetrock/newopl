@@ -166,7 +166,7 @@ struct _FN_INFO
     { "ERR$",     0,  0, ' ',  "i",         "s", 0x00 },
     { "ERR",      0,  0, ' ',  "",          "i", 0x00 },
     { "ESCAPE",   1,  0, 'O',  "i",         "v", 0x00 },
-    { "EXIST",    0,  0, ' ',  "i",         "s", 0x00 },
+    { "EXIST",    0,  0, ' ',  "s",         "i", 0x00 },
     { "EXP",      0,  0, ' ',  "f",         "f", 0x00 },
     { "FINDW",    0,  0, ' ',  "s",         "i", 0x00 },
     { "FIND",     0,  0, ' ',  "s",         "i", 0x00 },
@@ -2440,6 +2440,21 @@ int check_variable(int *index)
 
   vname[0] = '\0';
   chstr[1] = '\0';
+
+  int is_comma;
+  
+  // If this is an operator then we fail
+  if( check_operator(&idx, &is_comma, 1) )
+    {
+      // For it to be an operator there needs to be a non-alpha character after the name
+      if( !isalpha(cline[idx]) )
+	{
+	  dbprintf("ret0:Is an operator");
+	  return(0);
+	}
+    }
+
+  idx = *index;
   
   if( check_vname(&idx) )
     {
@@ -2485,33 +2500,6 @@ int check_variable(int *index)
 	      dbprintf("ret0 Not an expression");
 	      return(0);
 	    }
-
-#if 0
-	  // Could be string array, which has two expressions in
-	  // the brackets
-	  if( check_literal(&idx," ,") )
-	    {
-	      if( var_is_string )
-		{
-		  // All OK, string array
-		  if( check_expression(&idx, HEED_COMMA) )
-		    {
-		      // All OK
-		    }
-		  else
-		    {
-		      *index = idx;
-		      return(0);
-		    }
-		}
-	      else
-		{
-		  *index = idx;
-		  dbprintf("%s:ret0 ", __FUNCTION__);
-		  return(0);
-		}
-	    }
-#endif
 
 	  dbprintf("Expression parsed, checking for )");
 	  if( check_literal(&idx, " )") )
@@ -6090,11 +6078,11 @@ int check_createopen(int *index, int create_nopen)
 
   if( create_nopen )
     {
-      c_no_s = "CREATE";
+      c_no_s = " CREATE";
     }
   else
     {
-      c_no_s = "OPEN";
+      c_no_s = " OPEN";
     }
   
   idx = cline_i;
@@ -6831,38 +6819,47 @@ int scan_line(LEVEL_INFO levels)
       dbprintf("Checking for INPUT command");
       if( check_input(&idx) )
 	{
-	  
-	  //	  cline_i = idx;
 	  if( scan_input(TRAPPED) )
 	    {
 	      dbprintf("Scanned for INPUT");
 	      dbprintf("ret1");
 	      return(1);
 	    }
-	  else
-	    {
-	      dbprintf("ret0");
-	      return(0);
-	    }
 	}
-      else
+
+      dbprintf("Checking for trappable commands");
+      
+      if( scan_command(cmdname, SCAN_TRAPPABLE) )
 	{
-	  if( scan_command(cmdname, SCAN_TRAPPABLE) )
+	  //	  dbprintf("ret1: Is a trappable com");
+	  return(1);
+	}
+
+      idx = cline_i;
+      
+      if( check_createopen(&idx, 1) ) 
+	{
+	  if( scan_createopen(1) )
 	    {
 	      dbprintf("ret1");
 	      return(1);
 	    }
-	  else
+	}
+      
+      idx = cline_i;
+      
+      if( check_createopen(&idx, 1) ) 
+	{
+	  if( scan_createopen(1) )
 	    {
-	      dbprintf("ret0: Scanning for trappable command failed");
-	      return(0);
+	      dbprintf("ret1");
+	      return(1);
 	    }
 	}
+
+     dbprintf("ret0: Scanning for trappable command failed");
+     return(0);
     }
-
-  dbprintf("ret0");
-  return(0);
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////

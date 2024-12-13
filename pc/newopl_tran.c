@@ -123,7 +123,7 @@ void indent_more(void)
   fprintf(ofp, "\n");
 }
 
-#define MAX_DBPF_LINE 160
+#define MAX_DBPF_LINE 500
 
 void dbpf(const char *caller, char *fmt, ...)
 {
@@ -495,8 +495,6 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_OPERATOR, ":=",  NOBJ_VARTYPE_STRARY,  __,                   __,        __,               QCO_ASS_STR},
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_EQ_INT},
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_EQ_NUM},
-    {EXP_BUFF_ID_OPERATOR, "NOT", NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_NOT_INT},
-    {EXP_BUFF_ID_OPERATOR, "NOT", NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_NOT_NUM},
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_EQ_STR},
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_INTARY,  __,                   __,        __,               QCO_EQ_INT},
     {EXP_BUFF_ID_OPERATOR, "=",   NOBJ_VARTYPE_FLTARY,  __,                   __,        __,               QCO_EQ_NUM},
@@ -618,14 +616,14 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_OPERATOR_UNARY, "UMIN",NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_UMIN_NUM},
     {EXP_BUFF_ID_OPERATOR_UNARY, "UMIN",NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_UMIN_INT},
     {EXP_BUFF_ID_OPERATOR_UNARY, "UMIN",NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_UMIN_NUM},
-    {EXP_BUFF_ID_OPERATOR, "NOT", NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_NOT_INT},
-    {EXP_BUFF_ID_OPERATOR, "NOT", NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_NOT_NUM},
     {EXP_BUFF_ID_OPERATOR, "AND", NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_AND_INT},
     {EXP_BUFF_ID_OPERATOR, "AND", NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_AND_NUM},
     {EXP_BUFF_ID_OPERATOR, "OR",  NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_OR_INT},
     {EXP_BUFF_ID_OPERATOR, "OR",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_OR_NUM},
-    {EXP_BUFF_ID_OPERATOR, "NOT", NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_NOT_INT},
-    {EXP_BUFF_ID_OPERATOR, "NOT", NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_NOT_NUM},
+    {EXP_BUFF_ID_OPERATOR_UNARY, "UNOT", NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_NOT_INT},
+    {EXP_BUFF_ID_OPERATOR_UNARY, "UNOT", NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_NOT_NUM},
+    {EXP_BUFF_ID_OPERATOR_UNARY, "UNOT", NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_NOT_INT},
+    {EXP_BUFF_ID_OPERATOR_UNARY, "UNOT", NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_NOT_NUM},
     {EXP_BUFF_ID_OPERATOR, "AND", NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_AND_INT},
     {EXP_BUFF_ID_OPERATOR, "AND", NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_AND_NUM},
     {EXP_BUFF_ID_OPERATOR, "OR",  NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_OR_INT},
@@ -637,6 +635,17 @@ SIMPLE_QC_MAP qc_map[] =
 int add_simple_qcode(int idx, OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
 {
   int op_type = NOBJ_VARTYPE_UNKNOWN;
+  NOBJ_VAR_INFO nullvi;
+
+  nullvi.class = NOPL_VAR_CLASS_UNKNOWN;
+  nullvi.type = NOBJ_VARTYPE_UNKNOWN;
+  
+  if( vi == NULL )
+    {
+      dbprintf("NULL vi");
+      vi = &nullvi;
+
+    }
   
   for(int i=0; i<NUM_SIMPLE_QC_MAP; i++)
     {
@@ -1245,7 +1254,7 @@ int global_info_index = 0;
 
 void output_qcode_for_line(void)
 {
-  NOBJ_VAR_INFO *vi;
+  NOBJ_VAR_INFO *vi = NULL;
   
   // Do nothing on first pass
   if( pass_number == 1 )

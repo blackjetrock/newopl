@@ -1,32 +1,20 @@
 
 
 
-zz%
-note$
-CLS()
-AT(2 2 )
-PRINT("Initialising....")
-<nl>
-
-UDG(0 0 0 0 0 0 0 0 31 )
-UDG(2 0 10 10 14 10 10 0 31 )
-IF (UNOT :Œ4¼	c)
-EXIST("A:HOMEWORK" )
-
-"A:HOMEWORK"
+F2
+f(20)
+DOOR$
+FLOAT(123)
+EXTTOP% := 8
+S1$ := "abc"
+SA$(10) := "def"
 
 
 
 DROP
+DROP(F(20))
 DROP
-CLS()
-AT(2 2 )
-PRINT("Initialising....")
-<nl>
-
-UDG(0 0 0 0 0 0 0 0 31 )
-UDG(2 0 10 10 14 10 10 0 31 )
-IF (UNOT :Œ4¼	c)
-DROP()
-
-"A:HOMEWORK"
+DROP(FLOAT(123))
+EXTTOP% := 8
+S1$ := "abc"
+SA$(10) := "def"

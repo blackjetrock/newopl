@@ -422,6 +422,7 @@ void build_qcode_header(void);
 int set_qcode_header_byte_at(int idx, int len, int val);
 int set_qcode_header_string_at(int idx, char *str);
 NOBJ_VAR_INFO *find_var_info(char *name, NOBJ_VARTYPE type);
+int check_operator(int *index, int *is_comma, int ignore_comma);
 
 
 extern int qcode_idx;
