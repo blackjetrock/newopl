@@ -4496,6 +4496,14 @@ int scan_function(char *cmd_dest)
 }
 
 //------------------------------------------------------------------------------
+//
+// It is possible for a variable to start with a function name, e.g:
+//
+// COSHV
+//
+// which is a variable that starts with a function name (COS).
+// Functions have brackets round their arguments, so we can fail the check if
+// there is no open bracket.
 
 int check_function(int *index)
 {
@@ -4544,6 +4552,19 @@ int check_function(int *index)
 	  // as the shunting algorithm has to have brackets after a function
 	  if( strlen(fn_info[i].argtypes) == 0 )
 	    {
+	      // We want no more alpha characters after the name, or this could be a variable
+	      // whose name starts with a function name
+	      if( !isalpha(cline[idx]) )
+		{
+		  // All ok
+		}
+	      else
+		{
+		  // Not a function
+		  dbprintf("ret0: No space after void function name");
+		  return(0);
+		}
+		
 	      switch( fn_info[i].argparse )
 		{
 		case 'V':
@@ -4567,7 +4588,7 @@ int check_function(int *index)
 		  if( !check_expression_list(&idx) )
 		    {
 		      syntax_error("Not an expression");
-		      dbprintf("ret0");
+
 		      return(0);
 		    }
 
@@ -4580,7 +4601,8 @@ int check_function(int *index)
 		}
 	      else
 		{
-		  syntax_error("No (");
+		  //		  syntax_error("No (");
+		  dbprintf("ret0: No open bracket after function name (function has arguments)");
 		  dbprintf("ret0");
 		  return(0);
 		}
@@ -5557,7 +5579,6 @@ int scan_do(LEVEL_INFO levels)
 		  init_op_stack_entry(&op);
 		  op.level = levels.do_level;
 		  
-		  // Just flush the operator stack so the UNTIL is at the end of the output
 		  output_generic(op, "CONTINUE", EXP_BUFF_ID_CONTINUE);
 		  continue;
 		}
@@ -5572,7 +5593,6 @@ int scan_do(LEVEL_INFO levels)
 		  init_op_stack_entry(&op);
 		  op.level = levels.do_level;
 		  
-		  // Just flush the operator stack so the UNTIL is at the end of the output
 		  output_generic(op, "BREAK", EXP_BUFF_ID_BREAK);
 		  continue;
 		}

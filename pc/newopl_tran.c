@@ -531,6 +531,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "CHR$",              __,     __,                   __,        __,               RTF_CHR},
     {EXP_BUFF_ID_FUNCTION, "LEFT$",             __,     __,                   __,        __,               RTF_LEFT},
     {EXP_BUFF_ID_FUNCTION, "RIGHT$",            __,     __,                   __,        __,               RTF_RIGHT},
+    {EXP_BUFF_ID_FUNCTION, "GEN$",              __,     __,                   __,        __,               RTF_GEN},
     {EXP_BUFF_ID_FUNCTION, "REPT$",             __,     __,                   __,        __,               RTF_REPT},
     {EXP_BUFF_ID_FUNCTION, "MID$",              __,     __,                   __,        __,               RTF_MID},
     {EXP_BUFF_ID_FUNCTION, "UPPER$",            __,     __,                   __,        __,               RTF_UPPER},
@@ -543,6 +544,14 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "VIEW",              __,     __,                   __,        __,               RTF_VIEW},
     {EXP_BUFF_ID_FUNCTION, "RND",               __,     __,                   __,        __,               RTF_RND},
     {EXP_BUFF_ID_FUNCTION, "RAD",               __,     __,                   __,        __,               RTF_RAD},
+    {EXP_BUFF_ID_FUNCTION, "SIN",               __,     __,                   __,        __,               RTF_SIN},
+    {EXP_BUFF_ID_FUNCTION, "COS",               __,     __,                   __,        __,               RTF_COS},
+    {EXP_BUFF_ID_FUNCTION, "TAN",               __,     __,                   __,        __,               RTF_TAN},
+    {EXP_BUFF_ID_FUNCTION, "SQR",               __,     __,                   __,        __,               RTF_SQR},
+    {EXP_BUFF_ID_FUNCTION, "DEG",               __,     __,                   __,        __,               RTF_DEG},
+    {EXP_BUFF_ID_FUNCTION, "ASIN",              __,     __,                   __,        __,               RTF_ASIN},
+    {EXP_BUFF_ID_FUNCTION, "ACOS",              __,     __,                   __,        __,               RTF_ACOS},
+    {EXP_BUFF_ID_FUNCTION, "ATAN",              __,     __,                   __,        __,               RTF_ATAN},
     {EXP_BUFF_ID_FUNCTION, "PI",                __,     __,                   __,        __,               RTF_PI},
     {EXP_BUFF_ID_TRAP,     "TRAP",              __,     __,                   __,        __,               QCO_TRAP},    
     {EXP_BUFF_ID_FUNCTION, "IABS", NOBJ_VARTYPE_INT,     __,                   __,        __,               RTF_IABS},
@@ -840,6 +849,56 @@ void do_cond_fixup(void)
 	  // Fill in the offset
 	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
 	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
+	  break;
+
+	case EXP_BUFF_ID_BREAK:
+	  // We need to either find a matching DO and jump after the UNTIL or
+	  // find a matching WHILE and jump after the ENDWH
+
+	  // Is there a DO?
+	  target_idx = find_target_idx(EXP_BUFF_ID_UNTIL, cond_fixup[i].level);
+
+	  if( target_idx == -1 )
+	    {
+	      // No DO, is there a WHILE?
+	      target_idx = find_target_idx(EXP_BUFF_ID_ENDWH, cond_fixup[i].level);
+	      
+	      if( target_idx == -1 )
+		{
+		  // No WHILE, error
+		  
+		  syntax_error("No matching DO or WHILE for BREAK");
+		  return;
+		}
+	      else
+		{
+		  // There is a WHILE
+		  // Calculate offset (we add 2 as we want to branch after the ENDWH goto and the target is the
+		  // fixed up branch offset
+		  branch_offset = (target_idx - cond_fixup[i].offset_idx)+2;
+		  until_offset = branch_offset;
+		  
+		  // Fill in the offset
+		  set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
+		  set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
+		}
+	      
+	      return;
+	    }
+	  else
+	    {
+	      // There is a DO
+	      // Calculate offset
+	      // Calculate offset (we add 2 as we want to branch after the UNTIL goto and the target is the
+	      // fixed up branch offset
+	      
+	      branch_offset = (target_idx - cond_fixup[i].offset_idx) + 2;
+	      until_offset = branch_offset;
+	      
+	      // Fill in the offset
+	      set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
+	      set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
+	    }
 	  break;
 	  
 	case EXP_BUFF_ID_UNTIL:
@@ -1519,6 +1578,14 @@ void output_qcode_for_line(void)
 	case EXP_BUFF_ID_GOTO:
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_GOTO);
 	  add_cond_fixup_label(qcode_idx, qcode_idx, token.op.buf_id, token.name);
+	  
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+	  break;
+
+	case EXP_BUFF_ID_BREAK:
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_GOTO);
+	  add_cond_fixup(qcode_idx, qcode_idx, token.op.buf_id, token.op.level);
 	  
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
