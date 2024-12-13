@@ -1,32 +1,140 @@
 
 
 
-C
-A := 12345678
-B := (UMIN 12345678)
-C := 12.345678
-D := (UMIN 12.345678)
-A := 0.00001234
-A := 1234
-A := (UMIN 1234)
-A := 4080
-A := 65535
-A := 8192
-A := 1234.0
-A := 1234
+
+I%
+Loop::
+CLS()
+K% := VIEW(1 "Press any key (S=Stop)" )
+IF ((K% = 83) OR ((K% = 115) OR (K% = 1)))
+
+ENDIF
+A$ := ""
+K% := 0
+DO
+K% := (K% + 1)
+A$ := (A$ + CHR$(INT(((RND() * 26) + 65) ) ))
+I% := 1
+DO
+CLS()
+AT(I% 1 )
+PRINT(MID$(A$ I% 1 ))
+<nl>
+
+PAUSE(10 )
+I% := (I% + 1)
+UNTIL (I% > K%)
+CLS()
+PRINT("Repeat that:")
+<nl>
+
+I% := 1
+DO
+DO
+K$ := UPPER$(GET$() )
+UNTIL ((K$ >= "A") AND (K$ <= "Z"))
+IF (K$ <> MID$(A$ I% 1 ))
+AT(1 1 )
+PRINT("Wrong:")
+PRINT(MID$(A$ I% 1 ))
+PRINT(" Score:")
+PRINT(K%)
+
+PAUSE(10 )
+WHILE KEY()
+ENDWH
+GET()
+AT(1 1 )
+PRINT(A$)
+PRINT(REPT$(" " (16 - K%) ))
+<nl>
+
+GET()
+GOTO Loop
+ENDIF
+AT(I% 2 )
+PRINT(K$)
+
+I% := (I% + 1)
+UNTIL (I% > K%)
+AT(1 1 )
+PRINT("Correct   (Key)")
+<nl>
+
+GET()
+UNTIL (K% = 16)
+CLS()
+PRINT("Nobody can beat that")
+<nl>
+
+GET()
+
 
 
 
 DROP
-A := 12345678
-B := (UMIN 12345678)
-C := 12.345678
-D := (UMIN 12.345678)
-A := 0.00001234
-A := 1234
-A := (UMIN 1234)
-A := 4080
-A := 65535
-A := 8192
-A := 1234.0
-A := 1234
+Loop::
+CLS()
+K% := VIEW(1 "Press any key (S=Stop)" )
+IF ((K% = 83) OR ((K% = 115) OR (K% = 1)))
+
+ENDIF
+A$ := ""
+K% := 0
+DO
+K% := (K% + 1)
+A$ := (A$ + CHR$(INT(((RND() * 26) + 65) ) ))
+I% := 1
+DO
+CLS()
+AT(I% 1 )
+PRINT(MID$(A$ I% 1 ))
+<nl>
+
+PAUSE(10 )
+I% := (I% + 1)
+UNTIL (I% > K%)
+CLS()
+PRINT("Repeat that:")
+<nl>
+
+I% := 1
+DO
+DO
+K$ := UPPER$(GET$() )
+UNTIL ((K$ >= "A") AND (K$ <= "Z"))
+IF (K$ <> MID$(A$ I% 1 ))
+AT(1 1 )
+PRINT("Wrong:")
+PRINT(MID$(A$ I% 1 ))
+PRINT(" Score:")
+PRINT(K%)
+
+PAUSE(10 )
+WHILE KEY()
+ENDWH
+DROP()
+AT(1 1 )
+PRINT(A$)
+PRINT(REPT$(" " (16 - K%) ))
+<nl>
+
+DROP()
+GOTO Loop
+ENDIF
+AT(I% 2 )
+PRINT(K$)
+
+I% := (I% + 1)
+UNTIL (I% > K%)
+AT(1 1 )
+PRINT("Correct   (Key)")
+<nl>
+
+DROP()
+UNTIL (K% = 16)
+CLS()
+PRINT("Nobody can beat that")
+<nl>
+
+DROP()
