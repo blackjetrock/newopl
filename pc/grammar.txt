@@ -17,9 +17,10 @@
 
 <open>            : OPEN <expression_list>
 <create>          : CREATE <expression_list>
+<use>             : USE <log_file>
 <expression-list> : <expression> | <expression> (',' <expression>)+
 <line>            : 'REM' <text> | <proc_call> | <declare> |
-                    <print> | <input> |
+                    <print> | <input> | <use> |
                     <onerr> | <label> | <assignment> | <command> |
 	            <function> '(' <expression-list> ')' |
                     TRAP <trappable_command> |

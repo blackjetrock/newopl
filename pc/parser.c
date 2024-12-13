@@ -243,7 +243,7 @@ struct _FN_INFO
     { "UDG",      1,  0, ' ',  "iiiiiiiii", "v", 0x00 },
     { "UPDATE",   1,  1, ' ',  "",          "v", 0x00 },
     { "UPPER$",   0,  0, ' ',  "s",         "s", 0x00 },
-    { "USE",      1,  1, ' ',  "i",         "v", 0x00 },   // Need A,B,C,D type
+    { "USE",      1,  1, ' ',  "",          "v", 0x00 },   // Need A,B,C,D type
     { "USR$",     0,  0, ' ',  "ii",        "s", 0x00 },
     { "USR",      0,  0, ' ',  "ii",        "i", 0x00 },
     { "VAL",      0,  0, ' ',  "s",         "f", 0x00 },
@@ -476,6 +476,8 @@ int token_is_other_keyword(char *token)
   
 }
 
+char unk[30];
+
 char *var_class_to_str(NOPL_VAR_CLASS vc)
 {
   switch(vc)
@@ -495,7 +497,7 @@ char *var_class_to_str(NOPL_VAR_CLASS vc)
     case NOPL_VAR_CLASS_EXTERNAL:
       return("External");
       break;
-
+ 
     case NOPL_VAR_CLASS_PARAMETER:
       return("Parameter");
       break;
@@ -503,9 +505,25 @@ char *var_class_to_str(NOPL_VAR_CLASS vc)
     case NOPL_VAR_CLASS_CALC_MEMORY:
       return("Calc Memory");
       break;
+
+    case NOPL_VAR_CLASS_CREATE:
+      return("Create");
+      break;
+      
+    case NOPL_VAR_CLASS_OPEN:
+      return("Open");
+      break;
+      
+    case NOPL_VAR_CLASS_FIELDVAR:
+      return("Field Var");
+      break;
+      
     }
 
-  return("????");
+
+  sprintf(unk, "???? (%d)", vc);
+
+  return(unk);
 }
 
 
@@ -3938,6 +3956,8 @@ int scan_expression_list(int *num_expressions)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+// Scans a logical file ID and puts the corresponding token in the stream
+//
 
 int scan_logical_file(void)
 {
@@ -4003,6 +4023,64 @@ int scan_logical_file(void)
 
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+
+int check_use(int *index)
+{
+  int idx = *index;
+  indent_more();
+  
+  dbprintf("'%s'", &(cline[idx]));
+  
+  if( check_literal(&idx, " USE") )
+    {
+      *index = idx;
+      dbprintf("ret1");
+      return(1);
+    }
+
+  dbprintf("ret0");
+  return(0);
+  
+}
+
+int scan_use(void)
+{
+  int idx;
+  OP_STACK_ENTRY op;
+  
+  indent_more();
+  
+  init_op_stack_entry(&op);
+  
+  dbprintf("'%s'", &(cline[cline_i]));
+
+  idx = cline_i;
+  
+  if( check_literal(&idx, " USE") )
+    {
+      cline_i = idx;
+
+      output_generic(op, "USE", EXP_BUFF_ID_FUNCTION);
+	      
+      finalise_expression();
+      output_expression_start(&cline[cline_i]);
+      
+      if( scan_logical_file() )
+	{
+	  dbprintf("ret1");
+	  return(1);
+	}
+    }
+  
+  dbprintf("ret0");
+  return(0);
+
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Scan list for CREATE or OPEN.
@@ -4013,7 +4091,7 @@ int scan_logical_file(void)
 //
 // We also want to put the CREATE or OPEN after the file name so insert the token there
 
-int scan_createopen_list(char *keyword, int create_nopen)
+int scan_createopen_list(char *keyword, int create_nopen, int trapped)
 {
   int is_comma = 0;
   int idx = cline_i;
@@ -4050,7 +4128,10 @@ int scan_createopen_list(char *keyword, int create_nopen)
    
    // We now put the command into the output
    op.buf_id = EXP_BUFF_ID_META;
+   
    strcpy(op.name, keyword);
+   op.trapped = trapped;
+   
    process_token(&op);
   
    // logical file next
@@ -6100,7 +6181,8 @@ int check_createopen(int *index, int create_nopen)
 //------------------------------------------------------------------------------
 
 
-int scan_createopen2(int create_nopen)
+
+int scan_createopen(int create_nopen, int trapped)
 {
   int idx = cline_i;
   NOBJ_VAR_INFO vi;
@@ -6124,94 +6206,7 @@ int scan_createopen2(int create_nopen)
     }
   
   op.buf_id = EXP_BUFF_ID_META;
-  strcpy(op.name, keyword);
-  
-  dbprintf("'%s'", I_WHERE);
-
-  if( check_literal(&idx, keyword) )
-    {
-      process_token(&op);
-
-      cline_i = idx;
-      
-      while( check_variable(&idx) )
-	{
-	  init_var_info(&vi);
-	  
-	  if( scan_variable(&vi, VAR_DECLARE, NOPL_OP_ACCESS_READ))
-	    {
-	      // Find the variable and update to make it a local or global
-	      srch_vi = find_var_info(vi.name, vi.type);
-
-	      if( srch_vi != NULL )
-		{
-		  srch_vi->class = create_nopen?NOPL_VAR_CLASS_CREATE:NOPL_VAR_CLASS_OPEN;
-		  srch_vi->is_ref = 0;
-		  
-		  dbprintf("%s variable:'%s'", keyword, vi.name);
-		  print_var_info(&vi);
-		  
-		  // Store info about the variable
-		  add_var_info(&vi);
-		}
-	    }
-	  
-	  idx = cline_i;
-	  if( check_literal(&idx, " ,") )
-	    {
-	      scan_literal(" ,");
-	    }
-	}
-
-      drop_space(&cline_i);
-
-      if( cline[cline_i] == '\0' )
-	{
-#if 0
-	  // Store info about the variable
-	  var_info[num_var_info] = vi;
-	  num_var_info++;
-#endif
-
-	  op.buf_id = EXP_BUFF_ID_META;
-	  strcpy(op.name, "ENDFIELDS");
-	  process_token(&op);
-	  
-	  dbprintf("ret1");
-	  return(1);
-	}
-    }
-
-  dbprintf("%s:ret0", __FUNCTION__);
-  return(0);
-}
-
-
-
-int scan_createopen(int create_nopen)
-{
-  int idx = cline_i;
-  NOBJ_VAR_INFO vi;
-  NOBJ_VAR_INFO *srch_vi;
-  
-  char *keyword;
-  OP_STACK_ENTRY op;
-
-  indent_more();  
-  
-  init_op_stack_entry(&op);
-  init_var_info(&vi);
-  
-  if( create_nopen )
-    {
-      keyword = " CREATE";
-    }
-  else
-    {
-      keyword = " OPEN";
-    }
-  
-  op.buf_id = EXP_BUFF_ID_META;
+  op.trapped = trapped;
   strcpy(op.name, keyword);
   
   dbprintf("'%s'", I_WHERE);
@@ -6224,7 +6219,7 @@ int scan_createopen(int create_nopen)
 
       cline_i = idx;
 
-      if( scan_createopen_list(keyword, create_nopen) )
+      if( scan_createopen_list(keyword, create_nopen, trapped) )
 	{
 	  dbprintf("ret1");
 	  dbprintf( "ENDEXP");
@@ -6234,6 +6229,8 @@ int scan_createopen(int create_nopen)
 #endif
 	  
 	  op.buf_id = EXP_BUFF_ID_META;
+	  op.trapped = 0;
+	  
 	  strcpy(op.name, "ENDFIELDS");
 	  process_token(&op);
 
@@ -6321,6 +6318,15 @@ int check_line(int *index)
 
   idx = cline_i;
   if( check_return(&idx) )
+    {
+      dbprintf("ret1");
+  
+      *index = idx;
+      return(1);
+    }
+
+  idx = cline_i;
+  if( check_use(&idx) )
     {
       dbprintf("ret1");
   
@@ -6638,6 +6644,21 @@ int scan_line(LEVEL_INFO levels)
     }
 
   idx = cline_i;
+  if( check_use(&idx) )
+    {
+      if(scan_use())
+	{
+	  dbprintf("ret1 return");
+	  return(1);
+	}
+      else
+	{
+	  dbprintf("ret0 return");
+	  return(0);
+	}
+    }
+
+  idx = cline_i;
   if( check_onerr(&idx) )
     {
       if(scan_onerr())
@@ -6747,7 +6768,7 @@ int scan_line(LEVEL_INFO levels)
   idx = cline_i;
   if( check_createopen(&idx, 1))
     {
-      scan_createopen(1);
+      scan_createopen(1, NOT_TRAPPED);
       dbprintf("ret1");
       return(1);
     }
@@ -6755,7 +6776,7 @@ int scan_line(LEVEL_INFO levels)
   idx = cline_i;
   if( check_createopen(&idx, 0))
     {
-      scan_createopen(0);
+      scan_createopen(0, NOT_TRAPPED);
       dbprintf("ret1");
       return(1);
     }
@@ -6839,7 +6860,7 @@ int scan_line(LEVEL_INFO levels)
       
       if( check_createopen(&idx, 1) ) 
 	{
-	  if( scan_createopen(1) )
+	  if( scan_createopen(1, SCAN_TRAPPABLE) )
 	    {
 	      dbprintf("ret1");
 	      return(1);
@@ -6848,9 +6869,9 @@ int scan_line(LEVEL_INFO levels)
       
       idx = cline_i;
       
-      if( check_createopen(&idx, 1) ) 
+      if( check_createopen(&idx, 0) ) 
 	{
-	  if( scan_createopen(1) )
+	  if( scan_createopen(0, SCAN_TRAPPABLE) )
 	    {
 	      dbprintf("ret1");
 	      return(1);
