@@ -523,15 +523,15 @@ QCode
 02B2: 0002       (2)
 02B4: 05       Pop integer index and push local/global string array variable value     (bytes code:v)
 02B5: FFC1       (65473)
-02B7: 22       Push integer literal     (bytes code:I)
-02B8: 0001       (1)
-02BA: 05       Pop integer index and push local/global string array variable value     (bytes code:v)
-02BB: FFC1       (65473)
-02BD: 24       Push string literal     (bytes code:S)
-02BE: Len:8
-02BF: '07000100'
-02C7: 4B       Plus string     (bytes code:-)
-02C8: 4B       Plus string     (bytes code:-)
+02B7: 4B       Plus string     (bytes code:-)
+02B8: 22       Push integer literal     (bytes code:I)
+02B9: 0001       (1)
+02BB: 05       Pop integer index and push local/global string array variable value     (bytes code:v)
+02BC: FFC1       (65473)
+02BE: 4B       Plus string     (bytes code:-)
+02BF: 24       Push string literal     (bytes code:S)
+02C0: Len:8
+02C1: '07000100'
 02C9: 4B       Plus string     (bytes code:-)
 02CA: 81       Assign string     (bytes code:-)
 02CB: 22       Push integer literal     (bytes code:I)
@@ -614,23 +614,23 @@ QCode
 033A: 2E       Minus integer     (bytes code:-)
 033B: C4       RIGHT$     (bytes code:-)
 033C: C1       LOWER$     (bytes code:-)
-033D: 24       Push string literal     (bytes code:S)
-033E: Len:2
-033F: ' ('
-0341: 22       Push integer literal     (bytes code:I)
-0342: 0003       (3)
-0344: 03       Pop integer index and push local/global integer array variable value     (bytes code:v)
-0345: FFEA       (65514)
-0347: 86       autoconversion int to float     (bytes code:-)
-0348: 22       Push integer literal     (bytes code:I)
-0349: 0004       (4)
-034B: C3       NUM$     (bytes code:-)
-034C: 24       Push string literal     (bytes code:S)
-034D: Len:7
-034E: ') jarig'
-0355: 4B       Plus string     (bytes code:-)
-0356: 4B       Plus string     (bytes code:-)
-0357: 4B       Plus string     (bytes code:-)
+033D: 4B       Plus string     (bytes code:-)
+033E: 24       Push string literal     (bytes code:S)
+033F: Len:2
+0340: ' ('
+0342: 4B       Plus string     (bytes code:-)
+0343: 22       Push integer literal     (bytes code:I)
+0344: 0003       (3)
+0346: 03       Pop integer index and push local/global integer array variable value     (bytes code:v)
+0347: FFEA       (65514)
+0349: 86       autoconversion int to float     (bytes code:-)
+034A: 22       Push integer literal     (bytes code:I)
+034B: 0004       (4)
+034D: C3       NUM$     (bytes code:-)
+034E: 4B       Plus string     (bytes code:-)
+034F: 24       Push string literal     (bytes code:S)
+0350: Len:7
+0351: ') jarig'
 0358: 4B       Plus string     (bytes code:-)
 0359: 81       Assign string     (bytes code:-)
 035A: 4E       CLS     (bytes code:-)
@@ -736,17 +736,17 @@ QCode Data
 0280:22 00 02 12 FF C1 24 01 30 22 00 02 03 FF EA 22 
 0290:00 0A 27 32 C5 22 00 02 03 FF EA 86 22 00 02 C3 
 02A0:4B 81 24 05 44 41 54 45 24 1F 00 22 00 03 05 FF 
-02B0:C1 22 00 02 05 FF C1 22 00 01 05 FF C1 24 08 30 
-02C0:37 30 30 30 31 30 30 4B 4B 4B 81 22 00 01 22 00 
+02B0:C1 22 00 02 05 FF C1 4B 22 00 01 05 FF C1 4B 24 
+02C0:08 30 37 30 30 30 31 30 30 4B 81 22 00 01 22 00 
 02D0:04 4C 24 05 4E 61 6D 65 3A 71 72 5A 0F FF 8D 6E 
 02E0:8E 22 00 CE 2C 7E 00 03 7B 02 FF 8D 22 00 01 C0 
 02F0:24 01 2A 4A 7E 00 29 24 06 45 56 45 4E 54 24 1F 
 0300:00 02 FF 8D 22 00 02 22 00 01 C2 C7 02 FF 8D 02 
 0310:FF 8D 96 22 00 02 2E C4 C1 4B 81 51 00 3E 24 06 
 0320:45 56 45 4E 54 24 1F 00 02 FF 8D 22 00 01 C0 C7 
-0330:02 FF 8D 02 FF 8D 96 22 00 01 2E C4 C1 24 02 20 
-0340:28 22 00 03 03 FF EA 86 22 00 04 C3 24 07 29 20 
-0350:6A 61 72 69 67 4B 4B 4B 4B 81 4E 24 09 53 61 76 
+0330:02 FF 8D 02 FF 8D 96 22 00 01 2E C4 C1 4B 24 02 
+0340:20 28 4B 22 00 03 03 FF EA 86 22 00 04 C3 4B 24 
+0350:07 29 20 6A 61 72 69 67 4B 81 4E 24 09 53 61 76 
 0360:69 6E 67 2E 2E 2E 71 73 5B 7B 53 00 00 8E 22 00 
 0370:C2 2C 7E 00 04 8E 57 00 FF 8A 22 00 03 2C 00 FF 
 0380:F4 22 00 01 03 FF D2 2C 34 7E 00 0F 22 00 01 10 

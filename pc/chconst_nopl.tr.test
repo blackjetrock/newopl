@@ -27,15 +27,15 @@ QCode
 0006: 0041       (65)
 0008: 22       Push integer literal     (bytes code:I)
 0009: 0025       (37)
-000B: 22       Push integer literal     (bytes code:I)
-000C: 002E       (46)
-000E: 22       Push integer literal     (bytes code:I)
-000F: 0020       (32)
-0011: 22       Push integer literal     (bytes code:I)
-0012: 0031       (49)
-0014: 2D       Plus integer     (bytes code:-)
-0015: 2D       Plus integer     (bytes code:-)
-0016: 2D       Plus integer     (bytes code:-)
+000B: 2D       Plus integer     (bytes code:-)
+000C: 22       Push integer literal     (bytes code:I)
+000D: 002E       (46)
+000F: 2D       Plus integer     (bytes code:-)
+0010: 22       Push integer literal     (bytes code:I)
+0011: 0020       (32)
+0013: 2D       Plus integer     (bytes code:-)
+0014: 22       Push integer literal     (bytes code:I)
+0015: 0031       (49)
 0017: 2D       Plus integer     (bytes code:-)
 0018: 7F       Assign integer     (bytes code:-)
 0019: 0D       Push local/global integer variable reference     (bytes code:v)
@@ -44,15 +44,15 @@ QCode
 001D: FFFC       (65532)
 001F: 22       Push integer literal     (bytes code:I)
 0020: 0025       (37)
-0022: 22       Push integer literal     (bytes code:I)
-0023: 0020       (32)
-0025: 22       Push integer literal     (bytes code:I)
-0026: 0041       (65)
-0028: 22       Push integer literal     (bytes code:I)
-0029: 0028       (40)
-002B: 2D       Plus integer     (bytes code:-)
-002C: 2D       Plus integer     (bytes code:-)
-002D: 2D       Plus integer     (bytes code:-)
+0022: 2D       Plus integer     (bytes code:-)
+0023: 22       Push integer literal     (bytes code:I)
+0024: 0020       (32)
+0026: 2D       Plus integer     (bytes code:-)
+0027: 22       Push integer literal     (bytes code:I)
+0028: 0041       (65)
+002A: 2D       Plus integer     (bytes code:-)
+002B: 22       Push integer literal     (bytes code:I)
+002C: 0028       (40)
 002E: 2D       Plus integer     (bytes code:-)
 002F: 7F       Assign integer     (bytes code:-)
 0030: 00       Push local/global integer variable value     (bytes code:v)
@@ -65,7 +65,7 @@ QCode
 
 QCode Data
 
-0000:59 B2 0D FF FC 22 00 41 22 00 25 22 00 2E 22 00 
-0010:20 22 00 31 2D 2D 2D 2D 7F 0D FF FC 00 FF FC 22 
-0020:00 25 22 00 20 22 00 41 22 00 28 2D 2D 2D 2D 7F 
+0000:59 B2 0D FF FC 22 00 41 22 00 25 2D 22 00 2E 2D 
+0010:22 00 20 2D 22 00 31 2D 7F 0D FF FC 00 FF FC 22 
+0020:00 25 2D 22 00 20 2D 22 00 41 2D 22 00 28 2D 7F 
 0030:00 FF FC 6F 73 91 83 7B 
