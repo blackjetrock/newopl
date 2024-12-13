@@ -544,9 +544,9 @@ QCode
 02D4: 'Name:'
 02D9: 71       PRINT string     (bytes code:-)
 02DA: 72       PRINT ,     (bytes code:-)
-02DB: 5A       TRAP     (bytes code:-)
-02DC: 0F       Push local/global string variable reference     (bytes code:v)
-02DD: FF8D       (65421)
+02DB: 0F       Push local/global string variable reference     (bytes code:v)
+02DC: FF8D       (65421)
+02DE: 5A       TRAP     (bytes code:-)
 02DF: 6E       INPUT string     (bytes code:-)
 02E0: 8E       ERR     (bytes code:-)
 02E1: 22       Push integer literal     (bytes code:I)
@@ -738,7 +738,7 @@ QCode Data
 02A0:4B 81 24 05 44 41 54 45 24 1F 00 22 00 03 05 FF 
 02B0:C1 22 00 02 05 FF C1 4B 22 00 01 05 FF C1 4B 24 
 02C0:08 30 37 30 30 30 31 30 30 4B 81 22 00 01 22 00 
-02D0:04 4C 24 05 4E 61 6D 65 3A 71 72 5A 0F FF 8D 6E 
+02D0:04 4C 24 05 4E 61 6D 65 3A 71 72 0F FF 8D 5A 6E 
 02E0:8E 22 00 CE 2C 7E 00 03 7B 02 FF 8D 22 00 01 C0 
 02F0:24 01 2A 4A 7E 00 29 24 06 45 56 45 4E 54 24 1F 
 0300:00 02 FF 8D 22 00 02 22 00 01 C2 C7 02 FF 8D 02 

@@ -43,12 +43,12 @@ QCode
 002D: 22       Push integer literal     (bytes code:I)
 002E: 0073       (115)
 0030: 2C       Equal integer     (bytes code:-)
-0031: 00       Push local/global integer variable value     (bytes code:v)
-0032: FFE7       (65511)
-0034: 22       Push integer literal     (bytes code:I)
-0035: 0001       (1)
-0037: 2C       Equal integer     (bytes code:-)
-0038: 35       OR integer     (bytes code:-)
+0031: 35       OR integer     (bytes code:-)
+0032: 00       Push local/global integer variable value     (bytes code:v)
+0033: FFE7       (65511)
+0035: 22       Push integer literal     (bytes code:I)
+0036: 0001       (1)
+0038: 2C       Equal integer     (bytes code:-)
 0039: 35       OR integer     (bytes code:-)
 003A: 7E       Branch if false     (bytes code:D)
 003B: Dest:003E (Dist:0003)
@@ -284,7 +284,7 @@ QCode Data
 0000:59 B2 4E 0D FF E7 22 00 01 24 16 50 72 65 73 73 
 0010:20 61 6E 79 20 6B 65 79 20 28 53 3D 53 74 6F 70 
 0020:29 A0 7F 00 FF E7 22 00 53 2C 00 FF E7 22 00 73 
-0030:2C 00 FF E7 22 00 01 2C 35 35 7E 00 03 7B 0F FF 
+0030:2C 35 00 FF E7 22 00 01 2C 35 7E 00 03 7B 0F FF 
 0040:ED 24 00 81 0D FF E7 22 00 00 7F 0D FF E7 00 FF 
 0050:E7 22 00 01 2D 7F 0F FF ED 02 FF ED B1 22 00 1A 
 0060:86 3E 22 00 41 86 3C 94 B8 4B 81 0D FF E5 22 00 

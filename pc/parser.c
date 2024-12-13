@@ -32,6 +32,9 @@ int           procedure_has_return = 0;
 #define I_WHERE     &(cline[cline_i])
 #define IDX_WHERE   &(cline[idx])
 
+#define NOT_TRAPPED 0
+#define TRAPPED     1
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Index for QCode generation
@@ -362,8 +365,8 @@ OP_INFO  op_info[] =
     { "<",    1, 2, NOBJ_VARTYPE_INT,     0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY} },
 
     // (Handle bitwise on integer, logical on floats somewhere)
-    { "AND",  1, 1, NOBJ_VARTYPE_UNKNOWN, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY} },
-    { "OR",   1, 1, NOBJ_VARTYPE_UNKNOWN, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY} },
+    { "AND",  1, 1, NOBJ_VARTYPE_UNKNOWN, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY} },
+    { "OR",   1, 1, NOBJ_VARTYPE_UNKNOWN, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY} },
     { "NOT",  1, 1, NOBJ_VARTYPE_UNKNOWN, 1, "UNOT", 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY} },
 
     // LZ only
@@ -4321,8 +4324,10 @@ int scan_command(char *cmd_dest, int trappable_only)
 	  strcpy(cmd_dest, fn_info[i].name);
 	  cline_i += strlen(fn_info[i].name);
 
-	  // Send command to output stream
+	  // Send command to output stream, ensuring we have a tag that will generate TRAP command if
+	  // trappable was set 
 	  strcpy(op.name, cmd_dest);
+	  op.trapped = trappable_only;
 	  op.buf_id = EXP_BUFF_ID_FUNCTION;
 	  process_token(&op);
 
@@ -5323,7 +5328,7 @@ int check_input(int *index)
 
 //------------------------------------------------------------------------------
 
-int scan_input(void)
+int scan_input(int trapped)
 {
   NOBJ_VAR_INFO vi;
   OP_STACK_ENTRY op;
@@ -5343,6 +5348,8 @@ int scan_input(void)
 	{
       
 	  strcpy(op.name, "INPUT");
+	  op.trapped = trapped;
+	  
 	  output_generic(op, "INPUT", EXP_BUFF_ID_INPUT);
 
 	  print_var_info(&vi);
@@ -6563,7 +6570,7 @@ int scan_line(LEVEL_INFO levels)
   idx = cline_i;
   if( check_input(&idx) )
     {
-      if(scan_input())
+      if(scan_input(NOT_TRAPPED))
 	{
 	  dbprintf("ret1");
 	  return(1);
@@ -6776,6 +6783,11 @@ int scan_line(LEVEL_INFO levels)
 	}
     }
 
+  // TRAP is a bit odd, as it is a tag for a command rather than a command itself
+  // There's no colon between the TRAP and the command. We tag the command as a trapped
+  // version and generate the TRAP QCode when the command QCode is generated. This is to preserve the
+  // original ordering of the Psion
+  
   idx = cline_i;
   if( check_literal(&idx," TRAP"))
     {
@@ -6788,11 +6800,11 @@ int scan_line(LEVEL_INFO levels)
 
       dbprintf("TRAP found cline:'%s'", &(cline[cline_i]));
       
-      output_generic(op, "TRAP", EXP_BUFF_ID_TRAP);
+      //    output_generic(op, "TRAP", EXP_BUFF_ID_TRAP);
 
       // We want the TRAP before the next command
-      finalise_expression();
-      output_expression_start(&cline[cline_i]);
+      //finalise_expression();
+      //output_expression_start(&cline[cline_i]);
 
       idx = cline_i;
 
@@ -6801,7 +6813,7 @@ int scan_line(LEVEL_INFO levels)
 	{
 	  
 	  //	  cline_i = idx;
-	  if( scan_input() )
+	  if( scan_input(TRAPPED) )
 	    {
 	      dbprintf("Scanned for INPUT");
 	      dbprintf("ret1");

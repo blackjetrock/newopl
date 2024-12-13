@@ -395,6 +395,24 @@ void operator_can_be_unary(OP_STACK_ENTRY *op)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+// If the entry is a trapped command then generate the TRAP QCode
+
+int  qcode_check_trapped(int qcode_idx, OP_STACK_ENTRY *op)
+{
+  dbprintf("%s: Trapped:%d", op->name, op->trapped);
+  
+  if( op->trapped )
+    {
+      dbprintf("Added TRAP");
+      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_TRAP);
+    }
+
+  return(qcode_idx);
+}
+
+		
+////////////////////////////////////////////////////////////////////////////////
+//
 // Table with simple BUFF_ID to QCode mappings
 //
 
@@ -630,6 +648,10 @@ int add_simple_qcode(int idx, OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
 	      (((strcmp(qc_map[i].name, op->name) == 0) && (strlen(qc_map[i].name) != 0)) || (strlen(qc_map[i].name) == 0))
 	      )
 	    {
+
+	      // Add TRAP if needed
+	      idx = qcode_check_trapped(idx, op);
+	      
 	      // We have a match and a qcode
 	      return(set_qcode_header_byte_at(idx, 1, qc_map[i].qcode));
 	    }
@@ -1245,6 +1267,8 @@ void output_qcode_for_line(void)
 		  qc =  QCO_OPEN;
 		}
 
+	      qcode_idx = qcode_check_trapped(qcode_idx, &tokop);
+	      
 	      // Filename is already stacked as an expression
 	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, qc);
 
@@ -3338,6 +3362,7 @@ void init_op_stack_entry(OP_STACK_ENTRY *op)
   op->level          = 0;
   op->num_parameters = 0;
   op->vi.num_indices = 0;
+  op->trapped        = 0;
   
   op->access         = NOPL_OP_ACCESS_READ;  // Default to reading things
   op->qcode_type     = NOBJ_VARTYPE_UNKNOWN; // Ignored if UNKNOWN, only some operators use this

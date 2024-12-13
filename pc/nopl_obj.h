@@ -218,6 +218,8 @@ typedef struct _OP_STACK_ENTRY
   int                     num_parameters;
   NOPL_OP_ACCESS          access;                // Read or write (variables)
                                                  // EXP or NO_EXP for RETURN
+  int                     trapped;               // Non zero if this is a trapped command and we need
+                                                 // to generate a TRAP QCode
 } OP_STACK_ENTRY;
 
 #define MAX_EXP_BUF_P   12
