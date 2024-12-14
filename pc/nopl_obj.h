@@ -3,7 +3,7 @@
 // This is backwards compatible with QCode where possible.
 //
 
-
+#define NOPL_CONFIG_FORCE_VARS_UPPERCASE 1
 
 #define NOPL_MAX_TOKEN           80
 #define NOPL_MAX_OP_STACK        50

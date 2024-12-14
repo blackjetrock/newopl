@@ -123,134 +123,135 @@ struct _FN_INFO
                        //  s: string (value) 
   char *resulttype;
   uint8_t qcode;
+  int     force_write;
 }
   fn_info[] =
   {
-    { "ABS",      0,  0, ' ',  "f",         "f", 0x00 },
-    { "ACOS",     0,  0, ' ',  "f",         "f", 0x00 },
-    { "ADDR",     0,  0, 'V',  "V",         "i", 0x00 },
-    { "APPEND",   1,  1, ' ',  "",          "v", 0x00 },
-    { "ASC",      0,  0, ' ',  "s",         "i", 0x00 },
-    { "ASIN",     0,  0, ' ',  "f",         "f", 0x00 },
-    { "AT",       1,  0, ' ',  "ii",        "v", 0x4C },
-    { "ATAN",     0,  0, ' ',  "f",         "f", 0x00 },
-    { "BACK",     1,  1, ' ',  "",          "v", 0x00 },
-    { "BEEP",     1,  0, ' ',  "ii",        "v", 0x00 },
-    //{ "BREAK",    1,  0, ' ',  "",          "v", 0x00 },
-    { "CHR$",     0,  0, ' ',  "i",         "s", 0x00 },
-    { "CLOCK",    0,  0, ' ',  "i",         "i", 0x00 },
-    { "CLOSE",    1,  1, ' ',  "",          "v", 0x00 },
-    { "CLS",      1,  0, ' ',  "",          "v", 0x00 },
-    //    { "CONTINUE", 1,  0, ' ',  "",          "v", 0x00 },  // Conditional
-    { "COPYW",    1,  1, ' ',  "ss",        "v", 0x00 },
-    { "COPY",     1,  1, ' ',  "ss",        "v", 0x00 },
-    { "COS",      0,  0, ' ',  "f",         "f", 0x00 },
-    { "COUNT",    0,  0, ' ',  "",          "i", 0x00 },
-    //{ "CREATE",   1,  1, ' ',  "ii",        "v", 0x00 },  // file format
-    { "CURSOR",   1,  0, 'O',  "i",         "v", 0x00 },
-    { "DATIM$",   0,  0, ' ',  "",          "s", 0x00 },
-    { "DAYNAME$", 0,  0, ' ',  "i",         "s", 0x00 },
-    { "DAYS",     0,  0, ' ',  "iii",       "i", 0x00 },
-    { "DAY",      0,  0, ' ',  "",          "i", 0x00 },
-    { "DEG",      0,  0, ' ',  "f",         "f", 0x00 },
-    { "DELETEW",  1,  1, ' ',  "",          "v", 0x00 },
-    { "DELETE",   1,  1, ' ',  "",          "v", 0x00 },
-    { "DIRW$",    0,  0, ' ',  "s",         "s", 0x00 },
-    { "DIR$",     0,  0, ' ',  "s",         "s", 0x00 },
-    { "DISP",     0,  0, ' ',  "i$",        "i", 0x00 },
-    { "DOW",      0,  0, ' ',  "iii",       "i", 0x00 },
-    { "EDIT",     1,  1, ' ',  "s",         "v", 0x00 },
-    //  { "ENDIF",    1,  0, ' ',  "",          "v", 0x00 },
-    { "EOF",      0,  0, ' ',  "",          "i", 0x00 },
-    { "ERASE",    1,  1, ' ',  "",          "v", 0x00 },
-    { "ERR$",     0,  0, ' ',  "i",         "s", 0x00 },
-    { "ERR",      0,  0, ' ',  "",          "i", 0x00 },
-    { "ESCAPE",   1,  0, 'O',  "i",         "v", 0x00 },
-    { "EXIST",    0,  0, ' ',  "s",         "i", 0x00 },
-    { "EXP",      0,  0, ' ',  "f",         "f", 0x00 },
-    { "FINDW",    0,  0, ' ',  "s",         "i", 0x00 },
-    { "FIND",     0,  0, ' ',  "s",         "i", 0x00 },
-    { "FIRST",    1,  1, ' ',  "",          "v", 0x00 },
-    { "FIX$",     0,  0, ' ',  "fii",       "s", 0x00 },
-    { "FLT",      0,  0, ' ',  "i",         "f", 0x00 },
-    { "FREE",     0,  0, ' ',  "",          "i", 0x00 },
-    { "GEN$",     0,  0, ' ',  "fi",        "s", 0x00 },
-    { "GET$",     0,  0, ' ',  "",          "s", 0x00 },
-    { "GET",      0,  0, ' ',  "",          "i", 0x00 },
-    { "HEX$",     0,  0, ' ',  "i",         "s", 0x00 },
-    { "HOUR",     0,  0, ' ',  "",          "i", 0x00 },
-    { "IABS",     0,  0, ' ',  "i",         "i", 0x00 },
-    //{ "INPUT",    1,  1, ' ',  "i",         "i", 0x00 },
-    { "INTF",     0,  0, ' ',  "f",         "f", 0x00 },
-    { "INT",      0,  0, ' ',  "f",         "i", 0x00 },
-    //    { "IF",       1,  0, ' ',  "i",         "v", 0x00 },
-    { "KEY$",     0,  0, ' ',  "",          "s", 0x00 },
-    { "KEY",      0,  0, ' ',  "",          "i", 0x00 },
-    { "KSTAT",    1,  0, ' ',  "i",         "v", 0x00 },
-    { "LAST",     1,  1, ' ',  "",          "v", 0x00 },
-    { "LEFT$",    0,  0, ' ',  "si",        "s", 0x00 },
-    { "LEN",      0,  0, ' ',  "s",         "i", 0x00 },
-    { "LN",       0,  0, ' ',  "f",         "f", 0x00 },
-    { "LOC",      0,  0, ' ',  "ss",        "i", 0x00 },
-    { "LOG",      0,  0, ' ',  "f",         "f", 0x00 },
-    { "LOWER$",   0,  0, ' ',  "s",         "s", 0x00 },
-    //{ "LPRINT",   1,  0, ' ',  "i",         "v", 0x00 },    // As print
-    { "MAX",      0,  0, ' ',  "ii",        "f", 0x00 },
-    { "MEAN",     0,  0, ' ',  "ii",        "f", 0x00 },    // Multiple forms
-    { "MENUN",    0,  0, ' ',  "is",        "i", 0x00 },    // Multiple forms
-    { "MENU",     0,  0, ' ',  "s",         "i", 0x00 },
-    { "MID$",     0,  0, ' ',  "sii",       "s", 0x00 },
-    { "MINUTE",   0,  0, ' ',  "",          "i", 0x00 },
-    { "MIN",      0,  0, ' ',  "ii",        "f", 0x00 },    // Multiple forms
-    { "MONTH$",   0,  0, ' ',  "i",         "s", 0x00 },    
-    { "MONTH",    0,  0, ' ',  "",          "i", 0x00 },
-    { "NEXT",     0,  1, ' ',  "",          "v", 0x00 },
-    { "NUM$",     0,  0, ' ',  "fi",        "s", 0x00 },
-    // { "NOT",      0,  0, ' ',  "i",         "i", 0x00 },
-    { "OFFX",     1,  0, ' ',  "i",         "v", 0x00 },    // OFF or OFF x%
-    { "OFF",      1,  0, ' ',  "",          "v", 0x00 },    // OFF or OFF x%
-    //{ "OPEN",     1,  1, ' ',  "ii",        "v", 0x00 },    // File format
-    //    { "ONERR",    1,  0, ' ',  "",          "v", 0x00 },    
-    { "PAUSE",    1,  0, ' ',  "i" ,        "v", 0x00 },
-    { "PEEKB",    0,  0, ' ',  "i",         "i", 0x00 },
-    { "PEEKW",    0,  0, ' ',  "i",         "i", 0x00 },
-    { "PI",       0,  0, ' ',  "",          "f", 0x00 },
-    { "POKEB",    1,  0, ' ',  "ii",        "v", 0x00 },
-    { "POKEW",    1,  0, ' ',  "ii",        "v", 0x00 },
-    { "POSITION", 1,  1, ' ',  "i",         "v", 0x00 },
-    { "POS",      0,  0, ' ',  "",          "i", 0x00 },
-    //{ "PRINT",    1,  0, ' ',  "i",         "v", 0x00 },
-    { "RAD",      0,  0, ' ',  "f",         "f", 0x00 },
-    { "RAISE",    1,  0, ' ',  "i",         "v", 0x00 },
-    { "RANDOMIZE",1,  0, ' ',  "i",         "v", 0x00 },
-    { "RECSIZE",  0,  0, ' ',  "",          "i", 0x00 },
-    { "REM",      1,  0, ' ',  "",          "v", 0x00 },
-    { "RENAME",   1,  1, ' ',  "ss",        "v", 0x00 },
-    { "REPT$",    0,  0, ' ',  "si",        "s", 0x00 },
-    { "RETURN",   1,  0, ' ',  "i",         "v", 0x00 },
-    { "RIGHT$",   0,  0, ' ',  "si",        "s", 0x00 },
-    { "RND",      0,  0, ' ',  "",          "f", 0x00 },
-    { "SCI$",     0,  0, ' ',  "fii",       "s", 0x00 },
-    { "SECOND",   0,  0, ' ',  "",          "i", 0x00 },
-    { "SIN",      0,  0, ' ',  "f",         "f", 0x00 },
-    { "SPACE",    0,  0, ' ',  "",          "f", 0x00 },
-    { "SQR",      0,  0, ' ',  "f",         "f", 0x00 },
-    { "STD",      0,  0, ' ',  "ii",        "f", 0x00 },  // Multiple forms
-    { "STOP",     1,  0, ' ',  "",          "v", 0x00 },
-    { "SUM",      0,  0, ' ',  "ii",        "f", 0x00 },  // Multiple forms
-    { "TAN",      0,  0, ' ',  "f",         "f", 0x00 },
-    //{ "TRAP",     1,  0, ' ',  "",          "v", 0x00 },  // Prefix, not command?
-    { "UDG",      1,  0, ' ',  "iiiiiiiii", "v", 0x00 },
-    { "UPDATE",   1,  1, ' ',  "",          "v", 0x00 },
-    { "UPPER$",   0,  0, ' ',  "s",         "s", 0x00 },
-    { "USE",      1,  1, ' ',  "",          "v", 0x00 },   // Need A,B,C,D type
-    { "USR$",     0,  0, ' ',  "ii",        "s", 0x00 },
-    { "USR",      0,  0, ' ',  "ii",        "i", 0x00 },
-    { "VAL",      0,  0, ' ',  "s",         "f", 0x00 },
-    { "VAR",      0,  0, ' ',  "ii",        "f", 0x00 },   // Multiple forms
-    { "VIEW",     0,  0, ' ',  "is",        "i", 0x00 },   
-    { "WEEK",     0,  0, ' ',  "iii",       "i", 0x00 },
-    { "YEAR",     0,  0, ' ',  "",          "i", 0x00 },
+    { "ABS",      0,  0, ' ',  "f",         "f", 0x00, 0 },
+    { "ACOS",     0,  0, ' ',  "f",         "f", 0x00, 0 },
+    { "ADDR",     0,  0, 'V',  "V",         "i", 0x00, 0 },
+    { "APPEND",   1,  1, ' ',  "",          "v", 0x00, 0 },
+    { "ASC",      0,  0, ' ',  "s",         "i", 0x00, 0 },
+    { "ASIN",     0,  0, ' ',  "f",         "f", 0x00, 0 },
+    { "AT",       1,  0, ' ',  "ii",        "v", 0x4C, 0 },
+    { "ATAN",     0,  0, ' ',  "f",         "f", 0x00, 0 },
+    { "BACK",     1,  1, ' ',  "",          "v", 0x00, 0 },
+    { "BEEP",     1,  0, ' ',  "ii",        "v", 0x00, 0 },
+    //{ "BREAK",    1,  0, ' ',  "",          "v", 0x00, 0 },
+    { "CHR$",     0,  0, ' ',  "i",         "s", 0x00, 0 },
+    { "CLOCK",    0,  0, ' ',  "i",         "i", 0x00, 0 },
+    { "CLOSE",    1,  1, ' ',  "",          "v", 0x00, 0 },
+    { "CLS",      1,  0, ' ',  "",          "v", 0x00, 0 },
+    //    { "CONTINUE", 1,  0, ' ',  "",          "v", 0x00, 0 },  // Conditional
+    { "COPYW",    1,  1, ' ',  "ss",        "v", 0x00, 0 },
+    { "COPY",     1,  1, ' ',  "ss",        "v", 0x00, 0 },
+    { "COS",      0,  0, ' ',  "f",         "f", 0x00, 0 },
+    { "COUNT",    0,  0, ' ',  "",          "i", 0x00, 0 },
+    //{ "CREATE",   1,  1, ' ',  "ii",        "v", 0x00, 0 },  // file format
+    { "CURSOR",   1,  0, 'O',  "i",         "v", 0x00, 0 },
+    { "DATIM$",   0,  0, ' ',  "",          "s", 0x00, 0 },
+    { "DAYNAME$", 0,  0, ' ',  "i",         "s", 0x00, 0 },
+    { "DAYS",     0,  0, ' ',  "iii",       "i", 0x00, 0 },
+    { "DAY",      0,  0, ' ',  "",          "i", 0x00, 0 },
+    { "DEG",      0,  0, ' ',  "f",         "f", 0x00, 0 },
+    { "DELETEW",  1,  1, ' ',  "",          "v", 0x00, 0 },
+    { "DELETE",   1,  1, ' ',  "",          "v", 0x00, 0 },
+    { "DIRW$",    0,  0, ' ',  "s",         "s", 0x00, 0 },
+    { "DIR$",     0,  0, ' ',  "s",         "s", 0x00, 0 },
+    { "DISP",     0,  0, ' ',  "i$",        "i", 0x00, 0 },
+    { "DOW",      0,  0, ' ',  "iii",       "i", 0x00, 0 },
+    { "EDIT",     1,  1, ' ',  "s",         "v", 0x00, 1 },
+    //  { "ENDIF",    1,  0, ' ',  "",          "v", 0x00, 0 },
+    { "EOF",      0,  0, ' ',  "",          "i", 0x00, 0 },
+    { "ERASE",    1,  1, ' ',  "",          "v", 0x00, 0 },
+    { "ERR$",     0,  0, ' ',  "i",         "s", 0x00, 0 },
+    { "ERR",      0,  0, ' ',  "",          "i", 0x00, 0 },
+    { "ESCAPE",   1,  0, 'O',  "i",         "v", 0x00, 0 },
+    { "EXIST",    0,  0, ' ',  "s",         "i", 0x00, 0 },
+    { "EXP",      0,  0, ' ',  "f",         "f", 0x00, 0 },
+    { "FINDW",    0,  0, ' ',  "s",         "i", 0x00, 0 },
+    { "FIND",     0,  0, ' ',  "s",         "i", 0x00, 0 },
+    { "FIRST",    1,  1, ' ',  "",          "v", 0x00, 0 },
+    { "FIX$",     0,  0, ' ',  "fii",       "s", 0x00, 0 },
+    { "FLT",      0,  0, ' ',  "i",         "f", 0x00, 0 },
+    { "FREE",     0,  0, ' ',  "",          "i", 0x00, 0 },
+    { "GEN$",     0,  0, ' ',  "fi",        "s", 0x00, 0 },
+    { "GET$",     0,  0, ' ',  "",          "s", 0x00, 0 },
+    { "GET",      0,  0, ' ',  "",          "i", 0x00, 0 },
+    { "HEX$",     0,  0, ' ',  "i",         "s", 0x00, 0 },
+    { "HOUR",     0,  0, ' ',  "",          "i", 0x00, 0 },
+    { "IABS",     0,  0, ' ',  "i",         "i", 0x00, 0 },
+    //{ "INPUT",    1,  1, ' ',  "i",         "i", 0x00, 0 },
+    { "INTF",     0,  0, ' ',  "f",         "f", 0x00, 0 },
+    { "INT",      0,  0, ' ',  "f",         "i", 0x00, 0 },
+    //    { "IF",       1,  0, ' ',  "i",         "v", 0x00, 0 },
+    { "KEY$",     0,  0, ' ',  "",          "s", 0x00, 0 },
+    { "KEY",      0,  0, ' ',  "",          "i", 0x00, 0 },
+    { "KSTAT",    1,  0, ' ',  "i",         "v", 0x00, 0 },
+    { "LAST",     1,  1, ' ',  "",          "v", 0x00, 0 },
+    { "LEFT$",    0,  0, ' ',  "si",        "s", 0x00, 0 },
+    { "LEN",      0,  0, ' ',  "s",         "i", 0x00, 0 },
+    { "LN",       0,  0, ' ',  "f",         "f", 0x00, 0 },
+    { "LOC",      0,  0, ' ',  "ss",        "i", 0x00, 0 },
+    { "LOG",      0,  0, ' ',  "f",         "f", 0x00, 0 },
+    { "LOWER$",   0,  0, ' ',  "s",         "s", 0x00, 0 },
+    //{ "LPRINT",   1,  0, ' ',  "i",         "v", 0x00, 0 },    // As print
+    { "MAX",      0,  0, ' ',  "ii",        "f", 0x00, 0 },
+    { "MEAN",     0,  0, ' ',  "ii",        "f", 0x00, 0 },    // Multiple forms
+    { "MENUN",    0,  0, ' ',  "is",        "i", 0x00, 0 },    // Multiple forms
+    { "MENU",     0,  0, ' ',  "s",         "i", 0x00, 0 },
+    { "MID$",     0,  0, ' ',  "sii",       "s", 0x00, 0 },
+    { "MINUTE",   0,  0, ' ',  "",          "i", 0x00, 0 },
+    { "MIN",      0,  0, ' ',  "ii",        "f", 0x00, 0 },    // Multiple forms
+    { "MONTH$",   0,  0, ' ',  "i",         "s", 0x00, 0 },    
+    { "MONTH",    0,  0, ' ',  "",          "i", 0x00, 0 },
+    { "NEXT",     0,  1, ' ',  "",          "v", 0x00, 0 },
+    { "NUM$",     0,  0, ' ',  "fi",        "s", 0x00, 0 },
+    // { "NOT",      0,  0, ' ',  "i",         "i", 0x00, 0 },
+    { "OFFX",     1,  0, ' ',  "i",         "v", 0x00, 0 },    // OFF or OFF x%
+    { "OFF",      1,  0, ' ',  "",          "v", 0x00, 0 },    // OFF or OFF x%
+    //{ "OPEN",     1,  1, ' ',  "ii",        "v", 0x00, 0 },    // File format
+    //    { "ONERR",    1,  0, ' ',  "",          "v", 0x00, 0 },    
+    { "PAUSE",    1,  0, ' ',  "i" ,        "v", 0x00, 0 },
+    { "PEEKB",    0,  0, ' ',  "i",         "i", 0x00, 0 },
+    { "PEEKW",    0,  0, ' ',  "i",         "i", 0x00, 0 },
+    { "PI",       0,  0, ' ',  "",          "f", 0x00, 0 },
+    { "POKEB",    1,  0, ' ',  "ii",        "v", 0x00, 0 },
+    { "POKEW",    1,  0, ' ',  "ii",        "v", 0x00, 0 },
+    { "POSITION", 1,  1, ' ',  "i",         "v", 0x00, 0 },
+    { "POS",      0,  0, ' ',  "",          "i", 0x00, 0 },
+    //{ "PRINT",    1,  0, ' ',  "i",         "v", 0x00, 0 },
+    { "RAD",      0,  0, ' ',  "f",         "f", 0x00, 0 },
+    { "RAISE",    1,  0, ' ',  "i",         "v", 0x00, 0 },
+    { "RANDOMIZE",1,  0, ' ',  "i",         "v", 0x00, 0 },
+    { "RECSIZE",  0,  0, ' ',  "",          "i", 0x00, 0 },
+    { "REM",      1,  0, ' ',  "",          "v", 0x00, 0 },
+    { "RENAME",   1,  1, ' ',  "ss",        "v", 0x00, 0 },
+    { "REPT$",    0,  0, ' ',  "si",        "s", 0x00, 0 },
+    { "RETURN",   1,  0, ' ',  "i",         "v", 0x00, 0 },
+    { "RIGHT$",   0,  0, ' ',  "si",        "s", 0x00, 0 },
+    { "RND",      0,  0, ' ',  "",          "f", 0x00, 0 },
+    { "SCI$",     0,  0, ' ',  "fii",       "s", 0x00, 0 },
+    { "SECOND",   0,  0, ' ',  "",          "i", 0x00, 0 },
+    { "SIN",      0,  0, ' ',  "f",         "f", 0x00, 0 },
+    { "SPACE",    0,  0, ' ',  "",          "f", 0x00, 0 },
+    { "SQR",      0,  0, ' ',  "f",         "f", 0x00, 0 },
+    { "STD",      0,  0, ' ',  "ii",        "f", 0x00, 0 },  // Multiple forms
+    { "STOP",     1,  0, ' ',  "",          "v", 0x00, 0 },
+    { "SUM",      0,  0, ' ',  "ii",        "f", 0x00, 0 },  // Multiple forms
+    { "TAN",      0,  0, ' ',  "f",         "f", 0x00, 0 },
+    //{ "TRAP",     1,  0, ' ',  "",          "v", 0x00, 0 },  // Prefix, not command?
+    { "UDG",      1,  0, ' ',  "iiiiiiiii", "v", 0x00, 0 },
+    { "UPDATE",   1,  1, ' ',  "",          "v", 0x00, 0 },
+    { "UPPER$",   0,  0, ' ',  "s",         "s", 0x00, 0 },
+    { "USE",      1,  1, ' ',  "",          "v", 0x00, 0 },   // Need A,B,C,D type
+    { "USR$",     0,  0, ' ',  "ii",        "s", 0x00, 0 },
+    { "USR",      0,  0, ' ',  "ii",        "i", 0x00, 0 },
+    { "VAL",      0,  0, ' ',  "s",         "f", 0x00, 0 },
+    { "VAR",      0,  0, ' ',  "ii",        "f", 0x00, 0 },   // Multiple forms
+    { "VIEW",     0,  0, ' ',  "is",        "i", 0x00, 0 },   
+    { "WEEK",     0,  0, ' ',  "iii",       "i", 0x00, 0 },
+    { "YEAR",     0,  0, ' ',  "",          "i", 0x00, 0 },
   };
 
 
@@ -303,7 +304,26 @@ NOBJ_VARTYPE function_return_type(char *fname)
   return(NOBJ_VARTYPE_UNKNOWN);
 }
 
+//------------------------------------------------------------------------------
+
+int function_access_force_write(char * fname)
+{
+  for(int i=0; i<NUM_FUNCTIONS; i++)
+    {
+      if( strcmp(fname, fn_info[i].name) == 0 )
+	{
+	  return(fn_info[i].force_write);
+	}
+    }
+
+  return(0);
+}
+
+//------------------------------------------------------------------------------
+//
 // Return the function return value type
+//
+
 int function_num_args(char *fname)
 {
 
@@ -1045,6 +1065,8 @@ int data_offset_of_type(NOBJ_VAR_INFO *vi)
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
 
 void calculate_var_offsets(void)
 {
@@ -1239,7 +1261,7 @@ void build_qcode_header(void)
     {
 
       // Must be an exact match, case insensitive
-      if( var_info[i].class == NOPL_VAR_CLASS_LOCAL )
+      if( (var_info[i].class == NOPL_VAR_CLASS_LOCAL) /*|| (var_info[i].class == NOPL_VAR_CLASS_OPEN)*/ )
 	{
 	  last_v_ptr = var_ptr;
 	  var_ptr += size_of_type(&(var_info[i]) );
@@ -1268,7 +1290,8 @@ void build_qcode_header(void)
 	 ((var_info[i].type == NOBJ_VARTYPE_STR) ||
 	  (var_info[i].type == NOBJ_VARTYPE_STRARY)) &&
 	 ((var_info[i].class == NOPL_VAR_CLASS_GLOBAL) ||
-	  (var_info[i].class == NOPL_VAR_CLASS_LOCAL))
+	  (var_info[i].class == NOPL_VAR_CLASS_LOCAL) ||
+	  ((var_info[i].class == NOPL_VAR_CLASS_OPEN) && (var_info[i].max_string != 0)) )
 	 )
 	{
 	  idx = set_qcode_header_byte_at(idx, 2, var_info[i].offset-1);
@@ -2251,6 +2274,11 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access)
   
   if( scan_vname(vname) )
     {
+
+#if NOPL_CONFIG_FORCE_VARS_UPPERCASE
+      to_upper_str(vname);
+#endif
+      
       dbprintf("%s: '%s' vname='%s'", __FUNCTION__, &(cline[cline_i]), vname);
       
       // Could just be a vname
@@ -4162,7 +4190,11 @@ int scan_createopen_list(char *keyword, int create_nopen, int trapped)
 	   
 	   if( srch_vi != NULL )
 	     {
-	       srch_vi->class = create_nopen?NOPL_VAR_CLASS_CREATE:NOPL_VAR_CLASS_OPEN;
+	       // Do we do this????
+	       if( srch_vi->class != NOPL_VAR_CLASS_LOCAL )
+		 {
+		   srch_vi->class = create_nopen?NOPL_VAR_CLASS_CREATE:NOPL_VAR_CLASS_OPEN;
+		 }
 	       srch_vi->is_ref = 0;
 	       
 	       dbprintf("%s variable:'%s'", keyword, vi.name);

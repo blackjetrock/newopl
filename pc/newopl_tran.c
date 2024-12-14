@@ -2321,6 +2321,26 @@ int insert_buf2_entry_after_node_id(int node_id, EXP_BUFFER_ENTRY e)
   return(0);
 }
 
+//------------------------------------------------------------------------------
+//
+// Set access of a node, given the node id
+//
+
+void set_node_access(int node_id, NOPL_OP_ACCESS access)
+{
+  for(int i= 0; i<exp_buffer2_i; i++)
+    {
+      if( exp_buffer2[i].node_id == node_id )
+	{
+	  exp_buffer2[i].op.access = access;
+	  return;
+	}
+    }
+
+  // Not found
+  internal_error("Did not find node to set access");
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Return a type that can be reached by as few type conversions as possible.
@@ -3011,6 +3031,14 @@ void typecheck_expression(void)
 	      // Pop an argument off and check it
 	      op1 = type_check_stack_pop();
 
+	      // Force the args to write if needed
+	      if( function_access_force_write(be.name) )
+		{
+		  dbprintf("Forced arg access to write");
+		  
+		  set_node_access(op1.node_id, NOPL_OP_ACCESS_WRITE);
+		}
+	      
 	      // Add to list of arguments
 	      be.p[be.p_idx++] = op1.node_id;
 	      
@@ -4165,6 +4193,14 @@ void process_token(OP_STACK_ENTRY *token)
       // which is more of a hint.
       strcpy(o1.name, tokptr);
       vt = function_return_type(o1.name);
+
+      // A few functions require a write access (e.g. EDIT)
+      // INPUT does as well but has its own parsing
+      
+      if( function_access_force_write(o1.name) )
+	{
+	  o1.access = NOPL_OP_ACCESS_WRITE;
+	}
       
       fprintf(ofp, "\n%s: '%s' t=>%c", __FUNCTION__, o1.name, type_to_char(vt));
       
