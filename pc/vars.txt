@@ -1,18 +1,34 @@
 
 Variables
 
-   0:  VAR: '                J%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFA
-   1:  VAR: '              JMN%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF8
-   2:  VAR: '              JMX%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF6
-   3:  VAR: '                P%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF4
-   4:  VAR: '                T%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF2
-   5:  VAR: '              DAT%'      Local Integer array     DECLARE max_str:  0 max_ary:  3 num_ind:  1 offset:FFEA
-   6:  VAR: '               MN%'      Local Integer array     DECLARE max_str:  0 max_ary:  3 num_ind:  1 offset:FFE2
-   7:  VAR: '               MX%'      Local Integer array     DECLARE max_str:  0 max_ary:  3 num_ind:  1 offset:FFDA
-   8:  VAR: '                P%'      Local Integer array     DECLARE max_str:  0 max_ary:  3 num_ind:  1 offset:FFD2
-   9:  VAR: '                D$'      Local String  array     DECLARE max_str:  4 max_ary:  3 num_ind:  2 offset:FFC1
-  10:  VAR: '                N$'      Local String            DECLARE max_str: 50 max_ary:  0 num_ind:  1 offset:FF8D
-  11:  VAR: '                K%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF8A
-  12:  VAR: '           A.DATE$'  Field Var String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:0025
-  13:  VAR: '            DBASE$'   External String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFC
-  14:  VAR: '          A.EVENT$'  Field Var String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:003C
+   0:  VAR: '          FULDESC$'     Global String            DECLARE max_str:107 max_ary:  0 num_ind:  1 offset:FE76
+   1:  VAR: '          ONECHAR$'     Global String            DECLARE max_str:  1 max_ary:  0 num_ind:  1 offset:FE73
+   2:  VAR: '               REM'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE6A
+   3:  VAR: '              USED'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE62
+   4:  VAR: '                IN'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE5A
+   5:  VAR: '             WORLD'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE52
+   6:  VAR: '        GENERATION'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE4A
+   7:  VAR: '                TO'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE42
+   8:  VAR: '              MOVE'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE3A
+   9:  VAR: '              DATA'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE32
+  10:  VAR: '             ABOUT'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE2A
+  11:  VAR: '            STATE%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE28
+  12:  VAR: '               THE'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE20
+  13:  VAR: '             STATE'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE18
+  14:  VAR: '           MACHINE'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE10
+  15:  VAR: '                OF'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE08
+  16:  VAR: '              GAME'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE00
+  17:  VAR: '              MAP$'     Global String  array     DECLARE max_str: 20 max_ary:  4 num_ind:  2 offset:FDAA
+  18:  VAR: '          WORLDMAP'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FDA1
+  19:  VAR: '          RANDVAL%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD9F
+  20:  VAR: '           NEWGAME'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD97
+  21:  VAR: '          GENERATE'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD8F
+  22:  VAR: '             TILES'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD87
+  23:  VAR: '             MENU%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD85
+  24:  VAR: '              MENU'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD7D
+  25:  VAR: '             VALUE'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD75
+  26:  VAR: '              THIS'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD6D
+  27:  VAR: '          FUNCTION'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD65
+  28:  VAR: '               PX%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD63
+  29:  VAR: '               PY%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD61
+  30:  VAR: '            PLAYER'     Global Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD59
