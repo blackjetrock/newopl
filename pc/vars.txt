@@ -1,9 +1,18 @@
 
 Variables
 
-   0:  VAR: '                A%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFC
-   1:  VAR: '                B%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFA
-   2:  VAR: '                C%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF8
-   3:  VAR: '                 X'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF0
-   4:  VAR: '                 Y'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE8
-   5:  VAR: '                 Z'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE0
+   0:  VAR: '                J%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFA
+   1:  VAR: '              JMN%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF8
+   2:  VAR: '              JMX%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF6
+   3:  VAR: '                P%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF4
+   4:  VAR: '                T%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF2
+   5:  VAR: '              DAT%'      Local Integer array     DECLARE max_str:  0 max_ary:  3 num_ind:  1 offset:FFEA
+   6:  VAR: '               MN%'      Local Integer array     DECLARE max_str:  0 max_ary:  3 num_ind:  1 offset:FFE2
+   7:  VAR: '               MX%'      Local Integer array     DECLARE max_str:  0 max_ary:  3 num_ind:  1 offset:FFDA
+   8:  VAR: '                P%'      Local Integer array     DECLARE max_str:  0 max_ary:  3 num_ind:  1 offset:FFD2
+   9:  VAR: '                D$'      Local String  array     DECLARE max_str:  4 max_ary:  3 num_ind:  2 offset:FFC1
+  10:  VAR: '                N$'      Local String            DECLARE max_str: 50 max_ary:  0 num_ind:  1 offset:FF8D
+  11:  VAR: '                K%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF8A
+  12:  VAR: '           A.DATE$'  Field Var String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:0025
+  13:  VAR: '            DBASE$'   External String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFC
+  14:  VAR: '          A.EVENT$'  Field Var String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:003C

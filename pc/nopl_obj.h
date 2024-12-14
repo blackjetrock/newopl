@@ -10,7 +10,7 @@
 #define NOPL_MAX_LOCAL           16
 #define NOPL_MAX_GLOBAL          16
 
-#define MAX_QCODE_HEADER         30000
+#define MAX_QCODE_HEADER         60000
 
 
 typedef uint8_t NOBJ_PARAMETER_TYPE;
