@@ -216,6 +216,7 @@ typedef struct _OP_STACK_ENTRY
   int                     bytes[NOPL_MAX_SUFFIX_BYTES];
   int                     level;                 // Used for conditionals
   int                     num_parameters;
+  NOBJ_VARTYPE            parameter_type[NOBJ_MAX_PARAMETERS];
   NOPL_OP_ACCESS          access;                // Read or write (variables)
                                                  // EXP or NO_EXP for RETURN
   int                     trapped;               // Non zero if this is a trapped command and we need
@@ -229,9 +230,9 @@ typedef struct _EXP_BUFFER_ENTRY
 {
   char name[40];
   OP_STACK_ENTRY op;
-  int node_id;
-  int p_idx;
-  int p[MAX_EXP_BUF_P];
+  int node_id;               // Node ID of this entry
+  int p_idx;                 // Number of pointers back to argument nodes
+  int p[MAX_EXP_BUF_P];      // Node id of each node we point to
   int nxt;
 } EXP_BUFFER_ENTRY;
 

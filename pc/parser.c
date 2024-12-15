@@ -24,6 +24,9 @@ int unique_level = 0;
 #define SAVE_I     1
 #define NO_SAVE_I  0
 
+#define INSERT_TYPES        1
+#define DO_NOT_INSERT_TYPES 0
+
 // Information about the procedure being translated
 char          procedure_name[NOBJ_VARNAME_MAXLEN+1];
 NOBJ_VARTYPE  procedure_type;
@@ -3908,7 +3911,7 @@ int check_expression_list(int *index)
 
 //------------------------------------------------------------------------------
 
-int scan_expression_list(int *num_expressions)
+int scan_expression_list(int *num_expressions, int insert_types)
 {
   int is_comma = 0;
   int idx = cline_i;
@@ -3933,6 +3936,15 @@ int scan_expression_list(int *num_expressions)
       dbprintf( "\nENDEXP");
       sprintf(op.name, ")");
       process_token(&op);
+
+      // Add a type if requested (PROC CALL)
+      if( insert_types )
+	{
+	  op.buf_id = EXP_BUFF_ID_META;
+	  
+	  strcpy(op.name, "PAR_TYPE");
+	  process_token(&op);
+	}
       
       idx = cline_i;
       (*num_expressions)++;
@@ -3959,6 +3971,15 @@ int scan_expression_list(int *num_expressions)
 	  dbprintf( "\nENDEXP");
 	  sprintf(op.name, ")");
 	  process_token(&op);
+
+	  // Add a type if requested (PROC CALL)
+	  if( insert_types )
+	    {
+	      op.buf_id = EXP_BUFF_ID_META;
+	      
+	      strcpy(op.name, "PAR_TYPE");
+	      process_token(&op);
+	    }
 	  
 	  (*num_expressions)++;
 	  // Set up idx for next iteration
@@ -4481,7 +4502,7 @@ int scan_command(char *cmd_dest, int trappable_only)
 	      
 	      // Expression scanning will push expression to output stream.
 	    default:
-	      if( scan_expression_list(&num_expr) )
+	      if( scan_expression_list(&num_expr, DO_NOT_INSERT_TYPES) )
 		{
 		  dbprintf("ret1 =>'%s'", cmd_dest);
 		  dbprintf( "\nENDEXP");
@@ -4563,7 +4584,7 @@ int scan_function(char *cmd_dest)
 		{
 		  scan_literal(" (");
 		  
-		  if( !scan_expression_list(&num_expr) )
+		  if( !scan_expression_list(&num_expr, DO_NOT_INSERT_TYPES) )
 		    {
 		      dbprintf("ret0 Not an expression");
 		      return(0);
@@ -5472,6 +5493,7 @@ int scan_input(int trapped)
       
 	  strcpy(op.name, "INPUT");
 	  op.trapped = trapped;
+	  op.type = NOBJ_VARTYPE_VOID;
 	  
 	  output_generic(op, "INPUT", EXP_BUFF_ID_INPUT);
 
@@ -5579,7 +5601,11 @@ int scan_proc_call(void)
 		  scan_literal(" (");
 		  if( check_expression_list(&idx) )
 		    {
-		      scan_expression_list(&num_expr);
+		      // Scan a parameter list here. The proc call has a type pushed onto the stack
+		      // for each parameter so the procedure load can type check the parameters at
+		      // run time. We have to make sure that scan_expression list adds intermediate code
+		      // to generate qcode for these type pushes.
+		      scan_expression_list(&num_expr, INSERT_TYPES);
 		    }
 		  scan_literal(" )");
 		}

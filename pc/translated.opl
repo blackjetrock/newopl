@@ -213,20 +213,20 @@ ENDWH
 
 
 
-DROP
-DROP
-DROP
-DROP
-DROP
-DROP
-DROP
-DROP
-DROP
-DROP
-DROP
-DROP
-DROP
-DROP
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
 TPOS% := 10
 SPOS% := 1
 LOCDIFF% := (DIFF% * 5)
@@ -383,7 +383,7 @@ M% := MENU("Fight,Inventory,Run" )
 IF (M% = 1)
 GOTO COMBAT
 ELSEIF (M% = 2)
-inv:
+DROP()
 ELSEIF (M% = 3)
 GOTO RUNAWAY
 ELSE
@@ -396,10 +396,10 @@ ENDIF
 RESOLVE::
 CLS()
 IF (ENHEALT% < 1)
-DROP(loot:(ENNAME$))
+DROP()
 BIT4% := 0
-recode:
-DROP(chngmap:(TCHAR$, )(PY%, )(PX%), )(chngmap:(TCHAR$, )(PY%, )(PX%), )(chngmap:(TCHAR$, )(PY%, )(PX%))
+DROP()
+DROP()
 GOTO EXIT
 ELSEIF (PLHEALT% < 1)
 PRINT("You died")

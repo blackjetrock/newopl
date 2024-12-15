@@ -1057,6 +1057,23 @@ void do_cond_fixup(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+
+int qcode_add_length_prefixed_string(int qcode_idx, char *str)
+{
+  dbprintf("str='%s'", str);
+  
+  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  strlen(str));
+  
+  for(int s=0; s<strlen(str); s++)
+    {
+      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  toupper(str[s]));
+    }
+
+  return(qcode_idx);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
 // Convert float (in string form) to comapct qcode format and add it to
 // the qcode stream.
 //
@@ -1344,7 +1361,28 @@ void output_qcode_for_line(void)
       
       switch(token.op.buf_id)
 	{
+	case EXP_BUFF_ID_PROC_CALL:
+	  // We generate qcode to stack the parameter types, then number of parameters, then the QCO_PROC
+	  // then a string which is the proc name
+#if 0
+	  for(int i=token.op.num_parameters-1; i>=0; i--)
+	    {
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QI_STK_LIT_BYTE);
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  token.op.parameter_type[i]);
+	    }
+#endif
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QI_STK_LIT_BYTE);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  token.op.num_parameters);
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_PROC);
 
+	  // Now the proc name, length prefixed. We have to lose the colon at the end of the name
+	  char procname[NOBJ_VARNAME_MAXLEN];
+	  strcpy(procname, token.op.name);
+	  procname[strlen(procname)-1] = '\0';
+	  
+	  qcode_idx = qcode_add_length_prefixed_string(qcode_idx, procname);
+	  break;
+	  
 	case EXP_BUFF_ID_META:
 	  // On pass 2 when we see the PROCDEF we generate the qcode header,
 	  // each line then generates qcodes after that
@@ -1420,6 +1458,14 @@ void output_qcode_for_line(void)
 		}
 	    }
 
+	  // Proc call parameters need a type on the stack
+	  if( (strcmp(exp_buffer2[i].name, "PAR_TYPE") == 0) )
+	    {
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QI_STK_LIT_BYTE);
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  token.op.type);
+	      continue;
+	    }
+	  
 	  // Check the simple mapping table
 	  qcode_idx = add_simple_qcode(qcode_idx, &(token.op), vi);
 
@@ -2903,6 +2949,28 @@ void typecheck_expression(void)
 		}
 	      while( !((strcmp(op1.name, " CREATE") == 0) || (strcmp(op1.name, " OPEN") == 0)) );
 	    }
+
+	  // PAR_TYPE is used to insert a stacking of the parameter types of
+	  // PROCs just before a PROC_CALL. Here we need to set the type of the
+	  // PAR_TYPE so the correct type code can be stacked in the qcode.
+	  
+	  if( (strcmp(be.op.name, "PAR_TYPE") == 0) )
+	    {
+	      // We need to unstack the parameter, find th etyope, update the
+	      // PAR_TYPE type and re-stack the parameter
+
+	      // Parameter
+	      op1 = type_check_stack_pop();
+
+	      // set type
+	      be.op.type = op1.op.type;
+
+	      // Set node id
+	      be.node_id = op1.node_id;
+
+	      // Re-stack the parameter
+	      type_check_stack_push(op1);
+	    }
 	  
 	  break;
 
@@ -2989,6 +3057,11 @@ void typecheck_expression(void)
 	  dbprintf("PRINT type adjust", function_num_args(be.name));
 	  op1 = type_check_stack_pop();
 	  be.op.type = op1.op.type;
+	  break;
+
+	case EXP_BUFF_ID_INPUT:
+	  // Pop and discard the input argument
+	  op1 = type_check_stack_pop();
 	  break;
 	  
 	case EXP_BUFF_ID_ENDIF:
@@ -3102,6 +3175,53 @@ void typecheck_expression(void)
 	      EXP_BUFFER_ENTRY res;
 	      res.node_id = be.node_id;          // Result id is that of the operator
 	      res.p_idx = function_num_args(be.name);
+	      res.p[0] = op1.node_id;
+	      res.p[1] = op2.node_id;
+	      strcpy(res.name, "000");
+	      res.op.type      = ret_type;
+	      type_check_stack_push(res);
+	    }
+	  
+	  // The return type opf the function is known
+	  be.op.type = ret_type;
+	  break;
+
+	case EXP_BUFF_ID_PROC_CALL:
+	  // Procedure calls are like functions, except that no auto conversion of parameters is done.
+	  // Mismatched parameter types cause a run time error
+	  
+	  fprintf(ofp, "\nPROC CALL: %d parameters", be.op.num_parameters);
+	  
+	  // Set up the function return value
+	  ret_type = be.op.type;
+
+	  dbprintf("Ret type of %s : %c", be.name, type_to_char(ret_type));
+	  
+	  // Build an argument list (constructs part of the syntax tree)
+	  be.p_idx = 0;
+	  for(int i=be.op.num_parameters-1; i>=0; i--)
+	    {
+	      // Pop a parameter off
+	      op1 = type_check_stack_pop();
+	      
+	      // Add to list of arguments
+	      be.p[be.p_idx++] = op1.node_id;
+	      be.op.parameter_type[i] = op1.op.type;
+	      
+	      dbprintf("PROC PAR %d %s Type:%d(%c)",
+		       i,
+		       op1.name,
+		       op1.op.type,
+		       type_to_char(op1.op.type));
+	    }
+	  
+	  // Only push a result if the function is non-void
+	  if( ret_type != NOBJ_VARTYPE_VOID )
+	    {
+	      // Push dummy result
+	      EXP_BUFFER_ENTRY res;
+	      res.node_id = be.node_id;          // Result id is that of the operator
+	      res.p_idx = be.op.num_parameters;
 	      res.p[0] = op1.node_id;
 	      res.p[1] = op2.node_id;
 	      strcpy(res.name, "000");
@@ -3442,7 +3562,7 @@ void typecheck_expression(void)
 	  EXP_BUFFER_ENTRY res;
 	  strcpy(be.name, "DROP");
 	  strcpy(be.op.name, be.name);
-	  be.node_id = EXP_BUFF_ID_FUNCTION;
+	  be.op.buf_id = EXP_BUFF_ID_FUNCTION;
 	  be.p_idx = 0;
 	  be.op.type      = be.op.type;
 	  exp_buffer2[exp_buffer2_i++] = be;
