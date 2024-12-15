@@ -4392,6 +4392,14 @@ int n_stack_errors = 0;
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+// This is really a scan_file(0 function. It parses the overall structure of the file
+//
+// The procedure definition has to be the first line in the file, then the LOCAL
+// and GLOBAL statements.
+//
+// These requirements could be relaxed.
+//
+
 void translate_file(FILE *fp, FILE *ofp)
 {
   char line[MAX_NOPL_LINE+1];
@@ -4524,7 +4532,7 @@ int main(int argc, char *argv[])
   
   init_output();
 
-  //ofp = fopen("out.opl.tran", "w");
+  ptfp = fopen("parse_text.txt", "w");
 
   parser_check();
 
@@ -4568,7 +4576,8 @@ int main(int argc, char *argv[])
   vfp = fopen("vars.txt", "w");
   dump_vars(vfp);
   fclose(vfp); 
-
+  fclose(ptfp);
+  
   dbprintf("\n");
   dbprintf("\n %d lines scanned OK",       n_lines_ok);
   dbprintf("\n %d lines scanned failed",   n_lines_bad);

@@ -10,7 +10,7 @@
 #include "nopl_obj.h"
 #include "parser.h"
 
-//FILE *fp;
+FILE *ptfp;
 
 // Tokenise OPL
 // one argument: an OPL file
@@ -1716,7 +1716,7 @@ void remove_trailing_newline(int idx)
 {
   if( cline[strlen(&(cline[idx]))-1] == '\n' )
     {
-      cline[strlen(&(cline[idx]))-1] = ' ';
+      cline[strlen(&(cline[idx]))-1] = '\0';
     }
 }
 
@@ -1795,7 +1795,7 @@ int get_next_line(void)
 
 int multi_line_in_progress = 0;
 int line_start = 0;
-
+#if 0
 int next_composite_line(FILE *fp)
 {
   int all_spaces = 1;
@@ -1821,7 +1821,7 @@ int next_composite_line(FILE *fp)
       cline_i = 0;
       line_start = 0;
 
-      // Remove the newline on th eend of the line
+      // Remove the newline on the end of the line
       //cline_i = start_get_line(cline_i);
       
       remove_trailing_newline(cline_i);
@@ -1831,7 +1831,7 @@ int next_composite_line(FILE *fp)
       return(1);
     }
 }
-
+#endif
 ////////////////////////////////////////////////////////////////////////////////
 
 void drop_space(int *index)
@@ -6091,7 +6091,7 @@ int scan_if(LEVEL_INFO levels)
 			    {
 			      // Bad elseif expression
 			      syntax_error("Bad ELSEIF expression");
-			      dbprintf("ret0");
+			      dbprintf("ret0 Bad ELSEIF expression");
 			      return(0);
 			    }
 			}
@@ -6107,7 +6107,7 @@ int scan_if(LEVEL_INFO levels)
 		      // Output an ELSE, we only allow one per IF clause
 		      if( else_seen )
 			{
-			  dbprintf("Only one ELSE allowed in IF clause");
+			  dbprintf("ret0:Only one ELSE allowed in IF clause");
 			  syntax_error("Only one ELSE allowed in IF clause");
 			  return(0);
 			}
@@ -6135,7 +6135,7 @@ int scan_if(LEVEL_INFO levels)
 		  // Error, should have a message from the lower parsers
 		  syntax_error("Bad line");
 #endif
-		  dbprintf("ret0");
+		  dbprintf("ret0: Bad line");
 
 		  return(0);
 		}
@@ -6144,7 +6144,7 @@ int scan_if(LEVEL_INFO levels)
       else
 	{
 	  syntax_error("Bad expression");
-	  dbprintf("ret0");
+	  dbprintf("ret0:Bad expression");
 	  return(0);
 	}
       
@@ -6152,12 +6152,12 @@ int scan_if(LEVEL_INFO levels)
   else
     {
       syntax_error("Expected IF");
-      dbprintf("ret0");
+      dbprintf("ret0:Expected IF");
       return(0);
     }
   
   syntax_error("Bad IF");
-  dbprintf("ret0");
+  dbprintf("ret0:Bad IF");
   return(0);
 }
 
@@ -6505,8 +6505,6 @@ int check_line(int *index)
 // delimited lines.
 //
 // scan_line pulls the next line from the composite line handler and scans it
-//
-
 
 int scan_line(LEVEL_INFO levels)
 {
@@ -6520,12 +6518,17 @@ int scan_line(LEVEL_INFO levels)
   
   dbprintf("%s:", __FUNCTION__);
 
+  // Before we parse a line we pull more data from the parser text buffer which
+  // is presented to the parser in the cline[] array.
+  
   if( !pull_next_line() )
     {
+      // No more text available, so fail the line scan, we are done
       dbprintf("ret0 pull_next_line=0");
       return(0);
     }
 
+#if 0
   if( strlen(&cline[cline_i]) > 0 )
     {
       if( !is_all_spaces(cline_i) )
@@ -6536,6 +6539,7 @@ int scan_line(LEVEL_INFO levels)
 	  fprintf(chkfp, "\n%s\n", &(cline[cline_i]));
 	}
     }
+#endif
   
   // If it's a REM, then the line parses and we generate no tokens
   
@@ -6934,6 +6938,9 @@ void initialise_line_supplier(FILE *fp)
 
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// Is the cline[] buffer all spaces from the index onwards?
+//
 
 int is_all_spaces(int idx)
 {
@@ -6957,33 +6964,86 @@ int is_all_spaces(int idx)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+//
+// Display the text to be parsed, as the parser will see it.
+//
 
+void dump_cline(void)
+{
+  char cltext[500];
+  char str[2] = " ";
+  
+  cltext[0] = '\0';
+  
+  for(int i=cline_i; i<strlen(&(cline[0])); i++)
+    {
+      str[0] = cline[i];
+      strcat(cltext, str);
+    }
+
+  fprintf(ptfp, "'%s'\n", cltext);
+  
+  //dbprintf("====   cline: '%s'", cltext);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Get the next line from the input file
+//
+//
+// It sends the text to be parsed in the cline[] array, together with an index into that
+// array: cline_i
+//
+// When called, there may be text remaining in the buffer after parsing, that may have a
+// colon at the start, which is removed and the rest of the text sent to the parser.
+// The remaining data won't have REMs in it as we remove that when reading lines from th einpuit device.#
+//
+// Blank lines are not sent to the parser.
+// REMs are removed here as well
 
 int pull_next_line(void)
 {
-  int all_spaces;
+  int all_spaces = 0;
+  int idx = cline_i;
   
-  dbprintf("");
-  dbprintf("Processing epression just parsed");
-  
-  
+  dbprintf("Processing expression just parsed");
+
+  // First, check to see if there is text left in the buffer. The parser will only parse
+  // to the end of a scan_line(), and that may leave a colon delimited line in the buffer,
+  // or maybe a command without a colon delimiter (REM, or ELSE).
+
+#if 0
+  // Remove leading spaces
+
   while( isspace( cline[strlen(cline)-1]) )
     {
       cline[strlen(cline)-1] = '\0';
     }
+#endif
 
+  // If an expression was parsed then we process it (as far as QCode)
   if( output_expression_started )
     {
       output_expression_started = 0;
       finalise_expression();
     }
-  
+
+  // And set up ready for a new expression (parsed command)
   output_expression_start(cline);
   output_expression_started = 1;	  
 
+  // Drop leading spaces or colon
+  idx = cline_i;
+  drop_space(&idx);
+  drop_colon(&idx);
+  drop_space(&idx);
+
+  cline_i = idx;
+  
   dbprintf("Checking for existing data in cline. cline_i=%d strlen:%d ", cline_i, strlen(&(cline[cline_i])));
 
-  // If cline_i is 0 then assume we don't need to pull another line
+  // If there is text then we don't need to pull another line, send it to the parser
   if( strlen(&(cline[cline_i])) > 0 )
     {
       dbprintf("Data still in line buffer, check not all space");
@@ -6991,27 +7051,84 @@ int pull_next_line(void)
       // As long as it's not all spaces
       if( !is_all_spaces(cline_i) )
 	{
+	  dump_cline();
 	  dbprintf("ret1  Not all spaces");
 	  return(1);
 	}
     }
+
+  //------------------------------------------------------------------------------
+  //
+  // If we get here then we have not found any remaining text in the buffer
+  // We read a new line from the input device and check that it's not blank
+  // We remove REM statements here too
   
   do
     {
+      // We have no text in the buffer at all, so we read a new line from the input
       dbprintf("Reading line");
-      
-      if(!feof(infp) )
+
+      // If file has ended then we are done
+      if(feof(infp) )
 	{
-	  if( !next_composite_line(infp) )
+	  dbprintf("ret0: End of input file");
+	  return(0);
+	}
+
+      // Read next line into cline[]
+        dbprintf("------------------------------");
+
+  // Do we have a colon delimited line in progress?
+#if 0
+  if( multi_line_in_progress )
+    {
+      // See if we have another delimited line to return
+      
+    }
+  else
+    {
+#endif      
+      // Clear the buffer in case we don't read any more text
+      cline_i = 0;
+      cline[0] = '\0';
+      fgets(cline, MAX_NOPL_LINE, infp);
+
+
+#if 0
+      // Read another composite line and return the first delimited line
+      if( fgets(cline, MAX_NOPL_LINE, infp) == NULL )
+	{
+	  // If we get NULL then we haven't read any data. There is still data
+	  // in the buffer
+#if 0
+	  dbprintf("ret0");
+	  return(0);
+#endif
+	}
+
+#endif
+      
+      // We have a new line, set the buffer up ready to parse it
+      cline_i = 0;
+      line_start = 0;
+
+      // Remove the newline on the end of the line
+      //cline_i = start_get_line(cline_i);
+      
+      remove_trailing_newline(cline_i);
+      
+#if 0      
+      dbprintf("ret1");
+      return(1);
+#endif
+      //}
+#if 0
+      if( !next_composite_line(infp) )
 	    {
 	      cline[0] = '\0';
 	    }
 	}
-      else
-	{
-	  dbprintf("ret0");
-	  return(0);
-	}
+#endif
 #if 0      
       // Check it's not a line full of spaces
       all_spaces = 1;
@@ -7023,7 +7140,29 @@ int pull_next_line(void)
 	    }
 	}
 #endif
+      // Truncate any REM statements
+      char *rempos;
+
+      // We do upper and lower case REMs as we can't just uppercase the entire line
+      // as that would uppercase strings. Only the parser knows which text can be
+      // forced to upper case.
+      //
+      // Similarly, we can't just chop th eline up where we see a colon as that could
+      // be a label double colon or a colon in a string. We let the parser parse as much as
+      // it can and then remove any leading colons then (that is in the code at the start
+      // of this function)
       
+      if( (rempos = strstr(&(cline[cline_i]), "REM")) != NULL )
+	{
+	  *rempos = '\0';
+	}
+
+      if( (rempos = strstr(&(cline[cline_i]), "rem")) != NULL )
+	{
+	  *rempos = '\0';
+	}
+      
+      // If we just have spaces then get more text from the file
       if( all_spaces = is_all_spaces(0) )
 	{
 	  dbprintf("Line was all spaces");
@@ -7052,9 +7191,11 @@ int pull_next_line(void)
     }
   fprintf(ofp, "\n");
 
-  output_expression_start(cline);
+  
+  //  output_expression_start(cline);
   indent_none();
 
+  dump_cline();
   dbprintf("ret1");
   return(1);
 }

@@ -1,6 +1,6 @@
  #define dbprintf(fmt...) dbpf(__FUNCTION__, fmt)
 void dbpf(const char *caller, char *fmt, ...);
-
+extern FILE *ptfp;
 
 
 NOBJ_VARTYPE char_to_type(char ch);
