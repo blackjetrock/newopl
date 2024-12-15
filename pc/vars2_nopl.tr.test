@@ -3,8 +3,8 @@ Filename:'ob3_nopl'
 File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
-Var Space Size:0C6E
-QCode Space Size:001F
+Var Space Size:07DE
+QCode Space Size:001E
 Number of parameters:00
 Parameter types:
 Global varname Size:002C
@@ -20,22 +20,19 @@ External variables (2)
  0: EXTTOP%          INT    (00)
  1: SA$              STRARY (05)
 
-String length fixups (5)
- 0: F902 0A
- 1: F8BB 07
- 2: FFC0 0A
- 3: F76B 0A
- 4: FCEB 1E
+String length fixups (4)
+ 0: F903 0A
+ 1: F8C4 07
+ 2: FFC1 0A
+ 3: FCEC 1E
 
-Array size fixups (8)
- 0: F8E7 0005
- 1: F8BC 0005
- 2: F81A 0014
- 3: F778 0014
- 4: FF5A 0032
- 5: FCEC 0014
- 6: F911 007B
- 7: F392 007B
+Array size fixups (6)
+ 0: F8EF 0005
+ 1: F8C4 0005
+ 2: F822 0014
+ 3: FF5A 0032
+ 4: FCEC 0014
+ 5: F911 007B
 
 QCode
 
@@ -54,15 +51,15 @@ QCode
 0011: 81       Assign string     (bytes code:-)
 0012: 22       Push integer literal     (bytes code:I)
 0013: 000A       (10)
-0015: 19       Pop integer index and push parameter/external string array variable reference     (bytes code:V)
-0016: FFCE       (65486)
-0018: 24       Push string literal     (bytes code:S)
-0019: Len:3
-001A: 'def'
-001D: 81       Assign string     (bytes code:-)
-001E: 7B       RETURN (float 0)     (bytes code:-)
+0015: FF ????
+0016: CE       +%     (bytes code:-)
+0017: 24       Push string literal     (bytes code:S)
+0018: Len:3
+0019: 'def'
+001C: 81       Assign string     (bytes code:-)
+001D: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
 0000:59 B2 14 FF D0 22 00 08 7F 0F F9 03 24 03 61 62 
-0010:63 81 22 00 0A 19 FF CE 24 03 64 65 66 81 7B 
+0010:63 81 22 00 0A FF CE 24 03 64 65 66 81 7B 

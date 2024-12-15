@@ -1,13 +1,178 @@
 
 
 
-F2
-F(20)
-DOOR$
-FLOAT(123)
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+NEIH$(8,2)
+LASCII%(8)
+NEBIOME%(8)
+B3%
+MCOUNT%
+MBIOME%
+NBIOME%
+TCOUNT%
+CCHAR$
+CASCII%
+CBIOME%
+NEWCODE%
+NEWCHAR$
+PROGR%
+PY% := 1
+WHILE (PY% <= 4)
+PX% := 1
+WHILE (PX% <= 20)
+IF ((PY% = 1) AND (PX% = 1))
+NEIH$(1) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(2) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(3) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(4) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(5) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(6) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(7) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(8) := MID$(MAP$((PY% + 1)) (PX% + 1) 1 )
+ELSEIF ((PY% = 1) AND (PX% = 20))
+NEIH$(1) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(2) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(3) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(4) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(5) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(6) := MID$(MAP$((PY% + 1)) (PX% - 1) 1 )
+NEIH$(7) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(8) := MID$(MAP$((PY% + 1)) PX% 1 )
+ELSEIF ((PY% = 4) AND (PX% = 20))
+NEIH$(1) := MID$(MAP$((PY% - 1)) (PX% - 1) 1 )
+NEIH$(2) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(3) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(4) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(5) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(6) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(7) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(8) := MID$(MAP$(PY%) PX% 1 )
+ELSEIF ((PY% = 4) AND (PX% = 1))
+NEIH$(1) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(2) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(3) := MID$(MAP$((PY% - 1)) (PX% + 1) 1 )
+NEIH$(4) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(5) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(6) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(7) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(8) := MID$(MAP$(PY%) (PX% + 1) 1 )
+ELSEIF (((PY% = 1) AND (PX% > 1)) AND (PX% < 20))
+NEIH$(1) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(2) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(3) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(4) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(5) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(6) := MID$(MAP$((PY% + 1)) (PX% - 1) 1 )
+NEIH$(7) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(8) := MID$(MAP$((PY% + 1)) (PX% + 1) 1 )
+ELSEIF (((PY% > 1) AND (PY% < 4)) AND (PX% = 1))
+NEIH$(1) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(2) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(3) := MID$(MAP$((PY% - 1)) (PX% + 1) 1 )
+NEIH$(4) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(5) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(6) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(7) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(8) := MID$(MAP$((PY% + 1)) (PX% + 1) 1 )
+ELSEIF (((PY% > 1) AND (PY% < 4)) AND (PX% = 20))
+NEIH$(1) := MID$(MAP$((PY% - 1)) (PX% - 1) 1 )
+NEIH$(2) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(3) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(4) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(5) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(6) := MID$(MAP$((PY% + 1)) (PX% - 1) 1 )
+NEIH$(7) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(8) := MID$(MAP$((PY% + 1)) PX% 1 )
+ELSEIF (((PY% = 4) AND (PX% > 1)) AND (PX% < 20))
+NEIH$(1) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(2) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(3) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(4) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(5) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(6) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(7) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(8) := MID$(MAP$(PY%) (PX% + 1) 1 )
+ELSEIF ((((PY% > 1) AND (PY% < 4)) AND (PX% > 1)) AND (PX% < 20))
+NEIH$(1) := MID$(MAP$((PY% - 1)) (PX% - 1) 1 )
+NEIH$(2) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(3) := MID$(MAP$((PY% - 1)) (PX% + 1) 1 )
+NEIH$(4) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(5) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(6) := MID$(MAP$((PY% + 1)) (PX% - 1) 1 )
+NEIH$(7) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(8) := MID$(MAP$((PY% + 1)) (PX% + 1) 1 )
+ENDIF
+RANDVAL% := (RND() * 10)
+IF (RANDVAL% < 7)
+I% := 1
+WHILE (I% <= 8)
+LASCII%(I%) := ASC(NEIH$(I%) )
+NEBIOME%(I%) := (LASCII%(I%) AND 3)
+I% := (I% + 1)
+ENDWH
+B0% := 0
+B1% := 0
+B2% := 0
+B3% := 0
+I% := 1
+WHILE (I% <= 8)
+IF (NEBIOME%(I%) = 0)
+B0% := (B0% + 1)
+ELSEIF (NEBIOME%(I%) = 1)
+B1% := (B1% + 1)
+ELSEIF (NEBIOME%(I%) = 2)
+B2% := (B2% + 1)
+ELSEIF (NEBIOME%(I%) = 3)
+B3% := (B3% + 1)
+ENDIF
+I% := (I% + 1)
+ENDWH
+MCOUNT% := B0%
+MBIOME% := 0
+TCOUNT% := 1
+IF (B1% > MCOUNT%)
+MCOUNT% := B1%
+MBIOME% := 1
+TCOUNT% := 1
+ELSEIF (B1% = MCOUNT%)
+TCOUNT% := (TCOUNT% + 1)
+ENDIF
+IF (B2% > MCOUNT%)
+MCOUNT% := B2%
+MBIOME% := 2
+TCOUNT% := 1
+ELSEIF (B2% = MCOUNT%)
+TCOUNT% := (TCOUNT% + 1)
+ENDIF
+IF (B3% > MCOUNT%)
+MCOUNT% := B3%
+MBIOME% := 3
+TCOUNT% := 1
+ELSEIF (B3% = MCOUNT%)
+TCOUNT% := (TCOUNT% + 1)
+ENDIF
+CCHAR$ := MID$(MAP$(PY%) PX% 1 )
+CASCII% := ASC(CCHAR$ )
+CBIOME% := (CASCII% AND 3)
+IF (TCOUNT% > 1)
+NBIOME% := CBIOME%
+ELSE
+NBIOME% := MBIOME%
+ENDIF
+NEWCODE% := ((CASCII% AND (UNOT 3)) OR NBIOME%)
+NEWCHAR$ := CHR$(NEWCODE% )
+CHNGMAP:(NEWCHAR$, )(PY%, )(PX%)
+ELSE
+ENDIF
+PX% := (PX% + 1)
+PROGR% := (PROGR% + 1)
+CLS()
+PRINT(PROGR%)
+PRINT("/80")
+<nl>
+
+ENDWH
+PY% := (PY% + 1)
+ENDWH
 
 
 
@@ -15,6 +180,171 @@ DROP()
 DROP()
 DROP()
 DROP()
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+PY% := 1
+WHILE (PY% <= 4)
+PX% := 1
+WHILE (PX% <= 20)
+IF ((PY% = 1) AND (PX% = 1))
+NEIH$(1) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(2) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(3) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(4) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(5) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(6) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(7) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(8) := MID$(MAP$((PY% + 1)) (PX% + 1) 1 )
+ELSEIF ((PY% = 1) AND (PX% = 20))
+NEIH$(1) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(2) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(3) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(4) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(5) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(6) := MID$(MAP$((PY% + 1)) (PX% - 1) 1 )
+NEIH$(7) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(8) := MID$(MAP$((PY% + 1)) PX% 1 )
+ELSEIF ((PY% = 4) AND (PX% = 20))
+NEIH$(1) := MID$(MAP$((PY% - 1)) (PX% - 1) 1 )
+NEIH$(2) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(3) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(4) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(5) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(6) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(7) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(8) := MID$(MAP$(PY%) PX% 1 )
+ELSEIF ((PY% = 4) AND (PX% = 1))
+NEIH$(1) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(2) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(3) := MID$(MAP$((PY% - 1)) (PX% + 1) 1 )
+NEIH$(4) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(5) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(6) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(7) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(8) := MID$(MAP$(PY%) (PX% + 1) 1 )
+ELSEIF (((PY% = 1) AND (PX% > 1)) AND (PX% < 20))
+NEIH$(1) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(2) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(3) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(4) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(5) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(6) := MID$(MAP$((PY% + 1)) (PX% - 1) 1 )
+NEIH$(7) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(8) := MID$(MAP$((PY% + 1)) (PX% + 1) 1 )
+ELSEIF (((PY% > 1) AND (PY% < 4)) AND (PX% = 1))
+NEIH$(1) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(2) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(3) := MID$(MAP$((PY% - 1)) (PX% + 1) 1 )
+NEIH$(4) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(5) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(6) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(7) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(8) := MID$(MAP$((PY% + 1)) (PX% + 1) 1 )
+ELSEIF (((PY% > 1) AND (PY% < 4)) AND (PX% = 20))
+NEIH$(1) := MID$(MAP$((PY% - 1)) (PX% - 1) 1 )
+NEIH$(2) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(3) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(4) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(5) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(6) := MID$(MAP$((PY% + 1)) (PX% - 1) 1 )
+NEIH$(7) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(8) := MID$(MAP$((PY% + 1)) PX% 1 )
+ELSEIF (((PY% = 4) AND (PX% > 1)) AND (PX% < 20))
+NEIH$(1) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(2) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(3) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(4) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(5) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(6) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(7) := MID$(MAP$(PY%) PX% 1 )
+NEIH$(8) := MID$(MAP$(PY%) (PX% + 1) 1 )
+ELSEIF ((((PY% > 1) AND (PY% < 4)) AND (PX% > 1)) AND (PX% < 20))
+NEIH$(1) := MID$(MAP$((PY% - 1)) (PX% - 1) 1 )
+NEIH$(2) := MID$(MAP$((PY% - 1)) PX% 1 )
+NEIH$(3) := MID$(MAP$((PY% - 1)) (PX% + 1) 1 )
+NEIH$(4) := MID$(MAP$(PY%) (PX% - 1) 1 )
+NEIH$(5) := MID$(MAP$(PY%) (PX% + 1) 1 )
+NEIH$(6) := MID$(MAP$((PY% + 1)) (PX% - 1) 1 )
+NEIH$(7) := MID$(MAP$((PY% + 1)) PX% 1 )
+NEIH$(8) := MID$(MAP$((PY% + 1)) (PX% + 1) 1 )
+ENDIF
+RANDVAL% := (RND() * 10)
+IF (RANDVAL% < 7)
+I% := 1
+WHILE (I% <= 8)
+LASCII%(I%) := ASC(NEIH$(I%) )
+NEBIOME%(I%) := (LASCII%(I%) AND 3)
+I% := (I% + 1)
+ENDWH
+B0% := 0
+B1% := 0
+B2% := 0
+B3% := 0
+I% := 1
+WHILE (I% <= 8)
+IF (NEBIOME%(I%) = 0)
+B0% := (B0% + 1)
+ELSEIF (NEBIOME%(I%) = 1)
+B1% := (B1% + 1)
+ELSEIF (NEBIOME%(I%) = 2)
+B2% := (B2% + 1)
+ELSEIF (NEBIOME%(I%) = 3)
+B3% := (B3% + 1)
+ENDIF
+I% := (I% + 1)
+ENDWH
+MCOUNT% := B0%
+MBIOME% := 0
+TCOUNT% := 1
+IF (B1% > MCOUNT%)
+MCOUNT% := B1%
+MBIOME% := 1
+TCOUNT% := 1
+ELSEIF (B1% = MCOUNT%)
+TCOUNT% := (TCOUNT% + 1)
+ENDIF
+IF (B2% > MCOUNT%)
+MCOUNT% := B2%
+MBIOME% := 2
+TCOUNT% := 1
+ELSEIF (B2% = MCOUNT%)
+TCOUNT% := (TCOUNT% + 1)
+ENDIF
+IF (B3% > MCOUNT%)
+MCOUNT% := B3%
+MBIOME% := 3
+TCOUNT% := 1
+ELSEIF (B3% = MCOUNT%)
+TCOUNT% := (TCOUNT% + 1)
+ENDIF
+CCHAR$ := MID$(MAP$(PY%) PX% 1 )
+CASCII% := ASC(CCHAR$ )
+CBIOME% := (CASCII% AND 3)
+IF (TCOUNT% > 1)
+NBIOME% := CBIOME%
+ELSE
+NBIOME% := MBIOME%
+ENDIF
+NEWCODE% := ((CASCII% AND (UNOT 3)) OR NBIOME%)
+NEWCHAR$ := CHR$(NEWCODE% )
+DROP()
+ELSE
+ENDIF
+PX% := (PX% + 1)
+PROGR% := (PROGR% + 1)
+CLS()
+PRINT(PROGR%)
+PRINT("/80")
+<nl>
+
+ENDWH
+PY% := (PY% + 1)
+ENDWH

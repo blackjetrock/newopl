@@ -3,7 +3,7 @@ Filename:'ob3_nopl'
 File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
-Var Space Size:0330
+Var Space Size:01DB
 QCode Space Size:01C1
 Number of parameters:00
 Parameter types:
@@ -29,19 +29,13 @@ External variables (2)
  0: MODE%            INT    (00)
  1: IDESC$           STR    (02)
 
-String length fixups (12)
- 0: FE24 0E
- 1: FE14 0E
- 2: FF75 03
- 3: FE0F 03
- 4: FF65 0E
- 5: FDFF 0E
- 6: FF2F 28
- 7: FDC9 28
- 8: FF05 28
- 9: FD9F 28
-10: FE37 C8
-11: FCD1 C8
+String length fixups (6)
+ 0: FE25 0E
+ 1: FF76 03
+ 2: FF66 0E
+ 3: FF30 28
+ 4: FF06 28
+ 5: FE38 C8
 
 Array size fixups (0)
 

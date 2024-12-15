@@ -1,18 +1,342 @@
-'vars2:'
-'LOCAL A%, s1$(10), F2'
-'LOCAL A%, s1$(10), F2'
-'LOCAL x%(5), s$(5,7), f(20)'
-'GLOBAL PEAR%, DOOR$(10)'
-'GLOBAL OPEN%(50), POS$(20,30), FLOAT(123)'
-'EXTTOP% = 8'
-'S1$="abc"'
-'SA$(10) = "def"'
-'vars2:'
-'LOCAL A%, s1$(10), F2'
-'LOCAL A%, s1$(10), F2'
-'LOCAL x%(5), s$(5,7), f(20)'
-'GLOBAL PEAR%, DOOR$(10)'
-'GLOBAL OPEN%(50), POS$(20,30), FLOAT(123)'
-'EXTTOP% = 8'
-'S1$="abc"'
-'SA$(10) = "def"'
+'smooth:'
+'GLOBAL neih$(8,2) '
+'GLOBAL neih$(8,2) '
+'GLOBAL lAscii%(8) '
+'GLOBAL nebiome%(8)'
+'GLOBAL b0%, b1%, b2%, b3%'
+'GLOBAL mCount%'
+'GLOBAL mBiome%'
+'GLOBAL nBiome%'
+'GLOBAL tCount%'
+'GLOBAL cChar$(1)'
+'GLOBAL cAscii%'
+'GLOBAL cBiome%'
+'GLOBAL newcode%'
+'GLOBAL newChar$(1)'
+'GLOBAL progr%'
+'py% = 1'
+' WHILE py% <= 4'
+'  px% = 1'
+'   WHILE px% <= 20   '
+'    IF py% = 1 AND px% = 1 '
+'      neih$(1) = MID$(map$(py%), px%, 1)'
+'      neih$(2) = MID$(map$(py%), px%, 1)'
+'      neih$(3) = MID$(map$(py%), px%+1, 1)      '
+'      neih$(4) = MID$(map$(py%), px%, 1)'
+'      neih$(5) = MID$(map$(py%), px% + 1, 1)'
+'      neih$(6) = MID$(map$(py%+1), px%, 1)'
+'      neih$(7) = MID$(map$(py%+1), px%, 1)'
+'      neih$(8) = MID$(map$(py%+1), px%+1, 1)   '
+'    ELSEIF py% = 1 AND px% = 20'
+'     neih$(1) = MID$(map$(py%), px%-1, 1)'
+'     neih$(2) = MID$(map$(py%), px%, 1)'
+'     neih$(3) = MID$(map$(py%), px%, 1)      '
+'     neih$(4) = MID$(map$(py%), px%-1, 1)'
+'     neih$(5) = MID$(map$(py%), px% + 1, 1)'
+'     neih$(6) = MID$(map$(py%+1), px%-1, 1)'
+'     neih$(7) = MID$(map$(py%+1), px%, 1)'
+'     neih$(8) = MID$(map$(py%+1), px%, 1)'
+'    ELSEIF py% = 4 AND px% = 20'
+'     neih$(1) = MID$(map$(py%-1), px%-1, 1)'
+'     neih$(2) = MID$(map$(py%-1), px%, 1)'
+'     neih$(3) = MID$(map$(py%-1), px%, 1)      '
+'     neih$(4) = MID$(map$(py%), px%-1, 1)'
+'     neih$(5) = MID$(map$(py%), px%, 1)'
+'     neih$(6) = MID$(map$(py%), px%-1, 1)'
+'     neih$(7) = MID$(map$(py%), px%, 1)'
+'     neih$(8) = MID$(map$(py%), px%, 1)'
+'    ELSEIF py% = 4 AND px% = 1'
+'     neih$(1) = MID$(map$(py%-1), px%, 1)'
+'     neih$(2) = MID$(map$(py%-1), px%, 1)'
+'     neih$(3) = MID$(map$(py%-1), px%+1, 1)      '
+'     neih$(4) = MID$(map$(py%), px%, 1)'
+'     neih$(5) = MID$(map$(py%), px%+1, 1)'
+'     neih$(6) = MID$(map$(py%), px%, 1)'
+'     neih$(7) = MID$(map$(py%), px%, 1)'
+'     neih$(8) = MID$(map$(py%), px%+1, 1)'
+'    ELSEIF (py% = 1) AND (px% > 1) AND (px% < 20) '
+'     neih$(1) = MID$(map$(py%), px%, 1)'
+'     neih$(2) = MID$(map$(py%), px%, 1)'
+'     neih$(3) = MID$(map$(py%), px%, 1)'
+'     neih$(4) = MID$(map$(py%), px%-1, 1)'
+'     neih$(5) = MID$(map$(py%), px%+1, 1)'
+'     neih$(6) = MID$(map$(py%+1), px%-1, 1)'
+'     neih$(7) = MID$(map$(py%+1), px%, 1)'
+'     neih$(8) = MID$(map$(py%+1), px%+1, 1)'
+'    ELSEIF py% > 1 AND (py% < 4) AND (px% = 1)'
+'     neih$(1) = MID$(map$(py%-1), px%, 1)'
+'     neih$(2) = MID$(map$(py%-1), px%, 1)'
+'     neih$(3) = MID$(map$(py%-1), px%+1, 1)      '
+'     neih$(4) = MID$(map$(py%), px%, 1)'
+'     neih$(5) = MID$(map$(py%), px%+1, 1)'
+'     neih$(6) = MID$(map$(py%+1), px%, 1)'
+'     neih$(7) = MID$(map$(py%+1), px%, 1)'
+'     neih$(8) = MID$(map$(py%+1), px%+1, 1)'
+'    ELSEIF py% > 1 AND py% < 4 AND px% = 20'
+'     neih$(1) = MID$(map$(py%-1), px%-1, 1)'
+'     neih$(2) = MID$(map$(py%-1), px%, 1)'
+'     neih$(3) = MID$(map$(py%-1), px%, 1)      '
+'     neih$(4) = MID$(map$(py%), px%-1, 1)'
+'     neih$(5) = MID$(map$(py%), px%, 1)'
+'     neih$(6) = MID$(map$(py%+1), px%-1, 1)'
+'     neih$(7) = MID$(map$(py%+1), px%, 1)'
+'     neih$(8) = MID$(map$(py%+1), px%, 1)   '
+'    ELSEIF py% = 4 AND px% > 1 AND px% < 20'
+'     neih$(1) = MID$(map$(py%-1), px%, 1)'
+'     neih$(2) = MID$(map$(py%-1), px%, 1)'
+'     neih$(3) = MID$(map$(py%-1), px%, 1)      '
+'     neih$(4) = MID$(map$(py%), px%-1, 1)'
+'     neih$(5) = MID$(map$(py%), px%+1, 1)'
+'     neih$(6) = MID$(map$(py%), px%-1, 1)'
+'     neih$(7) = MID$(map$(py%), px%, 1)'
+'     neih$(8) = MID$(map$(py%), px%+1, 1)'
+'    ELSEIF py% > 1 AND py% < 4 AND px% > 1 AND px% < 20'
+'     neih$(1) = MID$(map$(py%-1), px%-1, 1)'
+'     neih$(2) = MID$(map$(py%-1), px%, 1)'
+'     neih$(3) = MID$(map$(py%-1), px%+1, 1)      '
+'     neih$(4) = MID$(map$(py%), px%-1, 1)'
+'     neih$(5) = MID$(map$(py%), px%+1, 1)'
+'     neih$(6) = MID$(map$(py%+1), px%-1, 1)'
+'     neih$(7) = MID$(map$(py%+1), px%, 1)'
+'     neih$(8) = MID$(map$(py%+1), px%+1, 1)'
+'    ENDIF'
+'   randVal% = (RND * 10)'
+'    IF randval% < 7'
+'     i% = 1'
+'      WHILE i% <= 8'
+'       lAscii%(i%) = ASC(neih$(i%)) '
+'       nebiome%(i%) = lAscii%(i%) AND 3 '
+'       i% = i% + 1'
+'      ENDWH'
+'   b0% = 0'
+'   b1% = 0'
+'   b2% = 0'
+'   b3% = 0'
+'   i% = 1'
+'   WHILE i% <= 8'
+'    IF nebiome%(i%) = 0 '
+'     b0% = b0% + 1  '
+'    ELSEIF nebiome%(i%) = 1 '
+'     b1% = b1% + 1  '
+'    ELSEIF nebiome%(i%) = 2 '
+'     b2% = b2% + 1  '
+'    ELSEIF nebiome%(i%) = 3 '
+'     b3% = b3% + 1  '
+'    ENDIF'
+'   i% = i% + 1'
+'   ENDWH'
+'   mCount% = b0%'
+'   mBiome% = 0'
+'   tCount% = 1  '
+'   IF b1% > mCount% '
+'    mCount% = b1%     '
+'    mBiome% = 1       '
+'    tCount% = 1       '
+'   ELSEIF b1% = mCount% '
+'    tCount% = tCount% + 1  '
+'   ENDIF'
+'   IF b2% > mCount% '
+'    mCount% = b2%     '
+'    mBiome% = 2       '
+'    tCount% = 1       '
+'   ELSEIF b2% = mCount% '
+'    tCount% = tCount% + 1  '
+'   ENDIF'
+'   IF b3% > mCount% '
+'    mCount% = b3%     '
+'    mBiome% = 3       '
+'    tCount% = 1       '
+'   ELSEIF b3% = mCount% '
+'    tCount% = tCount% + 1  '
+'   ENDIF'
+'   cChar$ = MID$(map$(py%), px%, 1)    '
+'   cAscii% = ASC(cChar$)         '
+'   cBiome% = cAscii% AND 3       '
+'   IF tCount% > 1 '
+'    nBiome% = cBiome%'
+'   ELSE'
+'    nBiome% = mBiome%'
+'   ENDIF'
+'   newcode% = (cAscii% AND (NOT 3)) OR nBiome%'
+'   newChar$ = CHR$(newcode%)   '
+'   CHNGMAP:(px%,py%,newChar$)'
+'    ELSE'
+'    ENDIF'
+'   px% =  px% + 1'
+'   progr% = progr%+1 '
+'   CLS'
+'   PRINT progr% ; "/80"'
+'   ENDWH'
+' py% = py% + 1'
+' ENDWH'
+'smooth:'
+'GLOBAL neih$(8,2) '
+'GLOBAL neih$(8,2) '
+'GLOBAL lAscii%(8) '
+'GLOBAL nebiome%(8)'
+'GLOBAL b0%, b1%, b2%, b3%'
+'GLOBAL mCount%'
+'GLOBAL mBiome%'
+'GLOBAL nBiome%'
+'GLOBAL tCount%'
+'GLOBAL cChar$(1)'
+'GLOBAL cAscii%'
+'GLOBAL cBiome%'
+'GLOBAL newcode%'
+'GLOBAL newChar$(1)'
+'GLOBAL progr%'
+'py% = 1'
+' WHILE py% <= 4'
+'  px% = 1'
+'   WHILE px% <= 20   '
+'    IF py% = 1 AND px% = 1 '
+'      neih$(1) = MID$(map$(py%), px%, 1)'
+'      neih$(2) = MID$(map$(py%), px%, 1)'
+'      neih$(3) = MID$(map$(py%), px%+1, 1)      '
+'      neih$(4) = MID$(map$(py%), px%, 1)'
+'      neih$(5) = MID$(map$(py%), px% + 1, 1)'
+'      neih$(6) = MID$(map$(py%+1), px%, 1)'
+'      neih$(7) = MID$(map$(py%+1), px%, 1)'
+'      neih$(8) = MID$(map$(py%+1), px%+1, 1)   '
+'    ELSEIF py% = 1 AND px% = 20'
+'     neih$(1) = MID$(map$(py%), px%-1, 1)'
+'     neih$(2) = MID$(map$(py%), px%, 1)'
+'     neih$(3) = MID$(map$(py%), px%, 1)      '
+'     neih$(4) = MID$(map$(py%), px%-1, 1)'
+'     neih$(5) = MID$(map$(py%), px% + 1, 1)'
+'     neih$(6) = MID$(map$(py%+1), px%-1, 1)'
+'     neih$(7) = MID$(map$(py%+1), px%, 1)'
+'     neih$(8) = MID$(map$(py%+1), px%, 1)'
+'    ELSEIF py% = 4 AND px% = 20'
+'     neih$(1) = MID$(map$(py%-1), px%-1, 1)'
+'     neih$(2) = MID$(map$(py%-1), px%, 1)'
+'     neih$(3) = MID$(map$(py%-1), px%, 1)      '
+'     neih$(4) = MID$(map$(py%), px%-1, 1)'
+'     neih$(5) = MID$(map$(py%), px%, 1)'
+'     neih$(6) = MID$(map$(py%), px%-1, 1)'
+'     neih$(7) = MID$(map$(py%), px%, 1)'
+'     neih$(8) = MID$(map$(py%), px%, 1)'
+'    ELSEIF py% = 4 AND px% = 1'
+'     neih$(1) = MID$(map$(py%-1), px%, 1)'
+'     neih$(2) = MID$(map$(py%-1), px%, 1)'
+'     neih$(3) = MID$(map$(py%-1), px%+1, 1)      '
+'     neih$(4) = MID$(map$(py%), px%, 1)'
+'     neih$(5) = MID$(map$(py%), px%+1, 1)'
+'     neih$(6) = MID$(map$(py%), px%, 1)'
+'     neih$(7) = MID$(map$(py%), px%, 1)'
+'     neih$(8) = MID$(map$(py%), px%+1, 1)'
+'    ELSEIF (py% = 1) AND (px% > 1) AND (px% < 20) '
+'     neih$(1) = MID$(map$(py%), px%, 1)'
+'     neih$(2) = MID$(map$(py%), px%, 1)'
+'     neih$(3) = MID$(map$(py%), px%, 1)'
+'     neih$(4) = MID$(map$(py%), px%-1, 1)'
+'     neih$(5) = MID$(map$(py%), px%+1, 1)'
+'     neih$(6) = MID$(map$(py%+1), px%-1, 1)'
+'     neih$(7) = MID$(map$(py%+1), px%, 1)'
+'     neih$(8) = MID$(map$(py%+1), px%+1, 1)'
+'    ELSEIF py% > 1 AND (py% < 4) AND (px% = 1)'
+'     neih$(1) = MID$(map$(py%-1), px%, 1)'
+'     neih$(2) = MID$(map$(py%-1), px%, 1)'
+'     neih$(3) = MID$(map$(py%-1), px%+1, 1)      '
+'     neih$(4) = MID$(map$(py%), px%, 1)'
+'     neih$(5) = MID$(map$(py%), px%+1, 1)'
+'     neih$(6) = MID$(map$(py%+1), px%, 1)'
+'     neih$(7) = MID$(map$(py%+1), px%, 1)'
+'     neih$(8) = MID$(map$(py%+1), px%+1, 1)'
+'    ELSEIF py% > 1 AND py% < 4 AND px% = 20'
+'     neih$(1) = MID$(map$(py%-1), px%-1, 1)'
+'     neih$(2) = MID$(map$(py%-1), px%, 1)'
+'     neih$(3) = MID$(map$(py%-1), px%, 1)      '
+'     neih$(4) = MID$(map$(py%), px%-1, 1)'
+'     neih$(5) = MID$(map$(py%), px%, 1)'
+'     neih$(6) = MID$(map$(py%+1), px%-1, 1)'
+'     neih$(7) = MID$(map$(py%+1), px%, 1)'
+'     neih$(8) = MID$(map$(py%+1), px%, 1)   '
+'    ELSEIF py% = 4 AND px% > 1 AND px% < 20'
+'     neih$(1) = MID$(map$(py%-1), px%, 1)'
+'     neih$(2) = MID$(map$(py%-1), px%, 1)'
+'     neih$(3) = MID$(map$(py%-1), px%, 1)      '
+'     neih$(4) = MID$(map$(py%), px%-1, 1)'
+'     neih$(5) = MID$(map$(py%), px%+1, 1)'
+'     neih$(6) = MID$(map$(py%), px%-1, 1)'
+'     neih$(7) = MID$(map$(py%), px%, 1)'
+'     neih$(8) = MID$(map$(py%), px%+1, 1)'
+'    ELSEIF py% > 1 AND py% < 4 AND px% > 1 AND px% < 20'
+'     neih$(1) = MID$(map$(py%-1), px%-1, 1)'
+'     neih$(2) = MID$(map$(py%-1), px%, 1)'
+'     neih$(3) = MID$(map$(py%-1), px%+1, 1)      '
+'     neih$(4) = MID$(map$(py%), px%-1, 1)'
+'     neih$(5) = MID$(map$(py%), px%+1, 1)'
+'     neih$(6) = MID$(map$(py%+1), px%-1, 1)'
+'     neih$(7) = MID$(map$(py%+1), px%, 1)'
+'     neih$(8) = MID$(map$(py%+1), px%+1, 1)'
+'    ENDIF'
+'   randVal% = (RND * 10)'
+'    IF randval% < 7'
+'     i% = 1'
+'      WHILE i% <= 8'
+'       lAscii%(i%) = ASC(neih$(i%)) '
+'       nebiome%(i%) = lAscii%(i%) AND 3 '
+'       i% = i% + 1'
+'      ENDWH'
+'   b0% = 0'
+'   b1% = 0'
+'   b2% = 0'
+'   b3% = 0'
+'   i% = 1'
+'   WHILE i% <= 8'
+'    IF nebiome%(i%) = 0 '
+'     b0% = b0% + 1  '
+'    ELSEIF nebiome%(i%) = 1 '
+'     b1% = b1% + 1  '
+'    ELSEIF nebiome%(i%) = 2 '
+'     b2% = b2% + 1  '
+'    ELSEIF nebiome%(i%) = 3 '
+'     b3% = b3% + 1  '
+'    ENDIF'
+'   i% = i% + 1'
+'   ENDWH'
+'   mCount% = b0%'
+'   mBiome% = 0'
+'   tCount% = 1  '
+'   IF b1% > mCount% '
+'    mCount% = b1%     '
+'    mBiome% = 1       '
+'    tCount% = 1       '
+'   ELSEIF b1% = mCount% '
+'    tCount% = tCount% + 1  '
+'   ENDIF'
+'   IF b2% > mCount% '
+'    mCount% = b2%     '
+'    mBiome% = 2       '
+'    tCount% = 1       '
+'   ELSEIF b2% = mCount% '
+'    tCount% = tCount% + 1  '
+'   ENDIF'
+'   IF b3% > mCount% '
+'    mCount% = b3%     '
+'    mBiome% = 3       '
+'    tCount% = 1       '
+'   ELSEIF b3% = mCount% '
+'    tCount% = tCount% + 1  '
+'   ENDIF'
+'   cChar$ = MID$(map$(py%), px%, 1)    '
+'   cAscii% = ASC(cChar$)         '
+'   cBiome% = cAscii% AND 3       '
+'   IF tCount% > 1 '
+'    nBiome% = cBiome%'
+'   ELSE'
+'    nBiome% = mBiome%'
+'   ENDIF'
+'   newcode% = (cAscii% AND (NOT 3)) OR nBiome%'
+'   newChar$ = CHR$(newcode%)   '
+'   CHNGMAP:(px%,py%,newChar$)'
+'    ELSE'
+'    ENDIF'
+'   px% =  px% + 1'
+'   progr% = progr%+1 '
+'   CLS'
+'   PRINT progr% ; "/80"'
+'   ENDWH'
+' py% = py% + 1'
+' ENDWH'

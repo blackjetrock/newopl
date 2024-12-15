@@ -3,7 +3,7 @@ Filename:'ob3_nopl'
 File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
-Var Space Size:0040
+Var Space Size:0036
 QCode Space Size:05FF
 Number of parameters:00
 Parameter types:
@@ -19,10 +19,9 @@ External variables (6)
  4: IDESC$           STR    (02)
  5: EQUI%            INT    (00)
 
-String length fixups (3)
- 0: FFE1 0E
- 1: FFCB 06
- 2: FFC3 06
+String length fixups (2)
+ 0: FFE2 0E
+ 1: FFCC 06
 
 Array size fixups (0)
 
@@ -127,7 +126,7 @@ QCode
 00AC: 0001       (1)
 00AE: 7F       Assign integer     (bytes code:-)
 00AF: 0D       Push local/global integer variable reference     (bytes code:v)
-00B0: FFC2       (65474)
+00B0: FFCA       (65482)
 00B2: 22       Push integer literal     (bytes code:I)
 00B3: 0001       (1)
 00B5: 7F       Assign integer     (bytes code:-)
@@ -162,7 +161,7 @@ QCode
 00DB: FFD6       (65494)
 00DD: 66       POSITION     (bytes code:-)
 00DE: 00       Push local/global integer variable value     (bytes code:v)
-00DF: FFC2       (65474)
+00DF: FFCA       (65482)
 00E1: 22       Push integer literal     (bytes code:I)
 00E2: 0000       (0)
 00E4: 27       Less than integer     (bytes code:-)
@@ -231,7 +230,7 @@ QCode
 013E: 0001       (1)
 0140: 7F       Assign integer     (bytes code:-)
 0141: 00       Push local/global integer variable value     (bytes code:v)
-0142: FFC2       (65474)
+0142: FFCA       (65482)
 0144: 22       Push integer literal     (bytes code:I)
 0145: 0000       (0)
 0147: 29       Greater than integer     (bytes code:-)
@@ -404,7 +403,7 @@ QCode
 0236: 51       GOTO     (bytes code:D)
 0237: Dest:0206 (Dist:FFFFFFCF)
 0239: 0D       Push local/global integer variable reference     (bytes code:v)
-023A: FFC2       (65474)
+023A: FFCA       (65482)
 023C: 22       Push integer literal     (bytes code:I)
 023D: 0000       (0)
 023F: 7F       Assign integer     (bytes code:-)
@@ -602,7 +601,7 @@ QCode
 0366: 2E       Minus integer     (bytes code:-)
 0367: 7F       Assign integer     (bytes code:-)
 0368: 0D       Push local/global integer variable reference     (bytes code:v)
-0369: FFC2       (65474)
+0369: FFCA       (65482)
 036B: 22       Push integer literal     (bytes code:I)
 036C: 0001       (1)
 036E: 32       unary minus integer     (bytes code:-)
@@ -623,7 +622,7 @@ QCode
 0383: 2D       Plus integer     (bytes code:-)
 0384: 7F       Assign integer     (bytes code:-)
 0385: 0D       Push local/global integer variable reference     (bytes code:v)
-0386: FFC2       (65474)
+0386: FFCA       (65482)
 0388: 22       Push integer literal     (bytes code:I)
 0389: 0001       (1)
 038B: 7F       Assign integer     (bytes code:-)
@@ -957,16 +956,16 @@ QCode Data
 0080:41 54 56 25 00 07 41 52 4D 4F 55 52 25 00 05 57 
 0090:45 41 50 25 00 05 46 4F 4F 44 25 88 0D FF E0 22 
 00A0:00 01 7F 0D FF DE A2 7F 0D FF D6 22 00 01 7F 0D 
-00B0:FF C2 22 00 01 7F 22 00 0E B8 71 73 22 00 01 22 
+00B0:FF CA 22 00 01 7F 22 00 0E B8 71 73 22 00 01 22 
 00C0:00 01 4C 09 FF FA 71 73 00 FF DA 22 00 01 2B 00 
 00D0:FF DA 22 00 0D 2B 34 7E 02 F8 00 FF D6 66 00 FF 
-00E0:C2 22 00 00 27 7E 00 4A 00 FF D6 22 00 01 27 7E 
+00E0:CA 22 00 00 27 7E 00 4A 00 FF D6 22 00 01 27 7E 
 00F0:00 09 0D FF D6 00 FF DE 7F 00 FF D6 66 24 05 41 
 0100:4D 4E 54 25 1A 03 22 00 01 27 7E 00 25 00 FF D6 
 0110:22 00 01 27 7E 00 09 0D FF D6 00 FF DE 7F 0D FF 
 0120:D6 00 FF D6 22 00 01 2E 7F 00 FF D6 66 51 FF CF 
 0130:00 FF D6 00 FF DE 29 7E 00 09 0D FF D6 22 00 01 
-0140:7F 00 FF C2 22 00 00 29 7E 00 4A 00 FF D6 00 FF 
+0140:7F 00 FF CA 22 00 00 29 7E 00 4A 00 FF D6 00 FF 
 0150:DE 29 7E 00 09 0D FF D6 22 00 01 7F 00 FF D6 66 
 0160:24 05 41 4D 4E 54 25 1A 03 22 00 01 27 7E 00 25 
 0170:00 FF D6 00 FF DE 29 7E 00 09 0D FF D6 22 00 01 
@@ -981,7 +980,7 @@ QCode Data
 0200:01 7F 00 FF D8 66 24 05 41 4D 4E 54 25 1A 03 22 
 0210:00 01 27 7E 00 25 0D FF D8 00 FF D8 22 00 01 2D 
 0220:7F 00 FF D8 00 FF DE 29 7E 00 09 0D FF D8 22 00 
-0230:01 7F 00 FF D8 66 51 FF CF 0D FF C2 22 00 00 7F 
+0230:01 7F 00 FF D8 66 51 FF CF 0D FF CA 22 00 00 7F 
 0240:00 FF D8 66 22 00 01 22 00 04 4C 22 00 17 B8 24 
 0250:06 20 20 20 20 20 20 4B 24 04 4C 53 54 24 1C 03 
 0260:22 00 0E C0 4B 71 73 00 FF D6 66 22 00 01 22 00 
@@ -1000,9 +999,9 @@ QCode Data
 0330:07 41 52 4D 4F 55 52 25 1A 03 6F 73 22 00 10 22 
 0340:00 01 4C 24 05 57 45 41 50 25 1A 03 6F 73 0D FF 
 0350:DA 91 7F 00 FF DA 22 00 03 2C 7E 00 15 0D FF D6 
-0360:00 FF D6 22 00 01 2E 7F 0D FF C2 22 00 01 32 7F 
+0360:00 FF D6 22 00 01 2E 7F 0D FF CA 22 00 01 32 7F 
 0370:00 FF DA 22 00 04 2C 7E 00 14 0D FF D6 00 FF D6 
-0380:22 00 01 2D 7F 0D FF C2 22 00 01 7F 00 FF DA 22 
+0380:22 00 01 2D 7F 0D FF CA 22 00 01 7F 00 FF DA 22 
 0390:00 02 2C 7E 00 1E 14 FF F6 07 FF F6 22 00 01 2D 
 03A0:7F 07 FF F6 22 00 03 29 7E 00 09 14 FF F6 22 00 
 03B0:01 7F 16 FF F4 24 08 4C 4F 43 44 45 53 43 24 1C 

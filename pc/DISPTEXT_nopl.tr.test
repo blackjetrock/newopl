@@ -3,7 +3,7 @@ Filename:'ob3_nopl'
 File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
-Var Space Size:0040
+Var Space Size:0028
 QCode Space Size:011E
 Number of parameters:02
 Parameter types:
@@ -15,9 +15,8 @@ Global variables (0)
 External varname Size:0000
 External variables (0)
 
-String length fixups (2)
- 0: FFD5 14
- 1: FFBF 14
+String length fixups (1)
+ 0: FFD8 14
 
 Array size fixups (0)
 
@@ -152,7 +151,7 @@ QCode
 00AE: 51       GOTO     (bytes code:D)
 00AF: Dest:00AF (Dist:0000)
 00B1: 0F       Push local/global string variable reference     (bytes code:v)
-00B2: FFD6       (65494)
+00B2: FFD8       (65496)
 00B4: 09       Push parameter/external string variable value     (bytes code:V)
 00B5: FFFC       (65532)
 00B7: 00       Push local/global integer variable value     (bytes code:v)
@@ -185,7 +184,7 @@ QCode
 00DC: 7E       Branch if false     (bytes code:D)
 00DD: Dest:00DD (Dist:0000)
 00DF: 02       Push local/global string variable value     (bytes code:v)
-00E0: FFD6       (65494)
+00E0: FFD8       (65496)
 00E2: 71       PRINT string     (bytes code:-)
 00E3: 73       PRINT newline     (bytes code:-)
 00E4: 00       Push local/global integer variable value     (bytes code:v)
@@ -245,10 +244,10 @@ QCode Data
 0080:F0 7F 51 00 00 51 00 00 09 FF FC 00 FF F0 22 00 
 0090:01 C2 24 01 20 4A 7E 00 00 0D FF F8 00 FF F0 7F 
 00A0:51 00 00 0D FF F4 00 FF F4 22 00 01 2D 7F 51 00 
-00B0:00 0F FF D6 09 FF FC 00 FF F6 00 FF F8 00 FF F6 
+00B0:00 0F FF D8 09 FF FC 00 FF F6 00 FF F8 00 FF F6 
 00C0:2E C2 81 0D FF F6 00 FF F6 22 00 01 2E 7F 0D FF 
 00D0:F0 00 FF F8 7F 00 FF EE 07 FF FA 27 7E 00 00 02 
-00E0:FF D6 71 73 00 FF F0 00 FF F2 22 00 01 2D 2A 7E 
+00E0:FF D8 71 73 00 FF F0 00 FF F2 22 00 01 2D 2A 7E 
 00F0:00 00 91 83 51 00 00 0D FF EE 00 FF EE 22 00 01 
 0100:2D 7F 00 FF EE 07 FF FA 2C 7E 00 00 0D FF EE 22 
 0110:00 00 7F 91 83 4E 51 00 00 4E 51 00 00 7B 

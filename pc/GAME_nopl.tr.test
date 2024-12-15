@@ -3,7 +3,7 @@ Filename:'ob3_nopl'
 File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
-Var Space Size:0549
+Var Space Size:037B
 QCode Space Size:0392
 Number of parameters:00
 Parameter types:
@@ -41,39 +41,29 @@ Global variables (38)
 29: PLMAXHE%         INT    (00) FD5E
 30: STARTX%          INT    (00) FD5C
 31: STARTY%          INT    (00) FD5A
-32: MAXPLH%3         INT    (00) 0000
-33: ˛kF¸k           ?????? (FC) FD01
-34: ˝Dª˚           ?????? (FD) FD0D
-35: ˚Bé˝T£˚       ?????? (FD) FD0A
-36: ˚
-Eà¸»           ?????? (FC) FC01
-37:                  ?????? (FB) FC04
+32: MAXPLH%         INT    (00) 0000
+33: ˛kF˛           ?????? (FD) FD0D
+34: ˝Dè˝           ?????? (FC) FDC8
+35: ¸BSTAT%         INT    (00) FD52
+36: IDESC$           STR    (02) FC89
+37:                  STR    (02) FC86
 
 External varname Size:0000
 External variables (0)
 
-String length fixups (17)
- 0: FE13 6B
- 1: FC17 6B
- 2: FE10 01
- 3: FC14 01
- 4: FDB7 14
- 5: FBBB 14
- 6: FDA0 0D
- 7: FD91 0D
- 8: FBA6 0D
- 9: FD8E 01
-10: FBA3 01
-11: FD6E 0A
-12: FB91 0A
-13: FC88 C8
-14: FAB9 C8
-15: FC85 01
-16: 0008 01
+String length fixups (9)
+ 0: FE14 6B
+ 1: FE11 01
+ 2: FDB8 14
+ 3: FDA1 0D
+ 4: FD92 0D
+ 5: FD8F 01
+ 6: FD6F 0A
+ 7: FC89 C8
+ 8: FC86 01
 
-Array size fixups (2)
+Array size fixups (1)
  0: FDB8 0004
- 1: FBBC 0004
 
 QCode
 

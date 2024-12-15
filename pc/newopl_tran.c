@@ -24,6 +24,7 @@ FILE *icfp;
 FILE *ofp;
 FILE *chkfp;
 FILE *trfp;
+FILE *vlfp;
 
 // Reads next composite line into buffer
 
@@ -4655,6 +4656,7 @@ int main(int argc, char *argv[])
   init_output();
 
   ptfp = fopen("parse_text.txt", "w");
+  vlfp = fopen("var_log.txt", "w");
 
   parser_check();
 
@@ -4699,6 +4701,7 @@ int main(int argc, char *argv[])
   dump_vars(vfp);
   fclose(vfp); 
   fclose(ptfp);
+  fclose(vlfp);
   
   dbprintf("\n");
   dbprintf("\n %d lines scanned OK",       n_lines_ok);

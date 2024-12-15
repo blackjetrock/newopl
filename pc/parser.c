@@ -463,7 +463,7 @@ void make_var_type_array(NOBJ_VARTYPE *vt)
     }
 
   // A type that cannot be turned into an array
-  internal_error("Type %s canot be turned into an array", type_to_str(*vt));
+  internal_error("Type %s cannot be turned into an array", type_to_str(*vt));
   
 }
 
@@ -608,11 +608,13 @@ void to_upper_str(char *str)
 
 NOBJ_VAR_INFO *find_var_info(char *name, NOBJ_VARTYPE type)
 {
+  dbprintf("%s: '%s' Type:%c", __FUNCTION__, name, type_to_char(type));
+  
   to_upper_str(name);
   
   for(int i=0; i<num_var_info; i++)
     {
-      dbprintf("'%s' '%s'", var_info[i].name, name);
+      dbprintf("'%s' '%s' %c", var_info[i].name, name, type_to_char(var_info[i].type));
       // Must be an exact match, case insensitive
       // type must match as well.
 
@@ -642,6 +644,24 @@ NOBJ_VAR_INFO *find_var_info(char *name, NOBJ_VARTYPE type)
   return(NULL);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+
+void update_var_info_by_index(int idx, NOBJ_VAR_INFO *vi)
+{
+  to_upper_str(name);
+
+  dbprintf("%s: '%s'", __FUNCTION__, vi->name);
+  fprintf(vlfp, "\n%s: '%s' Type:%c", __FUNCTION__, vi->name, type_to_char(vi->type));
+
+  var_info[idx].max_array   = vi->max_array;
+  var_info[idx].max_string  = vi->max_string;
+  var_info[idx].num_indices = vi->num_indices;
+  var_info[idx].type        = vi->type;
+  var_info[idx].class       = vi->class;
+}
+
+
 //------------------------------------------------------------------------------
 //
 // Update the info about a variable
@@ -652,7 +672,10 @@ NOBJ_VAR_INFO *find_var_info(char *name, NOBJ_VARTYPE type)
 void update_var_info(char *name, NOBJ_VAR_INFO *vi)
 {
   to_upper_str(name);
-  
+
+  dbprintf("%s: '%s'", __FUNCTION__, vi->name);
+  fprintf(vlfp, "\n%s: '%s' Type:%c", __FUNCTION__, vi->name, type_to_char(vi->type));
+    
   for(int i=0; i<num_var_info; i++)
     {
       // Must be an exact match, case insensitive
@@ -665,6 +688,8 @@ void update_var_info(char *name, NOBJ_VAR_INFO *vi)
       
       if( strn_match(name, var_info[i].name, strlen(var_info[i].name)) )
 	{
+	  fprintf(vlfp, "\n%s: Found '%s'", __FUNCTION__, vi->name);
+
 	  // Got a match
 	  //int offset = var_info[i].offset;
 	  
@@ -672,6 +697,7 @@ void update_var_info(char *name, NOBJ_VAR_INFO *vi)
 	  var_info[i].max_string  = vi->max_string;
 	  var_info[i].num_indices = vi->num_indices;
 	  var_info[i].type        = vi->type;
+	  var_info[i].class       = vi->class;
 	  //var_info[i].offset = offset;
 	  return;
 	}
@@ -680,6 +706,7 @@ void update_var_info(char *name, NOBJ_VAR_INFO *vi)
   internal_error("update_var_info expected to find variable");
   
   // Not found
+  dump_vars(vlfp);
   dump_vars(ofp);
   
   dbprintf("******");
@@ -708,14 +735,18 @@ void update_var_info(char *name, NOBJ_VAR_INFO *vi)
 void add_var_entry(NOBJ_VAR_INFO *vi)
 {
   dbprintf("%s", vi->name);
+
+  fprintf(vlfp, "\n%s: '%s' Type:%c", __FUNCTION__, vi->name, type_to_char(vi->type));
   
   if(num_var_info < (MAX_VAR_INFO-1))
     {
+      fprintf(vlfp, "\n%s: Added new entry", __FUNCTION__);
       var_info[num_var_info] = *vi;
       num_var_info++;
     }
   else
     {
+      fprintf(vlfp, "\n%s: **** Too many entries ***", __FUNCTION__);
       syntax_error("Too many variables");
     }
 }
@@ -734,6 +765,8 @@ void add_var_info(NOBJ_VAR_INFO *vi)
   NOBJ_VAR_INFO *srch_vi;
   int mem_n = 0;
 
+  fprintf(vlfp, "\n%s: '%s'", __FUNCTION__, vi->name);
+  
   // Convert name to upper case
   to_upper_str(vi->name);
   
@@ -742,10 +775,14 @@ void add_var_info(NOBJ_VAR_INFO *vi)
   // See if variable name already present
   srch_vi = find_var_info(vi->name, vi->type);
 
+
+  
   if( srch_vi == NULL )
     {
       dbprintf("Not already present");
-      
+
+      fprintf(vlfp, "\n%s: Not found var", __FUNCTION__);
+	
       // Not present
       if( vi->is_ref )
 	{
@@ -783,6 +820,8 @@ void add_var_info(NOBJ_VAR_INFO *vi)
     {
       dbprintf("Already present");
 
+      fprintf(vlfp, "\n%s: Found var", __FUNCTION__);
+      
       // Update details again as this could be the second pass
       // Do not update offset
       //int offset = srch_vi->offset;
@@ -817,7 +856,9 @@ void add_var_info(NOBJ_VAR_INFO *vi)
 	}
     }
   dump_vars(ofp);
-  
+  dump_vars(vlfp);
+
+
 }
 
 
@@ -1379,7 +1420,7 @@ void build_qcode_header(void)
 	  ((var_info[i].class == NOPL_VAR_CLASS_OPEN) && (var_info[i].max_string != 0)) )
 	 )
 	{
-	  idx = set_qcode_header_byte_at(idx, 2, var_info[i].offset-1);
+	  idx = set_qcode_header_byte_at(idx, 2, var_info[i].offset);
 	  idx = set_qcode_header_byte_at(idx, 1, var_info[i].max_string);
 	  dbprintf("%04X %02X", var_info[i].offset-1, var_info[i].max_string);
 	}
@@ -2343,7 +2384,8 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, in
   char chstr[2];
   int idx = cline_i;
   OP_STACK_ENTRY op;
-
+  int var_info_index;
+  
   init_op_stack_entry(&op);
   indent_more();
   
@@ -2352,8 +2394,10 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, in
   init_var_info(vi);
   vi->is_ref = ref_ndeclare;
 
+#if 0  
   // Default to local, this can be overridden for global later.
   vi->class = NOPL_VAR_CLASS_LOCAL;
+#endif
   
   chstr[1] = '\0';
   
@@ -2415,11 +2459,12 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, in
 	  // original if we do that.
 	  // We update the details later, the important thing is to get an entry in the table now
 	  // so the ordering of variables (and hence offsets in the QCode) is correct.
+
 	  if( pass_number == 2,1 )
 	    {
 	      if( store_var_info )
 		{
-		  add_var_info(vi);
+		  var_info_index = add_var_info(vi);
 		}
 	    }
 	  
@@ -2501,7 +2546,6 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, in
 		{
 		  // the brackets define the length of the string, not an array
 		  vi->type = NOBJ_VARTYPE_STR;
-		  
 		}
 	    }
 	  
@@ -2522,10 +2566,14 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, in
 		}
 
 	      // Update the variable now we have full information about it
-	      update_var_info(vi->name, vi);
+	      update_var_info_by_index(var_info_index, vi);
 	      process_token(&op);
 
 	      return(1);
+	    }
+	  else
+	    {
+	      // No traiing bracket
 	    }
 	}
       
@@ -7487,12 +7535,18 @@ int scan_localglobal(int local_nglobal)
       while( check_variable(&idx) )
 	{
 	  init_var_info(&vi);
-	  
+
 	  if( scan_variable(&vi, VAR_DECLARE, NOPL_OP_ACCESS_READ, STORE_VAR_INFO))
 	    {
+#if 1
+	      vi.class = local_nglobal?NOPL_VAR_CLASS_LOCAL:NOPL_VAR_CLASS_GLOBAL;
+	      vi.is_ref = 0;
+	      update_var_info(vi.name, &vi);
+#endif	      
+#if 0	      
 	      // Find the variable and update to make it a local or global
 	      srch_vi = find_var_info(vi.name, vi.type);
-
+	      
 	      if( srch_vi != NULL )
 		{
 		  srch_vi->class = local_nglobal?NOPL_VAR_CLASS_LOCAL:NOPL_VAR_CLASS_GLOBAL;
@@ -7503,7 +7557,9 @@ int scan_localglobal(int local_nglobal)
 		  
 		  // Store info about the variable
 		  add_var_info(&vi);
+
 		}
+#endif
 	    }
 	  
 	  idx = cline_i;
@@ -7517,7 +7573,7 @@ int scan_localglobal(int local_nglobal)
 
       if( cline[cline_i] == '\0' )
 	{
-#if 1
+#if 0
 	  // Store info about the variable
 	  var_info[num_var_info] = vi;
 	  num_var_info++;
@@ -7527,7 +7583,7 @@ int scan_localglobal(int local_nglobal)
 	}
     }
 
-  dbprintf("%s:ret0", __FUNCTION__);
+  dbprintf("ret0");
   return(0);
 }
 
