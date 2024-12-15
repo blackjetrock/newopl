@@ -3,7 +3,7 @@ Filename:'ob3_nopl'
 File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
-Var Space Size:0014
+Var Space Size:0018
 QCode Space Size:0125
 Number of parameters:00
 Parameter types:
@@ -13,9 +13,10 @@ Global variables (0)
 External varname Size:0000
 External variables (0)
 
-String length fixups (2)
- 0: FFF2 0A
- 1: FFEC 02
+String length fixups (3)
+ 0: FFF1 0A
+ 1: FFEB 02
+ 2: FFE7 02
 
 Array size fixups (0)
 
@@ -52,7 +53,7 @@ QCode
 002C: 7E       Branch if false     (bytes code:D)
 002D: Dest:0045 (Dist:0018)
 002F: 0F       Push local/global string variable reference     (bytes code:v)
-0030: FFF3       (65523)
+0030: FFF2       (65522)
 0032: 24       Push string literal     (bytes code:S)
 0033: Len:10
 0034: 'LAST TIME:'
@@ -78,7 +79,7 @@ QCode
 006A: 7E       Branch if false     (bytes code:D)
 006B: Dest:0096 (Dist:002B)
 006D: 0F       Push local/global string variable reference     (bytes code:v)
-006E: FFF3       (65523)
+006E: FFF2       (65522)
 0070: 24       Push string literal     (bytes code:S)
 0071: Len:9
 0072: 'RECORDED.'
@@ -107,7 +108,7 @@ QCode
 0097: Dest:0006 (Dist:FFFFFF6F)
 0099: 4E       CLS     (bytes code:-)
 009A: 02       Push local/global string variable value     (bytes code:v)
-009B: FFF3       (65523)
+009B: FFF2       (65522)
 009D: 71       PRINT string     (bytes code:-)
 009E: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
 009F: 0000       (M0)
@@ -121,7 +122,7 @@ QCode
 00AA: 7E       Branch if false     (bytes code:D)
 00AB: Dest:00B8 (Dist:000D)
 00AD: 0F       Push local/global string variable reference     (bytes code:v)
-00AE: FFED       (65517)
+00AE: FFEC       (65516)
 00B0: 24       Push string literal     (bytes code:S)
 00B1: Len:2
 00B2: ':0'
@@ -129,13 +130,13 @@ QCode
 00B5: 51       GOTO     (bytes code:D)
 00B6: Dest:00BF (Dist:0009)
 00B8: 0F       Push local/global string variable reference     (bytes code:v)
-00B9: FFED       (65517)
+00B9: FFEC       (65516)
 00BB: 24       Push string literal     (bytes code:S)
 00BC: Len:1
 00BD: ':'
 00BE: 81       Assign string     (bytes code:-)
 00BF: 02       Push local/global string variable value     (bytes code:v)
-00C0: FFED       (65517)
+00C0: FFEC       (65516)
 00C2: 71       PRINT string     (bytes code:-)
 00C3: 06       Push calculator memory. Is followed by a byte indicating which of the 10 memories.     (bytes code:m)
 00C4: 0008       (M1)
@@ -200,16 +201,16 @@ QCode Data
 0000:59 B2 22 00 01 6A 0D FF F0 24 08 4E 45 57 2C 4C 
 0010:41 53 54 98 7F 00 FF F0 22 00 01 2C 7E 00 08 51 
 0020:00 26 51 00 23 00 FF F0 22 00 02 2C 7E 00 18 0F 
-0030:FF F3 24 0A 4C 41 53 54 20 54 49 4D 45 3A 81 51 
+0030:FF F2 24 0A 4C 41 53 54 20 54 49 4D 45 3A 81 51 
 0040:00 59 51 00 03 59 4E 0D FF F0 24 15 49 42 55 50 
 0050:52 4F 46 49 4E 2C 50 41 52 41 43 45 54 45 4D 4F 
-0060:4C 98 7F 00 FF F0 22 00 00 29 7E 00 2B 0F FF F3 
+0060:4C 98 7F 00 FF F0 22 00 00 29 7E 00 2B 0F FF F2 
 0070:24 09 52 45 43 4F 52 44 45 44 2E 81 13 00 00 92 
 0080:86 80 13 00 08 99 86 80 13 00 10 00 FF F0 86 80 
-0090:51 00 08 51 00 05 51 FF 6F 4E 02 FF F3 71 06 00 
-00A0:00 70 06 00 08 22 00 0A 86 36 7E 00 0D 0F FF ED 
-00B0:24 02 3A 30 81 51 00 09 0F FF ED 24 01 3A 81 02 
-00C0:FF ED 71 06 00 08 70 73 06 00 10 22 00 01 86 3B 
+0090:51 00 08 51 00 05 51 FF 6F 4E 02 FF F2 71 06 00 
+00A0:00 70 06 00 08 22 00 0A 86 36 7E 00 0D 0F FF EC 
+00B0:24 02 3A 30 81 51 00 09 0F FF EC 24 01 3A 81 02 
+00C0:FF EC 71 06 00 08 70 73 06 00 10 22 00 01 86 3B 
 00D0:7E 00 18 22 00 0F B8 71 24 0A 49 42 55 50 52 4F 
 00E0:46 49 4E 2E 71 73 51 00 37 06 00 10 22 00 02 86 
 00F0:3B 7E 00 19 22 00 0F B8 71 24 0B 50 41 52 41 43 

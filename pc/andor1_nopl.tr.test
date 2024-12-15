@@ -3,7 +3,7 @@ Filename:'ob3_nopl'
 File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
-Var Space Size:0020
+Var Space Size:002A
 QCode Space Size:0065
 Number of parameters:00
 Parameter types:
@@ -56,41 +56,41 @@ QCode
 002E: 6F       PRINT integer     (bytes code:-)
 002F: 73       PRINT newline     (bytes code:-)
 0030: 0E       Push local/global float variable reference     (bytes code:v)
-0031: FFE8       (65512)
+0031: FFE6       (65510)
 0033: 23       Push float literal     (bytes code:F)
 0034: Len:2
 0035: '12E0
 0037: 80       Assign float     (bytes code:-)
 0038: 0E       Push local/global float variable reference     (bytes code:v)
-0039: FFE0       (65504)
+0039: FFDE       (65502)
 003B: 23       Push float literal     (bytes code:F)
 003C: Len:2
 003D: '39E0
 003F: 80       Assign float     (bytes code:-)
 0040: 0E       Push local/global float variable reference     (bytes code:v)
-0041: FFF0       (65520)
+0041: FFEE       (65518)
 0043: 01       Push local/global float variable value     (bytes code:v)
-0044: FFE8       (65512)
+0044: FFE6       (65510)
 0046: 01       Push local/global float variable value     (bytes code:v)
-0047: FFE0       (65504)
+0047: FFDE       (65502)
 0049: 43       AND float     (bytes code:-)
 004A: 86       autoconversion int to float     (bytes code:-)
 004B: 80       Assign float     (bytes code:-)
 004C: 01       Push local/global float variable value     (bytes code:v)
-004D: FFF0       (65520)
+004D: FFEE       (65518)
 004F: 70       PRINT float     (bytes code:-)
 0050: 73       PRINT newline     (bytes code:-)
 0051: 0E       Push local/global float variable reference     (bytes code:v)
-0052: FFF0       (65520)
+0052: FFEE       (65518)
 0054: 01       Push local/global float variable value     (bytes code:v)
-0055: FFE8       (65512)
+0055: FFE6       (65510)
 0057: 01       Push local/global float variable value     (bytes code:v)
-0058: FFE0       (65504)
+0058: FFDE       (65502)
 005A: 44       OR float     (bytes code:-)
 005B: 86       autoconversion int to float     (bytes code:-)
 005C: 80       Assign float     (bytes code:-)
 005D: 01       Push local/global float variable value     (bytes code:v)
-005E: FFF0       (65520)
+005E: FFEE       (65518)
 0060: 70       PRINT float     (bytes code:-)
 0061: 73       PRINT newline     (bytes code:-)
 0062: 91       GET     (bytes code:-)
@@ -102,7 +102,7 @@ QCode Data
 0000:59 B2 0D FF FA 22 00 01 7F 0D FF F8 22 00 01 7F 
 0010:0D FF FC 00 FF FA 00 FF F8 34 7F 00 FF FC 6F 73 
 0020:0D FF FC 00 FF FA 00 FF F8 35 7F 00 FF FC 6F 73 
-0030:0E FF E8 23 02 12 00 80 0E FF E0 23 02 39 00 80 
-0040:0E FF F0 01 FF E8 01 FF E0 43 86 80 01 FF F0 70 
-0050:73 0E FF F0 01 FF E8 01 FF E0 44 86 80 01 FF F0 
+0030:0E FF E6 23 02 12 00 80 0E FF DE 23 02 39 00 80 
+0040:0E FF EE 01 FF E6 01 FF DE 43 86 80 01 FF EE 70 
+0050:73 0E FF EE 01 FF E6 01 FF DE 44 86 80 01 FF EE 
 0060:70 73 91 83 7B 

@@ -696,8 +696,17 @@ void dump_proc(NOBJ_PROC *proc)
 	{
 	  printf("\n%04X:", i);
 	}
+
+      if( qc == NULL )
+	{
+	  	  
+	  printf("?? ");
+	}
+      else
+	{
 	  
-      printf("%02X ", *qc);
+	  printf("%02X ", *qc);
+	}
     }
       
   printf("\n");

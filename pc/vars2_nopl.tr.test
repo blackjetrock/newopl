@@ -3,7 +3,7 @@ Filename:'ob3_nopl'
 File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
-Var Space Size:07DE
+Var Space Size:0C6E
 QCode Space Size:001F
 Number of parameters:00
 Parameter types:
@@ -20,19 +20,22 @@ External variables (2)
  0: EXTTOP%          INT    (00)
  1: SA$              STRARY (05)
 
-String length fixups (4)
- 0: F903 0A
- 1: F8C4 07
+String length fixups (5)
+ 0: F902 0A
+ 1: F8BB 07
  2: FFC0 0A
- 3: FCEB 1E
+ 3: F76B 0A
+ 4: FCEB 1E
 
-Array size fixups (6)
- 0: F8EF 0005
- 1: F8C5 0005
- 2: F822 0014
- 3: FF5A 0032
- 4: FCEC 0014
- 5: F911 007B
+Array size fixups (8)
+ 0: F8E7 0005
+ 1: F8BC 0005
+ 2: F81A 0014
+ 3: F778 0014
+ 4: FF5A 0032
+ 5: FCEC 0014
+ 6: F911 007B
+ 7: F392 007B
 
 QCode
 
@@ -44,7 +47,7 @@ QCode
 0006: 0008       (8)
 0008: 7F       Assign integer     (bytes code:-)
 0009: 0F       Push local/global string variable reference     (bytes code:v)
-000A: F904       (63748)
+000A: F903       (63747)
 000C: 24       Push string literal     (bytes code:S)
 000D: Len:3
 000E: 'abc'
@@ -61,5 +64,5 @@ QCode
 
 QCode Data
 
-0000:59 B2 14 FF D0 22 00 08 7F 0F F9 04 24 03 61 62 
+0000:59 B2 14 FF D0 22 00 08 7F 0F F9 03 24 03 61 62 
 0010:63 81 22 00 0A 19 FF CE 24 03 64 65 66 81 7B 

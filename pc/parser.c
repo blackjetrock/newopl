@@ -38,6 +38,9 @@ int           procedure_has_return = 0;
 #define NOT_TRAPPED 0
 #define TRAPPED     1
 
+#define STORE_VAR_INFO      1
+#define DONT_STORE_VAR_INFO 0
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Index for QCode generation
@@ -609,6 +612,7 @@ NOBJ_VAR_INFO *find_var_info(char *name, NOBJ_VARTYPE type)
   
   for(int i=0; i<num_var_info; i++)
     {
+      dbprintf("'%s' '%s'", var_info[i].name, name);
       // Must be an exact match, case insensitive
       // type must match as well.
 
@@ -638,6 +642,53 @@ NOBJ_VAR_INFO *find_var_info(char *name, NOBJ_VARTYPE type)
   return(NULL);
 }
 
+//------------------------------------------------------------------------------
+//
+// Update the info about a variable
+//
+// Only update the array details
+//
+
+void update_var_info(char *name, NOBJ_VAR_INFO *vi)
+{
+  to_upper_str(name);
+  
+  for(int i=0; i<num_var_info; i++)
+    {
+      // Must be an exact match, case insensitive
+      // type must match as well.
+
+      if( strlen(name) != strlen(var_info[i].name) )
+	{
+	  continue;
+	}
+      
+      if( strn_match(name, var_info[i].name, strlen(var_info[i].name)) )
+	{
+	  // Got a match
+	  //int offset = var_info[i].offset;
+	  
+  	  var_info[i].max_array   = vi->max_array;
+	  var_info[i].max_string  = vi->max_string;
+	  var_info[i].num_indices = vi->num_indices;
+	  var_info[i].type        = vi->type;
+	  //var_info[i].offset = offset;
+	  return;
+	}
+    }
+
+  internal_error("update_var_info expected to find variable");
+  
+  // Not found
+  dump_vars(ofp);
+  
+  dbprintf("******");
+  dbprintf("\nCould not find var '%s'", name);
+  dbprintf("******");
+  return;
+}
+
+
   
 //------------------------------------------------------------------------------
 //
@@ -656,6 +707,8 @@ NOBJ_VAR_INFO *find_var_info(char *name, NOBJ_VARTYPE type)
 
 void add_var_entry(NOBJ_VAR_INFO *vi)
 {
+  dbprintf("%s", vi->name);
+  
   if(num_var_info < (MAX_VAR_INFO-1))
     {
       var_info[num_var_info] = *vi;
@@ -716,17 +769,32 @@ void add_var_info(NOBJ_VAR_INFO *vi)
 		  vi->class = NOPL_VAR_CLASS_EXTERNAL;
 		}
 	    }
-	  add_var_entry(vi);	  
+	  add_var_entry(vi);
+	  dump_vars(ofp);
 	}
       else
 	{
 	  // Declaring a new variable
-	  add_var_entry(vi);	  
+	  add_var_entry(vi);
+	  dump_vars(ofp);
 	}
     }
   else
     {
       dbprintf("Already present");
+
+      // Update details again as this could be the second pass
+      // Do not update offset
+      //int offset = srch_vi->offset;
+
+#if 0
+      //*srch_vi = *vi;
+  	  srch_vi->max_array   = vi->max_array;
+	  srch_vi->max_string  = vi->max_string;
+	  srch_vi->num_indices = vi->num_indices;
+	  srch_vi->type        = vi->type;
+#endif
+	  //      srch_vi->offset = offset;
       
       // Variable already present
       if( vi->is_ref )
@@ -740,12 +808,16 @@ void add_var_info(NOBJ_VAR_INFO *vi)
 	  
 	  // This isn't necessarily OK, we have the variable declared twice
 	  // It is OK on pass 2, pass 1 will check for doubly defined variables
+#if 0
 	  if( pass_number == 1 )
 	    {
 	      syntax_error("Variable '%s' declared twice", vi->name);
 	    }
+#endif
 	}
     }
+  dump_vars(ofp);
+  
 }
 
 
@@ -1087,7 +1159,7 @@ void calculate_var_offsets(void)
   // information. Then on pass2 the qcode (OB3) header is created, and qcode generation
   // is performed on each line.
   //
-  // Variables ar ein this order (which determines offsets used in the QCode)
+  // Variables are in this order (which determines offsets used in the QCode)
   //
   // Globals
   // Indirection table (parameters and externals
@@ -1102,9 +1174,11 @@ uint8_t qcode_header[MAX_QCODE_HEADER];
 
 void build_qcode_header(void)
 {
-  int num_params = 0;
-  int num_globals = 0;
+  int num_params    = 0;
+  int num_globals   = 0;
   int num_externals = 0;
+  int num_locals    = 0;
+  
   int idx = qcode_idx;
 
   // Size of variables
@@ -1128,10 +1202,12 @@ void build_qcode_header(void)
 
   num_params    = calculate_num_in_class(NOPL_VAR_CLASS_PARAMETER);
   num_globals   = calculate_num_in_class(NOPL_VAR_CLASS_GLOBAL);
+  num_locals    = calculate_num_in_class(NOPL_VAR_CLASS_LOCAL);
   num_externals = calculate_num_in_class(NOPL_VAR_CLASS_EXTERNAL);
 
   dbprintf("===Num externals: %d===", num_externals);
   dbprintf("===Num parameters:%d===", num_params);
+  dbprintf("===Num locals:%d===", num_locals);
 					  
   // Num Parameters
   idx = set_qcode_header_byte_at(idx, 1, num_params);
@@ -1241,7 +1317,9 @@ void build_qcode_header(void)
   //
   // Now the Parameters and external offsets, which are offsets into the indirection
   // table. These are only used in the QCode generation
-  
+
+  dbprintf("**Parameters and externals**");
+
   int ind_ptr = -(first_byte_after_global_table+2);
   
   for(int i=0; i<num_var_info; i++)
@@ -1259,7 +1337,8 @@ void build_qcode_header(void)
 
   //------------------------------------------------------------------------------
   // Now the Locals
-  
+  dbprintf("**Locals**");
+
   for(int i=0; i<num_var_info; i++)
     {
 
@@ -1268,13 +1347,16 @@ void build_qcode_header(void)
 	{
 	  last_v_ptr = var_ptr;
 	  var_ptr += size_of_type(&(var_info[i]) );
-	  var_info[i].offset = -(var_ptr-data_offset_of_type(&(var_info[i])));
+	  //var_info[i].offset = -(var_ptr-data_offset_of_type(&(var_info[i])));
+	  var_info[i].offset = -(var_ptr);
 
 	  //var_info[i].offset = -(var_ptr);
 	  dbprintf("%d %s %04X delta:%d", i, var_info[i].name, -var_ptr, var_ptr - last_v_ptr);
 	}
     }
 
+  dump_vars(ofp);
+  
   //------------------------------------------------------------------------------
   
   // Now the fixups can be calculated
@@ -2255,7 +2337,7 @@ void set_op_var_type(OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
 
 //------------------------------------------------------------------------------
 
-int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access)
+int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, int store_var_info)
 {
   char vname[300];
   char chstr[2];
@@ -2325,9 +2407,23 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access)
 	    }
 	  
 	  dbprintf("'%s' is array", vname);
-	  
+	  strcpy(vi->name, vname);
 	  make_var_type_array(&(vi->type));
+
+	  // We add variable here as we want the array variable to be entered in the var_info
+	  // table before any variables in the index expressions. The order will be the same as the
+	  // original if we do that.
+	  // We update the details later, the important thing is to get an entry in the table now
+	  // so the ordering of variables (and hence offsets in the QCode) is correct.
+	  if( pass_number == 2,1 )
+	    {
+	      if( store_var_info )
+		{
+		  add_var_info(vi);
+		}
+	    }
 	  
+	  //
 	  // Add token to output stream for index or indices
 
 	  if( ref_ndeclare )
@@ -2424,13 +2520,11 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access)
 		{ 
 		  op.buf_id = EXP_BUFF_ID_FIELDVAR;
 		}
-	      
+
+	      // Update the variable now we have full information about it
+	      update_var_info(vi->name, vi);
 	      process_token(&op);
 
-	      if( pass_number == 2,1 )
-		{
-		  add_var_info(vi);
-		}
 	      return(1);
 	    }
 	}
@@ -2457,7 +2551,10 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access)
 
       if( pass_number == 2,1 )
 	{
-	  add_var_info(vi);
+	  if( store_var_info )
+	    {
+	      add_var_info(vi);
+	    }
 	}
 
       dbprintf("ret1");
@@ -3494,7 +3591,7 @@ int scan_atom(void)
     {
       // Variable
       init_var_info(&vi);
-      if(scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_READ))
+      if(scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_READ, STORE_VAR_INFO))
 	{
 	  print_var_info(&vi);
 	  dbprintf("ret1");
@@ -4008,7 +4105,7 @@ int scan_expression_list(int *num_expressions, int insert_types)
 // Scans a logical file ID and puts the corresponding token in the stream
 //
 
-int scan_logical_file(void)
+int scan_logical_file(char *logfile)
 {
   OP_STACK_ENTRY op;
   int idx = cline_i;
@@ -4026,6 +4123,7 @@ int scan_logical_file(void)
       cline_i = idx;
       op.buf_id = EXP_BUFF_ID_LOGICALFILE;
       strcpy(op.name, "A");
+      *logfile = 'A';
       process_token(&op);
       dbprintf("ret1:");
       return(1);
@@ -4038,6 +4136,7 @@ int scan_logical_file(void)
       cline_i = idx;
       op.buf_id = EXP_BUFF_ID_LOGICALFILE;
       strcpy(op.name, "B");
+      *logfile = 'B';
       process_token(&op);
       dbprintf("ret1:");
       return(1);
@@ -4050,6 +4149,7 @@ int scan_logical_file(void)
       cline_i = idx;
       op.buf_id = EXP_BUFF_ID_LOGICALFILE;
       strcpy(op.name, "C");
+      *logfile = 'C';
       process_token(&op);
       dbprintf("ret1:");
       return(1);
@@ -4062,11 +4162,13 @@ int scan_logical_file(void)
       cline_i = idx;
       op.buf_id = EXP_BUFF_ID_LOGICALFILE;
       strcpy(op.name, "D");
+      *logfile = 'D';
       process_token(&op);
       dbprintf("ret1:");
       return(1);
     }
 
+  *logfile = ' ';
   dbprintf("ret0:");
   return(0);
 
@@ -4117,8 +4219,10 @@ int scan_use(void)
 	      
       finalise_expression();
       output_expression_start(&cline[cline_i]);
+
+      char logfile;
       
-      if( scan_logical_file() )
+      if( scan_logical_file(&logfile) )
 	{
 	  dbprintf("ret1");
 	  return(1);
@@ -4149,6 +4253,8 @@ int scan_createopen_list(char *keyword, int create_nopen, int trapped)
   int num_commas = 0;
   NOBJ_VAR_INFO *srch_vi;
   NOBJ_VAR_INFO vi;
+  char logfile;
+  char fullname[NOBJ_VARNAME_MAXLEN];
   
   indent_more();
   
@@ -4166,14 +4272,12 @@ int scan_createopen_list(char *keyword, int create_nopen, int trapped)
 	 {
 	   scan_literal(" ,");
 	 }
-       
      }
    else
      {
        dbprintf("ret0: Not an expression for file name");
        return(0);
      }
-   
    
    // We now put the command into the output
    op.buf_id = EXP_BUFF_ID_META;
@@ -4184,7 +4288,7 @@ int scan_createopen_list(char *keyword, int create_nopen, int trapped)
    process_token(&op);
   
    // logical file next
-   if( scan_logical_file() )
+   if( scan_logical_file(&logfile) )
      {
        // All OK if this is a string
        idx = cline_i;
@@ -4192,7 +4296,6 @@ int scan_createopen_list(char *keyword, int create_nopen, int trapped)
 	 {
 	   scan_literal(" ,");
 	 }
-       
      }
    else
      {
@@ -4204,8 +4307,12 @@ int scan_createopen_list(char *keyword, int create_nopen, int trapped)
      {
        init_var_info(&vi);
        
-       if( scan_variable(&vi, VAR_FIELD, NOPL_OP_ACCESS_FIELDVAR))
+       if( scan_variable(&vi, VAR_FIELD, NOPL_OP_ACCESS_FIELDVAR, DONT_STORE_VAR_INFO))
 	 {
+	   // Add logical file to name
+	   sprintf(fullname, "%c.%s", logfile, vi.name);
+	   strcpy(vi.name, fullname);
+	   
 	   // Find the variable and update to make it a local or global
 	   srch_vi = find_var_info(vi.name, vi.type);
 	   
@@ -4780,7 +4887,7 @@ int scan_assignment(void)
   init_var_info(&vi);
   dbprintf("%s:", __FUNCTION__);
 
-  if( scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_WRITE) )
+  if( scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_WRITE, STORE_VAR_INFO) )
     {
       print_var_info(&vi);
       
@@ -5488,7 +5595,7 @@ int scan_input(int trapped)
     {
       cline_i = idx;
 
-      if(scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_WRITE))
+      if(scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_WRITE, STORE_VAR_INFO))
 	{
       
 	  strcpy(op.name, "INPUT");
@@ -7247,7 +7354,7 @@ int scan_param_list(void)
 	{
 	  init_var_info(&vi);
 	  
-	  if( scan_variable(&vi, VAR_PARAMETER, NOPL_OP_ACCESS_READ))
+	  if( scan_variable(&vi, VAR_PARAMETER, NOPL_OP_ACCESS_READ, STORE_VAR_INFO))
 	    {
 
 	      // Find the variable just added and make it a parameter
@@ -7381,7 +7488,7 @@ int scan_localglobal(int local_nglobal)
 	{
 	  init_var_info(&vi);
 	  
-	  if( scan_variable(&vi, VAR_DECLARE, NOPL_OP_ACCESS_READ))
+	  if( scan_variable(&vi, VAR_DECLARE, NOPL_OP_ACCESS_READ, STORE_VAR_INFO))
 	    {
 	      // Find the variable and update to make it a local or global
 	      srch_vi = find_var_info(vi.name, vi.type);
@@ -7395,7 +7502,7 @@ int scan_localglobal(int local_nglobal)
 		  print_var_info(&vi);
 		  
 		  // Store info about the variable
-		  //add_var_info(&vi);
+		  add_var_info(&vi);
 		}
 	    }
 	  
@@ -7410,7 +7517,7 @@ int scan_localglobal(int local_nglobal)
 
       if( cline[cline_i] == '\0' )
 	{
-#if 0
+#if 1
 	  // Store info about the variable
 	  var_info[num_var_info] = vi;
 	  num_var_info++;
