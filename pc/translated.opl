@@ -1,20 +1,216 @@
 
 
 
-F2
-F(20)
-DOOR$
-FLOAT(123)
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+DESC3$
+RANDVAL%
+FULDESC$ := ""
+DESC1$ := ""
+DESC2$ := ""
+DESC3$ := ""
+TCHAR$ := MID$(MAP$(PY%) PX% 1 )
+TASCII% := (ASC(TCHAR$ ) - 32)
+BIOME% := (TASCII% AND 3)
+IF (HOUR() < 6)
+HOUR% := 0
+ELSEIF (HOUR() < 12)
+HOUR% := 1
+ELSEIF (HOUR() < 18)
+HOUR% := 2
+ELSE
+HOUR% := 3
+ENDIF
+RANDVAL% := (RND() * 3)
+IF (BIT2% = 0)
+IF (RANDVAL% = 0)
+DESC1$ := "Under beautiful skies,"
+ELSEIF (RANDVAL% = 1)
+DESC1$ := "With gentle breezes,"
+ELSE
+DESC1$ := "In warm, sweet air,"
+ENDIF
+ELSE
+IF (RANDVAL% = 0)
+DESC1$ := "Under a brewing storm,"
+ELSEIF (RANDVAL% = 1)
+DESC1$ := "Under heavy rain,"
+ELSE
+DESC1$ := "With thunder echoing,"
+ENDIF
+ENDIF
+RANDVAL% := (RND() * 3)
+IF (BIOME% = 2)
+IF (RANDVAL% = 0)
+DESC2$ := "a mountain peak stands watch"
+ELSEIF (RANDVAL% = 1)
+DESC2$ := "a majestic mountain reaches"
+ELSE
+DESC2$ := "sharp cliffs watch"
+ENDIF
+ELSEIF (BIOME% = 0)
+IF (RANDVAL% = 0)
+DESC2$ := "a misty forest glade hangs"
+ELSEIF (RANDVAL% = 1)
+DESC2$ := "a wooded clearing creaks"
+ELSE
+DESC2$ := "a magical grove hums"
+ENDIF
+ELSEIF (BIOME% = 1)
+IF (RANDVAL% = 0)
+DESC2$ := "a vast desert rolls"
+ELSEIF (RANDVAL% = 1)
+DESC2$ := "endless dunes swirl"
+ELSE
+DESC2$ := "glassy vast sands shimmer"
+ENDIF
+ELSEIF (BIOME% = 3)
+IF (RANDVAL% = 0)
+DESC2$ := "rolling plains dance"
+ELSEIF (RANDVAL% = 1)
+DESC2$ := "lush, full fields roll"
+ELSE
+DESC2$ := "vast grasslands breathe"
+ENDIF
+ENDIF
+RANDVAL% := (RND() * 3)
+IF (HOUR% = 0)
+IF (RANDVAL% = 0)
+DESC3$ := "beneath the white moon."
+ELSEIF (RANDVAL% = 1)
+DESC3$ := "in the blackness of night."
+ELSE
+DESC3$ := "under starlit skies."
+ENDIF
+ELSEIF (HOUR% = 1)
+IF (RANDVAL% = 0)
+DESC3$ := "in the rays of morning."
+ELSEIF (RANDVAL% = 1)
+DESC3$ := "as the dawn breaks."
+ELSE
+DESC3$ := "in the morning breeze."
+ENDIF
+ELSEIF (HOUR% = 2)
+IF (RANDVAL% = 0)
+DESC3$ := "under the bright day sun."
+ELSEIF (RANDVAL% = 1)
+DESC3$ := "during the midday warmth."
+ELSE
+DESC3$ := "in the beauty of the day."
+ENDIF
+ELSEIF (HOUR% = 3)
+IF (RANDVAL% = 0)
+DESC3$ := "in the evening."
+ELSEIF (RANDVAL% = 1)
+DESC3$ := "as dusk falls."
+ELSE
+DESC3$ := "under the twilight sky."
+ENDIF
+ENDIF
+FULDESC$ := ((((DESC1$ + " ") + DESC2$) + " ") + DESC3$)
 
 
 
 DROP()
 DROP()
-DROP()
-DROP()
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+FULDESC$ := ""
+DESC1$ := ""
+DESC2$ := ""
+DESC3$ := ""
+TCHAR$ := MID$(MAP$(PY%) PX% 1 )
+TASCII% := (ASC(TCHAR$ ) - 32)
+BIOME% := (TASCII% AND 3)
+IF (HOUR() < 6)
+HOUR% := 0
+ELSEIF (HOUR() < 12)
+HOUR% := 1
+ELSEIF (HOUR() < 18)
+HOUR% := 2
+ELSE
+HOUR% := 3
+ENDIF
+RANDVAL% := (RND() * 3)
+IF (BIT2% = 0)
+IF (RANDVAL% = 0)
+DESC1$ := "Under beautiful skies,"
+ELSEIF (RANDVAL% = 1)
+DESC1$ := "With gentle breezes,"
+ELSE
+DESC1$ := "In warm, sweet air,"
+ENDIF
+ELSE
+IF (RANDVAL% = 0)
+DESC1$ := "Under a brewing storm,"
+ELSEIF (RANDVAL% = 1)
+DESC1$ := "Under heavy rain,"
+ELSE
+DESC1$ := "With thunder echoing,"
+ENDIF
+ENDIF
+RANDVAL% := (RND() * 3)
+IF (BIOME% = 2)
+IF (RANDVAL% = 0)
+DESC2$ := "a mountain peak stands watch"
+ELSEIF (RANDVAL% = 1)
+DESC2$ := "a majestic mountain reaches"
+ELSE
+DESC2$ := "sharp cliffs watch"
+ENDIF
+ELSEIF (BIOME% = 0)
+IF (RANDVAL% = 0)
+DESC2$ := "a misty forest glade hangs"
+ELSEIF (RANDVAL% = 1)
+DESC2$ := "a wooded clearing creaks"
+ELSE
+DESC2$ := "a magical grove hums"
+ENDIF
+ELSEIF (BIOME% = 1)
+IF (RANDVAL% = 0)
+DESC2$ := "a vast desert rolls"
+ELSEIF (RANDVAL% = 1)
+DESC2$ := "endless dunes swirl"
+ELSE
+DESC2$ := "glassy vast sands shimmer"
+ENDIF
+ELSEIF (BIOME% = 3)
+IF (RANDVAL% = 0)
+DESC2$ := "rolling plains dance"
+ELSEIF (RANDVAL% = 1)
+DESC2$ := "lush, full fields roll"
+ELSE
+DESC2$ := "vast grasslands breathe"
+ENDIF
+ENDIF
+RANDVAL% := (RND() * 3)
+IF (HOUR% = 0)
+IF (RANDVAL% = 0)
+DESC3$ := "beneath the white moon."
+ELSEIF (RANDVAL% = 1)
+DESC3$ := "in the blackness of night."
+ELSE
+DESC3$ := "under starlit skies."
+ENDIF
+ELSEIF (HOUR% = 1)
+IF (RANDVAL% = 0)
+DESC3$ := "in the rays of morning."
+ELSEIF (RANDVAL% = 1)
+DESC3$ := "as the dawn breaks."
+ELSE
+DESC3$ := "in the morning breeze."
+ENDIF
+ELSEIF (HOUR% = 2)
+IF (RANDVAL% = 0)
+DESC3$ := "under the bright day sun."
+ELSEIF (RANDVAL% = 1)
+DESC3$ := "during the midday warmth."
+ELSE
+DESC3$ := "in the beauty of the day."
+ENDIF
+ELSEIF (HOUR% = 3)
+IF (RANDVAL% = 0)
+DESC3$ := "in the evening."
+ELSEIF (RANDVAL% = 1)
+DESC3$ := "as dusk falls."
+ELSE
+DESC3$ := "under the twilight sky."
+ENDIF
+ENDIF
+FULDESC$ := ((((DESC1$ + " ") + DESC2$) + " ") + DESC3$)

@@ -1,16 +1,18 @@
 
 Variables
 
-   0:  VAR: '                A%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:F90F
-   1:  VAR: '               S1$'      Local String            DECLARE max_str: 10 max_ary:  0 num_ind:  1 offset:F904
-   2:  VAR: '                F2'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:F8FB
-   3:  VAR: '                X%'      Local Integer array     DECLARE max_str:  0 max_ary:  5 num_ind:  1 offset:F8EF
-   4:  VAR: '                S$'      Local String  array     DECLARE max_str:  7 max_ary:  5 num_ind:  2 offset:F8C5
-   5:  VAR: '                 F'      Local Float   array     DECLARE max_str:  0 max_ary: 20 num_ind:  1 offset:F822
-   6:  VAR: '             PEAR%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFCC
-   7:  VAR: '             DOOR$'     Global String            DECLARE max_str: 10 max_ary:  0 num_ind:  1 offset:FFC1
-   8:  VAR: '             OPEN%'     Global Integer array     DECLARE max_str:  0 max_ary: 50 num_ind:  1 offset:FF5A
-   9:  VAR: '              POS$'     Global String  array     DECLARE max_str: 30 max_ary: 20 num_ind:  2 offset:FCEC
-  10:  VAR: '             FLOAT'     Global Float   array     DECLARE max_str:  0 max_ary:123 num_ind:  1 offset:F911
-  11:  VAR: '           EXTTOP%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFD0
-  12:  VAR: '               SA$'   External String  array     REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:FFCE
+   0:  VAR: '            DESC1$'      Local String            DECLARE max_str: 22 max_ary:  0 num_ind:  1 offset:FFD7
+   1:  VAR: '            DESC2$'      Local String            DECLARE max_str: 30 max_ary:  0 num_ind:  1 offset:FFB7
+   2:  VAR: '            DESC3$'      Local String            DECLARE max_str: 26 max_ary:  0 num_ind:  1 offset:FF9B
+   3:  VAR: '             HOUR%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF98
+   4:  VAR: '          WEATHER%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF96
+   5:  VAR: '          TERRAIN%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF94
+   6:  VAR: '          RANDVAL%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF92
+   7:  VAR: '          FULDESC$'   External String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFC
+   8:  VAR: '            TCHAR$'   External String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFA
+   9:  VAR: '              MAP$'   External String  array     REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:FFF8
+  10:  VAR: '               PY%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF6
+  11:  VAR: '               PX%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF4
+  12:  VAR: '           TASCII%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF2
+  13:  VAR: '            BIOME%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF0
+  14:  VAR: '             BIT2%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFEE

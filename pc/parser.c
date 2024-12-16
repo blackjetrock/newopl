@@ -27,6 +27,8 @@ int unique_level = 0;
 #define INSERT_TYPES        1
 #define DO_NOT_INSERT_TYPES 0
 
+#define NO_IDX     -1
+
 // Information about the procedure being translated
 char          procedure_name[NOBJ_VARNAME_MAXLEN+1];
 NOBJ_VARTYPE  procedure_type;
@@ -659,6 +661,8 @@ void add_var_entry(NOBJ_VAR_INFO *vi)
   if(num_var_info < (MAX_VAR_INFO-1))
     {
       var_info[num_var_info] = *vi;
+      //var_info[num_var_info].name[0] = '\0';
+      //var_info[num_var_info].class = NOPL_VAR_CLASS_UNKNOWN;
       num_var_info++;
     }
   else
@@ -669,14 +673,53 @@ void add_var_entry(NOBJ_VAR_INFO *vi)
 
 //------------------------------------------------------------------------------
 //
+// Inserts an entry at a given index
+
+void insert_var_entry(int index, NOBJ_VAR_INFO *vi)
+{
+  dbprintf("index:%d", index);
+  
+  if( num_var_info > (MAX_VAR_INFO-2) )
+    {
+      internal_error("Too many variables");
+      dbprintf("Too many variables");
+      return;
+    }
+  
+  if( index > num_var_info )
+    {
+      internal_error("insert_var_info index off end of array");
+      dbprintf("insert_var_info index off end of array");
+      return;
+    }
+
+  // Move all entries after where we are going to insert up
+  for(int j=num_var_info-1; j>=index; j--)
+    {
+      var_info[j+1] = var_info[j];
+    }
+  
+  // Insert entry
+  var_info[index] = *vi;
+  
+  //  var_info[index].name[0] = '\0';
+  //var_info[index].class = NOPL_VAR_CLASS_UNKNOWN;
+  num_var_info++;
+
+  dump_vars(ofp);
+}
+
+//------------------------------------------------------------------------------
+//
 // We don't add field variables to the variable list as they are referred to by name
 // and they don't appear in the qcode tables.
 //
 // Note that P% and P%() can co-exist
 //
+// Entry is either added to end or inserted at a particular index to
+// control ordering to match original OPL
 
-
-void add_var_info(NOBJ_VAR_INFO *vi)
+void add_var_info(NOBJ_VAR_INFO *vi, int insert_idx)
 {
   NOBJ_VAR_INFO *srch_vi;
   int mem_n = 0;
@@ -684,7 +727,7 @@ void add_var_info(NOBJ_VAR_INFO *vi)
   // Convert name to upper case
   to_upper_str(vi->name);
   
-  dbprintf("Name:%s", vi->name);
+  dbprintf("Name:%s Idx:%d", vi->name, insert_idx);
   
   // See if variable name already present
   srch_vi = find_var_info(vi->name, vi->type);
@@ -716,12 +759,29 @@ void add_var_info(NOBJ_VAR_INFO *vi)
 		  vi->class = NOPL_VAR_CLASS_EXTERNAL;
 		}
 	    }
-	  add_var_entry(vi);	  
+
+	  if( insert_idx == NO_IDX )
+	    {
+	      add_var_entry(vi);
+	    }
+	  else
+	    {
+	      insert_var_entry(insert_idx, vi);
+	    }
 	}
       else
 	{
 	  // Declaring a new variable
-	  add_var_entry(vi);	  
+	  if( insert_idx == NO_IDX )
+	    {
+	      add_var_entry(vi);
+	    }
+	  else
+	    {
+	      insert_var_entry(insert_idx, vi);
+	    }
+
+	  //	  add_var_entry(vi);	  
 	}
     }
   else
@@ -2263,7 +2323,7 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, ch
   char chstr[2];
   int idx = cline_i;
   OP_STACK_ENTRY op;
-
+  
   init_op_stack_entry(&op);
   indent_more();
   
@@ -2293,6 +2353,8 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, ch
 	}
       
       dbprintf("%s: '%s' vname='%s'", __FUNCTION__, &(cline[cline_i]), vname);
+
+      int var_idx = num_var_info;
       
       // Could just be a vname
       switch( chstr[0] = cline[cline_i] )
@@ -2439,7 +2501,7 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, ch
 
 	      if( pass_number == 2,1 )
 		{
-		  add_var_info(vi);
+		  add_var_info(vi, var_idx);
 		}
 	      return(1);
 	    }
@@ -2467,7 +2529,7 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, ch
 
       if( pass_number == 2,1 )
 	{
-	  add_var_info(vi);
+	  add_var_info(vi, NO_IDX);
 	}
 
       dbprintf("ret1");
@@ -4236,7 +4298,7 @@ int scan_createopen_list(char *keyword, int create_nopen, int trapped)
 	       print_var_info(&vi);
 	       
 	       // Store info about the variable
-	       //add_var_info(&vi);
+	       //add_var_info(&vi, NO_IDX);
 	     }
 	 }
        
@@ -4804,7 +4866,7 @@ int scan_assignment(void)
 	    {
 	      vi.num_indices = num_subexpr+1;
 
-	      add_var_info(&vi);
+	      add_var_info(&vi, NO_IDX);
 	      dbprintf("%s: ret1", __FUNCTION__);
 	      return(1);
 	    }
@@ -7306,7 +7368,7 @@ int scan_param_list(void)
 		}
 	      
 	      // Store info about the variable
-	      //add_var_info(&vi);
+	      //add_var_info(&vi, NO_IDX);
 	    }
 	  
 	  idx = cline_i;
@@ -7440,7 +7502,7 @@ int scan_localglobal(int local_nglobal)
 		  print_var_info(&vi);
 		  
 		  // Store info about the variable
-		  //add_var_info(&vi);
+		  //add_var_info(&vi, NO_IDX);
 		}
 	    }
 	  

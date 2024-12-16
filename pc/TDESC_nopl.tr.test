@@ -14,8 +14,8 @@ External varname Size:003A
 External variables (8)
  0: FULDESC$         STR    (02)
  1: TCHAR$           STR    (02)
- 2: PY%              INT    (00)
- 3: MAP$             STRARY (05)
+ 2: MAP$             STRARY (05)
+ 3: PY%              INT    (00)
  4: PX%              INT    (00)
  5: TASCII%          INT    (00)
  6: BIOME%           INT    (00)
@@ -59,9 +59,9 @@ QCode
 001A: 16       Push parameter/external string variable reference     (bytes code:V)
 001B: FFFA       (65530)
 001D: 07       Push parameter/external integer variable value     (bytes code:V)
-001E: FFF8       (65528)
+001E: FFF6       (65526)
 0020: 0C       Pop integer index and push parameter/external string array variable value     (bytes code:V)
-0021: FFF6       (65526)
+0021: FFF8       (65528)
 0023: 07       Push parameter/external integer variable value     (bytes code:V)
 0024: FFF4       (65524)
 0026: 22       Push integer literal     (bytes code:I)
@@ -617,8 +617,8 @@ QCode
 QCode Data
 
 0000:59 B2 16 FF FC 24 00 81 0F FF D7 24 00 81 0F FF 
-0010:B7 24 00 81 0F FF 9B 24 00 81 16 FF FA 07 FF F8 
-0020:0C FF F6 07 FF F4 22 00 01 C2 81 14 FF F2 09 FF 
+0010:B7 24 00 81 0F FF 9B 24 00 81 16 FF FA 07 FF F6 
+0020:0C FF F8 07 FF F4 22 00 01 C2 81 14 FF F2 09 FF 
 0030:FA 8B 22 00 20 2E 7F 14 FF F0 07 FF F2 22 00 03 
 0040:34 7F 92 22 00 06 27 7E 00 0C 0D FF 98 22 00 00 
 0050:7F 51 00 2D 92 22 00 0C 27 7E 00 0C 0D FF 98 22 
