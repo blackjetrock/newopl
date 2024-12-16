@@ -1,130 +1,18 @@
-'inv:'
-'LOCAL tmp$(14)'
-'LOCAL tmp$(14)'
-'GLOBAL No$(3)'
-'GLOBAL Lst$(14)'
-'GLOBAL Amnt%'
-'GLOBAL cons%'
-'GLOBAL equip%'
-'GLOBAL food%'
-'GLOBAL tool%'
-'GLOBAL worn%'
-'GLOBAL succ$(40)'
-'GLOBAL fail$(40)'
-'GLOBAL damage%'
-'GLOBAL def%'
-'GLOBAL locdesc$(200)'
-'GLOBAL equi% '
-'TOP::'
-'ONERR PROBLEM::'
-'mode% = 1'
-'WHILE mode% <> 4'
-' tmp$=FromLst$:("items","Backpack","Sword")'
-' CLS'
-' IF mode% = 1'
-'  invtool:(3,tmp$,0) '
-' PRINT "Do Use ";tmp$'
-'  GET'
-' ELSEIF mode% = 2'
-'  invtool:(1,tmp$,-1)'
-'  PRINT "Do Drop ";tmp$'
-'  GET'
-' ELSEIF mode% = 3'
-'  CLS'
-'  PRINT equi%'
-'  GET'
-'  CLS'
-'  disptext:(idesc$,4) '
-'  CLS'
-' ELSEIF mode%=4'
-' ELSE'
-'  PRINT "Error 1 in INV.OPL"'
-' ENDIF'
-'ENDWH'
-'GOTO EXIT::'
-'PROBLEM::'
-'ONERR OFF'
-'CLS'
-'IF ERR=194 :PRINT " The Battery is Low    Switching off     change the Battery" :PAUSE -50 :OFF :STOP'
-'PRINT " The Battery is Low    Switching off     change the Battery" :PAUSE -50 :OFF :STOP'
-'PAUSE -50 :OFF :STOP'
-'OFF :STOP'
-'STOP'
-' ELSEIF ERR=252 :PRINT tmp$;" invalid" :AT 1,2 :PRINT "careful with Numbers"'
-'PRINT tmp$;" invalid" :AT 1,2 :PRINT "careful with Numbers"'
-'AT 1,2 :PRINT "careful with Numbers"'
-'PRINT "careful with Numbers"'
-'ELSE PRINT ERR :PRINT ERR$(ERR)'
-'PRINT ERR :PRINT ERR$(ERR)'
-'PRINT ERR$(ERR)'
-'ENDIF'
-'PRINT "[SPACE] continues" :GET '
-'GET '
-'GOTO TOP::'
-'STOP'
-'EXIT::'
-'inv:'
-'LOCAL tmp$(14)'
-'LOCAL tmp$(14)'
-'GLOBAL No$(3)'
-'GLOBAL Lst$(14)'
-'GLOBAL Amnt%'
-'GLOBAL cons%'
-'GLOBAL equip%'
-'GLOBAL food%'
-'GLOBAL tool%'
-'GLOBAL worn%'
-'GLOBAL succ$(40)'
-'GLOBAL fail$(40)'
-'GLOBAL damage%'
-'GLOBAL def%'
-'GLOBAL locdesc$(200)'
-'GLOBAL equi% '
-'TOP::'
-'ONERR PROBLEM::'
-'mode% = 1'
-'WHILE mode% <> 4'
-' tmp$=FromLst$:("items","Backpack","Sword")'
-' CLS'
-' IF mode% = 1'
-'  invtool:(3,tmp$,0) '
-' PRINT "Do Use ";tmp$'
-'  GET'
-' ELSEIF mode% = 2'
-'  invtool:(1,tmp$,-1)'
-'  PRINT "Do Drop ";tmp$'
-'  GET'
-' ELSEIF mode% = 3'
-'  CLS'
-'  PRINT equi%'
-'  GET'
-'  CLS'
-'  disptext:(idesc$,4) '
-'  CLS'
-' ELSEIF mode%=4'
-' ELSE'
-'  PRINT "Error 1 in INV.OPL"'
-' ENDIF'
-'ENDWH'
-'GOTO EXIT::'
-'PROBLEM::'
-'ONERR OFF'
-'CLS'
-'IF ERR=194 :PRINT " The Battery is Low    Switching off     change the Battery" :PAUSE -50 :OFF :STOP'
-'PRINT " The Battery is Low    Switching off     change the Battery" :PAUSE -50 :OFF :STOP'
-'PAUSE -50 :OFF :STOP'
-'OFF :STOP'
-'STOP'
-' ELSEIF ERR=252 :PRINT tmp$;" invalid" :AT 1,2 :PRINT "careful with Numbers"'
-'PRINT tmp$;" invalid" :AT 1,2 :PRINT "careful with Numbers"'
-'AT 1,2 :PRINT "careful with Numbers"'
-'PRINT "careful with Numbers"'
-'ELSE PRINT ERR :PRINT ERR$(ERR)'
-'PRINT ERR :PRINT ERR$(ERR)'
-'PRINT ERR$(ERR)'
-'ENDIF'
-'PRINT "[SPACE] continues" :GET '
-'GET '
-'GOTO TOP::'
-'STOP'
-'EXIT::'
+'vars2:'
+'LOCAL A%, s1$(10), F2'
+'LOCAL A%, s1$(10), F2'
+'LOCAL x%(5), s$(5,7), f(20)'
+'GLOBAL PEAR%, DOOR$(10)'
+'GLOBAL OPEN%(50), POS$(20,30), FLOAT(123)'
+'EXTTOP% = 8'
+'S1$="abc"'
+'SA$(10) = "def"'
+'vars2:'
+'LOCAL A%, s1$(10), F2'
+'LOCAL A%, s1$(10), F2'
+'LOCAL x%(5), s$(5,7), f(20)'
+'GLOBAL PEAR%, DOOR$(10)'
+'GLOBAL OPEN%(50), POS$(20,30), FLOAT(123)'
+'EXTTOP% = 8'
+'S1$="abc"'
+'SA$(10) = "def"'

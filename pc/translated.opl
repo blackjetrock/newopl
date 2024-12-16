@@ -1,92 +1,13 @@
 
 
 
-TMP$
-NO$
-LST$
-AMNT%
-CONS%
-EQUIP%
-FOOD%
-TOOL%
-WORN%
-SUCC$
-FAIL$
-DAMAGE%
-DEF%
-LOCDESC$
-EQUI%
-TOP::
-
-MODE% := 1
-WHILE (MODE% <> 4)
-TMP$ := FromLst$:("Sword", )("Backpack", )("items")
-CLS()
-IF (MODE% = 1)
-invtool:(0, )(TMP$, )(3)
-PRINT("Do Use ")
-PRINT(TMP$)
-<nl>
-
-GET()
-ELSEIF (MODE% = 2)
-invtool:((UMIN 1), )(TMP$, )(1)
-PRINT("Do Drop ")
-PRINT(TMP$)
-<nl>
-
-GET()
-ELSEIF (MODE% = 3)
-CLS()
-PRINT(EQUI%)
-<nl>
-
-GET()
-CLS()
-disptext:(4, )(IDESC$)
-CLS()
-ELSEIF (MODE% = 4)
-ELSE
-PRINT("Error 1 in INV.OPL")
-<nl>
-
-ENDIF
-ENDWH
-GOTO EXIT
-PROBLEM::
-
-CLS()
-IF (ERR() = 194)
-PRINT(" The Battery is Low    Switching off     change the Battery")
-<nl>
-
-PAUSE((UMIN 50) )
-
-STOP()
-ELSEIF (ERR() = 252)
-PRINT(TMP$)
-PRINT(" invalid")
-<nl>
-
-AT(1 2 )
-PRINT("careful with Numbers")
-<nl>
-
-ELSE
-PRINT(ERR())
-<nl>
-
-PRINT(ERR$(ERR() ))
-<nl>
-
-ENDIF
-PRINT("[SPACE] continues")
-<nl>
-
-GET()
-GOTO TOP
-STOP()
-EXIT::
+F2
+F(20)
+DOOR$
+FLOAT(123)
+EXTTOP% := 8
+S1$ := "abc"
+SA$(10) := "def"
 
 
 
@@ -94,85 +15,6 @@ DROP()
 DROP()
 DROP()
 DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-TOP::
-
-MODE% := 1
-WHILE (MODE% <> 4)
-TMP$ := FromLst$:("Sword", )("Backpack", )("items")
-CLS()
-IF (MODE% = 1)
-DROP()
-PRINT("Do Use ")
-PRINT(TMP$)
-<nl>
-
-DROP()
-ELSEIF (MODE% = 2)
-DROP()
-PRINT("Do Drop ")
-PRINT(TMP$)
-<nl>
-
-DROP()
-ELSEIF (MODE% = 3)
-CLS()
-PRINT(EQUI%)
-<nl>
-
-DROP()
-CLS()
-DROP()
-CLS()
-ELSEIF (MODE% = 4)
-ELSE
-PRINT("Error 1 in INV.OPL")
-<nl>
-
-ENDIF
-ENDWH
-GOTO EXIT
-PROBLEM::
-
-CLS()
-IF (ERR() = 194)
-PRINT(" The Battery is Low    Switching off     change the Battery")
-<nl>
-
-PAUSE((UMIN 50) )
-
-STOP()
-ELSEIF (ERR() = 252)
-PRINT(TMP$)
-PRINT(" invalid")
-<nl>
-
-AT(1 2 )
-PRINT("careful with Numbers")
-<nl>
-
-ELSE
-PRINT(ERR())
-<nl>
-
-PRINT(ERR$(ERR() ))
-<nl>
-
-ENDIF
-PRINT("[SPACE] continues")
-<nl>
-
-DROP()
-GOTO TOP
-STOP()
-EXIT::
+EXTTOP% := 8
+S1$ := "abc"
+SA$(10) := "def"
