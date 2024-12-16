@@ -1,104 +1,436 @@
 
-LINES%
+DF$
 
-PCOUNT%
-STR1$
-LENSTR% := LEN(STR$ )
-I% := 0
-J% := 0
-LASTSP% := 0
-FIRSTSP% := 0
-WHILE (J% < LENSTR%)
-IF (LENSTR% <= 20)
-PRINT(STR$)
+M$
+DIR%
 
-GET()
-
+FN$ := (":" + FNAME$)
+IF EXIST(("A" + FN$) )
+FN$ := ("A" + FN$)
 ELSE
-I% := 0
-FIRSTSP% := (J% + 1)
-WHILE (I% < 19)
-J% := (J% + 1)
-IF (J% >= (LENSTR% + 1))
-LASTSP% := J%
-
-ELSEIF (MID$(STR$ J% 1 ) = " ")
-LASTSP% := J%
-ELSE
+GOTO Other
 ENDIF
-I% := (I% + 1)
-ENDWH
-STR1$ := MID$(STR$ FIRSTSP% (LASTSP% - FIRSTSP%) )
-FIRSTSP% := (FIRSTSP% - 1)
-J% := LASTSP%
-IF (PCOUNT% < LINES%)
-PRINT(STR1$)
+MODE% := 1
+"A:items"
+FO% := 1
+MX% := COUNT()
+W% := 1
+DIR% := 1
+PRINT(CHR$(14 ))
 <nl>
 
-IF (J% >= (LENSTR% + 1))
-GET()
-
-ENDIF
-PCOUNT% := (PCOUNT% + 1)
-IF (PCOUNT% = LINES%)
-PCOUNT% := 0
-GET()
-CLS()
-ENDIF
-ELSE
-CLS()
-ENDIF
-ENDIF
-ENDWH
-
-DROP()
-
-DROP()
-DROP()
-LENSTR% := LEN(STR$ )
-I% := 0
-J% := 0
-LASTSP% := 0
-FIRSTSP% := 0
-WHILE (J% < LENSTR%)
-IF (LENSTR% <= 20)
-PRINT(STR$)
-
-DROP()
-
-ELSE
-I% := 0
-FIRSTSP% := (J% + 1)
-WHILE (I% < 19)
-J% := (J% + 1)
-IF (J% >= (LENSTR% + 1))
-LASTSP% := J%
-
-ELSEIF (MID$(STR$ J% 1 ) = " ")
-LASTSP% := J%
-ELSE
-ENDIF
-I% := (I% + 1)
-ENDWH
-STR1$ := MID$(STR$ FIRSTSP% (LASTSP% - FIRSTSP%) )
-FIRSTSP% := (FIRSTSP% - 1)
-J% := LASTSP%
-IF (PCOUNT% < LINES%)
-PRINT(STR1$)
+AT(1 1 )
+PRINT(CAT$)
 <nl>
 
-IF (J% >= (LENSTR% + 1))
-DROP()
+WHILE ((G% <> 1) AND (G% <> 13))
+POSITION(W% )
+IF (DIR% < 0)
+IF (W% < 1)
+W% := MX%
+ENDIF
+POSITION(W% )
+WHILE (D.AMNT% < 1)
+IF (W% < 1)
+W% := MX%
+ENDIF
+W% := (W% - 1)
+POSITION(W% )
+ENDWH
+ENDIF
+IF (W% > MX%)
+W% := 1
+ENDIF
+IF (DIR% > 0)
+IF (W% > MX%)
+W% := 1
+ENDIF
+POSITION(W% )
+WHILE (D.AMNT% < 1)
+IF (W% > MX%)
+W% := 1
+ENDIF
+W% := (W% + 1)
+POSITION(W% )
+ENDWH
+ENDIF
+P% := (W% - 1)
+IF (P% < 1)
+P% := MX%
+ENDIF
+POSITION(P% )
+WHILE (D.AMNT% < 1)
+P% := (P% - 1)
+IF (P% < 1)
+P% := MX%
+ENDIF
+POSITION(P% )
+ENDWH
+V% := (W% + 1)
+IF (V% > MX%)
+V% := 1
+ENDIF
+POSITION(V% )
+WHILE (D.AMNT% < 1)
+V% := (V% + 1)
+IF (V% > MX%)
+V% := 1
+ENDIF
+POSITION(V% )
+ENDWH
+DIR% := 0
+POSITION(V% )
+AT(1 4 )
+PRINT(((CHR$(23 ) + "      ") + LEFT$(D.LST$ 14 )))
+<nl>
+
+POSITION(W% )
+AT(1 3 )
+IF (MODE% = 1)
+PRINT(((CHR$(22 ) + "Use > ") + LEFT$(D.LST$ 14 )))
+<nl>
+
+ELSEIF (MODE% = 2)
+PRINT(((CHR$(22 ) + "Drop> ") + LEFT$(D.LST$ 14 )))
+<nl>
+
+ELSE
+PRINT(((CHR$(22 ) + "Info> ") + LEFT$(D.LST$ 14 )))
+<nl>
 
 ENDIF
-PCOUNT% := (PCOUNT% + 1)
-IF (PCOUNT% = LINES%)
-PCOUNT% := 0
-DROP()
-CLS()
+AT(1 2 )
+PRINT((CHR$(26 ) + "Holding "))
+PRINT(D.AMNT%)
+<nl>
+
+AT(10 1 )
+PRINT(D.CANEQ%)
+<nl>
+
+AT(12 1 )
+PRINT(D.STATV%)
+<nl>
+
+AT(14 1 )
+PRINT(D.ARMOUR%)
+<nl>
+
+AT(16 1 )
+PRINT(D.WEAP%)
+<nl>
+
+G% := GET()
+IF (G% = 3)
+W% := (W% - 1)
+DIR% := (UMIN 1)
 ENDIF
-ELSE
-CLS()
+IF (G% = 4)
+W% := (W% + 1)
+DIR% := 1
+ENDIF
+IF (G% = 2)
+MODE% := (MODE% + 1)
+IF (MODE% > 3)
+MODE% := 1
 ENDIF
 ENDIF
+IDESC$ := D.LOCDESC$
+EQUI% := D.EQ%
 ENDWH
+IF (G% = 1)
+MODE% := 4
+CLOSE()
+GOTO CLS
+ELSEIF (G% = 13)
+FN$ := LEFT$(D.LST$ 14 )
+CLOSE()
+ENDIF
+FN$
+GOTO CLS
+STOP()
+Other::
+CLS()
+PRINT("Looks like")
+<nl>
+
+PRINT(FNAME$)
+<nl>
+
+PRINT("doesn't exist!")
+<nl>
+
+GET()
+IF (MX% = 0)
+AP:("**Database Missing**", )(1, )(1)
+ELSE
+PRINT(CHR$(15 ))
+<nl>
+
+ENDIF
+AP:((M$ + "value then EXE"), )(3, )(1)
+AP:((CAT$ + ": "), )(4, )(1)
+FN$ := LEFT$(DF$ 14 )
+POKEW(115 256 )
+POKEB(8368 4 )
+POKEW(115 1 )
+EDIT(FN$ )
+IF (FO% = 1)
+CLOSE()
+ENDIF
+FN$
+PROBLEM::
+
+CLS()
+IF (ERR() = 194)
+PRINT(" The Battery is Low    Switching off     change the Battery")
+<nl>
+
+PAUSE((UMIN 50) )
+
+STOP()
+ELSEIF (ERR() = 199)
+CLOSE()
+PRINT("Found and corrected an error..")
+<nl>
+
+ELSEIF (((ERR() = 201) OR (ERR() = 207)) OR (ERR() = 220))
+PRINT((("There is an error in" + CAT$) + " Database"))
+<nl>
+
+ELSEIF (ERR() = 209)
+PRINT("There is a database conflict; Logical D.")
+<nl>
+
+ELSE
+PRINT(ERR())
+<nl>
+
+PRINT(ERR$(ERR() ))
+<nl>
+
+ENDIF
+PRINT("[SPACE] continues")
+<nl>
+
+GET()
+""
+CLS::
+
+DROP()
+
+DROP()
+DROP()
+
+FN$ := (":" + FNAME$)
+IF EXIST(("A" + FN$) )
+FN$ := ("A" + FN$)
+ELSE
+GOTO Other
+ENDIF
+MODE% := 1
+"A:items"
+FO% := 1
+MX% := COUNT()
+W% := 1
+DIR% := 1
+PRINT(CHR$(14 ))
+<nl>
+
+AT(1 1 )
+PRINT(CAT$)
+<nl>
+
+WHILE ((G% <> 1) AND (G% <> 13))
+POSITION(W% )
+IF (DIR% < 0)
+IF (W% < 1)
+W% := MX%
+ENDIF
+POSITION(W% )
+WHILE (D.AMNT% < 1)
+IF (W% < 1)
+W% := MX%
+ENDIF
+W% := (W% - 1)
+POSITION(W% )
+ENDWH
+ENDIF
+IF (W% > MX%)
+W% := 1
+ENDIF
+IF (DIR% > 0)
+IF (W% > MX%)
+W% := 1
+ENDIF
+POSITION(W% )
+WHILE (D.AMNT% < 1)
+IF (W% > MX%)
+W% := 1
+ENDIF
+W% := (W% + 1)
+POSITION(W% )
+ENDWH
+ENDIF
+P% := (W% - 1)
+IF (P% < 1)
+P% := MX%
+ENDIF
+POSITION(P% )
+WHILE (D.AMNT% < 1)
+P% := (P% - 1)
+IF (P% < 1)
+P% := MX%
+ENDIF
+POSITION(P% )
+ENDWH
+V% := (W% + 1)
+IF (V% > MX%)
+V% := 1
+ENDIF
+POSITION(V% )
+WHILE (D.AMNT% < 1)
+V% := (V% + 1)
+IF (V% > MX%)
+V% := 1
+ENDIF
+POSITION(V% )
+ENDWH
+DIR% := 0
+POSITION(V% )
+AT(1 4 )
+PRINT(((CHR$(23 ) + "      ") + LEFT$(D.LST$ 14 )))
+<nl>
+
+POSITION(W% )
+AT(1 3 )
+IF (MODE% = 1)
+PRINT(((CHR$(22 ) + "Use > ") + LEFT$(D.LST$ 14 )))
+<nl>
+
+ELSEIF (MODE% = 2)
+PRINT(((CHR$(22 ) + "Drop> ") + LEFT$(D.LST$ 14 )))
+<nl>
+
+ELSE
+PRINT(((CHR$(22 ) + "Info> ") + LEFT$(D.LST$ 14 )))
+<nl>
+
+ENDIF
+AT(1 2 )
+PRINT((CHR$(26 ) + "Holding "))
+PRINT(D.AMNT%)
+<nl>
+
+AT(10 1 )
+PRINT(D.CANEQ%)
+<nl>
+
+AT(12 1 )
+PRINT(D.STATV%)
+<nl>
+
+AT(14 1 )
+PRINT(D.ARMOUR%)
+<nl>
+
+AT(16 1 )
+PRINT(D.WEAP%)
+<nl>
+
+G% := GET()
+IF (G% = 3)
+W% := (W% - 1)
+DIR% := (UMIN 1)
+ENDIF
+IF (G% = 4)
+W% := (W% + 1)
+DIR% := 1
+ENDIF
+IF (G% = 2)
+MODE% := (MODE% + 1)
+IF (MODE% > 3)
+MODE% := 1
+ENDIF
+ENDIF
+IDESC$ := D.LOCDESC$
+EQUI% := D.EQ%
+ENDWH
+IF (G% = 1)
+MODE% := 4
+CLOSE()
+GOTO CLS
+ELSEIF (G% = 13)
+FN$ := LEFT$(D.LST$ 14 )
+CLOSE()
+ENDIF
+FN$
+GOTO CLS
+STOP()
+Other::
+CLS()
+PRINT("Looks like")
+<nl>
+
+PRINT(FNAME$)
+<nl>
+
+PRINT("doesn't exist!")
+<nl>
+
+DROP()
+IF (MX% = 0)
+DROP()
+ELSE
+PRINT(CHR$(15 ))
+<nl>
+
+ENDIF
+DROP()
+DROP()
+FN$ := LEFT$(DF$ 14 )
+POKEW(115 256 )
+POKEB(8368 4 )
+POKEW(115 1 )
+EDIT(FN$ )
+IF (FO% = 1)
+CLOSE()
+ENDIF
+FN$
+PROBLEM::
+
+CLS()
+IF (ERR() = 194)
+PRINT(" The Battery is Low    Switching off     change the Battery")
+<nl>
+
+PAUSE((UMIN 50) )
+
+STOP()
+ELSEIF (ERR() = 199)
+CLOSE()
+PRINT("Found and corrected an error..")
+<nl>
+
+ELSEIF (((ERR() = 201) OR (ERR() = 207)) OR (ERR() = 220))
+PRINT((("There is an error in" + CAT$) + " Database"))
+<nl>
+
+ELSEIF (ERR() = 209)
+PRINT("There is a database conflict; Logical D.")
+<nl>
+
+ELSE
+PRINT(ERR())
+<nl>
+
+PRINT(ERR$(ERR() ))
+<nl>
+
+ENDIF
+PRINT("[SPACE] continues")
+<nl>
+
+DROP()
+""
+CLS::

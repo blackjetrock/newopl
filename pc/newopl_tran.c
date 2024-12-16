@@ -509,13 +509,16 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "MENU",NOBJ_VARTYPE_INT,     __,                   __,        __,               RTF_MENU, 0},
     {EXP_BUFF_ID_FUNCTION, "AT",                __,     __,                   __,        __,               QCO_AT, 0},
     {EXP_BUFF_ID_FUNCTION, "EDIT",              __,     __,                   __,        __,               QCO_EDIT, 0},
-    {EXP_BUFF_ID_FUNCTION, "ERR",                __,     __,                   __,        __,               RTF_ERR, 0},
+    {EXP_BUFF_ID_FUNCTION, "ERR",               __,     __,                   __,        __,               RTF_ERR, 0},
+    {EXP_BUFF_ID_FUNCTION, "ERR$",              __,     __,                   __,        __,               RTF_SERR, 0},
     {EXP_BUFF_ID_FUNCTION, "GET",               __,     __,                   __,        __,               RTF_GET, 0},
     {EXP_BUFF_ID_FUNCTION, "ASC",               __,     __,                   __,        __,               RTF_ASC, 0},
     {EXP_BUFF_ID_FUNCTION, "EOF",               __,     __,                   __,        __,               RTF_EOF, 0},
     {EXP_BUFF_ID_FUNCTION, "MENUN",             __,     __,                   __,        __,               RTF_MENUN, 0},
     {EXP_BUFF_ID_FUNCTION, "GET$",              __,     __,                   __,        __,               RTF_SGET, 0},
     {EXP_BUFF_ID_FUNCTION, "PAUSE",             __,     __,                   __,        __,               QCO_PAUSE, 0},
+    {EXP_BUFF_ID_FUNCTION, "POKEW",             __,     __,                   __,        __,               QCO_POKEW, 0},
+    {EXP_BUFF_ID_FUNCTION, "POKEB",             __,     __,                   __,        __,               QCO_POKEB, 0},
     {EXP_BUFF_ID_FUNCTION, "ERASE",             __,     __,                   __,        __,               QCO_ERASE, 0},
     {EXP_BUFF_ID_FUNCTION, "UPDATE",            __,     __,                   __,        __,               QCO_UPDATE, 0},
     {EXP_BUFF_ID_FUNCTION, "HOUR",   NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_HOUR, 0},
@@ -3046,6 +3049,11 @@ void typecheck_expression(void)
 	case EXP_BUFF_ID_FIELDVAR:
 	  be.p_idx = 0;
 	  type_check_stack_push(be);
+	  break;
+
+	case EXP_BUFF_ID_RETURN:
+	  // Pop the return value off the stack
+	  type_check_stack_pop();
 	  break;
 	  
 	  // These need to pop a value off the stack to keep the stack

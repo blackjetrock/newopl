@@ -1,12 +1,29 @@
 
 Variables
 
-   0:  VAR: '              STR$'  Parameter String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFC
-   1:  VAR: '            LINES%'  Parameter Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFA
-   2:  VAR: '           LASTSP%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF8
-   3:  VAR: '          FIRSTSP%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF6
-   4:  VAR: '                I%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF4
-   5:  VAR: '           LENSTR%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF2
-   6:  VAR: '                J%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF0
-   7:  VAR: '           PCOUNT%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFEE
-   8:  VAR: '             STR1$'      Local String            DECLARE max_str: 20 max_ary:  0 num_ind:  1 offset:FFD9
+   0:  VAR: '            FNAME$'  Parameter String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFC
+   1:  VAR: '              CAT$'  Parameter String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFA
+   2:  VAR: '               DF$'  Parameter String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF8
+   3:  VAR: '               FN$'      Local String            DECLARE max_str: 14 max_ary:  0 num_ind:  1 offset:FFE3
+   4:  VAR: '               FO%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE0
+   5:  VAR: '               MX%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFDE
+   6:  VAR: '                L%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFDC
+   7:  VAR: '                G%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFDA
+   8:  VAR: '                V%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFD8
+   9:  VAR: '                W%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFD6
+  10:  VAR: '                P%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFD4
+  11:  VAR: '                M$'      Local String            DECLARE max_str:  6 max_ary:  0 num_ind:  1 offset:FFCD
+  12:  VAR: '              DIR%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFCA
+  13:  VAR: '             MODE%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF6
+  14:  VAR: '             D.NO$'       Open String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
+  15:  VAR: '            D.LST$'       Open String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
+  16:  VAR: '           D.AMNT%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
+  17:  VAR: '        D.LOCDESC$'       Open String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
+  18:  VAR: '             D.EQ%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
+  19:  VAR: '          D.CANEQ%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
+  20:  VAR: '          D.STATV%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
+  21:  VAR: '         D.ARMOUR%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
+  22:  VAR: '           D.WEAP%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
+  23:  VAR: '           D.FOOD%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
+  24:  VAR: '            IDESC$'   External String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF4
+  25:  VAR: '             EQUI%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF2

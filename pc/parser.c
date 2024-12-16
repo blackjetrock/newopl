@@ -2032,6 +2032,7 @@ int scan_literal(char *lit)
       return(1);
     }
   
+  dbprintf("ret0");  
   return(0);
 }
 
@@ -4856,7 +4857,7 @@ int check_textlabel(int *index, char *label_dest, NOBJ_VARTYPE *type)
       return(0);
     }
 
-  while( /*(cline[idx] != ':') && */(cline[idx] != '\0') && (cline[idx] != ' ') && (is_textlabelchar(cline[idx])) )
+  while( (cline[idx] != '\0') && (cline[idx] != ' ') && (is_textlabelchar(cline[idx])) )
     {
       if( strlen(label_dest) > NOBJ_VARNAME_MAXLEN-1 )
 	{
@@ -4868,19 +4869,23 @@ int check_textlabel(int *index, char *label_dest, NOBJ_VARTYPE *type)
       idx++;
     }
 
-  dbprintf("'%s' is a text label", label_dest);
+  dbprintf("'%s' is a text label chstr:'%s'", label_dest, chstr);
   
-  *index = idx;
 
+
+  dbprintf("Exit char:%c", cline[idx]);
+  
   // Work out the type of the label
-  switch(chstr[0])
+  switch(cline[idx])
     {
     case '%':
       *type = NOBJ_VARTYPE_INT;
+      idx++;
       break;
 
     case '$':
       *type = NOBJ_VARTYPE_STR;
+      idx++;
       break;
 
     default:
@@ -4888,7 +4893,9 @@ int check_textlabel(int *index, char *label_dest, NOBJ_VARTYPE *type)
       break;
     }
   
-  dbprintf("%s:ret1", __FUNCTION__);  
+  *index = idx;
+
+  dbprintf("%s:ret1 Name:'%s' Type:%c", __FUNCTION__, label_dest, type_to_char(*type));  
   return(1);
 }
 
@@ -7241,6 +7248,7 @@ int pull_next_line(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+// Scans the list of parameters in the proc definition line
 //
 
 int scan_param_list(void)
@@ -7330,9 +7338,10 @@ int scan_procdef(void)
       cline_i = idx;
 
       dbprintf("Text label:'%s'", textlabel);
-      if( scan_literal(":") )
+      if( check_literal(&idx, ":") )
 	{
-
+	  cline_i = idx;
+	  
 	  strcpy(procedure_name, textlabel);
 
 	  // Now scan the parameter list
