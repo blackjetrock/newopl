@@ -534,6 +534,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "CLS",               __,     __,                   __,        __,               QCO_CLS, 0},
     {EXP_BUFF_ID_META,     "OFF",               __,     __,                   __,        __,               QCO_OFF, 0},
     {EXP_BUFF_ID_FUNCTION, "FIRST",             __,     __,                   __,        __,               QCO_FIRST, 0},
+    {EXP_BUFF_ID_FUNCTION, "FIND",              __,     __,                   __,        __,               RTF_FIND, 0},
     {EXP_BUFF_ID_FUNCTION, "LAST",              __,     __,                   __,        __,               QCO_LAST, 0},
     {EXP_BUFF_ID_FUNCTION, "BACK",              __,     __,                   __,        __,               QCO_BACK, 0},
     {EXP_BUFF_ID_FUNCTION, "APPEND",            __,     __,                   __,        __,               QCO_APPEND, 0},
@@ -3052,8 +3053,33 @@ void typecheck_expression(void)
 	  break;
 
 	case EXP_BUFF_ID_RETURN:
-	  // Pop the return value off the stack
-	  type_check_stack_pop();
+
+	  // the RETURN may or may not have an expression after it
+	  
+	  if( be.op.access == NOPL_OP_ACCESS_EXP )
+	    {
+	      // Pop the return value off the stack
+	      op1 = type_check_stack_pop();
+	      
+	      // We may need to auto convert if the value we popped doesn't match the return
+	      // type of the proc, which is the same as the type of the return
+	      if( (op1.op.type != be.op.type) )
+		{
+		  // We have a type error or need to autocon
+		  autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
+		  autocon.op.type   = be.op.type;
+		  autocon.p_idx     = 0;
+		  fprintf(ofp, "  Return type not OK");
+		  
+		  sprintf(autocon.name, "autocon %c->%c (return)", type_to_char(op1.op.type), type_to_char(be.op.type));
+		  insert_buf2_entry_after_node_id(op1.node_id, autocon);
+		  
+		}
+	    }
+	  else
+	    {
+	      //No expression, so we will use a 'null' return qcode
+	    }
 	  break;
 	  
 	  // These need to pop a value off the stack to keep the stack
@@ -3698,7 +3724,7 @@ void output_string(OP_STACK_ENTRY op)
 
 void output_return(OP_STACK_ENTRY op)
 {
-  op.type = expression_type;
+  //op.type = expression_type;
   
   fprintf(ofp, "\n(%16s) %s %c %s", __FUNCTION__, type_stack_str(), type_to_char(op.type), op.name); 
   add_exp_buffer_entry(op, EXP_BUFF_ID_RETURN);

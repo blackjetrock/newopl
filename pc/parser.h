@@ -406,6 +406,7 @@ int scan_expression_list(int *num_expressions, int insert_types);
 void initialise_line_supplier(FILE *fp);
 int pull_next_line(void);
 void op_stack_finalise(void);
+void output_return(OP_STACK_ENTRY op);
 void output_if(OP_STACK_ENTRY op);
 void output_generic(OP_STACK_ENTRY op, char *name, int buf_id);
 int strn_match(char *s1, char *s2, int n);

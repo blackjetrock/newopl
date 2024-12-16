@@ -1,152 +1,84 @@
-'fromlst$:(FName$,Cat$,Df$)'
-'LOCAL FN$(14),fo%,mx%,l%,g%,v%,w%,p%,m$(6)'
-'LOCAL FN$(14),fo%,mx%,l%,g%,v%,w%,p%,m$(6)'
-'LOCAL dir% '
+'invtool:(dbm%,a$,mag%)'
+'LOCAL f% '
+'LOCAL f% '
+'LOCAL ret% '
+'LOCAL low$(20)'
+'LOCAL disp$(200)'
+'LOCAL mx% '
+'LOCAL i% '
+'LOCAL ef% '
 'ONERR PROBLEM::'
-'FN$=":"+FName$ '
-'IF EXIST("A"+FN$)'
-' FN$="A"+FN$'
-'ELSE'
-' GOTO Other::'
-'ENDIF'
-'mode% = 1 '
 'OPEN "A:items",D,No$,Lst$,Amnt%,locdesc$,eq%,caneq%,statv%,armour%,weap%,food%'
-'fo%=1'
 'mx%=count '
-'w% = 1'
-'dir% = 1 '
-'PRINT CHR$(14)'
-'AT 1,1'
-'PRINT Cat$'
-'WHILE g%<>1 AND g%<>13 '
-'POSITION w%'
-'IF dir% < 0'
-' IF w% < 1'
-'  w% = mx%'
-' ENDIF'
-'POSITION w%'
-' WHILE D.Amnt% < 1'
-'  IF w% < 1'
-'   w% = mx%'
-'  ENDIF'
-'   w% = w% - 1'
-'   POSITION w%'
-' ENDWH'
-'ENDIF'
-'IF w% > mx%'
-' w% = 1'
-'ENDIF'
-'IF dir% > 0'
-' IF w% > mx%'
-'  w% = 1'
-' ENDIF'
-'POSITION w%'
-' WHILE D.Amnt% < 1'
-'  IF w% > mx%'
-'   w% = 1'
-'  ENDIF'
-'   w% = w% + 1'
-'   POSITION w%'
-' ENDWH'
-'ENDIF'
-'  p% = w%-1'
-'  IF p% < 1'
-'        p% = mx%'
-'      ENDIF'
-'  POSITION p%'
-'    WHILE D.Amnt% < 1'
-'    p% = p% - 1'
-'      IF p% < 1'
-'        p% = mx%'
-'      ENDIF'
-'    POSITION p%'
-'    ENDWH'
-'  v% = w%+1'
-'IF v% > mx%'
-'        v% = 1'
-'ENDIF'
-'  POSITION v%'
-'  WHILE D.Amnt% < 1'
-'    v% = v% + 1'
-'      IF v% > mx%'
-'        v% = 1'
-'      ENDIF'
-'  POSITION v%'
-'  ENDWH'
-'  dir% = 0 '
-'  POSITION v% '
-'  AT 1,4'
-'  PRINT CHR$(23)+"      "+LEFT$(D.Lst$,14)'
-'  POSITION w% '
-'  AT 1,3'
-'  IF mode% = 1'
-'    PRINT CHR$(22) + "Use > "+ LEFT$(D.Lst$,14)'
-'  ELSEIF mode% = 2'
-'    PRINT CHR$(22) + "Drop> "+ LEFT$(D.Lst$,14)'
-'  ELSE'
-'    PRINT CHR$(22) + "Info> "+ LEFT$(D.Lst$,14)'
-'  ENDIF'
-'  AT 1,2'
-'  PRINT CHR$(26) + "Holding " ; D.Amnt%'
-'  AT 10,1'
+' IF dbm%=1 '
+'  f% = FIND(a$)'
+'  D.Amnt%=D.Amnt%+mag%'
+'   IF D.Amnt%<0 '
+'    D.Amnt%=0'
+'   ENDIF'
+'  ret%=D.Amnt%'
+'  UPDATE'
+'  CLOSE'
+'  RETURN ret%'
+' ELSEIF dbm%=2 '
+'  ret%=D.Amnt%'
+'  CLOSE'
+'  RETURN ret%'
+' ELSEIF dbm%=3 '
+'  f% = FIND(a$)'
+'  CLS'
+'  PRINT "Finding ";a$'
+'  PRINT D.Lst$'
 '  PRINT D.caneq%'
-'  AT 12,1'
-'  PRINT D.statv%'
-'  AT 14,1'
 '  PRINT D.armour%'
-'  AT 16,1'
-'  PRINT D.weap%'
-'g%=GET'
-'  IF g%=3'
-'    w%=w%-1'
-'    dir% = -1'
-'  ENDIF '
-'  IF g%=4'
-'    w%=w%+1'
-'    dir% = 1'
-'  ENDIF '
-'  IF g%=2 '
-'    mode% = mode% + 1'
-'      IF mode%> 3'
-'        mode% = 1'
-'      ENDIF'
+'  PRINT f%'
+'  GET'
+'  IF D.food%=1'
+'   IF plHealt%<maxplh%'
+'    CLS'
+'    low$=LOWER$(a$)'
+'    CLS'
+'    disp$ = "You eat the " + low$ + "."'
+'    disptext:(disp$,4)'
+'    CLS'
+'    plHealt%=plHealt%+D.statv%'
+'     IF plHealt%>=maxplh%'
+'      plHealt%=maxplh%'
+'     ENDIF'
+'    ELSE'
+'     CLS'
+'     PRINT "You are at maximum health"'
+'     GET'
+'     CLS'
+'   ENDIF'
 '  ENDIF'
-'idesc$ = D.locdesc$'
-'equi%=D.eq%'
-'ENDWH'
-'  IF g%=1 '
-'    mode%=4'
+'  IF D.caneq% = 1'
+'   IF D.weap% = 1'
+'    low$=LOWER$(a$)'
+'    CLS'
+'    disp$ = "You take firm hold of your " + low$ + "."'
+'    disptext:(disp$,4)'
+'    plAtt%=D.statv%'
+'    plweap$=D.Lst$'
 '    CLOSE'
-'    GOTO CLS::'
-'  ELSEIF g%=13 '
-'    FN$=LEFT$(D.Lst$,(14)) '
+'    RETURN '
+'   ELSEIF D.armour% = 1'
+'    low$=LOWER$(a$)'
+'    CLS'
+'    disp$ = "You give the " + low$ + " a look over and put it on."'
+'    disptext:(disp$,4)'
+'    plDef%=D.statv%'
+'    plarm$=D.Lst$'
 '    CLOSE'
+'    RETURN '
+'   ENDIF'
 '  ENDIF'
-'RETURN FN$'
+'  CLOSE'
+'  RETURN ret%'
+' ELSE'
+'  RETURN'
+' ENDIF'
 'GOTO CLS::'
-'STOP'
-'Other::'
-'CLS'
-'PRINT "Looks like"'
-'PRINT fname$'
-'PRINT "doesn't exist!"'
-'GET'
-'IF mx%=0'
-' AP:(1,1,"**Database Missing**")'
-'ELSE'
-' PRINT CHR$(15)'
-'ENDIF'
-'AP:(1,3,M$+"value then EXE")'
-'AP:(1,4,Cat$+": ")'
-'FN$=LEFT$(Df$,14)'
-'POKEW $73,$0100 :POKEB $20B0,4 :POKEW $73,$0001'
-'POKEB $20B0,4 :POKEW $73,$0001'
-'POKEW $73,$0001'
-'TRAP EDIT FN$'
-' IF fo%=1 : CLOSE :ENDIF'
-'CLOSE :ENDIF'
-'ENDIF'
-'RETURN FN$'
 'PROBLEM::'
 'ONERR OFF'
 'CLS'
@@ -158,8 +90,8 @@
 ' ELSEIF ERR=199 :CLOSE :PRINT "Found and corrected an error.."'
 'CLOSE :PRINT "Found and corrected an error.."'
 'PRINT "Found and corrected an error.."'
-' ELSEIF ERR=201 OR ERR=207 or ERR=220 :PRINT "There is an error in"+Cat$+" Database"'
-'PRINT "There is an error in"+Cat$+" Database"'
+' ELSEIF ERR=201 OR ERR=207 or ERR=220 :PRINT "There is an error in item Database"'
+'PRINT "There is an error in item Database"'
 ' ELSEIF ERR=209 :PRINT "There is a database conflict; Logical D."'
 'PRINT "There is a database conflict; Logical D."'
 ' ELSE PRINT ERR :PRINT ERR$(ERR)'
@@ -168,157 +100,88 @@
 'ENDIF'
 'PRINT "[SPACE] continues" :GET '
 'GET '
-'RETURN ""'
 'CLS::'
-'fromlst$:(FName$,Cat$,Df$)'
-'LOCAL FN$(14),fo%,mx%,l%,g%,v%,w%,p%,m$(6)'
-'LOCAL FN$(14),fo%,mx%,l%,g%,v%,w%,p%,m$(6)'
-'LOCAL dir% '
+'invtool:(dbm%,a$,mag%)'
+'LOCAL f% '
+'LOCAL f% '
+'LOCAL ret% '
+'LOCAL low$(20)'
+'LOCAL disp$(200)'
+'LOCAL mx% '
+'LOCAL i% '
+'LOCAL ef% '
 'ONERR PROBLEM::'
-'FN$=":"+FName$ '
-'IF EXIST("A"+FN$)'
-' FN$="A"+FN$'
-'ELSE'
-' GOTO Other::'
-'ENDIF'
-'mode% = 1 '
 'OPEN "A:items",D,No$,Lst$,Amnt%,locdesc$,eq%,caneq%,statv%,armour%,weap%,food%'
-'fo%=1'
 'mx%=count '
-'w% = 1'
-'dir% = 1 '
-'PRINT CHR$(14)'
-'AT 1,1'
-'PRINT Cat$'
-'WHILE g%<>1 AND g%<>13 '
-'POSITION w%'
-'IF dir% < 0'
-' IF w% < 1'
-'  w% = mx%'
-' ENDIF'
-'POSITION w%'
-' WHILE D.Amnt% < 1'
-'  IF w% < 1'
-'   w% = mx%'
-'  ENDIF'
-'   w% = w% - 1'
-'   POSITION w%'
-' ENDWH'
-'ENDIF'
-'IF w% > mx%'
-' w% = 1'
-'ENDIF'
-'IF dir% > 0'
-' IF w% > mx%'
-'  w% = 1'
-' ENDIF'
-'POSITION w%'
-' WHILE D.Amnt% < 1'
-'  IF w% > mx%'
-'   w% = 1'
-'  ENDIF'
-'   w% = w% + 1'
-'   POSITION w%'
-' ENDWH'
-'ENDIF'
-'  p% = w%-1'
-'  IF p% < 1'
-'        p% = mx%'
-'      ENDIF'
-'  POSITION p%'
-'    WHILE D.Amnt% < 1'
-'    p% = p% - 1'
-'      IF p% < 1'
-'        p% = mx%'
-'      ENDIF'
-'    POSITION p%'
-'    ENDWH'
-'  v% = w%+1'
-'IF v% > mx%'
-'        v% = 1'
-'ENDIF'
-'  POSITION v%'
-'  WHILE D.Amnt% < 1'
-'    v% = v% + 1'
-'      IF v% > mx%'
-'        v% = 1'
-'      ENDIF'
-'  POSITION v%'
-'  ENDWH'
-'  dir% = 0 '
-'  POSITION v% '
-'  AT 1,4'
-'  PRINT CHR$(23)+"      "+LEFT$(D.Lst$,14)'
-'  POSITION w% '
-'  AT 1,3'
-'  IF mode% = 1'
-'    PRINT CHR$(22) + "Use > "+ LEFT$(D.Lst$,14)'
-'  ELSEIF mode% = 2'
-'    PRINT CHR$(22) + "Drop> "+ LEFT$(D.Lst$,14)'
-'  ELSE'
-'    PRINT CHR$(22) + "Info> "+ LEFT$(D.Lst$,14)'
-'  ENDIF'
-'  AT 1,2'
-'  PRINT CHR$(26) + "Holding " ; D.Amnt%'
-'  AT 10,1'
+' IF dbm%=1 '
+'  f% = FIND(a$)'
+'  D.Amnt%=D.Amnt%+mag%'
+'   IF D.Amnt%<0 '
+'    D.Amnt%=0'
+'   ENDIF'
+'  ret%=D.Amnt%'
+'  UPDATE'
+'  CLOSE'
+'  RETURN ret%'
+' ELSEIF dbm%=2 '
+'  ret%=D.Amnt%'
+'  CLOSE'
+'  RETURN ret%'
+' ELSEIF dbm%=3 '
+'  f% = FIND(a$)'
+'  CLS'
+'  PRINT "Finding ";a$'
+'  PRINT D.Lst$'
 '  PRINT D.caneq%'
-'  AT 12,1'
-'  PRINT D.statv%'
-'  AT 14,1'
 '  PRINT D.armour%'
-'  AT 16,1'
-'  PRINT D.weap%'
-'g%=GET'
-'  IF g%=3'
-'    w%=w%-1'
-'    dir% = -1'
-'  ENDIF '
-'  IF g%=4'
-'    w%=w%+1'
-'    dir% = 1'
-'  ENDIF '
-'  IF g%=2 '
-'    mode% = mode% + 1'
-'      IF mode%> 3'
-'        mode% = 1'
-'      ENDIF'
+'  PRINT f%'
+'  GET'
+'  IF D.food%=1'
+'   IF plHealt%<maxplh%'
+'    CLS'
+'    low$=LOWER$(a$)'
+'    CLS'
+'    disp$ = "You eat the " + low$ + "."'
+'    disptext:(disp$,4)'
+'    CLS'
+'    plHealt%=plHealt%+D.statv%'
+'     IF plHealt%>=maxplh%'
+'      plHealt%=maxplh%'
+'     ENDIF'
+'    ELSE'
+'     CLS'
+'     PRINT "You are at maximum health"'
+'     GET'
+'     CLS'
+'   ENDIF'
 '  ENDIF'
-'idesc$ = D.locdesc$'
-'equi%=D.eq%'
-'ENDWH'
-'  IF g%=1 '
-'    mode%=4'
+'  IF D.caneq% = 1'
+'   IF D.weap% = 1'
+'    low$=LOWER$(a$)'
+'    CLS'
+'    disp$ = "You take firm hold of your " + low$ + "."'
+'    disptext:(disp$,4)'
+'    plAtt%=D.statv%'
+'    plweap$=D.Lst$'
 '    CLOSE'
-'    GOTO CLS::'
-'  ELSEIF g%=13 '
-'    FN$=LEFT$(D.Lst$,(14)) '
+'    RETURN '
+'   ELSEIF D.armour% = 1'
+'    low$=LOWER$(a$)'
+'    CLS'
+'    disp$ = "You give the " + low$ + " a look over and put it on."'
+'    disptext:(disp$,4)'
+'    plDef%=D.statv%'
+'    plarm$=D.Lst$'
 '    CLOSE'
+'    RETURN '
+'   ENDIF'
 '  ENDIF'
-'RETURN FN$'
+'  CLOSE'
+'  RETURN ret%'
+' ELSE'
+'  RETURN'
+' ENDIF'
 'GOTO CLS::'
-'STOP'
-'Other::'
-'CLS'
-'PRINT "Looks like"'
-'PRINT fname$'
-'PRINT "doesn't exist!"'
-'GET'
-'IF mx%=0'
-' AP:(1,1,"**Database Missing**")'
-'ELSE'
-' PRINT CHR$(15)'
-'ENDIF'
-'AP:(1,3,M$+"value then EXE")'
-'AP:(1,4,Cat$+": ")'
-'FN$=LEFT$(Df$,14)'
-'POKEW $73,$0100 :POKEB $20B0,4 :POKEW $73,$0001'
-'POKEB $20B0,4 :POKEW $73,$0001'
-'POKEW $73,$0001'
-'TRAP EDIT FN$'
-' IF fo%=1 : CLOSE :ENDIF'
-'CLOSE :ENDIF'
-'ENDIF'
-'RETURN FN$'
 'PROBLEM::'
 'ONERR OFF'
 'CLS'
@@ -330,8 +193,8 @@
 ' ELSEIF ERR=199 :CLOSE :PRINT "Found and corrected an error.."'
 'CLOSE :PRINT "Found and corrected an error.."'
 'PRINT "Found and corrected an error.."'
-' ELSEIF ERR=201 OR ERR=207 or ERR=220 :PRINT "There is an error in"+Cat$+" Database"'
-'PRINT "There is an error in"+Cat$+" Database"'
+' ELSEIF ERR=201 OR ERR=207 or ERR=220 :PRINT "There is an error in item Database"'
+'PRINT "There is an error in item Database"'
 ' ELSEIF ERR=209 :PRINT "There is a database conflict; Logical D."'
 'PRINT "There is a database conflict; Logical D."'
 ' ELSE PRINT ERR :PRINT ERR$(ERR)'
@@ -340,5 +203,4 @@
 'ENDIF'
 'PRINT "[SPACE] continues" :GET '
 'GET '
-'RETURN ""'
 'CLS::'

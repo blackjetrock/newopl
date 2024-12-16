@@ -5027,22 +5027,25 @@ int scan_return(void)
 	      //	      op.type = NOBJ_VARTY;
 	      op.access = NOPL_OP_ACCESS_EXP;
 	      op.buf_id = EXP_BUFF_ID_RETURN;
+	      op.type = procedure_type;
 	      strcpy(op.name, "RETURN");
-	      process_token(&op);
+	      //	      process_token(&op);
+	      output_return(op);
 	      return(1);
 	    }
 	}
       else
 	{
 	  // No expression after the RETURN, this is valid
-	  // The type is void
+	  // The type is that of the procedure
 	  
 	  dbprintf("%s:ret1 Expression not present", __FUNCTION__);
 	  op.buf_id = EXP_BUFF_ID_RETURN;
 	  op.access = NOPL_OP_ACCESS_NO_EXP;
-	  op.type = NOBJ_VARTYPE_VOID;
+	  op.type = procedure_type;
 	  strcpy(op.name, "RETURN");
-	  process_token(&op);
+	  //process_token(&op);
+	  output_return(op);
 	  return(1);
 	}
     }
@@ -7316,6 +7319,9 @@ int scan_param_list(void)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+//
+
 
 int scan_procdef(void)
 {
