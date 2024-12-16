@@ -1,29 +1,20 @@
 
 Variables
 
-   0:  VAR: '              DBM%'  Parameter Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFC
-   1:  VAR: '                A$'  Parameter String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFA
-   2:  VAR: '              MAG%'  Parameter Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF8
-   3:  VAR: '                F%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFEA
-   4:  VAR: '              RET%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE8
-   5:  VAR: '              LOW$'      Local String            DECLARE max_str: 20 max_ary:  0 num_ind:  1 offset:FFD3
-   6:  VAR: '             DISP$'      Local String            DECLARE max_str:200 max_ary:  0 num_ind:  1 offset:FF09
-   7:  VAR: '               MX%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF06
-   8:  VAR: '                I%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF04
-   9:  VAR: '               EF%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF02
-  10:  VAR: '             D.NO$'       Open String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
-  11:  VAR: '            D.LST$'       Open String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
-  12:  VAR: '           D.AMNT%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
-  13:  VAR: '        D.LOCDESC$'       Open String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
-  14:  VAR: '             D.EQ%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
-  15:  VAR: '          D.CANEQ%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
-  16:  VAR: '          D.STATV%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
-  17:  VAR: '         D.ARMOUR%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
-  18:  VAR: '           D.WEAP%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
-  19:  VAR: '           D.FOOD%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:746E
-  20:  VAR: '          PLHEALT%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF6
-  21:  VAR: '           MAXPLH%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF4
-  22:  VAR: '            PLATT%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF2
-  23:  VAR: '           PLWEAP$'   External String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF0
-  24:  VAR: '            PLDEF%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFEE
-  25:  VAR: '            PLARM$'   External String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFEC
+   0:  VAR: '              TMP$'      Local String            DECLARE max_str: 14 max_ary:  0 num_ind:  1 offset:FE26
+   1:  VAR: '               NO$'     Global String            DECLARE max_str:  3 max_ary:  0 num_ind:  1 offset:FF76
+   2:  VAR: '              LST$'     Global String            DECLARE max_str: 14 max_ary:  0 num_ind:  1 offset:FF66
+   3:  VAR: '             AMNT%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF63
+   4:  VAR: '             CONS%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF61
+   5:  VAR: '            EQUIP%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF5F
+   6:  VAR: '             FOOD%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF5D
+   7:  VAR: '             TOOL%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF5B
+   8:  VAR: '             WORN%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF59
+   9:  VAR: '             SUCC$'     Global String            DECLARE max_str: 40 max_ary:  0 num_ind:  1 offset:FF30
+  10:  VAR: '             FAIL$'     Global String            DECLARE max_str: 40 max_ary:  0 num_ind:  1 offset:FF06
+  11:  VAR: '           DAMAGE%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF03
+  12:  VAR: '              DEF%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FF01
+  13:  VAR: '          LOCDESC$'     Global String            DECLARE max_str:200 max_ary:  0 num_ind:  1 offset:FE38
+  14:  VAR: '             EQUI%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE35
+  15:  VAR: '             MODE%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FF7C
+  16:  VAR: '            IDESC$'   External String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FF7A

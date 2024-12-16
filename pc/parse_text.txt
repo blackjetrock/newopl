@@ -1,84 +1,47 @@
-'invtool:(dbm%,a$,mag%)'
-'LOCAL f% '
-'LOCAL f% '
-'LOCAL ret% '
-'LOCAL low$(20)'
-'LOCAL disp$(200)'
-'LOCAL mx% '
-'LOCAL i% '
-'LOCAL ef% '
+'inv:'
+'LOCAL tmp$(14)'
+'LOCAL tmp$(14)'
+'GLOBAL No$(3)'
+'GLOBAL Lst$(14)'
+'GLOBAL Amnt%'
+'GLOBAL cons%'
+'GLOBAL equip%'
+'GLOBAL food%'
+'GLOBAL tool%'
+'GLOBAL worn%'
+'GLOBAL succ$(40)'
+'GLOBAL fail$(40)'
+'GLOBAL damage%'
+'GLOBAL def%'
+'GLOBAL locdesc$(200)'
+'GLOBAL equi% '
+'TOP::'
 'ONERR PROBLEM::'
-'OPEN "A:items",D,No$,Lst$,Amnt%,locdesc$,eq%,caneq%,statv%,armour%,weap%,food%'
-'mx%=count '
-' IF dbm%=1 '
-'  f% = FIND(a$)'
-'  D.Amnt%=D.Amnt%+mag%'
-'   IF D.Amnt%<0 '
-'    D.Amnt%=0'
-'   ENDIF'
-'  ret%=D.Amnt%'
-'  UPDATE'
-'  CLOSE'
-'  RETURN ret%'
-' ELSEIF dbm%=2 '
-'  ret%=D.Amnt%'
-'  CLOSE'
-'  RETURN ret%'
-' ELSEIF dbm%=3 '
-'  f% = FIND(a$)'
-'  CLS'
-'  PRINT "Finding ";a$'
-'  PRINT D.Lst$'
-'  PRINT D.caneq%'
-'  PRINT D.armour%'
-'  PRINT f%'
+'mode% = 1'
+'WHILE mode% <> 4'
+' tmp$=FromLst$:("items","Backpack","Sword")'
+' CLS'
+' IF mode% = 1'
+'  invtool:(3,tmp$,0) '
+' PRINT "Do Use ";tmp$'
 '  GET'
-'  IF D.food%=1'
-'   IF plHealt%<maxplh%'
-'    CLS'
-'    low$=LOWER$(a$)'
-'    CLS'
-'    disp$ = "You eat the " + low$ + "."'
-'    disptext:(disp$,4)'
-'    CLS'
-'    plHealt%=plHealt%+D.statv%'
-'     IF plHealt%>=maxplh%'
-'      plHealt%=maxplh%'
-'     ENDIF'
-'    ELSE'
-'     CLS'
-'     PRINT "You are at maximum health"'
-'     GET'
-'     CLS'
-'   ENDIF'
-'  ENDIF'
-'  IF D.caneq% = 1'
-'   IF D.weap% = 1'
-'    low$=LOWER$(a$)'
-'    CLS'
-'    disp$ = "You take firm hold of your " + low$ + "."'
-'    disptext:(disp$,4)'
-'    plAtt%=D.statv%'
-'    plweap$=D.Lst$'
-'    CLOSE'
-'    RETURN '
-'   ELSEIF D.armour% = 1'
-'    low$=LOWER$(a$)'
-'    CLS'
-'    disp$ = "You give the " + low$ + " a look over and put it on."'
-'    disptext:(disp$,4)'
-'    plDef%=D.statv%'
-'    plarm$=D.Lst$'
-'    CLOSE'
-'    RETURN '
-'   ENDIF'
-'  ENDIF'
-'  CLOSE'
-'  RETURN ret%'
+' ELSEIF mode% = 2'
+'  invtool:(1,tmp$,-1)'
+'  PRINT "Do Drop ";tmp$'
+'  GET'
+' ELSEIF mode% = 3'
+'  CLS'
+'  PRINT equi%'
+'  GET'
+'  CLS'
+'  disptext:(idesc$,4) '
+'  CLS'
+' ELSEIF mode%=4'
 ' ELSE'
-'  RETURN'
+'  PRINT "Error 1 in INV.OPL"'
 ' ENDIF'
-'GOTO CLS::'
+'ENDWH'
+'GOTO EXIT::'
 'PROBLEM::'
 'ONERR OFF'
 'CLS'
@@ -87,101 +50,63 @@
 'PAUSE -50 :OFF :STOP'
 'OFF :STOP'
 'STOP'
-' ELSEIF ERR=199 :CLOSE :PRINT "Found and corrected an error.."'
-'CLOSE :PRINT "Found and corrected an error.."'
-'PRINT "Found and corrected an error.."'
-' ELSEIF ERR=201 OR ERR=207 or ERR=220 :PRINT "There is an error in item Database"'
-'PRINT "There is an error in item Database"'
-' ELSEIF ERR=209 :PRINT "There is a database conflict; Logical D."'
-'PRINT "There is a database conflict; Logical D."'
-' ELSE PRINT ERR :PRINT ERR$(ERR)'
+' ELSEIF ERR=252 :PRINT tmp$;" invalid" :AT 1,2 :PRINT "careful with Numbers"'
+'PRINT tmp$;" invalid" :AT 1,2 :PRINT "careful with Numbers"'
+'AT 1,2 :PRINT "careful with Numbers"'
+'PRINT "careful with Numbers"'
+'ELSE PRINT ERR :PRINT ERR$(ERR)'
 'PRINT ERR :PRINT ERR$(ERR)'
 'PRINT ERR$(ERR)'
 'ENDIF'
 'PRINT "[SPACE] continues" :GET '
 'GET '
-'CLS::'
-'invtool:(dbm%,a$,mag%)'
-'LOCAL f% '
-'LOCAL f% '
-'LOCAL ret% '
-'LOCAL low$(20)'
-'LOCAL disp$(200)'
-'LOCAL mx% '
-'LOCAL i% '
-'LOCAL ef% '
+'GOTO TOP::'
+'STOP'
+'EXIT::'
+'inv:'
+'LOCAL tmp$(14)'
+'LOCAL tmp$(14)'
+'GLOBAL No$(3)'
+'GLOBAL Lst$(14)'
+'GLOBAL Amnt%'
+'GLOBAL cons%'
+'GLOBAL equip%'
+'GLOBAL food%'
+'GLOBAL tool%'
+'GLOBAL worn%'
+'GLOBAL succ$(40)'
+'GLOBAL fail$(40)'
+'GLOBAL damage%'
+'GLOBAL def%'
+'GLOBAL locdesc$(200)'
+'GLOBAL equi% '
+'TOP::'
 'ONERR PROBLEM::'
-'OPEN "A:items",D,No$,Lst$,Amnt%,locdesc$,eq%,caneq%,statv%,armour%,weap%,food%'
-'mx%=count '
-' IF dbm%=1 '
-'  f% = FIND(a$)'
-'  D.Amnt%=D.Amnt%+mag%'
-'   IF D.Amnt%<0 '
-'    D.Amnt%=0'
-'   ENDIF'
-'  ret%=D.Amnt%'
-'  UPDATE'
-'  CLOSE'
-'  RETURN ret%'
-' ELSEIF dbm%=2 '
-'  ret%=D.Amnt%'
-'  CLOSE'
-'  RETURN ret%'
-' ELSEIF dbm%=3 '
-'  f% = FIND(a$)'
-'  CLS'
-'  PRINT "Finding ";a$'
-'  PRINT D.Lst$'
-'  PRINT D.caneq%'
-'  PRINT D.armour%'
-'  PRINT f%'
+'mode% = 1'
+'WHILE mode% <> 4'
+' tmp$=FromLst$:("items","Backpack","Sword")'
+' CLS'
+' IF mode% = 1'
+'  invtool:(3,tmp$,0) '
+' PRINT "Do Use ";tmp$'
 '  GET'
-'  IF D.food%=1'
-'   IF plHealt%<maxplh%'
-'    CLS'
-'    low$=LOWER$(a$)'
-'    CLS'
-'    disp$ = "You eat the " + low$ + "."'
-'    disptext:(disp$,4)'
-'    CLS'
-'    plHealt%=plHealt%+D.statv%'
-'     IF plHealt%>=maxplh%'
-'      plHealt%=maxplh%'
-'     ENDIF'
-'    ELSE'
-'     CLS'
-'     PRINT "You are at maximum health"'
-'     GET'
-'     CLS'
-'   ENDIF'
-'  ENDIF'
-'  IF D.caneq% = 1'
-'   IF D.weap% = 1'
-'    low$=LOWER$(a$)'
-'    CLS'
-'    disp$ = "You take firm hold of your " + low$ + "."'
-'    disptext:(disp$,4)'
-'    plAtt%=D.statv%'
-'    plweap$=D.Lst$'
-'    CLOSE'
-'    RETURN '
-'   ELSEIF D.armour% = 1'
-'    low$=LOWER$(a$)'
-'    CLS'
-'    disp$ = "You give the " + low$ + " a look over and put it on."'
-'    disptext:(disp$,4)'
-'    plDef%=D.statv%'
-'    plarm$=D.Lst$'
-'    CLOSE'
-'    RETURN '
-'   ENDIF'
-'  ENDIF'
-'  CLOSE'
-'  RETURN ret%'
+' ELSEIF mode% = 2'
+'  invtool:(1,tmp$,-1)'
+'  PRINT "Do Drop ";tmp$'
+'  GET'
+' ELSEIF mode% = 3'
+'  CLS'
+'  PRINT equi%'
+'  GET'
+'  CLS'
+'  disptext:(idesc$,4) '
+'  CLS'
+' ELSEIF mode%=4'
 ' ELSE'
-'  RETURN'
+'  PRINT "Error 1 in INV.OPL"'
 ' ENDIF'
-'GOTO CLS::'
+'ENDWH'
+'GOTO EXIT::'
 'PROBLEM::'
 'ONERR OFF'
 'CLS'
@@ -190,17 +115,16 @@
 'PAUSE -50 :OFF :STOP'
 'OFF :STOP'
 'STOP'
-' ELSEIF ERR=199 :CLOSE :PRINT "Found and corrected an error.."'
-'CLOSE :PRINT "Found and corrected an error.."'
-'PRINT "Found and corrected an error.."'
-' ELSEIF ERR=201 OR ERR=207 or ERR=220 :PRINT "There is an error in item Database"'
-'PRINT "There is an error in item Database"'
-' ELSEIF ERR=209 :PRINT "There is a database conflict; Logical D."'
-'PRINT "There is a database conflict; Logical D."'
-' ELSE PRINT ERR :PRINT ERR$(ERR)'
+' ELSEIF ERR=252 :PRINT tmp$;" invalid" :AT 1,2 :PRINT "careful with Numbers"'
+'PRINT tmp$;" invalid" :AT 1,2 :PRINT "careful with Numbers"'
+'AT 1,2 :PRINT "careful with Numbers"'
+'PRINT "careful with Numbers"'
+'ELSE PRINT ERR :PRINT ERR$(ERR)'
 'PRINT ERR :PRINT ERR$(ERR)'
 'PRINT ERR$(ERR)'
 'ENDIF'
 'PRINT "[SPACE] continues" :GET '
 'GET '
-'CLS::'
+'GOTO TOP::'
+'STOP'
+'EXIT::'

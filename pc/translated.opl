@@ -1,98 +1,58 @@
 
-MAG%
 
-F%
-RET%
-LOW$
-DISP$
-MX%
-I%
-EF%
 
-"A:items"
-MX% := COUNT()
-IF (DBM% = 1)
-F% := FIND(A$ )
-D.AMNT% := (D.AMNT% + MAG%)
-IF (D.AMNT% < 0)
-D.AMNT% := 0
-ENDIF
-RET% := D.AMNT%
-UPDATE()
-CLOSE()
-RET%
-ELSEIF (DBM% = 2)
-RET% := D.AMNT%
-CLOSE()
-RET%
-ELSEIF (DBM% = 3)
-F% := FIND(A$ )
+TMP$
+NO$
+LST$
+AMNT%
+CONS%
+EQUIP%
+FOOD%
+TOOL%
+WORN%
+SUCC$
+FAIL$
+DAMAGE%
+DEF%
+LOCDESC$
+EQUI%
+TOP::
+
+MODE% := 1
+WHILE (MODE% <> 4)
+TMP$ := FromLst$:("Sword", )("Backpack", )("items")
 CLS()
-PRINT("Finding ")
-PRINT(A$)
-<nl>
-
-PRINT(D.LST$)
-<nl>
-
-PRINT(D.CANEQ%)
-<nl>
-
-PRINT(D.ARMOUR%)
-<nl>
-
-PRINT(F%)
+IF (MODE% = 1)
+invtool:(0, )(TMP$, )(3)
+PRINT("Do Use ")
+PRINT(TMP$)
 <nl>
 
 GET()
-IF (D.FOOD% = 1)
-IF (PLHEALT% < MAXPLH%)
+ELSEIF (MODE% = 2)
+invtool:((UMIN 1), )(TMP$, )(1)
+PRINT("Do Drop ")
+PRINT(TMP$)
+<nl>
+
+GET()
+ELSEIF (MODE% = 3)
 CLS()
-LOW$ := LOWER$(A$ )
-CLS()
-DISP$ := (("You eat the " + LOW$) + ".")
-disptext:(4, )(DISP$)
-CLS()
-PLHEALT% := (PLHEALT% + D.STATV%)
-IF (PLHEALT% >= MAXPLH%)
-PLHEALT% := MAXPLH%
-ENDIF
-ELSE
-CLS()
-PRINT("You are at maximum health")
+PRINT(EQUI%)
 <nl>
 
 GET()
 CLS()
-ENDIF
-ENDIF
-IF (D.CANEQ% = 1)
-IF (D.WEAP% = 1)
-LOW$ := LOWER$(A$ )
+disptext:(4, )(IDESC$)
 CLS()
-DISP$ := (("You take firm hold of your " + LOW$) + ".")
-disptext:(4, )(DISP$)
-PLATT% := D.STATV%
-PLWEAP$ := D.LST$
-CLOSE()
-
-ELSEIF (D.ARMOUR% = 1)
-LOW$ := LOWER$(A$ )
-CLS()
-DISP$ := (("You give the " + LOW$) + " a look over and put it on.")
-disptext:(4, )(DISP$)
-PLDEF% := D.STATV%
-PLARM$ := D.LST$
-CLOSE()
-
-ENDIF
-ENDIF
-CLOSE()
-RET%
+ELSEIF (MODE% = 4)
 ELSE
+PRINT("Error 1 in INV.OPL")
+<nl>
 
 ENDIF
-GOTO CLS
+ENDWH
+GOTO EXIT
 PROBLEM::
 
 CLS()
@@ -103,17 +63,13 @@ PRINT(" The Battery is Low    Switching off     change the Battery")
 PAUSE((UMIN 50) )
 
 STOP()
-ELSEIF (ERR() = 199)
-CLOSE()
-PRINT("Found and corrected an error..")
+ELSEIF (ERR() = 252)
+PRINT(TMP$)
+PRINT(" invalid")
 <nl>
 
-ELSEIF (((ERR() = 201) OR (ERR() = 207)) OR (ERR() = 220))
-PRINT("There is an error in item Database")
-<nl>
-
-ELSEIF (ERR() = 209)
-PRINT("There is a database conflict; Logical D.")
+AT(1 2 )
+PRINT("careful with Numbers")
 <nl>
 
 ELSE
@@ -128,102 +84,64 @@ PRINT("[SPACE] continues")
 <nl>
 
 GET()
-CLS::
+GOTO TOP
+STOP()
+EXIT::
+
+
 
 DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+TOP::
 
-DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-
-"A:items"
-MX% := COUNT()
-IF (DBM% = 1)
-F% := FIND(A$ )
-D.AMNT% := (D.AMNT% + MAG%)
-IF (D.AMNT% < 0)
-D.AMNT% := 0
-ENDIF
-RET% := D.AMNT%
-UPDATE()
-CLOSE()
-RET%
-ELSEIF (DBM% = 2)
-RET% := D.AMNT%
-CLOSE()
-RET%
-ELSEIF (DBM% = 3)
-F% := FIND(A$ )
+MODE% := 1
+WHILE (MODE% <> 4)
+TMP$ := FromLst$:("Sword", )("Backpack", )("items")
 CLS()
-PRINT("Finding ")
-PRINT(A$)
-<nl>
-
-PRINT(D.LST$)
-<nl>
-
-PRINT(D.CANEQ%)
-<nl>
-
-PRINT(D.ARMOUR%)
-<nl>
-
-PRINT(F%)
+IF (MODE% = 1)
+DROP()
+PRINT("Do Use ")
+PRINT(TMP$)
 <nl>
 
 DROP()
-IF (D.FOOD% = 1)
-IF (PLHEALT% < MAXPLH%)
+ELSEIF (MODE% = 2)
+DROP()
+PRINT("Do Drop ")
+PRINT(TMP$)
+<nl>
+
+DROP()
+ELSEIF (MODE% = 3)
 CLS()
-LOW$ := LOWER$(A$ )
-CLS()
-DISP$ := (("You eat the " + LOW$) + ".")
+PRINT(EQUI%)
+<nl>
+
 DROP()
 CLS()
-PLHEALT% := (PLHEALT% + D.STATV%)
-IF (PLHEALT% >= MAXPLH%)
-PLHEALT% := MAXPLH%
-ENDIF
+DROP()
+CLS()
+ELSEIF (MODE% = 4)
 ELSE
-CLS()
-PRINT("You are at maximum health")
+PRINT("Error 1 in INV.OPL")
 <nl>
 
-DROP()
-CLS()
 ENDIF
-ENDIF
-IF (D.CANEQ% = 1)
-IF (D.WEAP% = 1)
-LOW$ := LOWER$(A$ )
-CLS()
-DISP$ := (("You take firm hold of your " + LOW$) + ".")
-DROP()
-PLATT% := D.STATV%
-PLWEAP$ := D.LST$
-CLOSE()
-
-ELSEIF (D.ARMOUR% = 1)
-LOW$ := LOWER$(A$ )
-CLS()
-DISP$ := (("You give the " + LOW$) + " a look over and put it on.")
-DROP()
-PLDEF% := D.STATV%
-PLARM$ := D.LST$
-CLOSE()
-
-ENDIF
-ENDIF
-CLOSE()
-RET%
-ELSE
-
-ENDIF
-GOTO CLS
+ENDWH
+GOTO EXIT
 PROBLEM::
 
 CLS()
@@ -234,17 +152,13 @@ PRINT(" The Battery is Low    Switching off     change the Battery")
 PAUSE((UMIN 50) )
 
 STOP()
-ELSEIF (ERR() = 199)
-CLOSE()
-PRINT("Found and corrected an error..")
+ELSEIF (ERR() = 252)
+PRINT(TMP$)
+PRINT(" invalid")
 <nl>
 
-ELSEIF (((ERR() = 201) OR (ERR() = 207)) OR (ERR() = 220))
-PRINT("There is an error in item Database")
-<nl>
-
-ELSEIF (ERR() = 209)
-PRINT("There is a database conflict; Logical D.")
+AT(1 2 )
+PRINT("careful with Numbers")
 <nl>
 
 ELSE
@@ -259,4 +173,6 @@ PRINT("[SPACE] continues")
 <nl>
 
 DROP()
-CLS::
+GOTO TOP
+STOP()
+EXIT::

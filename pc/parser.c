@@ -4870,20 +4870,21 @@ int check_textlabel(int *index, char *label_dest, NOBJ_VARTYPE *type)
     }
 
   dbprintf("'%s' is a text label chstr:'%s'", label_dest, chstr);
-  
-
-
   dbprintf("Exit char:%c", cline[idx]);
-  
+
+  chstr[0] = cline[idx];
+   
   // Work out the type of the label
   switch(cline[idx])
     {
     case '%':
+      strcat(label_dest, chstr);
       *type = NOBJ_VARTYPE_INT;
       idx++;
       break;
 
     case '$':
+      strcat(label_dest, chstr);
       *type = NOBJ_VARTYPE_STR;
       idx++;
       break;
@@ -5609,8 +5610,10 @@ int scan_proc_call(void)
 
       for(int i= 0; i<NUM_PROC_CALL_INFO; i++)
 	{
+	  dbprintf("Checking suffix:'%s'", &(cline[idx]));
 	  if( check_literal(&idx, proc_call_info[i].suffix) )
 	    {
+	      
 	      // We are as far as the end of the proc name, plus colon
 	      // scan that far
 	      
@@ -5633,12 +5636,26 @@ int scan_proc_call(void)
 		  scan_literal(" )");
 		}
 	      
-	      dbprintf("ret1");
+	   
 	      op.num_parameters = num_expr;
 	      op.type = proc_call_info[i].type;
 	      op.buf_id = EXP_BUFF_ID_PROC_CALL;
 	      strcpy(op.name, textlabel);
+#if 0
+	      // Proc name has type char
+	      switch(type)
+		{
+		case NOBJ_VARTYPE_INT:
+		  strcat(op.name, "%");
+		  break;
+
+		case NOBJ_VARTYPE_STR:
+		  strcat(op.name, "$");
+		  break;
+		}
+#endif
 	      process_token(&op);
+	      dbprintf("ret1");
 	      return(1);
 	    }
 	}
