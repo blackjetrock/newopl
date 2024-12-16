@@ -1,82 +1,104 @@
 
+LINES%
 
-
-IF (UNOT EXIST("a:saveg" ))
-PRINT("Creating new file")
-<nl>
-
-"a:saveg"
-PRINT("File created!")
-<nl>
-
-ELSE
-PRINT("Opening file")
-<nl>
-
-"a:saveg"
-FIRST()
-ERASE()
-PRINT("Opened file")
-<nl>
-
-ENDIF
-A.M1$ := MAP$(1)
-A.M2$ := MAP$(2)
-A.M3$ := MAP$(3)
-A.M4$ := MAP$(4)
-A.HP% := PLHEALT%
-A.ATT% := PLATT%
-A.DEF% := PLDEF%
-A.MOVES% := PLMOVES%
-A.MAXHP% := PLMAXHE%
-A.SX% := STARTX%
-A.SY% := STARTY%
-A.PX% := PX%
-A.PY% := PY%
-APPEND()
-CLOSE()
-PRINT("Game saved successfully!")
-<nl>
+PCOUNT%
+STR1$
+LENSTR% := LEN(STR$ )
+I% := 0
+J% := 0
+LASTSP% := 0
+FIRSTSP% := 0
+WHILE (J% < LENSTR%)
+IF (LENSTR% <= 20)
+PRINT(STR$)
 
 GET()
 
-
-
-IF (UNOT EXIST("a:saveg" ))
-PRINT("Creating new file")
-<nl>
-
-"a:saveg"
-PRINT("File created!")
-<nl>
-
 ELSE
-PRINT("Opening file")
+I% := 0
+FIRSTSP% := (J% + 1)
+WHILE (I% < 19)
+J% := (J% + 1)
+IF (J% >= (LENSTR% + 1))
+LASTSP% := J%
+
+ELSEIF (MID$(STR$ J% 1 ) = " ")
+LASTSP% := J%
+ELSE
+ENDIF
+I% := (I% + 1)
+ENDWH
+STR1$ := MID$(STR$ FIRSTSP% (LASTSP% - FIRSTSP%) )
+FIRSTSP% := (FIRSTSP% - 1)
+J% := LASTSP%
+IF (PCOUNT% < LINES%)
+PRINT(STR1$)
 <nl>
 
-"a:saveg"
-FIRST()
-ERASE()
-PRINT("Opened file")
-<nl>
+IF (J% >= (LENSTR% + 1))
+GET()
 
 ENDIF
-A.M1$ := MAP$(1)
-A.M2$ := MAP$(2)
-A.M3$ := MAP$(3)
-A.M4$ := MAP$(4)
-A.HP% := PLHEALT%
-A.ATT% := PLATT%
-A.DEF% := PLDEF%
-A.MOVES% := PLMOVES%
-A.MAXHP% := PLMAXHE%
-A.SX% := STARTX%
-A.SY% := STARTY%
-A.PX% := PX%
-A.PY% := PY%
-APPEND()
-CLOSE()
-PRINT("Game saved successfully!")
-<nl>
+PCOUNT% := (PCOUNT% + 1)
+IF (PCOUNT% = LINES%)
+PCOUNT% := 0
+GET()
+CLS()
+ENDIF
+ELSE
+CLS()
+ENDIF
+ENDIF
+ENDWH
 
 DROP()
+
+DROP()
+DROP()
+LENSTR% := LEN(STR$ )
+I% := 0
+J% := 0
+LASTSP% := 0
+FIRSTSP% := 0
+WHILE (J% < LENSTR%)
+IF (LENSTR% <= 20)
+PRINT(STR$)
+
+DROP()
+
+ELSE
+I% := 0
+FIRSTSP% := (J% + 1)
+WHILE (I% < 19)
+J% := (J% + 1)
+IF (J% >= (LENSTR% + 1))
+LASTSP% := J%
+
+ELSEIF (MID$(STR$ J% 1 ) = " ")
+LASTSP% := J%
+ELSE
+ENDIF
+I% := (I% + 1)
+ENDWH
+STR1$ := MID$(STR$ FIRSTSP% (LASTSP% - FIRSTSP%) )
+FIRSTSP% := (FIRSTSP% - 1)
+J% := LASTSP%
+IF (PCOUNT% < LINES%)
+PRINT(STR1$)
+<nl>
+
+IF (J% >= (LENSTR% + 1))
+DROP()
+
+ENDIF
+PCOUNT% := (PCOUNT% + 1)
+IF (PCOUNT% = LINES%)
+PCOUNT% := 0
+DROP()
+CLS()
+ENDIF
+ELSE
+CLS()
+ENDIF
+ENDIF
+ENDWH

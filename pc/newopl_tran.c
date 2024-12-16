@@ -868,6 +868,8 @@ void do_cond_fixup(void)
   
   for(int i=0; i<cond_fixup_i; i++)
     {
+      dbprintf("Fixing %d %s" , i, exp_buffer_id_str[cond_fixup[i].buf_id]);
+      
       switch(cond_fixup[i].buf_id)
 	{
 	case EXP_BUFF_ID_LABEL:
@@ -911,9 +913,8 @@ void do_cond_fixup(void)
 	      else
 		{
 		  // There is a WHILE
-		  // Calculate offset (we add 2 as we want to branch after the ENDWH goto and the target is the
-		  // fixed up branch offset
-		  branch_offset = (target_idx - cond_fixup[i].offset_idx)+2;
+		  // Calculate offset
+		  branch_offset = (target_idx - cond_fixup[i].offset_idx);
 		  until_offset = branch_offset;
 		  
 		  // Fill in the offset
@@ -921,7 +922,7 @@ void do_cond_fixup(void)
 		  set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
 		}
 	      
-	      return;
+	      //	      return;
 	    }
 	  else
 	    {

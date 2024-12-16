@@ -1,60 +1,96 @@
-'savegame:'
-'    IF NOT EXIST("a:saveg")'
-'IF NOT EXIST("a:saveg")'
-'    PRINT "Creating new file"'
-'        CREATE "a:saveg", A, m1$, m2$, m3$, m4$, hp%, att%, def%, moves%, maxhp%, sx%, sy%, px%, py%'
-'    PRINT "File created!"'
-'    ELSE'
-'    PRINT "Opening file"'
-'        OPEN "a:saveg", A, m1$, m2$, m3$, m4$, hp%, att%, def%, moves%, maxhp%, sx%, sy%, px%, py%'
-'    FIRST'
-'    ERASE'
-'    PRINT "Opened file"'
+'disptext:(str$,lines%)'
+'  LOCAL lastsp%, firstsp%, i%, lenStr%, j%, pcount%'
+'LOCAL lastsp%, firstsp%, i%, lenStr%, j%, pcount%'
+'  LOCAL str1$(20)'
+'  lenStr% = LEN(str$)'
+'  i% = 0'
+'  j% = 0'
+'  lastsp% = 0'
+'  firstsp% = 0'
+' WHILE j% < lenStr%'
+'  IF lenStr% <= 20'
+'   PRINT str$; '
+'   GET'
+'   BREAK'
+'  ELSE'
+'   i% = 0'
+'   firstsp% = j%+1'
+'    WHILE i% < 19'
+'     j% = j% + 1'
+'      IF j% >= lenStr% + 1'
+'       lastsp% = j% '
+'       BREAK'
+'      ELSEIF MID$(str$, j%, 1) = " "'
+'       lastsp% = j% '
+'      ELSE    '
+'      ENDIF'
+'        i% = i% + 1'
+'    ENDWH'
+'   str1$ = MID$(str$, firstsp%, lastsp%-firstsp%)'
+'   firstsp% = firstsp%-1 '
+'   j% = lastsp%'
+'     IF pcount% < lines%'
+'      PRINT str1$'
+'       IF j% >= lenStr% + 1   '
+'        GET'
+'        BREAK'
+'       ENDIF '
+'      pcount% = pcount% + 1 '
+'       IF pcount% = lines%'
+'        pcount% = 0'
+'        GET     '
+'        CLS'
+'       ENDIF    '
+'      ELSE'
+'      CLS'
+'     ENDIF'
 '    ENDIF'
-'    A.m1$ = map$(1)    : '
-'    A.m2$ = map$(2)    : '
-'    A.m3$ = map$(3)    : '
-'    A.m4$ = map$(4)    : '
-'    A.hp% = plHealt%   : '
-'    A.att% = plAtt%    : '
-'    A.def% = plDef%    : '
-'    A.moves% = plMoves% : '
-'    A.maxhp% = plMaxHe% : '
-'    A.sx% = startX%    : '
-'    A.sy% = startY%    : '
-'    A.px% = px%        : '
-'    A.py% = py%        : '
-'    APPEND'
-'    CLOSE'
-'    PRINT "Game saved successfully!"'
-'    GET'
-'savegame:'
-'    IF NOT EXIST("a:saveg")'
-'IF NOT EXIST("a:saveg")'
-'    PRINT "Creating new file"'
-'        CREATE "a:saveg", A, m1$, m2$, m3$, m4$, hp%, att%, def%, moves%, maxhp%, sx%, sy%, px%, py%'
-'    PRINT "File created!"'
-'    ELSE'
-'    PRINT "Opening file"'
-'        OPEN "a:saveg", A, m1$, m2$, m3$, m4$, hp%, att%, def%, moves%, maxhp%, sx%, sy%, px%, py%'
-'    FIRST'
-'    ERASE'
-'    PRINT "Opened file"'
+' ENDWH'
+'disptext:(str$,lines%)'
+'  LOCAL lastsp%, firstsp%, i%, lenStr%, j%, pcount%'
+'LOCAL lastsp%, firstsp%, i%, lenStr%, j%, pcount%'
+'  LOCAL str1$(20)'
+'  lenStr% = LEN(str$)'
+'  i% = 0'
+'  j% = 0'
+'  lastsp% = 0'
+'  firstsp% = 0'
+' WHILE j% < lenStr%'
+'  IF lenStr% <= 20'
+'   PRINT str$; '
+'   GET'
+'   BREAK'
+'  ELSE'
+'   i% = 0'
+'   firstsp% = j%+1'
+'    WHILE i% < 19'
+'     j% = j% + 1'
+'      IF j% >= lenStr% + 1'
+'       lastsp% = j% '
+'       BREAK'
+'      ELSEIF MID$(str$, j%, 1) = " "'
+'       lastsp% = j% '
+'      ELSE    '
+'      ENDIF'
+'        i% = i% + 1'
+'    ENDWH'
+'   str1$ = MID$(str$, firstsp%, lastsp%-firstsp%)'
+'   firstsp% = firstsp%-1 '
+'   j% = lastsp%'
+'     IF pcount% < lines%'
+'      PRINT str1$'
+'       IF j% >= lenStr% + 1   '
+'        GET'
+'        BREAK'
+'       ENDIF '
+'      pcount% = pcount% + 1 '
+'       IF pcount% = lines%'
+'        pcount% = 0'
+'        GET     '
+'        CLS'
+'       ENDIF    '
+'      ELSE'
+'      CLS'
+'     ENDIF'
 '    ENDIF'
-'    A.m1$ = map$(1)    : '
-'    A.m2$ = map$(2)    : '
-'    A.m3$ = map$(3)    : '
-'    A.m4$ = map$(4)    : '
-'    A.hp% = plHealt%   : '
-'    A.att% = plAtt%    : '
-'    A.def% = plDef%    : '
-'    A.moves% = plMoves% : '
-'    A.maxhp% = plMaxHe% : '
-'    A.sx% = startX%    : '
-'    A.sy% = startY%    : '
-'    A.px% = px%        : '
-'    A.py% = py%        : '
-'    APPEND'
-'    CLOSE'
-'    PRINT "Game saved successfully!"'
-'    GET'
+' ENDWH'

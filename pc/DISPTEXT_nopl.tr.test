@@ -70,9 +70,9 @@ QCode
 003E: 91       GET     (bytes code:-)
 003F: 83       drop integer from stack     (bytes code:-)
 0040: 51       GOTO     (bytes code:D)
-0041: Dest:011F (Dist:00DE)
+0041: Dest:011D (Dist:00DC)
 0043: 51       GOTO     (bytes code:D)
-0044: Dest:0044 (Dist:0000)
+0044: Dest:011A (Dist:00D6)
 0046: 0D       Push local/global integer variable reference     (bytes code:v)
 0047: FFF4       (65524)
 0049: 22       Push integer literal     (bytes code:I)
@@ -92,7 +92,7 @@ QCode
 005C: 0013       (19)
 005E: 27       Less than integer     (bytes code:-)
 005F: 7E       Branch if false     (bytes code:D)
-0060: Dest:0060 (Dist:0000)
+0060: Dest:00B1 (Dist:0051)
 0062: 0D       Push local/global integer variable reference     (bytes code:v)
 0063: FFF0       (65520)
 0065: 00       Push local/global integer variable value     (bytes code:v)
@@ -110,16 +110,16 @@ QCode
 0076: 2D       Plus integer     (bytes code:-)
 0077: 2A       Greater than equal integer     (bytes code:-)
 0078: 7E       Branch if false     (bytes code:D)
-0079: Dest:0079 (Dist:0000)
+0079: Dest:0088 (Dist:000F)
 007B: 0D       Push local/global integer variable reference     (bytes code:v)
 007C: FFF8       (65528)
 007E: 00       Push local/global integer variable value     (bytes code:v)
 007F: FFF0       (65520)
 0081: 7F       Assign integer     (bytes code:-)
 0082: 51       GOTO     (bytes code:D)
-0083: Dest:0083 (Dist:0000)
+0083: Dest:00B1 (Dist:002E)
 0085: 51       GOTO     (bytes code:D)
-0086: Dest:0086 (Dist:0000)
+0086: Dest:00A3 (Dist:001D)
 0088: 09       Push parameter/external string variable value     (bytes code:V)
 0089: FFFC       (65532)
 008B: 00       Push local/global integer variable value     (bytes code:v)
@@ -132,14 +132,14 @@ QCode
 0094: ' '
 0095: 4A       Equal string     (bytes code:-)
 0096: 7E       Branch if false     (bytes code:D)
-0097: Dest:0097 (Dist:0000)
+0097: Dest:00A3 (Dist:000C)
 0099: 0D       Push local/global integer variable reference     (bytes code:v)
 009A: FFF8       (65528)
 009C: 00       Push local/global integer variable value     (bytes code:v)
 009D: FFF0       (65520)
 009F: 7F       Assign integer     (bytes code:-)
 00A0: 51       GOTO     (bytes code:D)
-00A1: Dest:00A1 (Dist:0000)
+00A1: Dest:00A3 (Dist:0002)
 00A3: 0D       Push local/global integer variable reference     (bytes code:v)
 00A4: FFF4       (65524)
 00A6: 00       Push local/global integer variable value     (bytes code:v)
@@ -149,7 +149,7 @@ QCode
 00AC: 2D       Plus integer     (bytes code:-)
 00AD: 7F       Assign integer     (bytes code:-)
 00AE: 51       GOTO     (bytes code:D)
-00AF: Dest:00AF (Dist:0000)
+00AF: Dest:0058 (Dist:FFFFFFA9)
 00B1: 0F       Push local/global string variable reference     (bytes code:v)
 00B2: FFD9       (65497)
 00B4: 09       Push parameter/external string variable value     (bytes code:V)
@@ -182,7 +182,7 @@ QCode
 00D9: FFFA       (65530)
 00DB: 27       Less than integer     (bytes code:-)
 00DC: 7E       Branch if false     (bytes code:D)
-00DD: Dest:00DD (Dist:0000)
+00DD: Dest:0119 (Dist:003C)
 00DF: 02       Push local/global string variable value     (bytes code:v)
 00E0: FFD9       (65497)
 00E2: 71       PRINT string     (bytes code:-)
@@ -196,11 +196,11 @@ QCode
 00ED: 2D       Plus integer     (bytes code:-)
 00EE: 2A       Greater than equal integer     (bytes code:-)
 00EF: 7E       Branch if false     (bytes code:D)
-00F0: Dest:00F0 (Dist:0000)
+00F0: Dest:00F7 (Dist:0007)
 00F2: 91       GET     (bytes code:-)
 00F3: 83       drop integer from stack     (bytes code:-)
 00F4: 51       GOTO     (bytes code:D)
-00F5: Dest:00F5 (Dist:0000)
+00F5: Dest:011D (Dist:0028)
 00F7: 0D       Push local/global integer variable reference     (bytes code:v)
 00F8: FFEE       (65518)
 00FA: 00       Push local/global integer variable value     (bytes code:v)
@@ -215,7 +215,7 @@ QCode
 0106: FFFA       (65530)
 0108: 2C       Equal integer     (bytes code:-)
 0109: 7E       Branch if false     (bytes code:D)
-010A: Dest:010A (Dist:0000)
+010A: Dest:0116 (Dist:000C)
 010C: 0D       Push local/global integer variable reference     (bytes code:v)
 010D: FFEE       (65518)
 010F: 22       Push integer literal     (bytes code:I)
@@ -225,10 +225,10 @@ QCode
 0114: 83       drop integer from stack     (bytes code:-)
 0115: 4E       CLS     (bytes code:-)
 0116: 51       GOTO     (bytes code:D)
-0117: Dest:0117 (Dist:0000)
+0117: Dest:011A (Dist:0003)
 0119: 4E       CLS     (bytes code:-)
 011A: 51       GOTO     (bytes code:D)
-011B: Dest:011B (Dist:0000)
+011B: Dest:0026 (Dist:FFFFFF0B)
 011D: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
@@ -237,17 +237,17 @@ QCode Data
 0010:7F 0D FF F0 22 00 00 7F 0D FF F8 22 00 00 7F 0D 
 0020:FF F6 22 00 00 7F 00 FF F0 00 FF F2 27 7E 00 EF 
 0030:00 FF F2 22 00 14 28 7E 00 0E 09 FF FC 71 91 83 
-0040:51 00 DE 51 00 00 0D FF F4 22 00 00 7F 0D FF F6 
+0040:51 00 DC 51 00 D6 0D FF F4 22 00 00 7F 0D FF F6 
 0050:00 FF F0 22 00 01 2D 7F 00 FF F4 22 00 13 27 7E 
-0060:00 00 0D FF F0 00 FF F0 22 00 01 2D 7F 00 FF F0 
-0070:00 FF F2 22 00 01 2D 2A 7E 00 00 0D FF F8 00 FF 
-0080:F0 7F 51 00 00 51 00 00 09 FF FC 00 FF F0 22 00 
-0090:01 C2 24 01 20 4A 7E 00 00 0D FF F8 00 FF F0 7F 
-00A0:51 00 00 0D FF F4 00 FF F4 22 00 01 2D 7F 51 00 
-00B0:00 0F FF D9 09 FF FC 00 FF F6 00 FF F8 00 FF F6 
+0060:00 51 0D FF F0 00 FF F0 22 00 01 2D 7F 00 FF F0 
+0070:00 FF F2 22 00 01 2D 2A 7E 00 0F 0D FF F8 00 FF 
+0080:F0 7F 51 00 2E 51 00 1D 09 FF FC 00 FF F0 22 00 
+0090:01 C2 24 01 20 4A 7E 00 0C 0D FF F8 00 FF F0 7F 
+00A0:51 00 02 0D FF F4 00 FF F4 22 00 01 2D 7F 51 FF 
+00B0:A9 0F FF D9 09 FF FC 00 FF F6 00 FF F8 00 FF F6 
 00C0:2E C2 81 0D FF F6 00 FF F6 22 00 01 2E 7F 0D FF 
-00D0:F0 00 FF F8 7F 00 FF EE 07 FF FA 27 7E 00 00 02 
+00D0:F0 00 FF F8 7F 00 FF EE 07 FF FA 27 7E 00 3C 02 
 00E0:FF D9 71 73 00 FF F0 00 FF F2 22 00 01 2D 2A 7E 
-00F0:00 00 91 83 51 00 00 0D FF EE 00 FF EE 22 00 01 
-0100:2D 7F 00 FF EE 07 FF FA 2C 7E 00 00 0D FF EE 22 
-0110:00 00 7F 91 83 4E 51 00 00 4E 51 00 00 7B 
+00F0:00 07 91 83 51 00 28 0D FF EE 00 FF EE 22 00 01 
+0100:2D 7F 00 FF EE 07 FF FA 2C 7E 00 0C 0D FF EE 22 
+0110:00 00 7F 91 83 4E 51 00 03 4E 51 FF 0B 7B 
