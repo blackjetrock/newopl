@@ -2255,9 +2255,10 @@ void set_op_var_type(OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
 
 //------------------------------------------------------------------------------
 
-int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access)
+int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, char logical_file)
 {
-  char vname[300];
+  char vname[NOBJ_DECLARE_VARNAME_MAXLEN];
+  char vname2[NOBJ_DECLARE_VARNAME_MAXLEN];
   char chstr[2];
   int idx = cline_i;
   OP_STACK_ENTRY op;
@@ -2281,6 +2282,14 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access)
 #if NOPL_CONFIG_FORCE_VARS_UPPERCASE
       to_upper_str(vname);
 #endif
+      if( logical_file != ' ' )
+	{
+	  vname2[0] = logical_file;
+	  vname2[1] = '.';
+	  vname2[2] = '\0';
+	  strcat(vname2, vname);
+	  strcpy(vname, vname2);
+	}
       
       dbprintf("%s: '%s' vname='%s'", __FUNCTION__, &(cline[cline_i]), vname);
       
@@ -3494,7 +3503,7 @@ int scan_atom(void)
     {
       // Variable
       init_var_info(&vi);
-      if(scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_READ))
+      if(scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_READ, ' '))
 	{
 	  print_var_info(&vi);
 	  dbprintf("ret1");
@@ -4008,7 +4017,7 @@ int scan_expression_list(int *num_expressions, int insert_types)
 // Scans a logical file ID and puts the corresponding token in the stream
 //
 
-int scan_logical_file(void)
+int scan_logical_file(char *logical_file)
 {
   OP_STACK_ENTRY op;
   int idx = cline_i;
@@ -4026,6 +4035,7 @@ int scan_logical_file(void)
       cline_i = idx;
       op.buf_id = EXP_BUFF_ID_LOGICALFILE;
       strcpy(op.name, "A");
+      *logical_file = 'A';
       process_token(&op);
       dbprintf("ret1:");
       return(1);
@@ -4038,6 +4048,7 @@ int scan_logical_file(void)
       cline_i = idx;
       op.buf_id = EXP_BUFF_ID_LOGICALFILE;
       strcpy(op.name, "B");
+      *logical_file = 'B';
       process_token(&op);
       dbprintf("ret1:");
       return(1);
@@ -4050,6 +4061,7 @@ int scan_logical_file(void)
       cline_i = idx;
       op.buf_id = EXP_BUFF_ID_LOGICALFILE;
       strcpy(op.name, "C");
+      *logical_file = 'C';
       process_token(&op);
       dbprintf("ret1:");
       return(1);
@@ -4062,6 +4074,7 @@ int scan_logical_file(void)
       cline_i = idx;
       op.buf_id = EXP_BUFF_ID_LOGICALFILE;
       strcpy(op.name, "D");
+      *logical_file = 'D';
       process_token(&op);
       dbprintf("ret1:");
       return(1);
@@ -4117,8 +4130,9 @@ int scan_use(void)
 	      
       finalise_expression();
       output_expression_start(&cline[cline_i]);
-      
-      if( scan_logical_file() )
+
+      char logical_file;
+      if( scan_logical_file(&logical_file) )
 	{
 	  dbprintf("ret1");
 	  return(1);
@@ -4166,14 +4180,12 @@ int scan_createopen_list(char *keyword, int create_nopen, int trapped)
 	 {
 	   scan_literal(" ,");
 	 }
-       
      }
    else
      {
        dbprintf("ret0: Not an expression for file name");
        return(0);
      }
-   
    
    // We now put the command into the output
    op.buf_id = EXP_BUFF_ID_META;
@@ -4182,9 +4194,11 @@ int scan_createopen_list(char *keyword, int create_nopen, int trapped)
    op.trapped = trapped;
    
    process_token(&op);
-  
+
+   char logical_file;
+   
    // logical file next
-   if( scan_logical_file() )
+   if( scan_logical_file(&logical_file) )
      {
        // All OK if this is a string
        idx = cline_i;
@@ -4192,7 +4206,6 @@ int scan_createopen_list(char *keyword, int create_nopen, int trapped)
 	 {
 	   scan_literal(" ,");
 	 }
-       
      }
    else
      {
@@ -4204,7 +4217,7 @@ int scan_createopen_list(char *keyword, int create_nopen, int trapped)
      {
        init_var_info(&vi);
        
-       if( scan_variable(&vi, VAR_FIELD, NOPL_OP_ACCESS_FIELDVAR))
+       if( scan_variable(&vi, VAR_FIELD, NOPL_OP_ACCESS_FIELDVAR, logical_file))
 	 {
 	   // Find the variable and update to make it a local or global
 	   srch_vi = find_var_info(vi.name, vi.type);
@@ -4780,7 +4793,7 @@ int scan_assignment(void)
   init_var_info(&vi);
   dbprintf("%s:", __FUNCTION__);
 
-  if( scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_WRITE) )
+  if( scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_WRITE, ' ') )
     {
       print_var_info(&vi);
       
@@ -5488,7 +5501,7 @@ int scan_input(int trapped)
     {
       cline_i = idx;
 
-      if(scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_WRITE))
+      if(scan_variable(&vi, VAR_REF, NOPL_OP_ACCESS_WRITE, ' '))
 	{
       
 	  strcpy(op.name, "INPUT");
@@ -7247,7 +7260,7 @@ int scan_param_list(void)
 	{
 	  init_var_info(&vi);
 	  
-	  if( scan_variable(&vi, VAR_PARAMETER, NOPL_OP_ACCESS_READ))
+	  if( scan_variable(&vi, VAR_PARAMETER, NOPL_OP_ACCESS_READ, ' '))
 	    {
 
 	      // Find the variable just added and make it a parameter
@@ -7381,7 +7394,7 @@ int scan_localglobal(int local_nglobal)
 	{
 	  init_var_info(&vi);
 	  
-	  if( scan_variable(&vi, VAR_DECLARE, NOPL_OP_ACCESS_READ))
+	  if( scan_variable(&vi, VAR_DECLARE, NOPL_OP_ACCESS_READ, ' '))
 	    {
 	      // Find the variable and update to make it a local or global
 	      srch_vi = find_var_info(vi.name, vi.type);

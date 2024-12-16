@@ -1,28 +1,26 @@
 
 Variables
 
-   0:  VAR: '             TPOS%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE6
-   1:  VAR: '             SPOS%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE4
-   2:  VAR: '                C%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE2
-   3:  VAR: '          SUCCESS%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE0
-   4:  VAR: '          SEHEALT%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFDE
-   5:  VAR: '          SPHEALT%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFDC
-   6:  VAR: '           HITBOX%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFDA
-   7:  VAR: '                G%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFD8
-   8:  VAR: '            SPEED%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFD6
-   9:  VAR: '                R%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFD4
-  10:  VAR: '          LOCDIFF%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFD2
-  11:  VAR: '                M%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFD0
-  12:  VAR: '              TMP$'      Local String            DECLARE max_str: 14 max_ary:  0 num_ind:  1 offset:FFC1
-  13:  VAR: '           ENHEALT'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFB8
-  14:  VAR: '             DIFF%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFC
-  15:  VAR: '          ENHEALT%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFA
-  16:  VAR: '           ENNAME$'   External String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF8
-  17:  VAR: '            ENATT%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF6
-  18:  VAR: '          PLHEALT%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF4
-  19:  VAR: '          PLMAXHE%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF2
-  20:  VAR: '            PLATT%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF0
-  21:  VAR: '             BIT4%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFEE
-  22:  VAR: '               PX%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFEC
-  23:  VAR: '               PY%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFEA
-  24:  VAR: '            TCHAR$'   External String            REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE8
+   0:  VAR: '             A.M1$'       Open String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:6D20
+   1:  VAR: '             A.M2$'       Open String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:6D20
+   2:  VAR: '             A.M3$'       Open String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:6D20
+   3:  VAR: '             A.M4$'       Open String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:6D20
+   4:  VAR: '             A.HP%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:6D20
+   5:  VAR: '            A.ATT%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:6D20
+   6:  VAR: '            A.DEF%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:6D20
+   7:  VAR: '          A.MOVES%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:6D20
+   8:  VAR: '          A.MAXHP%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:6D20
+   9:  VAR: '             A.SX%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:6D20
+  10:  VAR: '             A.SY%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:6D20
+  11:  VAR: '             A.PX%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:6D20
+  12:  VAR: '             A.PY%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:6D20
+  13:  VAR: '              MAP$'   External String  array     REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:FFFC
+  14:  VAR: '          PLHEALT%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFA
+  15:  VAR: '            PLATT%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF8
+  16:  VAR: '            PLDEF%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF6
+  17:  VAR: '          PLMOVES%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF4
+  18:  VAR: '          PLMAXHE%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF2
+  19:  VAR: '           STARTX%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF0
+  20:  VAR: '           STARTY%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFEE
+  21:  VAR: '               PX%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFEC
+  22:  VAR: '               PY%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFEA

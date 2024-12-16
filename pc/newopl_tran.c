@@ -511,6 +511,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "EDIT",              __,     __,                   __,        __,               QCO_EDIT, 0},
     {EXP_BUFF_ID_FUNCTION, "ERR",                __,     __,                   __,        __,               RTF_ERR, 0},
     {EXP_BUFF_ID_FUNCTION, "GET",               __,     __,                   __,        __,               RTF_GET, 0},
+    {EXP_BUFF_ID_FUNCTION, "ASC",               __,     __,                   __,        __,               RTF_ASC, 0},
     {EXP_BUFF_ID_FUNCTION, "EOF",               __,     __,                   __,        __,               RTF_EOF, 0},
     {EXP_BUFF_ID_FUNCTION, "MENUN",             __,     __,                   __,        __,               RTF_MENUN, 0},
     {EXP_BUFF_ID_FUNCTION, "GET$",              __,     __,                   __,        __,               RTF_SGET, 0},
@@ -556,6 +557,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "RND",               __,     __,                   __,        __,               RTF_RND, 0},
     {EXP_BUFF_ID_FUNCTION, "UDG",               __,     __,                   __,        __,               RTF_UDG, 0},
     {EXP_BUFF_ID_FUNCTION, "EXIST",             __,     __,                   __,        __,               RTF_EXIST, 0},
+    {EXP_BUFF_ID_FUNCTION, "CLOSE",             __,     __,                   __,        __,               QCO_CLOSE, 0},
     {EXP_BUFF_ID_FUNCTION, "RAD",               __,     __,                   __,        __,               RTF_RAD, 0},
     {EXP_BUFF_ID_FUNCTION, "SIN",               __,     __,                   __,        __,               RTF_SIN, 0},
     {EXP_BUFF_ID_FUNCTION, "COS",               __,     __,                   __,        __,               RTF_COS, 0},
@@ -1422,10 +1424,12 @@ void output_qcode_for_line(void)
 	      while( !((exp_buffer2[i].op.buf_id == EXP_BUFF_ID_META) && (strcmp(exp_buffer2[i].op.name, "ENDFIELDS")==0)) )
 		{
 		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer2[i].op.type);
-		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, strlen(exp_buffer2[i].op.name));
-		  for(int n=0;n<strlen(exp_buffer2[i].op.name);n++)
+
+		  // Put field variable name without the logical file character next
+		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, strlen(exp_buffer2[i].op.name)-2);
+		  for(int n=0;n<strlen(exp_buffer2[i].op.name)-2;n++)
 		    {
-		      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer2[i].op.name[n]);
+		      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer2[i].op.name[n+2]);
 		    }
 		  i++;
 		}
