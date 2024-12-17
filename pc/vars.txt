@@ -1,41 +1,16 @@
 
 Variables
 
-   0:  VAR: '          FULDESC$'     Global String            DECLARE max_str:107 max_ary:  0 num_ind:  1 offset:FE14
-   1:  VAR: '          ONECHAR$'     Global String            DECLARE max_str:  1 max_ary:  0 num_ind:  1 offset:FE11
-   2:  VAR: '            STATE%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FE0E
-   3:  VAR: '              MAP$'     Global String  array     DECLARE max_str: 20 max_ary:  4 num_ind:  2 offset:FDB8
-   4:  VAR: '          RANDVAL%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FDB5
-   5:  VAR: '             MENU%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FDB3
-   6:  VAR: '               PX%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FDB1
-   7:  VAR: '               PY%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FDAF
-   8:  VAR: '           PLWEAP$'     Global String            DECLARE max_str: 13 max_ary:  0 num_ind:  1 offset:FDA1
-   9:  VAR: '            PLARM$'     Global String            DECLARE max_str: 13 max_ary:  0 num_ind:  1 offset:FD92
-  10:  VAR: '            TCHAR$'     Global String            DECLARE max_str:  1 max_ary:  0 num_ind:  1 offset:FD8F
-  11:  VAR: '           TASCII%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD8C
-  12:  VAR: '              KEY%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD8A
-  13:  VAR: '            BIOME%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD88
-  14:  VAR: '             BIT0%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD86
-  15:  VAR: '             BIT1%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD84
-  16:  VAR: '             BIT2%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD82
-  17:  VAR: '             BIT3%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD80
-  18:  VAR: '             BIT4%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD7E
-  19:  VAR: '             BIT5%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD7C
-  20:  VAR: '             BIT6%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD7A
-  21:  VAR: '           ENNAME$'     Global String            DECLARE max_str: 10 max_ary:  0 num_ind:  1 offset:FD6F
-  22:  VAR: '          ENHEALT%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD6C
-  23:  VAR: '            ENATT%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD6A
-  24:  VAR: '           ENTYPE%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD68
-  25:  VAR: '          PLHEALT%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD66
-  26:  VAR: '            PLATT%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD64
-  27:  VAR: '            PLDEF%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD62
-  28:  VAR: '          PLMOVES%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD60
-  29:  VAR: '          PLMAXHE%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD5E
-  30:  VAR: '           STARTX%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD5C
-  31:  VAR: '           STARTY%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD5A
-  32:  VAR: '           MAXPLH%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD58
-  33:  VAR: '             DIFF%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD56
-  34:  VAR: '             MODE%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD54
-  35:  VAR: '          CMBSTAT%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FD52
-  36:  VAR: '            IDESC$'     Global String            DECLARE max_str:200 max_ary:  0 num_ind:  1 offset:FC89
-  37:  VAR: '             SLOT$'     Global String            DECLARE max_str:  1 max_ary:  0 num_ind:  1 offset:FC86
+   0:  VAR: '                A%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:F90F
+   1:  VAR: '               S1$'      Local String            DECLARE max_str: 10 max_ary:  0 num_ind:  1 offset:F904
+   2:  VAR: '                F2'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:F8FB
+   3:  VAR: '                X%'      Local Integer array     DECLARE max_str:  0 max_ary:  5 num_ind:  1 offset:F8EF
+   4:  VAR: '                S$'      Local String  array     DECLARE max_str:  7 max_ary:  5 num_ind:  2 offset:F8C5
+   5:  VAR: '                 F'      Local Float   array     DECLARE max_str:  0 max_ary: 20 num_ind:  1 offset:F822
+   6:  VAR: '             PEAR%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFCC
+   7:  VAR: '             DOOR$'     Global String            DECLARE max_str: 10 max_ary:  0 num_ind:  1 offset:FFC1
+   8:  VAR: '             OPEN%'     Global Integer array     DECLARE max_str:  0 max_ary: 50 num_ind:  1 offset:FF5A
+   9:  VAR: '              POS$'     Global String  array     DECLARE max_str: 30 max_ary: 20 num_ind:  2 offset:FCEC
+  10:  VAR: '             FLOAT'     Global Float   array     DECLARE max_str:  0 max_ary:123 num_ind:  1 offset:F911
+  11:  VAR: '           EXTTOP%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFD0
+  12:  VAR: '               SA$'   External String  array     REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:FFCE
