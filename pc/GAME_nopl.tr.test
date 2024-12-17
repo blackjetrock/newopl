@@ -25,7 +25,7 @@ Global variables (38)
 13: BIOME%           INT    (00) FD88
 14: BIT0%            INT    (00) FD86
 15: BIT1%            INT    (00) FD84
-16:                  INT    (00) FD82
+16: BIT2%            INT    (00) FD82
 17: BIT3%            INT    (00) FD80
 18: BIT4%            INT    (00) FD7E
 19: BIT5%            INT    (00) FD7C
@@ -41,12 +41,12 @@ Global variables (38)
 29: PLMAXHE%         INT    (00) FD5E
 30: STARTX%          INT    (00) FD5C
 31: STARTY%          INT    (00) FD5A
-32: MAXPLH%         INT    (00) 0000
-33: þkFþ           ?????? (FD) FD0D
-34: ýDŽý           ?????? (FC) FDC8
-35: üBSTAT%         INT    (00) FD52
+32: MAXPLH%          INT    (00) FD58
+33: DIFF%            INT    (00) FD56
+34: MODE%            INT    (00) FD54
+35: CMBSTAT%         INT    (00) FD52
 36: IDESC$           STR    (02) FC89
-37:                  STR    (02) FC86
+37: SLOT$            STR    (02) FC86
 
 External varname Size:0000
 External variables (0)

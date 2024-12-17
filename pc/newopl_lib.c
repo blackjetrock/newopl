@@ -71,7 +71,7 @@ int read_item_16(FILE *fp, uint16_t *ptr)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Returns th elength of a data type given the type and the byte after the
+// Returns the length of a data type given the type and the byte after the
 // type value
 //
 
