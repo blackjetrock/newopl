@@ -4251,9 +4251,12 @@ int scan_createopen_list(char *keyword, int create_nopen, int trapped)
      }
 
    // The file name is an expression on its own
+   op_stack_finalise();
+#if 0
    finalise_expression();
    output_expression_start(&cline[cline_i]);
-
+#endif
+   
    // We now put the command into the output
    op.buf_id = EXP_BUFF_ID_META;
    

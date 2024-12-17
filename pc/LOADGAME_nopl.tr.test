@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:0016
-QCode Space Size:0164
+QCode Space Size:0163
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -56,8 +56,7 @@ QCode
 0047: 24       Push string literal     (bytes code:S)
 0048: Len:7
 0049: 'a:saveg'
-0050: 85       drop string from stack     (bytes code:-)
-0051: 65       OPEN     (bytes code:f+list)
+0050: 65       OPEN     (bytes code:f+list)
       Logical file:00 (A)
         Type:02 (String)
         M1$
@@ -85,130 +84,130 @@ QCode
         PX%
         Type:00 (Integer)
         PY%
-009C: 88       End of field list for CREATE/OPEN     (bytes code:-)
-009D: 22       Push integer literal     (bytes code:I)
-009E: 0001       (1)
-00A0: 19       Pop integer index and push parameter/external string array variable reference     (bytes code:V)
-00A1: FFFC       (65532)
-00A3: 24       Push string literal     (bytes code:S)
-00A4: Len:3
-00A5: 'M1$'
-00A8: 1C       Push file field as string. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
-00A9: 00           (A)
-00AA: 81       Assign string     (bytes code:-)
-00AB: 22       Push integer literal     (bytes code:I)
-00AC: 0002       (2)
-00AE: 19       Pop integer index and push parameter/external string array variable reference     (bytes code:V)
-00AF: FFFC       (65532)
-00B1: 24       Push string literal     (bytes code:S)
-00B2: Len:3
-00B3: 'M2$'
-00B6: 1C       Push file field as string. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
-00B7: 00           (A)
-00B8: 81       Assign string     (bytes code:-)
-00B9: 22       Push integer literal     (bytes code:I)
-00BA: 0003       (3)
-00BC: 19       Pop integer index and push parameter/external string array variable reference     (bytes code:V)
-00BD: FFFC       (65532)
-00BF: 24       Push string literal     (bytes code:S)
-00C0: Len:3
-00C1: 'M3$'
-00C4: 1C       Push file field as string. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
-00C5: 00           (A)
-00C6: 81       Assign string     (bytes code:-)
-00C7: 22       Push integer literal     (bytes code:I)
-00C8: 0004       (4)
-00CA: 19       Pop integer index and push parameter/external string array variable reference     (bytes code:V)
-00CB: FFFC       (65532)
-00CD: 24       Push string literal     (bytes code:S)
-00CE: Len:3
-00CF: 'M4$'
-00D2: 1C       Push file field as string. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
-00D3: 00           (A)
-00D4: 81       Assign string     (bytes code:-)
-00D5: 14       Push parameter/external integer variable reference     (bytes code:V)
-00D6: FFFA       (65530)
-00D8: 24       Push string literal     (bytes code:S)
-00D9: Len:3
-00DA: 'HP%'
-00DD: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
-00DE: 00           (A)
-00DF: 7F       Assign integer     (bytes code:-)
-00E0: 14       Push parameter/external integer variable reference     (bytes code:V)
-00E1: FFF8       (65528)
-00E3: 24       Push string literal     (bytes code:S)
-00E4: Len:4
-00E5: 'ATT%'
-00E9: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
-00EA: 00           (A)
-00EB: 7F       Assign integer     (bytes code:-)
-00EC: 14       Push parameter/external integer variable reference     (bytes code:V)
-00ED: FFF6       (65526)
-00EF: 24       Push string literal     (bytes code:S)
-00F0: Len:4
-00F1: 'DEF%'
-00F5: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
-00F6: 00           (A)
-00F7: 7F       Assign integer     (bytes code:-)
-00F8: 14       Push parameter/external integer variable reference     (bytes code:V)
-00F9: FFF4       (65524)
-00FB: 24       Push string literal     (bytes code:S)
-00FC: Len:6
-00FD: 'MOVES%'
-0103: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
-0104: 00           (A)
-0105: 7F       Assign integer     (bytes code:-)
-0106: 14       Push parameter/external integer variable reference     (bytes code:V)
-0107: FFF2       (65522)
-0109: 24       Push string literal     (bytes code:S)
-010A: Len:6
-010B: 'MAXHP%'
-0111: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
-0112: 00           (A)
-0113: 7F       Assign integer     (bytes code:-)
-0114: 14       Push parameter/external integer variable reference     (bytes code:V)
-0115: FFF0       (65520)
-0117: 24       Push string literal     (bytes code:S)
-0118: Len:3
-0119: 'SX%'
-011C: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
-011D: 00           (A)
-011E: 7F       Assign integer     (bytes code:-)
-011F: 14       Push parameter/external integer variable reference     (bytes code:V)
-0120: FFEE       (65518)
-0122: 24       Push string literal     (bytes code:S)
-0123: Len:3
-0124: 'SY%'
-0127: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
-0128: 00           (A)
-0129: 7F       Assign integer     (bytes code:-)
-012A: 14       Push parameter/external integer variable reference     (bytes code:V)
-012B: FFEC       (65516)
-012D: 24       Push string literal     (bytes code:S)
-012E: Len:3
-012F: 'PX%'
-0132: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
-0133: 00           (A)
-0134: 7F       Assign integer     (bytes code:-)
-0135: 14       Push parameter/external integer variable reference     (bytes code:V)
-0136: FFEA       (65514)
-0138: 24       Push string literal     (bytes code:S)
-0139: Len:3
-013A: 'PY%'
-013D: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
-013E: 00           (A)
-013F: 7F       Assign integer     (bytes code:-)
-0140: 5C       CLOSE     (bytes code:-)
-0141: 24       Push string literal     (bytes code:S)
-0142: Len:25
-0143: 'Game loaded successfully!'
-015C: 71       PRINT string     (bytes code:-)
-015D: 73       PRINT newline     (bytes code:-)
-015E: 22       Push integer literal     (bytes code:I)
-015F: 0032       (50)
-0161: 32       unary minus integer     (bytes code:-)
-0162: 54       PAUSE     (bytes code:-)
-0163: 7B       RETURN (float 0)     (bytes code:-)
+009B: 88       End of field list for CREATE/OPEN     (bytes code:-)
+009C: 22       Push integer literal     (bytes code:I)
+009D: 0001       (1)
+009F: 19       Pop integer index and push parameter/external string array variable reference     (bytes code:V)
+00A0: FFFC       (65532)
+00A2: 24       Push string literal     (bytes code:S)
+00A3: Len:3
+00A4: 'M1$'
+00A7: 1C       Push file field as string. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
+00A8: 00           (A)
+00A9: 81       Assign string     (bytes code:-)
+00AA: 22       Push integer literal     (bytes code:I)
+00AB: 0002       (2)
+00AD: 19       Pop integer index and push parameter/external string array variable reference     (bytes code:V)
+00AE: FFFC       (65532)
+00B0: 24       Push string literal     (bytes code:S)
+00B1: Len:3
+00B2: 'M2$'
+00B5: 1C       Push file field as string. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
+00B6: 00           (A)
+00B7: 81       Assign string     (bytes code:-)
+00B8: 22       Push integer literal     (bytes code:I)
+00B9: 0003       (3)
+00BB: 19       Pop integer index and push parameter/external string array variable reference     (bytes code:V)
+00BC: FFFC       (65532)
+00BE: 24       Push string literal     (bytes code:S)
+00BF: Len:3
+00C0: 'M3$'
+00C3: 1C       Push file field as string. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
+00C4: 00           (A)
+00C5: 81       Assign string     (bytes code:-)
+00C6: 22       Push integer literal     (bytes code:I)
+00C7: 0004       (4)
+00C9: 19       Pop integer index and push parameter/external string array variable reference     (bytes code:V)
+00CA: FFFC       (65532)
+00CC: 24       Push string literal     (bytes code:S)
+00CD: Len:3
+00CE: 'M4$'
+00D1: 1C       Push file field as string. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
+00D2: 00           (A)
+00D3: 81       Assign string     (bytes code:-)
+00D4: 14       Push parameter/external integer variable reference     (bytes code:V)
+00D5: FFFA       (65530)
+00D7: 24       Push string literal     (bytes code:S)
+00D8: Len:3
+00D9: 'HP%'
+00DC: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
+00DD: 00           (A)
+00DE: 7F       Assign integer     (bytes code:-)
+00DF: 14       Push parameter/external integer variable reference     (bytes code:V)
+00E0: FFF8       (65528)
+00E2: 24       Push string literal     (bytes code:S)
+00E3: Len:4
+00E4: 'ATT%'
+00E8: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
+00E9: 00           (A)
+00EA: 7F       Assign integer     (bytes code:-)
+00EB: 14       Push parameter/external integer variable reference     (bytes code:V)
+00EC: FFF6       (65526)
+00EE: 24       Push string literal     (bytes code:S)
+00EF: Len:4
+00F0: 'DEF%'
+00F4: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
+00F5: 00           (A)
+00F6: 7F       Assign integer     (bytes code:-)
+00F7: 14       Push parameter/external integer variable reference     (bytes code:V)
+00F8: FFF4       (65524)
+00FA: 24       Push string literal     (bytes code:S)
+00FB: Len:6
+00FC: 'MOVES%'
+0102: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
+0103: 00           (A)
+0104: 7F       Assign integer     (bytes code:-)
+0105: 14       Push parameter/external integer variable reference     (bytes code:V)
+0106: FFF2       (65522)
+0108: 24       Push string literal     (bytes code:S)
+0109: Len:6
+010A: 'MAXHP%'
+0110: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
+0111: 00           (A)
+0112: 7F       Assign integer     (bytes code:-)
+0113: 14       Push parameter/external integer variable reference     (bytes code:V)
+0114: FFF0       (65520)
+0116: 24       Push string literal     (bytes code:S)
+0117: Len:3
+0118: 'SX%'
+011B: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
+011C: 00           (A)
+011D: 7F       Assign integer     (bytes code:-)
+011E: 14       Push parameter/external integer variable reference     (bytes code:V)
+011F: FFEE       (65518)
+0121: 24       Push string literal     (bytes code:S)
+0122: Len:3
+0123: 'SY%'
+0126: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
+0127: 00           (A)
+0128: 7F       Assign integer     (bytes code:-)
+0129: 14       Push parameter/external integer variable reference     (bytes code:V)
+012A: FFEC       (65516)
+012C: 24       Push string literal     (bytes code:S)
+012D: Len:3
+012E: 'PX%'
+0131: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
+0132: 00           (A)
+0133: 7F       Assign integer     (bytes code:-)
+0134: 14       Push parameter/external integer variable reference     (bytes code:V)
+0135: FFEA       (65514)
+0137: 24       Push string literal     (bytes code:S)
+0138: Len:3
+0139: 'PY%'
+013C: 1A       Push file field as integer. Is followed by 1 byte logical file name (0-3 for A-D)     (bytes code:f)
+013D: 00           (A)
+013E: 7F       Assign integer     (bytes code:-)
+013F: 5C       CLOSE     (bytes code:-)
+0140: 24       Push string literal     (bytes code:S)
+0141: Len:25
+0142: 'Game loaded successfully!'
+015B: 71       PRINT string     (bytes code:-)
+015C: 73       PRINT newline     (bytes code:-)
+015D: 22       Push integer literal     (bytes code:I)
+015E: 0032       (50)
+0160: 32       unary minus integer     (bytes code:-)
+0161: 54       PAUSE     (bytes code:-)
+0162: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
@@ -217,21 +216,21 @@ QCode Data
 0020:66 6F 75 6E 64 2E 71 73 22 00 32 32 54 7B 24 15 
 0030:4C 6F 61 64 69 6E 67 20 73 61 76 65 64 20 67 61 
 0040:6D 65 2E 2E 2E 71 73 24 07 61 3A 73 61 76 65 67 
-0050:85 65 00 02 03 4D 31 24 02 03 4D 32 24 02 03 4D 
-0060:33 24 02 03 4D 34 24 00 03 48 50 25 00 04 41 54 
-0070:54 25 00 04 44 45 46 25 00 06 4D 4F 56 45 53 25 
-0080:00 06 4D 41 58 48 50 25 00 03 53 58 25 00 03 53 
-0090:59 25 00 03 50 58 25 00 03 50 59 25 88 22 00 01 
-00A0:19 FF FC 24 03 4D 31 24 1C 00 81 22 00 02 19 FF 
-00B0:FC 24 03 4D 32 24 1C 00 81 22 00 03 19 FF FC 24 
-00C0:03 4D 33 24 1C 00 81 22 00 04 19 FF FC 24 03 4D 
-00D0:34 24 1C 00 81 14 FF FA 24 03 48 50 25 1A 00 7F 
-00E0:14 FF F8 24 04 41 54 54 25 1A 00 7F 14 FF F6 24 
-00F0:04 44 45 46 25 1A 00 7F 14 FF F4 24 06 4D 4F 56 
-0100:45 53 25 1A 00 7F 14 FF F2 24 06 4D 41 58 48 50 
-0110:25 1A 00 7F 14 FF F0 24 03 53 58 25 1A 00 7F 14 
-0120:FF EE 24 03 53 59 25 1A 00 7F 14 FF EC 24 03 50 
-0130:58 25 1A 00 7F 14 FF EA 24 03 50 59 25 1A 00 7F 
-0140:5C 24 19 47 61 6D 65 20 6C 6F 61 64 65 64 20 73 
-0150:75 63 63 65 73 73 66 75 6C 6C 79 21 71 73 22 00 
-0160:32 32 54 7B 
+0050:65 00 02 03 4D 31 24 02 03 4D 32 24 02 03 4D 33 
+0060:24 02 03 4D 34 24 00 03 48 50 25 00 04 41 54 54 
+0070:25 00 04 44 45 46 25 00 06 4D 4F 56 45 53 25 00 
+0080:06 4D 41 58 48 50 25 00 03 53 58 25 00 03 53 59 
+0090:25 00 03 50 58 25 00 03 50 59 25 88 22 00 01 19 
+00A0:FF FC 24 03 4D 31 24 1C 00 81 22 00 02 19 FF FC 
+00B0:24 03 4D 32 24 1C 00 81 22 00 03 19 FF FC 24 03 
+00C0:4D 33 24 1C 00 81 22 00 04 19 FF FC 24 03 4D 34 
+00D0:24 1C 00 81 14 FF FA 24 03 48 50 25 1A 00 7F 14 
+00E0:FF F8 24 04 41 54 54 25 1A 00 7F 14 FF F6 24 04 
+00F0:44 45 46 25 1A 00 7F 14 FF F4 24 06 4D 4F 56 45 
+0100:53 25 1A 00 7F 14 FF F2 24 06 4D 41 58 48 50 25 
+0110:1A 00 7F 14 FF F0 24 03 53 58 25 1A 00 7F 14 FF 
+0120:EE 24 03 53 59 25 1A 00 7F 14 FF EC 24 03 50 58 
+0130:25 1A 00 7F 14 FF EA 24 03 50 59 25 1A 00 7F 5C 
+0140:24 19 47 61 6D 65 20 6C 6F 61 64 65 64 20 73 75 
+0150:63 63 65 73 73 66 75 6C 6C 79 21 71 73 22 00 32 
+0160:32 54 7B 
