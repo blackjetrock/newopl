@@ -1,18 +1,18 @@
 comb:
-LOCAL tPos%
-LOCAL sPos%
-LOCAL c%
-LOCAL success%
-LOCAL sehealt%
-LOCAL sphealt%
-LOCAL hitbox%
-LOCAL g%
-LOCAL speed%
-LOCAL r%
-LOCAL locdiff%
-LOCAL m%
-LOCAL tmp$(14)
-LOCAL enHealt
+LOCAL tPos% REM Target position
+LOCAL sPos% REM Sword position
+LOCAL c% REM Count - determines end through inaction
+LOCAL success% REM Used as a bool to determine if the enemy was hit
+LOCAL sehealt% REM Starting enemy health
+LOCAL sphealt% REM Starting player health
+LOCAL hitbox% REM How wide the weapon is - the wider the easier
+LOCAL g% REM To store the user key press
+LOCAL speed% REM How fast the target moves - could be linked to difficulty
+LOCAL r% REM Random number for chance attack
+LOCAL locdiff% REM difficulty modifier
+LOCAL m% REM menu variable
+LOCAL tmp$(14) REM Inventory return
+LOCAL enHealt REM float for some maths to determine scaled health
 
 tPos% = 10  REM Example target position (mid-screen)
 sPos% = 1 REM Starting position of the sword

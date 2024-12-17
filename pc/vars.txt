@@ -1,16 +1,30 @@
 
 Variables
 
-   0:  VAR: '                A%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:F90F
-   1:  VAR: '               S1$'      Local String            DECLARE max_str: 10 max_ary:  0 num_ind:  1 offset:F904
-   2:  VAR: '                F2'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:F8FB
-   3:  VAR: '                X%'      Local Integer array     DECLARE max_str:  0 max_ary:  5 num_ind:  1 offset:F8EF
-   4:  VAR: '                S$'      Local String  array     DECLARE max_str:  7 max_ary:  5 num_ind:  2 offset:F8C5
-   5:  VAR: '                 F'      Local Float   array     DECLARE max_str:  0 max_ary: 20 num_ind:  1 offset:F822
-   6:  VAR: '             PEAR%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFCC
-   7:  VAR: '             DOOR$'     Global String            DECLARE max_str: 10 max_ary:  0 num_ind:  1 offset:FFC1
-   8:  VAR: '             OPEN%'     Global Integer array     DECLARE max_str:  0 max_ary: 50 num_ind:  1 offset:FF5A
-   9:  VAR: '              POS$'     Global String  array     DECLARE max_str: 30 max_ary: 20 num_ind:  2 offset:FCEC
-  10:  VAR: '             FLOAT'     Global Float   array     DECLARE max_str:  0 max_ary:123 num_ind:  1 offset:F911
-  11:  VAR: '           EXTTOP%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFD0
-  12:  VAR: '               SA$'   External String  array     REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:FFCE
+   0:  VAR: '                T%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFEA
+   1:  VAR: '                M%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE8
+   2:  VAR: '                 Y'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFE0
+   3:  VAR: '                SO'      Local Float   array     DECLARE max_str:  0 max_ary:  9 num_ind:  1 offset:FF96
+   4:  VAR: '                S1'      Local Float   array     DECLARE max_str:  0 max_ary:  9 num_ind:  1 offset:FF4C
+   5:  VAR: '                J5'      Local Float   array     DECLARE max_str:  0 max_ary:  9 num_ind:  1 offset:FF02
+   6:  VAR: '                R1'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FEFA
+   7:  VAR: '                T5'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FEF2
+   8:  VAR: '                I%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FEF0
+   9:  VAR: '                 S'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FEE8
+  10:  VAR: '                 J'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FEE0
+  11:  VAR: '                K%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FEDE
+  12:  VAR: '                 T'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FED6
+  13:  VAR: '                 L'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FECE
+  14:  VAR: '                 M'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FEC6
+  15:  VAR: '                S5'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FEBE
+  16:  VAR: '                 A'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FEB6
+  17:  VAR: '                A1'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FEAE
+  18:  VAR: '               MO%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFC
+  19:  VAR: '               YR%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFA
+  20:  VAR: '                 F'   External Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF8
+  21:  VAR: '                 G'   External Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF6
+  22:  VAR: '                 B'   External Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF4
+  23:  VAR: '                 C'   External Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF2
+  24:  VAR: '                 D'   External Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF0
+  25:  VAR: '                 E'   External Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFEE
+  26:  VAR: '               ZON'   External Float             REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFEC

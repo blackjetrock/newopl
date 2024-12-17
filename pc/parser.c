@@ -2889,6 +2889,8 @@ int scan_integer(int *intdest)
   return(0);
 }
 
+//------------------------------------------------------------------------------
+
 int isfloatdigit(char c)
 {
   dbprintf("%s:", __FUNCTION__);
@@ -2905,6 +2907,14 @@ int isfloatdigit(char c)
 }
 
 //------------------------------------------------------------------------------
+//
+// Examples
+//
+// 1.2
+// 100.
+// 1E8
+// 100E-8
+// 0.0023
 
 int check_float(int *index)
 {
@@ -2924,7 +2934,7 @@ int check_float(int *index)
   fltval[0] = '\0';
   chstr[1] = '\0';
 
-  #if FLT_INCLUDES_SIGN
+#if FLT_INCLUDES_SIGN
   // Can start with '-'
   if(  (chstr[0] = cline[idx]) == '-' )
     {
