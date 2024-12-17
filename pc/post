@@ -1,0 +1,707 @@
+[quote=1333david post_id=1641 time=1734392662 user_id=68]
+Hi Andrew,
+
+This is looking great.  I've run a few of my programs through newopl_tran and they are translating or finding errors I expect. There was one program cluedo.opl which produced the following result.
+
+Screenshot_2024-12-16_23-21-29.png
+
+It relates to this piece of code:
+
+[code]cluedo:
+local k%,r%,file$(9,4),m%
+
+Rem filenames
+file$(1)="Furn"
+file$(2)="Time"
+file$(3)="Char"
+file$(4)="Toy"
+
+cls : print"For use with  By";
+print "Cluedo junior DN" 
+
+clear::
+rem clear any flags
+r%=1
+do
+open "c:"+file$(r%),A,ITEM$
+use a
+first 
+ do
+ if right$(a.item$,1)="X" : A.ITEM$=LEFT$(A.ITEM$,(LEN(A.ITEM$)-1)) : UPDATE
+FIRST : ENDIF : next
+ until eof
+CLOSE
+r%=r%+1
+until r%>4
+
+menu::
+cls
+m%=menu("Furn,Time,Char,Toy,Quit,Clear")
+if m%=5 : stop 
+elseif m%=6 
+print"clearing.." : GOTO CLEAR:: 
+endif 
+
+open "c:"+file$(m%),A,ITEM$
+use a 
+cls : at 6,1 : print file$(m%)
+print"Use ";chr$(127); " ";chr$(126);" DEL EXE"
+do
+K%=GET
+IF K%=5: BACK
+ELSEIF K%=6: NEXT
+elseif k%=8:
+ if right$(a.item$,1)="X" : A.ITEM$=LEFT$(A.ITEM$,(LEN(A.ITEM$)-1))
+ ELSE a.item$=a.item$+"X"
+ ENDIF :UPDATE : print chr$(14); a.item$
+endif
+if eof : first :endif
+print chr$(14); a.item$
+until k%=13
+close 
+goto menu::
+[/code]
+
+I wasn't sure what the Type check error was? so thought I'd mention it. I believe the program works although I haven't tried it in ages. will try out some more programs soon.
+
+All the best,
+Dave
+[/quote]
+
+Hi there,
+
+Thanks for running code through the translator, I'm trying to get as much code through it as I can, it takes a while, though. 
+
+The 'typecheck' phase of the translator takes the 'intermediate code' (which can be seen in the file 'intcode.txt' after a translation) and executes it. The execution isn't a full run with results as happens when the program is run on an organiser, instead only the types of items is looked at. This stage is used to check the types of variables and constants and also to insert the auto type conversion codes that are used to turn floating point values into integers and vice versa when required.
+
+I've put a PDF with an outline of the translator structure here:
+
+https://github.com/blackjetrock/newopl/wiki/Translator
+
+There's also some information here:
+
+https://github.com/blackjetrock/newopl
+
+which I will be updating.
+
+I've translated cluedo, some notes are below:
+
+After running 
+
+[code]./newopl_tran cluedo.opl 
+[/code]
+there are several file available with information in them:
+
+[code][b]vars.txt[/b][/code]
+
+This file has details about the variables in the program:
+
+[code]Variables
+
+   0:  VAR: '                K%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFC
+   1:  VAR: '                R%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFFA
+   2:  VAR: '             FILE$'      Local String  array     DECLARE max_str:  4 max_ary:  9 num_ind:  2 offset:FFCB
+   3:  VAR: '                M%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFC8
+   4:  VAR: '           A.ITEM$'       Open String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:223A
+[/code]
+Each line has the variable name, its type and class (Integer, Local) where it is a reference to a variable or a declaration where it was first seen, and details about array sizes and number of indices. The Offset is the value used in the QCode when referring to the variable.
+
+[code][b]intcode.txt[/b][/code]
+This file has the intermediate code in it. 
+
+
+[code]0: N1 R EXP_BUFF_ID_META                       ty:U qcty:U 'PROCDEF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+Header built qcode_idx:0016
+0: N1 R EXP_BUFF_ID_META                       ty:U qcty:U ' LOCAL' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'K%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'R%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '9' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '4' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+7: N8 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+8: N9 R EXP_BUFF_ID_VARIABLE                   ty:S qcty:U 'FILE$' npar:0 nidx:2 trapped:0  0:  nb 0:()
+9: N10 R EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'M%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+10: N10 R EXP_BUFF_ID_FUNCTION                   ty:i qcty:U 'DROP' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '1' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 W EXP_BUFF_ID_VARIABLE                   ty:S qcty:U 'FILE$' npar:0 nidx:1 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_STR                        ty:s qcty:U '"Furn"' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_OPERATOR                   ty:s qcty:U ':=' npar:0 nidx:0 trapped:0  2: 6 5  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '2' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 W EXP_BUFF_ID_VARIABLE                   ty:S qcty:U 'FILE$' npar:0 nidx:1 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_STR                        ty:s qcty:U '"Time"' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_OPERATOR                   ty:s qcty:U ':=' npar:0 nidx:0 trapped:0  2: 6 5  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '3' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 W EXP_BUFF_ID_VARIABLE                   ty:S qcty:U 'FILE$' npar:0 nidx:1 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_STR                        ty:s qcty:U '"Char"' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_OPERATOR                   ty:s qcty:U ':=' npar:0 nidx:0 trapped:0  2: 6 5  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '4' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 W EXP_BUFF_ID_VARIABLE                   ty:S qcty:U 'FILE$' npar:0 nidx:1 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_STR                        ty:s qcty:U '"Toy"' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_OPERATOR                   ty:s qcty:U ':=' npar:0 nidx:0 trapped:0  2: 6 5  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'CLS' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_STR                        ty:s qcty:U '"For use with  By"' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_PRINT                      ty:s qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_STR                        ty:s qcty:U '"Cluedo junior DN"' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_PRINT                      ty:s qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_PRINT_NEWLINE              ty:U qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_LABEL                      ty:U qcty:U 'clear' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 W EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'R%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '1' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:U ':=' npar:0 nidx:0 trapped:0  2: 2 1  nb 0:()
+
+0: N1 R EXP_BUFF_ID_DO                 L:9     ty:U qcty:U 'DO' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_STR                        ty:s qcty:U '"c:"' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'R%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_VARIABLE                   ty:S qcty:U 'FILE$' npar:0 nidx:1 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_META                       ty:S qcty:U ' OPEN' npar:0 nidx:0 trapped:0  0:  nb 0:()
+7: N8 R EXP_BUFF_ID_LOGICALFILE                ty:S qcty:U 'A' npar:0 nidx:0 trapped:0  0:  nb 0:()
+8: N9 ? EXP_BUFF_ID_FIELDVAR                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+9: N10 R EXP_BUFF_ID_META                       ty:S qcty:U 'ENDFIELDS' npar:0 nidx:0 trapped:0  0:  nb 0:()
+10: N11 R EXP_BUFF_ID_OPERATOR                   ty:s qcty:U '+' npar:0 nidx:0 trapped:0  2: 1 1  nb 0:()
+11: N11 R EXP_BUFF_ID_FUNCTION                   ty:s qcty:U 'DROP' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'USE' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_LOGICALFILE                ty:U qcty:U 'A' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'FIRST' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_DO                 L:10    ty:U qcty:U 'DO' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '1' npar:0 nidx:0 trapped:0  0:  nb 0:()
+7: N8 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+8: N9 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+9: N10 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+10: N11 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+11: N12 R EXP_BUFF_ID_FUNCTION                   ty:s qcty:U 'RIGHT$' npar:0 nidx:0 trapped:0  2: 7 3  nb 0:()
+12: N13 R EXP_BUFF_ID_STR                        ty:s qcty:U '"X"' npar:0 nidx:0 trapped:0  0:  nb 0:()
+13: N14 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:s '=' npar:0 nidx:0 trapped:0  2: 13 12  nb 0:()
+14: N15 R EXP_BUFF_ID_IF                 L:11    ty:i qcty:U 'IF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 W EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+7: N8 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+8: N9 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+9: N10 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+10: N11 R EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+11: N12 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+12: N13 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+13: N14 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+14: N15 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+15: N16 R EXP_BUFF_ID_FUNCTION                   ty:i qcty:U 'LEN' npar:0 nidx:0 trapped:0  1: 11  nb 0:()
+16: N17 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '1' npar:0 nidx:0 trapped:0  0:  nb 0:()
+17: N18 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:U '-' npar:0 nidx:0 trapped:0  2: 17 16  nb 0:()
+18: N19 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+19: N20 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+20: N21 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+21: N22 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+22: N23 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+23: N24 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+24: N25 R EXP_BUFF_ID_FUNCTION                   ty:s qcty:U 'LEFT$' npar:0 nidx:0 trapped:0  2: 18 4  nb 0:()
+25: N26 R EXP_BUFF_ID_OPERATOR                   ty:s qcty:U ':=' npar:0 nidx:0 trapped:0  2: 25 1  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'UPDATE' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'FIRST' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_ENDIF              L:11    ty:U qcty:U 'ENDIF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'NEXT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_FUNCTION                   ty:i qcty:U 'EOF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_UNTIL              L:10    ty:U qcty:U 'UNTIL' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'CLOSE' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 W EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'R%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'R%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '1' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:U '+' npar:0 nidx:0 trapped:0  2: 3 2  nb 0:()
+4: N5 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:U ':=' npar:0 nidx:0 trapped:0  2: 4 1  nb 0:()
+
+0: N1 R EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'R%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '4' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:i '>' npar:0 nidx:0 trapped:0  2: 2 1  nb 0:()
+3: N4 R EXP_BUFF_ID_UNTIL              L:9     ty:i qcty:U 'UNTIL' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_LABEL                      ty:U qcty:U 'menu' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'CLS' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 W EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'M%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_STR                        ty:s qcty:U '"Furn,Time,Char,Toy,Quit,Clear"' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+7: N8 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+8: N9 R EXP_BUFF_ID_FUNCTION                   ty:i qcty:U 'MENU' npar:0 nidx:0 trapped:0  1: 4  nb 0:()
+9: N10 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:U ':=' npar:0 nidx:0 trapped:0  2: 9 1  nb 0:()
+
+0: N1 R EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'M%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '5' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:i '=' npar:0 nidx:0 trapped:0  2: 2 1  nb 0:()
+3: N4 R EXP_BUFF_ID_IF                 L:12    ty:i qcty:U 'IF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'STOP' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'M%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '6' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:i '=' npar:0 nidx:0 trapped:0  2: 2 1  nb 0:()
+3: N4 R EXP_BUFF_ID_META               L:12    ty:i qcty:U 'BRAENDIF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_ELSEIF             L:12    ty:i qcty:U 'ELSEIF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_STR                        ty:s qcty:U '"clearing.."' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_PRINT                      ty:s qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_PRINT_NEWLINE              ty:U qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_GOTO                       ty:U qcty:U 'CLEAR' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_ENDIF              L:12    ty:U qcty:U 'ENDIF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_STR                        ty:s qcty:U '"c:"' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'M%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_VARIABLE                   ty:S qcty:U 'FILE$' npar:0 nidx:1 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_META                       ty:S qcty:U ' OPEN' npar:0 nidx:0 trapped:0  0:  nb 0:()
+7: N8 R EXP_BUFF_ID_LOGICALFILE                ty:S qcty:U 'A' npar:0 nidx:0 trapped:0  0:  nb 0:()
+8: N9 ? EXP_BUFF_ID_FIELDVAR                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+9: N10 R EXP_BUFF_ID_META                       ty:S qcty:U 'ENDFIELDS' npar:0 nidx:0 trapped:0  0:  nb 0:()
+10: N11 R EXP_BUFF_ID_OPERATOR                   ty:s qcty:U '+' npar:0 nidx:0 trapped:0  2: 1 1  nb 0:()
+11: N11 R EXP_BUFF_ID_FUNCTION                   ty:s qcty:U 'DROP' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'USE' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_LOGICALFILE                ty:U qcty:U 'A' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'CLS' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '6' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '1' npar:0 nidx:0 trapped:0  0:  nb 0:()
+7: N8 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+8: N9 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+9: N10 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+10: N11 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+11: N12 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'AT' npar:0 nidx:0 trapped:0  2: 7 3  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'M%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_VARIABLE                   ty:S qcty:U 'FILE$' npar:0 nidx:1 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_PRINT                      ty:S qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_PRINT_NEWLINE              ty:U qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_STR                        ty:s qcty:U '"Use "' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_PRINT                      ty:s qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '127' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+7: N8 R EXP_BUFF_ID_FUNCTION                   ty:s qcty:U 'CHR$' npar:0 nidx:0 trapped:0  1: 3  nb 0:()
+8: N9 R EXP_BUFF_ID_PRINT                      ty:s qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_STR                        ty:s qcty:U '" "' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_PRINT                      ty:s qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '126' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+7: N8 R EXP_BUFF_ID_FUNCTION                   ty:s qcty:U 'CHR$' npar:0 nidx:0 trapped:0  1: 3  nb 0:()
+8: N9 R EXP_BUFF_ID_PRINT                      ty:s qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_STR                        ty:s qcty:U '" DEL EXE"' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_PRINT                      ty:s qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_PRINT_NEWLINE              ty:U qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_DO                 L:13    ty:U qcty:U 'DO' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 W EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'K%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_FUNCTION                   ty:i qcty:U 'GET' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:U ':=' npar:0 nidx:0 trapped:0  2: 5 1  nb 0:()
+
+0: N1 R EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'K%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '5' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:i '=' npar:0 nidx:0 trapped:0  2: 2 1  nb 0:()
+3: N4 R EXP_BUFF_ID_IF                 L:14    ty:i qcty:U 'IF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'BACK' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'K%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '6' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:i '=' npar:0 nidx:0 trapped:0  2: 2 1  nb 0:()
+3: N4 R EXP_BUFF_ID_META               L:14    ty:i qcty:U 'BRAENDIF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_ELSEIF             L:14    ty:i qcty:U 'ELSEIF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'NEXT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'K%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '8' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:i '=' npar:0 nidx:0 trapped:0  2: 2 1  nb 0:()
+3: N4 R EXP_BUFF_ID_META               L:14    ty:i qcty:U 'BRAENDIF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_ELSEIF             L:14    ty:i qcty:U 'ELSEIF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '1' npar:0 nidx:0 trapped:0  0:  nb 0:()
+7: N8 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+8: N9 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+9: N10 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+10: N11 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+11: N12 R EXP_BUFF_ID_FUNCTION                   ty:s qcty:U 'RIGHT$' npar:0 nidx:0 trapped:0  2: 7 3  nb 0:()
+12: N13 R EXP_BUFF_ID_STR                        ty:s qcty:U '"X"' npar:0 nidx:0 trapped:0  0:  nb 0:()
+13: N14 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:s '=' npar:0 nidx:0 trapped:0  2: 13 12  nb 0:()
+14: N15 R EXP_BUFF_ID_IF                 L:15    ty:i qcty:U 'IF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 W EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+7: N8 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+8: N9 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+9: N10 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+10: N11 R EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+11: N12 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+12: N13 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+13: N14 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+14: N15 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+15: N16 R EXP_BUFF_ID_FUNCTION                   ty:i qcty:U 'LEN' npar:0 nidx:0 trapped:0  1: 11  nb 0:()
+16: N17 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '1' npar:0 nidx:0 trapped:0  0:  nb 0:()
+17: N18 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:U '-' npar:0 nidx:0 trapped:0  2: 17 16  nb 0:()
+18: N19 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+19: N20 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+20: N21 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+21: N22 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+22: N23 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+23: N24 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+24: N25 R EXP_BUFF_ID_FUNCTION                   ty:s qcty:U 'LEFT$' npar:0 nidx:0 trapped:0  2: 18 4  nb 0:()
+25: N26 R EXP_BUFF_ID_OPERATOR                   ty:s qcty:U ':=' npar:0 nidx:0 trapped:0  2: 25 1  nb 0:()
+
+0: N1 R EXP_BUFF_ID_ELSE               L:15    ty:U qcty:U 'ELSE' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 W EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_STR                        ty:s qcty:U '"X"' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_OPERATOR                   ty:s qcty:U '+' npar:0 nidx:0 trapped:0  2: 3 2  nb 0:()
+4: N5 R EXP_BUFF_ID_OPERATOR                   ty:s qcty:U ':=' npar:0 nidx:0 trapped:0  2: 4 1  nb 0:()
+
+0: N1 R EXP_BUFF_ID_ENDIF              L:15    ty:U qcty:U 'ENDIF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'UPDATE' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '14' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+7: N8 R EXP_BUFF_ID_FUNCTION                   ty:s qcty:U 'CHR$' npar:0 nidx:0 trapped:0  1: 3  nb 0:()
+8: N9 R EXP_BUFF_ID_PRINT                      ty:s qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_PRINT                      ty:s qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_PRINT_NEWLINE              ty:U qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_ENDIF              L:14    ty:U qcty:U 'ENDIF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_FUNCTION                   ty:i qcty:U 'EOF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_IF                 L:16    ty:i qcty:U 'IF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'FIRST' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_ENDIF              L:16    ty:U qcty:U 'ENDIF' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '14' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+7: N8 R EXP_BUFF_ID_FUNCTION                   ty:s qcty:U 'CHR$' npar:0 nidx:0 trapped:0  1: 3  nb 0:()
+8: N9 R EXP_BUFF_ID_PRINT                      ty:s qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_PRINT                      ty:s qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_PRINT_NEWLINE              ty:U qcty:U 'PRINT' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'K%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '13' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:i '=' npar:0 nidx:0 trapped:0  2: 2 1  nb 0:()
+3: N4 R EXP_BUFF_ID_UNTIL              L:13    ty:i qcty:U 'UNTIL' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_FUNCTION                   ty:v qcty:U 'CLOSE' npar:0 nidx:0 trapped:0  0:  nb 0:()
+
+0: N1 R EXP_BUFF_ID_GOTO                       ty:U qcty:U 'menu' npar:0 nidx:0 trapped:0  0:  nb 0:()
+[/code]
+
+This is a representation of the program after it has been parsed and type checked. It is roughly on a line by line basis and you should be able to see how the intcode represents the OPL if you look at the opl source and the intcode.txt files and match up lines of OPL and blocks of intcode. For example:
+
+This line of OPL:
+
+[code] A.ITEM$=LEFT$(A.ITEM$,(LEN(A.ITEM$)-1))
+[/code]
+
+maps to this intcode:
+
+[code]0: N1 W EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+7: N8 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+8: N9 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+9: N10 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+10: N11 R EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+11: N12 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+12: N13 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+13: N14 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+14: N15 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+15: N16 R EXP_BUFF_ID_FUNCTION                   ty:i qcty:U 'LEN' npar:0 nidx:0 trapped:0  1: 11  nb 0:()
+16: N17 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '1' npar:0 nidx:0 trapped:0  0:  nb 0:()
+17: N18 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:U '-' npar:0 nidx:0 trapped:0  2: 17 16  nb 0:()
+18: N19 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+19: N20 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+20: N21 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+21: N22 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+22: N23 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+23: N24 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+24: N25 R EXP_BUFF_ID_FUNCTION                   ty:s qcty:U 'LEFT$' npar:0 nidx:0 trapped:0  2: 18 4  nb 0:()
+25: N26 R EXP_BUFF_ID_OPERATOR                   ty:s qcty:U ':=' npar:0 nidx:0 trapped:0  2: 25 1  nb 0:()
+[/code]
+
+The 'SUB_END and SUB_START lines can be ignored, I'll probably remove them some time. They are just for expression processing.
+Without those the intcode looks like this:
+
+[code]0: N1 W EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+10: N11 R EXP_BUFF_ID_VARIABLE                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+15: N16 R EXP_BUFF_ID_FUNCTION                   ty:i qcty:U 'LEN' npar:0 nidx:0 trapped:0  1: 11  nb 0:()
+16: N17 R EXP_BUFF_ID_INTEGER                    ty:i qcty:U '1' npar:0 nidx:0 trapped:0  0:  nb 0:()
+17: N18 R EXP_BUFF_ID_OPERATOR                   ty:i qcty:U '-' npar:0 nidx:0 trapped:0  2: 17 16  nb 0:()
+24: N25 R EXP_BUFF_ID_FUNCTION                   ty:s qcty:U 'LEFT$' npar:0 nidx:0 trapped:0  2: 18 4  nb 0:()
+25: N26 R EXP_BUFF_ID_OPERATOR                   ty:s qcty:U ':=' npar:0 nidx:0 trapped:0  2: 25 1  nb 0:()
+[/code]
+
+For now, only the column with the EXP_BUFF values and the names to the right of it are relevant.
+
+You can see that these lines represent the OPL, but are in a different order. This is the logic of the OPL expressed in postfix form (like RPN on HP calculators). So, the line:
+
+[code] A.ITEM$=LEFT$(A.ITEM$,(LEN(A.ITEM$)-1))
+[/code]
+
+becomes:
+
+[code]
+A.ITEM$   A.ITEM$ A.ITEM$ LEN 1 - LEFT$ :=
+[/code]
+
+This is the poistfix version of the OPL line. It uses a stack to evaluate the original OPL infix expression. So, the A.ITEM$ denotes pushing the value of the field variable A.ITEM$, or it's reference, (address).
+
+The first A.ITEM$ that is pushed on the stack is slightly different to the second two, as can be seen in the third column (ACCESS). The first A.ITEM$ has a W which denotes 'write' and means that a reference to the variable is pushed, not a value. The ACCESS column is set up by the typechecking code as one of its jobs. It is set up using this part of the intcode:
+
+[code]25: N26 R EXP_BUFF_ID_OPERATOR                   ty:s qcty:U ':=' npar:0 nidx:0 trapped:0  [bold]2: 25 1[/bold]  nb 0:()[/code]
+
+This part:
+
+[code][bold]2: 25 1[/bold][/code]
+
+indicates that this line of intcode has links to two other lines. The links are made using the second column which contains node numbers. This is the mechanism whereby the intcode can represent a syntax tree. In this case the assignment operator ':=' is pointing to node N25 (itself) and node N1 (the first A.ITEM$). When the typechecking code sees an assignment it sets the ACCESS to 'W'.
+
+So, we have three pushes of A.ITEM$, that is followed by a push of 'LEN' which is a call to a function called 'LEN', then a '1' which is a number. Then we have an operator '-'. These tokens represent 'LEN(A.ITEM$)-1'. (It's exactly like Forth for anyone who is familiar with that). You should be able to see how the postfix can be used to execute teh original infix OPL line.
+
+That line of code was correctly translated. This one:
+
+[code]
+0: N1 R EXP_BUFF_ID_STR                        ty:s qcty:U '"c:"' npar:0 nidx:0 trapped:0  0:  nb 0:()
+1: N2 R EXP_BUFF_ID_SUB_START                  ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+2: N3 R EXP_BUFF_ID_VARIABLE                   ty:i qcty:U 'M%' npar:0 nidx:0 trapped:0  0:  nb 0:()
+3: N4 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+4: N5 R EXP_BUFF_ID_SUB_END                    ty:U qcty:U '' npar:0 nidx:0 trapped:0  0:  nb 0:()
+5: N6 R EXP_BUFF_ID_VARIABLE                   ty:S qcty:U 'FILE$' npar:0 nidx:1 trapped:0  0:  nb 0:()
+6: N7 R EXP_BUFF_ID_META                       ty:S qcty:U ' OPEN' npar:0 nidx:0 trapped:0  0:  nb 0:()
+7: N8 R EXP_BUFF_ID_LOGICALFILE                ty:S qcty:U 'A' npar:0 nidx:0 trapped:0  0:  nb 0:()
+8: N9 ? EXP_BUFF_ID_FIELDVAR                   ty:s qcty:U 'A.ITEM$' npar:0 nidx:0 trapped:0  0:  nb 0:()
+9: N10 R EXP_BUFF_ID_META                       ty:S qcty:U 'ENDFIELDS' npar:0 nidx:0 trapped:0  0:  nb 0:()
+10: N11 R EXP_BUFF_ID_OPERATOR                   ty:s qcty:U '+' npar:0 nidx:0 trapped:0  2: 1 1  nb 0:()
+11: N11 R EXP_BUFF_ID_FUNCTION                   ty:s qcty:U 'DROP' npar:0 nidx:0 trapped:0  0:  nb 0:()
+[/code]
+
+however, is not.
+
+The original OPL:
+
+[code]
+open "c:"+file$(m%),A,ITEM$
+[/code]
+
+is turned into this postfix:
+
+"C:" M% FILE$ OPEN A A.ITEM$ <endfields> + DROP
+
+The correct postfix should be< I believe:
+
+[code]
+"C:" M% FILE$ + OPEN A A.ITEM$ <endfields>
+[/code]
+
+The position of the '+' is incorrect. It the incorrect position at the end of the expression, it leave a result on the stack which the typecheck code removes by adding a DROP function call. (This is another job of the typecheck code).
+This intcode is not coirrect and needs to be fixed. It's probably because OPEN has a non-standard form, where the field variables are in a list after the OPEN and that has upset the intcode generation.
+
+I hope that was interesting or useful, it's all quite complicated but you can break parts of the algorithm down so it is all more understandable.
