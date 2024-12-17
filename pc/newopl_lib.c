@@ -202,7 +202,7 @@ void read_proc_file(FILE *fp, NOBJ_PROC *p)
   while (length_read < p->global_varname_size.size )
     {
       uint8_t len;
-      uint8_t varname[NOBJ_VARNAME_MAXLEN];
+      uint8_t varname[NOBJ_VARNAME_MAXLEN+1];
       NOBJ_VARTYPE vartype;
       NOBJ_ADDR addr;
       vartype = 0;

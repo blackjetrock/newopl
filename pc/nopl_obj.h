@@ -6,9 +6,9 @@
 #define NOPL_CONFIG_FORCE_VARS_UPPERCASE 1
 
 #define NOPL_MAX_TOKEN           80
-#define NOPL_MAX_OP_STACK        50
-#define NOPL_MAX_LOCAL           16
-#define NOPL_MAX_GLOBAL          16
+#define NOPL_MAX_OP_STACK        200
+#define NOPL_MAX_LOCAL           128
+#define NOPL_MAX_GLOBAL          128
 
 #define MAX_QCODE_HEADER         60000
 
