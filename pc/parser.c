@@ -3806,7 +3806,7 @@ int scan_expression(int *num_commas, int ignore_comma)
 	  if( scan_operator(&is_comma, ignore_comma) )
 	    {
 	      // All OK, after the unary operator there should be an eitem, we scan for it
-	      // here so the while() below works on the foloowing operator
+	      // here so the while() below works on the following operator
 	      if( scan_eitem(&n_commas2, ignore_comma) )
 		{
 		  n_commas += n_commas2;
@@ -4249,7 +4249,11 @@ int scan_createopen_list(char *keyword, int create_nopen, int trapped)
        dbprintf("ret0: Not an expression for file name");
        return(0);
      }
-   
+
+   // The file name is an expression on its own
+   finalise_expression();
+   output_expression_start(&cline[cline_i]);
+
    // We now put the command into the output
    op.buf_id = EXP_BUFF_ID_META;
    

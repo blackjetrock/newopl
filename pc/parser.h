@@ -425,6 +425,7 @@ int set_qcode_header_string_at(int idx, char *str);
 NOBJ_VAR_INFO *find_var_info(char *name, NOBJ_VARTYPE type);
 int check_operator(int *index, int *is_comma, int ignore_comma);
 int function_access_force_write(char * fname);
+void to_upper_str(char *str);
 
 extern int qcode_idx;
 extern int pass_number;

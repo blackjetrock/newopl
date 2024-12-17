@@ -760,6 +760,7 @@ void add_cond_fixup_label(int offset_idx, int target_idx, int buf_id, char *labe
       cond_fixup[cond_fixup_i].target_idx      = target_idx;
       cond_fixup[cond_fixup_i].buf_id          = buf_id;
       strcpy(cond_fixup[cond_fixup_i].label, label);
+      to_upper_str(cond_fixup[cond_fixup_i].label);
       cond_fixup[cond_fixup_i].level           = 0;
       cond_fixup_i++;
     }
@@ -805,6 +806,8 @@ int find_target_idx(int buf_id, int level)
 
 int find_target_idx_from_label(char *label)
 {
+  to_upper_str(label);
+  
   for(int i=0; i<cond_fixup_i; i++)
     {
       if( (strcmp(cond_fixup[i].label, label)==0) && (cond_fixup[i].buf_id == EXP_BUFF_ID_LABEL) )

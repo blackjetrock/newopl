@@ -1,20 +1,178 @@
 
 
 
-F2
-F(20)
-DOOR$
-FLOAT(123)
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+M%
+
+FILE$(1) := "Furn"
+FILE$(2) := "Time"
+FILE$(3) := "Char"
+FILE$(4) := "Toy"
+CLS()
+PRINT("For use with  By")
+
+PRINT("Cluedo junior DN")
+<nl>
+
+clear::
+R% := 1
+DO
+"c:" + FILE$(R%)
+
+USE()
+
+FIRST()
+DO
+IF (RIGHT$(A.ITEM$ 1 ) = "X")
+A.ITEM$ := LEFT$(A.ITEM$ (LEN(A.ITEM$ ) - 1) )
+UPDATE()
+FIRST()
+ENDIF
+NEXT()
+UNTIL EOF()
+CLOSE()
+R% := (R% + 1)
+UNTIL (R% > 4)
+menu::
+CLS()
+M% := MENU("Furn,Time,Char,Toy,Quit,Clear" )
+IF (M% = 5)
+STOP()
+ELSEIF (M% = 6)
+PRINT("clearing..")
+<nl>
+
+GOTO CLEAR
+ENDIF
+"c:" + FILE$(M%)
+
+USE()
+
+CLS()
+AT(6 1 )
+PRINT(FILE$(M%))
+<nl>
+
+PRINT("Use ")
+PRINT(CHR$(127 ))
+PRINT(" ")
+PRINT(CHR$(126 ))
+PRINT(" DEL EXE")
+<nl>
+
+DO
+K% := GET()
+IF (K% = 5)
+BACK()
+ELSEIF (K% = 6)
+NEXT()
+ELSEIF (K% = 8)
+IF (RIGHT$(A.ITEM$ 1 ) = "X")
+A.ITEM$ := LEFT$(A.ITEM$ (LEN(A.ITEM$ ) - 1) )
+ELSE
+A.ITEM$ := (A.ITEM$ + "X")
+ENDIF
+UPDATE()
+PRINT(CHR$(14 ))
+PRINT(A.ITEM$)
+<nl>
+
+ENDIF
+IF EOF()
+FIRST()
+ENDIF
+PRINT(CHR$(14 ))
+PRINT(A.ITEM$)
+<nl>
+
+UNTIL (K% = 13)
+CLOSE()
+GOTO menu
 
 
 
 DROP()
+
+FILE$(1) := "Furn"
+FILE$(2) := "Time"
+FILE$(3) := "Char"
+FILE$(4) := "Toy"
+CLS()
+PRINT("For use with  By")
+
+PRINT("Cluedo junior DN")
+<nl>
+
+clear::
+R% := 1
+DO
 DROP()
+
+USE()
+
+FIRST()
+DO
+IF (RIGHT$(A.ITEM$ 1 ) = "X")
+A.ITEM$ := LEFT$(A.ITEM$ (LEN(A.ITEM$ ) - 1) )
+UPDATE()
+FIRST()
+ENDIF
+NEXT()
+UNTIL EOF()
+CLOSE()
+R% := (R% + 1)
+UNTIL (R% > 4)
+menu::
+CLS()
+M% := MENU("Furn,Time,Char,Toy,Quit,Clear" )
+IF (M% = 5)
+STOP()
+ELSEIF (M% = 6)
+PRINT("clearing..")
+<nl>
+
+GOTO CLEAR
+ENDIF
 DROP()
-DROP()
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+
+USE()
+
+CLS()
+AT(6 1 )
+PRINT(FILE$(M%))
+<nl>
+
+PRINT("Use ")
+PRINT(CHR$(127 ))
+PRINT(" ")
+PRINT(CHR$(126 ))
+PRINT(" DEL EXE")
+<nl>
+
+DO
+K% := GET()
+IF (K% = 5)
+BACK()
+ELSEIF (K% = 6)
+NEXT()
+ELSEIF (K% = 8)
+IF (RIGHT$(A.ITEM$ 1 ) = "X")
+A.ITEM$ := LEFT$(A.ITEM$ (LEN(A.ITEM$ ) - 1) )
+ELSE
+A.ITEM$ := (A.ITEM$ + "X")
+ENDIF
+UPDATE()
+PRINT(CHR$(14 ))
+PRINT(A.ITEM$)
+<nl>
+
+ENDIF
+IF EOF()
+FIRST()
+ENDIF
+PRINT(CHR$(14 ))
+PRINT(A.ITEM$)
+<nl>
+
+UNTIL (K% = 13)
+CLOSE()
+GOTO menu
