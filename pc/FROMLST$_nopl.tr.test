@@ -798,19 +798,19 @@ QCode
 04A5: C0       LEFT$     (bytes code:-)
 04A6: 81       Assign string     (bytes code:-)
 04A7: 22       Push integer literal     (bytes code:I)
-04A8: 0007       (7)
+04A8: 0073       (115)
 04AA: 22       Push integer literal     (bytes code:I)
-04AB: 0000       (0)
+04AB: 0100       (256)
 04AD: 56       POKEW     (bytes code:-)
 04AE: 22       Push integer literal     (bytes code:I)
-04AF: 0002       (2)
+04AF: 20B0       (8368)
 04B1: 22       Push integer literal     (bytes code:I)
 04B2: 0004       (4)
 04B4: 55       POKEB     (bytes code:-)
 04B5: 22       Push integer literal     (bytes code:I)
-04B6: 0007       (7)
+04B6: 0073       (115)
 04B8: 22       Push integer literal     (bytes code:I)
-04B9: 0000       (0)
+04B9: 0001       (1)
 04BB: 56       POKEW     (bytes code:-)
 04BC: 0F       Push local/global string variable reference     (bytes code:v)
 04BD: FFE3       (65507)
@@ -1002,8 +1002,8 @@ QCode Data
 0470:68 65 6E 20 45 58 45 4B 20 02 20 03 7D 02 41 50 
 0480:84 22 00 01 20 00 22 00 04 20 00 09 FF FA 24 02 
 0490:3A 20 4B 20 02 20 03 7D 02 41 50 84 0F FF E3 09 
-04A0:FF F8 22 00 0E C0 81 22 00 07 22 00 00 56 22 00 
-04B0:02 22 00 04 55 22 00 07 22 00 00 56 0F FF E3 5A 
+04A0:FF F8 22 00 0E C0 81 22 00 73 22 01 00 56 22 20 
+04B0:B0 22 00 04 55 22 00 73 22 00 01 56 0F FF E3 5A 
 04C0:6B 00 FF E0 22 00 01 2C 7E 00 03 5C 02 FF E3 79 
 04D0:53 00 00 4E 8E 22 00 C2 2C 7E 00 4B 24 3B 20 54 
 04E0:68 65 20 42 61 74 74 65 72 79 20 69 73 20 4C 6F 

@@ -3047,7 +3047,8 @@ int check_hex(int *index)
   char chstr[2];
 
   intval[0] = '\0';
-
+  chstr[1] = '\0';
+  
   // We must have a '$' at the start, or a '-$'
   
   if( ((cline[idx]) == '$') )
@@ -3088,6 +3089,8 @@ int scan_hex(int *intdest)
   OP_STACK_ENTRY op;
   char intval[20];
   char chstr[2];
+
+  chstr[1] = '\0';
   
   indent_more();
   
@@ -3118,10 +3121,11 @@ int scan_hex(int *intdest)
   // Convert to integer
   sscanf(intval, "%x", intdest);
   //x  strcpy(intdest, intval);
-  
+  dbprintf("intval:'%s'", intval);
+      
   if( num_digits > 0 )
     {
-      dbprintf("ret1");
+
 
       sprintf(intval, "%d", *intdest);
       strcpy(op.name, intval);
