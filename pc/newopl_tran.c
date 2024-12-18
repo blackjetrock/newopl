@@ -728,7 +728,6 @@ typedef struct _COND_FIXUP_ENTRY
 
 } COND_FIXUP_ENTRY;
 
-#define MAX_COND_FIXUP 100
 
 COND_FIXUP_ENTRY cond_fixup[MAX_COND_FIXUP];
 int cond_fixup_i = 0;
@@ -1388,10 +1387,10 @@ void output_qcode_for_line(void)
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  token.op.num_parameters);
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_PROC);
 
-	  // Now the proc name, length prefixed. We have to lose the colon at the end of the name
+	  // Now the proc name, length prefixed.
 	  char procname[NOBJ_VARNAME_MAXLEN];
 	  strcpy(procname, token.op.name);
-	  procname[strlen(procname)-1] = '\0';
+	  //	  procname[strlen(procname)-1] = '\0';
 	  
 	  qcode_idx = qcode_add_length_prefixed_string(qcode_idx, procname);
 	  break;

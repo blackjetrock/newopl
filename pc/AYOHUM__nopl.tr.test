@@ -288,7 +288,7 @@ QCode
 016B: 7D       Procedure call.     (bytes code:S)
 016C: Len:7
 016D: 'AYOMOV%'
-0174: 84       drop float from stack     (bytes code:-)
+0174: 83       drop integer from stack     (bytes code:-)
 0175: 14       Push parameter/external integer variable reference     (bytes code:V)
 0176: FFFC       (65532)
 0178: 22       Push integer literal     (bytes code:I)
@@ -324,5 +324,5 @@ QCode Data
 0140:22 00 01 2C 7E 00 0D 0D FF F6 22 00 0D 00 FF F6 
 0150:2E 7F 00 FF F6 0A FF FA 22 00 00 2B 7E FF 44 00 
 0160:FF F6 20 00 22 00 01 20 00 20 02 7D 07 41 59 4F 
-0170:4D 4F 56 25 84 14 FF FC 22 00 03 07 FF FC 2E 7F 
+0170:4D 4F 56 25 83 14 FF FC 22 00 03 07 FF FC 2E 7F 
 0180:7A 
