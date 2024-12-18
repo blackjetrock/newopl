@@ -122,10 +122,12 @@ struct _FN_INFO
   char argparse;       // How to parse the args   O: scan_onoff
                        //                         V: varname list
                        //                         otherwise: scan_expression()
+                       //                         L: fList (float array and N, or list of floats
   char *argtypes;
                        //  i: integer (value)
                        //  f: float (value)
-                       //  s: string (value) 
+                       //  s: string (value)
+
   char *resulttype;
   uint8_t qcode;
   int     force_write;
@@ -142,17 +144,14 @@ struct _FN_INFO
     { "ATAN",     0,  0, ' ',  "f",         "f", 0x00, 0 },
     { "BACK",     1,  1, ' ',  "",          "v", 0x00, 0 },
     { "BEEP",     1,  0, ' ',  "ii",        "v", 0x00, 0 },
-    //{ "BREAK",    1,  0, ' ',  "",          "v", 0x00, 0 },
     { "CHR$",     0,  0, ' ',  "i",         "s", 0x00, 0 },
     { "CLOCK",    0,  0, ' ',  "i",         "i", 0x00, 0 },
     { "CLOSE",    1,  1, ' ',  "",          "v", 0x00, 0 },
     { "CLS",      1,  0, ' ',  "",          "v", 0x00, 0 },
-    //    { "CONTINUE", 1,  0, ' ',  "",          "v", 0x00, 0 },  // Conditional
     { "COPYW",    1,  1, ' ',  "ss",        "v", 0x00, 0 },
     { "COPY",     1,  1, ' ',  "ss",        "v", 0x00, 0 },
     { "COS",      0,  0, ' ',  "f",         "f", 0x00, 0 },
     { "COUNT",    0,  0, ' ',  "",          "i", 0x00, 0 },
-    //{ "CREATE",   1,  1, ' ',  "ii",        "v", 0x00, 0 },  // file format
     { "CURSOR",   1,  0, 'O',  "i",         "v", 0x00, 0 },
     { "DATIM$",   0,  0, ' ',  "",          "s", 0x00, 0 },
     { "DAYNAME$", 0,  0, ' ',  "i",         "s", 0x00, 0 },
@@ -166,7 +165,6 @@ struct _FN_INFO
     { "DISP",     0,  0, ' ',  "i$",        "i", 0x00, 0 },
     { "DOW",      0,  0, ' ',  "iii",       "i", 0x00, 0 },
     { "EDIT",     1,  1, ' ',  "s",         "v", 0x00, 1 },
-    //  { "ENDIF",    1,  0, ' ',  "",          "v", 0x00, 0 },
     { "EOF",      0,  0, ' ',  "",          "i", 0x00, 0 },
     { "ERASE",    1,  1, ' ',  "",          "v", 0x00, 0 },
     { "ERR$",     0,  0, ' ',  "i",         "s", 0x00, 0 },
@@ -186,10 +184,8 @@ struct _FN_INFO
     { "HEX$",     0,  0, ' ',  "i",         "s", 0x00, 0 },
     { "HOUR",     0,  0, ' ',  "",          "i", 0x00, 0 },
     { "IABS",     0,  0, ' ',  "i",         "i", 0x00, 0 },
-    //{ "INPUT",    1,  1, ' ',  "i",         "i", 0x00, 0 },
     { "INTF",     0,  0, ' ',  "f",         "f", 0x00, 0 },
     { "INT",      0,  0, ' ',  "f",         "i", 0x00, 0 },
-    //    { "IF",       1,  0, ' ',  "i",         "v", 0x00, 0 },
     { "KEY$",     0,  0, ' ',  "",          "s", 0x00, 0 },
     { "KEY",      0,  0, ' ',  "",          "i", 0x00, 0 },
     { "KSTAT",    1,  0, ' ',  "i",         "v", 0x00, 0 },
@@ -200,23 +196,19 @@ struct _FN_INFO
     { "LOC",      0,  0, ' ',  "ss",        "i", 0x00, 0 },
     { "LOG",      0,  0, ' ',  "f",         "f", 0x00, 0 },
     { "LOWER$",   0,  0, ' ',  "s",         "s", 0x00, 0 },
-    //{ "LPRINT",   1,  0, ' ',  "i",         "v", 0x00, 0 },    // As print
-    { "MAX",      0,  0, ' ',  "ii",        "f", 0x00, 0 },
-    { "MEAN",     0,  0, ' ',  "ii",        "f", 0x00, 0 },    // Multiple forms
+    { "MAX",      0,  0, '*',  "" ,        "f", 0x00, 0 },
+    { "MEAN",     0,  0, '*',  "",         "f", 0x00, 0 },    // Multiple forms
     { "MENUN",    0,  0, ' ',  "is",        "i", 0x00, 0 },    // Multiple forms
     { "MENU",     0,  0, ' ',  "s",         "i", 0x00, 0 },
     { "MID$",     0,  0, ' ',  "sii",       "s", 0x00, 0 },
     { "MINUTE",   0,  0, ' ',  "",          "i", 0x00, 0 },
-    { "MIN",      0,  0, ' ',  "ii",        "f", 0x00, 0 },    // Multiple forms
+    { "MIN",      0,  0, '*',  "",         "f", 0x00, 0 },    // Multiple forms
     { "MONTH$",   0,  0, ' ',  "i",         "s", 0x00, 0 },    
     { "MONTH",    0,  0, ' ',  "",          "i", 0x00, 0 },
     { "NEXT",     0,  1, ' ',  "",          "v", 0x00, 0 },
     { "NUM$",     0,  0, ' ',  "fi",        "s", 0x00, 0 },
-    // { "NOT",      0,  0, ' ',  "i",         "i", 0x00, 0 },
     { "OFFX",     1,  0, ' ',  "i",         "v", 0x00, 0 },    // OFF or OFF x%
     { "OFF",      1,  0, ' ',  "",          "v", 0x00, 0 },    // OFF or OFF x%
-    //{ "OPEN",     1,  1, ' ',  "ii",        "v", 0x00, 0 },    // File format
-    //    { "ONERR",    1,  0, ' ',  "",          "v", 0x00, 0 },    
     { "PAUSE",    1,  0, ' ',  "i" ,        "v", 0x00, 0 },
     { "PEEKB",    0,  0, ' ',  "i",         "i", 0x00, 0 },
     { "PEEKW",    0,  0, ' ',  "i",         "i", 0x00, 0 },
@@ -225,7 +217,6 @@ struct _FN_INFO
     { "POKEW",    1,  0, ' ',  "ii",        "v", 0x00, 0 },
     { "POSITION", 1,  1, ' ',  "i",         "v", 0x00, 0 },
     { "POS",      0,  0, ' ',  "",          "i", 0x00, 0 },
-    //{ "PRINT",    1,  0, ' ',  "i",         "v", 0x00, 0 },
     { "RAD",      0,  0, ' ',  "f",         "f", 0x00, 0 },
     { "RAISE",    1,  0, ' ',  "i",         "v", 0x00, 0 },
     { "RANDOMIZE",1,  0, ' ',  "i",         "v", 0x00, 0 },
@@ -241,11 +232,10 @@ struct _FN_INFO
     { "SIN",      0,  0, ' ',  "f",         "f", 0x00, 0 },
     { "SPACE",    0,  0, ' ',  "",          "f", 0x00, 0 },
     { "SQR",      0,  0, ' ',  "f",         "f", 0x00, 0 },
-    { "STD",      0,  0, ' ',  "ii",        "f", 0x00, 0 },  // Multiple forms
+    { "STD",      0,  0, '*',  "",          "f", 0x00, 0 },  // Multiple forms
     { "STOP",     1,  0, ' ',  "",          "v", 0x00, 0 },
-    { "SUM",      0,  0, ' ',  "ii",        "f", 0x00, 0 },  // Multiple forms
+    { "SUM",      0,  0, '*',  "",          "f", 0x00, 0 },  // Multiple forms
     { "TAN",      0,  0, ' ',  "f",         "f", 0x00, 0 },
-    //{ "TRAP",     1,  0, ' ',  "",          "v", 0x00, 0 },  // Prefix, not command?
     { "UDG",      1,  0, ' ',  "iiiiiiiii", "v", 0x00, 0 },
     { "UPDATE",   1,  1, ' ',  "",          "v", 0x00, 0 },
     { "UPPER$",   0,  0, ' ',  "s",         "s", 0x00, 0 },
@@ -253,7 +243,7 @@ struct _FN_INFO
     { "USR$",     0,  0, ' ',  "ii",        "s", 0x00, 0 },
     { "USR",      0,  0, ' ',  "ii",        "i", 0x00, 0 },
     { "VAL",      0,  0, ' ',  "s",         "f", 0x00, 0 },
-    { "VAR",      0,  0, ' ',  "ii",        "f", 0x00, 0 },   // Multiple forms
+    { "VAR",      0,  0, '*',  "",          "f", 0x00, 0 },   // Multiple forms
     { "VIEW",     0,  0, ' ',  "is",        "i", 0x00, 0 },   
     { "WEEK",     0,  0, ' ',  "iii",       "i", 0x00, 0 },
     { "YEAR",     0,  0, ' ',  "",          "i", 0x00, 0 },
@@ -4613,6 +4603,72 @@ int scan_command(char *cmd_dest, int trappable_only)
   return(0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// Float lists
+
+// Flist 0 is a float array name followed by () and an integer
+
+int check_flist0(int *index)
+{
+  int idx = *index;
+
+  indent_more();
+  
+  drop_space(&idx);
+  
+  dbprintf(" '%s'", &(cline[idx]));
+
+  if( check_vname(&idx) )
+    {
+      if( check_literal(&idx, " (") )
+	{
+	  if( check_literal(&idx, " )") )
+	    {
+	      // 
+	    }
+	}
+    }
+}
+
+// Flist 1 is a list of floats and the number of floats
+
+int check_flist1(int *index)
+{
+  int idx = *index;
+
+  indent_more();
+  
+  drop_space(&idx);
+  
+  dbprintf(" '%s'", &(cline[idx]));
+}
+
+//------------------------------------------------------------------------------
+
+int scan_flist0(void)
+{
+  indent_more();
+  
+  drop_space(&cline_i);
+  
+  dbprintf(" '%s'", &(cline[cline_i]));
+}
+
+// Flist 1 is a list of floats and the number of floats
+
+int scan_flist1(void)
+{
+  indent_more();
+  
+  drop_space(&cline_i);
+  
+  dbprintf(" '%s'", &(cline[cline_i]));
+}
+
+
+//------------------------------------------------------------------------------
+
 //------------------------------------------------------------------------------
 
 int scan_function(char *cmd_dest)
@@ -4646,6 +4702,31 @@ int scan_function(char *cmd_dest)
 	    {
 	      switch( fn_info[i].argparse )
 		{
+		case 'L':
+		  // List args
+		  // This is either:
+		  //   A(), 5
+		  //
+		  // or
+		  //   A, B, C, ..., XX
+		  //
+		  // We need to check and see which it is and parse that
+		  if( check_flist0(&idx) )
+		    {
+		      scan_flist0();
+		    }
+		  else if ( check_flist1(&idx) )
+		    {
+		      scan_flist1();
+		    }
+		  else
+		    {
+		      syntax_error("Bad float list");
+		      dbprintf("ret0 Bad float list");
+		      return(0);
+		    }
+		  break;
+		  
 		case 'V':
 		  // The V argument type is a variable name. We use an argparse string of ""
 		  // and so need to skip the dummy argument.
@@ -5097,7 +5178,9 @@ int scan_return(void)
 
 	      // The expression we just scanned needs to be the same type as the procedure we
 	      // are translating.
-	      
+
+	      op_stack_finalise();
+	       
 	      //	      op.type = NOBJ_VARTY;
 	      op.access = NOPL_OP_ACCESS_EXP;
 	      op.buf_id = EXP_BUFF_ID_RETURN;

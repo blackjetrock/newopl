@@ -1,0 +1,32 @@
+
+Filename:'ob3_nopl'
+File ext:'bin
+Dropping OB3 header...
+Enter:dump_proc
+Var Space Size:003A
+QCode Space Size:0007
+Number of parameters:00
+Parameter types:
+Global varname Size:0000
+Global variables (0)
+
+External varname Size:0000
+External variables (0)
+
+String length fixups (0)
+
+Array size fixups (1)
+ 0: FFD4 0005
+
+QCode
+
+0000: 59       STOP     (bytes code:-)
+0001: B2       SIN     (bytes code:-)
+0002: 0E       Push local/global float variable reference     (bytes code:v)
+0003: FFCC       (65484)
+0005: 80       Assign float     (bytes code:-)
+0006: 7B       RETURN (float 0)     (bytes code:-)
+
+QCode Data
+
+0000:59 B2 0E FF CC 80 7B 

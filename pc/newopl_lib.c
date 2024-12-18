@@ -26,6 +26,7 @@ void debug(char *fmt, ...)
   if( !debug_open )
     {
       dbfp = fopen("db.txt", "w");
+      debug_open = 1;
     }
   
   va_start(valist, fmt);

@@ -510,6 +510,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "AT",                __,     __,                   __,        __,               QCO_AT, 0},
     {EXP_BUFF_ID_FUNCTION, "EDIT",              __,     __,                   __,        __,               QCO_EDIT, 0},
     {EXP_BUFF_ID_FUNCTION, "ERR",               __,     __,                   __,        __,               RTF_ERR, 0},
+    {EXP_BUFF_ID_FUNCTION, "MAX",               __,     __,                   __,        __,               RTF_MAX, 0},
     {EXP_BUFF_ID_FUNCTION, "ERR$",              __,     __,                   __,        __,               RTF_SERR, 0},
     {EXP_BUFF_ID_FUNCTION, "GET",               __,     __,                   __,        __,               RTF_GET, 0},
     {EXP_BUFF_ID_FUNCTION, "ASC",               __,     __,                   __,        __,               RTF_ASC, 0},
@@ -3077,7 +3078,12 @@ void typecheck_expression(void)
 		  fprintf(ofp, "  Return type not OK");
 		  
 		  sprintf(autocon.name, "autocon %c->%c (return)", type_to_char(op1.op.type), type_to_char(be.op.type));
-		  insert_buf2_entry_after_node_id(op1.node_id, autocon);
+
+		  if( ( can_use_autocon(op1.op.type, be.op.type)))
+		    {
+		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
+		    }
+		  //		  insert_buf2_entry_after_node_id(op1.node_id, autocon);
 		  
 		}
 	    }

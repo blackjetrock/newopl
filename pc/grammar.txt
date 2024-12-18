@@ -23,6 +23,7 @@
                     <print> | <input> | <use> |
                     <onerr> | <label> | <assignment> | <command> |
 	            <function> '(' <expression-list> ')' |
+		    <function> <flist0> | <function> <flist1> |
                     TRAP <trappable_command> |
                     <if> | <while> | <do> |
 		    <goto> |
