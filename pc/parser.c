@@ -5709,24 +5709,6 @@ int check_proc_call(int *index)
 	  dbprintf("%s:ret1 idx='%s'", __FUNCTION__, &(cline[idx]));
 	  return(1);
 	}
-
-#if 0
-      if( check_literal(&idx, "%:") )
-	{
-	  dbprintf("ret1");
-	  *index = idx;
-	  dbprintf("%s:ret1 idx='%s'", __FUNCTION__, &(cline[idx]));
-	  return(1);
-	}
-
-      if( check_literal(&idx, "$:") )
-	{
-	  dbprintf("ret1");
-	  *index = idx;
-	  dbprintf("%s:ret1 idx='%s'", __FUNCTION__, &(cline[idx]));
-	  return(1);
-	}
-#endif
     }
   
   dbprintf("%s:ret0", __FUNCTION__);
@@ -5766,79 +5748,46 @@ int scan_proc_call(void)
       dbprintf("%s:*** '%s'", __FUNCTION__, textlabel);
       fflush(ofp);
 
-#if 0
-      for(int i= 0; i<NUM_PROC_CALL_INFO; i++)
+      cline_i = idx;
+      
+      if( check_literal(&idx, ":") )
 	{
-	  dbprintf("Checking suffix:'%s'", &(cline[idx]));
-	  if( check_literal(&idx, proc_call_info[i].suffix) )
-	    {
-	      dbprintf("Suffix matched");
-
-	      // We are as far as the end of the proc name, plus colon
-	      // scan that far
-	      
-	      strcat(textlabel, proc_call_info[i].suffix);
-#endif	      	      
-	      cline_i = idx;
-
-	      if( check_literal(&idx, ":") )
-		{
-		  // Colon present so all OK
-		  cline_i = idx;
-		}
-	      else
-		{
-		  syntax_error("No colon in proc call");
-		  dbprintf("ret0: No colon in proc call");
-		  return(0);
-		}
-	      
-	      // If there's an open bracket then we have parameters
-	      if( check_literal(&idx, " (") )
-		{
-		  scan_literal(" (");
-		  if( check_expression_list(&idx) )
-		    {
-		      // Scan a parameter list here. The proc call has a type pushed onto the stack
-		      // for each parameter so the procedure load can type check the parameters at
-		      // run time. We have to make sure that scan_expression list adds intermediate code
-		      // to generate qcode for these type pushes.
-		      scan_expression_list(&num_expr, INSERT_TYPES);
-		    }
-		  scan_literal(" )");
-		}
-
-	      op.num_parameters = num_expr;
-	      dbprintf("Setting type to %c", type_to_char(type));
-	      
-	      op.type = type;
-	      op.buf_id = EXP_BUFF_ID_PROC_CALL;
-	      strcpy(op.name, textlabel);
-#if 0
-	      // Proc name has type char
-	      switch(type)
-		{
-		case NOBJ_VARTYPE_FLT:
-		  strcat(op.name, ":");
-		  break;
-
-		case NOBJ_VARTYPE_INT:
-		  strcat(op.name, "");
-		  break;
-
-		case NOBJ_VARTYPE_STR:
-		  strcat(op.name, "");
-		  break;
-		}
-#endif
-	      process_token(&op);
-	      dbprintf("ret1");
-	      return(1);
-#if 0
-	    }
+	  // Colon present so all OK
+	  cline_i = idx;
 	}
-#endif
-    }
+      else
+	{
+	  syntax_error("No colon in proc call");
+	  dbprintf("ret0: No colon in proc call");
+	  return(0);
+	}
+	      
+      // If there's an open bracket then we have parameters
+      if( check_literal(&idx, " (") )
+	{
+	  scan_literal(" (");
+	  if( check_expression_list(&idx) )
+	    {
+	      // Scan a parameter list here. The proc call has a type pushed onto the stack
+	      // for each parameter so the procedure load can type check the parameters at
+	      // run time. We have to make sure that scan_expression list adds intermediate code
+	      // to generate qcode for these type pushes.
+	      scan_expression_list(&num_expr, INSERT_TYPES);
+	    }
+	  scan_literal(" )");
+	}
+
+      op.num_parameters = num_expr;
+      dbprintf("Setting type to %c", type_to_char(type));
+	      
+      op.type = type;
+      op.buf_id = EXP_BUFF_ID_PROC_CALL;
+      strcpy(op.name, textlabel);
+
+      process_token(&op);
+      dbprintf("ret1");
+      return(1);
+}
   
   dbprintf("%s:ret0", __FUNCTION__);
   return(0);
