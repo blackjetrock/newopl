@@ -394,7 +394,7 @@ int token_is_float(char *token);
 int token_is_integer(char *token);
 int token_is_variable(char *token);
 int token_is_string(char *token);
-int check_expression_list(int *index);
+int check_expression_list(int *index, int *num_elements);
 int is_all_spaces(int idx);
 
 void finalise_expression(void);

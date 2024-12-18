@@ -196,13 +196,13 @@ struct _FN_INFO
     { "LOC",      0,  0, ' ',  "ss",        "i", 0x00, 0 },
     { "LOG",      0,  0, ' ',  "f",         "f", 0x00, 0 },
     { "LOWER$",   0,  0, ' ',  "s",         "s", 0x00, 0 },
-    { "MAX",      0,  0, '*',  "" ,        "f", 0x00, 0 },
-    { "MEAN",     0,  0, '*',  "",         "f", 0x00, 0 },    // Multiple forms
+    { "MAX",      0,  0, 'L',  "" ,        "f", 0x00, 0 },
+    { "MEAN",     0,  0, 'L',  "",         "f", 0x00, 0 },    // Multiple forms
     { "MENUN",    0,  0, ' ',  "is",        "i", 0x00, 0 },    // Multiple forms
     { "MENU",     0,  0, ' ',  "s",         "i", 0x00, 0 },
     { "MID$",     0,  0, ' ',  "sii",       "s", 0x00, 0 },
     { "MINUTE",   0,  0, ' ',  "",          "i", 0x00, 0 },
-    { "MIN",      0,  0, '*',  "",         "f", 0x00, 0 },    // Multiple forms
+    { "MIN",      0,  0, 'L',  "",         "f", 0x00, 0 },    // Multiple forms
     { "MONTH$",   0,  0, ' ',  "i",         "s", 0x00, 0 },    
     { "MONTH",    0,  0, ' ',  "",          "i", 0x00, 0 },
     { "NEXT",     0,  1, ' ',  "",          "v", 0x00, 0 },
@@ -232,9 +232,9 @@ struct _FN_INFO
     { "SIN",      0,  0, ' ',  "f",         "f", 0x00, 0 },
     { "SPACE",    0,  0, ' ',  "",          "f", 0x00, 0 },
     { "SQR",      0,  0, ' ',  "f",         "f", 0x00, 0 },
-    { "STD",      0,  0, '*',  "",          "f", 0x00, 0 },  // Multiple forms
+    { "STD",      0,  0, 'L',  "",          "f", 0x00, 0 },  // Multiple forms
     { "STOP",     1,  0, ' ',  "",          "v", 0x00, 0 },
-    { "SUM",      0,  0, '*',  "",          "f", 0x00, 0 },  // Multiple forms
+    { "SUM",      0,  0, 'L',  "",          "f", 0x00, 0 },  // Multiple forms
     { "TAN",      0,  0, ' ',  "f",         "f", 0x00, 0 },
     { "UDG",      1,  0, ' ',  "iiiiiiiii", "v", 0x00, 0 },
     { "UPDATE",   1,  1, ' ',  "",          "v", 0x00, 0 },
@@ -243,7 +243,7 @@ struct _FN_INFO
     { "USR$",     0,  0, ' ',  "ii",        "s", 0x00, 0 },
     { "USR",      0,  0, ' ',  "ii",        "i", 0x00, 0 },
     { "VAL",      0,  0, ' ',  "s",         "f", 0x00, 0 },
-    { "VAR",      0,  0, '*',  "",          "f", 0x00, 0 },   // Multiple forms
+    { "VAR",      0,  0, 'L',  "",          "f", 0x00, 0 },   // Multiple forms
     { "VIEW",     0,  0, ' ',  "is",        "i", 0x00, 0 },   
     { "WEEK",     0,  0, ' ',  "iii",       "i", 0x00, 0 },
     { "YEAR",     0,  0, ' ',  "",          "i", 0x00, 0 },
@@ -2604,7 +2604,10 @@ int check_variable(int *index)
 	  // Add token to output stream for index or indices
 	  // If it's an empty expression then it's not an expression. This is an
 	  // ADDR address reference to an array
-	  if( !check_expression_list(&idx) )
+
+	  int num_elem;
+	  
+	  if( !check_expression_list(&idx, &num_elem) )
 	    {
 	      // Not a variable reference, probably an ADDR function argument.
 	      *index = idx;
@@ -3941,16 +3944,25 @@ int check_onoff(int *index, int *onoff_val)
 ////////////////////////////////////////////////////////////////////////////////
 //
 // An expression list is a list of comma delimited expressions
+//
+// Some functions, e.g. MEAN,MAX etc, require specific forms of a list
+// This function detects thjose and sets flags so the caller can
+// do things based on the list type (syntax checks)
+//
 
-int check_expression_list(int *index)
+int check_expression_list(int *index, int *num_elements)
 {
   int idx = *index;
+  *num_elements = 0;
+  
   indent_more();
   
   dbprintf("%s: '%s'", __FUNCTION__, &(cline[idx]));
 
   if( check_expression(&idx, HEED_COMMA) )
     {
+      (*num_elements)++;
+
       while( check_literal(&idx, " ,") )
 	{
 	  if( !check_expression(&idx, HEED_COMMA) )
@@ -3960,6 +3972,9 @@ int check_expression_list(int *index)
 	      *index = idx;
 	      return(0);
 	    }
+	  
+	  // Another element
+	  (*num_elements)++;
 	}
 
       // All OK
@@ -4603,72 +4618,6 @@ int scan_command(char *cmd_dest, int trappable_only)
   return(0);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//
-// Float lists
-
-// Flist 0 is a float array name followed by () and an integer
-
-int check_flist0(int *index)
-{
-  int idx = *index;
-
-  indent_more();
-  
-  drop_space(&idx);
-  
-  dbprintf(" '%s'", &(cline[idx]));
-
-  if( check_vname(&idx) )
-    {
-      if( check_literal(&idx, " (") )
-	{
-	  if( check_literal(&idx, " )") )
-	    {
-	      // 
-	    }
-	}
-    }
-}
-
-// Flist 1 is a list of floats and the number of floats
-
-int check_flist1(int *index)
-{
-  int idx = *index;
-
-  indent_more();
-  
-  drop_space(&idx);
-  
-  dbprintf(" '%s'", &(cline[idx]));
-}
-
-//------------------------------------------------------------------------------
-
-int scan_flist0(void)
-{
-  indent_more();
-  
-  drop_space(&cline_i);
-  
-  dbprintf(" '%s'", &(cline[cline_i]));
-}
-
-// Flist 1 is a list of floats and the number of floats
-
-int scan_flist1(void)
-{
-  indent_more();
-  
-  drop_space(&cline_i);
-  
-  dbprintf(" '%s'", &(cline[cline_i]));
-}
-
-
-//------------------------------------------------------------------------------
-
 //------------------------------------------------------------------------------
 
 int scan_function(char *cmd_dest)
@@ -4676,6 +4625,7 @@ int scan_function(char *cmd_dest)
   OP_STACK_ENTRY op;
   int idx;
   int num_expr;
+  int num_elements = 0;
   
   indent_more();
   
@@ -4689,13 +4639,15 @@ int scan_function(char *cmd_dest)
     {
       if( !(fn_info[i].command) && strn_match(&(cline[cline_i]), fn_info[i].name, strlen(fn_info[i].name)) )
 	{
+	  cline_i += strlen(fn_info[i].name);
+#if 0
 	  // Match
 	  strcpy(cmd_dest, fn_info[i].name);
-	  cline_i += strlen(fn_info[i].name);
+
 	  strcpy(op.name, fn_info[i].name);
 	  op.buf_id = EXP_BUFF_ID_FUNCTION;
 	  process_token(&op);
-
+#endif
 	  // If the function has no arguments, add a dummy empty expression after it
 	  // as the shunting algorithm has to have brackets after a function
 	  if( strlen(fn_info[i].argtypes) == 0 )
@@ -4710,19 +4662,27 @@ int scan_function(char *cmd_dest)
 		  // or
 		  //   A, B, C, ..., XX
 		  //
-		  // We need to check and see which it is and parse that
-		  if( check_flist0(&idx) )
+		  // We scan an expression list and sort out what type it is in the typechecking
+
+		  idx = cline_i;
+		  
+		  if( check_literal(&idx, " (") )
 		    {
-		      scan_flist0();
-		    }
-		  else if ( check_flist1(&idx) )
-		    {
-		      scan_flist1();
+		      scan_literal(" (");
+		      
+		      if( !scan_expression_list(&idx, DO_NOT_INSERT_TYPES) )
+			{
+			  syntax_error("Not an expression list");
+			  dbprintf("ret0 Not an expression list");
+			  return(0);
+			}
+		      
+		      scan_literal(" )");
 		    }
 		  else
 		    {
-		      syntax_error("Bad float list");
-		      dbprintf("ret0 Bad float list");
+		      syntax_error("Expression list required");
+		      dbprintf("ret0: Expression list required");
 		      return(0);
 		    }
 		  break;
@@ -4775,6 +4735,18 @@ int scan_function(char *cmd_dest)
 		  return(0);
 		}
 	    }
+
+	  // Ensure function is after it's arguments
+	  //op_stack_finalise();
+	  
+	  // Match
+	  strcpy(cmd_dest, fn_info[i].name);
+	  //cline_i += strlen(fn_info[i].name);
+	  strcpy(op.name, fn_info[i].name);
+	  op.buf_id = EXP_BUFF_ID_FUNCTION;
+	  op.num_parameters = num_elements;
+	  process_token(&op);
+
 	  dbprintf("ret1");
 	  return(1);
 	}
@@ -4871,11 +4843,12 @@ int check_function(int *index)
 	  else
 	    {
 	      int num_commas = 0;
-
+	      int num_elem;
+	      
 	      if( check_literal(&idx, " (") )
 		{
 		  
-		  if( !check_expression_list(&idx) )
+		  if( !check_expression_list(&idx, &num_elem) )
 		    {
 		      syntax_error("Not an expression");
 
@@ -5766,7 +5739,10 @@ int scan_proc_call(void)
       if( check_literal(&idx, " (") )
 	{
 	  scan_literal(" (");
-	  if( check_expression_list(&idx) )
+
+	  int num_elem;
+	  
+	  if( check_expression_list(&idx, &num_elem) )
 	    {
 	      // Scan a parameter list here. The proc call has a type pushed onto the stack
 	      // for each parameter so the procedure load can type check the parameters at

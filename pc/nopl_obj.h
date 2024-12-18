@@ -205,7 +205,7 @@ typedef struct _OP_STACK_ENTRY
   NOBJ_INT                integer;
   NOBJ_VARTYPE            type;       // Original type
   //  NOBJ_VARTYPE            req_type;   // Required type
-  NOBJ_VARTYPE            qcode_type; // Type the QCode needs to be (base don inputs for
+  NOBJ_VARTYPE            qcode_type; // Type the QCode needs to be (based on inputs for
                                       // forced operators like <=. They need to have an
                                       // output type that is forced (int for <=) but
                                       // use a FLT type if the inputs are FLT
@@ -215,7 +215,7 @@ typedef struct _OP_STACK_ENTRY
   int                     num_bytes;
   int                     bytes[NOPL_MAX_SUFFIX_BYTES];
   int                     level;                 // Used for conditionals
-  int                     num_parameters;
+  int                     num_parameters;        // Number of parameters of a function
   NOBJ_VARTYPE            parameter_type[NOBJ_MAX_PARAMETERS];
   NOPL_OP_ACCESS          access;                // Read or write (variables)
                                                  // EXP or NO_EXP for RETURN
