@@ -2450,7 +2450,7 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, ch
 	  
 	  make_var_type_array(&(vi->type));
 
-	  // We do allow an array with no index. This is use din the Flist argument type
+	  // We do allow an array with no index. This is used in the Flist argument type
 	  // for functions like MEAN and MAX. The index used is on the stack.
 
 	  if( check_literal(&idx, " )" ),0 )

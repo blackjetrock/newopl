@@ -3076,6 +3076,7 @@ void typecheck_expression(void)
 		      
 		      // Can we use an auto conversion?
 		      // There's only one option, FLT -> INT
+		      
 		      if( (op1.op.type == NOBJ_VARTYPE_FLT) )
 			{
 			  autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
@@ -3279,11 +3280,13 @@ void typecheck_expression(void)
 		      strcpy(ft.op.name, "1");
 		      ft.op.type      = NOBJ_VARTYPE_INT;
 		      insert_buf2_entry_before_node_id(op2.node_id, ft);
-		      
+
+		      // Pop the arguments off the stack
+#if 0
 		      type_check_stack_push(ft);
 		      type_check_stack_push(op2);
 		      type_check_stack_push(op1);
-		      
+#endif		      
 		      if( ( can_use_autocon(op1.op.type, NOBJ_VARTYPE_INT)))
 			{
 			  sprintf(autocon.name, "autocon %c->%c (flist idx)", type_to_char(op1.op.type), type_to_char(NOBJ_VARTYPE_INT));
@@ -3327,7 +3330,7 @@ void typecheck_expression(void)
 	      exp_buffer2[exp_buffer2_i++] = ft;
 	      //insert_buf2_entry_before_node_id(be.node_id, ft);
 
-	      type_check_stack_push(ft);
+	      //	      type_check_stack_push(ft);
 	    }
 	  else
 	    {
@@ -3595,8 +3598,8 @@ void typecheck_expression(void)
 			    {
 			      dbprintf("Assignment");
 			      
-			      // Operator type follows the second operand, which is the variable we
-			      // are assigning to
+			      // Operator type usually follows the second operand, which is the variable we
+			      // are assigning to.
 
 			      // Now set up output type
 			      if( op_info.output_type == NOBJ_VARTYPE_UNKNOWN )
