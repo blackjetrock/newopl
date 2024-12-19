@@ -33,6 +33,7 @@ int unique_level = 0;
 char          procedure_name[NOBJ_VARNAME_MAXLEN+1];
 NOBJ_VARTYPE  procedure_type;
 int           procedure_has_return = 0;
+int           last_line_is_return = 0;
 
 #define I_WHERE     &(cline[cline_i])
 #define IDX_WHERE   &(cline[idx])

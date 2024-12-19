@@ -1330,6 +1330,8 @@ void output_qcode_for_line(void)
   // would have created them.
   int elseif_present = 0;
   int is_an_assignment = 0;
+
+ 
   
   for(int i=0; i<exp_buffer2_i; i++)
     {
@@ -1362,7 +1364,9 @@ void output_qcode_for_line(void)
     {
       EXP_BUFFER_ENTRY token = exp_buffer2[i];
       NOBJ_QCODE qc;
-      
+
+       last_line_is_return = 0;
+       
 #define tokop token.op
       
       dbprintf("QC: i:%d", i);
@@ -1491,7 +1495,7 @@ void output_qcode_for_line(void)
 	  // If there's no RETURN then a code that stacks a zero/null has to be added once the translating ends.
 	case EXP_BUFF_ID_RETURN:
 	  procedure_has_return = 1;
-	  
+	  last_line_is_return = 1;
 	  if( token.op.access == NOPL_OP_ACCESS_EXP )
 	    {
 	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_RETURN);
@@ -1804,7 +1808,9 @@ void output_qcode_for_line(void)
 
 void output_qcode_suffix(void)
 {
-  if( !procedure_has_return )
+  dbprintf("Has return:%d last line return:%d", procedure_has_return, last_line_is_return);
+  
+  if( !last_line_is_return )
     {
       switch(procedure_type)
 	{
