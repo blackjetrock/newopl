@@ -1,148 +1,528 @@
 
-Q%
 
-S%
-W% := 4
-B% := A%
-WHILE (A%(A%) > 0)
-B% := ((B% - 1) + (12 AND (B% = 1)))
-IF (B% = A%)
-B% := ((B% - 1) + (12 AND (B% = 1)))
-ENDIF
-A%(B%) := (A%(B%) + 1)
-A%(A%) := (A%(A%) - 1)
-IF Q%
-PAUSE(W% )
-IF (A% > 6)
-AT(((13 - A%) * 3) 2 )
+
+ZZ%
+NOTE$
+CLS()
+AT(2 2 )
+PRINT("Initialising....")
+<nl>
+
+UDG(0 0 0 0 0 0 0 0 31 )
+UDG(2 0 10 10 14 10 10 0 31 )
+IF (UNOT EXIST("A:HOMEWORK" ))
+"A:HOMEWORK"
 ELSE
-AT((A% * 3) 1 )
+"A:HOMEWORK"
 ENDIF
-PRINT(A%(A%))
-< > 
-
-IF (B% > 6)
-AT(((13 - B%) * 3) 2 )
+IF (UNOT EXIST("A:NUM" ))
+"A:NUM"
 ELSE
-AT((B% * 3) 1 )
+"A:NUM"
 ENDIF
-PRINT(A%(B%))
-< > 
+"A:LESSON"
+IF ERR()
+CLS()
+PRINT("***NO LESSON FILE***")
+<nl>
+
+GET()
 
 ENDIF
-ENDWH
-IF ((B% = 1) AND (M% = 1))
-IF ((((((((((((A%(1) <= 3) AND (A%(2) <= 3)) AND (A%(3) <= 3)) AND (A%(4) <= 3)) AND (A%(5) <= 3)) AND (A%(6) <= 3)) AND (A%(1) >= 2)) AND (A%(2) >= 2)) AND (A%(3) >= 2)) AND (A%(4) >= 2)) AND (A%(5) >= 2)) AND (A%(6) >= 2))
-0
+USE()
+
+REF::
+DAY% := DOW(DAY() MONTH() YEAR() )
+TIME% := HOUR()
+IF ((TIME% = 9) OR (TIME% = 10))
+T% := 1
+ELSEIF ((TIME% = 11) OR (TIME% = 12))
+T% := 2
+ELSEIF ((TIME% = 13) OR (TIME% = 14))
+T% := 3
+ELSEIF (TIME% = 15)
+T% := 4
+ELSE
+T% := 1
 ENDIF
-ELSEIF ((B% = 7) AND (M% = 2))
-IF ((((((((((((A%(7) <= 3) AND (A%(8) <= 3)) AND (A%(9) <= 3)) AND (A%(10) <= 3)) AND (A%(11) <= 3)) AND (A%(12) <= 3)) AND (A%(7) >= 2)) AND (A%(8) >= 2)) AND (A%(9) >= 2)) AND (A%(10) >= 2)) AND (A%(11) >= 2)) AND (A%(12) >= 2))
-0
+REF% := (((DAY% - 1) * 4) + (T% - 1))
+TOP::
+USE()
+
+IF (REF% < 20)
+POSITION((REF% + 1) )
+ELSE
+FIRST()
 ENDIF
-ENDIF
-S% := 0
-IF (((A%(B%) = 2) OR (A%(B%) = 3)) AND (((B% > 6) AND (M% = 2)) OR ((B% < 7) AND (M% = 1))))
+TOPPPP::
 DO
-IF Q%
-WHILE (A%(B%) > 0)
-S%(M%) := (S%(M%) + 1)
-A%(B%) := (A%(B%) - 1)
-PAUSE(W% )
-IF (B% > 6)
-AT(((13 - B%) * 3) 2 )
-ELSE
-AT((B% * 3) 1 )
-ENDIF
-PRINT(A%(B%))
-< > 
+CLS()
+PRINT(REPT$(CHR$(0 ) 14 ))
+<nl>
 
-IF (M% = 1)
-AT(7 4 )
-ELSE
-AT((14 + (S%(M%) > 9)) 4 )
-ENDIF
-PRINT(S%(M%))
-< > 
+CLOCK(1 )
+AT(1 1 )
+PRINT(CHR$(2 ))
+<nl>
 
-ENDWH
+AT(2 2 )
+PRINT(A.WHENS$)
+<nl>
+
+AT(11 2 )
+PRINT("Room: ")
+<nl>
+
+AT(17 2 )
+PRINT(A.RM%)
+<nl>
+
+AT(1 3 )
+PRINT(A.NAME$)
+<nl>
+
+AT(3 4 )
+PRINT("Homeworks:")
+<nl>
+
+AT(14 4 )
+PRINT(C.NUM%)
+<nl>
+
+K% := GET()
+IF (K% = 6)
+IF (POS() = 20)
+FIRST()
 ELSE
-S% := (S% + A%(B%))
+NEXT()
 ENDIF
-B% := ((B% + 1) - (12 AND (B% = 12)))
-UNTIL ((((A%(B%) < 2) OR (A%(B%) > 3)) OR (B% = 1)) OR (B% = 7))
+ELSEIF (K% = 5)
+IF (POS() = 1)
+LAST()
+ELSE
+BACK()
 ENDIF
-S%
+ELSEIF (K% = 13)
+NEXT()
+ELSEIF (K% = 4)
+IF (POS() < 5)
+POSITION((POS() + 16) )
+ELSE
+POSITION((POS() - 4) )
+ENDIF
+ELSEIF (K% = 3)
+IF (POS() > 15)
+POSITION((POS() - 16) )
+ELSE
+P% := (POS() + 4)
+POSITION(P% )
+ENDIF
+ELSEIF (K% = 1)
+
+ELSEIF (K% = 2)
+GOTO MODE
+ELSEIF (K% = 79)
+
+GOTO REF
+ENDIF
+UNTIL EOF()
+GOTO TOPPPP
+MODE::
+CLOCK(0 )
+UDG(7 21 0 0 0 0 0 0 0 )
+AT(1 2 )
+PRINT(REPT$(CHR$(7 ) 20 ))
+<nl>
+
+AT(1 1 )
+MENU% := MENUN(1 "Add,View/edit,Quit,Off" )
+IF (MENU% = 0)
+GOTO TOP
+ELSEIF (MENU% = 1)
+USE()
+
+C.NUM% := (C.NUM% + 1)
+UPDATE()
+USE()
+
+B.LNUM% := POS()
+CLS()
+AT(1 1 )
+PRINT("Subject: ")
+<nl>
+
+AT(9 1 )
+B.SUBJ$
+AT(1 2 )
+PRINT("Due: ")
+<nl>
+
+AT(5 2 )
+B.DUE$
+AT(1 3 )
+PRINT("Notes: ")
+<nl>
+
+AT(8 3 )
+B.NOTE$
+AT(1 4 )
+PRINT("Saving...         ")
+<nl>
+
+B.DAYT% := DAY()
+B.DATE$ := MONTH$(MONTH() )
+APPEND()
+GOTO TOP
+ELSEIF (MENU% = 2)
+TOPP::
+USE()
+
+DO
+CLS()
+PRINT("Subj:")
+PRINT(B.SUBJ$)
+<nl>
+
+AT(14 1 )
+PRINT(B.DAYT%)
+< > 
+PRINT(B.DATE$)
+<nl>
+
+AT(1 2 )
+PRINT("Due: ")
+<nl>
+
+AT(6 2 )
+PRINT(B.DUE$)
+<nl>
+
+AT(1 3 )
+PRINT("Notes: ")
+<nl>
+
+AT(8 3 )
+PRINT(B.NOTE$)
+<nl>
+
+KSTAT(1 )
+Z% := GET()
+IF (((Z% = 4) OR (Z% = 6)) OR (Z% = 13))
+NEXT()
+ELSEIF ((Z% = 3) OR (Z% = 5))
+BACK()
+ELSEIF (Z% = 8)
+AT(1 4 )
+PRINT(" ERASE Y/N          ")
+<nl>
+
+E% := GET()
+IF (E% = 89)
+ERASE()
+USE()
+
+C.NUM% := (C.NUM% - 1)
+UPDATE()
+USE()
+
+ELSE
+E% := 89
+GOTO TOPP
+ENDIF
+ELSEIF (Z% = 2)
+CLS()
+PRINT("Subject: ")
+<nl>
+
+AT(10 1 )
+EDIT(B.SUBJ$ )
+AT(1 2 )
+PRINT("Due: ")
+<nl>
+
+AT(6 2 )
+EDIT(B.DUE$ )
+AT(1 3 )
+PRINT("Notes: ")
+<nl>
+
+AT(8 3 )
+EDIT(B.NOTE$ )
+UPDATE()
+GOTO TOPP
+ELSEIF (Z% = 1)
+GOTO TOP
+ENDIF
+UNTIL EOF()
+GOTO TOPP
+ELSEIF (MENU% = 3)
+
+ELSE
+MENU% := 4
+
+GOTO REF
+ENDIF
+
+
+
+DROP()
+DROP()
+CLS()
+AT(2 2 )
+PRINT("Initialising....")
+<nl>
+
+UDG(0 0 0 0 0 0 0 0 31 )
+UDG(2 0 10 10 14 10 10 0 31 )
+IF (UNOT EXIST("A:HOMEWORK" ))
+"A:HOMEWORK"
+ELSE
+"A:HOMEWORK"
+ENDIF
+IF (UNOT EXIST("A:NUM" ))
+"A:NUM"
+ELSE
+"A:NUM"
+ENDIF
+"A:LESSON"
+IF ERR()
+CLS()
+PRINT("***NO LESSON FILE***")
+<nl>
 
 DROP()
 
-DROP()
-W% := 4
-B% := A%
-WHILE (A%(A%) > 0)
-B% := ((B% - 1) + (12 AND (B% = 1)))
-IF (B% = A%)
-B% := ((B% - 1) + (12 AND (B% = 1)))
 ENDIF
-A%(B%) := (A%(B%) + 1)
-A%(A%) := (A%(A%) - 1)
-IF Q%
-PAUSE(W% )
-IF (A% > 6)
-AT(((13 - A%) * 3) 2 )
-ELSE
-AT((A% * 3) 1 )
-ENDIF
-PRINT(A%(A%))
-< > 
+USE()
 
-IF (B% > 6)
-AT(((13 - B%) * 3) 2 )
+REF::
+DAY% := DOW(DAY() MONTH() YEAR() )
+TIME% := HOUR()
+IF ((TIME% = 9) OR (TIME% = 10))
+T% := 1
+ELSEIF ((TIME% = 11) OR (TIME% = 12))
+T% := 2
+ELSEIF ((TIME% = 13) OR (TIME% = 14))
+T% := 3
+ELSEIF (TIME% = 15)
+T% := 4
 ELSE
-AT((B% * 3) 1 )
+T% := 1
 ENDIF
-PRINT(A%(B%))
-< > 
+REF% := (((DAY% - 1) * 4) + (T% - 1))
+TOP::
+USE()
 
+IF (REF% < 20)
+POSITION((REF% + 1) )
+ELSE
+FIRST()
 ENDIF
-ENDWH
-IF ((B% = 1) AND (M% = 1))
-IF ((((((((((((A%(1) <= 3) AND (A%(2) <= 3)) AND (A%(3) <= 3)) AND (A%(4) <= 3)) AND (A%(5) <= 3)) AND (A%(6) <= 3)) AND (A%(1) >= 2)) AND (A%(2) >= 2)) AND (A%(3) >= 2)) AND (A%(4) >= 2)) AND (A%(5) >= 2)) AND (A%(6) >= 2))
-0
-ENDIF
-ELSEIF ((B% = 7) AND (M% = 2))
-IF ((((((((((((A%(7) <= 3) AND (A%(8) <= 3)) AND (A%(9) <= 3)) AND (A%(10) <= 3)) AND (A%(11) <= 3)) AND (A%(12) <= 3)) AND (A%(7) >= 2)) AND (A%(8) >= 2)) AND (A%(9) >= 2)) AND (A%(10) >= 2)) AND (A%(11) >= 2)) AND (A%(12) >= 2))
-0
-ENDIF
-ENDIF
-S% := 0
-IF (((A%(B%) = 2) OR (A%(B%) = 3)) AND (((B% > 6) AND (M% = 2)) OR ((B% < 7) AND (M% = 1))))
+TOPPPP::
 DO
-IF Q%
-WHILE (A%(B%) > 0)
-S%(M%) := (S%(M%) + 1)
-A%(B%) := (A%(B%) - 1)
-PAUSE(W% )
-IF (B% > 6)
-AT(((13 - B%) * 3) 2 )
-ELSE
-AT((B% * 3) 1 )
-ENDIF
-PRINT(A%(B%))
-< > 
+CLS()
+PRINT(REPT$(CHR$(0 ) 14 ))
+<nl>
 
-IF (M% = 1)
-AT(7 4 )
-ELSE
-AT((14 + (S%(M%) > 9)) 4 )
-ENDIF
-PRINT(S%(M%))
-< > 
+DROP()
+AT(1 1 )
+PRINT(CHR$(2 ))
+<nl>
 
-ENDWH
+AT(2 2 )
+PRINT(A.WHENS$)
+<nl>
+
+AT(11 2 )
+PRINT("Room: ")
+<nl>
+
+AT(17 2 )
+PRINT(A.RM%)
+<nl>
+
+AT(1 3 )
+PRINT(A.NAME$)
+<nl>
+
+AT(3 4 )
+PRINT("Homeworks:")
+<nl>
+
+AT(14 4 )
+PRINT(C.NUM%)
+<nl>
+
+K% := GET()
+IF (K% = 6)
+IF (POS() = 20)
+FIRST()
 ELSE
-S% := (S% + A%(B%))
+NEXT()
 ENDIF
-B% := ((B% + 1) - (12 AND (B% = 12)))
-UNTIL ((((A%(B%) < 2) OR (A%(B%) > 3)) OR (B% = 1)) OR (B% = 7))
+ELSEIF (K% = 5)
+IF (POS() = 1)
+LAST()
+ELSE
+BACK()
 ENDIF
-S%
+ELSEIF (K% = 13)
+NEXT()
+ELSEIF (K% = 4)
+IF (POS() < 5)
+POSITION((POS() + 16) )
+ELSE
+POSITION((POS() - 4) )
+ENDIF
+ELSEIF (K% = 3)
+IF (POS() > 15)
+POSITION((POS() - 16) )
+ELSE
+P% := (POS() + 4)
+POSITION(P% )
+ENDIF
+ELSEIF (K% = 1)
+
+ELSEIF (K% = 2)
+GOTO MODE
+ELSEIF (K% = 79)
+
+GOTO REF
+ENDIF
+UNTIL EOF()
+GOTO TOPPPP
+MODE::
+DROP()
+UDG(7 21 0 0 0 0 0 0 0 )
+AT(1 2 )
+PRINT(REPT$(CHR$(7 ) 20 ))
+<nl>
+
+AT(1 1 )
+MENU% := MENUN(1 "Add,View/edit,Quit,Off" )
+IF (MENU% = 0)
+GOTO TOP
+ELSEIF (MENU% = 1)
+USE()
+
+C.NUM% := (C.NUM% + 1)
+UPDATE()
+USE()
+
+B.LNUM% := POS()
+CLS()
+AT(1 1 )
+PRINT("Subject: ")
+<nl>
+
+AT(9 1 )
+B.SUBJ$
+AT(1 2 )
+PRINT("Due: ")
+<nl>
+
+AT(5 2 )
+B.DUE$
+AT(1 3 )
+PRINT("Notes: ")
+<nl>
+
+AT(8 3 )
+B.NOTE$
+AT(1 4 )
+PRINT("Saving...         ")
+<nl>
+
+B.DAYT% := DAY()
+B.DATE$ := MONTH$(MONTH() )
+APPEND()
+GOTO TOP
+ELSEIF (MENU% = 2)
+TOPP::
+USE()
+
+DO
+CLS()
+PRINT("Subj:")
+PRINT(B.SUBJ$)
+<nl>
+
+AT(14 1 )
+PRINT(B.DAYT%)
+< > 
+PRINT(B.DATE$)
+<nl>
+
+AT(1 2 )
+PRINT("Due: ")
+<nl>
+
+AT(6 2 )
+PRINT(B.DUE$)
+<nl>
+
+AT(1 3 )
+PRINT("Notes: ")
+<nl>
+
+AT(8 3 )
+PRINT(B.NOTE$)
+<nl>
+
+KSTAT(1 )
+Z% := GET()
+IF (((Z% = 4) OR (Z% = 6)) OR (Z% = 13))
+NEXT()
+ELSEIF ((Z% = 3) OR (Z% = 5))
+BACK()
+ELSEIF (Z% = 8)
+AT(1 4 )
+PRINT(" ERASE Y/N          ")
+<nl>
+
+E% := GET()
+IF (E% = 89)
+ERASE()
+USE()
+
+C.NUM% := (C.NUM% - 1)
+UPDATE()
+USE()
+
+ELSE
+E% := 89
+GOTO TOPP
+ENDIF
+ELSEIF (Z% = 2)
+CLS()
+PRINT("Subject: ")
+<nl>
+
+AT(10 1 )
+EDIT(B.SUBJ$ )
+AT(1 2 )
+PRINT("Due: ")
+<nl>
+
+AT(6 2 )
+EDIT(B.DUE$ )
+AT(1 3 )
+PRINT("Notes: ")
+<nl>
+
+AT(8 3 )
+EDIT(B.NOTE$ )
+UPDATE()
+GOTO TOPP
+ELSEIF (Z% = 1)
+GOTO TOP
+ENDIF
+UNTIL EOF()
+GOTO TOPP
+ELSEIF (MENU% = 3)
+
+ELSE
+MENU% := 4
+
+GOTO REF
+ENDIF

@@ -1804,21 +1804,24 @@ void output_qcode_for_line(void)
 
 void output_qcode_suffix(void)
 {
-  switch(procedure_type)
+  if( !procedure_has_return )
     {
-    case NOBJ_VARTYPE_INT:
-      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_RETURN_NOUGHT);
-      break;
-      
-    case NOBJ_VARTYPE_FLT:
-      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_RETURN_ZERO);
-      break;
-      
-    case NOBJ_VARTYPE_STR:
-      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_RETURN_NULL);
-      break;
+      switch(procedure_type)
+	{
+	case NOBJ_VARTYPE_INT:
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_RETURN_NOUGHT);
+	  break;
+	  
+	case NOBJ_VARTYPE_FLT:
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_RETURN_ZERO);
+	  break;
+	  
+	case NOBJ_VARTYPE_STR:
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QCO_RETURN_NULL);
+	  break;
+	}
     }
-
+  
   qcode_len = qcode_idx - qcode_start_idx;
 }
 

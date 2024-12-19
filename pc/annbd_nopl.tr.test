@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:0076
-QCode Space Size:03AE
+QCode Space Size:03AD
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -689,7 +689,6 @@ QCode
 03A9: 7F       Assign integer     (bytes code:-)
 03AA: 51       GOTO     (bytes code:D)
 03AB: Dest:00F1 (Dist:FFFFFD46)
-03AD: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
@@ -751,4 +750,4 @@ QCode Data
 0370:C2 2C 7E 00 04 8E 57 00 FF 8A 22 00 03 2C 00 FF 
 0380:F4 22 00 01 03 FF D2 2C 34 7E 00 0F 22 00 01 10 
 0390:FF EA 22 00 01 7F 51 00 13 22 00 01 10 FF EA 22 
-03A0:00 01 03 FF EA 22 00 01 2E 7F 51 FD 46 7B 
+03A0:00 01 03 FF EA 22 00 01 2E 7F 51 FD 46 

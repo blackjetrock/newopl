@@ -1,9 +1,0 @@
-FLIST1:
-
-LOCAL LF(5), R
-LOCAL X%,Y%,Z%
-
-R=MEAN(LF(), 4)
-R=MEAN(X%,Y,Z%)
-R=MEAN(X%,R, Y%, Z%)
-
