@@ -128,6 +128,21 @@ Things I didn't know about OPL when I started
      C%=%%+%++% +%A
   </code>
   is valid.
+* A statement can be an expression. This is done frequently e.g:
+  <code>
+    GET
+  </code>
+  A less useful form is:
+  <code>
+    SIN(90)
+  </code>
+
+  What I have found is that you cannot doi:
+
+  <code>
+    SIN(90)+COS(90)
+  </code>code>
+  which gives an error when translated on an Organiser.
   
 
 
