@@ -1,16 +1,12 @@
 
 Variables
 
-   0:  VAR: '                A%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:F90F
-   1:  VAR: '               S1$'      Local String            DECLARE max_str: 10 max_ary:  0 num_ind:  1 offset:F904
-   2:  VAR: '                F2'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:F8FB
-   3:  VAR: '                X%'      Local Integer array     DECLARE max_str:  0 max_ary:  5 num_ind:  1 offset:F8EF
-   4:  VAR: '                S$'      Local String  array     DECLARE max_str:  7 max_ary:  5 num_ind:  2 offset:F8C5
-   5:  VAR: '                 F'      Local Float   array     DECLARE max_str:  0 max_ary: 20 num_ind:  1 offset:F822
-   6:  VAR: '             PEAR%'     Global Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFCC
-   7:  VAR: '             DOOR$'     Global String            DECLARE max_str: 10 max_ary:  0 num_ind:  1 offset:FFC1
-   8:  VAR: '             OPEN%'     Global Integer array     DECLARE max_str:  0 max_ary: 50 num_ind:  1 offset:FF5A
-   9:  VAR: '              POS$'     Global String  array     DECLARE max_str: 30 max_ary: 20 num_ind:  2 offset:FCEC
-  10:  VAR: '             FLOAT'     Global Float   array     DECLARE max_str:  0 max_ary:123 num_ind:  1 offset:F911
-  11:  VAR: '           EXTTOP%'   External Integer           REFRNCE max_str:  0 max_ary:  0 num_ind:  0 offset:FFD0
-  12:  VAR: '               SA$'   External String  array     REFRNCE max_str:  0 max_ary:  0 num_ind:  1 offset:FFCE
+   0:  VAR: '                 A'      Local Float             DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF6
+   1:  VAR: '                X%'      Local Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:FFF4
+   2:  VAR: '                Y$'      Local String            DECLARE max_str: 10 max_ary:  0 num_ind:  1 offset:FFE9
+   3:  VAR: '                 B'      Local Float   array     DECLARE max_str:  0 max_ary: 10 num_ind:  1 offset:FF96
+   4:  VAR: '                C%'      Local Integer array     DECLARE max_str:  0 max_ary: 10 num_ind:  1 offset:FF80
+   5:  VAR: '                D$'      Local String  array     DECLARE max_str: 10 max_ary: 10 num_ind:  2 offset:FF10
+   6:  VAR: '             A.T1$'       Open String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:2433
+   7:  VAR: '             A.T2%'       Open Integer           DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:2433
+   8:  VAR: '             A.T3$'       Open String            DECLARE max_str:  0 max_ary:  0 num_ind:  0 offset:2433

@@ -1,20 +1,144 @@
 
 
 
-F2
-F(20)
-DOOR$
-FLOAT(123)
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+Y$
+D$(10,10)
+A := 10.1
+A := 20
+X% := 20.2
+X% := 30
+Y$ := "ABCD"
+B(1) := 11.2
+B(2) := 21
+C%(1) := 22
+C%(2) := 23.5
+B(1) := (((A + X%) + B(1)) + C%(1))
+X% := 1
+DO
+IF (X% = 5)
+
+ENDIF
+IF (X% > 20)
+
+ENDIF
+X% := (X% + 1)
+UNTIL (X% > 10)
+GET()
+A := GET()
+"A:ABC"
+A := (A > 2)
+A := (A < 3)
+A := (A = 3)
+A := (A >= 10)
+A := (A <= 30)
+A := (A <> 100)
+X% := (X% > 2)
+X% := (X% < 3)
+X% := (X% = 3)
+X% := (X% >= 10)
+X% := (X% <= 30)
+X% := (X% <> 100)
+Y$ := (Y$ + Y$)
+Y$ := (Y$ + "AXC")
+A := (A + A)
+A := (A - A)
+A := (A / A)
+A := (A * A)
+A := (A ** A)
+X% := (X% + X%)
+X% := (X% - X%)
+X% := (X% / X%)
+X% := (X% * X%)
+X% := (X% ** X%)
+A := (UMIN A)
+X% := (UMIN X%)
+A := (UNOT A)
+X% := (UNOT X%)
+X% := (X% AND 10)
+A := (A AND 12)
+X% := (X% OR 101)
+A := (A OR 45)
+X% := ((A OR X%) AND X%)
+A := (Y$ < "A")
+A := (Y$ > Y$)
+A := (Y$ >= "XXX")
+A := (Y$ <= "XXX")
+A := (Y$ = "XXX")
+A := (Y$ <> "XXX")
+AT(X% X% )
+AT(2 3 )
+AT(2.5 3.6 )
+CLS()
+dest::
 
 
 
 DROP()
 DROP()
+A := 10.1
+A := 20
+X% := 20.2
+X% := 30
+Y$ := "ABCD"
+B(1) := 11.2
+B(2) := 21
+C%(1) := 22
+C%(2) := 23.5
+B(1) := (((A + X%) + B(1)) + C%(1))
+X% := 1
+DO
+IF (X% = 5)
+
+ENDIF
+IF (X% > 20)
+
+ENDIF
+X% := (X% + 1)
+UNTIL (X% > 10)
 DROP()
-DROP()
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+A := GET()
+"A:ABC"
+A := (A > 2)
+A := (A < 3)
+A := (A = 3)
+A := (A >= 10)
+A := (A <= 30)
+A := (A <> 100)
+X% := (X% > 2)
+X% := (X% < 3)
+X% := (X% = 3)
+X% := (X% >= 10)
+X% := (X% <= 30)
+X% := (X% <> 100)
+Y$ := (Y$ + Y$)
+Y$ := (Y$ + "AXC")
+A := (A + A)
+A := (A - A)
+A := (A / A)
+A := (A * A)
+A := (A ** A)
+X% := (X% + X%)
+X% := (X% - X%)
+X% := (X% / X%)
+X% := (X% * X%)
+X% := (X% ** X%)
+A := (UMIN A)
+X% := (UMIN X%)
+A := (UNOT A)
+X% := (UNOT X%)
+X% := (X% AND 10)
+A := (A AND 12)
+X% := (X% OR 101)
+A := (A OR 45)
+X% := ((A OR X%) AND X%)
+A := (Y$ < "A")
+A := (Y$ > Y$)
+A := (Y$ >= "XXX")
+A := (Y$ <= "XXX")
+A := (Y$ = "XXX")
+A := (Y$ <> "XXX")
+AT(X% X% )
+AT(2 3 )
+AT(2.5 3.6 )
+CLS()
+dest::

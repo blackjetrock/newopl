@@ -1,0 +1,482 @@
+QFOX:
+LOCAL A, X%, Y$(10)
+LOCAL B(10), C%(10), D$(10,10) 
+
+A = 10.1
+A = 20
+X% = 20.2
+X% = 30
+Y$="ABCD"
+
+B(1) = 11.2
+B(2) = 21
+C%(1) = 22
+C%(2) = 23.5
+
+B(1) = A + X% + B(1) + C%(1)
+
+X% = 1
+DO
+
+IF X% = 5
+CONTINUE
+ENDIF
+
+IF X% > 20
+BREAK
+ENDIF
+
+X% = X% + 1
+UNTIL X% > 10
+
+GET
+
+A = GET
+
+
+OPEN "A:ABC", A, T1$, T2%, T3$
+
+A = A > 2
+A = A < 3
+A = A = 3
+A = A >= 10
+A = A <=30
+A = A <> 100
+
+X% = X% > 2
+X% = X% < 3
+X% = X% = 3
+X% = X% >= 10
+X% = X% <=30
+X% = X% <> 100
+
+Y$ = Y$ + Y$
+Y$ = Y$ + "AXC"
+
+A = A + A
+A = A - A
+A = A / A
+A = A * A
+A = A ** A
+
+X% = X% + X%
+X% = X% - X%
+X% = X% / X%
+X% = X% * X%
+X% = X% ** X%
+
+A = -A
+X% = -X%
+A = NOT A
+X% = NOT X%
+
+X% = X% AND 10
+A = A AND 12
+X% = X% OR 101
+A = A OR 45
+X% = A OR X% AND X%
+
+A = Y$ < "A"
+A = Y$ > Y$
+A = Y$ >= "XXX"
+A = Y$ <= "XXX"
+A = Y$ = "XXX"			
+A = Y$ <> "XXX"		
+
+AT X%, X%
+AT 2,3
+AT 2.5, 3.6
+rem BEEP 2
+CLS
+rem CURSOR
+
+dest::
+
+got DEST::
+
+
+REM #define QCO_ESCAPE              0x50    
+REM #define QCO_GOTO                0x51    
+REM #define QCO_OFF                 0x52    
+REM #define QCO_ONERR               0x53    
+REM #define QCO_PAUSE               0x54    
+REM #define QCO_POKEB               0x55    
+REM #define QCO_POKEW               0x56    
+REM #define QCO_RAISE               0x57    
+REM #define QCO_RANDOMIZE           0x58    
+REM #define QCO_STOP                0x59    
+REM #define QCO_TRAP                0x5A    
+REM #define QCO_APPEND              0x5B    
+REM #define QCO_CLOSE               0x5C    
+REM #define QCO_COPY                0x5D    
+REM #define QCO_CREATE              0x5E    
+REM #define QCO_DELETE              0x5F    
+REM #define QCO_ERASE               0x60    
+REM #define QCO_FIRST               0x61    
+REM #define QCO_LAST                0x62    
+REM #define QCO_NEXT                0x63    
+REM #define QCO_BACK                0x64    
+REM #define QCO_OPEN                0x65    
+REM #define QCO_POSITION            0x66    
+REM #define QCO_RENAME              0x67    
+REM #define QCO_UPDATE              0x68    
+REM #define QCO_USE                 0x69    
+REM #define QCO_KSTAT               0x6A    
+REM #define QCO_EDIT                0x6B    
+REM #define QCO_INPUT_INT           0x6C    
+REM #define QCO_INPUT_NUM           0x6D    
+REM #define QCO_INPUT_STR           0x6E    
+REM #define QCO_PRINT_INT           0x6F    
+REM #define QCO_PRINT_NUM           0x70    
+REM #define QCO_PRINT_STR           0x71    
+REM #define QCO_PRINT_SP            0x72    
+REM #define QCO_PRINT_CR            0x73    
+REM #define QCO_LPRINT_INT          0x74    
+REM #define QCO_LPRINT_NUM          0x75    
+REM #define QCO_LPRINT_STR          0x76    
+REM #define QCO_LPRINT_SP           0x77    
+REM #define QCO_LPRINT_CR           0x78    
+REM #define QCO_RETURN              0x79    
+REM #define QCO_RETURN_NOUGHT       0x7A    
+REM #define QCO_RETURN_ZERO         0x7B    
+REM #define QCO_RETURN_NULL         0x7C    
+REM #define QCO_PROC                0x7D    
+
+
+REM #define QCO_DROP_BYTE           0x82    
+REM #define QCO_DROP_WORD           0x83    
+REM #define QCO_DROP_NUM            0x84    
+REM #define QCO_DROP_STR            0x85    
+REM #define QCO_INT_TO_NUM          0x86    
+REM #define QCO_NUM_TO_INT          0x87    
+REM #define QCO_END_FIELDS          0x88    
+REM #define QCO_RUN_ASSEM           0x89    
+REM #define RTF_ADDR                0x8A    
+REM #define RTF_ASC                 0x8B    
+REM #define RTF_DAY                 0x8C    
+REM #define RTF_DISP                0x8D    
+REM #define RTF_ERR                 0x8E    
+REM #define RTF_FIND                0x8F    
+REM #define RTF_FREE                0x90    
+REM #define RTF_HOUR                0x92    
+REM #define RTF_IABS                0x93    
+REM #define RTF_INT                 0x94    
+REM #define RTF_KEY                 0x95    
+REM #define RTF_LEN                 0x96    
+REM #define RTF_LOC                 0x97    
+REM #define RTF_MENU                0x98    
+REM #define RTF_MINUTE              0x99    
+REM #define RTF_MONTH               0x9A    
+REM #define RTF_PEEKB               0x9B    
+REM #define RTF_PEEKW               0x9C    
+REM #define RTF_RECSIZE             0x9D    
+REM #define RTF_SECOND              0x9E    
+REM #define RTF_IUSR                0x9F    
+REM #define RTF_VIEW                0xA0    
+REM #define RTF_YEAR                0xA1    
+REM #define RTF_COUNT               0xA2    
+REM #define RTF_EOF                 0xA3    
+REM #define RTF_EXIST               0xA4    
+REM #define RTF_POS                 0xA5    
+REM #define RTF_ABS                 0xA6    
+REM #define RTF_ATAN                0xA7    
+REM #define RTF_COS                 0xA8    
+REM #define RTF_DEG                 0xA9    
+REM #define RTF_EXP                 0xAA    
+REM #define RTF_FLT                 0xAB    
+REM #define RTF_INTF                0xAC    
+REM #define RTF_LN                  0xAD    
+REM #define RTF_LOG                 0xAE    
+REM #define RTF_PI                  0xAF    
+REM #define RTF_RAD                 0xB0    
+REM #define RTF_RND                 0xB1    
+REM #define RTF_SIN                 0xB2    
+REM #define RTF_SQR                 0xB3    
+REM #define RTF_TAN                 0xB4    
+REM #define RTF_VAL                 0xB5    
+REM #define RTF_SPACE               0xB6    
+REM #define RTF_DIR                 0xB7    
+REM #define RTF_CHR                 0xB8    
+REM #define RTF_DATIM               0xB9    
+REM #define RTF_SERR                0xBA    
+REM #define RTF_FIX                 0xBB    
+REM #define RTF_GEN                 0xBC    
+REM #define RTF_SGET                0xBD    
+REM #define RTF_HEX                 0xBE    
+REM #define RTF_SKEY                0xBF    
+REM #define RTF_LEFT                0xC0    
+REM #define RTF_LOWER               0xC1    
+REM #define RTF_MID                 0xC2    
+REM #define RTF_NUM                 0xC3    
+REM #define RTF_RIGHT               0xC4    
+REM #define RTF_REPT                0xC5    
+REM #define RTF_SCI                 0xC6    
+REM #define RTF_UPPER               0xC7    
+REM #define RTF_SUSR                0xC8    
+REM #define RTF_SADDR               0xC9    
+REM 
+REM // LZ QCode
+REM #define RTF_DOW                 0xD7
+REM #define RTF_LTPERCENT           0xCC
+REM #define RTF_GTPERCENT           0xCD
+REM #define RTF_PLUSPERCENT         0xCE
+REM #define RTF_MINUSPERCENT        0xCF
+REM #define RTF_TIMESPERCENT        0xD0
+REM #define RTF_DIVIDEPERCENT       0xD1
+REM #define RTF_OFFX                0xD2
+REM #define RTF_COPYW               0xD3
+REM #define RTF_DELETEW             0xD4
+REM #define RTF_UDG                 0xD5
+REM #define RTF_CLOCK               0xD6
+REM #define RTF_DOW                 0xD7
+REM #define RTF_FINDW               0xD8
+REM #define RTF_MENUN               0xD9
+REM #define RTF_WEEK                0xDA
+REM #define RTF_ACOS                0xDB
+REM #define RTF_ASIN                0xDC
+REM #define RTF_DAYS                0xDD
+REM #define RTF_MAX                 0xDE
+REM #define RTF_MEAN                0xDF
+REM #define RTF_MIN                 0xE0
+REM #define RTF_STD                 0xE1
+REM #define RTF_SUM                 0xE2
+REM #define RTF_VAR                 0xE3
+REM #define RTF_DAYNAME             0xE4
+REM #define RTF_DIRW$               0xE5
+REM #define RTF_MONTHSTR            0xE6
+REM
+REM ///////////////////////////////////////////////////////////////////////
+
+REM #define QI_INT_SIM_FP           0x00    
+REM #define QI_NUM_SIM_FP           0x01    
+REM #define QI_STR_SIM_FP           0x02    
+REM #define QI_INT_ARR_FP           0x03    
+REM #define QI_NUM_ARR_FP           0x04    
+REM #define QI_STR_ARR_FP           0x05    
+REM #define QI_NUM_SIM_ABS          0x06    
+REM #define QI_INT_SIM_IND          0x07    
+REM #define QI_NUM_SIM_IND          0x08    
+REM #define QI_STR_SIM_IND          0x09    
+REM #define QI_INT_ARR_IND          0x0A    
+REM #define QI_NUM_ARR_IND          0x0B    
+REM #define QI_STR_ARR_IND          0x0C    
+REM #define QI_LS_INT_SIM_FP        0x0D    
+REM #define QI_LS_NUM_SIM_FP        0x0E    
+REM #define QI_LS_STR_SIM_FP        0x0F    
+REM #define QI_LS_INT_ARR_FP        0x10    
+REM #define QI_LS_NUM_ARR_FP        0x11    
+REM #define QI_LS_STR_ARR_FP        0x12    
+REM #define QI_LS_NUM_SIM_ABS       0x13    
+REM #define QI_LS_INT_SIM_IND       0x14    
+REM #define QI_LS_NUM_SIM_IND       0x15    
+REM #define QI_LS_STR_SIM_IND       0x16    
+REM #define QI_LS_INT_ARR_IND       0x17    
+REM #define QI_LS_NUM_ARR_IND       0x18    
+REM #define QI_LS_STR_ARR_IND       0x19
+REM #define QI_INT_FLD              0x1A    
+REM #define QI_NUM_FLD              0x1B    
+REM #define QI_STR_FLD              0x1C    
+REM #define QI_LS_INT_FLD           0x1D    
+REM #define QI_LS_NUM_FLD           0x1E    
+REM #define QI_LS_STR_FLD           0x1F    
+REM #define QI_STK_LIT_BYTE         0x20    
+REM #define QI_STK_LIT_WORD         0x21    
+REM #define QI_INT_CON              0x22    
+REM #define QI_NUM_CON              0x23    
+REM #define QI_STR_CON              0x24    
+REM #define QCO_SPECIAL             0x25    
+REM #define QCO_BREAK               0x26    
+REM #define QCO_LT_INT              0x27    
+REM #define QCO_LTE_INT             0x28    
+REM #define QCO_GT_INT              0x29    
+REM #define QCO_GTE_INT             0x2A    
+REM #define QCO_NE_INT              0x2B    
+REM #define QCO_EQ_INT              0x2C    
+REM #define QCO_ADD_INT             0x2D    
+REM #define QCO_SUB_INT             0x2E    
+REM #define QCO_MUL_INT             0x2F    
+REM #define QCO_DIV_INT             0x30    
+REM #define QCO_POW_INT             0x31    
+REM #define QCO_UMIN_INT            0x32    
+REM #define QCO_NOT_INT             0x33    
+REM #define QCO_AND_INT             0x34    
+REM #define QCO_OR_INT              0x35    
+REM #define QCO_LT_NUM              0x36    
+REM #define QCO_LTE_NUM             0x37    
+REM #define QCO_GT_NUM              0x38    
+REM #define QCO_GTE_NUM             0x39    
+REM #define QCO_NE_NUM              0x3A    
+REM #define QCO_EQ_NUM              0x3B    
+REM #define QCO_ADD_NUM             0x3C    
+REM #define QCO_SUB_NUM             0x3D    
+REM #define QCO_MUL_NUM             0x3E    
+REM #define QCO_DIV_NUM             0x3F    
+REM #define QCO_POW_NUM             0x40    
+REM #define QCO_UMIN_NUM            0x41    
+REM #define QCO_NOT_NUM             0x42    
+REM #define QCO_AND_NUM             0x43    
+REM #define QCO_OR_NUM              0x44    
+REM #define QCO_LT_STR              0x45    
+REM #define QCO_LTE_STR             0x46    
+REM #define QCO_GT_STR              0x47    
+REM #define QCO_GTE_STR             0x48    
+REM #define QCO_NE_STR              0x49    
+REM #define QCO_EQ_STR              0x4A    
+REM #define QCO_ADD_STR             0x4B    
+REM #define QCO_AT                  0x4C    
+REM #define QCO_BEEP                0x4D    
+REM #define QCO_CLS                 0x4E    
+REM #define QCO_CURSOR              0x4F    
+REM #define QCO_ESCAPE              0x50    
+REM #define QCO_GOTO                0x51    
+REM #define QCO_OFF                 0x52    
+REM #define QCO_ONERR               0x53    
+REM #define QCO_PAUSE               0x54    
+REM #define QCO_POKEB               0x55    
+REM #define QCO_POKEW               0x56    
+REM #define QCO_RAISE               0x57    
+REM #define QCO_RANDOMIZE           0x58    
+REM #define QCO_STOP                0x59    
+REM #define QCO_TRAP                0x5A    
+REM #define QCO_APPEND              0x5B    
+REM #define QCO_CLOSE               0x5C    
+REM #define QCO_COPY                0x5D    
+REM #define QCO_CREATE              0x5E    
+REM #define QCO_DELETE              0x5F    
+REM #define QCO_ERASE               0x60    
+REM #define QCO_FIRST               0x61    
+REM #define QCO_LAST                0x62    
+REM #define QCO_NEXT                0x63    
+REM #define QCO_BACK                0x64    
+REM #define QCO_OPEN                0x65    
+REM #define QCO_POSITION            0x66    
+REM #define QCO_RENAME              0x67    
+REM #define QCO_UPDATE              0x68    
+REM #define QCO_USE                 0x69    
+REM #define QCO_KSTAT               0x6A    
+REM #define QCO_EDIT                0x6B    
+REM #define QCO_INPUT_INT           0x6C    
+REM #define QCO_INPUT_NUM           0x6D    
+REM #define QCO_INPUT_STR           0x6E    
+REM #define QCO_PRINT_INT           0x6F    
+REM #define QCO_PRINT_NUM           0x70    
+REM #define QCO_PRINT_STR           0x71    
+REM #define QCO_PRINT_SP            0x72    
+REM #define QCO_PRINT_CR            0x73    
+REM #define QCO_LPRINT_INT          0x74    
+REM #define QCO_LPRINT_NUM          0x75    
+REM #define QCO_LPRINT_STR          0x76    
+REM #define QCO_LPRINT_SP           0x77    
+REM #define QCO_LPRINT_CR           0x78    
+REM #define QCO_RETURN              0x79    
+REM #define QCO_RETURN_NOUGHT       0x7A    
+REM #define QCO_RETURN_ZERO         0x7B    
+REM #define QCO_RETURN_NULL         0x7C    
+REM #define QCO_PROC                0x7D    
+REM #define QCO_BRA_FALSE           0x7E    
+REM #define QCO_ASS_INT             0x7F    
+REM #define QCO_ASS_NUM             0x80    
+REM #define QCO_ASS_STR             0x81    
+REM #define QCO_DROP_BYTE           0x82    
+REM #define QCO_DROP_WORD           0x83    
+REM #define QCO_DROP_NUM            0x84    
+REM #define QCO_DROP_STR            0x85    
+REM #define QCO_INT_TO_NUM          0x86    
+REM #define QCO_NUM_TO_INT          0x87    
+REM #define QCO_END_FIELDS          0x88    
+REM #define QCO_RUN_ASSEM           0x89    
+REM #define RTF_ADDR                0x8A    
+REM #define RTF_ASC                 0x8B    
+REM #define RTF_DAY                 0x8C    
+REM #define RTF_DISP                0x8D    
+REM #define RTF_ERR                 0x8E    
+REM #define RTF_FIND                0x8F    
+REM #define RTF_FREE                0x90    
+REM #define RTF_GET                 0x91    
+REM #define RTF_HOUR                0x92    
+REM #define RTF_IABS                0x93    
+REM #define RTF_INT                 0x94    
+REM #define RTF_KEY                 0x95    
+REM #define RTF_LEN                 0x96    
+REM #define RTF_LOC                 0x97    
+REM #define RTF_MENU                0x98    
+REM #define RTF_MINUTE              0x99    
+REM #define RTF_MONTH               0x9A    
+REM #define RTF_PEEKB               0x9B    
+REM #define RTF_PEEKW               0x9C    
+REM #define RTF_RECSIZE             0x9D    
+REM #define RTF_SECOND              0x9E    
+REM #define RTF_IUSR                0x9F    
+REM #define RTF_VIEW                0xA0    
+REM #define RTF_YEAR                0xA1    
+REM #define RTF_COUNT               0xA2    
+REM #define RTF_EOF                 0xA3    
+REM #define RTF_EXIST               0xA4    
+REM #define RTF_POS                 0xA5    
+REM #define RTF_ABS                 0xA6    
+REM #define RTF_ATAN                0xA7    
+REM #define RTF_COS                 0xA8    
+REM #define RTF_DEG                 0xA9    
+REM #define RTF_EXP                 0xAA    
+REM #define RTF_FLT                 0xAB    
+REM #define RTF_INTF                0xAC    
+REM #define RTF_LN                  0xAD    
+REM #define RTF_LOG                 0xAE    
+REM #define RTF_PI                  0xAF    
+REM #define RTF_RAD                 0xB0    
+REM #define RTF_RND                 0xB1    
+REM #define RTF_SIN                 0xB2    
+REM #define RTF_SQR                 0xB3    
+REM #define RTF_TAN                 0xB4    
+REM #define RTF_VAL                 0xB5    
+REM #define RTF_SPACE               0xB6    
+REM #define RTF_DIR                 0xB7    
+REM #define RTF_CHR                 0xB8    
+REM #define RTF_DATIM               0xB9    
+REM #define RTF_SERR                0xBA    
+REM #define RTF_FIX                 0xBB    
+REM #define RTF_GEN                 0xBC    
+REM #define RTF_SGET                0xBD    
+REM #define RTF_HEX                 0xBE    
+REM #define RTF_SKEY                0xBF    
+REM #define RTF_LEFT                0xC0    
+REM #define RTF_LOWER               0xC1    
+REM #define RTF_MID                 0xC2    
+REM #define RTF_NUM                 0xC3    
+REM #define RTF_RIGHT               0xC4    
+REM #define RTF_REPT                0xC5    
+REM #define RTF_SCI                 0xC6    
+REM #define RTF_UPPER               0xC7    
+REM #define RTF_SUSR                0xC8    
+REM #define RTF_SADDR               0xC9    
+REM 
+REM // LZ QCode
+REM #define RTF_DOW                 0xD7
+REM #define RTF_LTPERCENT           0xCC
+REM #define RTF_GTPERCENT           0xCD
+REM #define RTF_PLUSPERCENT         0xCE
+REM #define RTF_MINUSPERCENT        0xCF
+REM #define RTF_TIMESPERCENT        0xD0
+REM #define RTF_DIVIDEPERCENT       0xD1
+REM #define RTF_OFFX                0xD2
+REM #define RTF_COPYW               0xD3
+REM #define RTF_DELETEW             0xD4
+REM #define RTF_UDG                 0xD5
+REM #define RTF_CLOCK               0xD6
+REM #define RTF_DOW                 0xD7
+REM #define RTF_FINDW               0xD8
+REM #define RTF_MENUN               0xD9
+REM #define RTF_WEEK                0xDA
+REM #define RTF_ACOS                0xDB
+REM #define RTF_ASIN                0xDC
+REM #define RTF_DAYS                0xDD
+REM #define RTF_MAX                 0xDE
+REM #define RTF_MEAN                0xDF
+REM #define RTF_MIN                 0xE0
+REM #define RTF_STD                 0xE1
+REM #define RTF_SUM                 0xE2
+REM #define RTF_VAR                 0xE3
+REM #define RTF_DAYNAME             0xE4
+REM #define RTF_DIRW$               0xE5
+REM #define RTF_MONTHSTR            0xE6
+REM 
