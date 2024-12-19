@@ -327,6 +327,7 @@ int function_num_args(char *fname)
     {
       if( strcmp(fname, fn_info[i].name) == 0 )
 	{
+	  dbprintf("Name:%s argtype:'%s'", fn_info[i].name, fn_info[i].argtypes);
 	  return(strlen(fn_info[i].argtypes));
 	}
     }
@@ -4722,7 +4723,7 @@ int scan_function(char *cmd_dest)
 {
   OP_STACK_ENTRY op;
   int idx;
-  int num_expr;
+  int num_expr = 0;
   
   indent_more();
   

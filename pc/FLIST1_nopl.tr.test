@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:003C
-QCode Space Size:0031
+QCode Space Size:003D
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -26,42 +26,53 @@ QCode
 0002: 0E       Push local/global float variable reference     (bytes code:v)
 0003: FFCA       (65482)
 0005: 87       autoconversion float to int     (bytes code:-)
-0006: 04       Pop integer index and push local/global float array variable value     (bytes code:v)
-0007: FFD2       (65490)
-0009: 22       Push integer literal     (bytes code:I)
-000A: 0004       (4)
-000C: 87       autoconversion float to int     (bytes code:-)
-000D: 7F       Assign integer     (bytes code:-)
-000E: 83       drop integer from stack     (bytes code:-)
-000F: 0E       Push local/global float variable reference     (bytes code:v)
-0010: FFCA       (65482)
-0012: 00       Push local/global integer variable value     (bytes code:v)
-0013: FFC8       (65480)
-0015: 08       Push parameter/external float variable value     (bytes code:V)
-0016: FFFC       (65532)
+0006: 22       Push integer literal     (bytes code:I)
+0007: 0001       (1)
+0009: 11       Pop integer index and push local/global float array variable reference     (bytes code:v)
+000A: FFD2       (65490)
+000C: 22       Push integer literal     (bytes code:I)
+000D: 0004       (4)
+000F: 20       Push byte literal     (bytes code:B)
+0010: 00           (0)
+0011: DF       MEAN     (bytes code:-)
+0012: 87       autoconversion float to int     (bytes code:-)
+0013: 7F       Assign integer     (bytes code:-)
+0014: 83       drop integer from stack     (bytes code:-)
+0015: 0E       Push local/global float variable reference     (bytes code:v)
+0016: FFCA       (65482)
 0018: 00       Push local/global integer variable value     (bytes code:v)
-0019: FFC4       (65476)
-001B: 87       autoconversion float to int     (bytes code:-)
-001C: 7F       Assign integer     (bytes code:-)
-001D: 83       drop integer from stack     (bytes code:-)
-001E: 0E       Push local/global float variable reference     (bytes code:v)
-001F: FFCA       (65482)
-0021: 00       Push local/global integer variable value     (bytes code:v)
-0022: FFC8       (65480)
-0024: 01       Push local/global float variable value     (bytes code:v)
-0025: FFCA       (65482)
-0027: 00       Push local/global integer variable value     (bytes code:v)
-0028: FFC6       (65478)
+0019: FFC8       (65480)
+001B: 08       Push parameter/external float variable value     (bytes code:V)
+001C: FFFC       (65532)
+001E: 00       Push local/global integer variable value     (bytes code:v)
+001F: FFC4       (65476)
+0021: 20       Push byte literal     (bytes code:B)
+0022: 01           (1)
+0023: DF       MEAN     (bytes code:-)
+0024: 87       autoconversion float to int     (bytes code:-)
+0025: 7F       Assign integer     (bytes code:-)
+0026: 83       drop integer from stack     (bytes code:-)
+0027: 0E       Push local/global float variable reference     (bytes code:v)
+0028: FFCA       (65482)
 002A: 00       Push local/global integer variable value     (bytes code:v)
-002B: FFC4       (65476)
-002D: 87       autoconversion float to int     (bytes code:-)
-002E: 7F       Assign integer     (bytes code:-)
-002F: 83       drop integer from stack     (bytes code:-)
-0030: 7B       RETURN (float 0)     (bytes code:-)
+002B: FFC8       (65480)
+002D: 01       Push local/global float variable value     (bytes code:v)
+002E: FFCA       (65482)
+0030: 00       Push local/global integer variable value     (bytes code:v)
+0031: FFC6       (65478)
+0033: 00       Push local/global integer variable value     (bytes code:v)
+0034: FFC4       (65476)
+0036: 20       Push byte literal     (bytes code:B)
+0037: 01           (1)
+0038: DF       MEAN     (bytes code:-)
+0039: 87       autoconversion float to int     (bytes code:-)
+003A: 7F       Assign integer     (bytes code:-)
+003B: 83       drop integer from stack     (bytes code:-)
+003C: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
-0000:59 B2 0E FF CA 87 04 FF D2 22 00 04 87 7F 83 0E 
-0010:FF CA 00 FF C8 08 FF FC 00 FF C4 87 7F 83 0E FF 
-0020:CA 00 FF C8 01 FF CA 00 FF C6 00 FF C4 87 7F 83 
-0030:7B 
+0000:59 B2 0E FF CA 87 22 00 01 11 FF D2 22 00 04 20 
+0010:00 DF 87 7F 83 0E FF CA 00 FF C8 08 FF FC 00 FF 
+0020:C4 20 01 DF 87 7F 83 0E FF CA 00 FF C8 01 FF CA 
+0030:00 FF C6 00 FF C4 20 01 DF 87 7F 83 7B 

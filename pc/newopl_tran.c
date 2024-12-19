@@ -581,7 +581,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "ABS",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               RTF_ABS, 0},
     {EXP_BUFF_ID_FUNCTION, "INT",  NOBJ_VARTYPE_INT,     __,                   __,        __,               RTF_INT, 0},
     {EXP_BUFF_ID_FUNCTION, "INTF", NOBJ_VARTYPE_FLT,     __,                   __,        __,               RTF_INTF, 0},
-    {EXP_BUFF_ID_FUNCTION, "MEAN", NOBJ_VARTYPE_FLT,     __,                   __,        NOPL_OP_ACCESS_WRITE_ARRAY_STK_IDX,               RTF_MEAN, 0},
+    {EXP_BUFF_ID_FUNCTION, "MEAN", NOBJ_VARTYPE_FLT,     __,                   __,        __,               RTF_MEAN, 0},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_LT_INT, 0},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_LT_NUM, 0},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_LT_STR, 0},
@@ -2427,6 +2427,7 @@ int insert_buf2_entry_before_node_id(int node_id, EXP_BUFFER_ENTRY e)
   return(0);
 }
 
+
 //------------------------------------------------------------------------------
 //
 // Set access of a node, given the node id
@@ -2934,6 +2935,7 @@ void typecheck_expression(void)
 {
   EXP_BUFFER_ENTRY be;
   EXP_BUFFER_ENTRY autocon;
+  EXP_BUFFER_ENTRY ft;
   OP_INFO          op_info;
   EXP_BUFFER_ENTRY op1;
   EXP_BUFFER_ENTRY op2;
@@ -3197,7 +3199,7 @@ void typecheck_expression(void)
 
 	  if( num_args == 0 )
 	    {
-	      num_args = function_num_args(be.name)-1;
+	      num_args = function_num_args(be.name);
 	    }
 
 	  dbprintf("%d args", num_args);
@@ -3260,13 +3262,43 @@ void typecheck_expression(void)
 
 		  // Check the types
 		  if( (op2.op.type == NOBJ_VARTYPE_FLTARY) &&
-		      (op1.op.type == NOBJ_VARTYPE_INT) )
+		      ((op1.op.type == NOBJ_VARTYPE_INT) || (op1.op.type == NOBJ_VARTYPE_INT)) )
 		    {
 		      // All OK
 		      // Build args to RTF
+
+		      // Array needs an index of 1
+
+		      init_op_stack_entry(&(ft.op));
+		      
+		      ft.node_id = node_id_index++;
+		      ft.op.buf_id = EXP_BUFF_ID_INTEGER;
+		      ft.p_idx = 1;
+		      ft.p[0] = be.node_id;
+		      strcpy(ft.name, "1");
+		      strcpy(ft.op.name, "1");
+		      ft.op.type      = NOBJ_VARTYPE_INT;
+		      insert_buf2_entry_before_node_id(op2.node_id, ft);
+		      
+		      type_check_stack_push(ft);
 		      type_check_stack_push(op2);
 		      type_check_stack_push(op1);
+		      
+		      if( ( can_use_autocon(op1.op.type, NOBJ_VARTYPE_INT)))
+			{
+			  sprintf(autocon.name, "autocon %c->%c (flist idx)", type_to_char(op1.op.type), type_to_char(NOBJ_VARTYPE_INT));
+			  
+			  autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
+			  autocon.p_idx = 1;
+			  autocon.p[0] = op1.node_id;
+			  autocon.op.type      = NOBJ_VARTYPE_INT;
+			  
+			  insert_buf2_entry_after_node_id(op1.node_id, autocon);
+			}
 
+		      // The array variable needs to be a reference
+		      set_node_access(op2.node_id, NOPL_OP_ACCESS_WRITE);
+		      
 		      // flist type pushed later
 		    }
 		  break;
@@ -3280,8 +3312,6 @@ void typecheck_expression(void)
 
 	      // Now push the flist type
 
-	      EXP_BUFFER_ENTRY ft;
-
 	      init_op_stack_entry(&(ft.op));
 	      
 	      ft.node_id = node_id_index++;
@@ -3293,7 +3323,7 @@ void typecheck_expression(void)
 	      strcpy(ft.op.name, t_name);
 	      ft.op.type      = NOBJ_VARTYPE_INT;
 
-	      // Function is going to be processed nest, so we just add this INT to the end of the buffer
+	      // Function is going to be processed next, so we just add this INT to the end of the buffer
 	      exp_buffer2[exp_buffer2_i++] = ft;
 	      //insert_buf2_entry_before_node_id(be.node_id, ft);
 
@@ -4515,7 +4545,7 @@ void process_token(OP_STACK_ENTRY *token)
     if( token_is_function(o1.name, &tokptr) )
     {
       NOBJ_VARTYPE vt;
-     
+
       // The type of the function is known, use that, not the expression type
       // which is more of a hint.
       strcpy(o1.name, tokptr);
@@ -4530,7 +4560,7 @@ void process_token(OP_STACK_ENTRY *token)
 	}
       
       fprintf(ofp, "\n%s: '%s' t=>%c", __FUNCTION__, o1.name, type_to_char(vt));
-      
+
       o1.type = vt;
       //      o1.req_type = vt;
       op_stack_push(o1);

@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:0016
-QCode Space Size:01C7
+QCode Space Size:01C9
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -179,7 +179,7 @@ QCode
 00D6: 28       Less than equal integer     (bytes code:-)
 00D7: 34       AND integer     (bytes code:-)
 00D8: 7E       Branch if false     (bytes code:D)
-00D9: Dest:01A2 (Dist:00C9)
+00D9: Dest:01A4 (Dist:00CB)
 00DB: 0D       Push local/global integer variable reference     (bytes code:v)
 00DC: FFF2       (65522)
 00DE: 00       Push local/global integer variable value     (bytes code:v)
@@ -314,44 +314,46 @@ QCode
 018F: 0006       (6)
 0191: 2B       Not equal integer     (bytes code:-)
 0192: 7E       Branch if false     (bytes code:D)
-0193: Dest:01A2 (Dist:000F)
+0193: Dest:01A4 (Dist:0011)
 0195: 0D       Push local/global integer variable reference     (bytes code:v)
 0196: FFEA       (65514)
 0198: 00       Push local/global integer variable value     (bytes code:v)
 0199: FFEA       (65514)
 019B: 00       Push local/global integer variable value     (bytes code:v)
 019C: FFEE       (65518)
-019E: DE       MAX     (bytes code:-)
-019F: 87       autoconversion float to int     (bytes code:-)
-01A0: 7F       Assign integer     (bytes code:-)
-01A1: 83       drop integer from stack     (bytes code:-)
-01A2: 0D       Push local/global integer variable reference     (bytes code:v)
-01A3: FFF4       (65524)
-01A5: 00       Push local/global integer variable value     (bytes code:v)
-01A6: FFF4       (65524)
-01A8: 22       Push integer literal     (bytes code:I)
-01A9: 0001       (1)
-01AB: 2D       Plus integer     (bytes code:-)
-01AC: 7F       Assign integer     (bytes code:-)
-01AD: 0D       Push local/global integer variable reference     (bytes code:v)
-01AE: FFF6       (65526)
-01B0: 00       Push local/global integer variable value     (bytes code:v)
-01B1: FFF6       (65526)
-01B3: 22       Push integer literal     (bytes code:I)
-01B4: 0001       (1)
-01B6: 2D       Plus integer     (bytes code:-)
-01B7: 7F       Assign integer     (bytes code:-)
-01B8: 00       Push local/global integer variable value     (bytes code:v)
-01B9: FFF4       (65524)
-01BB: 22       Push integer literal     (bytes code:I)
-01BC: 0006       (6)
-01BE: 2C       Equal integer     (bytes code:-)
-01BF: 7E       Branch if false     (bytes code:D)
-01C0: Dest:0091 (Dist:FFFFFED1)
-01C2: 00       Push local/global integer variable value     (bytes code:v)
-01C3: FFEA       (65514)
-01C5: 79       RETURN     (bytes code:-)
-01C6: 7A       RETURN (integer 0)     (bytes code:-)
+019E: 20       Push byte literal     (bytes code:B)
+019F: 01           (1)
+01A0: DE       MAX     (bytes code:-)
+01A1: 87       autoconversion float to int     (bytes code:-)
+01A2: 7F       Assign integer     (bytes code:-)
+01A3: 83       drop integer from stack     (bytes code:-)
+01A4: 0D       Push local/global integer variable reference     (bytes code:v)
+01A5: FFF4       (65524)
+01A7: 00       Push local/global integer variable value     (bytes code:v)
+01A8: FFF4       (65524)
+01AA: 22       Push integer literal     (bytes code:I)
+01AB: 0001       (1)
+01AD: 2D       Plus integer     (bytes code:-)
+01AE: 7F       Assign integer     (bytes code:-)
+01AF: 0D       Push local/global integer variable reference     (bytes code:v)
+01B0: FFF6       (65526)
+01B2: 00       Push local/global integer variable value     (bytes code:v)
+01B3: FFF6       (65526)
+01B5: 22       Push integer literal     (bytes code:I)
+01B6: 0001       (1)
+01B8: 2D       Plus integer     (bytes code:-)
+01B9: 7F       Assign integer     (bytes code:-)
+01BA: 00       Push local/global integer variable value     (bytes code:v)
+01BB: FFF4       (65524)
+01BD: 22       Push integer literal     (bytes code:I)
+01BE: 0006       (6)
+01C0: 2C       Equal integer     (bytes code:-)
+01C1: 7E       Branch if false     (bytes code:D)
+01C2: Dest:0091 (Dist:FFFFFECF)
+01C4: 00       Push local/global integer variable value     (bytes code:v)
+01C5: FFEA       (65514)
+01C7: 79       RETURN     (bytes code:-)
+01C8: 7A       RETURN (integer 0)     (bytes code:-)
 
 QCode Data
 
@@ -368,7 +370,7 @@ QCode Data
 00A0:01 7F 00 FF F2 22 00 0B 2A 7E 00 1B 0D FF F2 00 
 00B0:FF F2 22 00 0B 2E 7F 0D FF F0 00 FF F0 22 00 01 
 00C0:2D 7F 51 FF DF 00 FF F2 00 FF F4 2A 00 FF F2 00 
-00D0:FF F4 22 00 05 2D 28 34 7E 00 C9 0D FF F2 00 FF 
+00D0:FF F4 22 00 05 2D 28 34 7E 00 CB 0D FF F2 00 FF 
 00E0:F6 00 FF F2 2E 7F 0D FF F2 00 FF F2 22 00 0C 00 
 00F0:FF F2 22 00 01 27 34 2D 7F 0D FF EC 22 00 00 7F 
 0100:0D FF EE 22 00 00 7F 00 FF F2 0A FF FA 00 FF F0 
@@ -380,7 +382,7 @@ QCode Data
 0160:FA 00 FF F0 2D 22 00 02 27 00 FF F2 0A FF FA 00 
 0170:FF F0 2D 22 00 03 29 35 00 FF F2 22 00 07 2C 35 
 0180:00 FF F2 22 00 01 2C 35 7E FF 9E 00 FF EC 22 00 
-0190:06 2B 7E 00 0F 0D FF EA 00 FF EA 00 FF EE DE 87 
-01A0:7F 83 0D FF F4 00 FF F4 22 00 01 2D 7F 0D FF F6 
-01B0:00 FF F6 22 00 01 2D 7F 00 FF F4 22 00 06 2C 7E 
-01C0:FE D1 00 FF EA 79 7A 
+0190:06 2B 7E 00 11 0D FF EA 00 FF EA 00 FF EE 20 01 
+01A0:DE 87 7F 83 0D FF F4 00 FF F4 22 00 01 2D 7F 0D 
+01B0:FF F6 00 FF F6 22 00 01 2D 7F 00 FF F4 22 00 06 
+01C0:2C 7E FE CF 00 FF EA 79 7A 
