@@ -1,4 +1,4 @@
-QFOX:
+qfox:
 LOCAL A, X%, Y$(10)
 LOCAL B(10), C%(10), D$(10,10) 
 LOCAL dice%,key%
@@ -38,7 +38,7 @@ A = GET
 
 
 OPEN "A:ABC", A, T1$, T2%, T3$
-trap OPEN "A:ABC", A, T1$, T2%, T3$	
+trap OPEN "A:ABC", A, T1$, T2%, T3$
 
 A = A > 2
 A = A < 3
@@ -84,8 +84,8 @@ A = Y$ < "A"
 A = Y$ > Y$
 A = Y$ >= "XXX"
 A = Y$ <= "XXX"
-A = Y$ = "XXX"			
-A = Y$ <> "XXX"		
+A = Y$ = "XXX"
+A = Y$ <> "XXX"
 
 AT X%, X%
 AT 2,3
@@ -205,7 +205,6 @@ LPRINT A, C$; X%
 RETURN
 RETURN 0
 RETURN 2.4
-RETURN "ABC"
 
 dopr:
 dopr%:

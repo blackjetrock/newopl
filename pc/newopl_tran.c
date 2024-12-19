@@ -4512,13 +4512,13 @@ void typecheck_expression(void)
 			      autocon.p[1] = op2.node_id;
 			      autocon.op.type      = be.op.type;
 			      
-			      if( (op1.op.type != be.op.type) )
+			      if( can_use_autocon(op1.op.type, be.op.type) )
 				{
 				  sprintf(autocon.name, "autocon %c->%c (operator 1)", type_to_char(op1.op.type), type_to_char(be.op.type));
 				  insert_buf2_entry_after_node_id(op1.node_id, autocon);
 				}
 			      
-			      if( (op2.op.type != be.op.type) )
+			      if( can_use_autocon(op2.op.type, be.op.type) )
 				{
 				  sprintf(autocon.name, "autocon %c->%c (operator 2)", type_to_char(op2.op.type), type_to_char(be.op.type));
 				  insert_buf2_entry_after_node_id(op2.node_id, autocon);
