@@ -173,6 +173,7 @@ typedef enum _NOPL_OP_ACCESS
     NOPL_OP_ACCESS_WRITE,
     NOPL_OP_ACCESS_EXP,
     NOPL_OP_ACCESS_NO_EXP,
+    NOPL_OP_ACCESS_WRITE_ARRAY_STK_IDX,  // For pop index and stack array reference (Flist)
     NOPL_OP_ACCESS_FIELDVAR,
   } NOPL_OP_ACCESS;
 

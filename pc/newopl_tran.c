@@ -581,6 +581,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "ABS",  NOBJ_VARTYPE_FLT,     __,                   __,        __,               RTF_ABS, 0},
     {EXP_BUFF_ID_FUNCTION, "INT",  NOBJ_VARTYPE_INT,     __,                   __,        __,               RTF_INT, 0},
     {EXP_BUFF_ID_FUNCTION, "INTF", NOBJ_VARTYPE_FLT,     __,                   __,        __,               RTF_INTF, 0},
+    {EXP_BUFF_ID_FUNCTION, "MEAN", NOBJ_VARTYPE_FLT,     __,                   __,        NOPL_OP_ACCESS_WRITE_ARRAY_STK_IDX,               RTF_MEAN, 0},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_LT_INT, 0},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_FLT,     __,                   __,        __,               QCO_LT_NUM, 0},
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_STR,     __,                   __,        __,               QCO_LT_STR, 0},
@@ -1609,6 +1610,16 @@ void output_qcode_for_line(void)
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (intval) & 0xFF);
 	  break;
 
+	case EXP_BUFF_ID_BYTE:
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_STK_LIT_BYTE);
+
+	  // Convert integer and add to qcode
+
+	  sscanf(tokop.name, "%d", &intval);
+	  dbprintf("Name:'%s' intval:%d", tokop.name, intval);	  
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, (intval) & 0xFF);
+	  break;
+
 	case EXP_BUFF_ID_FLT:
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QI_NUM_CON);
 
@@ -2299,10 +2310,10 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 	  }
 
 	
-	fprintf(fp, "\n%d: N%d %c %-30s %s ty:%c qcty:%c '%s' npar:%d nidx:%d trapped:%d",
+	fprintf(fp, "\n%3d: N%03d %10s %-30s %s ty:%c qcty:%c '%s' npar:%d nidx:%d trapped:%d",
 		i,
 		token.node_id,
-		access_to_char(token.op.access),
+		var_access_to_str(token.op.access),
 		exp_buffer_id_str[token.op.buf_id],
 		levstr,
 		type_to_char(token.op.type),
@@ -2326,10 +2337,11 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 	  fprintf(fp, " %02X", token.op.bytes[i]);
 	}
       fprintf(fp, ")");
-      
+      fflush(fp);
     }
 
   fprintf(fp, "\n");
+  fflush(fp);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2371,6 +2383,40 @@ int insert_buf2_entry_after_node_id(int node_id, EXP_BUFFER_ENTRY e)
 	    }
 	  
 	  exp_buffer2[i+1] = e;
+	  exp_buffer2_i++;
+
+	  dump_exp_buffer(ofp, 2);
+	  return(1);	  
+	}
+    }
+  
+  return(0);
+}
+
+int insert_buf2_entry_before_node_id(int node_id, EXP_BUFFER_ENTRY e)
+{
+  int j;
+  
+  dump_exp_buffer(ofp, 2);
+  e.node_id = node_id_index++;
+				  
+  // Find the entry with the given node_id
+  fprintf(ofp, "\n Insert before N%03d exp_buffer2_i:%d", node_id, exp_buffer2_i);
+  
+  for(int i= 0; i<exp_buffer2_i; i++)
+    {
+      if( exp_buffer2[i].node_id == node_id )
+	{
+	  fprintf(ofp, "\n   Found at i:%d", i);
+	  
+	  // Found the entry, move it and all after it on by one entry
+	  for(j=exp_buffer2_i; j>=i+1; j--)
+	    {
+	      exp_buffer2[j] = exp_buffer2[j-1];
+	      fprintf(ofp, "\n   Copied %d to %d:", j-1, j);
+	    }
+	  
+	  exp_buffer2[i] = e;
 	  exp_buffer2_i++;
 
 	  dump_exp_buffer(ofp, 2);
@@ -2896,7 +2942,8 @@ void typecheck_expression(void)
   NOBJ_VARTYPE     ret_type;
   int              copied;
   NOBJ_VAR_INFO    *vi;
-
+  char             t_name[NOBJ_VARNAME_MAXLEN+1];
+  
   dbprintf("Pass:%d", pass_number);
   
   // Initialise
@@ -3128,7 +3175,6 @@ void typecheck_expression(void)
 	case EXP_BUFF_ID_FUNCTION:
 	  // Functions also require certain types, for instance USR reuires
 	  // all integers. Any floats in the arguments require conversion codes.
-	  fprintf(ofp, "\nFN: %d args", function_num_args(be.name));
 	  
 	  // Set up the function return value
 	  ret_type = function_return_type(be.name);
@@ -3145,78 +3191,190 @@ void typecheck_expression(void)
 	  // can with an auto type conversion
 
 	  // Build an argument list (constructs part of the syntax tree)
-	  be.p_idx = 0;
-	  for(int i=function_num_args(be.name)-1; i>=0; i--)
+	  // If the num_parameters field is zero then use the table to get the number of
+	  // arguments to the function
+	  int num_args = be.op.num_parameters;
+
+	  if( num_args == 0 )
 	    {
-	      NOBJ_VARTYPE this_arg_type = function_arg_type_n(be.name, i);
-	      
-	      // Pop an argument off and check it
-	      op1 = type_check_stack_pop();
+	      num_args = function_num_args(be.name)-1;
+	    }
 
-	      // Force the args to write if needed
-	      if( function_access_force_write(be.name) )
+	  dbprintf("%d args", num_args);
+
+	  // We have some special functions that use the Flist argument format. This is
+	  // either Array, Int
+	  // or
+	  // a list of floats
+	  //
+	  // We know how many arguments the function has so we can test the arguments here to work out which
+	  // form the args are using.
+
+	  int flist_type = 0;
+	  
+	  if( function_arg_parse(be.name) == 'L' )
+	    {
+	      // Flist parsing of arguments
+	      // If there are two arguments and the second one is an array then it's type 0
+	      dbprintf("Flist type args");
+	      
+	      if( num_args == 2 )
 		{
-		  dbprintf("Forced arg access to write");
+		  // Get the two args
+		  op1 = type_check_stack_pop();
+		  op2 = type_check_stack_pop();
+
+		  // Put the args back
+		  type_check_stack_push(op2);
+		  type_check_stack_push(op1);
 		  
-		  set_node_access(op1.node_id, NOPL_OP_ACCESS_WRITE);
-		}
-	      
-	      // Add to list of arguments
-	      be.p[be.p_idx++] = op1.node_id;
-	      
-	      dbprintf("FN ARG %d type:%c %s %d(%c)", i,
-		      type_to_char(this_arg_type),
-		      op1.name,
-		      op1.op.type,
-		      type_to_char(op1.op.type));
-
-	      // If there's an autocon then the type of it is the argument type for this argument
-	      // of the function
-	      
-	      autocon.op.type      = this_arg_type;
-	      
-	      if( op1.op.type == this_arg_type)
-		{
-		  fprintf(ofp, "  Arg ok");
-		  // All OK
+		  if( op2.op.type == NOBJ_VARTYPE_FLTARY )
+		    {
+		      flist_type = 0;
+		    }
+		  else
+		    {
+		      flist_type = 1;
+		    }
 		}
 	      else
 		{
-		  fprintf(ofp, "  Arg not OK");
+		  // Flist type 1
+		  // A list that should all be floats
+		  flist_type = 1;
+		}
 
-		  sprintf(autocon.name, "autocon (Arg) %c->%c", type_to_char(op1.op.type), type_to_char(this_arg_type));
+	      // Now re-arrange the arguments and also add autocons if needed
+
+	      
+	      // We also push an int indicating the flist type
+	      switch(flist_type)
+		{
+		case 0:
+		  // A reference to the first element of an array followed by an integer that is the number of
+		  // elements to use
+
+		  // Get the args
+		  op1 = type_check_stack_pop();
+		  op2 = type_check_stack_pop();
+
+		  // Check the types
+		  if( (op2.op.type == NOBJ_VARTYPE_FLTARY) &&
+		      (op1.op.type == NOBJ_VARTYPE_INT) )
+		    {
+		      // All OK
+		      // Build args to RTF
+		      type_check_stack_push(op2);
+		      type_check_stack_push(op1);
+
+		      // flist type pushed later
+		    }
+		  break;
+
+		case 1:
+		  // A list of floats.
+		  // We know how many as the parser provided that information,
+		  // so we check all are floats, or autocon any that aren't floats
+		  break;
+		}
+
+	      // Now push the flist type
+
+	      EXP_BUFFER_ENTRY ft;
+
+	      init_op_stack_entry(&(ft.op));
+	      
+	      ft.node_id = node_id_index++;
+	      ft.op.buf_id = EXP_BUFF_ID_BYTE;
+	      ft.p_idx = 1;
+	      ft.p[0] = be.node_id;
+	      sprintf(t_name, "%d", flist_type);
+	      strcpy(ft.name, t_name);
+	      strcpy(ft.op.name, t_name);
+	      ft.op.type      = NOBJ_VARTYPE_INT;
+
+	      // Function is going to be processed nest, so we just add this INT to the end of the buffer
+	      exp_buffer2[exp_buffer2_i++] = ft;
+	      //insert_buf2_entry_before_node_id(be.node_id, ft);
+
+	      type_check_stack_push(ft);
+	    }
+	  else
+	    {
+	      // Normal parsing of arguments
+	      be.p_idx = 0;
+	      for(int i=num_args-1; i>=0; i--)
+		{
+		  NOBJ_VARTYPE this_arg_type = function_arg_type_n(be.name, i);
+	      
+		  // Pop an argument off and check it
+		  op1 = type_check_stack_pop();
+
+		  // Force the args to write if needed
+		  if( function_access_force_write(be.name) )
+		    {
+		      dbprintf("Forced arg access to write");
+		  
+		      set_node_access(op1.node_id, NOPL_OP_ACCESS_WRITE);
+		    }
+	      
+		  // Add to list of arguments
+		  be.p[be.p_idx++] = op1.node_id;
+	      
+		  dbprintf("FN ARG %d type:%c %s %d(%c)", i,
+			   type_to_char(this_arg_type),
+			   op1.name,
+			   op1.op.type,
+			   type_to_char(op1.op.type));
+
+		  // If there's an autocon then the type of it is the argument type for this argument
+		  // of the function
+	      
+		  autocon.op.type      = this_arg_type;
+	      
+		  if( op1.op.type == this_arg_type)
+		    {
+		      fprintf(ofp, "  Arg ok");
+		      // All OK
+		    }
+		  else
+		    {
+		      fprintf(ofp, "  Arg not OK");
+
+		      sprintf(autocon.name, "autocon (Arg) %c->%c", type_to_char(op1.op.type), type_to_char(this_arg_type));
 
 #if 0
-		  // Can we use an auto conversion?
-		  if( (op1.op.type == NOBJ_VARTYPE_INT) && (this_arg_type == NOBJ_VARTYPE_FLT))
-		    {
-		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
-		    }
+		      // Can we use an auto conversion?
+		      if( (op1.op.type == NOBJ_VARTYPE_INT) && (this_arg_type == NOBJ_VARTYPE_FLT))
+			{
+			  insert_buf2_entry_after_node_id(op1.node_id, autocon);
+			}
 
-		  if( (op1.op.type == NOBJ_VARTYPE_FLT) && (this_arg_type == NOBJ_VARTYPE_INT))
-		    {
-		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
-		    }
+		      if( (op1.op.type == NOBJ_VARTYPE_FLT) && (this_arg_type == NOBJ_VARTYPE_INT))
+			{
+			  insert_buf2_entry_after_node_id(op1.node_id, autocon);
+			}
 
-		  if( (op1.op.type == NOBJ_VARTYPE_INTARY) && (this_arg_type == NOBJ_VARTYPE_FLTARY))
-		    {
-		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
-		    }
-		  if( (op1.op.type == NOBJ_VARTYPE_FLTARY) && (this_arg_type == NOBJ_VARTYPE_INTARY))
-		    {
-		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
-		    }
+		      if( (op1.op.type == NOBJ_VARTYPE_INTARY) && (this_arg_type == NOBJ_VARTYPE_FLTARY))
+			{
+			  insert_buf2_entry_after_node_id(op1.node_id, autocon);
+			}
+		      if( (op1.op.type == NOBJ_VARTYPE_FLTARY) && (this_arg_type == NOBJ_VARTYPE_INTARY))
+			{
+			  insert_buf2_entry_after_node_id(op1.node_id, autocon);
+			}
 
 #else
-		  if( ( can_use_autocon(op1.op.type, this_arg_type)))
-		    {
-		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
-		    }
+		      if( ( can_use_autocon(op1.op.type, this_arg_type)))
+			{
+			  insert_buf2_entry_after_node_id(op1.node_id, autocon);
+			}
 		  
 #endif
+		    }
 		}
 	    }
-
+	  
 	  // Only push a result if the function is non-void
 	  if( ret_type != NOBJ_VARTYPE_VOID )
 	    {

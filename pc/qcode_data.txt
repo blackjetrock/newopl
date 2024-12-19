@@ -1,30 +1,44 @@
 
-0000: size of the variables on stack: 0050
-0002: size of Q code: 0007
+0000: size of the variables on stack: 0054
+0002: size of Q code: 006E
 0004: number of parameters: 00
 0005: size of global area: 0000
-0007: size of external area: 0000
+0007: size of external area: 0007
+0009: Len: 02
+000A: name: 4C
+000B: name: 46
+000C: Type: 01
+000D: Len: 01
+000E: name: 59
+000F: Type: 01
 
 
-QCode header_len: 0015
+QCode header_len: 001C
 0000:00
-0001:50
+0001:54
 0002:00
-0003:07
+0003:6E
 0004:00
 0005:00
 0006:00
 0007:00
-0008:00
-0009:00
-000A:00
-000B:00
-000C:08
-000D:FF
-000E:D4
-000F:00
-0010:05
-0011:FF
-0012:B0
-0013:00
-0014:0A
+0008:07
+0009:02
+000A:4C
+000B:46
+000C:01
+000D:01
+000E:59
+000F:01
+0010:00
+0011:00
+0012:00
+0013:08
+0014:FF
+0015:D0
+0016:00
+0017:05
+0018:FF
+0019:AC
+001A:00
+001B:0A

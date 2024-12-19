@@ -67,6 +67,7 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_INTEGER",
     "EXP_BUFF_ID_FLT",
     "EXP_BUFF_ID_STR",
+    "EXP_BUFF_ID_BYTE",
     "EXP_BUFF_ID_FUNCTION",
     "EXP_BUFF_ID_OPERATOR",
     "EXP_BUFF_ID_OPERATOR_UNARY",
@@ -337,7 +338,7 @@ int function_num_args(char *fname)
 NOBJ_VARTYPE function_arg_type_n(char *fname, int n)
 {
   char *atypes;
-  
+
   for(int i=0; i<NUM_FUNCTIONS; i++)
     {
       if( strcmp(fname, fn_info[i].name) == 0 )
@@ -347,6 +348,23 @@ NOBJ_VARTYPE function_arg_type_n(char *fname, int n)
 	  char type = *(atypes+n);
 	  
 	  return(char_to_type(type));
+	}
+    }
+  
+  return(NOBJ_VARTYPE_UNKNOWN);
+}
+
+// Returns the arg parse character
+
+char function_arg_parse(char *fname)
+{
+  char *atypes;
+
+  for(int i=0; i<NUM_FUNCTIONS; i++)
+    {
+      if( strcmp(fname, fn_info[i].name) == 0 )
+	{
+	  return(fn_info[i].argparse);
 	}
     }
   
@@ -537,6 +555,47 @@ char *var_class_to_str(NOPL_VAR_CLASS vc)
 
 
   sprintf(unk, "???? (%d)", vc);
+
+  return(unk);
+}
+
+//------------------------------------------------------------------------------
+
+char *var_access_to_str(NOPL_OP_ACCESS va)
+{
+  switch(va)
+    {
+
+    case NOPL_OP_ACCESS_UNKNOWN:
+      return("Unknown");
+      break;
+      
+    case NOPL_OP_ACCESS_READ:
+      return("Read");
+      break;
+      
+    case NOPL_OP_ACCESS_WRITE:
+      return("Write");
+      break;
+      
+    case NOPL_OP_ACCESS_EXP:
+      return("Exp");
+      break;
+      
+    case NOPL_OP_ACCESS_NO_EXP:
+      return("No exp");
+      break;
+      
+    case NOPL_OP_ACCESS_WRITE_ARRAY_STK_IDX:
+      return("wr ary stk id");
+      break;
+      
+    case NOPL_OP_ACCESS_FIELDVAR:
+      return("Field var");
+      break;
+    }
+
+  sprintf(unk, "???? (%d)", va);
 
   return(unk);
 }
@@ -2389,13 +2448,42 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, ch
 	  dbprintf("'%s' is array", vname);
 	  
 	  make_var_type_array(&(vi->type));
+
+	  // We do allow an array with no index. This is use din the Flist argument type
+	  // for functions like MEAN and MAX. The index used is on the stack.
+
+	  if( check_literal(&idx, " )" ),0 )
+	    {
+	      dbprintf("%s:ret1 vname='%s' %s", __FUNCTION__, vname, type_to_str(vi->type) );
+	      op.access = NOPL_OP_ACCESS_WRITE_ARRAY_STK_IDX;
+	      
+	      strcpy(vi->name, vname);
+	      strcpy(op.name, vname);
+	      set_op_var_type(&op, vi);
+	      op.vi = *vi;
+	      
+	      // Create and open field variables aren't real variables. They need to be handled differently
+	      if( access == NOPL_OP_ACCESS_FIELDVAR )
+		{ 
+		  op.buf_id = EXP_BUFF_ID_FIELDVAR;
+		}
+	      
+	      process_token(&op);
+	      
+	      if( pass_number == 2,1 )
+		{
+		  add_var_info(vi, var_idx);
+		}
+	      return(1);	      
+	    }
+	  
 	  
 	  // Add token to output stream for index or indices
-
+	  
 	  if( ref_ndeclare )
 	    {
 	      int num_subexpr;
-
+	      
 	      scan_expression(&num_subexpr, HEED_COMMA);
 	      vi->num_indices = num_subexpr+1;
 	    }
@@ -2600,6 +2688,16 @@ int check_variable(int *index)
 	  dbprintf("%s: is array", __FUNCTION__);
 	  
 	  var_is_array = 1;
+
+	  // We could have just an array name and brackets. That is for the Flist
+	  // type of arguents for a function, e.g. MEAN and MAX.
+	  if( check_literal(&idx, " )") )
+	    {
+	      dbprintf("ret1: Is Flist type arguments");
+	      *index = idx;
+	      return(1);
+	    }
+	  
 	  
 	  // Add token to output stream for index or indices
 	  // If it's an empty expression then it's not an expression. This is an
@@ -4625,7 +4723,6 @@ int scan_function(char *cmd_dest)
   OP_STACK_ENTRY op;
   int idx;
   int num_expr;
-  int num_elements = 0;
   
   indent_more();
   
@@ -4670,7 +4767,7 @@ int scan_function(char *cmd_dest)
 		    {
 		      scan_literal(" (");
 		      
-		      if( !scan_expression_list(&idx, DO_NOT_INSERT_TYPES) )
+		      if( !scan_expression_list(&num_expr, DO_NOT_INSERT_TYPES) )
 			{
 			  syntax_error("Not an expression list");
 			  dbprintf("ret0 Not an expression list");
@@ -4725,6 +4822,18 @@ int scan_function(char *cmd_dest)
 		    }
 		  else
 		    {
+		      // Ensure function is after it's arguments
+		      //op_stack_finalise();
+		      dbprintf("M=Name:'%s' num_elem:%d", fn_info[i].name, num_expr);
+		      
+		      // Match
+		      strcpy(cmd_dest, fn_info[i].name);
+		      //cline_i += strlen(fn_info[i].name);
+		      strcpy(op.name, fn_info[i].name);
+		      op.buf_id = EXP_BUFF_ID_FUNCTION;
+		      op.num_parameters = num_expr;
+		      process_token(&op);
+
 		      dbprintf("ret1");
 		      return(1);
 		    }
@@ -4738,16 +4847,17 @@ int scan_function(char *cmd_dest)
 
 	  // Ensure function is after it's arguments
 	  //op_stack_finalise();
+	  dbprintf("M=Name:'%s' num_elem:%d", fn_info[i].name, num_expr);
 	  
 	  // Match
 	  strcpy(cmd_dest, fn_info[i].name);
 	  //cline_i += strlen(fn_info[i].name);
 	  strcpy(op.name, fn_info[i].name);
 	  op.buf_id = EXP_BUFF_ID_FUNCTION;
-	  op.num_parameters = num_elements;
+	  op.num_parameters = num_expr;
 	  process_token(&op);
 
-	  dbprintf("ret1");
+	  dbprintf("ret1 (A)");
 	  return(1);
 	}
     }
