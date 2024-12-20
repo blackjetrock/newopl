@@ -543,6 +543,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "DELETE",            __,     __,                   __,        __,               QCO_DELETE, 0},
     {EXP_BUFF_ID_FUNCTION, "NEXT",              __,     __,                   __,        __,               QCO_NEXT, 0},
     {EXP_BUFF_ID_FUNCTION, "POSITION",          __,     __,                   __,        __,               QCO_POSITION, 0},
+    {EXP_BUFF_ID_FUNCTION, "ESCAPE",            __,     __,                   __,        __,               QCO_ESCAPE, 0},
     {EXP_BUFF_ID_FUNCTION, "KEY",               __,     __,                   __,        __,               RTF_KEY, 0},
     {EXP_BUFF_ID_FUNCTION, "CLOCK",             __,     __,                   __,        __,               RTF_CLOCK, 0},
     {EXP_BUFF_ID_FUNCTION, "KEY$",              __,     __,                   __,        __,               RTF_SKEY, 0},

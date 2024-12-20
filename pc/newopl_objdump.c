@@ -304,6 +304,12 @@ char *qc_byte_prt_fn_B(int i, NOBJ_QCODE *qc)
   return(prt_res);
 }
 
+char *qc_byte_prt_fn_O(int i, NOBJ_QCODE *qc)
+{
+  sprintf(prt_res, "\n%04X: %02X           (%d)", i+1, *(qc+1), *(qc+1));
+  return(prt_res);
+}
+
 char *qc_byte_prt_fn_f(int i, NOBJ_QCODE *qc)
 {
   sprintf(prt_res, "\n%04X: %02X           (%c)", i+1, *(qc+1), 'A'+*(qc+1));
@@ -425,7 +431,7 @@ QC_BYTE_CODE qc_byte_code[] =
    {"F",           qc_byte_len_fn_F,      qc_byte_prt_fn_F},
    {"S",           qc_byte_len_fn_S,      qc_byte_prt_fn_S},
    {"B",      null_qc_byte_len_fn_1,      qc_byte_prt_fn_B},
-   {"O",      null_qc_byte_fn,       null_qc_byte_prt_fn  },
+   {"O",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_O},
    {"D",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_D},
    {"f+list", null_qc_byte_fn,       null_qc_byte_prt_fn  },
   };
