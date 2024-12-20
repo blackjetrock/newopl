@@ -139,7 +139,7 @@ struct _FN_INFO
   {
     { "ABS",      0,  0, ' ',  "f",         "f", 0x00, 0 },
     { "ACOS",     0,  0, ' ',  "f",         "f", 0x00, 0 },
-    { "ADDR",     0,  0, 'V',  "V",         "i", 0x00, 0 },
+    { "ADDR",     0,  0, ' ',  "V",         "i", 0x00, 0 },
     { "APPEND",   1,  1, ' ',  "",          "v", 0x00, 0 },
     { "ASC",      0,  0, ' ',  "s",         "i", 0x00, 0 },
     { "ASIN",     0,  0, ' ',  "f",         "f", 0x00, 0 },
@@ -158,7 +158,7 @@ struct _FN_INFO
     { "CURSOR",   1,  0, 'O',  "",          "v", 0x00, 0 },
     { "DATIM$",   0,  0, ' ',  "",          "s", 0x00, 0 },
     { "DAYNAME$", 0,  0, ' ',  "i",         "s", 0x00, 0 },
-    { "DAYS",     0,  0, ' ',  "iii",       "i", 0x00, 0 },
+    { "DAYS",     0,  0, ' ',  "iii",       "f", 0x00, 0 },
     { "DAY",      0,  0, ' ',  "",          "i", 0x00, 0 },
     { "DEG",      0,  0, ' ',  "f",         "f", 0x00, 0 },
     { "DELETEW",  1,  1, ' ',  "",          "v", 0x00, 0 },
@@ -2452,14 +2452,21 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, ch
 	  
 	  make_var_type_array(&(vi->type));
 
-	  // We do allow an array with no index. This is use din the Flist argument type
+	  // We do allow an array with no index. This is used in the Flist argument type
 	  // for functions like MEAN and MAX. The index used is on the stack.
 
-	  if( check_literal(&idx, " )" ),0 )
+	  if( check_literal(&idx, " )" ) )
 	    {
-	      dbprintf("%s:ret1 vname='%s' %s", __FUNCTION__, vname, type_to_str(vi->type) );
-	      op.access = NOPL_OP_ACCESS_WRITE_ARRAY_STK_IDX;
-	      
+	      cline_i = idx;
+
+	      // We add an index of 1...
+	      init_op_stack_entry(&op);
+	      strcpy(op.name, "1");
+	      process_token(&op);
+		      
+	      // ... and a reference to the array
+	      init_op_stack_entry(&op);
+	      op.access = NOPL_OP_ACCESS_WRITE;
 	      strcpy(vi->name, vname);
 	      strcpy(op.name, vname);
 	      set_op_var_type(&op, vi);
@@ -2477,6 +2484,8 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, ch
 		{
 		  add_var_info(vi, var_idx);
 		}
+	      
+	      dbprintf("%s:ret1 vname='%s' %s", __FUNCTION__, vname, type_to_str(vi->type) );
 	      return(1);	      
 	    }
 	  
@@ -2700,7 +2709,6 @@ int check_variable(int *index)
 	      *index = idx;
 	      return(1);
 	    }
-	  
 	  
 	  // Add token to output stream for index or indices
 	  // If it's an empty expression then it's not an expression. This is an
@@ -4047,7 +4055,7 @@ int check_onoff(int *index, int *onoff_val)
 // An expression list is a list of comma delimited expressions
 //
 // Some functions, e.g. MEAN,MAX etc, require specific forms of a list
-// This function detects thjose and sets flags so the caller can
+// This function detects those and sets flags so the caller can
 // do things based on the list type (syntax checks)
 //
 
@@ -4110,12 +4118,14 @@ int scan_expression_list(int *num_expressions, int insert_types)
   dbprintf("%s:", __FUNCTION__);
   
   dbprintf( "\nSTARTEXP");
+  op.buf_id = EXP_BUFF_ID_SUB_START;
   sprintf(op.name, "(");
   process_token(&op);
 
   if( scan_expression(&num_commas, HEED_COMMA) )
     {
       dbprintf( "\nENDEXP");
+      op.buf_id = EXP_BUFF_ID_SUB_START;
       sprintf(op.name, ")");
       process_token(&op);
 
@@ -4140,6 +4150,7 @@ int scan_expression_list(int *num_expressions, int insert_types)
 	  // recognised by the shunting algorithm used.
 	  
 	  dbprintf( "\nSTARTEXP");
+	  op.buf_id = EXP_BUFF_ID_SUB_START;
 	  sprintf(op.name, "(");
 	  process_token(&op);
 
@@ -4151,6 +4162,7 @@ int scan_expression_list(int *num_expressions, int insert_types)
 	    }
 
 	  dbprintf( "\nENDEXP");
+	  op.buf_id = EXP_BUFF_ID_SUB_END;
 	  sprintf(op.name, ")");
 	  process_token(&op);
 
@@ -4174,10 +4186,11 @@ int scan_expression_list(int *num_expressions, int insert_types)
     }
   else
     {
+#if 0
       dbprintf( "\nENDEXP");
       sprintf(op.name, ")");
       process_token(&op);
-
+#endif
     }
   
   // Bad
@@ -4505,12 +4518,23 @@ int scan_addr_name(void)
 	  idx = cline_i;
 	  if( check_literal(&idx, addr_name_suffix[i]) )
 	    {
+	      op.access = NOPL_OP_ACCESS_WRITE_ARRAY_STK_IDX;
+	      
+	      //strcpy(vi->name, vname);
+	      strcpy(op.name, vname);
+	      op.type = NOBJ_VARTYPE_VAR_ADDR;
+	      //	      set_op_var_type(&op, vi);
+	      //op.vi = *vi;
+	      process_token(&op);
+#if 0
+	      init_op_stack_entry(&op);
 	      strcat(vname, addr_name_suffix[i]);
 	      strcpy(op.name, vname);
 	      op.type = NOBJ_VARTYPE_VAR_ADDR;
+	      op.access = NOPL_OP_ACCESS_WRITE;
 	      op.buf_id = EXP_BUFF_ID_VAR_ADDR_NAME;
 	      process_token(&op);
-
+#endif
 	      // Move index on
 	      cline_i = idx;
 	      dbprintf("ret1");  
@@ -4683,7 +4707,7 @@ int scan_command(char *cmd_dest, int trappable_only)
 
 	      // Variable name list
 	    case 'V':
-	      if( scan_addr_name() )
+	      if( scan_expression_list(&num_expr, DO_NOT_INSERT_TYPES) )
 		{
 		  // The arguments have to be in a sub expression.
 		  dbprintf( "\nSTARTEXP");
@@ -4698,7 +4722,7 @@ int scan_command(char *cmd_dest, int trappable_only)
 		}
 	      else
 		{
-		  dbprintf("%s: scan_addr_name() failed", __FUNCTION__);
+		  dbprintf("%s: scan_expression_list() failed", __FUNCTION__);
 		  return(0);
 		}
 	      break;

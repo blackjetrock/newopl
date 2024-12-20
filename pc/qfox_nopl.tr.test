@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:0121
-QCode Space Size:0640
+QCode Space Size:0645
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -1034,39 +1034,43 @@ QCode
 0615: 'A'
 0616: 8B       ASC     (bytes code:-)
 0617: 83       drop integer from stack     (bytes code:-)
-0618: 0A       Pop integer index and push parameter/external integer array variable value     (bytes code:V)
-0619: FFFA       (65530)
-061B: 8A       ADDR     (bytes code:-)
-061C: 07       Push parameter/external integer variable value     (bytes code:V)
-061D: FFF8       (65528)
-061F: 83       drop integer from stack     (bytes code:-)
-0620: 14       Push parameter/external integer variable reference     (bytes code:V)
-0621: FFF6       (65526)
-0623: 8C       DAY     (bytes code:-)
-0624: 9A       MONTH     (bytes code:-)
-0625: A1       YEAR     (bytes code:-)
-0626: DD       DAYS     (bytes code:-)
-0627: 7F       Assign integer     (bytes code:-)
-0628: 0E       Push local/global float variable reference     (bytes code:v)
-0629: FFEE       (65518)
-062B: 22       Push integer literal     (bytes code:I)
-062C: 0014       (20)
-062E: 86       autoconversion int to float     (bytes code:-)
-062F: B2       SIN     (bytes code:-)
+0618: 22       Push integer literal     (bytes code:I)
+0619: 0001       (1)
+061B: 17       Pop integer index and push parameter/external integer array variable reference     (bytes code:V)
+061C: FFFA       (65530)
+061E: 8A       ADDR     (bytes code:-)
+061F: 07       Push parameter/external integer variable value     (bytes code:V)
+0620: FFF8       (65528)
+0622: 9F       USR     (bytes code:-)
+0623: 83       drop integer from stack     (bytes code:-)
+0624: 14       Push parameter/external integer variable reference     (bytes code:V)
+0625: FFF6       (65526)
+0627: 8C       DAY     (bytes code:-)
+0628: 9A       MONTH     (bytes code:-)
+0629: A1       YEAR     (bytes code:-)
+062A: DD       DAYS     (bytes code:-)
+062B: 87       autoconversion float to int     (bytes code:-)
+062C: 7F       Assign integer     (bytes code:-)
+062D: 0E       Push local/global float variable reference     (bytes code:v)
+062E: FFEE       (65518)
 0630: 22       Push integer literal     (bytes code:I)
-0631: 001E       (30)
+0631: 0014       (20)
 0633: 86       autoconversion int to float     (bytes code:-)
-0634: A8       COS     (bytes code:-)
-0635: 3C       Plus float     (bytes code:-)
-0636: 22       Push integer literal     (bytes code:I)
-0637: 0028       (40)
-0639: 86       autoconversion int to float     (bytes code:-)
-063A: B4       TAN     (bytes code:-)
-063B: AF       PI     (bytes code:-)
-063C: 3E       Multiply float     (bytes code:-)
-063D: 3C       Plus float     (bytes code:-)
-063E: 80       Assign float     (bytes code:-)
-063F: 7B       RETURN (float 0)     (bytes code:-)
+0634: B2       SIN     (bytes code:-)
+0635: 22       Push integer literal     (bytes code:I)
+0636: 001E       (30)
+0638: 86       autoconversion int to float     (bytes code:-)
+0639: A8       COS     (bytes code:-)
+063A: 3C       Plus float     (bytes code:-)
+063B: 22       Push integer literal     (bytes code:I)
+063C: 0028       (40)
+063E: 86       autoconversion int to float     (bytes code:-)
+063F: B4       TAN     (bytes code:-)
+0640: AF       PI     (bytes code:-)
+0641: 3E       Multiply float     (bytes code:-)
+0642: 3C       Plus float     (bytes code:-)
+0643: 80       Assign float     (bytes code:-)
+0644: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
@@ -1167,6 +1171,7 @@ QCode Data
 05E0:20 00 7D 05 44 4F 50 52 24 85 22 00 01 20 00 23 
 05F0:02 23 00 20 01 24 03 61 62 63 20 02 20 03 7D 05 
 0600:44 4F 50 52 24 85 91 83 22 00 14 86 B2 84 22 00 
-0610:41 B8 85 24 01 41 8B 83 0A FF FA 8A 07 FF F8 83 
-0620:14 FF F6 8C 9A A1 DD 7F 0E FF EE 22 00 14 86 B2 
-0630:22 00 1E 86 A8 3C 22 00 28 86 B4 AF 3E 3C 80 7B 
+0610:41 B8 85 24 01 41 8B 83 22 00 01 17 FF FA 8A 07 
+0620:FF F8 9F 83 14 FF F6 8C 9A A1 DD 87 7F 0E FF EE 
+0630:22 00 14 86 B2 22 00 1E 86 A8 3C 22 00 28 86 B4 
+0640:AF 3E 3C 80 7B 

@@ -579,6 +579,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "TAN",               __,     __,                   __,        __,               RTF_TAN, 0},
     {EXP_BUFF_ID_FUNCTION, "SQR",               __,     __,                   __,        __,               RTF_SQR, 0},
     {EXP_BUFF_ID_FUNCTION, "DEG",               __,     __,                   __,        __,               RTF_DEG, 0},
+    {EXP_BUFF_ID_FUNCTION, "USR",               __,     __,                   __,        __,               RTF_IUSR, 0},
     {EXP_BUFF_ID_FUNCTION, "ASIN",              __,     __,                   __,        __,               RTF_ASIN, 0},
     {EXP_BUFF_ID_FUNCTION, "ACOS",              __,     __,                   __,        __,               RTF_ACOS, 0},
     {EXP_BUFF_ID_FUNCTION, "ATAN",              __,     __,                   __,        __,               RTF_ATAN, 0},
@@ -3123,6 +3124,7 @@ void process_syntax_tree(void)
 
       // Give every entry a node id
       be.node_id = node_id_index++;
+
       
       dbprintf("Processing :%s", be.name);
 		  
@@ -3210,9 +3212,8 @@ void process_syntax_tree(void)
 	      
 	      if( var_type_is_array(vi->type) )
 		{
-		  op1 = type_check_stack_pop();
-
 		  dbprintf(" Array type, checking index");
+		  op1 = type_check_stack_pop();
 		}
 	    }
       
@@ -3372,7 +3373,7 @@ void process_syntax_tree(void)
 		      // Build args to RTF
 
 		      // Array needs an index of 1
-
+#if 0
 		      init_op_stack_entry(&(ft.op));
 		      
 		      ft.node_id = node_id_index++;
@@ -3383,7 +3384,8 @@ void process_syntax_tree(void)
 		      strcpy(ft.op.name, "1");
 		      ft.op.type      = NOBJ_VARTYPE_INT;
 		      insert_buf2_entry_before_node_id(op2.node_id, ft);
-
+#endif
+		      
 #if 0		      
 		      type_check_stack_push(ft);
 		      type_check_stack_push(op2);
@@ -3866,6 +3868,7 @@ void typecheck_expression(void)
   NOBJ_VARTYPE     op1_type, op2_type;
   NOBJ_VARTYPE     op1_reqtype, op2_reqtype;
   NOBJ_VARTYPE     ret_type;
+  NOBJ_VARTYPE     last_known_type = NOBJ_VARTYPE_UNKNOWN;
   int              copied;
   NOBJ_VAR_INFO    *vi;
   char             t_name[NOBJ_VARNAME_MAXLEN+1];
@@ -3898,7 +3901,12 @@ void typecheck_expression(void)
       // Give every entry a node id
       be.node_id = node_id_index++;
 #endif
-      
+
+      if( be.op.type != NOBJ_VARTYPE_UNKNOWN )
+	{
+	  last_known_type = be.op.type;
+	}
+
       dbprintf(" *** BE:%s", be.name);
 		  
       switch(be.op.buf_id)
@@ -4790,13 +4798,14 @@ void typecheck_expression(void)
 	  // We want a drop qcode to be generated to remove any value left on the stack. This is typed
 	  // so to avoid duplicating code the internal command DROP is used. That uses the structure we have for
 	  // translating functions and commands to qcode, taking the type into account.
+	  // The type needs to be the type of the last function or command in the line.
 	  
 	  EXP_BUFFER_ENTRY res;
 	  strcpy(be.name, "DROP");
 	  strcpy(be.op.name, be.name);
 	  be.op.buf_id = EXP_BUFF_ID_FUNCTION;
 	  be.p_idx = 0;
-	  be.op.type      = be.op.type;
+	  be.op.type      = last_known_type;
 	  exp_buffer2[exp_buffer2_i++] = be;
 	}
     }
@@ -5317,7 +5326,7 @@ void process_token(OP_STACK_ENTRY *token)
       
       strcpy(o.name, "(");
       o.type = NOBJ_VARTYPE_UNKNOWN;
-      
+      o.buf_id = EXP_BUFF_ID_SUB_START;
       op_stack_push(o);
 
       // Sub expression, push (save) the expression type and process the sub expression
