@@ -537,10 +537,13 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "FIRST",             __,     __,                   __,        __,               QCO_FIRST, 0},
     {EXP_BUFF_ID_FUNCTION, "FIND",              __,     __,                   __,        __,               RTF_FIND, 0},
     {EXP_BUFF_ID_FUNCTION, "COPY",              __,     __,                   __,        __,               QCO_COPY, 0},
+    {EXP_BUFF_ID_FUNCTION, "COPYW",             __,     __,                   __,        __,               RTF_COPYW, 0},
     {EXP_BUFF_ID_FUNCTION, "LAST",              __,     __,                   __,        __,               QCO_LAST, 0},
     {EXP_BUFF_ID_FUNCTION, "BACK",              __,     __,                   __,        __,               QCO_BACK, 0},
     {EXP_BUFF_ID_FUNCTION, "APPEND",            __,     __,                   __,        __,               QCO_APPEND, 0},
     {EXP_BUFF_ID_FUNCTION, "DELETE",            __,     __,                   __,        __,               QCO_DELETE, 0},
+    {EXP_BUFF_ID_FUNCTION, "RENAME",            __,     __,                   __,        __,               QCO_RENAME, 0},
+    {EXP_BUFF_ID_FUNCTION, "DELETEW",           __,     __,                   __,        __,               RTF_DELETEW, 0},
     {EXP_BUFF_ID_FUNCTION, "NEXT",              __,     __,                   __,        __,               QCO_NEXT, 0},
     {EXP_BUFF_ID_FUNCTION, "POSITION",          __,     __,                   __,        __,               QCO_POSITION, 0},
     {EXP_BUFF_ID_FUNCTION, "ESCAPE",            __,     __,                   __,        __,               QCO_ESCAPE, 0},
@@ -548,6 +551,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "CLOCK",             __,     __,                   __,        __,               RTF_CLOCK, 0},
     {EXP_BUFF_ID_FUNCTION, "KEY$",              __,     __,                   __,        __,               RTF_SKEY, 0},
     {EXP_BUFF_ID_FUNCTION, "CHR$",              __,     __,                   __,        __,               RTF_CHR, 0},
+    {EXP_BUFF_ID_FUNCTION, "BEEP",              __,     __,                   __,        __,               QCO_BEEP, 0},
     {EXP_BUFF_ID_FUNCTION, "LEFT$",             __,     __,                   __,        __,               RTF_LEFT, 0},
     {EXP_BUFF_ID_FUNCTION, "RIGHT$",            __,     __,                   __,        __,               RTF_RIGHT, 0},
     {EXP_BUFF_ID_FUNCTION, "GEN$",              __,     __,                   __,        __,               RTF_GEN, 0},
@@ -566,6 +570,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "UDG",               __,     __,                   __,        __,               RTF_UDG, 0},
     {EXP_BUFF_ID_FUNCTION, "EXIST",             __,     __,                   __,        __,               RTF_EXIST, 0},
     {EXP_BUFF_ID_FUNCTION, "CLOSE",             __,     __,                   __,        __,               QCO_CLOSE, 0},
+    {EXP_BUFF_ID_FUNCTION, "RANDOMIZE",         __,     __,                   __,        __,               QCO_RANDOMIZE, 0},
     {EXP_BUFF_ID_FUNCTION, "RAD",               __,     __,                   __,        __,               RTF_RAD, 0},
     {EXP_BUFF_ID_FUNCTION, "SIN",               __,     __,                   __,        __,               RTF_SIN, 0},
     {EXP_BUFF_ID_FUNCTION, "COS",               __,     __,                   __,        __,               RTF_COS, 0},
@@ -1439,6 +1444,12 @@ void output_qcode_for_line(void)
 	      // WHILE and UNTIL. This is for the CONTINUE command
 	      add_cond_fixup(qcode_idx, qcode_idx, EXP_BUFF_ID_TEST_EXPR, exp_buffer2[i].op.level);
 	    }
+
+	  if( (strcmp(exp_buffer2[i].name, "BYTE") == 0) )
+	    {
+	      // Put a byte in the QCode stream
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  exp_buffer2[i].op.integer);
+	    }
 	  
 	  if( (strcmp(exp_buffer2[i].name, " CREATE") == 0) || (strcmp(exp_buffer2[i].name, " OPEN") == 0) )
 	    {
@@ -1703,6 +1714,37 @@ void output_qcode_for_line(void)
 	    case NOBJ_VARTYPE_STR:
 	    case NOBJ_VARTYPE_STRARY:
 	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_PRINT_STR);
+	      break;
+	    }
+	  break;
+
+	case EXP_BUFF_ID_LPRINT_NEWLINE:
+	  dbprintf("QC:LPRINT");
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_LPRINT_CR);
+	  break;
+
+	case EXP_BUFF_ID_LPRINT_SPACE:
+	  dbprintf("QC:LPRINT");
+	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_LPRINT_SP);
+	  break;
+	  
+	case EXP_BUFF_ID_LPRINT:
+	  dbprintf("QC:LPRINT");
+	  switch(token.op.type)
+	    {
+	    case NOBJ_VARTYPE_INT:
+	    case NOBJ_VARTYPE_INTARY:
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_LPRINT_INT);
+	      break;
+
+	    case NOBJ_VARTYPE_FLT:
+	    case NOBJ_VARTYPE_FLTARY:
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_LPRINT_NUM);
+	      break;
+
+	    case NOBJ_VARTYPE_STR:
+	    case NOBJ_VARTYPE_STRARY:
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_LPRINT_STR);
 	      break;
 	    }
 	  break;

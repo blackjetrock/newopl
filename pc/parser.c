@@ -155,7 +155,7 @@ struct _FN_INFO
     { "COPY",     1,  1, ' ',  "ss",        "v", 0x00, 0 },
     { "COS",      0,  0, ' ',  "f",         "f", 0x00, 0 },
     { "COUNT",    0,  0, ' ',  "",          "i", 0x00, 0 },
-    { "CURSOR",   1,  0, 'O',  "i",         "v", 0x00, 0 },
+    { "CURSOR",   1,  0, 'O',  "",          "v", 0x00, 0 },
     { "DATIM$",   0,  0, ' ',  "",          "s", 0x00, 0 },
     { "DAYNAME$", 0,  0, ' ',  "i",         "s", 0x00, 0 },
     { "DAYS",     0,  0, ' ',  "iii",       "i", 0x00, 0 },
@@ -172,7 +172,7 @@ struct _FN_INFO
     { "ERASE",    1,  1, ' ',  "",          "v", 0x00, 0 },
     { "ERR$",     0,  0, ' ',  "i",         "s", 0x00, 0 },
     { "ERR",      0,  0, ' ',  "",          "i", 0x00, 0 },
-    { "ESCAPE",   1,  0, 'O',  "i",         "v", 0x00, 0 },
+    { "ESCAPE",   1,  0, 'O',  "",          "v", 0x00, 0 },
     { "EXIST",    0,  0, ' ',  "s",         "i", 0x00, 0 },
     { "EXP",      0,  0, ' ',  "f",         "f", 0x00, 0 },
     { "FINDW",    0,  0, ' ',  "s",         "i", 0x00, 0 },
@@ -222,7 +222,7 @@ struct _FN_INFO
     { "POS",      0,  0, ' ',  "",          "i", 0x00, 0 },
     { "RAD",      0,  0, ' ',  "f",         "f", 0x00, 0 },
     { "RAISE",    1,  0, ' ',  "i",         "v", 0x00, 0 },
-    { "RANDOMIZE",1,  0, ' ',  "i",         "v", 0x00, 0 },
+    { "RANDOMIZE",1,  0, ' ',  "f",         "v", 0x00, 0 },
     { "RECSIZE",  0,  0, ' ',  "",          "i", 0x00, 0 },
     { "REM",      1,  0, ' ',  "",          "v", 0x00, 0 },
     { "RENAME",   1,  1, ' ',  "ss",        "v", 0x00, 0 },
@@ -4645,8 +4645,6 @@ int scan_command(char *cmd_dest, int trappable_only)
 	  op.trapped = trappable_only;
 	  op.buf_id = EXP_BUFF_ID_FUNCTION;
 	  process_token(&op);
-
-	  
 	  
 	  switch(fn_info[i].argparse)
 	    {
@@ -4661,11 +4659,14 @@ int scan_command(char *cmd_dest, int trappable_only)
 		  sprintf(op.name, "(");
 		  process_token(&op);
 
-		  // ON and off map to 1 and 0
-		  sprintf(op.name, "%d", onoff_val);
+		  // ON and OFF map to 1 and 0
+		  // These are stored in the integer field
+		  sprintf(op.name, "BYTE");
+		  op.buf_id = EXP_BUFF_ID_META;
+		  op.integer = onoff_val;
 		  process_token(&op);
 		  
-		  dbprintf("%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
+		  dbprintf("ret1 =>'%s' %d", cmd_dest, onoff_val);
 		  dbprintf( "\nENDEXP");
 		  sprintf(op.name, ")");
 		  process_token(&op);
