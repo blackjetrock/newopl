@@ -4646,10 +4646,7 @@ int scan_command(char *cmd_dest, int trappable_only)
 	  op.buf_id = EXP_BUFF_ID_FUNCTION;
 	  process_token(&op);
 
-	  // The arguments have to be in a sub expression.
-	  dbprintf( "\nSTARTEXP");
-	  sprintf(op.name, "(");
-	  process_token(&op);
+	  
 	  
 	  switch(fn_info[i].argparse)
 	    {
@@ -4657,6 +4654,13 @@ int scan_command(char *cmd_dest, int trappable_only)
 	    case 'O':
 	      if( check_onoff(&cline_i, &onoff_val) )
 		{
+		  op_stack_finalise();
+
+		  // The arguments have to be in a sub expression.
+		  dbprintf( "\nSTARTEXP");
+		  sprintf(op.name, "(");
+		  process_token(&op);
+
 		  // ON and off map to 1 and 0
 		  sprintf(op.name, "%d", onoff_val);
 		  process_token(&op);
@@ -4680,6 +4684,11 @@ int scan_command(char *cmd_dest, int trappable_only)
 	    case 'V':
 	      if( scan_addr_name() )
 		{
+		  // The arguments have to be in a sub expression.
+		  dbprintf( "\nSTARTEXP");
+		  sprintf(op.name, "(");
+		  process_token(&op);
+
 		  dbprintf("%s: ret1 =>'%s'", __FUNCTION__, cmd_dest);
 		  dbprintf( "\nENDEXP");
 		  sprintf(op.name, ")");
@@ -4697,6 +4706,11 @@ int scan_command(char *cmd_dest, int trappable_only)
 	    default:
 	      if( scan_expression_list(&num_expr, DO_NOT_INSERT_TYPES) )
 		{
+		  // The arguments have to be in a sub expression.
+		  dbprintf( "\nSTARTEXP");
+		  sprintf(op.name, "(");
+		  process_token(&op);
+
 		  dbprintf("ret1 =>'%s'", cmd_dest);
 		  dbprintf( "\nENDEXP");
 		  sprintf(op.name, ")");

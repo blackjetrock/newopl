@@ -549,12 +549,12 @@ QCode
 02D1: Dest:02D1 (Dist:0000)
 02D3: 53       ONERR     (bytes code:D)
 02D4: Dest:02CC (Dist:FFFFFFF8)
-02D6: 22       Push integer literal     (bytes code:I)
-02D7: 0000       (0)
-02D9: 50       ESCAPE     (bytes code:O)
-02DA: 22           (34)
-02DC: 01       Push local/global float variable value     (bytes code:v)
-02DD: 5022       (20514)
+02D6: 50       ESCAPE     (bytes code:O)
+02D7: 22           (34)
+02D9: 00       Push local/global integer variable value     (bytes code:v)
+02DA: 5022       (20514)
+02DC: 00       Push local/global integer variable value     (bytes code:v)
+02DD: 0122       (290)
 02DF: 00       Push local/global integer variable value     (bytes code:v)
 02E0: 1454       (5204)
 02E2: 22       Push integer literal     (bytes code:I)
@@ -1101,7 +1101,7 @@ QCode Data
 02A0:58 4A 86 80 0E FF EE 02 FF E1 24 03 58 58 58 49 
 02B0:86 80 00 FF EC 00 FF EC 4C 22 00 02 22 00 03 4C 
 02C0:23 02 25 00 87 23 02 36 00 87 4C 4E 51 FF FF 52 
-02D0:53 00 00 53 FF F8 22 00 00 50 22 00 01 50 22 00 
+02D0:53 00 00 53 FF F8 50 22 00 00 50 22 00 01 22 00 
 02E0:14 54 22 00 64 22 00 02 55 22 00 C8 22 00 05 56 
 02F0:22 00 14 57 22 01 59 59 5A 5C 5A 5B 5C 5B 24 05 
 0300:41 3A 41 42 43 5E 00 02 03 54 31 24 00 03 54 32 
