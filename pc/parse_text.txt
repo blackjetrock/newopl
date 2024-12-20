@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 'qfox:'
+=======
+'QFOX:'
+>>>>>>> continue
 'LOCAL A, X%, Y$(10)'
 'LOCAL A, X%, Y$(10)'
 'LOCAL B(10), C%(10), D$(10,10) '
@@ -27,7 +31,11 @@
 'GET'
 'A = GET'
 'OPEN "A:ABC", A, T1$, T2%, T3$'
+<<<<<<< HEAD
 'trap OPEN "A:ABC", A, T1$, T2%, T3$'
+=======
+'trap OPEN "A:ABC", A, T1$, T2%, T3$	'
+>>>>>>> continue
 'A = A > 2'
 'A = A < 3'
 'A = A = 3'
@@ -65,8 +73,13 @@
 'A = Y$ > Y$'
 'A = Y$ >= "XXX"'
 'A = Y$ <= "XXX"'
+<<<<<<< HEAD
 'A = Y$ = "XXX"'
 'A = Y$ <> "XXX"'
+=======
+'A = Y$ = "XXX"			'
+'A = Y$ <> "XXX"		'
+>>>>>>> continue
 'AT X%, X%'
 'AT 2,3'
 'AT 2.5, 3.6'
@@ -187,6 +200,10 @@
 'RETURN'
 'RETURN 0'
 'RETURN 2.4'
+<<<<<<< HEAD
+=======
+'RETURN "ABC"'
+>>>>>>> continue
 'dopr:'
 'dopr%:'
 'dopr$:'
@@ -198,7 +215,11 @@
 'USR(ADDR(A%()),pos%)'
 'now%=DAYS(DAY,MONTH,YEAR)'
 'A = sin(20)+cos(30)+tan(40)*PI'
+<<<<<<< HEAD
 'qfox:'
+=======
+'QFOX:'
+>>>>>>> continue
 'LOCAL A, X%, Y$(10)'
 'LOCAL A, X%, Y$(10)'
 'LOCAL B(10), C%(10), D$(10,10) '
@@ -227,7 +248,11 @@
 'GET'
 'A = GET'
 'OPEN "A:ABC", A, T1$, T2%, T3$'
+<<<<<<< HEAD
 'trap OPEN "A:ABC", A, T1$, T2%, T3$'
+=======
+'trap OPEN "A:ABC", A, T1$, T2%, T3$	'
+>>>>>>> continue
 'A = A > 2'
 'A = A < 3'
 'A = A = 3'
@@ -265,8 +290,13 @@
 'A = Y$ > Y$'
 'A = Y$ >= "XXX"'
 'A = Y$ <= "XXX"'
+<<<<<<< HEAD
 'A = Y$ = "XXX"'
 'A = Y$ <> "XXX"'
+=======
+'A = Y$ = "XXX"			'
+'A = Y$ <> "XXX"		'
+>>>>>>> continue
 'AT X%, X%'
 'AT 2,3'
 'AT 2.5, 3.6'
@@ -387,6 +417,10 @@
 'RETURN'
 'RETURN 0'
 'RETURN 2.4'
+<<<<<<< HEAD
+=======
+'RETURN "ABC"'
+>>>>>>> continue
 'dopr:'
 'dopr%:'
 'dopr$:'
