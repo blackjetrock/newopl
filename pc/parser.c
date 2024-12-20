@@ -100,6 +100,7 @@ char *exp_buffer_id_str[] =
     "EXP_BUFF_ID_BREAK",
     "EXP_BUFF_ID_META",
     "EXP_BUFF_ID_BRAENDIF",
+    "EXP_BUFF_ID_TEST_EXPR",
     "EXP_BUFF_ID_FIELDVAR",
     "EXP_BUFF_ID_LOGICALFILE",
     "EXP_BUFF_ID_ONERR",
@@ -5926,7 +5927,7 @@ int scan_do(LEVEL_INFO levels)
 
       op.level = levels.do_level;
       
-      // Just flush the operator stack so the UNTIL is at the end of the output
+      // Just flush the operator stack so the DO is at the end of the output
       output_generic(op, "DO", EXP_BUFF_ID_DO);
 
       idx = cline_i;
@@ -5990,7 +5991,16 @@ int scan_do(LEVEL_INFO levels)
 		  cline_i = idx;
 		      
 		  int num_subexpr;
-		      
+
+		  // Add a marker for the position of the test expression. This is for
+		  // the CONTINUE command which needs to jump here.
+		  init_op_stack_entry(&op);
+		  op.buf_id = EXP_BUFF_ID_META;
+		  op.level = levels.do_level;
+		  
+		  strcpy(op.name, "TEST_EXPR");
+		  process_token(&op);
+		  
 		  // We must have an expression after the until
 		  if( scan_expression(&num_subexpr, HEED_COMMA) )
 		    {
@@ -6074,8 +6084,18 @@ int scan_while(LEVEL_INFO levels)
       
       cline_i = idx;
 
+      // Add a marker for the position of the test expression. This is for
+      // the CONTINUE command which needs to jump here.
+      init_op_stack_entry(&op);
+      op.buf_id = EXP_BUFF_ID_META;
+      op.level = levels.do_level;
+      
+      strcpy(op.name, "TEST_EXPR");
+      process_token(&op);
+      
       // TODO: We need to disable assignmemt in this expression scan
       //
+      
       if( scan_expression(&num_sub_expr, IGNORE_COMMA) )
 	{
 	  // Finish the expression and then output the WHILE token

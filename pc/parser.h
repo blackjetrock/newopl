@@ -60,6 +60,7 @@ enum
     EXP_BUFF_ID_BREAK,
     EXP_BUFF_ID_META,
     EXP_BUFF_ID_BRAENDIF,              // Only used in qcode generation
+    EXP_BUFF_ID_TEST_EXPR,             // Only used in qcode generation
     EXP_BUFF_ID_FIELDVAR,
     EXP_BUFF_ID_LOGICALFILE,
     EXP_BUFF_ID_ONERR,

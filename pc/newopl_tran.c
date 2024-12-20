@@ -949,6 +949,29 @@ void do_cond_fixup(void)
 	      set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
 	    }
 	  break;
+
+	case EXP_BUFF_ID_CONTINUE:
+	  // We need to either find a matching DO and jump to the UNTIL test or
+	  // find a matching WHILE and jump to the WHILE test
+
+	  // Is there a TEST_EXPR for this level?
+	  target_idx = find_target_idx(EXP_BUFF_ID_TEST_EXPR, cond_fixup[i].level);
+
+	  if( target_idx == -1 )
+	    {
+	      syntax_error("No matching DO or WHILE for CONTINUE");
+	      return;
+	    }
+
+	  // There is a TEST_EXPR
+	  // Calculate offset
+	  branch_offset = (target_idx - cond_fixup[i].offset_idx);
+	  until_offset = branch_offset;
+	  
+	  // Fill in the offset
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+0, 1, (until_offset) >> 8);
+	  set_qcode_header_byte_at(cond_fixup[i].offset_idx+1, 1, (until_offset) & 0xFF);
+	  break;
 	  
 	case EXP_BUFF_ID_UNTIL:
 	  // Find matching DO and get idx
@@ -1330,8 +1353,6 @@ void output_qcode_for_line(void)
   // would have created them.
   int elseif_present = 0;
   int is_an_assignment = 0;
-
- 
   
   for(int i=0; i<exp_buffer2_i; i++)
     {
@@ -1358,6 +1379,9 @@ void output_qcode_for_line(void)
     }
 
   // We need to know where the line starts for the WHILE
+  // todo: Check this is correct in all cases. If the parser uses a finalise call then the OPL line
+  // could be split across multiple intcode lines.
+  
   int start_of_line_qcode_idx = qcode_idx;
   
   for(int i=0; i<exp_buffer2_i; i++)
@@ -1404,6 +1428,13 @@ void output_qcode_for_line(void)
 	  // On pass 2 when we see the PROCDEF we generate the qcode header,
 	  // each line then generates qcodes after that
 	  dbprintf("QC:META '%s'", tokop.name);
+
+	  if( (strcmp(exp_buffer2[i].name, "TEST_EXPR") == 0) )
+	    {
+	      // Add conditional fixup information for the test expressions of
+	      // WHILE and UNTIL. This is for the CONTINUE command
+	      add_cond_fixup(qcode_idx, qcode_idx, EXP_BUFF_ID_TEST_EXPR, exp_buffer2[i].op.level);
+	    }
 	  
 	  if( (strcmp(exp_buffer2[i].name, " CREATE") == 0) || (strcmp(exp_buffer2[i].name, " OPEN") == 0) )
 	    {
@@ -1702,6 +1733,7 @@ void output_qcode_for_line(void)
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
 	  break;
 
+	case EXP_BUFF_ID_CONTINUE:
 	case EXP_BUFF_ID_BREAK:
 	  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_GOTO);
 	  add_cond_fixup(qcode_idx, qcode_idx, token.op.buf_id, token.op.level);
