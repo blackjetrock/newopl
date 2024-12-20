@@ -1828,6 +1828,9 @@ void output_qcode_for_line(void)
 	    }
 	  break;
 
+	case EXP_BUFF_ID_OPERATOR_UNARY:
+	  break;
+	  
 	default:
 	  // Check the simple mapping table
 	  qcode_idx = add_simple_qcode(qcode_idx, &(token.op), vi);
@@ -4607,15 +4610,26 @@ void typecheck_expression(void)
 	    {
 	      dbprintf("Found unary operator %s", be.name);
 
-	      // Unary operators don't change the type, just the value
+	      // Some unary operators, like UMIN, don't change the type of their argument.
+	      // Their output follows that of their argument.
+	      // others, like UNOT have a fixed output type. We use the immutable flag to identify
+	      // these operators.
+	      
 	      op1 = type_check_stack_pop();
 	      op1_type = op1.op.type;
 
 	      dbprintf("op1 type:%c", type_to_char(op1.op.type));
 
-	      // Set the copied entry to the same type
-	      be.op.type = op1.op.type;
-
+	      if( op_info.immutable )
+		{
+		  be.op.type = op_info.output_type;
+		}
+	      else
+		{
+		  // Set the copied entry to the same type
+		  be.op.type = op1.op.type;
+		}
+	      
 	      // Create a link to the argument.
 	      be.p_idx = 1;
 	      be.p[0] = op1.node_id;

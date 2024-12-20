@@ -90,11 +90,12 @@ typedef struct _OP_INFO
   int           precedence;
   NOBJ_VARTYPE  output_type;              // If not unknown then returns this type
   int           can_be_unary;             // Can be a unary operator
+  int           output_type_from_arg;     // The output type (and hence qcode) comes from the arg type
   char          *unaryop;                 // Unary version of operator name
   int           left_assoc;
-  int           immutable;                // Is the operator type mutable?
+  int           immutable;                // Is the operator output type mutable?
   int           assignment;               // Special code for assignment
-  NOBJ_VARTYPE  type[MAX_OPERATOR_TYPES];
+  NOBJ_VARTYPE  type[MAX_OPERATOR_TYPES];  // Acceptable argument types.
   int           qcode;                     // Easily translatable qcodes
 } OP_INFO;
 
