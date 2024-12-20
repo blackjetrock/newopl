@@ -668,21 +668,24 @@ int add_simple_qcode(int idx, OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
       vi = &nullvi;
 
     }
+
+  // Some operators should have their types forced to the qcode_type as that is based on their inputs.
+  // the '.type' field is based on the output and is used for typechecking.
+  if( op->qcode_type != NOBJ_VARTYPE_UNKNOWN )
+    {
+      dbprintf("Type forced to qcode_type");
+      op_type = op->qcode_type;
+    }
+  else
+    {
+      op_type = op->type;
+    }
   
   for(int i=0; i<NUM_SIMPLE_QC_MAP; i++)
     {
+
       if( op->buf_id == qc_map[i].buf_id )
 	{
-	  // Some operators should have their types forced to the qcode_type as that is based on their inputs.
-	  // the '.type' field is based on the output and is used for typechecking.
-	  if( op->qcode_type != NOBJ_VARTYPE_UNKNOWN )
-	    {
-	      op_type = op->qcode_type;
-	    }
-	  else
-	    {
-	      op_type = op->type;
-	    }
 	  
 	  // See if other values match
 	  if( ((qc_map[i].class  == vi->class)         || (qc_map[i].class == __))   &&
@@ -1827,11 +1830,42 @@ void output_qcode_for_line(void)
 	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer2[i].name[j]);
 	    }
 	  break;
-#if 0
+#if 1
 	case EXP_BUFF_ID_OPERATOR_UNARY:
+	  dbprintf("BUFF_ID_OPERATOR_UNARY");
+	  OP_INFO op_info;
 	  
+	  if( find_op_info(exp_buffer2[i].name, &op_info) )
+	    {
+	      dbprintf("Found operator %s", exp_buffer2[i].name);
+	      
+	      // If we need to change the qcode based on the argument type then we do that here
+	      if( op_info.qcode_type_from_arg )
+		{
+		  // Set the qcode type from the argument type
+		  // Only one argument for unary operators...
+		  EXP_BUFFER_ENTRY *e = find_buf2_entry_with_node_id(exp_buffer2[i].p[0]);
+
+		  if( e != NULL )
+		    {
+		      token.op.type = op_info.output_type;
+		      token.op.qcode_type = e->op.type;
+		    }
+		  else
+		    {
+		      internal_error("Could not find entry for N%03d", exp_buffer2[i].p[0]);
+		    }
+		}
+	    }
+	  else
+	    {
+	      internal_error("Could not find op_info for '%s'", exp_buffer2[i].name);
+	    }
+	  
+	  qcode_idx = add_simple_qcode(qcode_idx, &(token.op), vi);	  
 	  break;
-#endif	  
+#endif
+	  
 	default:
 	  // Check the simple mapping table
 	  qcode_idx = add_simple_qcode(qcode_idx, &(token.op), vi);
@@ -2399,6 +2433,24 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+EXP_BUFFER_ENTRY *find_buf2_entry_with_node_id(int node_id)
+{
+  // Find the entry with the given node_id
+  dbprintf("Find entry with node id N%03d", node_id);
+  
+  for(int i= 0; i<exp_buffer2_i; i++)
+    {
+      if( exp_buffer2[i].node_id == node_id )
+	{
+	  fprintf(ofp, "\n   Found at i:%d", i);
+	  return(&(exp_buffer2[i]));
+	}
+    }
+  return(NULL);
+}
+
+//------------------------------------------------------------------------------
+//
 // Copy buf back to buf
 // This is done after the syntax processing so that we can run the type check
 // This could be optimised away.
@@ -4613,15 +4665,15 @@ void typecheck_expression(void)
 
 	      // Some unary operators, like UMIN, don't change the type of their argument.
 	      // Their output follows that of their argument.
-	      // others, like UNOT have a fixed output type. We use the immutable flag to identify
-	      // these operators.
+	      // others, like UNOT have a fixed output type. 
+
 	      
 	      op1 = type_check_stack_pop();
 	      op1_type = op1.op.type;
 
 	      dbprintf("op1 type:%c", type_to_char(op1.op.type));
 
-	      if( op_info.immutable )
+	      if( op_info.output_type != NOBJ_VARTYPE_UNKNOWN )
 		{
 		  be.op.type = op_info.output_type;
 		}

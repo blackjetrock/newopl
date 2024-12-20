@@ -406,7 +406,7 @@ QCode
 0212: FFEE       (65518)
 0214: 01       Push local/global float variable value     (bytes code:v)
 0215: FFEE       (65518)
-0217: 33       NOT integer     (bytes code:-)
+0217: 42       NOT float     (bytes code:-)
 0218: 86       autoconversion int to float     (bytes code:-)
 0219: 80       Assign float     (bytes code:-)
 021A: 0D       Push local/global integer variable reference     (bytes code:v)
@@ -1088,7 +1088,7 @@ QCode Data
 01E0:0D FF EC 00 FF EC 00 FF EC 30 7F 0D FF EC 00 FF 
 01F0:EC 00 FF EC 2F 7F 0D FF EC 00 FF EC 00 FF EC 31 
 0200:7F 0E FF EE 01 FF EE 41 80 0D FF EC 00 FF EC 32 
-0210:7F 0E FF EE 01 FF EE 33 86 80 0D FF EC 00 FF EC 
+0210:7F 0E FF EE 01 FF EE 42 86 80 0D FF EC 00 FF EC 
 0220:33 7F 0D FF EC 00 FF EC 22 00 0A 34 7F 0E FF EE 
 0230:01 FF EE 22 00 0C 86 43 86 80 0D FF EC 00 FF EC 
 0240:22 00 65 35 7F 0E FF EE 01 FF EE 22 00 2D 86 44 

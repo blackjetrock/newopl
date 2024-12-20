@@ -90,7 +90,7 @@ typedef struct _OP_INFO
   int           precedence;
   NOBJ_VARTYPE  output_type;              // If not unknown then returns this type
   int           can_be_unary;             // Can be a unary operator
-  int           output_type_from_arg;     // The output type (and hence qcode) comes from the arg type
+  int           qcode_type_from_arg;      // The qcode type comes from the arg type
   char          *unaryop;                 // Unary version of operator name
   int           left_assoc;
   int           immutable;                // Is the operator output type mutable?
@@ -431,6 +431,7 @@ int function_access_force_write(char * fname);
 void to_upper_str(char *str);
 char *var_access_to_str(NOPL_OP_ACCESS va);
 char function_arg_parse(char *fname);
+EXP_BUFFER_ENTRY *find_buf2_entry_with_node_id(int node_id);
 
 extern int qcode_idx;
 extern int pass_number;
