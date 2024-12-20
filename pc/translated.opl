@@ -1,482 +1,222 @@
 
 
 
-Y$
-D$(10,10)
-KEY%
-K%
-A := 10.1
-A := 20
-X% := 20.2
-X% := 30
-Y$ := "ABCD"
-B(1) := 11.2
-B(2) := 21
-C%(1) := 22
-C%(2) := 23.5
-B(1) := (((A + X%) + B(1)) + C%(1))
-X% := 1
+HV
+RSAT
+OPT%
+M$
+M$ := "stndrdthththththththththththththththththstndrdthththththththst"
+RSAT := (42.2 / 6.37)
+PRINT("YOUR LONGITUDE:")
+<nl>
+
+X
+ANTSV := RAD(X )
+SINSV := SIN(ANTSV )
+COSSV := COS(ANTSV )
+PRINT("YOUR LATITUDE:")
+<nl>
+
+X
+ANTHV := RAD((90.0 - X) )
+SINHV := SIN(ANTHV )
+COSHV := COS(ANTHV )
 DO
-IF (X% = 5)
+OPT% := MENU("INTELSAT,DFS,ASTRA,EUTELSAT,PANAMSAT,HORIZONT," )
+IF (OPT% = 0)
 
+ELSEIF (OPT% = 1)
+OPT% := MENU("V-F15,V-F12,V-F6,VA-F11" )
+IF (OPT% = 0)
+
+ELSEIF (OPT% = 1)
+X := 60
+ELSEIF (OPT% = 2)
+X := (UMIN 1)
+ELSEIF (OPT% = 3)
+X := (UMIN 18.5)
+ELSEIF (OPT% = 4)
+X := (UMIN 27.5)
 ENDIF
-IF (X% > 20)
+ELSEIF (OPT% = 2)
+X := 23.5
+ELSEIF (OPT% = 3)
+X := 19
+ELSEIF (OPT% = 4)
+OPT% := MENU("I-F1,I-F4,I-F5,I-F2" )
+IF (OPT% = 0)
 
+ELSEIF (OPT% = 1)
+X := 16
+ELSEIF (OPT% = 2)
+X := 13
+ELSEIF (OPT% = 3)
+X := 10
+ELSEIF (OPT% = 4)
+X := 7
 ENDIF
-X% := (X% + 1)
-UNTIL (X% > 10)
-GET()
-A := GET()
-"A:ABC"
-"A:ABC"
-A := (A > 2)
-A := (A < 3)
-A := (A = 3)
-A := (A >= 10)
-A := (A <= 30)
-A := (A <> 100)
-X% := (X% > 2)
-X% := (X% < 3)
-X% := (X% = 3)
-X% := (X% >= 10)
-X% := (X% <= 30)
-X% := (X% <> 100)
-Y$ := (Y$ + Y$)
-Y$ := (Y$ + "AXC")
-A := (A + A)
-A := (A - A)
-A := (A / A)
-A := (A * A)
-A := (A ** A)
-X% := (X% + X%)
-X% := (X% - X%)
-X% := (X% / X%)
-X% := (X% * X%)
-X% := (X% ** X%)
-A := (UMIN A)
-X% := (UMIN X%)
-A := (UNOT A)
-X% := (UNOT X%)
-X% := (X% AND 10)
-A := (A AND 12)
-X% := (X% OR 101)
-A := (A OR 45)
-X% := ((A OR X%) AND X%)
-A := (Y$ < "A")
-A := (Y$ > Y$)
-A := (Y$ >= "XXX")
-A := (Y$ <= "XXX")
-A := (Y$ = "XXX")
-A := (Y$ <> "XXX")
-AT(X% X% )
-AT(2 3 )
-AT(2.5 3.6 )
-CLS()
-dest::
-GOTO DEST
-
-
-
-ESCAPE(0 )
-ESCAPE(1 )
-PAUSE(20 )
-POKEB(100 2 )
-POKEW(200 5 )
-RAISE(20 )
-RANDOMIZE(345 )
-STOP()
-CLOSE()
-APPEND()
-CLOSE()
-APPEND()
-"A:ABC"
-"A:ABC"
-COPY("dev1:fname1" "dev2:fname2" )
-COPY("dev1:fname1" "dev2:" )
-COPY("dev1:" "dev2:" )
-COPYW("dev1:fname1.ext" "dev2:fname2" )
-COPYW("dev1:fname1.ext" "dev2:" )
-COPYW("dev1:*.*" "dev2:" )
-DELETEW()
-ERASE()
-FIRST()
-LAST()
-NEXT()
-BACK()
-POSITION(0 )
-POSITION(1 )
-FIRST()
-RENAME("dev:fname1" "fname2" )
-UPDATE()
-USE()
-
-KSTAT(1 )
-top::
-CLS()
-PRINT("****DICE ROLLING****")
-<nl>
-
-PRINT("PRESS S TO STOP")
-<nl>
-
-DO
-DICE% := ((RND() * 6) + 1)
-UNTIL (KEY$() = "S")
-CLS()
-PRINT("********* ")
-PRINT(DICE%)
-PRINT(" ********")
-<nl>
-
-BEEP(50 100 )
-AT(1 4 )
-PRINT("ROLL AGAIN Y/N")
-<nl>
-
-label::
-KEY% := GET()
-IF (KEY% = 89)
-GOTO top
-ELSEIF (KEY% = 78)
-
-ELSE
-GOTO label
+ELSEIF (OPT% = 5)
+X := (UMIN 45)
+ELSEIF (OPT% = 6)
+X := (UMIN 11)
 ENDIF
-DO
-FIRST()
-CLS()
-PRINT("ALTER:")
-
-SEARCH$
-IF (ERR() = 206)
-
-ENDIF
-RECNUM% := FIND(SEARCH$ )
-IF (RECNUM% = 0)
-CLS()
-PRINT("NOT FOUND")
+SATSV := RAD(X )
+X := ((RSAT * COS(SATSV )) - (COS(ANTSV ) * SIN(ANTHV )))
+Y := ((RSAT * SIN(SATSV )) - (SIN(ANTSV ) * SIN(ANTHV )))
+Z := (UMIN COS(ANTHV ))
+R := SQR((((X * X) + (Y * Y)) + (Z * Z)) )
+SV := ATAN((Y / X) )
+HV := ((PI() / 2) - ACOS((Z / R) ))
+SOLSV := SV
+SOLHV := HV
+XX := ((((COSHV * COSSV) * X) + ((COSHV * SINSV) * Y)) - (SINHV * Z))
+YY := (((UMIN SINSV) * X) + (COSSV * Y))
+ZZ := ((((SINHV * COSSV) * X) + ((SINHV * SINSV) * Y)) + (COSHV * Z))
+X := XX
+Y := YY
+Z := ZZ
+R := SQR((((X * X) + (Y * Y)) + (Z * Z)) )
+SV := ATAN((Y / X) )
+HV := ((PI() / 2) - ACOS((Z / R) ))
+SV := DEG((PI() - SV) )
+HV := DEG(HV )
+PRINT("Direction=")
+PRINT((INT((10.0 * SV) ) / 10.0))
 <nl>
 
-PAUSE(20 )
+PRINT(CHR$(9 ))
 
-ENDIF
-DO
-KSTAT(1 )
-CLS()
-AT(1 2 )
-PRINT("EDIT Y/N")
-<nl>
-
-K% := VIEW(1 A.N$ )
-IF (K% = 89)
-CLS()
-EDIT(A.N$ )
-EDIT(A.AD1$ )
-EDIT(A.AD2$ )
-EDIT(A.AD3$ )
-EDIT(A.PC$ )
-EDIT(A.TEL$ )
-UPDATE()
-
-ELSEIF (K% = 78)
-NEXT()
-RECNUM% := FIND(SEARCH$ )
-IF (RECNUM% = 0)
-CLS()
-PRINT("NOT FOUND")
-<nl>
-
-PAUSE(20 )
-
-ENDIF
-ENDIF
-UNTIL 0
-UNTIL 0
-X%
-A
-C$
-PRINT(C$)
-<nl>
-
-PRINT(X%)
-<nl>
-
-PRINT(A)
-<nl>
-
-PRINT(A)
+X := (12.0 - (DEG(SOLSV ) / 15.0))
+PRINT(INT(X ))
+PRINT(":")
+PRINT(RIGHT$(("00" + GEN$(INT((((X - INT(X )) * 60.0) + .5) ) 2 )) 2 ))
 < > 
-PRINT(C$)
-PRINT(X%)
+PRINT("GMT")
 <nl>
 
-LPRINT(C$)
-L<nl>
-
-LPRINT(X%)
-L<nl>
-
-LPRINT(A)
-L<nl>
-
-LPRINT(A)
-L< > 
-LPRINT(C$)
-LPRINT(X%)
-L<nl>
-
-
-0
-2.4
-dopr
-dopr%
-dopr$
-dopr$("abc", )(2.3, )(1)
-GET()
-SIN(20 )
-CHR$(65 )
-ASC("A" )
-USR(ADDR(A%() ) POS% )
-NOW% := DAYS(DAY() MONTH() YEAR() )
-A := ((SIN(20 ) + COS(30 )) + (TAN(40 ) * PI()))
-
-
-
-DROP()
-DROP()
-DROP()
-DROP()
-A := 10.1
-A := 20
-X% := 20.2
-X% := 30
-Y$ := "ABCD"
-B(1) := 11.2
-B(2) := 21
-C%(1) := 22
-C%(2) := 23.5
-B(1) := (((A + X%) + B(1)) + C%(1))
-X% := 1
-DO
-IF (X% = 5)
-
-ENDIF
-IF (X% > 20)
-
-ENDIF
-X% := (X% + 1)
-UNTIL (X% > 10)
-DROP()
-A := GET()
-"A:ABC"
-"A:ABC"
-A := (A > 2)
-A := (A < 3)
-A := (A = 3)
-A := (A >= 10)
-A := (A <= 30)
-A := (A <> 100)
-X% := (X% > 2)
-X% := (X% < 3)
-X% := (X% = 3)
-X% := (X% >= 10)
-X% := (X% <= 30)
-X% := (X% <> 100)
-Y$ := (Y$ + Y$)
-Y$ := (Y$ + "AXC")
-A := (A + A)
-A := (A - A)
-A := (A / A)
-A := (A * A)
-A := (A ** A)
-X% := (X% + X%)
-X% := (X% - X%)
-X% := (X% / X%)
-X% := (X% * X%)
-X% := (X% ** X%)
-A := (UMIN A)
-X% := (UMIN X%)
-A := (UNOT A)
-X% := (UNOT X%)
-X% := (X% AND 10)
-A := (A AND 12)
-X% := (X% OR 101)
-A := (A OR 45)
-X% := ((A OR X%) AND X%)
-A := (Y$ < "A")
-A := (Y$ > Y$)
-A := (Y$ >= "XXX")
-A := (Y$ <= "XXX")
-A := (Y$ = "XXX")
-A := (Y$ <> "XXX")
-AT(X% X% )
-AT(2 3 )
-AT(2.5 3.6 )
-CLS()
-dest::
-GOTO DEST
-
-
-
-ESCAPE(0 )
-ESCAPE(1 )
-PAUSE(20 )
-POKEB(100 2 )
-POKEW(200 5 )
-RAISE(20 )
-RANDOMIZE(345 )
-STOP()
-CLOSE()
-APPEND()
-CLOSE()
-APPEND()
-"A:ABC"
-"A:ABC"
-COPY("dev1:fname1" "dev2:fname2" )
-COPY("dev1:fname1" "dev2:" )
-COPY("dev1:" "dev2:" )
-COPYW("dev1:fname1.ext" "dev2:fname2" )
-COPYW("dev1:fname1.ext" "dev2:" )
-COPYW("dev1:*.*" "dev2:" )
-DROP()
-ERASE()
-FIRST()
-LAST()
-NEXT()
-BACK()
-POSITION(0 )
-POSITION(1 )
-FIRST()
-RENAME("dev:fname1" "fname2" )
-UPDATE()
-USE()
-
-KSTAT(1 )
-top::
-CLS()
-PRINT("****DICE ROLLING****")
+X := ((DEG(ASIN((DEG(SOLHV ) / 23.5) ) ) + 111.0) / 30.0)
+Y := INT(X )
+Z := INT((((X - Y) * 30.0) + .5) )
+PRINT("Elevation=")
+PRINT((INT((10.0 * HV) ) / 10.0))
 <nl>
 
-PRINT("PRESS S TO STOP")
-<nl>
-
-DO
-DICE% := ((RND() * 6) + 1)
-UNTIL (KEY$() = "S")
-CLS()
-PRINT("********* ")
-PRINT(DICE%)
-PRINT(" ********")
-<nl>
-
-BEEP(50 100 )
-AT(1 4 )
-PRINT("ROLL AGAIN Y/N")
-<nl>
-
-label::
-KEY% := GET()
-IF (KEY% = 89)
-GOTO top
-ELSEIF (KEY% = 78)
-
-ELSE
-GOTO label
-ENDIF
-DO
-FIRST()
-CLS()
-PRINT("ALTER:")
-
-SEARCH$
-IF (ERR() = 206)
-
-ENDIF
-RECNUM% := FIND(SEARCH$ )
-IF (RECNUM% = 0)
-CLS()
-PRINT("NOT FOUND")
-<nl>
-
-PAUSE(20 )
-
-ENDIF
-DO
-KSTAT(1 )
-CLS()
-AT(1 2 )
-PRINT("EDIT Y/N")
-<nl>
-
-K% := VIEW(1 A.N$ )
-IF (K% = 89)
-CLS()
-EDIT(A.N$ )
-EDIT(A.AD1$ )
-EDIT(A.AD2$ )
-EDIT(A.AD3$ )
-EDIT(A.PC$ )
-EDIT(A.TEL$ )
-UPDATE()
-
-ELSEIF (K% = 78)
-NEXT()
-RECNUM% := FIND(SEARCH$ )
-IF (RECNUM% = 0)
-CLS()
-PRINT("NOT FOUND")
-<nl>
-
-PAUSE(20 )
-
-ENDIF
-ENDIF
-UNTIL 0
-UNTIL 0
-X%
-A
-C$
-PRINT(C$)
-<nl>
-
-PRINT(X%)
-<nl>
-
-PRINT(A)
-<nl>
-
-PRINT(A)
+PRINT(CHR$(9 ))
+PRINT(MONTH$(Y ))
 < > 
-PRINT(C$)
-PRINT(X%)
+PRINT(Z)
+PRINT(MID$(M$ ((Z * 2) - 1) 2 ))
+
+GET()
+UNTIL (OPT% = 0)
+
+
+
+DROP()
+DROP()
+DROP()
+DROP()
+M$ := "stndrdthththththththththththththththththstndrdthththththththst"
+RSAT := (42.2 / 6.37)
+PRINT("YOUR LONGITUDE:")
 <nl>
 
-DROP()
-L<nl>
+X
+ANTSV := RAD(X )
+SINSV := SIN(ANTSV )
+COSSV := COS(ANTSV )
+PRINT("YOUR LATITUDE:")
+<nl>
+
+X
+ANTHV := RAD((90.0 - X) )
+SINHV := SIN(ANTHV )
+COSHV := COS(ANTHV )
+DO
+OPT% := MENU("INTELSAT,DFS,ASTRA,EUTELSAT,PANAMSAT,HORIZONT," )
+IF (OPT% = 0)
+
+ELSEIF (OPT% = 1)
+OPT% := MENU("V-F15,V-F12,V-F6,VA-F11" )
+IF (OPT% = 0)
+
+ELSEIF (OPT% = 1)
+X := 60
+ELSEIF (OPT% = 2)
+X := (UMIN 1)
+ELSEIF (OPT% = 3)
+X := (UMIN 18.5)
+ELSEIF (OPT% = 4)
+X := (UMIN 27.5)
+ENDIF
+ELSEIF (OPT% = 2)
+X := 23.5
+ELSEIF (OPT% = 3)
+X := 19
+ELSEIF (OPT% = 4)
+OPT% := MENU("I-F1,I-F4,I-F5,I-F2" )
+IF (OPT% = 0)
+
+ELSEIF (OPT% = 1)
+X := 16
+ELSEIF (OPT% = 2)
+X := 13
+ELSEIF (OPT% = 3)
+X := 10
+ELSEIF (OPT% = 4)
+X := 7
+ENDIF
+ELSEIF (OPT% = 5)
+X := (UMIN 45)
+ELSEIF (OPT% = 6)
+X := (UMIN 11)
+ENDIF
+SATSV := RAD(X )
+X := ((RSAT * COS(SATSV )) - (COS(ANTSV ) * SIN(ANTHV )))
+Y := ((RSAT * SIN(SATSV )) - (SIN(ANTSV ) * SIN(ANTHV )))
+Z := (UMIN COS(ANTHV ))
+R := SQR((((X * X) + (Y * Y)) + (Z * Z)) )
+SV := ATAN((Y / X) )
+HV := ((PI() / 2) - ACOS((Z / R) ))
+SOLSV := SV
+SOLHV := HV
+XX := ((((COSHV * COSSV) * X) + ((COSHV * SINSV) * Y)) - (SINHV * Z))
+YY := (((UMIN SINSV) * X) + (COSSV * Y))
+ZZ := ((((SINHV * COSSV) * X) + ((SINHV * SINSV) * Y)) + (COSHV * Z))
+X := XX
+Y := YY
+Z := ZZ
+R := SQR((((X * X) + (Y * Y)) + (Z * Z)) )
+SV := ATAN((Y / X) )
+HV := ((PI() / 2) - ACOS((Z / R) ))
+SV := DEG((PI() - SV) )
+HV := DEG(HV )
+PRINT("Direction=")
+PRINT((INT((10.0 * SV) ) / 10.0))
+<nl>
+
+PRINT(CHR$(9 ))
+
+X := (12.0 - (DEG(SOLSV ) / 15.0))
+PRINT(INT(X ))
+PRINT(":")
+PRINT(RIGHT$(("00" + GEN$(INT((((X - INT(X )) * 60.0) + .5) ) 2 )) 2 ))
+< > 
+PRINT("GMT")
+<nl>
+
+X := ((DEG(ASIN((DEG(SOLHV ) / 23.5) ) ) + 111.0) / 30.0)
+Y := INT(X )
+Z := INT((((X - Y) * 30.0) + .5) )
+PRINT("Elevation=")
+PRINT((INT((10.0 * HV) ) / 10.0))
+<nl>
+
+PRINT(CHR$(9 ))
+PRINT(MONTH$(Y ))
+< > 
+PRINT(Z)
+PRINT(MID$(M$ ((Z * 2) - 1) 2 ))
 
 DROP()
-L<nl>
-
-DROP()
-L<nl>
-
-DROP()
-L< > 
-DROP()
-DROP()
-L<nl>
-
-
-0
-2.4
-DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-DROP()
-NOW% := DAYS(DAY() MONTH() YEAR() )
-A := ((SIN(20 ) + COS(30 )) + (TAN(40 ) * PI()))
+UNTIL (OPT% = 0)

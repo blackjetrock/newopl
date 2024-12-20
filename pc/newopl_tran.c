@@ -1827,10 +1827,11 @@ void output_qcode_for_line(void)
 	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer2[i].name[j]);
 	    }
 	  break;
-
+#if 0
 	case EXP_BUFF_ID_OPERATOR_UNARY:
-	  break;
 	  
+	  break;
+#endif	  
 	default:
 	  // Check the simple mapping table
 	  qcode_idx = add_simple_qcode(qcode_idx, &(token.op), vi);
