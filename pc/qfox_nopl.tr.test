@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:0121
-QCode Space Size:0644
+QCode Space Size:0640
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -951,126 +951,122 @@ QCode
 05A5: 09       Push parameter/external string variable value     (bytes code:V)
 05A6: FFFC       (65532)
 05A8: 76       LPRINT string     (bytes code:-)
-05A9: 85       drop string from stack     (bytes code:-)
-05AA: 78       LPRINT newline     (bytes code:-)
-05AB: 00       Push local/global integer variable value     (bytes code:v)
-05AC: FFEC       (65516)
-05AE: 74       LPRINT integer     (bytes code:-)
-05AF: 83       drop integer from stack     (bytes code:-)
-05B0: 78       LPRINT newline     (bytes code:-)
-05B1: 01       Push local/global float variable value     (bytes code:v)
-05B2: FFEE       (65518)
-05B4: 75       LPRINT float     (bytes code:-)
-05B5: 84       drop float from stack     (bytes code:-)
-05B6: 78       LPRINT newline     (bytes code:-)
-05B7: 01       Push local/global float variable value     (bytes code:v)
-05B8: FFEE       (65518)
-05BA: 75       LPRINT float     (bytes code:-)
-05BB: 84       drop float from stack     (bytes code:-)
-05BC: 77       LPRINT ,     (bytes code:-)
-05BD: 09       Push parameter/external string variable value     (bytes code:V)
-05BE: FFFC       (65532)
-05C0: 76       LPRINT string     (bytes code:-)
-05C1: 85       drop string from stack     (bytes code:-)
-05C2: 00       Push local/global integer variable value     (bytes code:v)
-05C3: FFEC       (65516)
-05C5: 74       LPRINT integer     (bytes code:-)
-05C6: 83       drop integer from stack     (bytes code:-)
-05C7: 78       LPRINT newline     (bytes code:-)
-05C8: 7B       RETURN (float 0)     (bytes code:-)
-05C9: 22       Push integer literal     (bytes code:I)
-05CA: 0000       (0)
-05CC: 86       autoconversion int to float     (bytes code:-)
-05CD: 79       RETURN     (bytes code:-)
-05CE: 23       Push float literal     (bytes code:F)
-05CF: Len:2
-05D0: '24E0
-05D2: 79       RETURN     (bytes code:-)
-05D3: 20       Push byte literal     (bytes code:B)
-05D4: 00           (0)
-05D5: 7D       Procedure call.     (bytes code:S)
-05D6: Len:4
-05D7: 'DOPR'
-05DB: 84       drop float from stack     (bytes code:-)
-05DC: 20       Push byte literal     (bytes code:B)
-05DD: 00           (0)
-05DE: 7D       Procedure call.     (bytes code:S)
-05DF: Len:5
-05E0: 'DOPR%'
-05E5: 83       drop integer from stack     (bytes code:-)
-05E6: 20       Push byte literal     (bytes code:B)
-05E7: 00           (0)
-05E8: 7D       Procedure call.     (bytes code:S)
-05E9: Len:5
-05EA: 'DOPR$'
-05EF: 85       drop string from stack     (bytes code:-)
-05F0: 22       Push integer literal     (bytes code:I)
-05F1: 0001       (1)
+05A9: 78       LPRINT newline     (bytes code:-)
+05AA: 00       Push local/global integer variable value     (bytes code:v)
+05AB: FFEC       (65516)
+05AD: 74       LPRINT integer     (bytes code:-)
+05AE: 78       LPRINT newline     (bytes code:-)
+05AF: 01       Push local/global float variable value     (bytes code:v)
+05B0: FFEE       (65518)
+05B2: 75       LPRINT float     (bytes code:-)
+05B3: 78       LPRINT newline     (bytes code:-)
+05B4: 01       Push local/global float variable value     (bytes code:v)
+05B5: FFEE       (65518)
+05B7: 75       LPRINT float     (bytes code:-)
+05B8: 77       LPRINT ,     (bytes code:-)
+05B9: 09       Push parameter/external string variable value     (bytes code:V)
+05BA: FFFC       (65532)
+05BC: 76       LPRINT string     (bytes code:-)
+05BD: 00       Push local/global integer variable value     (bytes code:v)
+05BE: FFEC       (65516)
+05C0: 74       LPRINT integer     (bytes code:-)
+05C1: 78       LPRINT newline     (bytes code:-)
+05C2: 7B       RETURN (float 0)     (bytes code:-)
+05C3: 22       Push integer literal     (bytes code:I)
+05C4: 0000       (0)
+05C6: 86       autoconversion int to float     (bytes code:-)
+05C7: 79       RETURN     (bytes code:-)
+05C8: 23       Push float literal     (bytes code:F)
+05C9: Len:2
+05CA: '24E0
+05CC: 79       RETURN     (bytes code:-)
+05CD: 20       Push byte literal     (bytes code:B)
+05CE: 00           (0)
+05CF: 7D       Procedure call.     (bytes code:S)
+05D0: Len:4
+05D1: 'DOPR'
+05D5: 84       drop float from stack     (bytes code:-)
+05D6: 20       Push byte literal     (bytes code:B)
+05D7: 00           (0)
+05D8: 7D       Procedure call.     (bytes code:S)
+05D9: Len:5
+05DA: 'DOPR%'
+05DF: 83       drop integer from stack     (bytes code:-)
+05E0: 20       Push byte literal     (bytes code:B)
+05E1: 00           (0)
+05E2: 7D       Procedure call.     (bytes code:S)
+05E3: Len:5
+05E4: 'DOPR$'
+05E9: 85       drop string from stack     (bytes code:-)
+05EA: 22       Push integer literal     (bytes code:I)
+05EB: 0001       (1)
+05ED: 20       Push byte literal     (bytes code:B)
+05EE: 00           (0)
+05EF: 23       Push float literal     (bytes code:F)
+05F0: Len:2
+05F1: '23E0
 05F3: 20       Push byte literal     (bytes code:B)
-05F4: 00           (0)
-05F5: 23       Push float literal     (bytes code:F)
-05F6: Len:2
-05F7: '23E0
-05F9: 20       Push byte literal     (bytes code:B)
-05FA: 01           (1)
-05FB: 24       Push string literal     (bytes code:S)
-05FC: Len:3
-05FD: 'abc'
-0600: 20       Push byte literal     (bytes code:B)
-0601: 02           (2)
-0602: 20       Push byte literal     (bytes code:B)
-0603: 03           (3)
-0604: 7D       Procedure call.     (bytes code:S)
-0605: Len:5
-0606: 'DOPR$'
-060B: 85       drop string from stack     (bytes code:-)
-060C: 91       GET     (bytes code:-)
-060D: 83       drop integer from stack     (bytes code:-)
+05F4: 01           (1)
+05F5: 24       Push string literal     (bytes code:S)
+05F6: Len:3
+05F7: 'abc'
+05FA: 20       Push byte literal     (bytes code:B)
+05FB: 02           (2)
+05FC: 20       Push byte literal     (bytes code:B)
+05FD: 03           (3)
+05FE: 7D       Procedure call.     (bytes code:S)
+05FF: Len:5
+0600: 'DOPR$'
+0605: 85       drop string from stack     (bytes code:-)
+0606: 91       GET     (bytes code:-)
+0607: 83       drop integer from stack     (bytes code:-)
+0608: 22       Push integer literal     (bytes code:I)
+0609: 0014       (20)
+060B: 86       autoconversion int to float     (bytes code:-)
+060C: B2       SIN     (bytes code:-)
+060D: 84       drop float from stack     (bytes code:-)
 060E: 22       Push integer literal     (bytes code:I)
-060F: 0014       (20)
-0611: 86       autoconversion int to float     (bytes code:-)
-0612: B2       SIN     (bytes code:-)
-0613: 84       drop float from stack     (bytes code:-)
-0614: 22       Push integer literal     (bytes code:I)
-0615: 0041       (65)
-0617: B8       CHR$     (bytes code:-)
-0618: 85       drop string from stack     (bytes code:-)
-0619: 24       Push string literal     (bytes code:S)
-061A: Len:1
-061B: 'A'
-061C: 8B       ASC     (bytes code:-)
-061D: 83       drop integer from stack     (bytes code:-)
-061E: 0A       Pop integer index and push parameter/external integer array variable value     (bytes code:V)
-061F: FFFA       (65530)
-0621: 07       Push parameter/external integer variable value     (bytes code:V)
-0622: FFF8       (65528)
-0624: 83       drop integer from stack     (bytes code:-)
-0625: 14       Push parameter/external integer variable reference     (bytes code:V)
-0626: FFF6       (65526)
-0628: 8C       DAY     (bytes code:-)
-0629: 9A       MONTH     (bytes code:-)
-062A: A1       YEAR     (bytes code:-)
-062B: 7F       Assign integer     (bytes code:-)
-062C: 0E       Push local/global float variable reference     (bytes code:v)
-062D: FFEE       (65518)
-062F: 22       Push integer literal     (bytes code:I)
-0630: 0014       (20)
-0632: 86       autoconversion int to float     (bytes code:-)
-0633: B2       SIN     (bytes code:-)
-0634: 22       Push integer literal     (bytes code:I)
-0635: 001E       (30)
-0637: 86       autoconversion int to float     (bytes code:-)
-0638: A8       COS     (bytes code:-)
-0639: 3C       Plus float     (bytes code:-)
-063A: 22       Push integer literal     (bytes code:I)
-063B: 0028       (40)
-063D: 86       autoconversion int to float     (bytes code:-)
-063E: B4       TAN     (bytes code:-)
-063F: AF       PI     (bytes code:-)
-0640: 3E       Multiply float     (bytes code:-)
-0641: 3C       Plus float     (bytes code:-)
-0642: 80       Assign float     (bytes code:-)
-0643: 7B       RETURN (float 0)     (bytes code:-)
+060F: 0041       (65)
+0611: B8       CHR$     (bytes code:-)
+0612: 85       drop string from stack     (bytes code:-)
+0613: 24       Push string literal     (bytes code:S)
+0614: Len:1
+0615: 'A'
+0616: 8B       ASC     (bytes code:-)
+0617: 83       drop integer from stack     (bytes code:-)
+0618: 0A       Pop integer index and push parameter/external integer array variable value     (bytes code:V)
+0619: FFFA       (65530)
+061B: 8A       ADDR     (bytes code:-)
+061C: 07       Push parameter/external integer variable value     (bytes code:V)
+061D: FFF8       (65528)
+061F: 83       drop integer from stack     (bytes code:-)
+0620: 14       Push parameter/external integer variable reference     (bytes code:V)
+0621: FFF6       (65526)
+0623: 8C       DAY     (bytes code:-)
+0624: 9A       MONTH     (bytes code:-)
+0625: A1       YEAR     (bytes code:-)
+0626: DD       DAYS     (bytes code:-)
+0627: 7F       Assign integer     (bytes code:-)
+0628: 0E       Push local/global float variable reference     (bytes code:v)
+0629: FFEE       (65518)
+062B: 22       Push integer literal     (bytes code:I)
+062C: 0014       (20)
+062E: 86       autoconversion int to float     (bytes code:-)
+062F: B2       SIN     (bytes code:-)
+0630: 22       Push integer literal     (bytes code:I)
+0631: 001E       (30)
+0633: 86       autoconversion int to float     (bytes code:-)
+0634: A8       COS     (bytes code:-)
+0635: 3C       Plus float     (bytes code:-)
+0636: 22       Push integer literal     (bytes code:I)
+0637: 0028       (40)
+0639: 86       autoconversion int to float     (bytes code:-)
+063A: B4       TAN     (bytes code:-)
+063B: AF       PI     (bytes code:-)
+063C: 3E       Multiply float     (bytes code:-)
+063D: 3C       Plus float     (bytes code:-)
+063E: 80       Assign float     (bytes code:-)
+063F: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
@@ -1164,14 +1160,13 @@ QCode Data
 0570:22 00 00 7E FF 61 22 00 00 7E FF 1B 0D FF EC 6C 
 0580:0E FF EE 6D 16 FF FC 6E 09 FF FC 71 73 00 FF EC 
 0590:6F 73 01 FF EE 70 73 01 FF EE 70 72 09 FF FC 71 
-05A0:00 FF EC 6F 73 09 FF FC 76 85 78 00 FF EC 74 83 
-05B0:78 01 FF EE 75 84 78 01 FF EE 75 84 77 09 FF FC 
-05C0:76 85 00 FF EC 74 83 78 7B 22 00 00 86 79 23 02 
-05D0:24 00 79 20 00 7D 04 44 4F 50 52 84 20 00 7D 05 
-05E0:44 4F 50 52 25 83 20 00 7D 05 44 4F 50 52 24 85 
-05F0:22 00 01 20 00 23 02 23 00 20 01 24 03 61 62 63 
-0600:20 02 20 03 7D 05 44 4F 50 52 24 85 91 83 22 00 
-0610:14 86 B2 84 22 00 41 B8 85 24 01 41 8B 83 0A FF 
-0620:FA 07 FF F8 83 14 FF F6 8C 9A A1 7F 0E FF EE 22 
-0630:00 14 86 B2 22 00 1E 86 A8 3C 22 00 28 86 B4 AF 
-0640:3E 3C 80 7B 
+05A0:00 FF EC 6F 73 09 FF FC 76 78 00 FF EC 74 78 01 
+05B0:FF EE 75 78 01 FF EE 75 77 09 FF FC 76 00 FF EC 
+05C0:74 78 7B 22 00 00 86 79 23 02 24 00 79 20 00 7D 
+05D0:04 44 4F 50 52 84 20 00 7D 05 44 4F 50 52 25 83 
+05E0:20 00 7D 05 44 4F 50 52 24 85 22 00 01 20 00 23 
+05F0:02 23 00 20 01 24 03 61 62 63 20 02 20 03 7D 05 
+0600:44 4F 50 52 24 85 91 83 22 00 14 86 B2 84 22 00 
+0610:41 B8 85 24 01 41 8B 83 0A FF FA 8A 07 FF F8 83 
+0620:14 FF F6 8C 9A A1 DD 7F 0E FF EE 22 00 14 86 B2 
+0630:22 00 1E 86 A8 3C 22 00 28 86 B4 AF 3E 3C 80 7B 

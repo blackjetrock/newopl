@@ -533,6 +533,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "KSTAT",             __,     __,                   __,        __,               QCO_KSTAT, 0},
     {EXP_BUFF_ID_FUNCTION, "STOP",              __,     __,                   __,        __,               QCO_STOP, 0},
     {EXP_BUFF_ID_FUNCTION, "CLS",               __,     __,                   __,        __,               QCO_CLS, 0},
+    {EXP_BUFF_ID_FUNCTION, "DAYS",              __,     __,                   __,        __,               RTF_DAYS, 0},
     {EXP_BUFF_ID_META,     "OFF",               __,     __,                   __,        __,               QCO_OFF, 0},
     {EXP_BUFF_ID_FUNCTION, "FIRST",             __,     __,                   __,        __,               QCO_FIRST, 0},
     {EXP_BUFF_ID_FUNCTION, "FIND",              __,     __,                   __,        __,               RTF_FIND, 0},
@@ -540,6 +541,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "COPYW",             __,     __,                   __,        __,               RTF_COPYW, 0},
     {EXP_BUFF_ID_FUNCTION, "LAST",              __,     __,                   __,        __,               QCO_LAST, 0},
     {EXP_BUFF_ID_FUNCTION, "BACK",              __,     __,                   __,        __,               QCO_BACK, 0},
+    {EXP_BUFF_ID_FUNCTION, "ADDR",              __,     __,                   __,        __,               RTF_ADDR, 0},
     {EXP_BUFF_ID_FUNCTION, "APPEND",            __,     __,                   __,        __,               QCO_APPEND, 0},
     {EXP_BUFF_ID_FUNCTION, "DELETE",            __,     __,                   __,        __,               QCO_DELETE, 0},
     {EXP_BUFF_ID_FUNCTION, "RENAME",            __,     __,                   __,        __,               QCO_RENAME, 0},
@@ -3261,6 +3263,12 @@ void process_syntax_tree(void)
 	  be.op.type = op1.op.type;
 	  break;
 
+	case EXP_BUFF_ID_LPRINT:
+	  dbprintf("LPRINT type adjust", function_num_args(be.name));
+	  op1 = type_check_stack_pop();
+	  be.op.type = op1.op.type;
+	  break;
+
 	case EXP_BUFF_ID_INPUT:
 	  // Pop and discard the input argument
 	  op1 = type_check_stack_pop();
@@ -4072,6 +4080,12 @@ void typecheck_expression(void)
 	  
 	case EXP_BUFF_ID_PRINT:
 	  dbprintf("PRINT type adjust", function_num_args(be.name));
+	  op1 = type_check_stack_pop();
+	  be.op.type = op1.op.type;
+	  break;
+
+	case EXP_BUFF_ID_LPRINT:
+	  dbprintf("LPRINT type adjust", function_num_args(be.name));
 	  op1 = type_check_stack_pop();
 	  be.op.type = op1.op.type;
 	  break;
