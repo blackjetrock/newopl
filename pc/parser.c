@@ -399,6 +399,7 @@ OP_INFO  op_info[] =
     { "<=",   1, 2, NOBJ_VARTYPE_INT,     0, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY} },
     { ">",    1, 2, NOBJ_VARTYPE_INT,     0, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY} },
     { "<",    1, 2, NOBJ_VARTYPE_INT,     0, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY} },
+    { "%",    1, 2, NOBJ_VARTYPE_FLT,     0, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY} },
 
     // (Handle bitwise on integer, logical on floats somewhere)
     { "AND",  1, 2, NOBJ_VARTYPE_INT,     0, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY} },
@@ -3020,7 +3021,147 @@ int isfloatdigit(char c)
   return(0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// Percent add etc operators
+//
+
+int check_percent_char(int *index)
+{
+  int idx = *index;
+
+  indent_more();
+  
+  dbprintf("");
+  
+  drop_space(&idx);
+
+  switch(cline[idx])
+    {
+    case '+':
+    case '-':
+    case '*':
+    case '/':
+    case '<':
+    case '>':
+      *index = ++idx;
+      dbprintf("ret1: '%c'", cline[idx]);
+      return(1);
+      break;
+
+    default:
+      dbprintf("ret0: '%c'", cline[idx]);
+      *index = ++idx;
+      return(0);
+      break;
+    }
+
+  dbprintf("ret0:Fail A");
+  return(0);
+}
+
 //------------------------------------------------------------------------------
+
+
+int scan_percent_char(void)
+{
+  indent_more();
+  
+  dbprintf("");
+  
+  drop_space(&cline_i);
+
+  switch(cline[cline_i])
+    {
+    case '+':
+    case '-':
+    case '*':
+    case '/':
+    case '<':
+    case '>':
+      dbprintf("ret1: '%c'", cline[cline_i]);
+      cline_i++;
+      return(1);
+      break;
+
+    default:
+      dbprintf("ret0: '%c'", cline[cline_i]);
+      cline_i++;
+      return(0);
+      break;
+    }
+
+  dbprintf("ret0:Fail A");
+  return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+int check_percent_op(int *index)
+{
+  int idx = *index;
+  int is_comma = 0;
+
+  indent_more();
+   
+  if( check_eitem(&idx, &is_comma, IGNORE_COMMA) )
+    {
+      if( check_percent_char(&idx) )
+	{
+	  if( check_eitem(&idx, &is_comma, IGNORE_COMMA) )
+	    {
+	      if( check_literal(&idx, " %") )
+		{
+		  *index = idx;
+		  dbprintf("ret1: Is percent op");
+		  return(1);
+		}
+	    }
+	}
+    }
+
+  dbprintf("ret1: Is percent op");
+  return(0);
+}
+
+//------------------------------------------------------------------------------
+
+
+int scan_percent_op(void)
+{
+  int num_commas = 0;
+  OP_STACK_ENTRY op;
+
+  indent_more();
+ 
+  init_op_stack_entry(&op);
+   
+  if( scan_eitem(&num_commas, IGNORE_COMMA) )
+    {
+      if( scan_percent_char() )
+	{
+	  if( scan_eitem(&num_commas, IGNORE_COMMA) )
+	    {
+	      if( scan_literal(" %") )
+		{
+		  op.buf_id = EXP_BUFF_ID_META;
+		  
+		  strcpy(op.name, "PAR_TYPE");
+		  process_token(&op);
+	  
+		  dbprintf("ret1: Is percent op");
+		  return(1);
+		}
+	    }
+	}
+    }
+
+  dbprintf("ret1: Is percent op");
+  return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+ 
 
 int check_float(int *index)
 {
@@ -3745,6 +3886,15 @@ int check_eitem(int *index, int *is_comma, int ignore_comma)
       return(1);
     }
   
+#if 0  
+  idx = *index;
+  if( check_percent_op(&idx) )
+    {
+      *index = idx;
+      dbprintf("ret1");
+      return(1);
+    }
+#endif
   idx = *index;
   dbprintf("%s:ret0", __FUNCTION__);
   return(0);
@@ -3792,6 +3942,15 @@ int scan_eitem(int *num_commas, int ignore_comma)
       *num_commas = 0;
       return(scan_addr_name());
     }
+
+#if 0
+  idx = cline_i;
+  if( check_percent_op(&idx) )
+    {
+      *num_commas = 0;
+      return(scan_percent_op());
+    }
+#endif
   
   idx = cline_i;
   syntax_error("Not an atom");

@@ -432,6 +432,8 @@ void to_upper_str(char *str);
 char *var_access_to_str(NOPL_OP_ACCESS va);
 char function_arg_parse(char *fname);
 EXP_BUFFER_ENTRY *find_buf2_entry_with_node_id(int node_id);
+int check_eitem(int *index, int *is_comma, int ignore_comma);
+int scan_eitem(int *num_commas, int ignore_comma);
 
 extern int qcode_idx;
 extern int pass_number;
