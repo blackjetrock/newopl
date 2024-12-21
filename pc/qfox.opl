@@ -373,10 +373,10 @@ i=INTF(x)
 m$=MONTH$(x%)
 
 A = sin(20)+cos(30)+tan(40)*PI
-
+X% = ADDR(A$())-2
 
 PRINT PEEKW(ADDR(A%()))
-
+PRINT PEEKW(ADDR(A%))
 PRINT A%(1)
 PRINT A%
 
@@ -395,6 +395,12 @@ ELSEIF salary>expenses
 PRINT "good"
 ENDIF
 
+A = 100+5%
+A = 100-5%
+A = 100*5%
+A = 100/5%
+A = 115<15%
+A = 115>15%
 
 PRINT "ENTER FIRST DAY"
 INPUT d1%
@@ -433,13 +439,3 @@ CLS :PRINT "MONTHLY PAYMENT"
 PRINT FIX$(pay, 2, -8)
 GET
 RETURN
-
-
-rem X% = ADDR(A$())-2
-rem PRINT PEEKW(ADDR(A%))
-rem A = 100+5%
-rem A = 100-5%
-rem A = 100*5%
-rem A = 100/5%
-rem A = 115<15%
-rem A = 115>15%

@@ -1981,7 +1981,7 @@ QCode
 0AEC: 0001       (1)
 0AEE: 19       Pop integer index and push parameter/external string array variable reference     (bytes code:V)
 0AEF: FF88       (65416)
-0AF1: 8A       ADDR     (bytes code:-)
+0AF1: C9       ADDR (string)     (bytes code:-)
 0AF2: 22       Push integer literal     (bytes code:I)
 0AF3: 0002       (2)
 0AF5: 2E       Minus integer     (bytes code:-)
@@ -1994,7 +1994,7 @@ QCode
 0AFE: 9C       PEEKW     (bytes code:-)
 0AFF: 6F       PRINT integer     (bytes code:-)
 0B00: 73       PRINT newline     (bytes code:-)
-0B01: 07       Push parameter/external integer variable value     (bytes code:V)
+0B01: 14       Push parameter/external integer variable reference     (bytes code:V)
 0B02: FFE8       (65512)
 0B04: 8A       ADDR     (bytes code:-)
 0B05: 9C       PEEKW     (bytes code:-)
@@ -2016,9 +2016,9 @@ QCode
 0B19: FFE8       (65512)
 0B1B: 07       Push parameter/external integer variable value     (bytes code:V)
 0B1C: FFC0       (65472)
-0B1E: 31       Power integer     (bytes code:-)
-0B1F: 07       Push parameter/external integer variable value     (bytes code:V)
-0B20: FFBE       (65470)
+0B1E: 07       Push parameter/external integer variable value     (bytes code:V)
+0B1F: FFBE       (65470)
+0B21: 31       Power integer     (bytes code:-)
 0B22: 31       Power integer     (bytes code:-)
 0B23: 7F       Assign integer     (bytes code:-)
 0B24: 0E       Push local/global float variable reference     (bytes code:v)
@@ -2302,10 +2302,10 @@ QCode Data
 0AC0:7F 15 FF 8C 01 FE 35 AC 80 16 FF D4 00 FF 78 E6 
 0AD0:81 0E FF 7A 22 00 14 86 B2 22 00 1E 86 A8 3C 22 
 0AE0:00 28 86 B4 AF 3E 3C 80 0D FF 78 22 00 01 19 FF 
-0AF0:88 8A 22 00 02 2E 7F 22 00 01 17 FF FA 8A 9C 6F 
-0B00:73 07 FF E8 8A 9C 6F 73 22 00 01 0A FF FA 6F 73 
-0B10:07 FF E8 6F 73 0D FF 78 07 FF E8 07 FF C0 31 07 
-0B20:FF BE 31 7F 0E FF 7A 01 FF 7A 08 FF 86 08 FF A2 
+0AF0:88 C9 22 00 02 2E 7F 22 00 01 17 FF FA 8A 9C 6F 
+0B00:73 14 FF E8 8A 9C 6F 73 22 00 01 0A FF FA 6F 73 
+0B10:07 FF E8 6F 73 0D FF 78 07 FF E8 07 FF C0 07 FF 
+0B20:BE 31 31 7F 0E FF 7A 01 FF 7A 08 FF 86 08 FF A2 
 0B30:3E 08 FF 9E 3F 3C 80 0E FF 7A 01 FF 7A 08 FF 86 
 0B40:3C 08 FF A2 08 FF 9E 3F 3E 80 14 FF E8 07 FF C0 
 0B50:86 08 FF A2 3C 87 7F 14 FF E8 23 02 30 00 22 00 

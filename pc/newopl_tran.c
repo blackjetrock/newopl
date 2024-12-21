@@ -514,7 +514,8 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "ATAN",              __,     __,                   __,        __,               RTF_ATAN, 0},
     {EXP_BUFF_ID_FUNCTION, "ASC",               __,     __,                   __,        __,               RTF_ASC, 0},
     {EXP_BUFF_ID_FUNCTION, "AT",                __,     __,                   __,        __,               QCO_AT, 0},
-    {EXP_BUFF_ID_FUNCTION, "ADDR",              __,     __,                   __,        __,               RTF_ADDR, 0},
+    {EXP_BUFF_ID_FUNCTION, "ADDR", NOBJ_VARTYPE_INT,     __,                   __,        __,               RTF_ADDR, 0},
+    {EXP_BUFF_ID_FUNCTION, "ADDR", NOBJ_VARTYPE_STR,     __,                   __,        __,               RTF_SADDR, 0},
     {EXP_BUFF_ID_FUNCTION, "APPEND",            __,     __,                   __,        __,               QCO_APPEND, 0},
 
     {EXP_BUFF_ID_FUNCTION, "BACK",              __,     __,                   __,        __,               QCO_BACK, 0},
@@ -3354,6 +3355,7 @@ void process_syntax_tree(void)
 
 	  fprintf(ofp, "\nret_type;%d %c", ret_type, type_to_char(ret_type));
 	  fprintf(ofp, "\n%s:Ret type of %s : %c", __FUNCTION__, be.name, type_to_char(ret_type));
+
 	  
 	  // Build an argument list (constructs part of the syntax tree)
 	  // If the num_parameters field is zero then use the table to get the number of
@@ -3548,7 +3550,18 @@ void process_syntax_tree(void)
 	      res.op.type      = ret_type;
 	      type_check_stack_push(res);
 	    }
-	  
+
+	  // The ADDR function is a bit odd. It needs to have a reference to its argument
+	  // and also needs to be a string type if its argument is a string
+	  // as there's a different QCode for ADDR(string)
+
+	  if( strcmp(be.name, "ADDR")==0 )
+	    {
+	      // Make argument a reference (parser tries, but this is a better way)
+	      EXP_BUFFER_ENTRY *a = find_buf2_entry_with_node_id(be.p[0]);
+	      a->op.access = NOPL_OP_ACCESS_WRITE;
+	    }
+
 	  // The return type opf the function is known
 	  be.op.type = ret_type;
 	  break;
@@ -4468,7 +4481,30 @@ void typecheck_expression(void)
 	      res.op.type      = ret_type;
 	      type_check_stack_push(res);
 	    }
-	  
+
+	  	  // The ADDR function is a bit odd. It needs to have a reference to its argument
+	  // and also needs to be a string type if its argument is a string
+	  // as there's a different QCode for ADDR(string)
+
+	  if( strcmp(be.name, "ADDR")==0 )
+	    {
+	      // Make argument a reference (parser tries, but this is a better way)
+	      EXP_BUFFER_ENTRY *a = find_buf2_entry_with_node_id(be.p[0]);
+
+	      // If the argument is a string then make the ADDR a string too
+	      switch( a->op.type )
+		{
+		case NOBJ_VARTYPE_STR:
+		case NOBJ_VARTYPE_STRARY:
+		  ret_type = NOBJ_VARTYPE_STR;
+		  break;
+		}
+	    }
+
+	  // The return type opf the function is known
+	  be.op.type = ret_type;
+	  break;
+
 	  // The return type opf the function is known
 	  be.op.type = ret_type;
 	  break;

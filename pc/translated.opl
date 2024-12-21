@@ -409,7 +409,11 @@ P% := POS()
 I := INTF(X )
 M$ := MONTH$(X% )
 A := ((SIN(20 ) + COS(30 )) + (TAN(40 ) * PI()))
+1 := (ADDR(A$() ) - 2)
 PRINT(PEEKW(ADDR(A%() ) ))
+<nl>
+
+PRINT(PEEKW(ADDR(A% ) ))
 <nl>
 
 PRINT(A%(1))
@@ -433,66 +437,7 @@ PRINT("good")
 <nl>
 
 ENDIF
-PRINT("ENTER FIRST DAY")
-<nl>
-
-D1%
-PRINT("ENTER FIRST MONTH")
-<nl>
-
-M1%
-PRINT("ENTER FIRST YEAR")
-<nl>
-
-Y1%
-PRINT("ENTER SECOND DAY")
-<nl>
-
-D2%
-PRINT("ENTER SECOND MONTH")
-<nl>
-
-M2%
-PRINT("ENTER SECOND YEAR")
-<nl>
-
-Y2%
-PRINT((DAYS(D2% M2% Y2% ) - DAYS(D1% M1% Y1% )))
-<nl>
-
-GET()
-CLS()
-PRINT("EVALUATE MONTHLY")
-<nl>
-
-PRINT("MORTGAGE PAYMENT")
-<nl>
-
-PAUSE(30 )
-QUES$ := (CHR$(63 ) + " ")
-LOAN := q(("ENTER LOAN" + QUES$))
-DO
-RATE := q(("INTEREST RATE % " + QUES$))
-UNTIL ((RATE > 0) AND (RATE < 99))
-DO
-TERM := q(("ENTER TERM (YRS)" + QUES$))
-UNTIL ((TERM > .5) AND (TERM < 100))
-NUM% := MENU("BUILDING-SOCIETY,BANK,OTHER" )
-IF (NUM% = 0)
-
-ENDIF
-RATE := (RATE / 100)
-X := (1 + (11 * (NUM% / 2)))
-PAY := (((LOAN * RATE) / 12) / (1 - ((1 + (RATE / X)) ** ((UMIN X) * TERM))))
-CLS()
-PRINT("MONTHLY PAYMENT")
-<nl>
-
-PRINT(FIX$(PAY 2 (UMIN 8) ))
-<nl>
-
-GET()
-
+A := (100 + 5)
 
 
 
@@ -904,7 +849,11 @@ P% := POS()
 I := INTF(X )
 M$ := MONTH$(X% )
 A := ((SIN(20 ) + COS(30 )) + (TAN(40 ) * PI()))
+1 := (ADDR(A$() ) - 2)
 PRINT(PEEKW(ADDR(A%() ) ))
+<nl>
+
+PRINT(PEEKW(ADDR(A% ) ))
 <nl>
 
 PRINT(A%(1))
@@ -928,63 +877,4 @@ PRINT("good")
 <nl>
 
 ENDIF
-PRINT("ENTER FIRST DAY")
-<nl>
-
-D1%
-PRINT("ENTER FIRST MONTH")
-<nl>
-
-M1%
-PRINT("ENTER FIRST YEAR")
-<nl>
-
-Y1%
-PRINT("ENTER SECOND DAY")
-<nl>
-
-D2%
-PRINT("ENTER SECOND MONTH")
-<nl>
-
-M2%
-PRINT("ENTER SECOND YEAR")
-<nl>
-
-Y2%
-PRINT((DAYS(D2% M2% Y2% ) - DAYS(D1% M1% Y1% )))
-<nl>
-
-DROP()
-CLS()
-PRINT("EVALUATE MONTHLY")
-<nl>
-
-PRINT("MORTGAGE PAYMENT")
-<nl>
-
-PAUSE(30 )
-QUES$ := (CHR$(63 ) + " ")
-LOAN := q(("ENTER LOAN" + QUES$))
-DO
-RATE := q(("INTEREST RATE % " + QUES$))
-UNTIL ((RATE > 0) AND (RATE < 99))
-DO
-TERM := q(("ENTER TERM (YRS)" + QUES$))
-UNTIL ((TERM > .5) AND (TERM < 100))
-NUM% := MENU("BUILDING-SOCIETY,BANK,OTHER" )
-IF (NUM% = 0)
-
-ENDIF
-RATE := (RATE / 100)
-X := (1 + (11 * (NUM% / 2)))
-PAY := (((LOAN * RATE) / 12) / (1 - ((1 + (RATE / X)) ** ((UMIN X) * TERM))))
-CLS()
-PRINT("MONTHLY PAYMENT")
-<nl>
-
-PRINT(FIX$(PAY 2 (UMIN 8) ))
-<nl>
-
-DROP()
-
+A := (100 + 5)
