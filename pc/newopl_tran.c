@@ -3057,10 +3057,11 @@ char *infix_from_rpn(void)
 
 
 void typecheck_operator_immutable(EXP_BUFFER_ENTRY be, OP_INFO op_info, EXP_BUFFER_ENTRY op1, EXP_BUFFER_ENTRY op2)
-{		      
+{
+#if 0
   if( (op1.op.type ==  op_info.type[0]) )
     {
-      
+#endif 
       // Types correct, push a dummy result so we have a correct execution stack
       
       // Push dummy result if there is one
@@ -3085,13 +3086,16 @@ void typecheck_operator_immutable(EXP_BUFFER_ENTRY be, OP_INFO op_info, EXP_BUFF
 	  
 	  type_check_stack_push(res);
 	}		    
+#if 0
     }
+  
   else
     {
       // Error
       fprintf(ofp, "\nType of %s or %s is not %c", op1.name, op2.name, type_to_char(op_info.type[0]));
       internal_error("Type of %s or %s is not %c", op1.name, op2.name, type_to_char(op_info.type[0]));
     }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -4414,15 +4418,17 @@ void typecheck_expression(void)
 			  
 			  insert_buf2_entry_after_node_id(op1.node_id, autocon);
 			}
+#if 0
 		      else
 			{
 			  syntax_error("Type should be FLT or INT");
 			  
 			}
+#endif
 		    }
 
 #if 0
-		  // Insert a byte which is th enumber of arguments
+		  // Insert a byte which is the number of arguments
 		  init_op_stack_entry(&(ft.op));
 
 		  ft.node_id = node_id_index++;
@@ -4528,7 +4534,7 @@ void typecheck_expression(void)
 	      type_check_stack_push(res);
 	    }
 
-	  	  // The ADDR function is a bit odd. It needs to have a reference to its argument
+	  // The ADDR function is a bit odd. It needs to have a reference to its argument
 	  // and also needs to be a string type if its argument is a string
 	  // as there's a different QCode for ADDR(string)
 

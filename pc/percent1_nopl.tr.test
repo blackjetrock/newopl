@@ -1,0 +1,70 @@
+
+Filename:'ob3_nopl'
+File ext:'bin
+Dropping OB3 header...
+Enter:dump_proc
+Var Space Size:001A
+QCode Space Size:0038
+Number of parameters:00
+Parameter types:
+Global varname Size:0000
+Global variables (0)
+
+External varname Size:0000
+External variables (0)
+
+String length fixups (0)
+
+Array size fixups (0)
+
+QCode
+
+0000: 59       STOP     (bytes code:-)
+0001: B2       SIN     (bytes code:-)
+0002: 0E       Push local/global float variable reference     (bytes code:v)
+0003: FFF6       (65526)
+0005: 22       Push integer literal     (bytes code:I)
+0006: 0064       (100)
+0008: 86       autoconversion int to float     (bytes code:-)
+0009: 22       Push integer literal     (bytes code:I)
+000A: 0005       (5)
+000C: 86       autoconversion int to float     (bytes code:-)
+000D: CE       +%     (bytes code:-)
+000E: 80       Assign float     (bytes code:-)
+000F: 0E       Push local/global float variable reference     (bytes code:v)
+0010: FFEE       (65518)
+0012: 01       Push local/global float variable value     (bytes code:v)
+0013: FFF6       (65526)
+0015: 22       Push integer literal     (bytes code:I)
+0016: 000A       (10)
+0018: 86       autoconversion int to float     (bytes code:-)
+0019: CE       +%     (bytes code:-)
+001A: 80       Assign float     (bytes code:-)
+001B: 0E       Push local/global float variable reference     (bytes code:v)
+001C: FFE6       (65510)
+001E: 23       Push float literal     (bytes code:F)
+001F: Len:3
+0020: '0410E2
+0023: 22       Push integer literal     (bytes code:I)
+0024: 0005       (5)
+0026: 86       autoconversion int to float     (bytes code:-)
+0027: CE       +%     (bytes code:-)
+0028: 80       Assign float     (bytes code:-)
+0029: 0E       Push local/global float variable reference     (bytes code:v)
+002A: FFE6       (65510)
+002C: 23       Push float literal     (bytes code:F)
+002D: Len:3
+002E: '0810E2
+0031: 23       Push float literal     (bytes code:F)
+0032: Len:2
+0033: '23E0
+0035: CF       -%     (bytes code:-)
+0036: 80       Assign float     (bytes code:-)
+0037: 7B       RETURN (float 0)     (bytes code:-)
+
+QCode Data
+
+0000:59 B2 0E FF F6 22 00 64 86 22 00 05 86 CE 80 0E 
+0010:FF EE 01 FF F6 22 00 0A 86 CE 80 0E FF E6 23 03 
+0020:04 10 02 22 00 05 86 CE 80 0E FF E6 23 03 08 10 
+0030:02 23 02 23 00 CF 80 7B 
