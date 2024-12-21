@@ -50,8 +50,11 @@
                     '0' |'A' |'B' |'C' |'D' |'E' | 'F'
 <atom>            : <string> | <number> | <variable> | '-'<variable> | %<character>       
 <sub_expr>        : '(' <expression> ')'
-     
-<eitem>           : <function> | <atom> | <sub_expr> | <proc_call>
+<percent_op>      : '+' | '-' | '*' | '/' | '<' | '>'
+
+<eitem>           : <function> | <atom> | <sub_expr> | <proc_call> |
+                    <eitem> <percent_op> <eitem> '%'
+		  
 <expression>      : <eitem> | <eitem> (<operator> <eitem>)+
 
 
