@@ -55,7 +55,7 @@
 <eitem>           : <function> | <atom> | <sub_expr> | <proc_call> |
                     <eitem> <percent_op> <eitem> '%'
 		  
-<expression>      : <eitem> | <eitem> (<operator> <eitem>)+
+<expression>      : <eitem> | <eitem> (<operator> <eitem> ('%'){0,1})+
 
 
 <variable>        : <vname> | <vname>'%' | <vname>'$' |

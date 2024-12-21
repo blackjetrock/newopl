@@ -96,7 +96,8 @@ typedef struct _OP_INFO
   int           immutable;                // Is the operator output type mutable?
   int           assignment;               // Special code for assignment
   NOBJ_VARTYPE  type[MAX_OPERATOR_TYPES];  // Acceptable argument types.
-  int           qcode;                     // Easily translatable qcodes
+  //int           qcode;                     // Easily translatable qcodes
+  int           percent_convertible;       // Can be turned into a percent operator
 } OP_INFO;
 
 extern OP_INFO  op_info[];

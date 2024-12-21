@@ -718,6 +718,13 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_OPERATOR, "AND", NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_AND_NUM, 0},
     {EXP_BUFF_ID_OPERATOR, "OR",  NOBJ_VARTYPE_INTARY,     __,                   __,        __,               QCO_OR_INT, 0},
     {EXP_BUFF_ID_OPERATOR, "OR",  NOBJ_VARTYPE_FLTARY,     __,                   __,        __,               QCO_OR_NUM, 0},
+
+    {EXP_BUFF_ID_OPERATOR, "+%",  NOBJ_VARTYPE_FLT,        __,                   __,        __,               RTF_PLUSPERCENT, 0},
+    {EXP_BUFF_ID_OPERATOR, "-%",  NOBJ_VARTYPE_FLT,        __,                   __,        __,               RTF_MINUSPERCENT, 0},
+    {EXP_BUFF_ID_OPERATOR, "*%",  NOBJ_VARTYPE_FLT,        __,                   __,        __,               RTF_TIMESPERCENT, 0},
+    {EXP_BUFF_ID_OPERATOR, "/%",  NOBJ_VARTYPE_FLT,        __,                   __,        __,               RTF_DIVIDEPERCENT, 0},
+    {EXP_BUFF_ID_OPERATOR, ">%",  NOBJ_VARTYPE_FLT,        __,                   __,        __,               RTF_GTPERCENT, 0},
+    {EXP_BUFF_ID_OPERATOR, "<%",  NOBJ_VARTYPE_FLT,        __,                   __,        __,               RTF_LTPERCENT, 0},
   };
 
 #define NUM_SIMPLE_QC_MAP (sizeof(qc_map)/sizeof(SIMPLE_QC_MAP))
@@ -727,6 +734,9 @@ int add_simple_qcode(int idx, OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
   int op_type = NOBJ_VARTYPE_UNKNOWN;
   NOBJ_VAR_INFO nullvi;
 
+  dbprintf("'%s'", op->name);
+  dbprintf("Op type:%c op access:%s qcode_type:%c", type_to_char(op->type), var_access_to_str(op->access), type_to_char(op->qcode_type));
+  
   nullvi.class = NOPL_VAR_CLASS_UNKNOWN;
   nullvi.type = NOBJ_VARTYPE_UNKNOWN;
   
@@ -734,7 +744,6 @@ int add_simple_qcode(int idx, OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
     {
       dbprintf("NULL vi");
       vi = &nullvi;
-
     }
 
   // Some operators should have their types forced to the qcode_type as that is based on their inputs.
@@ -770,19 +779,12 @@ int add_simple_qcode(int idx, OP_STACK_ENTRY *op, NOBJ_VAR_INFO *vi)
 	      // We have a match and a qcode
 	      idx = set_qcode_header_byte_at(idx, 1, qc_map[i].qcode);
 
-#if 0
-	      // Special logical file mode?
-	      // This requires the name to have the logical file character, e.g USE A needs to be turned into
-	      // A.USE in order for this code to work.
-	      if( qc_map[i].logical_file_after_opcode )
-		{
-		  idx = set_qcode_header_byte_at(idx, 1, exp_buffer2[i].op.name[0] - 'A');
-		}
-#endif	      
 	      return(idx);
 	    }
 	}
     }
+
+  dbprintf("Not found");
   return(idx);
 }
 
@@ -2494,7 +2496,7 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 	  }
 
 	
-	fprintf(fp, "\nN%03d %10s %-30s %s ty:%c qcty:%c '%s' npar:%d nidx:%d trapped:%d",
+	fprintf(fp, "\nN%03d %10s %-30s %s ty:%c qcty:%c '%s' npar:%d nidx:%d trapped:%d %%:%d",
 		token.node_id,
 		var_access_to_str(token.op.access),
 		exp_buffer_id_str[token.op.buf_id],
@@ -2504,7 +2506,8 @@ void dump_exp_buffer(FILE *fp, int bufnum)
 		token.name,
 		token.op.num_parameters,
 		token.op.vi.num_indices,
-		token.op.trapped);
+		token.op.trapped,
+		token.op.percent);
       
       fprintf(fp, "  %d:", token.p_idx);
 
@@ -3247,7 +3250,34 @@ void process_syntax_tree(void)
 	      // Re-stack the parameter
 	      type_check_stack_push(op1);
 	    }
+
+	  // Percent is an operator that is after an expression. We set a flag in the
+	  // popped entry so that the opertors that can be % versions (+,-,*,/,<,>)
+	  // can see that they have a percent argument and change into the percent
+	  // version
 	  
+	  if( strcmp(be.op.name, "PERCENT") == 0 )
+	    {
+	      // Pop the argument
+	      op1 = type_check_stack_pop();
+
+	      // Set the percent flag in the syntax tree
+	        EXP_BUFFER_ENTRY *e = find_buf2_entry_with_node_id(op1.node_id);
+
+		  if( e != NULL )
+		    {
+		      // Set the flag in the EXP buffer entry and the op that is pushed back on the stack.
+		      e->op.percent = 1;
+		      op1.op.percent = 1;
+		    }
+		  else
+		    {
+		      internal_error("Could not find entry for N%03d", exp_buffer2[i].p[0]);
+		    }
+		  
+	      // Put it back
+	      type_check_stack_push(op1);
+	    }
 	  break;
 
 	case EXP_BUFF_ID_VARIABLE:
@@ -3626,10 +3656,10 @@ void process_syntax_tree(void)
 	  // Check that the operands are correct, i.e. all of them are the same and in
 	  // the list of acceptable types
 	  dbprintf("BUFF_ID_OPERATOR");
-	  
+
 	  if( find_op_info(be.name, &op_info) )
 	    {
-	      dbprintf("Found operator %s", be.name);
+	      dbprintf("Found operator %s %%conv:%d", be.name, op_info.percent_convertible);
 
 	      // We only handle binary operators here
 	      // Pop arguments off stack, this is an analogue of execution of the operator
@@ -3640,7 +3670,23 @@ void process_syntax_tree(void)
 	      op1_type = op1.op.type;
 	      op2_type = op2.op.type;
 
-	      dbprintf("op1 type:%c op2 type:%c", type_to_char(op1.op.type), type_to_char(op2.op.type));
+	      dbprintf("op1 type:%c op2 type:%c %%conv:%d", type_to_char(op1.op.type), type_to_char(op2.op.type), op_info.percent_convertible);
+	      
+	      // The percentage operators need to be created here. Only some operators convert here
+	      // and only if the first argument to the operator has its percent flag set?
+	      if( op_info.percent_convertible )
+		{
+		  dbprintf("Percent convertible operator op1 (N%03d) percent:%d", op1.node_id, op1.op.percent);
+		  if( op1.op.percent )
+		    {
+		      dbprintf("Converting to percent operator");
+		      
+		      // Convert to percentage operator
+		      strcat(be.name,    "%");
+		      strcat(be.op.name, "%");
+		      be.op.qcode_type = op_info.output_type;
+		    }
+		}
 	      
 	      // Get the node ids of the argumenmts so we can find them if we need to
 	      // adjust them.
@@ -4602,6 +4648,32 @@ void typecheck_expression(void)
 		  // is present, if not, it's an error
 		  
 		  typecheck_operator_immutable(be, op_info, op1, op2);
+
+		  // Force return type
+		  be.op.type        = op_info.output_type;
+		  be.op.qcode_type  = op_info.output_type;
+
+		  // We need to check the arguments and autocon if necessary
+
+		  autocon.op.buf_id = EXP_BUFF_ID_AUTOCON;
+		  autocon.p_idx = 2;
+		  autocon.p[0] = be.node_id;
+
+		  autocon.op.type      = be.op.type;
+		  
+		  if( can_use_autocon(op1.op.type, be.op.type) )
+		    {
+		      autocon.p[1] = op1.node_id;
+		      sprintf(autocon.name, "autocon %c->%c (operator 1)", type_to_char(op1.op.type), type_to_char(be.op.type));
+		      insert_buf2_entry_after_node_id(op1.node_id, autocon);
+		    }
+		  
+		  if( can_use_autocon(op2.op.type, be.op.type) )
+		    {
+		      autocon.p[1] = op2.node_id;
+		      sprintf(autocon.name, "autocon %c->%c (operator 2)", type_to_char(op2.op.type), type_to_char(be.op.type));
+		      insert_buf2_entry_after_node_id(op2.node_id, autocon);
+		    }
 		}
 	      else
 		{
@@ -4615,7 +4687,7 @@ void typecheck_expression(void)
 		  // or INT into FLT
 		  // For our purposes here, arrays are the same as their element type
 		  
-		  dbprintf("Mutable type (%s) %c %c", op1.name, type_to_char(op1.op.type), type_to_char(op2.op.type));
+		  dbprintf("Mutable type (%s) %c %c", be.name, type_to_char(op1.op.type), type_to_char(op2.op.type));
 		  
 		  // Check input types are valid for this operator
 		  if( is_a_valid_type(op1.op.type, &op_info) && is_a_valid_type(op2.op.type, &op_info))
@@ -4630,16 +4702,23 @@ void typecheck_expression(void)
 
 		      // If the operator result type is unknown then we use the types of the arguments
 		      // Unknown types arise when brackets are used.
-		      if( be.op.type == NOBJ_VARTYPE_UNKNOWN)
+		      if( op_info.output_type != NOBJ_VARTYPE_UNKNOWN )
 			{
-			  be.op.type = type_with_least_conversion_from(op1.op.type, op2.op.type);
+			  be.op.type = op_info.output_type;
 			}
-
-		      if( (be.op.type == NOBJ_VARTYPE_INT) || (be.op.type == NOBJ_VARTYPE_INTARY))
+		      else
 			{
-			  be.op.type = type_with_least_conversion_from(op1.op.type, op2.op.type);
+			  if( be.op.type == NOBJ_VARTYPE_UNKNOWN)
+			    {
+			      be.op.type = type_with_least_conversion_from(op1.op.type, op2.op.type);
+			    }
+			  
+			  if( (be.op.type == NOBJ_VARTYPE_INT) || (be.op.type == NOBJ_VARTYPE_INTARY))
+			    {
+			      be.op.type = type_with_least_conversion_from(op1.op.type, op2.op.type);
+			    }
 			}
-
+		      
 		      // Types are both OK
 		      // If they are the same then we will bind the operator type to that type
 		      // as long as they are both the required type, if not then if types aren't
@@ -4796,7 +4875,7 @@ void typecheck_expression(void)
 			  res.op.type      = be.op.type;
 			  type_check_stack_push(res);
 			}
-		    }
+		    } // if()Valid types
 		  else
 		    {
 		      // Unknown required types exist, this probably shoudn't happen is a syntax error
@@ -4807,7 +4886,10 @@ void typecheck_expression(void)
 		      internal_error("Syntax error at node N%d, unknown required type", be.node_id);
 		      //exit(-1);
 		    }
-		}		
+		} // if mutable
+
+
+	      // Mutable, or immutable we need to check th argument types and insert autocon if needed
 	    }
 	  else
 	    {
@@ -4961,6 +5043,7 @@ void init_op_stack_entry(OP_STACK_ENTRY *op)
   op->num_parameters = 0;
   op->vi.num_indices = 0;
   op->trapped        = 0;
+  op->percent        = 0;
   
   op->access         = NOPL_OP_ACCESS_READ;  // Default to reading things
   op->qcode_type     = NOBJ_VARTYPE_UNKNOWN; // Ignored if UNKNOWN, only some operators use this

@@ -222,6 +222,7 @@ typedef struct _OP_STACK_ENTRY
                                                  // EXP or NO_EXP for RETURN
   int                     trapped;               // Non zero if this is a trapped command and we need
                                                  // to generate a TRAP QCode
+  int                     percent;               // Is this a percentage?
 } OP_STACK_ENTRY;
 
 #define MAX_EXP_BUF_P   12
