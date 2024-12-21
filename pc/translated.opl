@@ -1,20 +1,990 @@
 
 
 
-F2
-F(20)
-DOOR$
-FLOAT(123)
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+Y$
+D$(10,10)
+KEY%
+K%
+I3
+Y2%
+QUES$
+A := 10.1
+A := 20
+X% := 20.2
+X% := 30
+Y$ := "ABCD"
+B(1) := 11.2
+B(2) := 21
+C%(1) := 22
+C%(2) := 23.5
+B(1) := (((A + X%) + B(1)) + C%(1))
+X% := 1
+DO
+IF (X% = 5)
+
+ENDIF
+IF (X% > 20)
+
+ENDIF
+X% := (X% + 1)
+UNTIL (X% > 10)
+GET()
+A := GET()
+"A:ABC"
+"A:ABC"
+A := (A > 2)
+A := (A < 3)
+A := (A = 3)
+A := (A >= 10)
+A := (A <= 30)
+A := (A <> 100)
+X% := (X% > 2)
+X% := (X% < 3)
+X% := (X% = 3)
+X% := (X% >= 10)
+X% := (X% <= 30)
+X% := (X% <> 100)
+Y$ := (Y$ + Y$)
+Y$ := (Y$ + "AXC")
+A := (A + A)
+A := (A - A)
+A := (A / A)
+A := (A * A)
+A := (A ** A)
+X% := (X% + X%)
+X% := (X% - X%)
+X% := (X% / X%)
+X% := (X% * X%)
+X% := (X% ** X%)
+A := (UMIN A)
+X% := (UMIN X%)
+A := (UNOT A)
+X% := (UNOT X%)
+X% := (X% AND 10)
+A := (A AND 12)
+X% := (X% OR 101)
+A := (A OR 45)
+X% := ((A OR X%) AND X%)
+A := (Y$ < "A")
+A := (Y$ > Y$)
+A := (Y$ >= "XXX")
+A := (Y$ <= "XXX")
+A := (Y$ = "XXX")
+A := (Y$ <> "XXX")
+AT(X% X% )
+AT(2 3 )
+AT(2.5 3.6 )
+CLS()
+dest::
+GOTO DEST
+OFF()
+OFFX(X% )
+
+
+ESCAPE()
+ESCAPE()
+PAUSE(20 )
+POKEB(100 2 )
+POKEW(200 5 )
+RAISE(20 )
+RANDOMIZE(345 )
+STOP()
+CLOSE()
+APPEND()
+CLOSE()
+APPEND()
+"A:ABC"
+"A:ABC"
+COPY("dev1:fname1" "dev2:fname2" )
+COPY("dev1:fname1" "dev2:" )
+COPY("dev1:" "dev2:" )
+COPYW("dev1:fname1.ext" "dev2:fname2" )
+COPYW("dev1:fname1.ext" "dev2:" )
+COPYW("dev1:*.*" "dev2:" )
+DELETEW()
+ERASE()
+FIRST()
+LAST()
+NEXT()
+BACK()
+POSITION(0 )
+POSITION(1 )
+FIRST()
+RENAME("dev:fname1" "fname2" )
+UPDATE()
+USE()
+
+KSTAT(1 )
+top::
+CLS()
+PRINT("****DICE ROLLING****")
+<nl>
+
+PRINT("PRESS S TO STOP")
+<nl>
+
+DO
+DICE% := ((RND() * 6) + 1)
+UNTIL (KEY$() = "S")
+CLS()
+PRINT("********* ")
+PRINT(DICE%)
+PRINT(" ********")
+<nl>
+
+BEEP(50 100 )
+AT(1 4 )
+PRINT("ROLL AGAIN Y/N")
+<nl>
+
+label::
+KEY% := GET()
+IF (KEY% = 89)
+GOTO top
+ELSEIF (KEY% = 78)
+
+ELSE
+GOTO label
+ENDIF
+DO
+FIRST()
+CLS()
+PRINT("ALTER:")
+
+SEARCH$
+IF (ERR() = 206)
+
+ENDIF
+RECNUM% := FIND(SEARCH$ )
+IF (RECNUM% = 0)
+CLS()
+PRINT("NOT FOUND")
+<nl>
+
+PAUSE(20 )
+
+ENDIF
+DO
+KSTAT(1 )
+CLS()
+AT(1 2 )
+PRINT("EDIT Y/N")
+<nl>
+
+K% := VIEW(1 A.N$ )
+IF (K% = 89)
+CLS()
+EDIT(A.N$ )
+EDIT(A.AD1$ )
+EDIT(A.AD2$ )
+EDIT(A.AD3$ )
+EDIT(A.PC$ )
+EDIT(A.TEL$ )
+UPDATE()
+
+ELSEIF (K% = 78)
+NEXT()
+RECNUM% := FIND(SEARCH$ )
+IF (RECNUM% = 0)
+CLS()
+PRINT("NOT FOUND")
+<nl>
+
+PAUSE(20 )
+
+ENDIF
+ENDIF
+UNTIL 0
+UNTIL 0
+X%
+A
+C$
+PRINT(C$)
+<nl>
+
+PRINT(X%)
+<nl>
+
+PRINT(A)
+<nl>
+
+PRINT(A)
+< > 
+PRINT(C$)
+PRINT(X%)
+<nl>
+
+LPRINT(C$)
+L<nl>
+
+LPRINT(X%)
+L<nl>
+
+LPRINT(A)
+L<nl>
+
+LPRINT(A)
+L< > 
+LPRINT(C$)
+LPRINT(X%)
+L<nl>
+
+
+0
+2.4
+dopr
+dopr%
+dopr$
+dopr$("abc", )(2.3, )(1)
+GET()
+SIN(20 )
+CHR$(65 )
+ASC("A" )
+USR(ADDR(A%() ) POS% )
+NOW% := DAYS(DAY() MONTH() YEAR() )
+D% := DISP(X% A$ )
+DISP((UMIN 1) "" )
+IF (ERR() = 206)
+
+ENDIF
+FIRST()
+CLS()
+PRINT("FIND:")
+
+SEARCH$
+IF (ERR() = 206)
+
+ENDIF
+RECNUM% := FIND(SEARCH$ )
+IF (RECNUM% = 0)
+CLS()
+PRINT("NOT FOUND")
+<nl>
+
+PAUSE(20 )
+GOTO top
+ENDIF
+DO
+DISP((UMIN 1) "" )
+NEXT()
+RECNUM% := FIND(SEARCH$ )
+IF (RECNUM% = 0)
+CLS()
+PRINT(" NO MORE ENTRIES")
+<nl>
+
+PAUSE(20 )
+
+ENDIF
+UNTIL 0
+F% := FREE()
+H% := HOUR()
+I% := IABS(X% )
+I% := INT(X )
+K% := KEY()
+KSTAT(X% )
+B$ := LEFT$(A$ X% )
+A% := LEN(A$ )
+A% := LOC(A$ B$ )
+A := LN(X )
+A := LOG(X )
+B$ := LOWER$(A$ )
+LPRINT(X)
+L< > 
+LPRINT(Y%)
+LPRINT(A$)
+L<nl>
+
+LPRINT("The year is")
+L< > 
+LPRINT(YEAR())
+L<nl>
+
+N := MAX()
+N := MEAN()
+3 := MEAN()
+A(1) := 10
+A(2) := 15
+A(3) := 20
+PRINT(MEAN())
+<nl>
+
+M% := MENUN(N% M1$ )
+M$ := MID$(A$ X% Y% )
+N := MIN()
+M% := MINUTE()
+M% := MONTH()
+M$ := MONTH$(X% )
+NEXT()
+N$ := NUM$(X Y% )
+PAUSE(X% )
+P% := PEEKB(X% )
+P% := PEEKW(X% )
+N := RAD(X )
+RAISE(X% )
+R% := RECSIZE()
+R$ := REPT$(A$ X% )
+R$ := RIGHT$(A$ X% )
+R := RND()
+S$ := SCI$(X Y% Z% )
+SCI$(123456 2 8 )
+SCI$(1 2 8 )
+SCI$(123456789 2 (UMIN 9) )
+S := SIN(X )
+SECOND()
+S := SPACE()
+S := SQR(X )
+STOP()
+T := TAN(X )
+UDG(X% A% B% C% D% E% F% G% H% )
+UPDATE()
+U$ := UPPER$(A$ )
+USE()
+
+U% := USR(X% Y% )
+U$ := USR$(X% Y% )
+V := VAL(A$ )
+ITEM3 := VAR()
+N := VAR()
+V% := VIEW(X% A$ )
+W% := WEEK(DAY% MONTH% YEAR% )
+Y% := YEAR()
+C% := COUNT()
+A := ABS(X )
+A := ACOS(X )
+A% := ASC(A$ )
+A := ASIN(X )
+A := ATAN(X )
+BACK()
+BEEP(X% Y% )
+A$ := CHR$(X% )
+C% := CLOCK(X% )
+C := COS(X )
+D$ := DATIM$()
+D% := DAY()
+D$ := DAYNAME$(X% )
+D% := DAYS(DAY% MONTH% YEAR% )
+D := DEG(X )
+DELETE()
+DELETEW()
+D$ := DIR$("dev" )
+D$ := DIR$("" )
+D$ := DIRW$("dev:fname.ext" )
+D$ := DIRW$("" )
+D% := DOW(DAY% MONTH% YEAR% )
+E% := EOF()
+ERASE()
+E% := ERR()
+E$ := ERR$(X% )
+C% := EXIST("dev:fname" )
+E := EXP(X )
+F% := FIND(A$ )
+F% := FINDW(A$ )
+FIRST()
+F$ := FIX$(X Y% Z% )
+F := FLT(X% )
+F% := FREE()
+G$ := GEN$(X Y% )
+G% := GET()
+G$ := GET$()
+H$ := HEX$(X% )
+H% := HOUR()
+I% := IABS(X% )
+VAR%
+A
+VAR$
+C.FIELD
+I% := INT(X )
+I := INTF(X )
+K% := KEY()
+K$ := KEY$()
+LAST()
+B$ := LEFT$(A$ X% )
+A% := LEN(A$ )
+A := LN(X )
+A% := LOC(A$ B$ )
+A := LOG(X )
+B$ := LOWER$(A$ )
+P% := POS()
+I := INTF(X )
+M$ := MONTH$(X% )
+A := ((SIN(20 ) + COS(30 )) + (TAN(40 ) * PI()))
+PRINT(PEEKW(ADDR(A%() ) ))
+<nl>
+
+PRINT(A%(1))
+<nl>
+
+PRINT(A%)
+<nl>
+
+X% := (A% ** (B% ** C%))
+A := (A + ((B * C) / D))
+A := ((A + B) * (C / D))
+A% := (B% + C)
+A% := (3.0 * (7 / 2))
+A% := ((3.0 * 7) / 2)
+IF (SALARY < EXPENSES)
+PRINT("bad")
+<nl>
+
+ELSEIF (SALARY > EXPENSES)
+PRINT("good")
+<nl>
+
+ENDIF
+PRINT("ENTER FIRST DAY")
+<nl>
+
+D1%
+PRINT("ENTER FIRST MONTH")
+<nl>
+
+M1%
+PRINT("ENTER FIRST YEAR")
+<nl>
+
+Y1%
+PRINT("ENTER SECOND DAY")
+<nl>
+
+D2%
+PRINT("ENTER SECOND MONTH")
+<nl>
+
+M2%
+PRINT("ENTER SECOND YEAR")
+<nl>
+
+Y2%
+PRINT((DAYS(D2% M2% Y2% ) - DAYS(D1% M1% Y1% )))
+<nl>
+
+GET()
+CLS()
+PRINT("EVALUATE MONTHLY")
+<nl>
+
+PRINT("MORTGAGE PAYMENT")
+<nl>
+
+PAUSE(30 )
+QUES$ := (CHR$(63 ) + " ")
+LOAN := q(("ENTER LOAN" + QUES$))
+DO
+RATE := q(("INTEREST RATE % " + QUES$))
+UNTIL ((RATE > 0) AND (RATE < 99))
+DO
+TERM := q(("ENTER TERM (YRS)" + QUES$))
+UNTIL ((TERM > .5) AND (TERM < 100))
+NUM% := MENU("BUILDING-SOCIETY,BANK,OTHER" )
+IF (NUM% = 0)
+
+ENDIF
+RATE := (RATE / 100)
+X := (1 + (11 * (NUM% / 2)))
+PAY := (((LOAN * RATE) / 12) / (1 - ((1 + (RATE / X)) ** ((UMIN X) * TERM))))
+CLS()
+PRINT("MONTHLY PAYMENT")
+<nl>
+
+PRINT(FIX$(PAY 2 (UMIN 8) ))
+<nl>
+
+GET()
 
 
 
+
 DROP()
 DROP()
 DROP()
 DROP()
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+DROP()
+DROP()
+DROP()
+A := 10.1
+A := 20
+X% := 20.2
+X% := 30
+Y$ := "ABCD"
+B(1) := 11.2
+B(2) := 21
+C%(1) := 22
+C%(2) := 23.5
+B(1) := (((A + X%) + B(1)) + C%(1))
+X% := 1
+DO
+IF (X% = 5)
+
+ENDIF
+IF (X% > 20)
+
+ENDIF
+X% := (X% + 1)
+UNTIL (X% > 10)
+DROP()
+A := GET()
+"A:ABC"
+"A:ABC"
+A := (A > 2)
+A := (A < 3)
+A := (A = 3)
+A := (A >= 10)
+A := (A <= 30)
+A := (A <> 100)
+X% := (X% > 2)
+X% := (X% < 3)
+X% := (X% = 3)
+X% := (X% >= 10)
+X% := (X% <= 30)
+X% := (X% <> 100)
+Y$ := (Y$ + Y$)
+Y$ := (Y$ + "AXC")
+A := (A + A)
+A := (A - A)
+A := (A / A)
+A := (A * A)
+A := (A ** A)
+X% := (X% + X%)
+X% := (X% - X%)
+X% := (X% / X%)
+X% := (X% * X%)
+X% := (X% ** X%)
+A := (UMIN A)
+X% := (UMIN X%)
+A := (UNOT A)
+X% := (UNOT X%)
+X% := (X% AND 10)
+A := (A AND 12)
+X% := (X% OR 101)
+A := (A OR 45)
+X% := ((A OR X%) AND X%)
+A := (Y$ < "A")
+A := (Y$ > Y$)
+A := (Y$ >= "XXX")
+A := (Y$ <= "XXX")
+A := (Y$ = "XXX")
+A := (Y$ <> "XXX")
+AT(X% X% )
+AT(2 3 )
+AT(2.5 3.6 )
+CLS()
+dest::
+GOTO DEST
+OFF()
+OFFX(X% )
+
+
+ESCAPE()
+ESCAPE()
+PAUSE(20 )
+POKEB(100 2 )
+POKEW(200 5 )
+RAISE(20 )
+RANDOMIZE(345 )
+STOP()
+CLOSE()
+APPEND()
+CLOSE()
+APPEND()
+"A:ABC"
+"A:ABC"
+COPY("dev1:fname1" "dev2:fname2" )
+COPY("dev1:fname1" "dev2:" )
+COPY("dev1:" "dev2:" )
+COPYW("dev1:fname1.ext" "dev2:fname2" )
+COPYW("dev1:fname1.ext" "dev2:" )
+COPYW("dev1:*.*" "dev2:" )
+DROP()
+ERASE()
+FIRST()
+LAST()
+NEXT()
+BACK()
+POSITION(0 )
+POSITION(1 )
+FIRST()
+RENAME("dev:fname1" "fname2" )
+UPDATE()
+USE()
+
+KSTAT(1 )
+top::
+CLS()
+PRINT("****DICE ROLLING****")
+<nl>
+
+PRINT("PRESS S TO STOP")
+<nl>
+
+DO
+DICE% := ((RND() * 6) + 1)
+UNTIL (KEY$() = "S")
+CLS()
+PRINT("********* ")
+PRINT(DICE%)
+PRINT(" ********")
+<nl>
+
+BEEP(50 100 )
+AT(1 4 )
+PRINT("ROLL AGAIN Y/N")
+<nl>
+
+label::
+KEY% := GET()
+IF (KEY% = 89)
+GOTO top
+ELSEIF (KEY% = 78)
+
+ELSE
+GOTO label
+ENDIF
+DO
+FIRST()
+CLS()
+PRINT("ALTER:")
+
+SEARCH$
+IF (ERR() = 206)
+
+ENDIF
+RECNUM% := FIND(SEARCH$ )
+IF (RECNUM% = 0)
+CLS()
+PRINT("NOT FOUND")
+<nl>
+
+PAUSE(20 )
+
+ENDIF
+DO
+KSTAT(1 )
+CLS()
+AT(1 2 )
+PRINT("EDIT Y/N")
+<nl>
+
+K% := VIEW(1 A.N$ )
+IF (K% = 89)
+CLS()
+EDIT(A.N$ )
+EDIT(A.AD1$ )
+EDIT(A.AD2$ )
+EDIT(A.AD3$ )
+EDIT(A.PC$ )
+EDIT(A.TEL$ )
+UPDATE()
+
+ELSEIF (K% = 78)
+NEXT()
+RECNUM% := FIND(SEARCH$ )
+IF (RECNUM% = 0)
+CLS()
+PRINT("NOT FOUND")
+<nl>
+
+PAUSE(20 )
+
+ENDIF
+ENDIF
+UNTIL 0
+UNTIL 0
+X%
+A
+C$
+PRINT(C$)
+<nl>
+
+PRINT(X%)
+<nl>
+
+PRINT(A)
+<nl>
+
+PRINT(A)
+< > 
+PRINT(C$)
+PRINT(X%)
+<nl>
+
+LPRINT(C$)
+L<nl>
+
+LPRINT(X%)
+L<nl>
+
+LPRINT(A)
+L<nl>
+
+LPRINT(A)
+L< > 
+LPRINT(C$)
+LPRINT(X%)
+L<nl>
+
+
+0
+2.4
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+DROP()
+NOW% := DAYS(DAY() MONTH() YEAR() )
+D% := DISP(X% A$ )
+DROP()
+IF (ERR() = 206)
+
+ENDIF
+FIRST()
+CLS()
+PRINT("FIND:")
+
+SEARCH$
+IF (ERR() = 206)
+
+ENDIF
+RECNUM% := FIND(SEARCH$ )
+IF (RECNUM% = 0)
+CLS()
+PRINT("NOT FOUND")
+<nl>
+
+PAUSE(20 )
+GOTO top
+ENDIF
+DO
+DROP()
+NEXT()
+RECNUM% := FIND(SEARCH$ )
+IF (RECNUM% = 0)
+CLS()
+PRINT(" NO MORE ENTRIES")
+<nl>
+
+PAUSE(20 )
+
+ENDIF
+UNTIL 0
+F% := FREE()
+H% := HOUR()
+I% := IABS(X% )
+I% := INT(X )
+K% := KEY()
+KSTAT(X% )
+B$ := LEFT$(A$ X% )
+A% := LEN(A$ )
+A% := LOC(A$ B$ )
+A := LN(X )
+A := LOG(X )
+B$ := LOWER$(A$ )
+LPRINT(X)
+L< > 
+LPRINT(Y%)
+LPRINT(A$)
+L<nl>
+
+LPRINT("The year is")
+L< > 
+LPRINT(YEAR())
+L<nl>
+
+N := MAX()
+N := MEAN()
+3 := MEAN()
+A(1) := 10
+A(2) := 15
+A(3) := 20
+PRINT(MEAN())
+<nl>
+
+M% := MENUN(N% M1$ )
+M$ := MID$(A$ X% Y% )
+N := MIN()
+M% := MINUTE()
+M% := MONTH()
+M$ := MONTH$(X% )
+NEXT()
+N$ := NUM$(X Y% )
+PAUSE(X% )
+P% := PEEKB(X% )
+P% := PEEKW(X% )
+N := RAD(X )
+RAISE(X% )
+R% := RECSIZE()
+R$ := REPT$(A$ X% )
+R$ := RIGHT$(A$ X% )
+R := RND()
+S$ := SCI$(X Y% Z% )
+DROP()
+DROP()
+DROP()
+S := SIN(X )
+DROP()
+S := SPACE()
+S := SQR(X )
+STOP()
+T := TAN(X )
+UDG(X% A% B% C% D% E% F% G% H% )
+UPDATE()
+U$ := UPPER$(A$ )
+USE()
+
+U% := USR(X% Y% )
+U$ := USR$(X% Y% )
+V := VAL(A$ )
+ITEM3 := VAR()
+N := VAR()
+V% := VIEW(X% A$ )
+W% := WEEK(DAY% MONTH% YEAR% )
+Y% := YEAR()
+C% := COUNT()
+A := ABS(X )
+A := ACOS(X )
+A% := ASC(A$ )
+A := ASIN(X )
+A := ATAN(X )
+BACK()
+BEEP(X% Y% )
+A$ := CHR$(X% )
+C% := CLOCK(X% )
+C := COS(X )
+D$ := DATIM$()
+D% := DAY()
+D$ := DAYNAME$(X% )
+D% := DAYS(DAY% MONTH% YEAR% )
+D := DEG(X )
+DROP()
+DROP()
+D$ := DIR$("dev" )
+D$ := DIR$("" )
+D$ := DIRW$("dev:fname.ext" )
+D$ := DIRW$("" )
+D% := DOW(DAY% MONTH% YEAR% )
+E% := EOF()
+ERASE()
+E% := ERR()
+E$ := ERR$(X% )
+C% := EXIST("dev:fname" )
+E := EXP(X )
+F% := FIND(A$ )
+F% := FINDW(A$ )
+FIRST()
+F$ := FIX$(X Y% Z% )
+F := FLT(X% )
+F% := FREE()
+G$ := GEN$(X Y% )
+G% := GET()
+G$ := GET$()
+H$ := HEX$(X% )
+H% := HOUR()
+I% := IABS(X% )
+VAR%
+A
+VAR$
+C.FIELD
+I% := INT(X )
+I := INTF(X )
+K% := KEY()
+K$ := KEY$()
+LAST()
+B$ := LEFT$(A$ X% )
+A% := LEN(A$ )
+A := LN(X )
+A% := LOC(A$ B$ )
+A := LOG(X )
+B$ := LOWER$(A$ )
+P% := POS()
+I := INTF(X )
+M$ := MONTH$(X% )
+A := ((SIN(20 ) + COS(30 )) + (TAN(40 ) * PI()))
+PRINT(PEEKW(ADDR(A%() ) ))
+<nl>
+
+PRINT(A%(1))
+<nl>
+
+PRINT(A%)
+<nl>
+
+X% := (A% ** (B% ** C%))
+A := (A + ((B * C) / D))
+A := ((A + B) * (C / D))
+A% := (B% + C)
+A% := (3.0 * (7 / 2))
+A% := ((3.0 * 7) / 2)
+IF (SALARY < EXPENSES)
+PRINT("bad")
+<nl>
+
+ELSEIF (SALARY > EXPENSES)
+PRINT("good")
+<nl>
+
+ENDIF
+PRINT("ENTER FIRST DAY")
+<nl>
+
+D1%
+PRINT("ENTER FIRST MONTH")
+<nl>
+
+M1%
+PRINT("ENTER FIRST YEAR")
+<nl>
+
+Y1%
+PRINT("ENTER SECOND DAY")
+<nl>
+
+D2%
+PRINT("ENTER SECOND MONTH")
+<nl>
+
+M2%
+PRINT("ENTER SECOND YEAR")
+<nl>
+
+Y2%
+PRINT((DAYS(D2% M2% Y2% ) - DAYS(D1% M1% Y1% )))
+<nl>
+
+DROP()
+CLS()
+PRINT("EVALUATE MONTHLY")
+<nl>
+
+PRINT("MORTGAGE PAYMENT")
+<nl>
+
+PAUSE(30 )
+QUES$ := (CHR$(63 ) + " ")
+LOAN := q(("ENTER LOAN" + QUES$))
+DO
+RATE := q(("INTEREST RATE % " + QUES$))
+UNTIL ((RATE > 0) AND (RATE < 99))
+DO
+TERM := q(("ENTER TERM (YRS)" + QUES$))
+UNTIL ((TERM > .5) AND (TERM < 100))
+NUM% := MENU("BUILDING-SOCIETY,BANK,OTHER" )
+IF (NUM% = 0)
+
+ENDIF
+RATE := (RATE / 100)
+X := (1 + (11 * (NUM% / 2)))
+PAY := (((LOAN * RATE) / 12) / (1 - ((1 + (RATE / X)) ** ((UMIN X) * TERM))))
+CLS()
+PRINT("MONTHLY PAYMENT")
+<nl>
+
+PRINT(FIX$(PAY 2 (UMIN 8) ))
+<nl>
+
+DROP()
+

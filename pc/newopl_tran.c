@@ -568,7 +568,8 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "MENU",   NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_MENU, 0},
     {EXP_BUFF_ID_FUNCTION, "MINUTE", NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_MINUTE, 0},
     {EXP_BUFF_ID_FUNCTION, "MONTH",  NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_MONTH, 0},
-
+    {EXP_BUFF_ID_FUNCTION, "MEAN",   NOBJ_VARTYPE_FLT,  __,                   __,        __,               RTF_MEAN, 0},
+    
     {EXP_BUFF_ID_FUNCTION, "OFF",               __,     __,                   __,        __,               QCO_OFF, 0},
     {EXP_BUFF_ID_FUNCTION, "OFFX",              __,     __,                   __,        __,               RTF_OFFX, 0},
 	
@@ -641,7 +642,7 @@ SIMPLE_QC_MAP qc_map[] =
 
     {EXP_BUFF_ID_FUNCTION, "INT",  NOBJ_VARTYPE_INT,     __,                   __,        __,               RTF_INT, 0},
     {EXP_BUFF_ID_FUNCTION, "INTF", NOBJ_VARTYPE_FLT,     __,                   __,        __,               RTF_INTF, 0},
-    {EXP_BUFF_ID_FUNCTION, "MEAN", NOBJ_VARTYPE_FLT,     __,                   __,        __,               RTF_MEAN, 0},
+
 
     
     {EXP_BUFF_ID_OPERATOR, "<",   NOBJ_VARTYPE_INT,     __,                   __,        __,               QCO_LT_INT, 0},

@@ -4,6 +4,8 @@ LOCAL B(10), C%(10), D$(10,10)
 LOCAL dice%,key%
 LOCAL recnum%,search$(30),k%
 LOCAL I1, I2, I3
+LOCAL d1%, m1%, y1%, d2%, m2%, y2%
+LOCAL num%,loan,x,term,rate,pay,ques$(2)
 
 A = 10.1
 A = 20
@@ -366,44 +368,78 @@ a=LN(x)
 a%=LOC(a$,b$)
 a=LOG(x)
 b$=LOWER$(a$)
-
-
-
-
-
-
-REM #define RTF_IUSR                0x9F    
-REM #define RTF_EOF                 0xA3    
-REM #define RTF_EXIST               0xA4    
-REM #define RTF_POS                 0xA5    
-
-REM #define RTF_EXP                 0xAA    
-REM #define RTF_FLT                 0xAB    
-REM #define RTF_INTF                0xAC    
-REM #define RTF_LN                  0xAD    
-REM #define RTF_RAD                 0xB0    
-REM #define RTF_RND                 0xB1    
+p%=POS
+i=INTF(x)
+m$=MONTH$(x%)
 
 A = sin(20)+cos(30)+tan(40)*PI
 
 
-REM #define RTF_SADDR               0xC9    
-REM 
-REM // LZ QCode
+PRINT PEEKW(ADDR(A%()))
 
-REM #define RTF_LTPERCENT           0xCC
-REM #define RTF_GTPERCENT           0xCD
-REM #define RTF_PLUSPERCENT         0xCE
-REM #define RTF_MINUSPERCENT        0xCF
-REM #define RTF_TIMESPERCENT        0xD0
-REM #define RTF_DIVIDEPERCENT       0xD1
-REM #define RTF_OFFX                0xD2
+PRINT A%(1)
+PRINT A%
 
 
 
+X% = a%**b%**c%
+A = a+b*c/d
+A = (a+b)*(c/d)
+a%=b%+c
+a%=3.0*(7/2)
+a%=(3.0*7)/2
+
+IF salary<expenses
+PRINT "bad"
+ELSEIF salary>expenses
+PRINT "good"
+ENDIF
 
 
+PRINT "ENTER FIRST DAY"
+INPUT d1%
+PRINT "ENTER FIRST MONTH"
+INPUT m1%
+PRINT "ENTER FIRST YEAR"
+INPUT y1%
+PRINT "ENTER SECOND DAY"
+INPUT d2%
+PRINT "ENTER SECOND MONTH"
+INPUT m2%
+PRINT "ENTER SECOND YEAR"
+INPUT y2%
+PRINT DAYS(d2%,m2%,y2%)-DAYS(d1%,m1%,y1%)
+GET
 
 
+CLS
+PRINT "EVALUATE MONTHLY"
+PRINT "MORTGAGE PAYMENT"
+PAUSE 30
+ques$=CHR$(63)+" "
+REM CHR$(63) is a "?" - See Appendix A
+loan=q:("ENTER LOAN"+ques$)
+DO
+rate=q:("INTEREST RATE % "+ques$)
+UNTIL rate>0 AND rate<99
+DO
+term=q:("ENTER TERM (YRS)"+ques$)
+UNTIL term>.5 AND term<100
+num%=MENU("BUILDING-SOCIETY,BANK,OTHER")
+IF num%=0 :RETURN :ENDIF
+rate=rate/100 :x=1+11*(num%/2)
+pay=loan*rate/12/(1-((1+rate/x)**(-x*term)))
+CLS :PRINT "MONTHLY PAYMENT"
+PRINT FIX$(pay, 2, -8)
+GET
+RETURN
 
-REM #define RTF_MONTHSTR            0xE6
+
+rem X% = ADDR(A$())-2
+rem PRINT PEEKW(ADDR(A%))
+rem A = 100+5%
+rem A = 100-5%
+rem A = 100*5%
+rem A = 100/5%
+rem A = 115<15%
+rem A = 115>15%
