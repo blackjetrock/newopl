@@ -119,19 +119,19 @@ int num_var_info = 0;
 
 struct _FN_INFO
 {
-  char *name;
-  int command;         // 1 if command, 0 if function
-  int trappable;       // 1 if can be used with TRAP
-  char argparse;       // How to parse the args   O: scan_onoff
-                       //                         V: varname list
-                       //                         otherwise: scan_expression()
-                       //                         L: fList (float array and N, or list of floats
-  char *argtypes;
-                       //  i: integer (value)
-                       //  f: float (value)
-                       //  s: string (value)
+  char    *name;
+  int     command;         // 1 if command, 0 if function
+  int     trappable;       // 1 if can be used with TRAP
+  char    argparse;        // How to parse the args   O: scan_onoff
+                           //                         V: varname list
+                           //                         otherwise: scan_expression()
+                           //                         L: fList (float array and N, or list of floats
+  char    *argtypes;
+                           //  i: integer (value)
+                           //  f: float (value)
+                           //  s: string (value)
 
-  char *resulttype;
+  char    *resulttype;
   uint8_t qcode;
   int     force_write;
 }
@@ -199,9 +199,9 @@ struct _FN_INFO
     { "LOC",      0,  0, ' ',  "ss",        "i", 0x00, 0 },
     { "LOG",      0,  0, ' ',  "f",         "f", 0x00, 0 },
     { "LOWER$",   0,  0, ' ',  "s",         "s", 0x00, 0 },
-    { "MAX",      0,  0, 'L',  "" ,        "f", 0x00, 0 },
+    { "MAX",      0,  0, 'L',  "" ,        "f", 0x00, 0 },    // Multiple forms
     { "MEAN",     0,  0, 'L',  "",         "f", 0x00, 0 },    // Multiple forms
-    { "MENUN",    0,  0, ' ',  "is",        "i", 0x00, 0 },    // Multiple forms
+    { "MENUN",    0,  0, ' ',  "is",        "i", 0x00, 0 },
     { "MENU",     0,  0, ' ',  "s",         "i", 0x00, 0 },
     { "MID$",     0,  0, ' ',  "sii",       "s", 0x00, 0 },
     { "MINUTE",   0,  0, ' ',  "",          "i", 0x00, 0 },
@@ -799,9 +799,23 @@ void add_var_info(NOBJ_VAR_INFO *vi, int insert_idx)
 	    }
 	  else
 	    {
-	      // See if this is a calc memory
+	      int is_flt = 0;
 	      
-	      if( sscanf(vi->name, " M%d", &mem_n) == 1 )
+	      // See if this is a calc memory
+	      // There are 10, M0 to M9 and they are floats only.
+	      switch(vi->name[strlen(vi->name)-1] )
+		{
+		case '%':
+		case '$':
+		  break;
+
+		default:
+		  is_flt = 1;
+		  break;
+		}
+
+	      dbprintf("Calc Mem check '%s' is_flt:%d ch:%c", vi->name, is_flt, vi->name[strlen(vi->name)-1]);
+	      if( (sscanf(vi->name, " M%d", &mem_n) == 1) && (is_flt) )
 		{
 		  vi->class = NOPL_VAR_CLASS_CALC_MEMORY;
 		  vi->offset = mem_n;
@@ -7078,7 +7092,7 @@ int scan_line(LEVEL_INFO levels)
       int num_subexpr;
       
       init_op_stack_entry(&op);
-      op.buf_id = EXP_BUFF_ID_META;
+      op.buf_id = EXP_BUFF_ID_FUNCTION;
       
       // Scan the function name
       // We accept the check() result as we may want to adjust the function name
@@ -7090,7 +7104,7 @@ int scan_line(LEVEL_INFO levels)
 	  // We will use the OFFX command
 	  strcpy(op.name, "OFFX");
 	  process_token(&op);
-	  
+
 	  if( scan_expression(&num_subexpr, HEED_COMMA) )
 	    {
 	      dbprintf("ret1");

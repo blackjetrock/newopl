@@ -3,7 +3,7 @@ LOCAL A, X%, Y$(10)
 LOCAL B(10), C%(10), D$(10,10) 
 LOCAL dice%,key%
 LOCAL recnum%,search$(30),k%
-
+LOCAL I1, I2, I3
 
 A = 10.1
 A = 20
@@ -99,6 +99,7 @@ dest::
 goto DEST::
 
 OFF
+OFF x%
 ONERR OFF
 ONERR dest::
 escape off
@@ -218,79 +219,178 @@ ASC("A")
 
 USR(ADDR(A%()),pos%)
 
-REM #define QCO_DROP_BYTE           0x82    
-REM #define QCO_DROP_WORD           0x83    
-
 now%=DAYS(DAY,MONTH,YEAR)
 
+d%=DISP(x%,a$)
+DISP(-1,"") 
+IF ERR=206 :RETURN :ENDIF
+
+FIRST :CLS :PRINT "FIND:";
+TRAP INPUT search$
+IF ERR=206
+RETURN
+ENDIF
+recnum%=FIND(search$)
+IF recnum%=0
+CLS :PRINT "NOT FOUND" :PAUSE 20
+GOTO top::
+ENDIF
+DO
+DISP(-1,"") :NEXT :recnum%=FIND(search$)
+IF recnum%=0 :CLS
+PRINT " NO MORE ENTRIES"
+PAUSE 20 :RETURN
+ENDIF
+UNTIL 0
+
+f%=FREE
+h%=HOUR
+i%=IABS(x%)
+i%=INT(x)
+k%=KEY
+KSTAT x%
+b$=LEFT$(a$,x%)
+a%=LEN(a$)
+a%=LOC(a$,b$)
+a=LN(x)
+a=LOG(x)
+b$=LOWER$(a$)
+LPRINT x,y%;a$
+LPRINT "The year is", YEAR
+rem m=MAX(I1, I2, I3)
+m=MAX(array(),n)
+rem m=MEAN(item1,item2,item3)
+m=MEAN(array(),n)
+rem m=MEAN(12,x,y%,3.6)
+m=MEAN(arr(),3)
+a(1)=10
+a(2)=15
+a(3)=20
+PRINT MEAN(a(),2)
+m%=MENUN(n%,m1$)
+m$=MID$(a$,x%,y%)
+m=MIN(array(),n)
+m%=MINUTE
+m%=MONTH
+m$=MONTH$(x%)
+NEXT
+n$=NUM$(x,y%)
+PAUSE x%
+P%=PEEKB(x%)
+p%=PEEKW(x%)
+n=RAD(x)
+RAISE x%
+r%=RECSIZE
+r$=REPT$(a$,x%)
+r$=RIGHT$(a$,x%)
+r=RND
+s$=SCI$(x,y%,z%)
+SCI$ (123456, 2, 8)
+SCI$(1,2,8)
+SCI$(123456789,2,-9)
+s=SIN(x)
+SECOND
+s=SPACE
+s=SQR(x)
+rem s=STD(item1,item2,item3)
+rem s=STD(array(),n)
+STOP
+rem s=SUM(item1,item2.item3)
+rem s=SUM(array(),n)
+t=TAN(x)
+ UDG x%,a%,b%,c%,d%,e%,f%,g%,h%
+UPDATE
+u$=UPPER$(a$)
+USE A
+u%=USR(x%,y%)
+u$=USR$(x%,y%)
+v=VAL(a$)
+ v=VAR(item1,item2,item3)
+v=VAR(array(),n)
+v%=VIEW(x%,a$)
+w%=WEEK(day%,month%,year%)
+ y%=YEAR
+c%=COUNT
+a=ABS(x)
+a=ACOS(x)
+a%=ASC(a$)
+a=ASIN(x)
+a=ATAN(x)
+BACK
+BEEP x%,y%
+a$=CHR$(x%)
+c%=CLOCK(x%)
+c=COS(x)
+d$=DATIM$
+d%=DAY
+d$=DAYNAME$(X%)
+d%=DAYS(day%,month%,year%)
+d=DEG(x)
+DELETE "dev:fname"
+DELETEW "dev:fname.ext"
+d$=DIR$("dev")
+d$=DIR$("")
+d$=DIRW$("dev:fname.ext")
+d$=DIRW$("")
+d%=DOW(day%,month%,year%)
+ e%=EOF
+ ERASE
+ e%=ERR
+ e$=ERR$(x%)
+c%=EXIST("dev:fname")
+e=EXP(x)
+ f%=FIND(a$)
+  f%=FINDW(a$)
+FIRST
+f$=FIX$(x,y%,z%)
+f=FLT(x%)
+ f%=FREE
+ g$=gen$(x,y%)
+g%=GET
+g$=GET$
+h$=HEX$(x%)
+h%=HOUR
+i%=IABS(x%)
+INPUT var%
+INPUT A
+INPUT var$
+INPUT C.field
+ i%=INT(x)
+ i=INTF(x)
+  k%=KEY
+  k$=KEY$
+  LAST
+b$=LEFT$(a$,x%)
+a%=LEN(a$)
+a=LN(x)
+a%=LOC(a$,b$)
+a=LOG(x)
+b$=LOWER$(a$)
 
 
-REM #define RTF_DISP                0x8D    
-REM #define RTF_ERR                 0x8E    
-REM #define RTF_FIND                0x8F    
-REM #define RTF_FREE                0x90    
-REM #define RTF_HOUR                0x92    
-REM #define RTF_IABS                0x93    
-REM #define RTF_INT                 0x94    
-REM #define RTF_KEY                 0x95    
-REM #define RTF_LEN                 0x96    
-REM #define RTF_LOC                 0x97    
-REM #define RTF_MENU                0x98    
-REM #define RTF_MINUTE              0x99    
 
-REM #define RTF_PEEKB               0x9B    
-REM #define RTF_PEEKW               0x9C    
-REM #define RTF_RECSIZE             0x9D    
-REM #define RTF_SECOND              0x9E    
+
+
+
 REM #define RTF_IUSR                0x9F    
-REM #define RTF_VIEW                0xA0    
-REM #define RTF_YEAR                0xA1    
-REM #define RTF_COUNT               0xA2    
 REM #define RTF_EOF                 0xA3    
 REM #define RTF_EXIST               0xA4    
 REM #define RTF_POS                 0xA5    
-REM #define RTF_ABS                 0xA6    
-REM #define RTF_ATAN                0xA7    
-REM #define RTF_COS                 0xA8    
-REM #define RTF_DEG                 0xA9    
+
 REM #define RTF_EXP                 0xAA    
 REM #define RTF_FLT                 0xAB    
 REM #define RTF_INTF                0xAC    
 REM #define RTF_LN                  0xAD    
-REM #define RTF_LOG                 0xAE    
-
 REM #define RTF_RAD                 0xB0    
 REM #define RTF_RND                 0xB1    
 
 A = sin(20)+cos(30)+tan(40)*PI
 
 
-REM #define RTF_SQR                 0xB3    
-
-REM #define RTF_VAL                 0xB5    
-REM #define RTF_SPACE               0xB6    
-REM #define RTF_DIR                 0xB7    
-REM #define RTF_CHR                 0xB8    
-REM #define RTF_DATIM               0xB9    
-REM #define RTF_SERR                0xBA    
-REM #define RTF_FIX                 0xBB    
-REM #define RTF_GEN                 0xBC    
-REM #define RTF_SGET                0xBD    
-REM #define RTF_HEX                 0xBE    
-REM #define RTF_SKEY                0xBF    
-REM #define RTF_LEFT                0xC0    
-REM #define RTF_LOWER               0xC1    
-REM #define RTF_MID                 0xC2    
-REM #define RTF_NUM                 0xC3    
-REM #define RTF_RIGHT               0xC4    
-REM #define RTF_REPT                0xC5    
-REM #define RTF_SCI                 0xC6    
-REM #define RTF_UPPER               0xC7    
-REM #define RTF_SUSR                0xC8    
 REM #define RTF_SADDR               0xC9    
 REM 
 REM // LZ QCode
-REM #define RTF_DOW                 0xD7
+
 REM #define RTF_LTPERCENT           0xCC
 REM #define RTF_GTPERCENT           0xCD
 REM #define RTF_PLUSPERCENT         0xCE
@@ -298,23 +398,12 @@ REM #define RTF_MINUSPERCENT        0xCF
 REM #define RTF_TIMESPERCENT        0xD0
 REM #define RTF_DIVIDEPERCENT       0xD1
 REM #define RTF_OFFX                0xD2
-REM #define RTF_COPYW               0xD3
-REM #define RTF_DELETEW             0xD4
-REM #define RTF_UDG                 0xD5
-REM #define RTF_CLOCK               0xD6
-REM #define RTF_DOW                 0xD7
-REM #define RTF_FINDW               0xD8
-REM #define RTF_MENUN               0xD9
-REM #define RTF_WEEK                0xDA
-REM #define RTF_ACOS                0xDB
-REM #define RTF_ASIN                0xDC
-REM #define RTF_DAYS                0xDD
-REM #define RTF_MAX                 0xDE
-REM #define RTF_MEAN                0xDF
-REM #define RTF_MIN                 0xE0
-REM #define RTF_STD                 0xE1
-REM #define RTF_SUM                 0xE2
-REM #define RTF_VAR                 0xE3
-REM #define RTF_DAYNAME             0xE4
-REM #define RTF_DIRW$               0xE5
+
+
+
+
+
+
+
+
 REM #define RTF_MONTHSTR            0xE6

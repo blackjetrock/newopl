@@ -358,7 +358,7 @@ typedef struct _LEVEL_INFO
 #define RTF_SUM                 0xE2
 #define RTF_VAR                 0xE3
 #define RTF_DAYNAME             0xE4
-#define RTF_DIRW$               0xE5
+#define RTF_DIRW                0xE5
 #define RTF_MONTHSTR            0xE6
 
 //------------------------------------------------------------------------------
