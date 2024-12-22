@@ -204,6 +204,7 @@ typedef struct _OP_STACK_ENTRY
   char                    name[256];  // Needs to be large as we put string literals here
   int                     buf_id;
   NOBJ_INT                integer;
+
   NOBJ_VARTYPE            type;       // Original type
   //  NOBJ_VARTYPE            req_type;   // Required type
   NOBJ_VARTYPE            qcode_type; // Type the QCode needs to be (based on inputs for
@@ -220,12 +221,13 @@ typedef struct _OP_STACK_ENTRY
   NOBJ_VARTYPE            parameter_type[NOBJ_MAX_PARAMETERS];
   NOPL_OP_ACCESS          access;                // Read or write (variables)
                                                  // EXP or NO_EXP for RETURN
+  int                     percent;               // Is this a percentage?
   int                     trapped;               // Non zero if this is a trapped command and we need
                                                  // to generate a TRAP QCode
-  int                     percent;               // Is this a percentage?
+
 } OP_STACK_ENTRY;
 
-#define MAX_EXP_BUF_P   12
+#define MAX_EXP_BUF_P   20
 
 
 typedef struct _EXP_BUFFER_ENTRY

@@ -2029,7 +2029,7 @@ QCode
 0B2E: 08       Push parameter/external float variable value     (bytes code:V)
 0B2F: FF9E       (65438)
 0B31: 3F       Divide float     (bytes code:-)
-0B32: 3E       Multiply float     (bytes code:-)
+0B32: D0       *%     (bytes code:-)
 0B33: 80       Assign float     (bytes code:-)
 0B34: 14       Push parameter/external integer variable reference     (bytes code:V)
 0B35: FFE8       (65512)
@@ -2538,7 +2538,7 @@ QCode Data
 0B00:FF 7A 07 FF E8 07 FF C0 07 FF BE 31 31 7F 0E FF 
 0B10:7C 01 FF 7C 08 FF 88 08 FF A2 3E 08 FF 9E 3F 3C 
 0B20:80 0E FF 7C 01 FF 7C 08 FF 88 3C 08 FF A2 08 FF 
-0B30:9E 3F 3E 80 14 FF E8 07 FF C0 86 08 FF A2 3C 87 
+0B30:9E 3F D0 80 14 FF E8 07 FF C0 86 08 FF A2 3C 87 
 0B40:7F 14 FF E8 23 02 30 00 22 00 07 22 00 02 30 86 
 0B50:3E 87 7F 14 FF E8 23 02 30 00 22 00 07 86 3E 22 
 0B60:00 02 86 3F 87 7F 08 FF 86 08 FF 84 36 7E 00 0C 

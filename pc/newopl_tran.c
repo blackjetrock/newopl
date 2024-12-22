@@ -96,6 +96,7 @@ char type_to_char(NOBJ_VARTYPE t);
 char access_to_char(NOPL_OP_ACCESS a);
 NOBJ_VARTYPE char_to_type(char ch);
 void dump_exp_buffer(FILE *fp, int bufnum);
+NOBJ_VARTYPE convert_type_to_non_array(NOBJ_VARTYPE t);
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -1588,10 +1589,13 @@ void output_qcode_for_line(void)
 	    }
 
 	  // Proc call parameters need a type on the stack
+	  // Procedure calls cannot have arrays passed to them, so all array types
+	  // need to be turned into their non-array versions.
+
 	  if( (strcmp(exp_buffer2[i].name, "PAR_TYPE") == 0) )
 	    {
 	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  QI_STK_LIT_BYTE);
-	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  token.op.type);
+	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1,  convert_type_to_non_array(token.op.type));
 	      continue;
 	    }
 	  
@@ -2191,6 +2195,30 @@ char access_to_char(NOPL_OP_ACCESS a)
   return(c);
 }
 
+//------------------------------------------------------------------------------
+//
+// Turn any array type to its non-array version
+//
+
+NOBJ_VARTYPE convert_type_to_non_array(NOBJ_VARTYPE t)
+{
+  switch(t)
+    {
+	case NOBJ_VARTYPE_INTARY:
+	  return(NOBJ_VARTYPE_INT);
+	  break;
+	  
+	case NOBJ_VARTYPE_FLTARY:
+	  return(NOBJ_VARTYPE_FLT);
+	  break;
+
+	case NOBJ_VARTYPE_STRARY:
+	  return(NOBJ_VARTYPE_STR);
+	  break;
+    }
+
+  return(t);
+}
 
 //------------------------------------------------------------------------------
 //
@@ -4578,6 +4606,10 @@ void typecheck_expression(void)
 	    {
 	      // Pop a parameter off
 	      op1 = type_check_stack_pop();
+
+	      // Procedure calls cannot have arrays passed to them, so all array types
+	      // need to be turned into their non-array versions.
+	      op1.op.type = convert_type_to_non_array(op1.op.type);
 	      
 	      // Add to list of arguments
 	      be.p[be.p_idx++] = op1.node_id;
@@ -4982,7 +5014,7 @@ void typecheck_expression(void)
 	  // translating functions and commands to qcode, taking the type into account.
 	  // The type needs to be the type of the last function or command in the line.
 	  
-	  EXP_BUFFER_ENTRY res;
+	  //	  EXP_BUFFER_ENTRY res;
 	  strcpy(be.name, "DROP");
 	  strcpy(be.op.name, be.name);
 	  be.op.buf_id = EXP_BUFF_ID_FUNCTION;

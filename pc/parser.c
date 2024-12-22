@@ -2140,6 +2140,8 @@ int scan_literal_level(char *lit, int level)
 {
   OP_STACK_ENTRY op;
 
+  init_op_stack_entry(&op);
+    
   if( scan_literal_core(lit, &op) )
     {
       op.level = level;
@@ -2156,6 +2158,8 @@ int scan_literal(char *lit)
 {
   OP_STACK_ENTRY op;
 
+  init_op_stack_entry(&op);
+    
   if( scan_literal_core(lit, &op) )
     {
       process_token(&op);
@@ -4174,6 +4178,7 @@ int scan_expression(int *num_commas, int ignore_comma)
       if( check_literal(&idx, " %") )
 	{
 	  cline_i = idx;
+	  
 	  OP_STACK_ENTRY op;
 	  init_op_stack_entry(&op);
 	  
@@ -7035,7 +7040,7 @@ int scan_line(LEVEL_INFO levels)
   
   drop_space(&cline_i);
   
-  dbprintf("");
+  dbprintf("cline:'%s'", &(cline[cline_i]));
 
   // Before we parse a line we pull more data from the parser text buffer which
   // is presented to the parser in the cline[] array.
@@ -7459,7 +7464,8 @@ void initialise_line_supplier(FILE *fp)
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Is the cline[] buffer all spaces from the index onwards?
-//
+// We treat a line that is all spaces and a colon as all spaces.
+
 
 int is_all_spaces(int idx)
 {
@@ -7472,7 +7478,7 @@ int is_all_spaces(int idx)
     {
       dbprintf("cline[%d] = '%c' (%d)", i, cline[i+idx], cline[i+idx]);
       
-      if( !isspace(cline[i+idx]) )
+      if( (!isspace(cline[i+idx])) && (cline[i+idx] != ':') )
 	{
 	  all_spaces = 0;
 	}
@@ -7504,6 +7510,36 @@ void dump_cline(void)
   fprintf(ptfp, "'%s'\n", cltext);
   
   //dbprintf("====   cline: '%s'", cltext);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// We want to truncate a string, and have found a REM. We must check that
+// the REM isn't in a string, though...
+//
+
+
+void truncate_not_in_string(char *str_start, char *rempos)
+{
+
+  // If there are an odd number of double quotes before the rempos position then
+  // this REM is in a string, so don't truncate
+
+  int num_quotes = 0;
+  
+  for(char *cp=str_start; cp<rempos; cp++)
+    {
+      if( *cp == '"' )
+	{
+	  num_quotes++;
+	}
+    }
+
+  // truncate if not in string
+  if( (num_quotes & 1) == 0 )
+    {
+      *rempos = '\0';
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -7666,19 +7702,22 @@ int pull_next_line(void)
       // as that would uppercase strings. Only the parser knows which text can be
       // forced to upper case.
       //
-      // Similarly, we can't just chop th eline up where we see a colon as that could
+      // Similarly, we can't just chop the line up where we see a colon as that could
       // be a label double colon or a colon in a string. We let the parser parse as much as
       // it can and then remove any leading colons then (that is in the code at the start
       // of this function)
+
       
       if( (rempos = strstr(&(cline[cline_i]), "REM")) != NULL )
 	{
-	  *rempos = '\0';
+	  truncate_not_in_string(&(cline[cline_i]), rempos);	  
+	  //	  *rempos = '\0';
 	}
 
       if( (rempos = strstr(&(cline[cline_i]), "rem")) != NULL )
 	{
-	  *rempos = '\0';
+	  truncate_not_in_string(&(cline[cline_i]), rempos);	  
+	  //	  *rempos = '\0';
 	}
       
       // If we just have spaces then get more text from the file
@@ -7898,6 +7937,9 @@ int scan_localglobal(int local_nglobal)
 	    }
 	  
 	  idx = cline_i;
+	  drop_colon(&idx);
+	  cline_i = idx;
+	  
 	  if( check_literal(&idx, " ,") )
 	    {
 	      scan_literal(" ,");
@@ -7908,17 +7950,13 @@ int scan_localglobal(int local_nglobal)
 
       if( cline[cline_i] == '\0' )
 	{
-#if 0
-	  // Store info about the variable
-	  var_info[num_var_info] = vi;
-	  num_var_info++;
-#endif
-	  dbprintf("ret1");
+	  
+	  dbprintf("ret1:End of line");
 	  return(1);
 	}
     }
 
-  dbprintf("%s:ret0", __FUNCTION__);
+  dbprintf("ret0: Not empty line len cline:%d cline:'%s'", strlen(&(cline[cline_i])), &(cline[cline_i]));
   return(0);
 }
 
