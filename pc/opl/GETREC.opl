@@ -1,0 +1,26 @@
+GETREC:(SEARCH$)
+LOCAL RECNUM%
+IF SEARCH$="" :G%=2 :RETURN :ENDIF
+FIRST :CLS 
+recnum%=find(search$)
+if recnum%=0
+cls :print "NOT FOUND" :PAUSE 10
+cls
+RETURN
+ENDIF
+DO 
+CLS
+print a.name$
+PRINT "S/elect or EXE"
+g%=get
+IF G%=83 :RETURN
+elseif g%=1 :return
+ELSEIF G%=2 :RETURN
+ENDIF
+:NEXT :RECNUM%=FIND(SEARCH$)
+IF RECNUM%=0 :CLS
+PRINT "EOF" :PAUSE 10
+ENDIF
+UNTIL EOF
+cls 
+RETURN

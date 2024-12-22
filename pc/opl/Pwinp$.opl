@@ -1,0 +1,32 @@
+pwinp$:(set%,i%,j%)
+REM Source: PWINP$.OPL
+REM Version 1.0
+REM Password input routine
+REM (C) MAY 1999 LRS
+REM Sluykie@hotmail.com
+
+LOCAL k%,n%,pw$(8)
+REM& EXTERNAL z%()
+
+KSTAT 1 :n%=0
+DO
+ AT i%,j% :PRINT REPT$("#",n%);CHR$(26)
+ k%=GET
+ IF k%=1
+  IF n%=0 AND set% :STOP :ENDIF
+  n%=0 :pw$=""
+ ELSEIF k%=8
+  IF n%=0 :BEEP 50,600
+  ELSE
+   n%=n%-1
+   pw$=LEFT$(pw$,LEN(pw$)-1)
+  ENDIF
+ ELSEIF (k%>31 AND k%<123)
+  IF n%=8 :BEEP 50,600
+  ELSE
+   n%=n%+1
+   pw$=pw$+CHR$(k%)
+  ENDIF
+ ENDIF
+UNTIL k%=13 AND n%>z%(2)-1
+RETURN pw$

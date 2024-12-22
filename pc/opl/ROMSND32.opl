@@ -1,0 +1,30 @@
+ROMSND32:
+LOCAL A$(128),A%,B%
+
+ONERR E::
+XFOPEN:("ROM.DAT",1,0)
+
+AT 1,2
+PRINT "Sending...."
+A%=$8000
+DO
+ AT 1,1
+ PRINT HEX$(A%),
+ A$=""
+ B%=0
+ DO
+  A$=A$+CHR$(PEEKB(A%+B%))
+  B%=B%+1
+ UNTIL B%=$80
+ XFPUT:(A$)
+ A%=A%+$80
+UNTIL A%>=0
+
+XFCLOSE:
+RETURN
+
+E::
+ONERR OFF
+A%=ERR
+XFCLOSE:
+RAISE A%

@@ -1,0 +1,90 @@
+INSNOTES:
+rem
+rem Notepad installer for the Psion Organiser II LZ
+rem Copyright 1992-1997 Zac Schroff, all rights reserved.
+rem
+rem This program is free for use and distribution as long
+rem as it is distributed only in an unmodified state,
+rem this notice is left intact, and the associated files
+rem are included with it (the notes app and the docfile).
+rem If you intend to distribute modified of translated
+rem versions of this program, please contact the author
+rem for permission.
+rem
+rem Neither the author of the program nor anybody who
+rem distributes it takes any responsibility for how it
+rem will behave under the way you use or abuse it on
+rem your system, nor any responsibility for damages to
+rem data, other software, or hardware.  The limit of the
+rem liability of the author or distributor is the sum
+rem which you paid for the program.
+rem
+rem If you feel you'd like to send me something for this
+rem little program, or if you just want to chat, or ask
+rem about using the program for your own purpose, please
+rem contact me :
+rem
+rem     zschroff@docsware.com
+rem     Zac Schroff
+rem     2906 Firethorn Drive
+rem     Tuscaloosa, Alabama  35405
+rem     USA
+rem
+
+rem Set up the translator.
+
+LOCAL A%,B$(3),B%
+
+rem Introduce the program.
+
+CLS
+PRINT CHR$(24);" Notes v1 Installer"
+AT 2,4
+PRINT "<Checking menu>";CHR$(26);
+
+rem Scan the menu for the built-in Notes option.
+rem If found, make the menu option no longer point
+rem to the simplistic ROM notepad thingy, and
+rem direct it to point to an OPL routine.
+
+B$=CHR$($18)+CHR$($39)
+B%=ADDR(B$)+1
+A%=PEEKW($2002)
+WHILE A%<PEEKW($2004) AND A%>0
+ IF UPPER$(USR$(B%,A%))="NOTES"
+  AT 2,4
+  PRINT "<Changing menu>";CHR$(26);
+  POKEW A%+PEEKB(A%)+1,0
+  A%=-1
+ ELSE
+  A%=A%+PEEKB(A%)+3
+ ENDIF
+ENDWH
+
+rem Could not find the Notes option on the top
+rem menu.  Add it to the top menu, forcing it
+rem to point to the OPL routine instead of the
+rem relatively simplistic ROM handler.
+
+IF A%>0
+ AT 2,4
+ PRINT "<Adding to menu>";CHR$(26);
+ B$=CHR$($3F)+CHR$(101)+CHR$($39)
+ POKEB $2187,5
+ POKEB $2188,78
+ POKEB $2189,111
+ POKEB $218A,116
+ POKEB $218B,101
+ POKEB $218C,115
+ POKEB $218D,0
+ POKEB $218E,0
+ A%=USR(B%,$FF) 
+ENDIF
+
+rem Tell the user things have finished.
+
+AT 1,3
+PRINT "Installed.  Use main";
+PRINT "menu Notes to access";
+GET
+

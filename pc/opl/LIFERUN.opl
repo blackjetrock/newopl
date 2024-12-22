@@ -1,0 +1,57 @@
+LIFERUN:
+LOCAL K%,A%
+LIFEUDG:
+A%=1
+DO
+ C$(A%)=A$(A%)
+ A%=A%+1
+UNTIL A%>H%
+G%=0
+GOTO L::
+DO
+ DO
+  C%=USR(MG%,MP%)
+  G%=G%+1
+  USR(MB%,MP%)
+  AT 1,1
+  PRINT B$(1);B$(2);B$(3);B$(4);
+  AT 21-LEN(GEN$(G%,5)),1
+  PRINT G%;
+  AT 21-LEN(GEN$(C%,5)),2
+  PRINT C%;
+ UNTIL KEY OR C%=0
+ L::
+ DO
+  USR(MB%,MP%)
+  AT 1,1
+  PRINT B$(1);B$(2);B$(3);B$(4);
+  AT 21-LEN(GEN$(G%,5)),1
+  PRINT G%;
+  AT 21-LEN(GEN$(C%,5)),2
+  PRINT C%;
+  K%=ASC(UPPER$(GET$))
+  IF K%=3
+   USR(MU%,MP%)
+  ELSEIF K%=4
+   USR(MD%,MP%)
+  ELSEIF K%=6
+   USR(MR%,MP%)
+  ELSEIF K%=5
+   USR(ML%,MP%)
+  ELSEIF K%=2
+   C%=USR(MG%,MP%)
+   G%=G%+1
+  ELSEIF K%=%A
+   LIFEALGN:
+  ELSEIF K%=%L
+   A%=1
+   DO
+    A$(A%)=C$(A%)
+    A%=A%+1
+   UNTIL A%>H%
+   G%=0
+  ELSEIF K%=%E
+   RETURN 1
+  ENDIF
+ UNTIL (K%<2 OR K%>6) AND K%<>%A AND K%<>%L
+UNTIL K%=1

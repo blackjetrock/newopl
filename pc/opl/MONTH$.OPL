@@ -1,0 +1,2 @@
+month$:(m%)
+return strip$:(mid$("January  February March    April    May      June     July     August   SeptemberOctober  November December ",m%*9-8,9))

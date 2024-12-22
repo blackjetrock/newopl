@@ -1,0 +1,46 @@
+PACKMEM:
+LOCAL D$(1),C$(1),A%,D%
+C$=CHR$(15)
+ONERR ER::
+DO
+  D%=D%+1
+  D$=CHR$(D%+65)
+  CLS
+  PRINT "DEVICE",D$;": SPACE"
+  TRAP OPEN DIR$(D$),A,F$
+  IF ERR=236
+    A%=YN%:(D$+":MAIN REQUIRED","CREATE")
+    PRINT "DEVICE",D$;": SPACE"
+    IF A%
+      TRAP CREATE D$+":MAIN",A,F$
+      IF ERR=239
+        AT 1,2
+        PRINT C$;"== PACK FULL =="
+        BEEP 50,250
+        GET
+        CONTINUE
+      ENDIF
+    ELSE AT 1,2
+      PRINT C$;"== NOT KNOWN =="
+      BEEP 50,250
+      GET
+      CONTINUE
+    ENDIF
+  ENDIF
+  AT 1,2
+  PRINT C$," ";SPACE,"BYTES"
+  CLOSE
+  BEEP 50,400
+  GET
+  GOTO NX::
+  ER::
+  IF ERR=246
+    AT 1,2
+    PRINT C$;"*** NO PACK ***"
+    BEEP 50,250
+    GET
+  ELSE ONERR OFF
+    RAISE ERR
+  ENDIF
+  NX::
+UNTIL D%=2

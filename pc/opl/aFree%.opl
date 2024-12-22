@@ -1,0 +1,14 @@
+aFree%:(handle%)
+rem releases the memory taken by a dynamic array cell
+
+local mc%(2)
+
+rem check handle
+if peekw(peekw(handle%))<>$DDC0  :rem dynamic array recognition tag ("ÝÀ")
+  raise 226 :rem BAD FN ARGS
+endif
+
+rem free cell
+mc%(1)=$183F :rem  xgdx : os al$free
+mc%(2)=$0039 :rem  rts
+usr(addr(mc%()),handle%)

@@ -1,0 +1,29 @@
+INPGSM:
+REM VOER GSM NUMMER IN EN CONTROLER OP LENGTE
+REM ZET ER <SPATIES> TUSSEN VOOR BETERE LEESBAARHEID
+LOCAL gsm, lengte%, gsm$(17)
+lengte%=9
+DO
+   CLS
+   PRINT "*****GSM NUMMER*****";
+   IF lengte%<>9 AND lengte%<>11
+      PRINT "AANTAL CIJFERS FOUT"
+   ENDIF
+   PRINT "GSM# "+CHR$(63)
+   INPUT gsm
+   gsm$=NUM$(gsm,17)
+   lengte%=LEN(gsm$)
+UNTIL lengte%=9 OR lengte%=11
+IF lengte%=9
+   gsm$= "0"+gsm$
+   gsm$= LEFT$(gsm$,4)+" "+RIGHT$(gsm$,6)
+   gsm$= LEFT$(gsm$,7)+" "+RIGHT$(gsm$,4)
+   gsm$= LEFT$(gsm$,10)+" "+RIGHT$(gsm$,2)
+ELSE
+  gsm$= "+"+gsm$
+  gsm$= LEFT$(gsm$,3)+" "+RIGHT$(gsm$,9)
+  gsm$= LEFT$(gsm$,7)+" "+RIGHT$(gsm$,6)
+  gsm$= LEFT$(gsm$,10)+" "+RIGHT$(gsm$,4)
+  gsm$= LEFT$(gsm$,13)+" "+RIGHT$(gsm$,2)
+ENDIF
+A.gsm$=GEN$(gsm,11)

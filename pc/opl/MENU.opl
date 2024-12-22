@@ -1,0 +1,56 @@
+MENU:(mode%,line%,file$)
+REM Source: MENU.OPL
+REM Version 1.5
+REM Creates menu from datafile
+REM Uses CALLOPL: from Jaap Scherphuis
+REM (C) JUN 1998 LRS
+REM L.R.Sluijk@student.utwente.nl
+
+REM mode%=0 :Multiline menu without clock
+REM mode%=2 :Multiline menu with clock
+REM mode%=-2 :Print topline also after option has been chosen
+REM mode%=1 :Oneline menu at 1,line% without dashed line
+REM mode%=-1 :Oneline menu at 1,line% with dashed line
+
+REM 'menopt%' is global so one can check in called procedure
+REM which option was chosen (in case of arguments/switches in
+REM called procedure).
+
+GLOBAL menopt%
+LOCAL m$(255),run$(8)
+
+REM Open file including menulabels
+AT 5,2 :PRINT "Initializing"
+AT 8,3 :PRINT "menu..."
+TRAP OPEN file$,D,label$,proc$
+IF ERR :CLS :PRINT CHR$(16);ERR$(ERR) :GET :RETURN :ENDIF
+
+REM Read menu
+m$="" :FIRST
+WHILE NOT EOF
+ m$=m$+D.label$+","
+ NEXT
+ENDWH
+CLOSE :REM Close file in order to OPEN it inside the DO..UNTIL loop
+m$=LEFT$(m$,LEN(m$)-1) :REM Remove last comma
+
+REM Show menu
+DO
+ CLS
+ IF ABS(mode%)=1 :AT 1,line%
+  IF mode%=-1 :PRINT CHR$(26+2*(line%=1)+(line%=4)) :ENDIF
+ ELSEIF ABS(mode%)=2
+  PRINT CHR$(0);REPT$(CHR$(2),13)
+  CLOCK(1)
+ ENDIF
+ menopt%=MENUN(ABS(mode%),m$)
+ IF mode%=-2 :PRINT CHR$(0);REPT$(CHR$(2),13) :CLOCK(1) :ENDIF
+ IF menopt%=0 :STOP
+ ELSE
+  OPEN file$,D,label$,proc$ :REM Open file again to be able to read procname
+  POSITION menopt%
+  run$=D.proc$
+  CLOSE :REM Close file to be able to use logical name D in subproc.
+  CALLOPL:(run$)
+ ENDIF
+UNTIL 0

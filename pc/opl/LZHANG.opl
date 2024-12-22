@@ -1,0 +1,184 @@
+HANG:
+LOCAL W$(20),B$(20),G$(1),X%,Y%,L%,C%,H%,F$(20),NN%,SC%,GS%,OT%,T%,r%,m$(1),mw$(1),hg%,k$(1)
+ESCAPE OFF
+print rept$(chr$(255),20);"Hangman or Anagram ";chr$(63);rept$(chr$(255),40)
+if upper$(get$)="H"
+ cls :hg%=1
+else
+ cls :hg%=0
+ clock(1) :goto nw::
+endif
+AT 12,1 :PRINT CHR$(0)
+clock(1)
+F$=REPT$(CHR$(255),20)
+GS%=0 :SC%=0
+AT 1,1 :PRINT SC%;"/";GS%
+NWORD::
+UDG 0,27,0,4,4,17,14,0,0
+GS%=GS%+1
+AT 1,2 :PRINT REPT$(" ",20)
+AT 1,3 :PRINT REPT$(" ",20)
+AT 1,4 :PRINT REPT$(" ",20)
+nw::
+if exist("a:hdata")
+OPEN"A:HDATA",A,DATA$
+else
+cls :at 1,1 :print"Data file HDATA" :print"not found" :get :goto qqqq::
+endif
+LAST
+NN%=INT(RND*POS+1)
+POSITION NN%
+W$=UPPER$(A.DATA$)
+CLOSE
+rem --------------h
+if hg%=1 :goto haa:: :endif
+
+an::
+
+l%=len(w$)
+b$=rept$(".",l%)
+y%=1
+do
+ mw$=mid$(w$,y%,1)
+ if mw$="-" or mw$=" "
+  b$=left$(b$,y%-1)+mw$+right$(b$,l%-y%)
+  goto o::
+ endif  
+ r:: :r%=rnd*l%+1 
+ m$=mid$(b$,r%,1)
+ if m$<>"." or mid$(w$,r%,1)=" " or mid$(w$,r%,1)="-"
+  goto r::
+ endif
+ b$=left$(b$,r%-1)+mw$+right$(b$,l%-r%)
+
+ o:: 
+rem at 1,1 :print w$
+rem print b$ :get
+ y%=y%+1
+until y%>l%
+if w$=b$ :goto an:: :endif
+at 1,2 :print b$;chr$(26)
+rem --------------e
+y%=1 :ot%=0 :t%=0
+do
+
+k$=upper$(key$)
+if k$=CHR$(1) :at 1,3 :print w$ :GOTO pp:: :ENDIF
+mw$=mid$(w$,y%,1)
+if k$=mw$ or mw$=" " or mw$="-"
+if ot%>1 :ot%=ot%-1 :endif
+ at y%,3 :print mw$
+ y%=y%+1 :goto dd::
+else
+if k$<>"" :t%=100 :endif 
+endif
+dd::
+if y%<l%+1 :at y%,3 :print chr$(255) :endif
+
+t%=t%+1
+if t%>100 :t%=0
+ at 20-ot%,4 :print chr$(250) 
+ ot%=ot%+1
+ if ot%>19 :at 1,3 :print w$ :goto pp:: :endif
+endif
+until y%>l%
+sc%=sc%+1
+pp::
+at 1,1 :print sc%;"/";gs%+1
+goto quit::
+
+ goto nw::
+
+
+rem -------------
+haa::
+B$=""
+WHILE LEN(W$)>LEN(B$)
+ B$=B$+chr$(2)
+ENDWH
+
+Y%=1
+L%=LEN(W$)
+
+DO
+G$=MID$(W$,Y%,1)
+IF G$="-" OR G$=" "
+  B$=LEFT$(B$,Y%-1)+G$+RIGHT$(B$,L%-Y%)
+ ENDIF
+ Y%=Y%+1
+UNTIL Y%>L%
+
+C%=0
+AT 1,3 :PRINT F$
+DO
+ AT 1,2 :PRINT B$
+ IF B$=W$
+  SC%=SC%+1
+  AT 1,1 :PRINT SC%;"/";GS%;"    "
+  AT 1,3 :PRINT"CONGRATULATIONS"
+  UDG 0,27,0,4,4,17,14,0,0
+  GOTO QUIT::
+ ENDIF
+OT%=MINUTE*60+SECOND
+DO
+G$=upper$(KEY$)
+IF G$<>""
+ELSE
+ T%=MINUTE*60+SECOND
+ IF T%<OT% :T%=T%+60 :ENDIF
+ IF T%-OT%>3
+ G$=CHR$(250)
+ ENDIF
+ENDIF
+UNTIL G$<>""
+
+ IF G$=CHR$(1)
+  GOTO QQUIT::
+ ENDIF
+ Y%=1
+ H%=1
+ DO
+  IF G$=MID$(W$,Y%,1) AND G$<>MID$(B$,Y%,1)
+   H%=0
+   B$=LEFT$(B$,Y%-1)+G$+RIGHT$(B$,L%-Y%)
+  ENDIF
+  Y%=Y%+1
+ UNTIL Y%>L%
+ IF H%
+  AT 1+C%*2,3 :PRINT"  "
+  AT 20-C%,4 :PRINT G$
+  C%=C%+1
+  IF C%=1
+   UDG 0,27,0,4,4,16,15,0,0
+  ELSEIF C%=2
+   UDG 0,27,0,4,4,0,31,0,0
+  ELSEIF C%=3
+   UDG 0,27,0,4,4,0,30,1,0
+  ELSEIF C%=4
+   UDG 0,27,0,4,4,0,14,17,0
+  ELSEIF C%=5
+   UDG 0,27,0,4,4,0,6,9,0
+  ELSEIF C%=6
+   UDG 0,27,0,4,4,0,14,10,0
+  ELSEIF C%=7
+   UDG 0,27,0,4,4,0,14,14,0
+  ELSEIF C%=8
+   UDG 0,27,0,4,4,0,14,10,14
+  ELSEIF C%=9
+   UDG 0,27,4,4,0,14,10,10,14
+  ENDIF
+  BEEP 20,C%*10
+ ENDIF
+UNTIL C%>9
+C%=0 :DO :BEEP 5,C%*30 :BEEP 5,1500-C%*30 :C%=C%+1 :UNTIL C%>50
+AT 1,3 :PRINT"(";W$;")"
+QQUIT::
+AT 1,1 :PRINT SC%;"/";GS%;"    "
+QUIT::
+AT 1,4 :PRINT"Again";CHR$(63);" (y/n)";chr$(26)
+G$=GET$
+IF G$<>"N" AND G$<>"n" AND G$<>"$" AND G$<>CHR$(1)
+ GOTO NWORD::
+ENDIF
+qqqq:: :CLOCK(0)
+ESCAPE ON

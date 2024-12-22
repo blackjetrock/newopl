@@ -1,0 +1,11 @@
+SCREEN:
+at 1,1 :print "Date:"
+at 6,1 :print a.fdat$
+at 15,1 :print "Rec:"
+at 19,1 :print a.frec$
+at 1,2 :print "Desc:"
+at 6,2 :print a.fnarr$
+at 1,3 :print "Amnt:"
+at 6,3 :print fix$(a.famount,2,-8)
+at 15,3 :print "Fnd:"
+at 19,3 :print a.ffund$

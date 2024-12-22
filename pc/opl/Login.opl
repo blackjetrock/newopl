@@ -1,0 +1,73 @@
+login:
+REM Source: LOGIN.OPL
+REM Version 1.5
+REM Password protection program with owner info
+REM (C) MAY 1999 LRS
+REM Sluykie@hotmail.com
+
+LOCAL k$(16),n$(8),p$(8),c%,r%,w%
+GLOBAL file$(10),oi$(4,20),z%(2)
+
+ESCAPE OFF
+
+REM *** initialise ***
+file$="A:LOGIN" :REM filename
+w%=0 :REM number of "wrong entries"
+z%(1)=1 :REM login name must be at least this long
+z%(2)=1 :REM password must be at least this long
+
+IF EXIST(file$)
+ OPEN file$,A,a$,b$,c$,d$,k$
+ oi$(1)=A.a$ :oi$(2)=A.b$ :oi$(3)=A.c$ :oi$(4)=A.d$
+ELSE
+ oi$(1)="Registered to" :oi$(2)="<name>"
+ oi$(3)="<phone number>" :oi$(4)="<email>"
+ SETPASSW:
+ GOTO lockup::
+ENDIF
+
+REM *** check access key for keyboard characters ***
+r%=0
+DO
+ r%=r%+1
+ c%=ASC(UPPER$(MID$(A.k$,r%,1)))
+ IF c%<123
+  CLS :BEEP 50,400 :BEEP 50,600
+  AT 2,2 :PRINT "PASSWORD CORRUPTED"
+  AT 4,3 :PRINT "AT POSITION",r%
+  GET :STOP
+ ENDIF
+UNTIL r%=16
+
+lockup::
+CLS :OFF :KSTAT 1
+r%=0
+DO
+ r%=r%+1
+ AT (22-LEN(oi$(r%)))/2,r% :PRINT oi$(r%)
+UNTIL r%=4
+r%=GET
+
+IF r%<>2 :GOTO lockup:: :ENDIF
+CLS :PRINT " PASSWORD PROTECTED"
+PRINT CHR$(25)
+DO :AT 1,4 :PRINT "Login:",:INPUT n$ :UNTIL LEN(n$)>z%(1)-1
+AT 1,4 :PRINT "Passw:";CHR$(26)
+p$=PWINP$:(0,8,4)
+AT 1,4 :PRINT "Verify...";CHR$(26)
+k$=CREAKEY$:(n$,p$)
+
+IF NOT(A.k$=k$)
+  w%=w%+1
+  OPEN "A:MAIN",B,d$,l$,p$
+  B.d$="xxx"+DATIM$+"xxx" :B.l$=""""+n$+"""" :B.p$=""""+p$+"""" :APPEND :CLOSE
+  GOTO lockup::
+ENDIF
+
+CLS
+IF w%
+ BEEP 50,400 :BEEP 50,600
+ AT 4,2 :PRINT w%,"WRONG ENTRIES"
+ AT 7,3 :PRINT "RECORDED"
+ GET
+ENDIF

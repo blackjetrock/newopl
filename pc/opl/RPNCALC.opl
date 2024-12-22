@@ -1,0 +1,36 @@
+rpncalc:(o$)
+local a,b
+a=pop:
+if loc("+ - -- * / // **",o$)<>0
+ b=pop:
+endif
+if o$="+"
+ push:(a+b)
+elseif o$="-"
+ push:(b-a)
+elseif o$="--"
+ push:(a-b)
+elseif o$="*"
+ push:(a*b)
+elseif o$="**"
+ push:(a**b)
+elseif o$="/"
+ push:(b/a)
+elseif o$="//"
+ push:(a/b)
+elseif o$="r"
+ push:(sqr(a))
+elseif o$="s"
+ push:(sin(rad(a)))
+elseif o$="c"
+ push:(cos(rad(a)))
+elseif o$="f"
+ push:(fak:(a))
+elseif o$="l"
+ push:(log(a))
+else
+ print "operand error";o$
+ get
+ stop
+endif
+return

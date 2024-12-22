@@ -1,0 +1,199 @@
+ZOEK:
+LOCAL zoek$(16), lengte%, g$(1), toon$(255), d%, gsm$(17), tel$(18)
+zoek$=""
+g$=""
+d%=0
+CLS
+PRINT "********Zoek********";
+INPUT zoek$
+USE A
+FIRST
+DO
+   toon$=""
+   IF FIND(zoek$)
+
+      REM NAME
+      IF A.naam$<>""
+         toon$=toon$+A.naam$
+      ENDIF
+
+      REM COMPANY
+      IF A.bedrijf$<>""
+         IF toon$<>""
+            toon$= toon$+CHR$(9)
+         ENDIF
+         toon$= toon$+A.bedrijf$
+      ENDIF
+
+      REM GSM NUMBER
+      IF A.gsm$<>""
+         IF toon$<>""
+            toon$= toon$+CHR$(9)
+         ENDIF
+            gsm$= A.gsm$
+            lengte%= LEN(gsm$)
+ 
+            REM FORMAT GSM NUMBER
+            IF lengte%=9
+               gsm$= "0"+gsm$
+               gsm$= LEFT$(gsm$,4)+"/"+RIGHT$(gsm$,6)
+               gsm$= LEFT$(gsm$,7)+" "+RIGHT$(gsm$,4)
+               gsm$= LEFT$(gsm$,10)+" "+RIGHT$(gsm$,2)
+            ELSE
+               gsm$= "+"+gsm$
+               gsm$= LEFT$(gsm$,3)+"/"+RIGHT$(gsm$,9)
+               gsm$= LEFT$(gsm$,7)+" "+RIGHT$(gsm$,6)
+               gsm$= LEFT$(gsm$,10)+" "+RIGHT$(gsm$,4)
+               gsm$= LEFT$(gsm$,13)+" "+RIGHT$(gsm$,2)
+            ENDIF
+      toon$= toon$+"GSM:"+gsm$
+      ENDIF      
+
+      REM TELEPHONE NUMBER
+      IF A.tel$<>""
+         IF toon$<>""
+            toon$= toon$+CHR$(9)
+         ENDIF
+         tel$= A.tel$
+         lengte%= LEN(tel$)
+
+         REM FORMAT TEL NUMBER beware not al formats are tested!!!!
+         IF lengte%= 7 : REM 0x/xx xx xx
+            tel$= "0"+tel$
+            tel$= LEFT$(tel$,2)+"/"+RIGHT$(tel$,6)
+            tel$= LEFT$(tel$,5)+" "+Right$(tel$,4)
+            tel$= LEFT$(tel$,8)+" "+RIGHT$(tel$,2)
+         ELSEIF lengte%=8 : REM 0x/xxx xx xx
+            tel$= "0"+tel$
+            tel$= LEFT$(tel$,2)+"/"+RIGHT$(tel$,7)
+            tel$= LEFT$(tel$,6)+" "+RIGHT$(tel$,4)
+            tel$= LEFT$(tel$,9)+" "+RIGHT$(tel$,2)
+         ELSEIF lengte%=9 : REM 00xx/ x xx xx xx
+            tel$= "+"+tel$
+            tel$= LEFT$(tel$,3)+"/"+RIGHT$(tel$,7)
+            tel$= LEFT$(tel$,5)+" "+RIGHT$(tel$,6)
+            tel$= LEFT$(tel$,8)+" "+RIGHT$(tel$,4)
+            tel$= LEFT$(tel$,11)+" "+RIGHT$(tel$,2)
+         ELSEIF lengte%=10 : REM 00xx/0xx xx xx xx
+            tel$= "+"+tel$
+            tel$= LEFT$(tel$,3)+"/"+RIGHT$(tel$,8)
+            tel$= LEFT$(tel$,5)+" "+RIGHT$(tel$,7)
+            tel$= LEFT$(tel$,9)+" "+RIGHT$(tel$,4)
+            tel$= LEFT$(tel$,12)+" "+RIGHT$(tel$,2)
+         ELSEIF lengte%=11 : REM 00xx/xx xxx xx xx : REM TESTED
+            tel$= "+"+tel$                              : REM +xxxxxxxxxxx
+            tel$= LEFT$(tel$,3)+"/"+RIGHT$(tel$,9)      : REM +xx xxxxxxxxx
+            tel$= LEFT$(tel$,6)+" "+RIGHT$(tel$,7)      : REM +xx xx xxxxxxx
+            tel$= LEFT$(tel$,10)+" "+RIGHT$(tel$,4)     : REM +xx xx xxx xxxx
+            tel$= LEFT$(tel$,13)+" "+RIGHT$(tel$,2)     : REM +xx xx xxx xx xx
+         ENDIF
+         toon$=toon$+"Tel:"+tel$
+      ENDIF
+
+      REM EMAIL ADDRESS + DOMAIN FROM  C
+      IF A.mail$<>""
+         IF toon$<>""
+            toon$= toon$+CHR$(9)
+         ENDIF
+         toon$= toon$+A.mail$+CHR$(64)
+         USE C
+         FIRST
+         FIND(GEN$(A.edom%,2))
+         toon$= toon$+C.domain$
+         USE A
+      ENDIF
+
+      REM 2e  EMAIL ADDRESS + DOMAIN FROM C
+      IF A.xmail$<>""
+         IF toon$<>""
+            toon$= toon$+CHR$(9)
+         ENDIF
+         toon$= toon$+A.xmail$+CHR$(64)
+         USE C
+         FIRST
+         FIND(GEN$(A.xdom%,2))
+         toon$= toon$+C.domain$
+         USE A
+      ENDIF
+
+      REM ADDRESS
+      IF A.straat$<>""
+         IF toon$<>""
+            toon$= toon$+CHR$(9)
+         ENDIF
+         toon$= toon$+A.straat$
+       ENDIF
+       REM POSTNUMBER AND CITY
+       IF A.pcode$<>""
+         IF toon$<>""
+            toon$= toon$+CHR$(9)
+         ENDIF
+         USE B
+         FIRST
+         IF FIND(A.pcode$)
+            toon$= toon$+A.pcode$+" "
+            toon$= toon$+B.gemeent$
+         ENDIF
+         USE A
+      ENDIF         
+
+     REM ANYVERSAIRY 
+     IF A.verjrdg$<>""
+         IF toon$<>""
+            toon$= toon$+CHR$(9)
+         ENDIF
+         toon$= toon$+"VERJ:"+RIGHT$(A.verjrdg$,2)
+         IF LEN(A.verjrdg$)>5
+            toon$= toon$+"/"+MID$(A.verjrdg$,5,2)
+            toon$= toon$+"/"+LEFT$(A.verjrdg$,4)
+         ELSE
+            toon$= toon$+"/"+MID$(A.verjrdg$,2,2)
+         ENDIF
+      ENDIF
+
+      REM REMARKS
+      IF A.opm$<>""
+         IF toon$<>""
+            toon$= toon$+CHR$(9)
+         ENDIF
+         toon$= toon$+"OPM:"+A.opm$
+      ENDIF
+
+
+      REM SHOW THE RECORD
+      d%= DISP(1,toon$)
+      WHILE d%<>13 AND d%<>1 AND d%<>2 AND d%<>8
+         d%=DISP(0,"")
+      ENDWH
+   ELSE
+      CLS
+      PRINT "********Zoek********";
+      PRINT zoek$
+      PRINT "Niet gevonden"
+      PRINT "Input j/N? "+zoek$
+      g$= GET$
+      IF g$="j" OR g$="J"
+         insert:
+         REM als alter terug komt terug naar hoofdmenu
+         d%=1
+      ENDIF
+   ENDIF
+   IF d%=13
+      NEXT
+   ENDIF
+UNTIL EOF OR d%=1 OR d%=2 OR d%=8
+REM 1 = ON/CLEAR - 2 = MODE - 8 = DEL
+IF d%=2
+   alter:
+ELSEIF d%=8
+   REM DELETE
+   CLS
+   PRINT "Delete record"+CHR$(63)
+   PRINT A.naam$
+   PRINT "J/n"
+   g$=GET$
+   IF g$<>"n" AND g$<>"N"
+      USE A
+      ERASE
+   ENDIF
+ENDIF

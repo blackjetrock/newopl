@@ -1,0 +1,28 @@
+INPBDRF:
+REM INPUT COMPANY
+
+LOCAL g$(1)
+input$=""
+IF A.bedrijf$=""
+   CLS
+   PRINT "******BEDRIJF*******";
+   PRINT"Bedrijf"+CHR$(63)
+   KSTAT 2
+   INPUT input$
+   uplowchr:
+   A.bedrijf$=input$
+ELSE
+   REM IF YOU HAVEN'T SAVED PREVIOUS RECORD OR YOU WANT TO EDIT
+   REM THE COMPANY NAME YOU CAN DO IT NOW
+   CLS
+   PRINT "******EDITEER*******";
+   PRINT A.bedrijf$
+   PRINT "J/n"+CHR$(64)
+   g$=GET$
+   IF g$="j" OR g$="J" OR g$=CHR$(13)
+      CLS
+      PRINT "Editeer"
+      EDIT A.bedrijf$
+   ENDIF
+ENDIF
+

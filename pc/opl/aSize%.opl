@@ -1,0 +1,57 @@
+aSize%:(handle%,size%)
+rem grows or shrinks a dynamic array
+
+local mc%(9),tmp%,oldsize%
+
+rem check handle
+if peekw(peekw(handle%))<>$DDC0  :rem dynamic array recognition tag ("ÝÀ")
+  raise 226 :rem BAD FN ARGS
+endif
+
+rem check parameter
+if size%<0
+  raise 225 :rem SUBSCRIPT ERROR
+endif
+
+rem get cell size
+mc%(1)=$183F :rem xgdx : os al$size
+mc%(2)=$0518 :rem xgdx
+mc%(3)=$3900 :rem rts
+tmp%=usr(addr(mc%()),handle%)
+oldsize%=tmp%/2-1
+
+rem grow/shrink cell
+mc%(1)=$DD41 :rem std utw_s0 ;offset
+mc%(2)=$01CE :rem ldx #handle
+mc%(3)=handle%
+mc%(4)=$01CC :rem ldd #????; amount to grow/shrink cell
+mc%(7)=$2501 :rem bcs +1
+mc%(8)=$5F4F :rem clrb : clra
+mc%(9)=$1839 :rem xgdx : rts
+if size%>oldsize%
+  mc%(5)=(size%-oldsize%)*2
+  mc%(6)=$3F02 :rem os al$grow
+  tmp%=usr(addr(mc%()),tmp%)
+elseif size%<>oldsize%
+  mc%(5)=(oldsize%-size%)*2
+  mc%(6)=$3F04 :rem os al$shnk
+  tmp%=usr(addr(mc%()),size%*2+2)
+else :rem same size
+  return
+endif
+if tmp% :raise tmp% :endif
+
+rem fill memory range with zero
+if size%>oldsize%
+  tmp%=peekw(handle%)
+  mc%(1)=$01CE :rem       ldx #start_addr
+  mc%(2)=tmp%+2+oldsize%*2
+  mc%(3)=$018C :rem loop: cpx #end_addr
+  mc%(4)=tmp%+2+size%*2
+  mc%(5)=$2C06 :rem       bge done
+  mc%(6)=$ED00 :rem       std 0,X
+  mc%(7)=$0808 :rem       inx : inx
+  mc%(8)=$20F5 :rem       bra loop
+  mc%(9)=$3900 :rem done: rts
+  usr(addr(mc%()),0)
+endif

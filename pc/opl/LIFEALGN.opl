@@ -1,0 +1,28 @@
+LIFEALGN:
+LOCAL A%,B%
+
+A%=USR(MA%,MP%)
+B%=A% AND 255
+IF B%+B%<H%
+ WHILE B%>=0
+  USR(MU%,MP%)
+  B%=B%-1
+ ENDWH
+ELSE
+ WHILE B%<H%-1
+  USR(MD%,MP%)
+  B%=B%+1
+ ENDWH
+ENDIF
+B%=A%/256
+IF B%+B%<W%
+ WHILE B%>=0
+  USR(ML%,MP%)
+  B%=B%-1
+ ENDWH
+ELSE
+ WHILE B%<W%-1
+  USR(MR%,MP%)
+  B%=B%+1
+ ENDWH
+ENDIF

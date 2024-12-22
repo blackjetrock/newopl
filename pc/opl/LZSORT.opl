@@ -1,0 +1,16 @@
+LZSORT:(file$)
+
+REM   ***************************************************
+REM   *   Procedure to sort an ODB through OPL on a LZ  *
+REM   *   By Chris Morgan, November 1990                *
+REM   ***************************************************
+
+LOCAL addr%(4),sfile$(8),i%,j%
+sfile$=file$
+i%=ADDR(sfile$)
+j%=ADDR(addr%())
+addr%(1)=$01CE      :REM null operation and LDX
+addr%(2)=i%         :REM with leading byte of file$
+addr%(3)=$3FAE      :REM <swi> instruction and vector number for xx$sort
+addr%(4)=$3901      :REM return instruction
+USR (j%,0)

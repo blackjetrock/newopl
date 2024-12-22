@@ -1,0 +1,65 @@
+LIFEEDIT:
+LOCAL K%,X%,Y%,DW%,AD%,A%,B%
+LIFEUDG:
+AD%=ADDR(A$())
+DW%=PEEKB(AD%-3)+1
+
+X%=10
+Y%=6
+DO
+ B%=AD%+X%+Y%*DW%
+ POKEB B%,1-PEEKB(B%)
+ USR(MB%,MP%)
+ AT 1,1
+ PRINT B$(1);B$(2);B$(3);B$(4);
+ POKEB B%,1-PEEKB(B%)
+ USR(MB%,MP%)
+ AT 1,1
+ PRINT B$(1);B$(2);B$(3);B$(4);
+
+ K%=ASC(UPPER$(KEY$))
+ IF K%=3
+  IF Y%>0
+   Y%=Y%-1
+  ELSE
+   USR(MD%,MP%)
+  ENDIF
+ ELSEIF K%=4
+  IF Y%<11
+   Y%=Y%+1
+  ELSE
+   USR(MU%,MP%)
+  ENDIF
+ ELSEIF K%=6
+  IF X%<20
+   X%=X%+1
+  ELSE
+   USR(ML%,MP%)
+  ENDIF
+ ELSEIF K%=5
+  IF X%>1
+   X%=X%-1
+  ELSE
+   USR(MR%,MP%)
+  ENDIF
+ ELSEIF K%=%A
+  LIFEALGN:
+ ELSEIF K%=%L
+  A%=1
+  DO
+   A$(A%)=C$(A%)
+   A%=A%+1
+  UNTIL A%>H%
+ ELSEIF K%=13
+  POKEB B%,1-PEEKB(B%)
+ ELSEIF K%=8
+  A$(1)=REPT$(CHR$(0),W%)
+  A%=2
+  DO
+   A$(A%)=A$(1)
+   A%=A%+1
+  UNTIL A%>H%
+ ELSEIF K%=%R
+  RETURN 1
+ ENDIF
+UNTIL K%=2

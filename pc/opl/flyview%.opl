@@ -1,0 +1,9 @@
+FLYVIEW%:
+local KY%
+cls
+at 1,1 :print LIN$(1);
+at 1,2 :print LIN$(2);
+do
+ KY%=get
+until KY%=1 or KY%=2 or KY%=3 or KY%=4 or KY%=8 or KY%=13
+return KY%

@@ -1,0 +1,16 @@
+tob3:
+Rem (c) Donovan
+Rem Email shannond@mindspring.com
+
+rem this will transfer ob3 files from the PC to the organiser.
+
+local send$(11),receive$(11)
+
+cls
+print "Enter name (.ob3)"
+print "to receive"
+input send$
+
+xtrecv:(send$,send$,3)
+
+stop

@@ -1,0 +1,65 @@
+INTIM:
+rem this gets a time value as MM:SS and returns a raw second value
+rem at the current cursor location
+rem it depends on the UDG's being properly set beforehand
+rem do a KSTAT 3 before entering this routine
+
+rem variable usage
+LOCAL D$(8),G$(1),K$(4),S%,T%
+rem D$(8) is a display string, 
+rem needs to be double the max length 'cause we backspace sometimes
+rem G$(1) is our keypress
+rem K$(4) is our four digits MMSS
+rem S% is a pointer to which digit
+rem T% is the raw second total we return
+
+rem start at the beginning
+K$=""
+PRINT "  ";CHR$(6);" ";
+
+rem main loop
+DO
+ G$=GET$
+ rem check if it's an EXE - if not, continue the loop
+ IF G$<>CHR$(13)
+  rem check if it's a DEL - if so adjust K$(4) and the display
+  IF G$=CHR$(8) AND LEN(K$)>0
+   PRINT REPT$(CHR$(8),4);"  ";chr$(6);" ";
+   K$=LEFT$(K$,LEN(K$)-1)
+  ELSEIF LEN(K$)<4
+   K$=K$+G$   
+  ENDIF
+
+  rem point at the first digit
+  S%=1
+  rem set up our backspace string
+  D$=REPT$(CHR$(8),LEN(K$))
+  DO 
+   rem are we pointing at the right value to use a UDG?
+   IF LEN(K$)-S%=1
+    rem not if the user entered a number bigger than 5 - i.e. a raw second
+    IF MID$(K$,S%,1)>"5"  
+     D$=D$+MID$(K$,S%,1)
+    rem yes, shove the UDG in the display string
+    ELSE 
+     D$=D$+CHR$(VAL(MID$(K$,S%,1)))  
+    ENDIF
+   rem no, put the raw character in the display string
+   ELSE 
+    D$=D$+MID$(K$,S%,1)
+   ENDIF 
+   rem point at the next digit
+   S%=S%+1
+  UNTIL S%>LEN(K$) 
+  rem print what we have so far
+  PRINT D$;
+ ENDIF
+rem need an EXE to get out
+UNTIL G$=CHR$(13)
+
+rem adjust for shorter-than-four-digit values
+K$=RIGHT$("000"+K$,4)
+rem figure out the raw seconds
+T%=60*VAL(LEFT$(K$,2))+VAL(RIGHT$(K$,2))
+rem go home
+RETURN T%

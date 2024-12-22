@@ -1,0 +1,36 @@
+anniv:
+REM Source: ANNIV.OPL
+REM Version 1.2
+REM Anniversary utility
+REM (C) OCT 1998 LRS
+REM L.R.Sluijk@student.utwente.nl
+
+GLOBAL dbase$(10),add$(10),path$(255)
+LOCAL m%,path%
+
+LRS:(20)
+REM *** Declare constants ***
+OPEN "A:MAIN",A,dsc$,pth$
+FIRST :path%=FIND("PC PATH FOR ANNIV.ODB XFER") :REM Remote path name
+IF path% :path$=A.pth$ :ELSE path$="C:/" :ENDIF :CLOSE
+dbase$="A:ANNIV" :REM Database filename
+add$="jaar" :REM Text to create 'Lennert (23 jaar)'
+
+IF EXIST(dbase$) :OPEN dbase$,A,date$,event$
+ELSE :CREATE dbase$,A,date$,event$
+ENDIF
+
+CLS :UDG 0,10,6,31,21,21,31,0,31
+UDG 2,0,0,0,0,0,0,0,31
+DO
+ CLS :CLOCK(1) :PRINT CHR$(0);REPT$(CHR$(2),13)
+ m%=MENUN(2,"LIST,INSERT,UPDATE,XFER,SORT")
+ CLS :CLOCK(1) :PRINT CHR$(0);REPT$(CHR$(2),13)
+ IF m%=0 :CLOSE :RETURN
+ ELSEIF m%=1 :ANNSHOW:
+ ELSEIF m%=2 :ANNBD:
+ ELSEIF m%=3 :ANNUPD:
+ ELSEIF m%=4 :ANNXFR:
+ ELSEIF m%=5 :PRINT "Sorting database" :PRINT "Please wait..." :SORTLZ:(dbase$)
+ ENDIF
+UNTIL 0

@@ -1,0 +1,89 @@
+FLYEDIT%:
+local STATE%,RETN%
+RETN%=0 :STATE%=1
+while STATE%<>0
+ if STATE%=1
+  cls :print"Departure date" :print">";
+  kstat 3
+  trap edit DAT$
+  if err=206
+   STATE%=0
+  elseif len(DAT$)=4
+   DAT$=DAT$+"--"
+   STATE%=2
+  elseif len(DAT$)=6
+   STATE%=2
+  endif
+ elseif STATE%=2
+  cls :print"Airline code" :print">";
+  kstat 1
+  trap edit AIR$
+  if err=206
+   STATE%=0
+  elseif len(AIR$)=0
+   AIR$="--"
+   STATE%=3
+  elseif len(AIR$)=2
+   STATE%=3
+  endif
+ elseif STATE%=3
+  cls :print"Flight number" :print">";
+  kstat 3
+  trap edit FNO$
+  if err=206
+   STATE%=0
+  elseif len(FNO$)=0
+   FNO$="----"
+   STATE%=4
+  else
+   FNO$=LEFT$(FNO$+"   ",4)
+   STATE%=4
+  endif
+ elseif STATE%=4
+  cls :print"Departing city" :print">";
+  kstat 1
+  trap edit OUT$
+  if err=206
+   STATE%=0
+  elseif len(OUT$)=3
+   STATE%=5
+  endif
+ elseif STATE%=5
+  cls :print"Departure time" :print">";
+  kstat 3
+  trap edit DEP$
+  if err=206
+   STATE%=0
+  elseif len(DEP$)=0
+   DEP$="----"
+   STATE%=6
+  elseif len(DEP$)=4
+   STATE%=6
+  endif
+ elseif STATE%=6
+  cls :print"Arriving city" :print">";
+  kstat 1
+  trap edit INP$
+  if err=206
+   STATE%=0
+  elseif len(INP$)=3
+   STATE%=7
+  endif
+ elseif STATE%=7
+  cls :print"Arrival time" :print">";
+  kstat 3
+  trap edit ARR$
+  if err=206
+   STATE%=0
+  elseif len(ARR$)=0
+   ARR$="----"
+   STATE%=8
+  elseif len(ARR$)=4
+   STATE%=8
+  endif
+ elseif STATE%=8
+  RETN%=1
+  STATE%=0
+ endif
+endwh
+return RETN%

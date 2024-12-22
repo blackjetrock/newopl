@@ -1,0 +1,41 @@
+bin2dec:
+ REM Binary to Decimal converter written by Philip Bister, 14th June 2015
+ REM for Psion LZ organiser II or emulator.
+ REM Input can be up to 15 binary digits.
+
+ LOCAL bin$(15), a$(1), ln%, x%, ans%
+
+ CLS
+ PRINT "      BIN2DEC      "
+ PRINT "Enter binary number" :INPUT bin$
+
+ REM verify input is a binary string
+ ln%=LEN(bin$)
+ WHILE x% < ln%
+   x% = x%+1
+   a$=MID$(bin$,x%,1)
+   IF a$="1" OR a$="0"
+     REM OK
+   ELSE
+     PRINT a$;" is invalid"
+     PRINT "Press any key" :GET
+     STOP
+   ENDIF
+ ENDWH 
+
+ REM convert binary to decimal
+ REM starting from right hand end of bin$
+ x%=1
+ DO
+  a$=MID$(bin$,ln%,1)
+  IF a$="1"
+   ans%=ans%+x%
+  ENDIF
+  IF x%<>16384
+   x%=x%*2
+  ENDIF
+   ln%=ln%-1   
+ UNTIL ln%=0
+
+ PRINT " = ";ans%
+ PRINT "Press any key": GET

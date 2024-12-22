@@ -1,0 +1,35 @@
+INPXML:
+REM 
+REM VOER 2e EMAIL ADRES IN
+REM GEBRUIK DATABSE VOOR STUKKEN NA DE '@' IN TE VOEREN
+LOCAL xmail$(24), g$(1), found%
+PRINT "*******EMAIL********";
+PRINT "Email v"+CHR$(224)+CHR$(224)+"r @ ?"
+INPUT xmail$
+REM GEBRUIK EMAIL DATABASE VOOR ACHTERVOEGSELS
+CLS
+PRINT "*******E-MAIL******";
+PRINT "Eerste letter van"
+PRINT "domeinnaam"
+g$=GET$
+USE C
+FIRST
+DO
+   IF g$=LEFT$(C.domain$,1)
+      CLS
+      PRINT "*******E-MAIL*******";
+      PRINT "Is "+C.domain$
+      PRINT "juist"+CHR$(63)+" J/n"
+      g$=GET$
+      IF g$<>"n" OR g$="N"
+         found%=-1
+         BREAK
+      ENDIF
+   ENDIF
+   NEXT
+UNTIL EOF
+IF NOT found%
+   inpdomn:
+ENDIF
+A.xmail$= xmail$
+A.xdom%= C.uid%

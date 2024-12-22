@@ -1,0 +1,42 @@
+INPEML:
+REM VOER E-MAIL ADRES IN
+REM GEBRUIK "C:EDOMAIN" DATABASE OM HET DOMAIN NA DE '@' IN TE VOEREN
+LOCAL email$(24), g$(1), d$(1), found%
+found%=0
+IF A.mail$<>""
+   inpxml:
+ELSE
+   CLS
+   PRINT "*******E-MAIL*******";
+   PRINT "gebruikersnaam?"
+   KSTAT 2
+   INPUT email$
+   REM GEBRUIK EMAIL DATABASE VOOR ACHTERVOEGSELS
+   CLS
+   PRINT "*******E-MAIL*******";
+   PRINT "Eerste letter van"
+   PRINT "domeinnaam"+CHR$(63)
+   d$=GET$
+   USE C
+   FIRST
+   CLS
+   DO
+      IF d$=LEFT$(C.domain$,1)
+         CLS
+         PRINT "*******E-MAIL*******";
+         PRINT "Is "+C.domain$
+         PRINT "juist"+CHR$(63)+" J/n"
+         g$=GET$
+         IF g$="j" OR g$="J" OR g$=CHR$(13)
+            found%=-1
+            BREAK
+         ENDIF
+      ENDIF
+   NEXT
+   UNTIL EOF
+   IF NOT found%
+      inpdomn:
+   ENDIF
+   A.mail$= email$
+   A.edom%=C.uid%
+ENDIF

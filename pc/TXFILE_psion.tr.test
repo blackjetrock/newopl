@@ -1,0 +1,156 @@
+
+Filename:'TXFILE'
+File ext:'OB3
+Dropping OB3 header...
+Enter:dump_proc
+Var Space Size:0002
+QCode Space Size:00C4
+Number of parameters:00
+Parameter types:
+Global varname Size:0000
+Global variables (0)
+
+External varname Size:0000
+External variables (0)
+
+String length fixups (0)
+
+Array size fixups (0)
+
+QCode
+
+0000: 24       Push string literal     (bytes code:S)
+0001: Len:14
+0002: ' Call CL on PC'
+0010: 71       PRINT string     (bytes code:-)
+0011: 73       PRINT newline     (bytes code:-)
+0012: 22       Push integer literal     (bytes code:I)
+0013: 0050       (80)
+0015: 32       unary minus integer     (bytes code:-)
+0016: 54       PAUSE     (bytes code:-)
+0017: 24       Push string literal     (bytes code:S)
+0018: Len:13
+0019: '  PLEASE WAIT'
+0026: 71       PRINT string     (bytes code:-)
+0027: 73       PRINT newline     (bytes code:-)
+0028: 24       Push string literal     (bytes code:S)
+0029: Len:13
+002A: ' SENDING FILE'
+0037: 71       PRINT string     (bytes code:-)
+0038: 73       PRINT newline     (bytes code:-)
+0039: 22       Push integer literal     (bytes code:I)
+003A: 2580       (9600)
+003C: 20       Push byte literal     (bytes code:B)
+003D: 00           (0)
+003E: 22       Push integer literal     (bytes code:I)
+003F: 0000       (0)
+0041: 20       Push byte literal     (bytes code:B)
+0042: 00           (0)
+0043: 22       Push integer literal     (bytes code:I)
+0044: 0008       (8)
+0046: 20       Push byte literal     (bytes code:B)
+0047: 00           (0)
+0048: 22       Push integer literal     (bytes code:I)
+0049: 0001       (1)
+004B: 20       Push byte literal     (bytes code:B)
+004C: 00           (0)
+004D: 22       Push integer literal     (bytes code:I)
+004E: 0001       (1)
+0050: 20       Push byte literal     (bytes code:B)
+0051: 00           (0)
+0052: 22       Push integer literal     (bytes code:I)
+0053: 0001       (1)
+0055: 20       Push byte literal     (bytes code:B)
+0056: 00           (0)
+0057: 22       Push integer literal     (bytes code:I)
+0058: 0001       (1)
+005A: 32       unary minus integer     (bytes code:-)
+005B: 20       Push byte literal     (bytes code:B)
+005C: 00           (0)
+005D: 22       Push integer literal     (bytes code:I)
+005E: 0001       (1)
+0060: 32       unary minus integer     (bytes code:-)
+0061: 20       Push byte literal     (bytes code:B)
+0062: 00           (0)
+0063: 22       Push integer literal     (bytes code:I)
+0064: 0001       (1)
+0066: 32       unary minus integer     (bytes code:-)
+0067: 20       Push byte literal     (bytes code:B)
+0068: 00           (0)
+0069: 22       Push integer literal     (bytes code:I)
+006A: 0001       (1)
+006C: 32       unary minus integer     (bytes code:-)
+006D: 20       Push byte literal     (bytes code:B)
+006E: 00           (0)
+006F: 22       Push integer literal     (bytes code:I)
+0070: 0001       (1)
+0072: 32       unary minus integer     (bytes code:-)
+0073: 20       Push byte literal     (bytes code:B)
+0074: 00           (0)
+0075: 22       Push integer literal     (bytes code:I)
+0076: 0001       (1)
+0078: 32       unary minus integer     (bytes code:-)
+0079: 20       Push byte literal     (bytes code:B)
+007A: 00           (0)
+007B: 22       Push integer literal     (bytes code:I)
+007C: 0009       (9)
+007E: B8       CHR$     (bytes code:-)
+007F: 22       Push integer literal     (bytes code:I)
+0080: 002C       (44)
+0082: B8       CHR$     (bytes code:-)
+0083: 4B       Plus string     (bytes code:-)
+0084: 20       Push byte literal     (bytes code:B)
+0085: 02           (2)
+0086: 22       Push integer literal     (bytes code:I)
+0087: 0001       (1)
+0089: 32       unary minus integer     (bytes code:-)
+008A: 20       Push byte literal     (bytes code:B)
+008B: 00           (0)
+008C: 22       Push integer literal     (bytes code:I)
+008D: 0002       (2)
+008F: 20       Push byte literal     (bytes code:B)
+0090: 00           (0)
+0091: 20       Push byte literal     (bytes code:B)
+0092: 0F           (15)
+0093: 7D       Procedure call.     (bytes code:S)
+0094: Len:4
+0095: 'LSET'
+0099: 84       drop float from stack     (bytes code:-)
+009A: 24       Push string literal     (bytes code:S)
+009B: Len:7
+009C: 'product'
+00A3: 20       Push byte literal     (bytes code:B)
+00A4: 02           (2)
+00A5: 24       Push string literal     (bytes code:S)
+00A6: Len:9
+00A7: 'A:product'
+00B0: 20       Push byte literal     (bytes code:B)
+00B1: 02           (2)
+00B2: 22       Push integer literal     (bytes code:I)
+00B3: 0000       (0)
+00B5: 20       Push byte literal     (bytes code:B)
+00B6: 00           (0)
+00B7: 20       Push byte literal     (bytes code:B)
+00B8: 03           (3)
+00B9: 7D       Procedure call.     (bytes code:S)
+00BA: Len:6
+00BB: 'XTSEND'
+00C1: 84       drop float from stack     (bytes code:-)
+00C2: 4E       CLS     (bytes code:-)
+00C3: 7B       RETURN (float 0)     (bytes code:-)
+
+QCode Data
+
+0000:24 0E 20 43 61 6C 6C 20 43 4C 20 6F 6E 20 50 43 
+0010:71 73 22 00 50 32 54 24 0D 20 20 50 4C 45 41 53 
+0020:45 20 57 41 49 54 71 73 24 0D 20 53 45 4E 44 49 
+0030:4E 47 20 46 49 4C 45 71 73 22 25 80 20 00 22 00 
+0040:00 20 00 22 00 08 20 00 22 00 01 20 00 22 00 01 
+0050:20 00 22 00 01 20 00 22 00 01 32 20 00 22 00 01 
+0060:32 20 00 22 00 01 32 20 00 22 00 01 32 20 00 22 
+0070:00 01 32 20 00 22 00 01 32 20 00 22 00 09 B8 22 
+0080:00 2C B8 4B 20 02 22 00 01 32 20 00 22 00 02 20 
+0090:00 20 0F 7D 04 4C 53 45 54 84 24 07 70 72 6F 64 
+00A0:75 63 74 20 02 24 09 41 3A 70 72 6F 64 75 63 74 
+00B0:20 02 22 00 00 20 00 20 03 7D 06 58 54 53 45 4E 
+00C0:44 84 4E 7B 

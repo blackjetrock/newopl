@@ -1,0 +1,21 @@
+REORDER:
+local last%,lowest$(255),lowest%
+print "-- Reordering --"
+open "a:main",a,a$
+last%=count
+if last%>1
+ do
+  first :lowest%=1
+  lowest$=upper$(a.a$)
+  while pos<last%
+   next
+   if upper$(a.a$)<lowest$
+    lowest$=upper$(a.a$) :lowest%=pos
+   endif
+  endwh
+  position lowest%
+  print chr$(15);left$(lowest$,16)
+  update :last%=last%-1
+ until last%=0
+endif
+close

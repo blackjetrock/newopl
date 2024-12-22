@@ -1,0 +1,33 @@
+setpassw:
+REM Source: SETPASSW.OPL
+REM Version 1.3
+REM Set the login name, password and owner info
+REM (C) MAY 1999 LRS
+REM Sluykie@hotmail.com
+
+LOCAL n$(8),p$(2,8),i%
+REM& EXTERNAL file$,oi$(),z%()
+
+CLS :KSTAT 1
+AT 5,1 :PRINT "SET PASSWORD"
+PRINT CHR$(25)
+i%=0
+DO
+ i%=i%+1
+ AT 1,4 :PRINT "Info L";i%;":",:EDIT oi$(i%)
+UNTIL i%=4
+
+DO :AT 1,4 :PRINT "Login:",:INPUT n$ :UNTIL LEN(n$)<>z%(1)-1
+
+DO
+ i%=0
+ DO
+  i%=i%+1
+  AT 1,4 :PRINT MID$("PasswAgain",-(i%=1)-6*(i%=2),5);":"
+  p$(i%)=PWINP$:(1,8,4)
+ UNTIL i%=2
+UNTIL p$(1)=p$(2)
+
+CREATE file$,A,a$,b$,c$,d$,k$
+A.a$=oi$(1) :A.b$=oi$(2) :A.c$=oi$(3) :A.d$=oi$(4)
+A.k$=CREAKEY$:(n$,p$(1)) :APPEND

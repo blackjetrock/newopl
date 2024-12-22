@@ -1,0 +1,40 @@
+aInsert%:(handle%,index%,value%)
+rem inserts a value in a dynamic array
+
+local mc%(9),tmp%,error%
+
+rem check handle
+if peekw(peekw(handle%))<>$DDC0  :rem dynamic array recognition tag ("ÝÀ")
+  raise 226  :rem BAD FN ARGS
+endif
+
+rem get current length
+mc%(1)=$183F :rem xgdx : os al$size
+mc%(2)=$0518 :rem xgdx
+mc%(3)=$3900 :rem rts
+tmp%=usr(addr(mc%()),handle%)/2-1
+
+rem check parameters
+if index%=0 or abs(index%)>tmp%
+  raise 225 :rem SUBSCRIPT ERROR
+elseif index%>0
+  tmp%=index%
+else
+  tmp%=tmp%+index%+1
+endif
+
+rem grow cell
+mc%(1)=$DD41 :rem std utw_s0 ;offset
+mc%(2)=$01CE :rem ldx #handle
+mc%(3)=handle%
+mc%(4)=$01CC :rem ldd #2; amount to grow cell
+mc%(5)=$0002
+mc%(6)=$3F02 :rem os al$grow
+mc%(7)=$2501 :rem bcs +1
+mc%(8)=$5F4F :rem clrb : clra
+mc%(9)=$1839 :rem xgdx : rts
+error%=usr(addr(mc%()),tmp%*2)
+if error% :raise error% :endif
+
+rem save value
+pokew peekw(handle%)+tmp%*2,value%

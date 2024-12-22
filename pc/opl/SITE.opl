@@ -1,0 +1,33 @@
+SITE:
+LOCAL C%,G%
+PRINT"YOUR LOC:";
+C%=MENU("PROG,LDN,MOSC,JBG,CCUT,ROM,GAZ,BGD,HAV")
+  REM These are abreviations of places you might want to operate
+  REM from, eg BGD is Baghdad, you can alter these and add more 
+  REM by editing SITE:. PROG is for temporally adding a new location,
+  REM using M8 and M9 memories. It'll stay in PROG until you change
+  REM it from the keypad. 
+IF C%=1
+ PRINT"NEW LOCATION";CHR$(63)
+ PRINT"  - TYPE Y/N";
+ YN:: G%=GET
+ IF G%=78 :L=M8 :N=M9
+ ELSEIF G%=89
+  CLS :PRINT"YOUR LAT:"
+  PRINT "(S IS -)";
+  INPUT L :M8=L
+  PRINT "YOUR LONG:"
+  PRINT "(W IS -)";
+  INPUT N :M9=N
+ ELSE GOTO YN::
+ ENDIF
+ELSEIF C%=2:L=51.5:N=-.1
+ELSEIF C%=3:L=55.8:N=37.5
+ELSEIF C%=4:L=-26.1:N=28.1
+ELSEIF C%=5:L=22.6:N=88.4
+ELSEIF C%=6:L=41.9:N=12.5
+ELSEIF C%=7:L=31.5:N=34.4
+ELSEIF C%=8:L=33.3:N=44.4
+ELSEIF C%=9:L=23.2:N=-82.4
+  REM L is the latitude and N the longitude of the places in the menu
+ENDIF

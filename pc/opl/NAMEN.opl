@@ -1,0 +1,50 @@
+NAMEN:
+REM OPEN OR CREATE DATABASE FILES
+REM CONTACT.ODB - POSTCODE.ODB - EmailDOMAIN.ODB - UID.ODB
+REM UID.ODB IS ALWAYS 1 RECORD WITH THE LAST UID
+REM WITH EACH NEW EmailDOMAIN uid% SI INCREMENTED WITH 1
+
+
+GLOBAL input$(64)
+LOCAL m%
+
+IF NOT EXIST("C:CONTACT")
+   CREATE "C:CONTACT",A,naam$,bedrijf$,gsm$,tel$,mail$,edom%,xmail$,xdom%,straat$,pcode$,verjrdg$,opm$
+ELSE
+   OPEN "C:CONTACT",A,naam$,bedrijf$,gsm$,tel$,mail$,edom%,xmail$,xdom%,straat$,pcode$,verjrdg$,opm$
+ENDIF
+IF NOT EXIST("C:POSTCODE")
+   CREATE "C:POSTCODE",B,pcode$,gemeent$
+ELSE
+   OPEN "C:POSTCODE",B,pcode$,gemeent$
+ENDIF
+IF NOT EXIST("C:EDOMAIN")
+   CREATE "C:EDOMAIN",C,domain$,uid%
+ELSE
+   OPEN "C:EDOMAIN",C,domain$,uid%
+ENDIF
+IF NOT EXIST("C:UID")
+   CREATE "C:UID",D,uid%
+   D.uid%=0
+   APPEND
+ELSE
+   OPEN "C:UID",D,uid%
+ENDIF
+
+rem A.naam$=""
+UDG 0,4,14,14,4,14,31,0,31 : REM CONTACTS ICON
+UDG 2,0,0,0,0,0,0,0,31 :     REM UNDERLINE
+
+DO
+   CLS
+   PRINT CHR$(0);REPT$(CHR$(2),14)
+   CLOCK(1)
+
+   m%=MENUN(2,"ZOEK,INPUT,QUIT")
+   IF m%=0 OR m%=3 :STOP
+   ELSEIF m%=1 :zoek:
+   ELSEIF m%=2 :insert:
+rem   ELSEIF m%=3 :alter:
+rem   ELSEIF m%=4 :erase:
+   ENDIF
+UNTIL 0 :REM dedo loop forever

@@ -1,0 +1,153 @@
+FLIGHTS:
+global DAT$(6),AIR$(2),FNO$(4),OUT$(3),DEP$(4),INP$(3),ARR$(4),LIN$(2,16)
+local  STATE%,OPT%,FLY$(10),FS$(14),KY%
+
+FLY$="B:FLYDATA" :FS$=""
+if exist(FLY$)
+ open   FLY$,A,FDAT$,FAIR$,FFNO$,FOUT$,FDEP$,FINP$,FARR$
+else
+ create FLY$,A,FDAT$,FAIR$,FFNO$,FOUT$,FDEP$,FINP$,FARR$
+endif
+
+STATE%=1
+while STATE%<>0
+
+ if STATE%=1 : rem base loop
+  OPT%=menu("COUNT,FIND,LIST,NEW")
+  if OPT%=0
+   STATE%=0
+  elseif OPT%=1
+   STATE%=6
+  elseif OPT%=2
+   STATE%=2
+  elseif OPT%=3
+   STATE%=9
+  elseif OPT%=4
+   STATE%=7
+  else
+   CRASH:
+  endif
+
+ elseif STATE%=2 :rem command = FIND
+  cls :print"Find flight" :print">";
+  kstat 1
+  trap edit FS$
+  if err=206
+   STATE%=1
+  else
+   first
+   if find(FS$)=0
+    STATE%=3
+   else
+    STATE%=4
+   endif
+  endif
+
+ elseif STATE%=3
+  cls :print"Not found";
+  if get=1
+   STATE%=1
+  else
+   STATE%=2
+  endif
+
+ elseif STATE%=4
+  FLYSPLIT:
+  OPT%=FLYVIEW%:
+  if OPT%=1
+   STATE%=2
+  elseif OPT%=2
+   STATE%=5
+  elseif OPT%=3
+   back
+  elseif OPT%=8
+   STATE%=8
+  elseif OPT%=4 or OPT%=13
+   next
+   if eof
+    cls :print"****************"; :print"**END OF PACK***";
+    get
+    STATE%=2
+   elseif OPT%=13
+    if find(FS$)=0
+     cls :print"****************"; :print"**END OF PACK***";
+     get
+     STATE%=2
+    endif
+   endif
+  endif
+
+ elseif STATE%=5 :rem edit
+  if FLYEDIT%:=1
+   FLYBUILD:
+   update
+   FLYSPLIT:
+   FLYVIEW%:
+  endif
+  STATE%=2
+
+ elseif STATE%=6 :rem COUNT
+  cls :print count,"flights"
+  get
+  STATE%=1
+
+ elseif STATE%=7 :rem NEW
+  DAT$="" :AIR$="": FNO$="" :OUT$="" :DEP$="" :INP$="": ARR$=""
+  if FLYEDIT%:=1
+   FLYBUILD:
+   append
+   FLYSPLIT:
+   FLYVIEW%:
+  endif
+  STATE%=1
+
+ elseif STATE%=8 :rem delete
+  cls :print"Delete flight" :print"record Y/N";
+  kstat 1
+  do
+   KY%=get
+  until KY%=$4E or KY%=$59
+  if KY%=$4E
+   STATE%=4
+  else
+   erase
+   cls :print"Flight record": print"deleted"
+   get
+   STATE%=2
+  endif
+
+ elseif STATE%=9 :rem LIST
+  lprint
+  if err=230
+   cls :print"No comms link";
+   get
+   STATE%=1
+  else
+   lprint"NUM     DATE     FLIGHT#   DEPARTING   ARRIVING"
+   lprint"---   --------   -------   ---------   ---------"
+   KY%=0
+   first
+   while not eof
+    KY%=KY%+1
+    lprint fix$(KY%,0,-3)," ",
+    lprint mid$(a.fdat$,1,2);"/";mid$(a.fdat$,3,2);"/";mid$(a.fdat$,5,6)," ",
+    lprint a.fair$,a.ffno$," ",
+    lprint a.fout$,left$(a.fdep$,2);":";right$(a.fdep$,2)," ",
+    lprint a.finp$,left$(a.farr$,2);":";right$(a.farr$,2)
+    next
+   endwh
+  endif
+  STATE%=1
+
+ elseif STATE%=99
+  cls :print"Not available";
+  get
+  STATE%=1
+
+ else
+  CRASH:
+
+ endif
+endwh
+
+close

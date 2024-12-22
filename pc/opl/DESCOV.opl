@@ -1,0 +1,17 @@
+DESCOV:
+LOCAL D%,C%,E%,F%
+C%=40 :F%=1
+DO
+E%=5 :D%=16
+DO
+IF A%(F%)>D%-1
+B%(C%)=1
+A%(F%)=A%(F%)-D%
+ELSE B%(C%)=0
+ENDIF
+C%=C%-1 :D%=D%/2
+E%=E%-1
+UNTIL E%<1
+F%=F%+1
+UNTIL F%>8
+RETURN

@@ -1,0 +1,9 @@
+wday%:(ye%,mo%,da%)
+rem Uses SWI-function 105 to find the weekday for a given day
+local a%(5)
+a%(1)=ye%-100*int(ye%/100)
+a%(2)=mo%*256+da%-257
+a%(3)=$183F
+a%(4)=$6918
+a%(5)=$3900
+return usr(addr(a%())+4,addr(a%())+1) and 7

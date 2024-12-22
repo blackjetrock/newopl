@@ -1,0 +1,429 @@
+FILEXFER:
+
+REM This program is an extension to the file transfer procedure provided
+REM by the Psion XP Comms Link Interface. The XP Comms Link program allows
+REM the transfer of data files (.ODB) and OPL source code (.OPL) between
+REM the Psion Organiser II model XP and a PC. The Organiser models LZ/LZ64
+REM added new file types like Notepad files. This program helps to transfer
+REM all types of files that may exist on an Organiser model LZ/LZ64 using
+REM the model XP Comms Link Interface. The file types shown in the "Select
+REM type" menu are as follows:
+REM
+REM		    Default File
+REM Menu String       Extension     Description
+REM --------------  --------------  -------------------------------------------
+REM  Data file		.ODB	    Data File; e.g. MAIN File, a saved LZ Diary
+REM				    file or any other data file.
+REM  Opl source		.OPL	    OPL Procedure; plain ASCII format on the PC.
+REM  Cm/Xp diary	.DIA	    Saved CM- or XP-modell Diary file.
+REM  Opl block		.OPO	    OPL Procedure in Organiser format; contains
+REM				    OPL Source and/or OPL Object code. No TRAN
+REM				    required if OPL object is also transferred.
+REM  Comms Setup	.COM	    Saved Comms Link Setup File.
+REM  Spreadsheet	.PLN	    Spreadsheet File.
+REM  Pager setup	.PAG	    Saved Pager Setup File.
+REM  Notepad		.NTS	    Saved Notepad File.
+REM  Type n		.TYn	    Organiser Block File of Typ "n"; n=8,9,A-F
+REM				    None of them is currently in use on the
+REM				    Organiser.
+REM
+REM In above description "saved ... File" means a file that has been saved to
+REM either pack A:, B: or C: using the corresponding SAVE function.
+REM
+REM Organiser and PC file names have to be entered the same way as in the
+REM Comms Link menues. The user will be prompted whether an already existing
+REM file should be replaced or not.
+REM
+REM Note: There is a significant diffenrence transferring DATA files from the
+REM PC to the Organiser whether this is done with this program or with the
+REM Comms Link procedure. This program always REPLACES the complete file
+REM whereas the Comms Link procedure may also APPEND the transferred records
+REM to an existing file.
+REM
+REM Target models:  This program can only be run on Organiser LZ Modells.
+REM
+REM Subroutines:    Requires procedures FILEXFSF and FILEXFRF
+REM
+REM Version:	    2.2.1  (20-Feb-1997)
+REM Created:	    P.Hunkeler - August 1990
+REM Changed:	    P.Hunkeler - 05-Oct-1990
+REM		      - Added possibility to transfer a complete pack to the PC.
+REM		      - Added Organiser directory search including wildcard
+REM			characters "+" and "*".
+REM		    P.Hunkeler - 05-Jan-1992
+REM		      - Added multi-file transfer from PC to Organiser.
+REM		      - Added PC directory search including wildcard
+REM			characters "+" (will be translated to "?") and "*".
+REM		    P.Hunkeler - 04-Apr-1994
+REM		      - Introduce possibility to change default PC path using
+REM			Organiser data file FILEXFER. Path set by first record
+REM			starting with "PATH=".
+REM		    P.Hunkeler - 01-Jan-1997
+REM		      - Added check for LZ/LZ64 models. FILEXFER is being
+REM			released as freeware and might be run on non-LZ machines.
+REM		      - Show "FreeWare" screen on exit
+REM		    P.Hunkeler - 20-Feb-1997
+REM		      - Recognize LZ machines with $FFCB=$E0 (and $FFE8=$0D).
+
+GLOBAL title$(21)		       REM Titleline
+GLOBAL repfile$(20)		       REM Message string
+GLOBAL hitspc$(19)		       REM Message string
+GLOBAL dirfile$(10)		 REM Organiser filename as selected by XT$DIRM
+GLOBAL dirtype%			  REM File type as selected by XT$DIRM service
+GLOBAL curfile$(10)		  REM Current filename with extension and pack
+GLOBAL curtype%			  REM File type as selected by FL$WCAT service
+GLOBAL curtype$(4)		  REM File type as selected by FL$WCAT service
+GLOBAL prompt$(12)		       REM Prompt string for OS-services
+GLOBAL type%			       REM File type selected in menu
+GLOBAL opltype%			       REM OPL file type selected 2=OPL, 0=OPO
+GLOBAL pcpath$(64)		       REM PC path, if any
+LOCAL  direct%			   REM Transfer direction: 1=to PC, 2=to PSION
+LOCAL  arrow%(2)		       REM Pointer to arrows in title$
+LOCAL  pack%			       REM Pack, where file FILEXFER was found
+
+LOCAL  utysno$(13),utysno%	       REM Code to call UT$YSNO-service
+LOCAL  xtdirm$(36),xtdirm%	       REM "   "   "  XT$DIRM-service
+LOCAL  flwcat$(43),flwcat%	       REM "   "   "  FL$WCAT-service
+LOCAL  flgetx$(11),flgetx%	       REM "   "   "  FL$GETX-service
+LOCAL  flvalx$(28),flvalx%	       REM "   "   "  FL$VALX-service
+LOCAL  tlzzmd$(19),tlzzmd%	       REM "   "   "  TL$ZZMD-service
+LOCAL  utcpybt$(13),utcpybt%	       REM "   "   "  UT$CPYB-service
+LOCAL  utcpybf$(16),utcpybf%	       REM "   "   "  UT$CPYB-service
+
+REM Check model byte ($FFE8) and model byte 2 ($FFCB) to make sure this is an
+REM Organiser II model LZ/LZ64.
+
+IF ( PEEKB($FFE8) <> $0D  AND  PEEKB($FFE8) <> $0E )  OR  ( PEEKB($FFCB) <> $C0  AND  PEEKB($FFCB) <> $E0 )
+  PRINT CHR$(16);"FileXfer runs on"    REM Abort if not an LZ / LZ64 model
+  PRINT CHR$(16);"LZ models only!"     REM Use 2x16 only for 2-line machines
+  GET
+  STOP
+  ENDIF
+
+UDG 0,31,17,31,17,17,17,31,21	       REM Define the UDG-Characters needed
+UDG 1,0,4,12,31,12,4,0,21
+UDG 2,0,0,0,31,0,0,0,21
+UDG 3,0,4,6,31,6,4,0,21
+UDG 4,31,17,17,17,31,10,31,21
+UDG 5,0,0,0,0,0,0,0,21
+UDG 6,0,4,6,31,6,4,0,0
+UDG 7,0,4,12,31,12,4,0,0
+
+
+REM Initialize display strings and other variables
+
+title$    = CHR$(12)+REPT$(CHR$(5),3)+"File-Xfer"+CHR$(5)+CHR$(0)+CHR$(1)+CHR$(2)+CHR$(3)+CHR$(4)+CHR$(5)+CHR$(5)
+repfile$  = CHR$(16)+CHR$(23)+" Replace file Y/N?"
+hitspc$   = CHR$(16)+CHR$(23)+"  Press space key"
+arrow%(1) = ADDR(title$) + 16
+arrow%(2) = ADDR(title$) + 18
+pack%     = %A
+
+PRINT title$;CHR$(22);"   Initializing..."
+
+
+WHILE pack% < %D  AND  pcpath$ = ""     REM Search packs A, B and C for file FILEXFER
+  TRAP OPEN CHR$(pack%)+":FILEXFER",a,data$
+
+  IF ERR = 0				REM Open successful?
+    WHILE NOT EOF			REM Y, Search every record for the
+      IF LEFT$(a.data$,5) = "PATH="     REM    base PC path.
+	pcpath$ = MID$(a.data$,6,64)    REM Get the base path and leave the loop.
+	BREAK
+	ENDIF
+      NEXT
+      ENDWH
+
+    CLOSE				REM Close the file again.
+    ENDIF
+
+  pack% = pack% + 1			REM Go to next pack.
+  ENDWH
+
+
+IF pcpath$ = ""			    REM No PC path found, yet?
+  pcpath$ = "C:/PSION"		    REM N, use a default
+  ENDIF
+
+
+ONERR onerror::			    REM Setup error recovery routine.
+
+
+REM Initialize machine code pointers
+
+utysno%  = ADDR(utysno$) + 1	    REM Initialize adresses of the machine-code
+xtdirm%  = ADDR(xtdirm$) + 1	    REM routines to call OS-services.
+flwcat%  = ADDR(flwcat$) + 1
+flgetx%  = ADDR(flgetx$) + 1
+flvalx%  = ADDR(flvalx$) + 1
+tlzzmd%  = ADDR(tlzzmd$) + 1
+utcpybt% = ADDR(utcpybt$) + 1
+utcpybf% = ADDR(utcpybf$) + 1
+
+
+REM Initialize machine code to "wait for Yes or No" service.
+
+POKEW utysno%    , $3F7D		REM     OS      UT$YSNO
+POKEB utysno%+2  , $CE			REM     LDX     #0
+POKEW utysno%+3  , $0000		REM
+POKEW utysno%+5  , $2401		REM     BCC     >1:
+POKEB utysno%+7  , $09			REM     DEX
+POKEW utysno%+8  , $9615		REM 1:  LDA     A,POB_PORT5
+POKEW utysno%+10 , $2BFC		REM     BMI     <1:
+POKEB utysno%+12 , $39			REM     RTS
+
+
+REM Initialize machine code to edit "dirfile$" with MODE key changing the pack
+REM and with UP and DOWN and EXE keys selecting from a file directory.
+REM On entry the file type ($81-$8F or $00 for all) must be in the B-register.
+
+POKEB xtdirm%    , $37			REM     PSHB
+POKEB xtdirm%+1  , $CC			REM     LDD     #addr(dirfile$)
+POKEW xtdirm%+2  , ADDR(dirfile$)       REM
+POKEB xtdirm%+4  , $BD			REM     JSR     #addr(utcpybt$)+1
+POKEW xtdirm%+5  , ADDR(utcpybt$)+1     REM
+POKEB xtdirm%+7  , $CC			REM     LDD     #$010F
+POKEW xtdirm%+8  , $010F		REM
+POKEW xtdirm%+10 , $DD41		REM     STD     UTW_S0
+POKEB xtdirm%+12 , $32			REM     PULA
+POKEW xtdirm%+13 , $C608		REM     LDA     B,#8
+POKEB xtdirm%+15 , $CE			REM     LDX     #addr(prompt$)
+POKEW xtdirm%+16 , ADDR(prompt$)	REM
+POKEW xtdirm%+18 , $3F9C		REM     OS      XT$DIRM
+POKEB xtdirm%+20 , $B7			REM     STA     A,addr(dirtype%)+1
+POKEW xtdirm%+21 , ADDR(dirtype%)+1     REM
+POKEB xtdirm%+23 , $CE			REM     LDX     #RTB_BL
+POKEW xtdirm%+24 , $2187		REM
+POKEW xtdirm%+26 , $2403		REM     BCC     >1:
+POKEB xtdirm%+28 , $7F			REM     CLR     RTB_BL
+POKEW xtdirm%+29 , $2187		REM
+POKEW xtdirm%+31 , $9615		REM 1:  LDA     A,POB_PORT5
+POKEW xtdirm%+33 , $2BFC		REM     BMI     <1:
+POKEB xtdirm%+35 , $39			REM     RTS
+
+
+REM Initialize machine code to call the "catalog" service. The A-register
+REM must contain 1 to start a catalog and 0 thereafter. The B-register must
+REM contain 1 for OPL-blocks and 0 otherwise.
+
+POKEB flwcat%    , $37			REM     PSH     B
+POKEB flwcat%+1  , $CE			REM     LDX     #addr(dirfile$)
+POKEW flwcat%+2  , ADDR(dirfile$)       REM
+POKEW flwcat%+4  , $E600		REM     LDA     B,0,X
+POKEW flwcat%+6  , $CA80		REM     ORA     B,#$80
+POKEW flwcat%+8  , $D742		REM     STA     B,UTW_S0+1
+POKEB flwcat%+10 , $08			REM     INX
+POKEW flwcat%+11 , $DF43		REM     STX     UTW_S1
+POKEB flwcat%+13 , $F6			REM     LDA     B,addr(dirtype%)+1
+POKEW flwcat%+14 , ADDR(dirtype%)+1     REM
+POKEW flwcat%+16 , $D741		REM     STA     B,UTW_S0
+POKEB flwcat%+18 , $CE			REM     LDX     #RTB_BL
+POKEW flwcat%+19 , $2187		REM
+POKEW flwcat%+21 , $D6A2		REM     LDA     B,TLB_CPAK
+POKEW flwcat%+23 , $3F90		REM     OS      FL$WCAT
+POKEB flwcat%+25 , $B7			REM     STA     A,addr(curtype%)+1
+POKEW flwcat%+26 , ADDR(curtype%)+1     REM
+POKEB flwcat%+28 , $33			REM     PUL     B
+POKEW flwcat%+29 , $2405		REM     BCC     >1:
+POKEB flwcat%+31 , $7F			REM     CLR     RTB_BL
+POKEW flwcat%+32 , $2187		REM
+POKEW flwcat%+34 , $2003		REM     BRA     >2:
+POKEB flwcat%+36 , $BD			REM 1:  JSR     #addr(flgetx$)+1
+POKEW flwcat%+37 , ADDR(flgetx$)+1      REM
+POKEB flwcat%+39 , $CE			REM 2:  LDX     #RTB_BL
+POKEW flwcat%+40 , $2187		REM
+POKEB flwcat%+42 , $39			REM     RTS
+
+
+REM Initialize machine code to get a file extension. The A-register must contain
+REM the file type and the B-register must be 1 for OPL-blocks and 0 otherwise.
+
+POKEW flgetx%    , $D742		REM     STA     B,UTW_S0+1
+POKEB flgetx%+2  , $CE			REM     LDX     #addr(curtype$)+1
+POKEW flgetx%+3  , ADDR(curtype$)+1     REM
+POKEW flgetx%+5  , $3F98		REM     OS      FL$GETX
+POKEB flgetx%+7  , $F7			REM     STA     B,addr(curtype$)
+POKEW flgetx%+8  , ADDR(curtype$)       REM
+POKEB flgetx%+10 , $39			REM     RTS
+
+
+REM Initialize machine code to get a file type. The variable "curtype$" must contain
+REM the file extension in the 4 character form ".xxx"!
+
+POKEB flvalx%    , $CE			REM     LDX     #addr(curtype$)+1
+POKEW flvalx%+1  , ADDR(curtype$)+1     REM
+POKEW flvalx%+3  , $C604		REM     LDA     B,#4
+POKEW flvalx%+5  , $3F99		REM     OS      FL$VALX
+POKEB flvalx%+7  , $CE			REM     LDX     #$FFFF
+POKEW flvalx%+8  , $FFFF		REM
+POKEW flvalx%+10 , $250F		REM     BCS     >2:
+POKEB flvalx%+12 , $08			REM     INX
+POKEB flvalx%+13 , $B7			REM     STA     A,addr(dirtype%)+1
+POKEW flvalx%+14 , ADDR(dirtype%)+1     REM
+POKEB flvalx%+16 , $4F			REM     CLR     A
+POKEB flvalx%+17 , $7D			REM     TST     UTW_S0+1
+POKEW flvalx%+18 , $0042		REM
+POKEW flvalx%+20 , $2602		REM     BNZ     >1:
+POKEW flvalx%+22 , $8602		REM     LDA     A,#2
+POKEB flvalx%+24 , $B7			REM 1:  STA     A,addr(opltype%)+1
+POKEW flvalx%+25 , ADDR(opltype%)+1     REM
+POKEB flvalx%+27 , $39			REM 2:  RTS
+
+
+REM Initialize machine code to copy a string variable to the runtime buffer "RTB_BL".
+REM The D register must contain the address of the length byte of the variable.
+
+POKEB utcpybt%    , $18		    REM     XGDX
+POKEW utcpybt%+1  , $E600	    REM     LDA     B,0,X
+POKEB utcpybt%+3  , $5C		    REM     INC     B
+POKEB utcpybt%+4  , $4F		    REM     CLR     A
+POKEW utcpybt%+5  , $DD41	    REM     STD     UTW_S0
+POKEB utcpybt%+7  , $CC		    REM     LDD     #RTB_BL
+POKEW utcpybt%+8  , $2187	    REM
+POKEW utcpybt%+10 , $3F6D	    REM     OS      UT$CPYB
+POKEB utcpybt%+12 , $39		    REM     RTS
+
+
+REM Initialize machine code to copy the runtime buffer "RTB_BL" to a string variable.
+REM The D register must contain the address of the length byte of the variable.
+
+POKEB utcpybf%    , $36		    REM     PSH     A
+POKEB utcpybf%+1  , $37		    REM     PSH     B
+POKEB utcpybf%+2  , $CE		    REM     LDX     #RTB_BL
+POKEW utcpybf%+3  , $2187	    REM
+POKEW utcpybf%+5  , $E600	    REM     LDA     B,0,X
+POKEB utcpybf%+7  , $5C		    REM     INC     B
+POKEB utcpybf%+8  , $4F		    REM     CLR     A
+POKEW utcpybf%+9  , $DD41	    REM     STD     UTW_S0
+POKEB utcpybf%+11 , $33		    REM     PUL     B
+POKEB utcpybf%+12 , $32		    REM     PUL     A
+POKEW utcpybf%+13 , $3F6D	    REM     OS      UT$CPYB
+POKEB utcpybf%+15 , $39		    REM     RTS
+
+
+
+REM Initialize machine code to edit a file name with MODE key changing the pack.
+REM The default file name must be in the run time buffer RTT_BF and the edited name
+REM will be left in the buffer. The A register must contain the line (0-3) for the prompt
+REM string that is stored in "prompt$". The B register must contain the maximum
+REM edit length.
+
+POKEW tlzzmd%    , $9742	    REM     STA     A,UTW_S0+1
+POKEB tlzzmd%+2  , $4F		    REM     CLR     A
+POKEB tlzzmd%+3  , $CE		    REM     LDX     #addr(prompt$)
+POKEW tlzzmd%+4  , ADDR(prompt$)    REM
+POKEW tlzzmd%+6  , $3F9B	    REM     OS      TL$ZZMD
+POKEB tlzzmd%+8  , $CE		    REM     LDX     #0
+POKEW tlzzmd%+9  , $0000	    REM
+POKEW tlzzmd%+11 , $2401	    REM     BCC     >1:
+POKEB tlzzmd%+13 , $09		    REM     DEX
+POKEW tlzzmd%+14 , $9615	    REM 1:  LDA     A,POB_PORT5
+POKEW tlzzmd%+16 , $2BFC	    REM     BMI     <1:
+POKEB tlzzmd%+18 , $39		    REM     RTS
+
+
+
+DO				    REM Endless loop, left by ON/Clear in menu.
+  POKEB arrow%(1) , 1		    REM Re-initialize the arrows in the title.
+  POKEB arrow%(2) , 3
+  PRINT title$;"Select direction:"  REM Clear screen and get transfer direction.
+  AT 1,4
+  direct% = MENUN(2,"to pc   ,from pc")
+
+  IF direct% = 0		    REM Has ON/Clear been pressed ?
+    PRINT title$;		    REM Y, quit file transfer procedure.
+    PRINT "      Freeware      (c) P.Hunkeler 1996 CompuServe101525,743";
+    PAUSE -40
+    RETURN
+    ENDIF
+
+  POKEB arrow%(direct%) , 2	    REM Clear the "from" arrow in the title.
+
+
+  DO				    REM Endless loop, left by ON/Clear in menu.
+    PRINT title$;"Select type:"     REM Get file type to be transfered.
+    AT 1,4
+    type% = MENUN(1,"all,data-file,opl-source,cm/xp-diary,opl-block,comms-setup,spreadsheet,pager-setup,notepad,type-8,type-9,type-a,type-b,type-c,type-d,type-e,type-f")
+
+    IF type% = 0		    REM Has ON/Clear been pressed ?
+      BREAK			    REM Y, go to direction selection menu.
+      ENDIF
+								    REM Translate type% to internal value and
+    opltype% = -2*(type% = 3)					    REM save OPL-source/OPL-block selection.
+    type%    = type% - 1 - $80*(type%>1) - (type%=3) + (type%>3)    REM
+								    REM File type       opltype%
+								    REM --------------  --------
+								    REM OPL source	    2
+								    REM OPL object	    0
+								    REM					 type%
+								    REM File type       Extension  internal  transfer
+								    REM --------------  ---------  --------  --------
+								    REM All types				-
+								    REM Data file	   ODB       $81	$0
+								    REM OPL source	   OPL       $83	$1
+								    REM CM/XP Diary	   DIA       $82	$2
+								    REM OPL object      OPO (OPT)    $83	$3
+								    REM Comms setup	   COM       $84	$4
+								    REM Spreadsheet	   PLN       $85	$5
+								    REM Pager setup	   PAG       $86	$6
+								    REM Notepad		   NTS       $87	$7
+								    REM Block file 8       TY8       $88	$8
+								    REM Block file 9       TY9       $89	$9
+								    REM Block file A-F   TYA-TYF   $8A-$8F9    $A-$F
+
+    PRINT title$;"Specify path:";CHR$(23);"Path=";  REM Get path for transfer.
+    TRAP EDIT pcpath$
+
+    IF ERR					    REM Has ON/Clear been pressed?
+      BREAK					    REM Y, leave loop.
+      ENDIF
+
+    IF RIGHT$(pcpath$,1) = "/"			    REM Remove trailing slash, if any.
+      pcpath$ = LEFT$(pcpath$,LEN(pcpath$)-1)
+      ENDIF
+
+    pcpath$ = UPPER$(pcpath$)       REM Convert to all upper cas letters.
+
+
+    IF direct% = 1					    REM Send or Receive files?
+      FILEXFSF:(utysno%,xtdirm%,flwcat%)		    REM Send, call routine.
+    ELSE						    REM Receive, call routine.
+      FILEXFRF:(utysno%,flwcat%,flgetx%,flvalx%,tlzzmd%,utcpybt%,utcpybf%)
+      ENDIF
+
+    UNTIL 0			    REM End of type selection loop.
+
+  GOTO noerror::
+
+REM This code is never executed sequentially but is called to deal with any
+REM errors that may occur while the COMMS-link file transfer routines.
+
+onerror::
+  ONERR OFF			    REM Clear error recorvery environement.
+  XFCLOSE:			    REM For the case that a file is stil open on the PC.
+  CLS
+
+  IF ERR = 194				REM If a "Battery low" has occurred:
+    AT 1,2				REM   1. Display message.
+    PRINT CHR$(16);"  Battery too low"  REM   2. Wait 4 seconds.
+    PRINT CHR$(16);"  Change Battery"   REM   3. Switch organiser
+    PAUSE 80				REM      off.
+    OFF					REM   4. Stop procedure
+    STOP				REM      when switched on again.
+    ENDIF
+
+  PRINT CHR$(16);CHR$(25);CHR$(11);" Error";GEN$(ERR,-4);" occurred"
+  PRINT REPT$(" ",(20-LEN(ERR$(ERR)))/2);ERR$(ERR);
+  PRINT hitspc$;		    REM For any other error:
+				    REM 1. Display message.
+  DO				    REM 2. Wait for SPACE key
+    UNTIL GET=32		    REM    to be pressed.
+
+  UDG 2,0,0,0,31,0,0,0,21	    REM Set UDG 2, it has been set by CHR$(25)
+  ONERR onerror::		    REM Reestablish error environement.
+
+REM End of error recovery routine.
+
+
+noerror::
+  UNTIL 0			    REM End of direction selection loop.

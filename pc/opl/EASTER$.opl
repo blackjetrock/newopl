@@ -1,0 +1,28 @@
+easter$:(y%)
+REM Source: EASTER$.OPL
+REM Version 1.0
+REM Calculates Easter in a given year using Carter's Method.
+REM Carter's Method is valid for the years 1900-2099. Although
+REM the organiser has a calendar until 2155 I don't think this
+REM is an awfully big restriction because 1) I'm not likely to
+REM be still alive in 2100 and 2) if I am, I probably won't be
+REM using my organiser anymore.
+REM (C) APR 1999 LRS
+REM L.R.Sluijk@student.utwente.nl
+
+LOCAL b%,d%,e%,q%,d$(2),m$(2)
+
+b%=225-11*(MOD%:(y%,19))
+d%=MOD%:(b%-21,30)+21
+d%=d%+(d%>48) :REM if d%>48 subtract one
+e%=MOD%:(y%+y%/4+d%+1,7)
+q%=d%+7-e%
+
+REM if q% is less then 32 then Easter is on the q%th day in March,
+REM otherwise Easter is on day q%-31 in April
+
+REM format q% to desired output
+d$=RIGHT$("0"+NUM$(-(q%<32)*q%-(q%>31)*(q%-31),2),2)
+m$="0"+NUM$(3-(q%>31),1)
+
+RETURN NUM$(y%,4)+m$+d$

@@ -1,0 +1,259 @@
+NOTES:
+rem
+rem Notepad enhancement for the Psion Organiser II LZ
+rem Copyright 1992-1997 Zac Schroff, all rights reserved.
+rem
+rem This program is free for use and distribution as long
+rem as it is distributed only in an unmodified state,
+rem this notice is left intact, and the associated files
+rem are included with it (the installer and the docfile).
+rem If you intend to distribute modified of translated
+rem versions of this program, please contact the author
+rem for permission.
+rem
+rem Neither the author of the program nor anybody who
+rem distributes it takes any responsibility for how it
+rem will behave under the way you use or abuse it on
+rem your system, nor any responsibility for damages to
+rem data, other software, or hardware.  The limit of the
+rem liability of the author or distributor is the sum
+rem which you paid for the program.
+rem
+rem If you feel you'd like to send me something for this
+rem little program, or if you just want to chat, or ask
+rem about using the program for your own purpose, please
+rem contact me :
+rem
+rem     zschroff@docsware.com
+rem     Zac Schroff
+rem     2906 Firethorn Drive
+rem     Tuscaloosa, Alabama  35405
+rem     USA
+rem
+
+rem Set up the translator
+
+LOCAL B%,B$(9),RS%
+LOCAL A%,ST%,OC%,Q%
+LOCAL I%,J%,T$(15)
+LOCAL M%,M$(31,15)
+LOCAL L$(255),Q$(10)
+LOCAL N$(8)
+
+rem Initialise the program
+
+ONERR CRASH::
+RS%=-1
+OC%=PEEKB($209C)
+POKEB $209C,$FF
+ST%=1
+IF EXIST("A:NOTESCFG")
+ OPEN "A:NOTESCFG",A,C%
+ FIRST
+ ST%=A.C%
+ CLOSE
+ENDIF
+Q%=ADDR(Q$)+1
+B$=CHR$($FE)+CHR$($20)+CHR$($70)+CHR$($FF)+CHR$($00)+CHR$($41)+CHR$($3F)+CHR$(159)+CHR$($39)
+Q$=CHR$($18)+CHR$($CC)+CHR$($10)+CHR$($C3)+CHR$($3F)+CHR$(136)+CHR$($96)+CHR$($42)+CHR$($18)+CHR$($39)
+
+rem The main loop of the program
+
+DO
+
+ rem We want to set things up so they work like a built-in app.
+
+ ESCAPE OFF
+ CLS
+ UDG 0,1,3,7,14,12,16,0,31
+ UDG 2,0,0,0,0,0,0,0,31
+ PRINT CHR$(0)+REPT$(CHR$(2),19);
+ CLOCK(1)
+ IF RS%
+
+  rem Load the list of notepads in the internal memory
+
+  M%=1
+  T$=DIRW$("A:*.NTS")
+  WHILE T$<>"" AND M%<32
+   IF (ST% AND 2)=0
+    M$(M%)=UPPER$(MID$(T$,3,1))+LOWER$(MID$(T$,4,LOC(T$,".")-4))
+   ELSE
+    M$(M%)=UPPER$(MID$(T$,3,LOC(T$,".")-3))
+   ENDIF
+   M%=M%+1
+   T$=DIRW$("")
+  ENDWH
+
+  rem Sort the list if requested (yes, bubble sorting is
+  rem horribly slow, but it's difficult to do recursive
+  rem things like QuickSort or Insertion sort when the
+  rem machine works like the Psion Organiser II (the OPL
+  rem stack is rather oddly implemented)...
+
+  IF (M%>1) AND (ST% AND 1)
+   I%=1
+   DO
+    J%=I%+1
+    DO
+     IF M$(I%)>M$(J%)
+      T$=M$(I%)
+      M$(I%)=M$(J%)
+      M$(J%)=T$
+     ENDIF
+     J%=J%+1
+    UNTIL J%>=M%
+    I%=I%+1
+   UNTIL I%>=M%-1
+  ENDIF
+
+  rem Reverse the list if requested.
+
+  IF (ST% AND 4)
+   I%=1
+   DO
+    T$=M$(I%)
+    M$(I%)=M$(M%-I%)
+    M$(M%-I%)=T$
+    I%=I%+1
+   UNTIL I%>=M%/2
+  ENDIF
+
+  rem Form the list into a menu string.  Include the
+  rem Psion <*> to indicate the current file...
+
+  L$=CHR$(3)+"<*>"+CHR$(0)+CHR$(0)
+  I%=1
+  WHILE I%<M%
+   L$=L$+CHR$(LEN(M$(I%)))+M$(I%)+CHR$(0)+CHR$(0)
+   I%=I%+1
+  ENDWH
+  L$=L$+REPT$(CHR$(0),4)
+  RS%=0
+ ENDIF
+
+ rem Get a menu choice from the user.  This uses the
+ rem OS call instead of the OPL function because I
+ rem want to use certain extended keys other than
+ rem [On] and [Exe] to do things.
+
+ A%=USR(Q%,ADDR(L$)+1)
+ I%=A% AND 255
+ A%=(A%/256) AND 255
+ POKEB $209C,OC%
+
+ rem If the user pressed [Exe] on an item, open it.
+
+ IF I%=13
+  IF A%=0
+   B%=USR(ADDR(B$)+1,1)
+  ELSEIF A%>0
+   POKEW $2070,ADDR(M$())+(A%-1)*16
+   B%=USR(ADDR(B$)+1,3)
+  ENDIF
+  RS%=-1
+
+ rem If the user pressed [Mode], act like a well-behaved Psion
+ rem and offer to create a new file.
+
+ ELSEIF I%=2
+  CLS
+  PRINT CHR$(25)
+  AT 5,1
+  PRINT "Insert notes"
+  AT 1,4
+  PRINT "Name:";
+  N$=""
+  TRAP INPUT N$
+  IF N$<>""
+   POKEW $2070,ADDR(N$)
+   B%=USR(ADDR(B$)+1,3)
+   RS%=-1
+  ENDIF
+
+ rem If the user pressed [Del], act like a well-behaved Psion
+ rem and offer to delete the selected file.
+
+ ELSEIF I%=8
+  IF A%<>0
+   CLOCK(0)
+   CLS
+   CURSOR OFF
+   PRINT CHR$(25);
+   AT 5,1
+   PRINT "Delete notes";
+   AT 10-(LEN(M$(A%))/2),2
+   PRINT "A:";M$(A%);
+   AT 1,4
+   PRINT "Confirm? Y/N ";
+   DO
+    J%=ASC(UPPER$(GET$))
+   UNTIL (J%=1) OR (J%=78) OR (J%=89)
+   IF (J%=89)
+    AT 1,4
+    PRINT "Delete... A:"+M$(A%)
+    DELETEW("A:"+M$(A%)+".NTS")
+    RS%=-1
+   ENDIF
+  ENDIF
+
+ rem If the user pressed shift-delete, bring up the setup
+ rem screen (there is no Psion equivalent, is there?).  Save
+ rem any changes to the settings on exit of this screen.
+
+ ELSEIF I%=7
+  CLS
+  AT 1,1
+  PRINT CHR$(0)+REPT$(CHR$(2),19);
+  CLOCK(1)
+  PRINT "List is:  ( ) Sorted( ) Caps  ( ) Rvrsed"
+  DO
+   J%=1
+   DO
+    AT (J% AND 1)*10+2,2+J%/2
+    IF (ST% AND 2**(J%-1))<>0
+     PRINT CHR$(250);
+    ELSE
+     PRINT " ";
+    ENDIF
+    J%=J%+1
+   UNTIL J%>3
+   AT 9,2
+   CURSOR ON
+   J%=ASC(UPPER$(GET$))
+   CURSOR OFF
+   IF LOC("SCR",CHR$(J%))<>0
+    rem EE majors may recognise Exclusive OR as components...
+    ST%=(ST% OR 2**(LOC("SCR",CHR$(J%))-1)) AND NOT (ST% AND 2**(LOC("SCR",CHR$(J%))-1))
+   ENDIF
+  UNTIL (J%=1) OR (J%=13)
+  IF EXIST("A:NOTESCFG")
+   DELETE "A:NOTESCFG"
+  ENDIF
+  CREATE "A:NOTESCFG",A,C%
+  A.C%=ST%
+  APPEND
+  CLOSE
+  RS%=-1
+ ENDIF
+
+ rem Keep going until the user hits [On], then abort the
+ rem program and clean up the changes.
+
+ POKEB $209C,$FF
+UNTIL I%=1
+POKEB $209C,OC%
+RETURN
+
+rem The program encountered an error.  Clean up the
+rem program's tinkering, then raise the error.  Some
+rem recovery is quite reasonable, but since I have
+rem never had an exit through here save on the
+rem infamous low battery error, there seemed rather
+rem little need to add overhead.
+
+CRASH::
+ONERR OFF
+POKEB $209C,OC%
+IF ERR<>0 :RAISE ERR :ENDIF
+

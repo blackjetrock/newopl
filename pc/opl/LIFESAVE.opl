@@ -1,0 +1,77 @@
+LIFESAVE:
+LOCAL A%,B%,D%,E%,F%,D$(255),E$(64)
+
+CLS
+PRINT "Compressing....";
+E$="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-"
+
+REM Backup and align
+A%=1
+DO
+ C$(A%)=A$(A%)
+ A%=A%+1
+UNTIL A%>H%
+LIFEALGN:
+
+REM Get lowest filled line
+A%=H%
+WHILE A$(A%)=REPT$(CHR$(0),W%)
+ IF A%=1
+  BREAK
+ ENDIF
+ A%=A%-1
+ENDWH
+
+REM Convert each line
+B%=1
+DO
+ D%=W%
+ WHILE MID$(A$(B%),D%,1)=CHR$(0)
+  D%=D%-1
+  IF D%=0
+   BREAK
+  ENDIF
+ ENDWH
+ 
+ IF LEN(D$)+(D%+11)/6>240
+  CLS
+  PRINT "Pattern too large";CHR$(33);CHR$(16);
+  GET
+  RETURN
+ ENDIF
+ D$=D$+MID$(E$,1+(D%+5)/6,1)
+ F%=1
+ G%=1
+ E%=1
+ WHILE E%<=D%
+  IF ASC(MID$(A$(B%),E%,1))
+   G%=G%+F%
+  ENDIF
+  IF F%=32
+   D$=D$+MID$(E$,G%,1)
+   G%=1
+   F%=1
+  ELSE
+   F%=F%+F%
+  ENDIF
+  E%=E%+1
+ ENDWH
+ IF F%>1
+  D$=D$+MID$(E$,G%,1)
+ ENDIF
+
+B%=B%+1
+UNTIL B%>A%
+
+A.T$=""
+A.P$=D$
+CLS
+PRINT "Pattern title:";
+INPUT A.T$
+APPEND
+
+A%=1
+DO
+ A$(A%)=C$(A%)
+ A%=A%+1
+UNTIL A%>H%

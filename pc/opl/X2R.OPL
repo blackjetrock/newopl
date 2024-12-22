@@ -1,0 +1,4 @@
+x2r:
+R=SQR(X*X+Y*Y+Z*Z)
+SV=ATAN(Y/X)
+HV=PI/2-ACOS:(Z/R)

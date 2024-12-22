@@ -1,0 +1,125 @@
+LIFELOAD:
+LOCAL E$(64),A%,B%,F%,M%,D$(255),F$(255)
+
+CLS
+E$="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-"
+REM Backup
+A%=1
+DO
+ C$(A%)=A$(A%)
+ A%=A%+1
+UNTIL A%>H%
+FIRST
+DO
+ A::
+ PRINT CHR$(14);"Pattern:";POS
+ PRINT LEFT$(A.T$+REPT$(" ",20),20);CHR$(25);
+ M%=MENUN(1,"VIEW,LOAD,DEL,NEXT,PREV,BEG,END,QUIT")
+ IF M%=3
+  PRINT CHR$(25);"Are you sure";CHR$(63);" (Y/N)";
+  DO
+   A%=ASC(UPPER$(GET$))
+  UNTIL A%=1 OR A%=%N OR A%=%Y
+  IF A%=%Y
+   ERASE
+   IF EOF
+    FIRST
+   ENDIF
+  ENDIF
+ ELSEIF M%=4
+  NEXT
+  IF EOF
+   FIRST
+  ENDIF
+ ELSEIF M%=5
+  IF POS=1
+   LAST
+  ELSE
+   BACK
+  ENDIF
+ ELSEIF M%=6
+  FIRST
+ ELSEIF M%=7
+  LAST
+ ELSEIF M%=1 OR M%=2
+  REM Read data
+  D$=A.P$
+  A%=1
+  DO
+   B%=LOC(E$,LEFT$(D$,1))-1
+   IF B%<0
+    GOTO E::
+   ENDIF
+   IF LEFT$(D$,1)<>MID$(E$,B%+1,1)
+    B%=B%+26
+   ENDIF
+   D$=MID$(D$,2,255)
+   F$=""
+   WHILE B%
+    G%=LOC(E$,LEFT$(D$,1))-1
+    IF G%<0
+     GOTO E::
+    ENDIF
+    IF LEFT$(D$,1)<>MID$(E$,G%+1,1)
+     G%=G%+26
+    ENDIF
+    D$=MID$(D$,2,255)
+    F%=1
+    WHILE F%<64
+     F$=F$+CHR$(-((G% AND F%)<>0))
+     F%=F%+F%
+    ENDWH
+    B%=B%-1
+   ENDWH
+   IF LEN(F$)>=W%
+    A$(A%)=LEFT$(F$,W%)
+   ELSE
+    A$(A%)=F$+REPT$(CHR$(0),W%-LEN(F$))
+   ENDIF
+   A%=A%+1
+  UNTIL D$=""
+  WHILE A%<=H%
+   A$(A%)=REPT$(CHR$(0),W%)
+   A%=A%+1
+  ENDWH
+
+  IF M%=2
+   RETURN
+  ENDIF
+  LIFEUDG:
+  DO
+   USR(MB%,MP%)
+   AT 1,1
+   PRINT B$(1);B$(2);B$(3);B$(4);
+   F%=ASC(UPPER$(GET$))
+   IF F%=3
+    USR(MU%,MP%)
+   ELSEIF F%=4
+    USR(MD%,MP%)
+   ELSEIF F%=6
+    USR(MR%,MP%)
+   ELSEIF F%=5
+    USR(ML%,MP%)
+   ELSEIF F%=%A
+    LIFEALGN:
+   ENDIF
+  UNTIL (F%<2 OR F%>6) AND F%<>%A
+  
+  IF F%=%L
+   RETURN
+  ENDIF
+  
+ ENDIF
+UNTIL M%=8 OR M%=0
+A%=1
+DO
+ A$(A%)=C$(A%)
+ A%=A%+1
+UNTIL A%>H%
+RETURN
+
+E::
+CLS
+PRINT "Error in file";CHR$(16);
+GET
+GOTO A::

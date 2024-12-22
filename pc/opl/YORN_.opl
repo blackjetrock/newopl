@@ -1,0 +1,22 @@
+YORN%:
+LOCAL k$(1)
+CURSOR on
+DO
+    k$=GET$
+    IF ASC(k$)=8 or ASC(k$)=13
+        k$=" "
+    ENDIF
+    PRINT k$;
+    IF UPPER$(k$)="Y"
+        CURSOR off
+        RETURN 1
+    ELSEIF UPPER$(k$)="N"
+        CURSOR off
+        RETURN 0
+    ELSE
+        BEEP 25,300
+        PAUSE 5
+        PRINT CHR$(8);" ";CHR$(8);
+    ENDIF
+UNTIL ASC(k$)<0
+

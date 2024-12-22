@@ -1,0 +1,62 @@
+SAT:
+REM This program SAT: gives the Elevation and Azimuth required
+REM to point a satellite dish at a geostationary satellite. It
+REM is particularly useful for Satellite Uplink Engineers.
+REM It is composed of two procedures, SAT: and SITE:
+REM SAT: calls SITE:,
+REM more locations can be added by editing SITE:
+LOCAL M,E,A,S,B%,F%,R%
+GLOBAL L,N
+CLS
+PRINT"   SATELLITE"
+PRINT"POINTING PROGRAM";
+PAUSE 20
+CLS
+PRINT"MAG VAR,DEG E"
+PRINT"(LND IS 4W): ";
+INPUT M
+  REM Magnetic Variation affects the compass reading only,
+  REM it does not change the Azimuth or Elevation.
+SITE:
+R%=180
+IF L<0
+R%=0
+ENDIF
+CLS
+PRINT "SAT LONG, DEG E"
+PRINT "(- IF DEG W) ";
+INPUT S
+  REM Geostationary satellites are over the equator, their 
+  REM location is specified by their Longitude.
+E=DEG(ATAN((6.61*COS(RAD(L))*COS(RAD(N-S))-1)/(6.61*SQR(1-((COS(RAD(L)))**2)*(COS(RAD(N-S)))**2))))
+IF L=0
+A=R%+90
+GOTO ZZ::
+ENDIF
+A=R%+DEG(ATAN(TAN(RAD(N-S))/SIN(RAD(L))))
+  REM The next bit rounds the results to one decimal point.
+ZZ::
+B%=100.00*A
+F%=100.00*E
+E=F%/100.00
+A=B%/100.00
+CLS
+IF E<0
+PRINT" SATELLITE IS "
+PRINT" NOT VISIBLE";CHR$(33)
+PAUSE 40
+GOTO LO:: :ENDIF
+PRINT "COMPASS BRG IS"
+PRINT A-M;"E, and...";
+GET
+CLS
+PRINT "AZ=";A;"E"
+PRINT "EL=";E;
+GET
+LO:: CLS
+PRINT"CALCULATED FOR "
+PRINT"THIS LOCATION:-";
+PAUSE 20: CLS
+PRINT"LAT: ";L
+PRINT"LONG:";N
+GET

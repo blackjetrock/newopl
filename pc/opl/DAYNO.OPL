@@ -1,0 +1,8 @@
+dayno:(ye%,mo%,da%)
+rem One of many algorithms to calculate the day number
+local a%,r%,s%,f%
+a%=(ye%-1900)/4
+r%=ye%-1900-4*a%
+s%=(r%+3)/4
+f%=int(0.4*mo%+2.3)
+return 31.0*(mo%-1)+da%+(mo%>2)*(f%+s%-1)+365.0*r%+s%+1461.0*a%

@@ -1,0 +1,37 @@
+install:
+
+LOCAL N$(1),PATH$(25)
+
+CLS
+PRINT "Trivia installer"
+PRINT "PC Pathname:-"
+PAUSE 10
+INPUT PATH$
+
+LSET:
+LSET:(9600,0,8,1,1,0,0,CHR$(13)+CHR$(10),CHR$(26),-1,CHR$(13)+CHR$(10),CHR$(26),-1,0,2)
+
+label::
+
+CLS
+PRINT "Destination for"
+PRINT "OPL:-",
+INPUT n$
+IF UPPER$(n$) <> "A" AND UPPER$(n$) <> "B" AND UPPER$(n$) <> "C" :GOTO label::
+ENDIF
+
+XTRECV:(path$+"trivia.ob3",n$+":trivia",3)
+XTRECV:(path$+"trishow.ob3",n$+":trishow",3)
+XTRECV:(path$+"triquiz.ob3",n$+":triquiz",3)
+XTRECV:(path$+"tritest.ob3",n$+":tritest",3)
+XTRECV:(path$+"tricorr.ob3",n$+":tricorr",3)
+XTRECV:(path$+"triwron.ob3",n$+":triwron",3)
+XTRECV:(path$+"tripass.ob3",n$+":tripass",3)
+XTRECV:(path$+"trirnd2.ob3",n$+":trirnd2",3)
+XTRECV:(path$+"triwin.ob3",n$+":triwin",3)
+XTRECV:(path$+"trilose.ob3",n$+":trilose",3)
+XTRECV:(path$+"tritrap.ob3",n$+":tritrap",3)
+
+RETURN
+
+

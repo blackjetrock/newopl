@@ -1,0 +1,4 @@
+SORT:(file$)
+LOCAL P$(17)
+P$=chr$($18)+chr$($4F)+CHR$($5F)+CHR$($3F)+CHR$($AE)+CHR$($39)+CHR$(LEN(FILE$))+FILE$
+USR(ADDR(P$)+1,ADDR(P$)+7)

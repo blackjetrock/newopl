@@ -1,0 +1,26 @@
+aGet%:(handle%,index%)
+rem returns a value from a dynamic array
+
+local mc%(3),tmp%
+
+rem check handle
+if peekw(peekw(handle%))<>$DDC0  :rem dynamic array recognition tag ("ÝÀ")
+  raise 226  :rem BAD FN ARGS
+endif
+
+rem get current length
+mc%(1)=$183F :rem xgdx : os al$size
+mc%(2)=$0518 :rem xgdx
+mc%(3)=$3900 :rem rts
+tmp%=usr(addr(mc%()),handle%)/2-1
+
+rem check parameters
+if index%=0 or abs(index%)>tmp%
+  raise 225 :rem SUBSCRIPT ERROR
+elseif index%>0
+  tmp%=index%
+else
+  tmp%=tmp%+index%+1
+endif
+
+return peekw(peekw(handle%)+tmp%*2)

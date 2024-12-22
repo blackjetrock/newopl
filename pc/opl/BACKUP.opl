@@ -1,0 +1,70 @@
+BACKUP:(dev$)
+local d$(14),f$(8),r$(12),e$(3),x$(12),t%,m%,o,e,s
+o=0 :e=0 :s=0
+cls 
+d$=dirw$(dev$+"*.*")
+while d$<>""
+ f$=mid$(d$,3,loc(d$,".")-3)
+ at 1,1 :print "Backup ";right$(d$,len(d$)-2);rept$(" ",14-len(d$));
+ r$=f$
+ if right$(r$,1)="%"
+  r$=left$(r$,len(r$)-1)+chr$(95)
+ endif
+ e$=right$(d$,3)
+ if     e$="ODB" :t%=0
+ elseif e$="DIA" :t%=2
+ elseif e$="OPL" :t%=3
+ elseif e$="COM" :t%=4
+ elseif e$="PLN" :t%=5
+ elseif e$="NTS" :t%=7
+ else t%=-1
+ endif
+ if t%<>-1
+  bfile::
+  x$=r$
+  if     t%=0 :x$=x$+".ODB"
+  elseif t%=1 :x$=x$+".OPL"
+  else :x$=x$+".OB"+chr$(%0+t%)
+  endif
+  if not o
+   e=0
+   xfopen:("*.*",0,2)
+   d$=xfget$:(12)
+   while d$<>""
+    if x$=d$ :e=-1 :endif
+    d$=xfget$:(12)
+   endwh
+   if e
+    at 1,2 :print f$;".";e$;" exists"
+    at 1,4 :print chr$(25);
+    m%=menun(1,"Overwrite,Skip,All")
+    at 1,1 :print "Backup ";f$;".";e$;
+    if m%=3 :o=-1 :endif
+   endif
+  endif
+  if not e or o or m%=1
+   xtsend:(r$,dev$+f$,t%)
+   rem if t%=1 :xtsend:(r$,dev$+f$,3) :endif
+  endif
+  if t%=3 and s=0
+   at 3,2 :print "Backup OPT file";chr$(63)
+   at 1,4 :print chr$(25);
+   m%=menun(1,"Yes,No,Always,Never")
+   at 1,1 :print "Backup ";f$;".";e$;
+   if     m%=3 :s=-1
+   elseif m%=4 :s=1
+   endif
+   if m%=1 or s=-1
+    t%=1 :e$="OPT"
+    at 8,1 :print f$;".";e$;
+    goto bfile::
+   endif
+  elseif t%=3 and s=-1
+   t%=1 :e$="OPT"
+   at 1,1 :print "Backup ";f$;".";e$;
+   goto bfile::
+  endif
+ endif
+ d$=dirw$("")
+endwh
+

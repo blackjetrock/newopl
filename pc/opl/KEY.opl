@@ -1,0 +1,16 @@
+key:(X%)
+LOCAL K$(1)
+LP1::
+AT 12,X%
+PRINT"Key Press"
+PAUSE 10
+AT 12,X%
+PRINT"         "
+PAUSE 6
+K$=KEY$
+IF K$>""
+RETURN
+ELSE
+GOTO LP1::
+ENDIF
+

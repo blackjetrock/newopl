@@ -1,0 +1,143 @@
+WORM2:
+GLOBAL M$(217)
+LOCAL A$(159),S$(160),M1%,M2%,Z%,S1%,S2%
+LOCAL H%,T%,D%,P%,S%,K%,A%
+
+S1%=4
+S2%=16
+Z%=S1%*S2%
+WORM2INI:(S1%/2,S2%)
+M1%=ADDR(M$)+1
+M2%=ADDR(S$)+1
+
+DO
+P%=5
+S%=0
+
+S::
+H%=2
+T%=1
+A$=CHR$(0)
+S$=CHR$(2)+CHR$(6)+REPT$(CHR$(0),Z%-2)
+D%=0
+USR(M1%,M2%)
+
+AT 2,2
+PRINT "PRESS ANY KEY";
+WHILE KEY :ENDWH
+GET
+
+F::
+
+DO
+ A%=RND*Z%+1
+UNTIL ASC(MID$(S$,A%,1))=0
+S$=LEFT$(S$,A%-1)+CHR$(10)+RIGHT$(S$,Z%-A%)
+
+LP::
+USR(M1%,M2%)
+BEEP 0,2000
+PAUSE P%
+
+K%=KEY
+IF K%=5
+ D%=(D%+1) AND 3
+ELSEIF K%=6
+ D%=(D%-1) AND 3
+ENDIF
+
+
+S$=LEFT$(S$,H%-1)+CHR$(1)+RIGHT$(S$,Z%-H%)
+A%=H%
+IF D% AND 1
+ IF D%=1
+  H%=H%-S2%
+ ELSE
+  H%=H%+S2%
+ ENDIF
+ELSEIF D%=0
+ H%=H%+1
+ELSE
+ H%=H%-1
+ENDIF
+A$=A$+CHR$(D%)
+
+IF H%>Z% OR H%<1
+ GOTO END1::
+ELSEIF D%=0
+ IF H%/S2%*S2%=H%-1
+  GOTO END1::
+ ENDIF
+ELSEIF D%=2
+ IF H%/S2%*S2%=H%
+  GOTO END1::
+ ENDIF
+ENDIF
+
+A%=ASC(MID$(S$,H%,1))
+S$=LEFT$(S$,H%-1)+CHR$(6+D%)+RIGHT$(S$,Z%-H%)
+
+IF A%=10
+ S%=S%+1
+ IF LEN(A$)=Z%-1
+  P%=P%+(P%>1)
+  S$=LEFT$(S$,H%-1)+CHR$(6+D%)+RIGHT$(S$,Z%-H%)
+  BEEP 75,842
+  PAUSE 1
+  BEEP 250,842
+  PAUSE 1
+  BEEP 75,842
+  BEEP 250,746
+  BEEP 250,660
+  BEEP 400,621
+  PAUSE 2
+  BEEP 600,1280
+  PAUSE 8
+  S%=S%+100
+  GOTO S::
+ ENDIF
+ BEEP 5,200
+ GOTO F::
+ELSEIF A%
+ GOTO END::
+ENDIF
+S$=LEFT$(S$,T%-1)+CHR$(0)+RIGHT$(S$,Z%-T%)
+K%=ASC(A$)
+A$=RIGHT$(A$,LEN(A$)-1)
+IF K% AND 1
+ IF K%=1
+  T%=T%-S2%
+ ELSE
+  T%=T%+S2%
+ ENDIF
+ELSEIF K%=0
+ T%=T%+1
+ELSE
+ T%=T%-1
+ENDIF
+S$=LEFT$(S$,T%-1)+CHR$(2+ASC(A$))+RIGHT$(S$,Z%-T%)
+
+GOTO LP::
+
+END1::
+H%=A%
+A%=ASC(MID$(S$,H%,1))
+END::
+
+K%=1
+DO
+ USR(M1%,M2%)
+ S$=LEFT$(S$,H%-1)+CHR$(6+D%)+RIGHT$(S$,Z%-H%)
+ BEEP 20,2000
+ USR(M1%,M2%)
+ S$=LEFT$(S$,H%-1)+CHR$(A%)+RIGHT$(S$,Z%-H%)
+ BEEP 20,5000
+ K%=K%+1
+UNTIL K%=20
+CLS
+PRINT "Your score:";s%
+PRINT "Again ";CHR$(63);" (Y/N)";
+DO
+ K%=ASC(UPPER$(GET$))
+UNTIL K%=%Y OR K%=%N OR K%=1
+UNTIL K%<>%Y

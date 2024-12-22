@@ -1,0 +1,49 @@
+EXPLMENS:
+REM LZ procedure
+REM Externals: K%,P%,O%,F%()
+LOCAL R%,C%,A%
+
+AT 7,1
+IF K%=3
+ PRINT "ABC"
+ AT 7,2
+ PRINT "GHI"
+ AT 7,3
+ PRINT "MNO"
+ELSE
+ PRINT "ABCD"
+ AT 7,2
+ PRINT "GHIJ"
+ AT 7,3
+ PRINT "MNOP"
+ AT 7,4
+ PRINT "STUV"
+ENDIF
+AT 12,1
+PRINT "YOUR MOVE";
+AT 12,3
+PRINT "(ON=QUIT";
+AT 12,4
+PRINT "MODE=ME)";
+DO
+ DO
+  WHILE KEY :ENDWH
+  A%=ASC(UPPER$(GET$))-%A
+  IF A%=1-%A
+   RETURN 3
+  ELSEIF A%=2-%A
+   P%=-P%
+   O%=-O%
+   RETURN
+  ENDIF
+  R%=A%/6+1
+  C%=A%-6*R%+7
+ UNTIL R%>=1 AND R%<=K% AND C%>=1 AND C%<=K%
+UNTIL F%(R%*K%-K%+C%)*O%>=0
+A%=1
+DO
+ AT 5,A%
+ PRINT REPT$(" ",16);
+ A%=A%+1
+UNTIL A%=5
+RETURN EXPLMOV:(R%,C%,O%)

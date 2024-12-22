@@ -1,0 +1,42 @@
+aClean%:
+rem releases all cells that begin with the dynamic array recognition tag ("ÝÀ")
+
+local mc%(4),handle%,bottom%
+
+rem allocate an empty cell to obtain the top handle 
+mc%(1)=$3F01 :rem      os al$grab
+mc%(2)=$2402 :rem      bcc end
+mc%(3)=$4F18 :rem      clra : xgdx
+mc%(4)=$3900 :rem end: rts
+handle%=usr(addr(mc%()),0)
+
+rem prepare code for freeing cells
+mc%(1)=$183F :rem  xgdx : os al$free
+mc%(2)=$0039 :rem  rts
+
+rem check top handle
+if handle%=255
+  rem no more cells
+  handle%=$2040
+elseif handle%<$2000
+  rem another error! (?)
+  raise handle%
+else
+  rem free our dummy cell
+  usr(addr(mc%()),handle%)
+endif
+
+rem get bottom handle
+if peekb($FFCB)>127 :rem it's an LZ
+  bottom%=$2024
+else
+  bottom%=$2020
+endif
+
+rem look for our tag and remove cell(s)
+while handle%>bottom%
+  handle%=handle%-2
+  if peekw(peekw(handle%))=$DDC0  :rem dynamic array recognition tag ("ÝÀ")
+    usr(addr(mc%()),handle%)
+  endif
+endwh

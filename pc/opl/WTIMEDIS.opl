@@ -1,0 +1,60 @@
+WTIMEDIS:
+LOCAL k%,opt%
+CLS
+PRINT a.c$
+AT 1,2
+IF a.t%>0
+PRINT "+";
+ENDIF
+PRINT a.t%;
+AT 4,2 :PRINT "<";
+AT 13,2 :PRINT ">";
+hr%=a.t%
+IF hr%>23 :hr%=hr%-24
+ELSEIF hr%<0 :hr%=24+hr%
+ENDIF
+REM *Set clock to new time*
+x%=VAL(MID$(DATIM$,17,2))+hr%
+DO
+IF x%>23 :x%=x%-24
+ELSEIF x%<0 :x%=24+x%
+ENDIF
+UNTIL x%>-1 and x%<24
+POKEB $20C8,x%
+REM *Display time*
+ESCAPE OFF
+DO
+AT 5,2
+PRINT RIGHT$(DATIM$,8)
+k%=KEY
+UNTIL k%=1 OR k%=2 OR k%=13
+ESCAPE ON
+REM *Reset clock to real time*
+x%=VAL(MID$(DATIM$,17,2))-hr%
+DO
+IF x%<0 :x%=24+x%
+ELSEIF x%>23 :x%=x%-24
+ENDIF
+UNTIL x%>-1 AND x%<24
+POKEB $20C8,x%
+IF k%=1 OR k%=13
+RETURN
+ELSEIF k%=2
+wmenu::
+opt%=MENU("SELECT,NEW,QUIT")
+ENDIF
+CLS
+IF opt%=0
+wtimedis:
+ELSEIF opt%=1
+wtimesel:
+ELSEIF opt%=2
+wtimenew:
+ELSEIF opt%=3
+RETURN
+ENDIF
+IF v%=1 OR v%=8
+GOTO wmenu::
+ENDIF
+wtimedis:
+

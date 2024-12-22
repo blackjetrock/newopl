@@ -1,0 +1,90 @@
+
+Filename:'UDG'
+File ext:'OB3
+Dropping OB3 header...
+Enter:dump_proc
+Var Space Size:0014
+QCode Space Size:0048
+Number of parameters:09
+Parameter types:
+ 0 INT    (0)
+ 1 INT    (0)
+ 2 INT    (0)
+ 3 INT    (0)
+ 4 INT    (0)
+ 5 INT    (0)
+ 6 INT    (0)
+ 7 INT    (0)
+ 8 INT    (0)
+Global varname Size:0000
+Global variables (0)
+
+External varname Size:0000
+External variables (0)
+
+String length fixups (0)
+
+Array size fixups (0)
+
+QCode
+
+0000: 22       Push integer literal     (bytes code:I)
+0001: 0180       (384)
+0003: 22       Push integer literal     (bytes code:I)
+0004: 0040       (64)
+0006: 07       Push parameter/external integer variable value     (bytes code:V)
+0007: FFFC       (65532)
+0009: 22       Push integer literal     (bytes code:I)
+000A: 0008       (8)
+000C: 2F       Multiply integer     (bytes code:-)
+000D: 2D       Plus integer     (bytes code:-)
+000E: 55       POKEB     (bytes code:-)
+000F: 22       Push integer literal     (bytes code:I)
+0010: 0181       (385)
+0012: 07       Push parameter/external integer variable value     (bytes code:V)
+0013: FFFA       (65530)
+0015: 55       POKEB     (bytes code:-)
+0016: 22       Push integer literal     (bytes code:I)
+0017: 0181       (385)
+0019: 07       Push parameter/external integer variable value     (bytes code:V)
+001A: FFF8       (65528)
+001C: 55       POKEB     (bytes code:-)
+001D: 22       Push integer literal     (bytes code:I)
+001E: 0181       (385)
+0020: 07       Push parameter/external integer variable value     (bytes code:V)
+0021: FFF6       (65526)
+0023: 55       POKEB     (bytes code:-)
+0024: 22       Push integer literal     (bytes code:I)
+0025: 0181       (385)
+0027: 07       Push parameter/external integer variable value     (bytes code:V)
+0028: FFF4       (65524)
+002A: 55       POKEB     (bytes code:-)
+002B: 22       Push integer literal     (bytes code:I)
+002C: 0181       (385)
+002E: 07       Push parameter/external integer variable value     (bytes code:V)
+002F: FFF2       (65522)
+0031: 55       POKEB     (bytes code:-)
+0032: 22       Push integer literal     (bytes code:I)
+0033: 0181       (385)
+0035: 07       Push parameter/external integer variable value     (bytes code:V)
+0036: FFF0       (65520)
+0038: 55       POKEB     (bytes code:-)
+0039: 22       Push integer literal     (bytes code:I)
+003A: 0181       (385)
+003C: 07       Push parameter/external integer variable value     (bytes code:V)
+003D: FFEE       (65518)
+003F: 55       POKEB     (bytes code:-)
+0040: 22       Push integer literal     (bytes code:I)
+0041: 0181       (385)
+0043: 07       Push parameter/external integer variable value     (bytes code:V)
+0044: FFEC       (65516)
+0046: 55       POKEB     (bytes code:-)
+0047: 7B       RETURN (float 0)     (bytes code:-)
+
+QCode Data
+
+0000:22 01 80 22 00 40 07 FF FC 22 00 08 2F 2D 55 22 
+0010:01 81 07 FF FA 55 22 01 81 07 FF F8 55 22 01 81 
+0020:07 FF F6 55 22 01 81 07 FF F4 55 22 01 81 07 FF 
+0030:F2 55 22 01 81 07 FF F0 55 22 01 81 07 FF EE 55 
+0040:22 01 81 07 FF EC 55 7B 

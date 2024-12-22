@@ -1,0 +1,123 @@
+METEOR:
+LOCAL T%,M%,Y,SO(9),S1(9),J5(9),R1,T5,I%,S,J,K%,T,L,M,S5,A,A1
+PRINT "working ..."
+R1=PI/180
+SO(1)=282.9 :S1(1)=-0.4  :J5(1)=285.3
+SO(2)= 31.7 :S1(2)= 0.06 :J5(2)=393.9
+SO(3)= 44.0 :S1(3)= 0.3  :J5(3)=406.6
+SO(4)=125.0 :S1(4)=-1.0  :J5(4)=491.2
+SO(5)=139.2 :S1(5)= 0.03 :J5(5)=506.0
+SO(6)=207.7 :S1(6)= 0.4  :J5(6)=576.2
+SO(7)=220.0 :S1(7)= 0.44 :J5(7)=588.5
+SO(8)=234.3 :S1(8)= 1.5  :J5(8)=602.7
+SO(9)=261.4 :S1(9)= 0.0  :J5(9)=629.5
+IF MO%>12 
+Y=YR%+1
+ELSE
+Y=YR%
+ENDIF
+T5=(Y-1950)*.01
+I%=0
+DO
+I%=I%+1
+IF ((I%<>1 AND I%<>4 AND I%<>9) AND ABS(T5)>=1.5) OR ABS(T5)<1.5
+S=SO(I%)+S1(I%)*T5
+S=S+1.39663*T5+.0003*T5*T5
+S=S-360*INT(S/360)
+J=J5(I%)+36525.636*T5+S1(I%)*T5
+K%=0
+   DO
+   K%=K%+1
+   T=(J+2433000-2415020)/36525
+   L=279.7+36000.769*T+.0003*T*T
+   M=358.48+35999.05*T-.0002*T*T
+   S5=L+(1.92-.005*T)*SIN(M*R1)
+   S5=S5+.02*SIN(2*M*R1)
+   S5=S5-360*INTF(S5/360)
+   J=J-(S5-S)/(.986+.033*COS(M*R1))
+   UNTIL K%=2
+F=J-INTF(J) :J=INTF(J)+2433000
+G=1
+   IF J<2299161
+   G=0
+   ENDIF
+   IF G<>1
+   A=J
+   ELSE
+   A1=INTF((J/36524.25)-51.12264)
+   A=J+1+A1-INTF(A1/4)
+   ENDIF
+B=A+1524
+C=INTF((B/365.25)-.3343)
+D=INTF(365.25*C)
+E=INTF((B-D)/30.61)
+D=B-D-INTF(30.61*E)+F
+M=E-1 :Y=C-4716
+   IF E>13.5
+   M=M-12
+   ENDIF
+   IF M<2.5
+   Y=Y+1
+   ENDIF
+M=INT(M)
+CLS
+PRINT "in ";INT(Y)
+   IF I%=1
+   PRINT "Quadrantids"
+   ELSEIF I%=2
+   PRINT "Lyrids"
+   ELSEIF I%=3
+   PRINT "Eta Aquarids"
+   ELSEIF I%=4
+   PRINT "Delta Aquarids"
+   ELSEIF I%=5
+   PRINT "Perseids"
+   ELSEIF I%=6
+   PRINT "Orionids"
+   ELSEIF I%=7
+   PRINT "Taurids"
+   ELSEIF I%=8
+   PRINT "Leonids"
+   ELSE
+   PRINT "Geminids"
+   ENDIF
+PRINT "meteor shower peak"
+   IF M=1
+   PRINT "JAN ";
+   ELSEIF M=2
+   PRINT "FEB ";
+   ELSEIF M=3
+   PRINT "MAR ";
+   ELSEIF M=4
+   PRINT "APR ";
+   ELSEIF M=5
+   PRINT "MAY ";
+   ELSEIF M=6
+   PRINT "JUN ";
+   ELSEIF M=7
+   PRINT "JUL ";
+   ELSEIF M=8
+   PRINT "AUG ";
+   ELSEIF M=9
+   PRINT "SEP ";
+   ELSEIF M=10
+   PRINT "OCT ";
+   ELSEIF M=11
+   PRINT "NOV ";
+   ELSE
+   PRINT "DEC ";
+   ENDIF
+T=24.0*(D-INT(D))-ZON
+   IF T<0
+   T=T+24 :D=D-1
+   ENDIF
+T%=INT(T)
+M%=INT(60.0*(T-INT(T)))
+PRINT INT(D);" at ";
+   IF T%<10
+   PRINT "0";
+   ENDIF
+PRINT T%*100+M%
+GET 
+ENDIF
+UNTIL I%=9  

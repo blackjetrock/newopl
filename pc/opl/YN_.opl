@@ -1,0 +1,11 @@
+YN%:(M$,Q$)
+LOCAL K%
+
+CLS
+AT 1,2
+PRINT Q$;CHR$(63);" Y/N";
+K%=ASC(UPPER$(CHR$(VIEW(1,M$))))
+WHILE K%<>%Y AND K%<>%N AND K%<>1
+ K%=ASC(UPPER$(CHR$(VIEW(1,""))))
+ENDWH
+RETURN K%=%Y

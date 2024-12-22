@@ -1,0 +1,13 @@
+SFX:
+LOCAL I%,K%
+K%=2000
+DO
+K%=K%-200
+I%=20
+
+DO
+BEEP 5,I%+K%
+I%=I%+(I%*.5)
+UNTIL I%>2000
+UNTIL K%<200
+

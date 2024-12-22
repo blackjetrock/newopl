@@ -1,0 +1,37 @@
+aFill%:(handle%,value%,start%,length%)
+rem fills an array (or part of) with a value
+rem  length%  may be zero indicating fill until end
+
+local mc%(9),len%,a%
+
+rem get current length
+mc%(1)=$183F :rem xgdx : os al$size
+mc%(2)=$0518 :rem xgdx
+mc%(3)=$3900 :rem rts
+len%=usr(addr(mc%()),handle%)/2-1
+
+rem check parameters
+if start%<1 or start%>len% or length%<0
+  raise 225 :rem SUBSCRIPT ERROR
+elseif length%>0 and start%+length%-1<len%
+  len%=length%
+endif
+
+rem check handle
+a%=peekw(handle%)
+if peekw(a%)<>$DDC0  :rem dynamic array recognition tag ("ÝÀ")
+  raise 226 :rem BAD FN ARGS
+endif
+
+rem fill memory range
+mc%(1)=$01CE :rem       ldx #start_addr
+mc%(2)=a%+start%*2
+mc%(3)=$018C :rem loop: cpx #end_addr
+mc%(4)=a%+(start%+len%)*2 
+mc%(5)=$2C06 :rem       bge done
+mc%(6)=$ED00 :rem       std 0,X
+mc%(7)=$0808 :rem       inx : inx
+mc%(8)=$20F5 :rem       bra loop
+mc%(9)=$3900 :rem done: rts
+usr(addr(mc%()),value%)
+

@@ -1,0 +1,8 @@
+day$:(d%)
+rem
+rem (c) Bj|rn Felten 24/1 -88
+rem Returns the date in the form 1st, 2nd, 3rd, and so on.
+rem
+local m$(62)
+m$="stndrdthththththththththththththththththstndrdthththththththst"
+return gen$(d%,2)+mid$(m$,d%*2-1,2)

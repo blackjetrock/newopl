@@ -1,0 +1,47 @@
+INSERT:
+LOCAL g$(1), m%, d%
+UDG 0,4,14,14,4,14,31,0,31
+UDG 2,0,0,0,0,0,0,0,31
+A.naam$="" 
+A.bedrijf$=""
+A.gsm$=""
+A.tel$=""
+A.mail$=""
+A.xmail$=""
+A.straat$=""
+A.pcode$=""
+A.verjrdg$=""
+A.opm$=""
+DO
+   CLS
+   PRINT CHR$(0);REPT$(CHR$(2),14)
+   CLOCK(1)
+   m%=MENUN(2,"NAAM,FIRMA,GSM,TEL,EMAIL,ADRES,VERJ,OPM,SAVE")
+   IF     m%=1
+      inpnm:
+   ELSEIF m%=2
+      inpbdrf:
+   ELSEIF m%=3
+      inpgsm:
+   ELSEIF m%=4
+      inptel:
+   ELSEIF m%=5
+      inpeml:
+   ELSEIF m%=6
+      inpstrt:
+      inppcde:
+   ELSEIF m%=7
+      inpvrjd:
+   ELSEIF m%=8
+      inpopm:
+   ENDIF
+UNTIL m%=9 OR m%=0
+CLS
+REM TOON DE VOLLEGE RECORD
+USE A
+IF A.naam$="" AND A.bedrijf$="" 
+   REM LEGE RECORD
+ELSE
+   REM d%= DISP(-1,g$)
+   APPEND
+ENDIF

@@ -1,0 +1,10 @@
+FLYSPLIT:
+DAT$=A.FDAT$
+AIR$=A.FAIR$
+FNO$=A.FFNO$
+OUT$=A.FOUT$
+DEP$=A.FDEP$
+INP$=A.FINP$
+ARR$=A.FARR$
+LIN$(1)=DAT$+"  "+OUT$+" "+DEP$
+LIN$(2)=AIR$+" "+FNO$+" "+INP$+" "+ARR$

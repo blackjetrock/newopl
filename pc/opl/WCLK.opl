@@ -1,0 +1,200 @@
+WCLK:
+rem a program for swimming workouts
+rem that shows clocks and counts
+rem for up to four sets
+rem written by p.evans 
+rem around the end of 1998
+rem this source code is a moving target
+rem feedback appreciated - evans-the-swim@evans-the-swim.demon.co.uk
+rem version 1
+rem
+rem notes for programming
+rem
+rem there are three sub-programs called by WCLK
+rem these are T4UDG, INTIM, and T4$
+rem and are (briefly) described the first time they show in this code
+rem
+rem timing accuracy depends on completing the main loop within one second
+rem next version to have more complex determination of current total seconds
+rem based on math from HOUR, MINUTE, SECOND opl functions
+rem so more features can be added
+
+rem variable usage:
+LOCAL CC%(4),CT%(4),HL%,N%,NC%,R%(4),ST%,T%(4),TC%,TMAX%,S%,K%
+rem CC%(4)-current count values    
+rem CT%(4)-maximum count values
+rem HL%-display horizontal position   
+rem N%-number of clocks
+rem NC%-current clock
+rem R%(4)-the 4 raw reset values
+rem ST%-split raw counter             
+rem T%(4)-current raw second values for each clock from start of repeat
+rem TC%-total raw second value from start of set
+rem TMAX%-maximum total raw second value
+rem S%-copy of current second value
+rem K%-general use; dummy, keyboard, counter, etcetera
+
+rem T4UDG is a small program that generates 7 UDG's
+rem space and zero to five preceeded by colons
+rem this lets the program show four 4-digit clocks in one line
+K%=T4UDG:
+
+rem this turns off the auto-shutoff flag
+POKEB $007C,0
+
+rem this makes sure we get numbers on input
+KSTAT 3
+
+rem find out how many clocks we want to show
+CLS
+PRINT "   WCLK VERSION 1"
+rem CHR$(35) is the octothorpe sign (#)
+PRINT CHR$(35);" OF CLOCKS(1-4): ";
+INPUT NC%
+rem a little error checking
+IF NC%>4
+ NC%=4
+ENDIF 
+IF NC%<0
+ NC%=1
+ENDIF
+CLS
+
+rem get the details for each clock
+N%=1
+DO
+ HL%=1+(5*(N%-1))
+ AT 1,4
+ rem chr$(26) is the code for clear-line-and-put-cursor-at-beginning
+ PRINT CHR$(26);"RESET ";NUM$(N%,1);": ";
+ AT HL%,1
+ rem INTIM returns a raw second value after getting a MM:SS value
+ rem it has some small amount of display trickery in it 
+ R%(N%)=INTIM:
+ AT HL%,1
+ rem T4$ returns a 4-digit string of the raw second value passed to it
+ PRINT T4$:(R%(N%))
+ AT 1,4
+ PRINT CHR$(26);"COUNT ";NUM$(N%,2);": ";
+ rem figure out how long the longest set will take
+ TMAX%=MAX(R%(1)*CT%(1),R%(2)*CT%(2),R%(3)*CT%(3),R%(4)*CT%(4))
+ rem we only print this prompt after the first set has been done
+ IF N%<>1 
+  PRINT CHR$(8);CHR$(8);" (";FIX$(FLT(TMAX%)/FLT(R%(N%)),1,4);CHR$(63);"):";
+ ENDIF
+ INPUT CT%(N%)
+ AT HL%,2 
+ rem show that we are on the zeroth repeat of the set
+ PRINT "0/";NUM$(CT%(N%),2)
+ AT HL%,3
+ rem show the total time for this set
+ PRINT T4$:(R%(N%)*CT%(N%))
+ rem point at the first repeat
+ CC%(N%)=1
+ rem set the total for this clock to zero
+ T%(N%)=0
+ rem do the next clock
+ N%=N%+1
+UNTIL N%>NC%
+
+rem set the keyboard back to letters
+KSTAT 1
+
+rem show this and prompt for a keypress
+AT 1,4
+PRINT "TMAX:";T4$:(TMAX%);" PRESS EXE"
+DO
+UNTIL KEY<>0
+
+rem ok, we are off and running.
+rem show that we are on the first repeat of the each set
+N%=1
+DO 
+ AT 1+(5*(N%-1)),2
+ PRINT "1/";NUM$(CT%(N%),2)
+ N%=N%+1
+UNTIL N%>NC%
+
+rem start the sets
+rem show our total current time
+AT 11,4
+PRINT "TNOW:  "
+rem make a copy for timing purposes
+S%=SECOND
+rem K% will be our keypress value
+K%=0
+TC%=0
+rem setting ST% to -1 flags the split timer as NOT running
+ST%=-1
+
+rem the clock loop
+DO
+ rem show the current total time
+ AT 16,4
+ PRINT T4$:(TC%)
+ rem check for a new keypress until SECOND rolls over
+ DO
+  IF K%=0
+   K%=KEY
+  ENDIF 
+ UNTIL S%<>SECOND
+ rem make a new copy
+ S%=SECOND
+ rem bump the total time
+ TC%=TC%+1
+ 
+ rem split timer section
+ rem do we start the split timer?
+ IF K%=ASC("S")
+  AT 1,4
+  PRINT "SPLT:";
+  ST%=1
+  PRINT T4$:(ST%-1);
+  K%=0
+ ENDIF
+ rem do we clear the split timer? 
+ IF K%=ASC("C")
+  ST%=-1
+  AT 1,4
+  PRINT "TMAX:";T4$:(TMAX%);
+  K%=0
+ ENDIF  
+ rem do we stop the split timer? (a value of zero flags it so)
+ IF K%=ASC("R")
+  ST%=0  
+  K%=0
+ ENDIF
+ rem is the split timer running? (a value > zero flags it so)
+ IF ST%>0
+  ST%=ST%+1
+  AT 6,4
+  PRINT T4$:(ST%-1);
+ ENDIF
+
+ rem show clocks section
+ rem point at the first clock
+ N%=1
+ DO 
+  rem figure out the screen locations
+  HL%=1+5*(N%-1)
+  rem bump the raw clock values
+  T%(N%)=T%(N%)+1
+  rem check to see if we reset the clock
+  IF T%(N%)=R%(N%)
+   T%(N%)=0
+   rem if so bump the count
+   CC%(N%)=CC%(N%)+1
+   AT HL%,2
+   PRINT NUM$(CC%(N%),2);"/";NUM$(CT%(N%),2)
+  ENDIF 
+  AT HL%,3
+  PRINT T4$:(T%(N%))
+  N%=N%+1
+ UNTIL N%>NC%
+UNTIL TC%>TMAX%
+
+rem reset the autoshutoff flag
+POKEB $007C, 255
+rem wait for a keypress, just to be tidy
+GET
+

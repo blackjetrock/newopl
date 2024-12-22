@@ -1,0 +1,19 @@
+CALLOPL:(P$)
+LOCAL A$(11),A%,B%
+
+A$=CHR$(LEN(P$))+P$
+IF RIGHT$(P$,1)="$"
+ A$=A$+CHR$($85)+CHR$($7B)
+ELSEIF RIGHT$(P$,1)="%"
+ A$=A$+CHR$($86)+CHR$($79)
+ELSE
+ A$=A$+CHR$($79)
+ENDIF
+A%=PEEKW($A9)+$40
+B%=1
+DO
+ POKEB A%,ASC(MID$(A$,B%,1))
+ A%=A%+1
+ B%=B%+1
+UNTIL B%>LEN(A$)
+ABCDEFGH:

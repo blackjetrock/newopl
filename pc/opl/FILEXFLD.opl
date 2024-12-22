@@ -1,0 +1,12 @@
+FILEXFLD:
+
+REM This is a short routine to load the three routine of the file transfer program
+REM in their object form from the PC to the Psion. The files are called FILEXFER.OPO,
+REM FILXFRF.OPO and FILEXFSF.OPO and must be in a directory called C:\PSION\OPL.
+
+PRINT "Loading FILEXFER..."
+XTRECV:("C:\PSION\OPL\FILEXFER.OPO","A:FILEXFER",3)
+PRINT "Loading FILEXFSF..."
+XTRECV:("C:\PSION\OPL\FILEXFRF.OPO","A:FILEXFRF",3)
+PRINT "Loading FILEXFRF..."
+XTRECV:("C:\PSION\OPL\FILEXFSF.OPO","A:FILEXFSF",3)

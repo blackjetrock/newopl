@@ -1,0 +1,45 @@
+rpncal:(t$)
+local tot,c%,l%,a,b,o$(10),d$(1),acc
+if t$=""
+ sp%=-1
+ return acc
+endif
+c%=1
+l%=len(t$)
+while c%<=l%
+ if loc(" o . 0 1 2 3 4 5 6 7 8 9 r s c f l p + - * ? / // .",mid$(t$,c%,1))=0
+  print "input error"
+  get
+  stop
+ endif
+ c%=c%+1
+endwh
+c%=1
+while c%<=l%
+ while mid$(t$,c%,1)=" "
+  c%=c%+1
+ endwh
+ d$=mid$(t$,c%,1)
+ while d$<>" " and c%<=l%
+  c%=c%+1
+  o$=o$+d$
+  d$=mid$(t$,c%,1)
+ endwh
+ if loc("0123456789",right$(o$,1))<>0
+  stack(sp%)=val(o$) : sp%=sp%+1 :rem  push val(o$) */
+  c%=c%+1
+ elseif o$="p"
+  push:(pi)
+ elseif o$="e"
+  push:(e)
+ elseif o$="."
+  print pop:
+  return
+ else
+  rpncalc:(o$)
+  c%=c%+1
+ endif
+ o$=""
+endwh
+acc=stack(sp%-1)
+print acc

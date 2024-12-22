@@ -1,0 +1,40 @@
+Array%:(size%)
+rem allocates a cell for a dynamic array
+rem returns a handle to the array
+
+local mc%(9),handle%,a%
+
+rem check parameter
+if size%<0
+  raise 225 :rem SUBSCRIPT ERROR
+endif
+
+rem grab cell
+mc%(1)=$3F01 :rem      os al$grab
+mc%(2)=$2402 :rem      bcc end
+mc%(3)=$4F18 :rem      clra : xgdx
+mc%(4)=$3900 :rem end: rts
+handle%=usr(addr(mc%()),size%*2+2)
+
+rem handle% is between $2020 and $203E, otherwise it's an error code
+if handle%<2020 :raise handle% :endif
+
+rem tag the cell
+a%=peekw(handle%)
+pokew a%,$DDC0  :rem dynamic array recognition tag ("ÝÀ")
+
+rem fill memory range with zero
+if size%>0
+  mc%(1)=$01CE :rem       ldx #start_addr
+  mc%(2)=a%+2
+  mc%(3)=$018C :rem loop: cpx #end_addr
+  mc%(4)=a%+2+size%*2
+  mc%(5)=$2C06 :rem       bge done
+  mc%(6)=$ED00 :rem       std 0,X
+  mc%(7)=$0808 :rem       inx : inx
+  mc%(8)=$20F5 :rem       bra loop
+  mc%(9)=$3900 :rem done: rts
+  usr(addr(mc%()),0)
+endif
+
+return handle%

@@ -1,0 +1,15 @@
+aLen%:(handle%)
+rem returns length of a dynamic array
+
+local mc%(3)
+
+rem check handle
+if peekw(peekw(handle%))<>$DDC0  :rem dynamic array recognition tag ("ÝÀ")
+  raise 226  :rem BAD FN ARGS
+endif
+
+rem get current length
+mc%(1)=$183F :rem xgdx : os al$size
+mc%(2)=$0518 :rem xgdx
+mc%(3)=$3900 :rem rts
+return usr(addr(mc%()),handle%)/2-1

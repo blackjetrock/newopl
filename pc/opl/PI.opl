@@ -1,0 +1,19 @@
+pi:
+REM Source PI.OPL
+REM Version 1.0
+REM Input routine for PIGEN$.OPL
+REM (C) APR 1999 LRS
+REM Sluykie@hotmail.com
+
+LOCAL outfile$(10),n%
+
+REM *** write output to outfile ***
+outfile$="A:PIGEN99"
+IF EXIST(outfile$) :OPEN outfile$,A,n%,pi$
+ELSE :CREATE outfile$,A,n%,pi$
+ENDIF
+
+PRINT "No. of digits:"
+INPUT n% :CLS
+A.n%=n% :A.pi$=PIGEN$:(n%)
+APPEND :CLOSE

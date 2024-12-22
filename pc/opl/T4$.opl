@@ -1,0 +1,11 @@
+T4$:(T4%)
+rem returns a 4-character string showing MM:SS with the colon
+rem as part of the third display character
+rem this depends on the UDG's being set up beforehand
+LOCAL M1%,M2%,S1%,S2%
+M1%=INT(T4%/600)
+M2%=INT((T4%-(600*M1%))/60)
+S1%=INT((T4%-((600*M1%)+(60*M2%)))/10)
+S2%=T4%-((600*M1%)+(60*M2%)+(10*S1%))
+RETURN CHR$(M1%+48)+CHR$(M2%+48)+CHR$(S1%)+CHR$(S2%+48)
+

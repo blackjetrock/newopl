@@ -1,0 +1,208 @@
+KHEM:
+REM 8 DEC 91
+REM ** KHEM
+REM ** WRITTEN BY ROBERT SCH™NE
+REM ** 354 THE ESPLANADE,
+REM ** ISLAND BAY,
+REM ** WELLINGTON 2,
+REM ** NEW ZEALAND
+LOCAL M%,E%,O%,NE%,F$(12)
+M%=PEEKB($A2)
+DO
+ IF EXIST(CHR$(%A+M%)+":ELEMENTS")
+  OPEN CHR$(%A+M%)+":ELEMENTS",A,N$,S$,AR$
+  BREAK
+ ELSE
+  M%=M%+1 :O%=O%+1
+  IF M%=3
+   M%=0
+  ENDIF
+  IF O%=3
+   CLS
+   PRINT "No elements file"
+   PRINT "found..."
+   PRINT "(ELEMENTS.ODB)"+CHR$(16)
+   GET
+   RETURN
+  ENDIF
+ ENDIF
+UNTIL 0
+E%=1
+UDG 1,31,17,31,0,31,17,31,0
+UDG 3,31,17,31,0,0,0,0,0
+UDG 4,31,31,31,0,31,17,31,0
+UDG 0,31,17,31,0,31,31,31,0
+UDG 6,31,31,31,0,0,0,0,0
+RP::
+CLS
+IF E%<57 OR (E%>71 AND E%<89)
+ PRINT REPT$(" ",18)+CHR$(1)
+ PRINT " "+CHR$(1)+CHR$(1)+REPT$(" ",10)+REPT$(chr$(1),6)
+ PRINT " "+REPT$(CHR$(1),18)
+ PRINT " "+CHR$(1)+CHR$(1)+"ª"+REPT$(CHR$(3),15)
+ELSE
+ AT 4,4
+ PRINT "©";REPT$(CHR$(1),15);"^"
+ENDIF
+NE%=-1
+DO
+ POSITION E%
+ AT 1,1
+ PRINT " ",
+ IF E%>99
+  AT 1,1
+ ELSEIF E%>9
+  AT 2,1
+ ENDIF
+ PRINT E%,A.S$,
+ AT 8,1
+ IF (E%>56 AND E%<72) OR E%>88
+  PRINT LEFT$(A.N$+REPT$(" ",6),12)
+ ELSE
+  PRINT LEFT$(A.N$+REPT$(" ",7),10)
+ ENDIF
+ AT 5,2
+ PRINT LEFT$(A.AR$+REPT$(" ",8),8)
+ IF NOT NE%
+  IF O%<3
+   AT 19,1
+  ELSEIF O%<5
+   AT -1+O%,2
+  ELSEIF O%<11
+   AT 9+O%,2
+  ELSEIF O%<13
+   AT -9+O%,2
+  ELSEIF O%<19
+   AT O%+1,2
+  ELSEIF O%<37
+   AT -17+O%,3
+  ELSEIF O%<55
+   AT -35+O%,3
+  ELSEIF O%<57
+   AT -53+O%,4
+  ELSEIF O%<72
+   AT -52+O%,4
+  ELSEIF O%<87
+   AT -67+O%,4
+  ELSEIF O%<89
+   AT -85+O%,4
+  ELSE
+   AT -84+O%,4
+  ENDIF
+  IF O%<72 OR O%>86
+   PRINT CHR$(1);
+  ELSE
+   PRINT CHR$(3);
+  endif
+ ENDIF
+ NE%=0
+ IF E%=1
+  AT 19,1
+  PRINT CHR$(4);
+ Elseif e%=2
+  AT 19,1
+  PRINT CHR$(0);
+ ELSEIF E%<5
+  AT -1+E%,2
+  PRINT CHR$(4);
+ ELSEIF E%<11
+  AT 9+E%,2
+  PRINT CHR$(4);
+ ELSEIF E%<13
+  AT -9+E%,2
+  PRINT CHR$(0);
+ ELSEIF E%<19
+  AT 1+E%,2
+  PRINT CHR$(0);
+ ELSEIF E%<37
+  AT -17+E%,3
+  PRINT CHR$(4);
+ ELSEIF E%<55
+  AT -35+E%,3
+  PRINT CHR$(0);
+ ELSEIF E%<57
+  AT -53+E%,4
+  PRINT CHR$(4);
+ ELSEIF E%<72
+  AT -52+E%,4
+  PRINT CHR$(4);
+ ELSEIF E%<87
+  AT -67+E%,4
+  PRINT CHR$(6);
+ ELSEIF E%<89
+  AT -85+E%,4
+  PRINT CHR$(0);
+ ELSE
+  AT -84+E%,4
+  PRINT CHR$(0);
+ ENDIF
+ ESCAPE OFF
+ M%=GET
+ ESCAPE ON
+ O%=E%
+ IF M%=2
+  AT 5,2
+  PRINT REPT$(" ",8)
+  AT 1,1
+  PRINT "Find:",
+  INPUT F$
+  IF FIND(F$)<>0
+   E%=POS
+  ELSE
+   PRINT CHR$(16);
+  ENDIF
+  GOTO RP::
+ ELSEIF M%=3
+  IF E%=1 OR (E%>2 AND E%<10) OR (E%>20 AND E%<31)
+   PRINT CHR$(16);
+  ELSEIF E%=2
+   E%=1
+  ELSEIF E%=10
+   E%=2
+  ELSEIF E%<21
+   E%=E%-8
+  ELSEIF E%<57
+   E%=E%-18
+  ELSEIF E%<72
+   PRINT CHR$(16);
+  ELSE
+   E%=E%-32
+  ENDIF
+ ELSEIF M%=4
+  IF E%=1
+   E%=2
+  ELSEIF E%=2
+   E%=10
+  ELSEIF E%<13
+   E%=E%+8
+  ELSEIF E%<40
+   E%=E%+18
+   IF E%=57
+    GOTO RP::
+   ENDIF
+  ELSEIF E%<72
+   E%=E%+32
+  ELSE
+   PRINT CHR$(16);
+  ENDIF
+ ELSEIF M%=5
+  IF E%=1
+   PRINT CHR$(16);
+  ELSE
+   E%=E%-1
+  ENDIF
+  IF E%=56 OR E%=88 OR E%=71
+   GOTO RP::
+  ENDIF
+ ELSEIF M%=6
+  IF E%=103
+   PRINT CHR$(16);
+  ELSE
+   E%=E%+1
+  ENDIF
+  IF E%=57 OR E%=89 OR E%=72
+   GOTO RP::
+  ENDIF
+ ENDIF
+UNTIL M%=1
+CLOSE

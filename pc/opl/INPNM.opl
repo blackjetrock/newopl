@@ -1,0 +1,27 @@
+INPNM:
+REM INPUT NAME
+
+LOCAL g$(1)
+input$=""
+IF A.naam$=""
+   CLS
+   PRINT "********NAAM********";
+   PRINT"Naam"+CHR$(63)
+   KSTAT 2
+   INPUT input$
+   uplowchr:
+   A.naam$=input$
+ELSE
+   REM IF YOU HAVEN'T SAVED PREVIOUS RECORD OR YOU WANT TO EDIT
+   REM THE NAME YOU CAN DO IT NOW
+   CLS
+   PRINT "******EDITEER*******";
+   PRINT A.naam$
+   PRINT "J/n"+CHR$(64)
+   g$=GET$
+   IF g$="j" OR g$="J" OR g$=CHR$(13)
+      CLS
+      PRINT "Editeer"
+      EDIT A.naam$
+   ENDIF
+ENDIF

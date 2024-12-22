@@ -1,0 +1,26 @@
+CombSort:(nElem%)
+REM Source: CombSort.OPL
+REM Version 1.0
+REM Sort variable 'array' containing reals
+REM Expects calling procedure to have declared the GLOBAL variable
+'array(nElem%)'
+REM Returns ascending sorted 'array'
+REM Taken from newsgroup 'comp.sys.psion.programmer' JUN 1998
+
+LOCAL gap%,s%,x%,t,mxg%
+gap%=nElem%
+DO
+ gap%=MAX(gap%/1.3,1)
+ s%=0
+ x%=1
+ mxg%=nElem%-gap%
+ DO
+  IF array(x%)>array(x%+gap%)
+   t=array(x%)
+   array(x%)=array(x%+gap%)
+   array(x%+gap%)=t
+   s%=1
+  ENDIF
+  x%=x%+1
+ UNTIL x%>mxg%
+UNTIL s%=0 and gap%=1

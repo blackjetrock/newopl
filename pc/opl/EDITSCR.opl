@@ -1,0 +1,12 @@
+EDITSCR:
+at 1,1 :print "Date:"
+at 1,2 :print "Desc:"
+at 1,3 :print "Amnt:"
+at 6,1 :edit a.fdat$
+at 15,1 :print "Rec:"
+at 19,1 :edit a.frec$
+at 6,2 :edit a.fnarr$
+at 6,3 :input a.famount
+at 15,3 :print "Fnd:"
+at 19,3 :edit a.ffund$
+

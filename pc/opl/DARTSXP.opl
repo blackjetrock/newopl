@@ -1,0 +1,109 @@
+dartsxp:
+REM Source: DARTSXP.OPL
+REM Version 1.3
+REM Darts computer for the Psion Organiser 2 CM/XP
+REM (C) APR 1999 LRS
+REM Sluykie@hotmail.com
+
+LOCAL p$(2,6),outshot$(9)
+LOCAL file%,k%,n%,p%,pack%,r%,s%,t%,w%
+LOCAL g%(2),s%(2),out%(2)
+
+CLS :PRINT "    DARTS XP"
+PRINT "¸ LR Sluyk 04.99"
+ESCAPE OFF
+REM *** define & open outshot file ***
+pack%=%D :file%=0 :outshot$=":DARTS"
+DO
+ pack%=pack%-1
+ IF EXIST(CHR$(pack%)+outshot$)
+  file%=1
+  OPEN CHR$(pack%)+outshot$,A,g$,x$,y$,z$
+ ENDIF
+UNTIL file% OR pack%=%A
+
+REM *** setup the game ***
+nwgme::
+CLS
+PRINT "Player 1:";:INPUT p$(1)
+PRINT "Player 2:";:INPUT p$(2)
+DO
+ CLS :KSTAT 3
+ PRINT "Start with"
+ k%=VIEW(2,"1)301 2)501 3)1001")
+ IF k%=1 :RETURN :ENDIF
+UNTIL k%>48 AND k%<52
+g%(1)=-(k%=49)*301-(k%=50)*501-(k%=51)*1001 :g%(2)=g%(1)
+s%(1)=0 :s%(2)=0 :out%(1)=0 :out%(2)=0
+w%=0 :p%=-1 :n%=1
+
+DO
+ CLS
+ PRINT p$(2+p%)
+ AT 8,1 :PRINT NUM$(s%(2+p%),-3)
+ AT 12,1 :PRINT NUM$(g%(2+p%),-4)
+ AT 16,1 :PRINT MID$("* ",2+out%(2+p%),1)
+
+ AT 1,2 :PRINT n%;">"
+ t%=LEN(NUM$(n%,12))+2 :REM *** screen position for inputcursor ***
+ s%=DARTINP%:(t%,2)
+
+ IF s%<>-1 :REM *** score entered ***
+  s%(2+p%)=s%
+  t%=g%(2+p%)-s%(2+p%)
+  g%(2+p%)=-(t%=0 OR t%>1)*t%-(t%<0 OR t%=1)*g%(2+p%)
+  IF g%(2+p%)=0 :w%=2+p% :ENDIF
+  REM *** check for finish ***
+  t%=g%(2+p%)
+  out%(2+p%)=NOT(t%>170 OR t%=169 OR t%=168 OR t%=166 OR t%=165 OR t%=163 OR t%=162 OR t%=159)
+  p%=NOT p%
+  n%=n%-(p%=-1)
+
+ ELSE :REM *** MODE pressed, s%=-1 ***
+  k%=MENU("OUTSHOT ADVICE,LOOK UP FOR,VIEW OPPONENT,(TAKE BACK MOVE),NEW GAME,QUIT DARTS")
+  IF (k%=1) OR (k%=2)
+   IF file%
+    IF k%=2
+     PRINT "LOOK UP FINISH  FOR:";
+     s%=DARTINP%:(5,2) :CLS
+    ELSE :s%=g%(2+p%)
+    ENDIF
+    FIRST :r%=FIND("G="+NUM$(s%,-3))
+    IF (k%=1) AND NOT(out%(2+p%)) :REM *** no finish possible? ***
+     PRINT "   NO FINISH      POSSIBLE YET"
+    ELSE
+     PRINT "OUTSHOT ADVICE ",s%;":",
+     IF r% :PRINT A.x$,A.y$,A.z$
+     ELSE :PRINT "UNKNOWN"
+     ENDIF
+    ENDIF
+   ELSE :PRINT "  OUTSHOT FILE     NOT FOUND"
+   ENDIF
+   GET
+  ELSEIF k%=3
+   PRINT p$(2+NOT p%),"NEEDS",g%(2+NOT p%)
+   GET
+  ELSEIF (k%=4 AND n%+p%>0 AND s%(2+NOT p%)>-1)
+   p%=NOT p%
+   n%=n%+(p%=0) :REM *** decrease turn number if P.2 re-enters ***
+   g%(2+p%)=g%(2+p%)+s%(2+p%)
+   s%(2+p%)=-999 :REM *** control number ***
+   t%=g%(2+p%) :REM *** recalc out%() ***
+   out%(2+p%)=NOT(t%>170 OR t%=169 OR t%=168 OR t%=166 OR t%=165 OR t%=163 OR t%=162 OR t%=159)
+  ELSEIF k%=5
+   PRINT "NEW GAME? Y/N"
+   k%=GET
+   IF k%=%y OR k%=%Y :GOTO nwgme:: :ENDIF
+  ELSEIF k%=6
+   PRINT "ARE YOU SURE YOUWANT TO QUIT?"
+   k%=GET
+   IF k%=%y OR k%=%Y :STOP :ENDIF
+  ENDIF
+ ENDIF
+
+UNTIL w%
+
+CLS
+PRINT " THE WINNER IS"
+AT (16-LEN(p$(w%)))/2+1,2 :PRINT p$(w%)
+GET

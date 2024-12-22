@@ -1,0 +1,52 @@
+creakey$:(a$,b$)
+REM Source: CREAKEY$.OPL
+REM Version 1.1
+REM Create access key from login name and password
+REM (C) MAY 1999 LRS
+REM Sluykie@hotmail.com
+
+LOCAL el$(8),ep$(8),el%(8),ep%(8),l%(8),p%(8)
+LOCAL a%,b%,i%,mn%,mx%,x%,y%
+
+a%=LEN(a$) :b%=LEN(b$)
+RANDOMIZE 8*(b%-1)+a% :REM *** set seed ***
+mn%=123 :REM *** first number of characterset to use for encryption ***
+mx%=255 :REM *** last number of characterset to use for encryption ***
+REM *** chars 123..255 are all non-keyboard characters ***
+
+REM *** login & passw to array ***
+i%=0
+DO
+ i%=i%+1
+ IF i%<=a% :l%(i%)=ASC(MID$(a$,i%,1))
+ ELSE :l%(i%)=l%(INT(RND*a%)+1) :ENDIF
+ IF i%<=b% :p%(i%)=ASC(MID$(b$,i%,1))
+ ELSE :p%(i%)=p%(INT(RND*b%)+1) :ENDIF
+UNTIL i%=8
+
+REM *** 'encrypt login' & 'encrypt passw' array (random) ***
+i%=0
+DO
+ i%=i%+1
+ el%(i%)=INT(RND*(mx%-mn%))+mn%
+ ep%(i%)=INT(RND*(mx%-mn%))+mn%
+UNTIL i%=8
+
+REM *** encrypt login & passw thus creating key ***
+i%=0
+DO
+ i%=i%+1
+ x%=l%(i%)+el%(i%)
+ y%=p%(i%)+ep%(i%)
+ REM *** bring m% and n% in range mn%..mx% ***
+ WHILE x%>mx% :x%=x%-(mx%-mn%+1) :ENDWH
+ WHILE y%>mx% :y%=y%-(mx%-mn%+1) :ENDWH
+ IF (i%/2.0=i%/2) :REM *** i% even ***
+  el$=el$+CHR$(y%)
+  ep$=ep$+CHR$(x%)
+ ELSE             :REM *** i% odd ***
+  el$=el$+CHR$(x%)
+  ep$=ep$+CHR$(y%)
+ ENDIF
+UNTIL i%=8
+RETURN (el$+ep$)

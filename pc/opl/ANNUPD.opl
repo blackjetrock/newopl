@@ -1,0 +1,129 @@
+annupd:
+REM Source: ANNUPD.OPL
+REM Version 1.5
+REM Updates anniversary entries in file A:ANNIV to selected year
+REM (C) NOV 1997 LRS
+REM L.R.Sluijk@student.utwente.nl
+REM Revised OCT 1998
+REM Revised APR 1999
+
+REM& EXTERNAL dbase$,add$
+LOCAL c%,d%,f%,i%,m%,yr%
+LOCAL events$(78)
+
+REM Find moving events in dbase$ and delete if found
+REM Edit events$ to indicate what to look for when deleting
+REM moving entries in dbase$. When new event is calculated
+REM please make sure that A.event$ is assigned the exact
+REM same string as is included in events$ as both are compared.
+REM In events$ the names must be separated by CHR$(145) (‘) to
+REM make sure that no substring as "Pa" is LOCated in events$ and
+REM then deleted from dbase$
+PRINT "Del moving events"
+events$="‘Moederdag‘Vaderdag‘Pasen‘Spring Forward!‘Fall Back!‘Goede Vrijdag‘Hemelvaart‘"
+FIRST
+WHILE NOT EOF
+ IF LOC(events$,"‘"+A.event$+"‘")
+  ERASE :BACK
+ ELSE :NEXT
+ ENDIF
+ENDWH
+
+REM Ask user for year
+FIRST :i%=0 :c%=COUNT :yr%=YEAR
+AT 1,2 :PRINT "Updating database";CHR$(26)
+PRINT "to year"
+AT 12,4 :PRINT "^"
+DO
+ AT 9,3 :PRINT yr%
+ f%=GET
+ IF f%=1 :RETURN :ENDIF
+ yr%=yr%-(f%=3)+(f%=4)
+ IF yr%<1900 :yr%=2155 :ELSEIF yr%>2155 :yr%=1900 :ENDIF
+UNTIL f%=13
+
+REM Start update
+AT 1,3 :PRINT "Record no.   /";c%
+WHILE i%<c%
+ i%=i%+1
+ AT 12,3 :PRINT NUM$(i%,-2)
+ AT 1,4 :PRINT LEFT$(A.event$,20);CHR$(26)
+ d%=LOC(A.event$,add$+")") :REM *** Is it a birthday? ***
+ IF d%
+  m%=LOC(A.event$,"(") :REM *** Isolate age position ***
+  REM *** Calculate new age; xx+(SelectedYear-YearInDbase) ***
+  f%=VAL(MID$(A.event$,m%+1,(d%-2)-m%))+(yr%-VAL(LEFT$(A.date$,4)))
+  A.event$=LEFT$(A.event$,m%)+NUM$(f%,3)+" "+add$+")"
+ ENDIF
+ A.date$=NUM$(yr%,4)+MID$(A.date$,5,12) :REM *** Change year AFTER age calculation ***
+ UPDATE :FIRST
+ENDWH
+
+REM *** Calculate moving events ***
+CLS :CLOCK(1) :PRINT CHR$(0);REPT$(CHR$(2),13)
+PRINT "Calc"
+
+REM Mother's & Father's day and daylightsaving
+REM To find the 2nd Sunday in May and the 3rd Sunday in June
+REM d%=d%+1 (forward). For finding the last Sunday in March
+REM and October, d%=d%-1 (backwards).
+REM Take care in naming the event in A.event$. The name used here
+REM must be exactly the same as the one used in events$ as these
+REM two are compared before ERASE.
+REM i% is used as a counter for the i%th Sunday in MONTH$(m%). No
+REM need for i% when calculating daylightsaving.
+i%=1 :d%=8 :m%=5 :REM 2nd Sunday in May is at the earliest May, 8
+DO
+ IF (m%=5 OR m%=6) :AT 6,2 :PRINT MID$("mofa",-(m%=5)-3*(m%=6),2);"ther's day"
+ ELSEIF (m%=3 OR m%=10) :AT 6,2 :PRINT "hour",MID$("+-",-(m%=3)-2*(m%=10),1);"1",CHR$(26)
+ ENDIF
+ IF DOW(d%,m%,yr%)=7
+  i%=i%+1
+  REM Create date$
+  REM Change time, interval, alarm if necessary
+  A.date$=NUM$(yr%,4)+RIGHT$("0"+NUM$(m%,2),2)+RIGHT$("0"+NUM$(d%,2),2)+"0"+NUM$(-7*(m%=5 OR m%=6)-2*(m%=3)-3*(m%=10),2)+"000100"
+  IF i%=2 AND m%=5 :REM Mother's day
+   A.event$="Moederdag" :REM eventname here must be the same as in events$
+   APPEND
+   i%=2 :d%=14 :m%=6 :REM 3rd Sunday in June is at the earliest June, 15
+  ELSEIF i%=3 AND m%=6 :REM Father's day
+   A.event$="Vaderdag"
+   APPEND
+   d%=32 :m%=3 :REM initialise day & month for daylightsaving calculation
+  ELSEIF m%=3 :REM Daylightsaving ON
+   A.event$="Spring Forward!"
+   APPEND
+   d%=32 :m%=10
+  ELSEIF m%=10 :REM Daylightsaving OFF
+   A.event$="Fall Back!"
+   APPEND
+   i%=-1 :REM Done, exit loop
+  ENDIF
+ ENDIF
+ d%=d%-(m%=5 OR m%=6)+(m%=3 OR m%=10) :REM count forwards for m%=5 and m%=6 and backwards for m%=3 and m%=10
+UNTIL i%=-1
+
+REM Easter, Good Friday & Ascension
+AT 6,2 :PRINT "Easter Sunday";CHR$(26)
+A.date$=EASTER$:(yr%)+"07000100" :REM Change time, interval, alarm if necessary
+A.event$="Pasen"
+APPEND
+i%=VAL(MID$(A.date$,5,2)) :REM Month from easter date
+f%=VAL(MID$(A.date$,7,2)) :REM Day from easter date
+AT 6,2 :PRINT "Good Friday";CHR$(26)
+d%=f%-2 :m%=i%
+IF d%<1 :d%=d%+31 :m%=3 :ENDIF
+A.date$=NUM$(yr%,4)+RIGHT$("0"+NUM$(m%,2),2)+RIGHT$("0"+NUM$(d%,2),2)+"07000100" :REM Change time, interval, alarm if necessary
+A.event$="Goede Vrijdag"
+APPEND
+AT 6,2 :PRINT "Ascension";CHR$(26)
+d%=f%+39 :m%=i%
+DO
+ REM At the latest, Ascension is in early June
+ REM subtract 31 days for March, 30 for April and 31 for May
+ d%=d%-30+(m%=3 OR m%=5)
+ m%=m%+1
+UNTIL d%<32
+A.date$=NUM$(yr%,4)+RIGHT$("0"+NUM$(m%,2),2)+RIGHT$("0"+NUM$(d%,2),2)+"07000100" :REM Change time, interval, alarm if necessary
+A.event$="Hemelvaart"
+APPEND

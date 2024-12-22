@@ -1,0 +1,49 @@
+FLIPSIDE:
+LOCAL X%,Y%,M%,I%,Q%,B%(24),c%,K%
+UDG 0,31,17,17,17,17,17,17,31
+UDG 1,31,21,27,21,27,21,27,31
+kstat 2
+at 8,1 :print"* FLIP-SIDE *";
+at 8,3 :print "Number :"
+WHILE I%<>24 :I%=I%+1 :B%(I%)=INT(RND*2) :ENDWH
+X%=1 :Y%=1
+A:: K%=0 :I%=0 :CURSOR OFF
+at 16,3 :print c%;
+WHILE I%<24
+AT 1,I%/6+1 :PRINT CHR$(B%(I%+1))+CHR$(B%(I%+2))+CHR$(B%(I%+3))+CHR$(B%(I%+4))+CHR$(B%(I%+5))+chr$(B%(I%+6))
+K%=K%+B%(I%+1)+B%(I%+2)+B%(I%+3)+B%(I%+4)+B%(I%+5)+B%(I%+6)
+I%=I%+6
+ENDWH
+IF K%=0 OR K%=24 :AT 8,2 :PRINT "* You Win *":beep 200,200 :get :return
+endif
+CURSOR ON
+AT X%,Y%
+M%=GET
+IF M%=3 or M%=%c :Y%=Y%-1
+ELSEIF M%=4 :Y%=Y%+1
+ELSEIF M%=5 :X%=X%-1
+ELSEIF M%=6 :X%=X%+1
+ELSEIF M%=13 :GOTO X::
+ELSEIF M%=1 :STOP
+ENDIF
+IF X%=0 :X%=1
+ELSEIF X%=7 :X%=6
+ELSEIF Y%=0 :Y%=1
+ELSEIF Y%=5 :Y%=4
+ENDIF
+GOTO A::
+X:: cursor off
+Q%=6*(Y%-1)+X%
+B%(Q%)=1-B%(Q%)
+IF X%<>1 :B%(Q%-1)=1-B%(Q%-1)
+ENDIF
+IF X%<>6 :B%(Q%+1)=1-B%(Q%+1)
+ENDIF
+IF Y%<>1 :B%(Q%-6)=1-B%(Q%-6)
+ENDIF
+IF Y%<>4 :B%(Q%+6)=1-B%(Q%+6)
+ENDIF
+c%=c%+1
+beep 50,1000 :beep 50,500
+GOTO A::
+

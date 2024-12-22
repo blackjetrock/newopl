@@ -1,0 +1,133 @@
+GRAPH:
+LOCAL H%(20),A$(4,20),k$(1)
+LOCAL A%,B%,C%,i%,m,mu,m$(4,20),l%,t$(20),fname$(10),t%
+
+
+UDG 0,0,0,0,0,0,0,31,31
+UDG 1,0,0,0,0,31,31,31,31
+UDG 2,0,0,31,31,31,31,31,31
+UDG 3,31,31,31,31,31,31,31,31
+
+AG::
+A$(1)=""
+A$(2)=""
+A$(3)=""
+A$(4)=""
+CLS
+a%=view(1,"PSI-Graph v2.1 Copyright(C) 1998 Byte-Size Software  Press any key to continue")
+at 1,2
+t%=menu("Load data from file ,Enter data now")
+if t%=2
+print "Enter your data,"
+print "then -1.    "
+
+A%=3
+m=0
+do
+a%=a%+1
+print "Bar no. ";a%-3;" : ";
+input i%
+if i%>-1
+h%(a%)=i%
+if i%>m
+m=i%
+endif
+endif
+until i%<0 or a%=20
+else
+m=0
+cls
+print "Enter filename:"
+input fname$
+open fname$,a,t$
+a%=2
+do
+a%=a%+1
+if a.t$<>"-"
+h%(a%)=val(a.t$)
+if h%(a%)>m 
+m=h%(a%)
+endif
+endif
+next
+until a%=20 or a.t$="-"
+endif
+l%=a%+1
+cls
+if t%=2
+print "Graph title line 1:"
+m$(1)=input$:(20-l%)
+print "Graph title line 2:"
+m$(2)=input$:(20-l%)
+print "Graph title line 3:"
+m$(3)=input$:(20-l%)
+print "Graph title line 4:"
+m$(4)=input$:(20-l%)
+else
+a%=0
+do
+a%=a%+1
+next
+if a.t$<>""
+m$(a%)=a.t$
+endif
+until a%=4 or a.t$=""
+CLOSE
+endif
+CLS
+PRINT "Calculating graph...";
+A%=1
+mu=16/M
+DO
+h%(a%)=h%(a%)*mu
+ IF A%>2
+
+
+ ELSE
+  H%(A%)=0
+ ENDIF
+ B%=H%(A%)
+ C%=4
+
+ WHILE B%>=4
+  A$(C%)=A$(C%)+CHR$(3)
+  C%=C%-1
+  B%=B%-4
+ ENDWH
+
+ IF B%>0
+  A$(C%)=A$(C%)+CHR$(B%-1)
+  C%=C%-1
+ ENDIF
+
+ WHILE C%>=1
+  A$(C%)=A$(C%)+" "
+  C%=C%-1
+ ENDWH
+
+ A%=A%+1
+UNTIL A%=21
+cls
+
+PRINT A$(1);A$(2);A$(3);A$(4);
+at 1,1
+print m;
+at 1,4
+print "0";
+at l%+1,1
+print m$(1); 
+at l%+1,2
+print m$(2); 
+at l%+1,3
+print m$(3); 
+at l%+1,4
+print m$(4); 
+get
+cls
+print "Another graph? (Y/N)"
+While k$=""
+k$=key$
+endwh
+if k$="y" or k$="Y"
+goto ag::
+endif

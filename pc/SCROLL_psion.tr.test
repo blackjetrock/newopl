@@ -1,0 +1,116 @@
+
+Filename:'SCROLL'
+File ext:'OB3
+Dropping OB3 header...
+Enter:dump_proc
+Var Space Size:000E
+QCode Space Size:006F
+Number of parameters:03
+Parameter types:
+ 0 STR    (2)
+ 1 INT    (0)
+ 2 INT    (0)
+Global varname Size:0000
+Global variables (0)
+
+External varname Size:0008
+External variables (1)
+ 0: SCRLP%           INT    (00)
+
+String length fixups (0)
+
+Array size fixups (0)
+
+QCode
+
+0000: 0D       Push local/global integer variable reference     (bytes code:v)
+0001: FFF4       (65524)
+0003: 09       Push parameter/external string variable value     (bytes code:V)
+0004: FFF8       (65528)
+0006: 96       LEN     (bytes code:-)
+0007: 7F       Assign integer     (bytes code:-)
+0008: 00       Push local/global integer variable value     (bytes code:v)
+0009: FFF2       (65522)
+000B: 22       Push integer literal     (bytes code:I)
+000C: 0010       (16)
+000E: 2D       Plus integer     (bytes code:-)
+000F: 00       Push local/global integer variable value     (bytes code:v)
+0010: FFF4       (65524)
+0012: 28       Less than equal integer     (bytes code:-)
+0013: 7E       Branch if false     (bytes code:D)
+0014: Dest:0066 (Dist:0052)
+0016: 0D       Push local/global integer variable reference     (bytes code:v)
+0017: FFF2       (65522)
+0019: 00       Push local/global integer variable value     (bytes code:v)
+001A: FFF2       (65522)
+001C: 22       Push integer literal     (bytes code:I)
+001D: 0001       (1)
+001F: 2D       Plus integer     (bytes code:-)
+0020: 7F       Assign integer     (bytes code:-)
+0021: 22       Push integer literal     (bytes code:I)
+0022: 0001       (1)
+0024: 07       Push parameter/external integer variable value     (bytes code:V)
+0025: FFFC       (65532)
+0027: 4C       AT     (bytes code:-)
+0028: 09       Push parameter/external string variable value     (bytes code:V)
+0029: FFF8       (65528)
+002B: 00       Push local/global integer variable value     (bytes code:v)
+002C: FFF2       (65522)
+002E: 22       Push integer literal     (bytes code:I)
+002F: 0010       (16)
+0031: C2       MID$     (bytes code:-)
+0032: 71       PRINT string     (bytes code:-)
+0033: 73       PRINT newline     (bytes code:-)
+0034: 95       KEY     (bytes code:-)
+0035: 7E       Branch if false     (bytes code:D)
+0036: Dest:0039 (Dist:0003)
+0038: 7B       RETURN (float 0)     (bytes code:-)
+0039: 07       Push parameter/external integer variable value     (bytes code:V)
+003A: FFFA       (65530)
+003C: 7E       Branch if false     (bytes code:D)
+003D: Dest:004D (Dist:0010)
+003F: 07       Push parameter/external integer variable value     (bytes code:V)
+0040: FFF6       (65526)
+0042: 54       PAUSE     (bytes code:-)
+0043: 22       Push integer literal     (bytes code:I)
+0044: 0032       (50)
+0046: 22       Push integer literal     (bytes code:I)
+0047: 00C8       (200)
+0049: 4D       BEEP     (bytes code:-)
+004A: 51       GOTO     (bytes code:D)
+004B: Dest:0051 (Dist:0006)
+004D: 07       Push parameter/external integer variable value     (bytes code:V)
+004E: FFF6       (65526)
+0050: 54       PAUSE     (bytes code:-)
+0051: 00       Push local/global integer variable value     (bytes code:v)
+0052: FFF2       (65522)
+0054: 22       Push integer literal     (bytes code:I)
+0055: 0001       (1)
+0057: 2C       Equal integer     (bytes code:-)
+0058: 7E       Branch if false     (bytes code:D)
+0059: Dest:0063 (Dist:000A)
+005B: 22       Push integer literal     (bytes code:I)
+005C: 0005       (5)
+005E: 07       Push parameter/external integer variable value     (bytes code:V)
+005F: FFF6       (65526)
+0061: 2F       Multiply integer     (bytes code:-)
+0062: 54       PAUSE     (bytes code:-)
+0063: 51       GOTO     (bytes code:D)
+0064: Dest:0008 (Dist:FFFFFFA4)
+0066: 22       Push integer literal     (bytes code:I)
+0067: 0005       (5)
+0069: 07       Push parameter/external integer variable value     (bytes code:V)
+006A: FFF6       (65526)
+006C: 2F       Multiply integer     (bytes code:-)
+006D: 54       PAUSE     (bytes code:-)
+006E: 7B       RETURN (float 0)     (bytes code:-)
+
+QCode Data
+
+0000:0D FF F4 09 FF F8 96 7F 00 FF F2 22 00 10 2D 00 
+0010:FF F4 28 7E 00 52 0D FF F2 00 FF F2 22 00 01 2D 
+0020:7F 22 00 01 07 FF FC 4C 09 FF F8 00 FF F2 22 00 
+0030:10 C2 71 73 95 7E 00 03 7B 07 FF FA 7E 00 10 07 
+0040:FF F6 54 22 00 32 22 00 C8 4D 51 00 06 07 FF F6 
+0050:54 00 FF F2 22 00 01 2C 7E 00 0A 22 00 05 07 FF 
+0060:F6 2F 54 51 FF A4 22 00 05 07 FF F6 2F 54 7B 

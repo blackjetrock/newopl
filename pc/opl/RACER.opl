@@ -1,0 +1,214 @@
+RACER:
+rem <<<<< Racer v2.08 >>>>>
+rem <<<<< Copyright Mick Andon 1990,1998 >>>>>
+
+local a$(2),b$(2),e$(1),f$(1),g$(1),h$(1),i$(1),j$(1)
+local l%,m%,k%,y%,p%,pos%,pos$(4),pass%
+local r$(4,220),ro$(4,20),z$(1)
+local c$(200),cl%,n%,ad%
+local t%,t1%,tt%(3),tt1%(3)
+local rd%,rd2%,x%(3),yy%(3),dif%,lp%,lpp%(3),pass$(16),cx%
+local v1%,v2%,v3%
+
+escape off
+v1%=peekb($77) :v2%=peekb($78) :v3%=peekb($20c0)
+pokeb $77,3 :pokeb $78,3 :pokeb $20c0,0
+
+cls
+udg 0,28,8,31,24,24,31,8,28
+udg 1,28,8,30,15,15,30,8,28
+udg 2,28,8,31,26,21,31,8,28
+udg 3,28,8,30,11,23,30,8,28
+udg 4,31,15,7,7,3,3,1,0
+udg 5,31,30,28,28,24,24,16,0
+udg 6,0,1,3,3,7,7,15,31
+udg 7,0,16,24,24,28,28,30,31
+
+a$=chr$(0)+chr$(1)
+b$=chr$(2)+chr$(3)
+e$=chr$(4) :f$=chr$(5) :g$=chr$(6) :h$=chr$(7) :i$=chr$(255) :j$=chr$(245)
+
+r$(1)=" "+j$+" "+j$+" "+e$+i$+i$+i$+"   "+chr$(93)+chr$(173)+j$
+r$(1)=r$(1)+rept$(" ",10)+e$+rept$(i$,7)+f$+rept$(" ",7)+e$+rept$(i$,13)
+r$(1)=r$(1)+f$+rept$(" ",24)+e$+rept$(i$,8)+f$
+r$(1)=r$(1)+rept$(" ",9)+e$+rept$(i$,19)+f$+" "+j$+"  "+j$+"  "+g$+i$+f$
+r$(1)=r$(1)+rept$(" ",10)+e$+rept$(i$,9)+f$+rept$(" ",7)+j$+j$+j$+"    "
+r$(1)=r$(1)+e$+h$+rept$(" ",23)+e$+i$+i$+i$+f$+"   "+g$+i$+left$(r$(1),20)
+
+r$(2)="  "+j$+" "+j$+" "+j$+" "+j$+"  "+chr$(93)+" "+chr$(173)+j$
+r$(2)=r$(2)+rept$(" ",12)+"_____"+rept$(" ",12)+e$+rept$(i$,5)+f$
+r$(2)=r$(2)+rept$(" ",18)+g$+rept$(i$,5)+h$+rept$(" ",17)+g$+h$+rept$(" ",6)
+r$(2)=r$(2)+e$+rept$(i$,5)+f$+rept$(" ",6)+e$+h$+chr$(252)+g$+f$+" "
+r$(2)=r$(2)+j$+"  "+j$+rept$(" ",30)+g$+rept$(i$,6)+"     "+e$+i$+i$
+r$(2)=r$(2)+j$+j$+i$+f$+rept$(" ",10)+g$+i$+h$+rept$(" ",14)+left$(r$(2),20)
+
+r$(3)=" "+j$+" "+j$+" "+j$+" "+j$+"  "+chr$(93)+"  "+chr$(173)+j$
+r$(3)=r$(3)+"    "+j$+j$+i$+i$+h$+"   "+"____"+"    "+g$+rept$(i$,4)
+r$(3)=r$(3)+h$+"      "+e$+i$+f$+rept$(" ",12)+e$+rept$(i$,12)+f$
+r$(3)=r$(3)+"      "+e$+i$+i$+i$+i$+f$+rept$(" ",27)+e$+i$+f$+" "
+r$(3)=r$(3)+j$+"  "+j$+"  "+g$+rept$(i$,6)+h$+"       "+g$+i$+i$+i$
+r$(3)=r$(3)+j$+j$+j$+j$+i$+i$+j$+j$+j$+j$+f$+"   "+j$+j$+j$+"      "+e$
+r$(3)=r$(3)+i$+f$+"     "+g$+rept$(i$,7)+f$+"   "+"_______"+"  "+g$
+r$(3)=r$(3)+i$+i$+i$+left$(r$(3),20)
+
+r$(4)="  "+j$+" "+j$+g$+i$+i$+i$+"   "+chr$(93)+chr$(173)+j$+rept$(" ",19)
+r$(4)=r$(4)+g$+rept$(i$,8)+h$+"        "+g$+rept$(i$,6)+h$+rept$(" ",31)
+r$(4)=r$(4)+g$+rept$(i$,4)+h$+rept$(" ",12)+g$+i$+i$+h$+"     "+j$+"  "
+r$(4)=r$(4)+j$+" "+g$+i$+f$+chr$(187)+chr$(215)+chr$(213)+chr$(193)
+r$(4)=r$(4)+rept$(chr$(187),2)+e$+rept$(i$,3)+h$+rept$(" ",20)+g$+i$+i$+i$
+r$(4)=r$(4)+rept$(" ",12)+g$+i$+i$+rept$(j$,5)+rept$(i$,4)
+r$(4)=r$(4)+f$+rept$(" ",14)+left$(r$(4),20)
+
+c$=   "=MIEEEEEEFCCCCCCSRQQQQQQUUUUUUE55551111156FJNO____"
+c$=c$+"_J99999988<<<<<,,,,,,,,,,,,)6GWWWWWWWWVE8((((():K["
+c$=c$+"[[[[[[[KJEEEFK____^]L<845555555544448<============"
+c$=c$+"==<,,,(((((()*;O____ZJJ9400000      !226:>>>======"
+
+ad%=addr(c$)
+
+pass$="last3rd 2nd 1st "
+
+again::
+m%=1 :p%=6 :y%=2
+
+rem x%(1)=20 :x%(2)=50 :x%(3)=70
+
+if int(rnd*2)=1
+ x%(2)=rnd*20+20
+ x%(3)=rnd*60+20
+else
+ x%(2)=rnd*60+20
+ x%(3)=rnd*20+20
+endif
+x%(1)=rnd*40+20
+
+
+z$=" "
+lp%=0 :lpp%(1)=0 :lpp%(2)=0 :lpp%(3)=0
+
+cls :l%=1 :cl%=1
+do
+ print left$(r$(l%),20);
+ l%=l%+1
+until l%>4
+at 10,2 :print a$
+pause 0
+pokew $20cb,0
+t%=0 :tt%(1)=1 :tt%(2)=2 :tt%(3)=3
+cx%=0
+do
+k%=key :rd%=rnd*10 :rd2%=rd%/2+1
+
+if k%=6 and p%>2 :p%=p%-1 :if p%<5 :p%=2 :endif :endif
+if k%=5 and p%<6 :p%=p%+1 :if p%<5 :p%=5 :endif :endif
+if k%=3 and y%>1 :y%=y%-1 :endif
+if (k%=4 or k%=%c or k%=%C) and y%<4 :y%=y%+1 :endif
+if k%=1 :p%=0 :goto q:: :endif
+if k%=32 :pause 0 :pokew $20cb,t1% :endif
+if k%=%s :if peekb($a4) :pokeb $a4,0 :else :pokeb $a4,1 :endif :beep 100,100 :endif
+
+cl%=1 :do
+if rd2%<>cl%
+ x%(cl%)=x%(cl%)+1
+ if rd%=cl%*2 :x%(cl%)=x%(cl%)+1 :endif
+ if x%(cl%)>200 :lpp%(cl%)=lpp%(cl%)+1 :x%(cl%)=1 :endif
+
+ yy%(cl%)=(peekb(ad%+x%(cl%))-32)/(2**(2*(cl%-1)))
+ yy%(cl%)=(yy%(cl%) and 3)+1
+
+
+endif
+cl%=cl%+1 :until cl%>3
+
+
+rem ----
+t1%=peekw($20cb)
+if t1%>6000 or t1%<0 :at 1,1 :print"     Time's up!     "; :goto tim:: :endif
+if t1%-t%>=p% :t%=t1%
+ rem beep 1,1000 :rem **
+ l%=1
+ do
+  ro$(l%)=mid$(r$(l%),m%,20)
+  rem beep 1,1000
+
+  n%=1 :do
+   if l%=yy%(n%)
+    dif%=x%(n%)-m%+1
+    if dif%<0 :dif%=dif%+200 :endif
+    if dif%>0 and dif%<20
+     ro$(l%)=left$(ro$(l%),dif%-1)+b$+right$(ro$(l%),19-dif%)
+    endif
+   endif
+  n%=n%+1 :until n%>3
+
+  if l%=y%
+   z$=mid$(ro$(l%),11,1)
+   ro$(l%)=left$(ro$(l%),9)+a$+right$(ro$(l%),9)
+  endif
+  if l%=1 and m%>4 and m%<14
+   ro$(1)="LAP "+gen$(lp%+1,1)+right$(ro$(1),15)
+  endif
+  rem at 1,l% :print ro$(l%);
+  l%=l%+1
+ until l%>4
+ at 1,1 :print ro$(1); :print ro$(2); :print ro$(3); :print ro$(4);
+
+ if p%<6 :m%=m%+1
+  if m%>200 :lp%=lp%+1 :if lp%>3 :lp%=3 :goto fin:: :endif :m%=1 :endif
+ endif
+endif
+
+if asc(z$)<7 or z$=chr$(255) :rem z$=" " or z$=j$
+ beep 2,60
+ if z$=chr$(2)
+  cx%=cx%+1
+  if cx%>4
+   at 1,1 :print" Too many crashes! "; :goto tim::
+  endif
+ endif
+ z$=""
+ if p%<6 and m%>1 :m%=m%-1 :endif
+ p%=6
+endif
+
+until 0
+
+fin::
+at 3,1 :print"Course completed" :p%=1
+q:: :pass%=0
+
+l%=1 :do
+ pos%=(m%+lp%*200)-(x%(l%)-9+lpp%(l%)*200)
+ if pos%>0 :pass%=pass%+int(pos%/200)+1 :endif
+l%=l%+1 :until l%>3
+
+
+if p%
+ pos%=peekw($20cb)/80+cx%*2 :pos$=gen$(pos%,3)+"s"
+ if m7=0 or pos%<m7 :at 3,1 :print"A new lap record"
+  m7=pos%
+ endif
+else
+ pos$="n/a"
+endif
+at 1,4 :print" ";b$;" Again? (y/n) ";a$;" ";
+q2::
+k%=view(3,"You came "+mid$(pass$,1+pass%*4,4)+" >>> Lap average: "+pos$+" >>>")
+
+if k%=%y or k%=%Y :goto again:: :endif
+if k%=%n or k%=%N :goto quit:: :endif
+goto q2::
+
+tim::
+p%=0
+goto q::
+
+quit::
+pokeb $77,v1% :pokeb $78,v2% :pokeb $20c0,v3%
+
+rem ......<<< the end >>>
+
+
+
+
+                                      

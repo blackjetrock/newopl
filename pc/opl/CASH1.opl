@@ -1,0 +1,286 @@
+CASH1:
+rem Money Manager V1.00 for monitoring income and expenditure for
+rem a Current Bank Account and one major Credit Card
+rem (c) Graham R. Goater January 1997
+global money$(12),fdat$(8),fnarr$(15),famount,frec$(2),ffund$(2),ftv$(1),rec$(1)
+global y$(1),fund$(1),opt%,option%,newpos%,recpntr%,cash,bank,account$(5)
+global line$(50),space$(3),title$(50),newdate$(8),nday$(2),nmonth$(2)
+udg 0,6,9,8,28,8,8,31,0
+udg 2,0,0,0,0,0,0,0,31
+money$="a:money"
+if exist(money$)
+  open "a:money",a,fdat$,fnarr$,famount,frec$,ffund$
+else
+  create "a:money",a,fdat$,fnarr$,famount,frec$,ffund$
+endif
+at 3,2 :print "Money Manager V1"
+at 6,3 :print "G R Goater"
+at 7,4 :print "(c) 1997"
+pause -30
+start::
+cls
+option%=1
+while option%=1
+print chr$(0);rept$(chr$(2),14)
+clock(1)
+opt%=menun(2,"Save,View,Alter,Totals,Rec,Print,Delete,Purge,Exit")
+if opt%=1 :goto add::
+elseif opt%=2 :goto view::
+elseif opt%=3 :goto editview::
+elseif opt%=4 :goto totals::
+elseif opt%=5 :goto rec::
+elseif opt%=6 :goto fprint::
+elseif opt%=7 :goto delete::
+elseif opt%=8 :goto purge::
+elseif opt%=9
+ close
+ return
+ option%=2
+endif
+cls
+endwh
+
+ADD::
+do 
+cls
+at 1,1 :print "Date:"
+at 1,2 :print "Desc:"
+at 1,3 :print "Amnt:"
+at 1,4 :print "Fund: (B)ank  (C)ard"
+a.fdat$=""
+a.frec$="N"
+a.fnarr$=""
+a.famount=0
+at 6,1 :edit a.fdat$
+at 15,1 :print "Rec:"
+at 19,1 :edit a.frec$ 
+at 6,2 :edit a.fnarr$
+at 6,3 :input a.famount
+fund$=upper$(get$)
+a.ffund$=fund$
+append
+cls 
+at 1,2 :print "Input another Record"
+at 6,3 :print "(Y) or (N)"
+y$=upper$(get$)
+until y$<>"Y"
+goto start::
+
+VIEW::
+ftv:
+at 1,4 :print "(A)ll (U)nreconciled"
+rec$=upper$(get$)
+if rec$="U"
+cls :first :
+while not eof 
+if a.ffund$=ftv$ and a.frec$="N"
+cls :screen:
+y$=get$
+ if y$=chr$(1)
+  goto start::
+ endif
+endif
+next
+endwh
+endif
+cls
+if rec$="A"
+cls :first :
+while not eof
+if a.ffund$=ftv$
+cls :screen:
+y$=get$
+ if y$=chr$(1)
+  goto start::
+ endif
+endif
+next
+endwh
+endif
+cls
+at 2,2 :print "No further Records"
+get
+goto start::
+
+EDITVIEW::
+ftv:
+at 1,4 :print "(A)ll (U)nreconciled"
+rec$=upper$(get$)
+if rec$="U"
+cls :LAST
+newpos%=POS
+while newpos%>0 
+recpntr%=POS
+if a.ffund$=ftv$ and a.frec$="N"
+ cls :screen:
+ at 7,4 :print "Edit Y/N" 
+ y$=upper$(get$)
+  if y$="Y"
+   editscr: :update 
+   cls
+  elseif y$=chr$(1)
+   goto start::
+  endif
+endif
+POSITION (recpntr%-1)
+newpos%=(recpntr%-1)
+endwh
+cls
+endif
+if rec$="A"
+cls :LAST
+newpos%=POS
+while newpos%>0
+recpntr%=POS
+if a.ffund$=ftv$
+ cls :screen:
+ at 7,4 :print "Edit Y/N"
+ y$=upper$(get$)
+  if y$="Y"
+   editscr: :update
+   cls
+  elseif y$=chr$(1)
+   goto start::
+  endif
+ endif
+POSITION (recpntr%-1)
+newpos%=(recpntr%-1)
+endwh
+cls
+endif
+at 2,2 :print "No further Records"
+get
+goto start::
+
+
+TOTALS::
+FTV: :cls :first
+cash=0 :bank=0
+do
+if a.ffund$=ftv$
+cash=cash+a.famount
+endif
+if a.frec$="Y" and a.ffund$=ftv$
+ bank=bank+a.famount
+endif
+next :until eof
+if ftv$="B" :account$="Bank" :else account$="Card" :endif
+at 1,1 :print "Balances for:", :print account$
+at 1,3 :print "Records  :",
+at 12,3 :print fix$(cash,2,-9) 
+at 1,4 :print "Statement:",
+at 12,4 :print fix$(bank,2,-9)
+get
+goto start::
+
+REC::
+ftv: :cls :LAST
+newpos%=POS
+while newpos%>0 
+recpntr%=POS
+if a.ffund$=ftv$ and a.frec$="N"
+ cls :screen:
+ at 4,4 :print "Reconcile Y/N" 
+ y$=upper$(get$)
+  if y$="Y"
+   a.frec$="Y"   
+   at 19,1 :print a.frec$ :update 
+   pause 30
+   cls
+  elseif y$=chr$(1)
+   goto start::
+  endif
+endif
+POSITION (recpntr%-1)
+newpos%=(recpntr%-1)
+endwh
+cls
+at 2,2 :print "No further Records"
+get
+goto start::
+
+FPRINT::
+space$=chr$(9)
+ftv:
+first
+lprint rept$(chr$(45),75)
+lprint "Date"+space$+space$+"Description"+space$+space$+"Fund"+space$+"Amount"+space$+space$+"Rec" 
+lprint rept$(chr$(45),75)
+cash=0
+do
+if a.ffund$=ftv$
+cash=cash+a.famount
+if len(a.fnarr$)<=7
+line$=a.fdat$+space$+a.fnarr$+space$+space$+space$+a.ffund$+space$+fix$(a.famount,2,-9)+space$+a.frec$
+else
+line$=a.fdat$+space$+a.fnarr$+space$+space$+a.ffund$+space$+fix$(a.famount,2,-9)+space$+a.frec$
+endif
+cls
+lprint line$
+endif
+next
+cls
+until eof
+lprint rept$(chr$(45),75)
+lprint " "
+lprint space$+space$+space$+space$+space$+"Total   "+fix$(cash,2,-9)
+goto start::
+
+DELETE::
+ftv: :cls :LAST
+newpos%=POS
+while newpos%>0 
+recpntr%=POS
+if a.ffund$=ftv$
+ cls :screen:
+ at 6,4 :print "Delete Y/N" 
+ y$=upper$(get$)
+  if y$="Y"
+   erase 
+   cls
+  elseif y$=chr$(1)
+   goto start::
+  endif
+endif
+POSITION (recpntr%-1)
+newpos%=(recpntr%-1)
+endwh
+cls
+at 2,2 :print "No further Records"
+get
+goto start::
+
+PURGE::
+FTV: :cls :first
+at 4,2 :print "Please Wait..."
+cash=0 :bank=0
+do
+if a.frec$="Y" and a.ffund$=ftv$
+ bank=bank+a.famount
+endif
+next :until eof
+LAST
+newpos%=POS
+while newpos%>0 
+recpntr%=POS
+if a.frec$="Y" and a.ffund$=ftv$
+ erase
+endif
+POSITION (recpntr%-1)
+newpos%=(recpntr%-1)
+endwh
+nday$=num$(day,2)
+nmonth$=num$(month,2)
+if len(nday$)=1 :nday$="0"+nday$ :endif
+if len(nmonth$)=1 :nmonth$="0"+nmonth$ :endif
+newdate$=nday$+"-"+nmonth$+"-"+right$(num$(year,4),2)
+a.fdat$=newdate$
+a.frec$="Y"
+a.fnarr$="Opening Bal"
+a.famount=bank
+a.ffund$=ftv$
+append
+cls :at 4,2 :print "Purge Complete" :get
+goto start::
+
+
