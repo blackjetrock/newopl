@@ -6090,26 +6090,6 @@ void translate_file(FILE *fp, FILE *ofp)
 
   pull_next_line();
 
-#if 0
-  idx = cline_i;  
-
-  while( check_declare(&idx) )
-    {
-      //output_expression_start(cline);
-      if( scan_declare() )
-	{
-	  // All OK
-	}
-      else
-	{
-	  syntax_error("Bad declaration");
-	}
-      
-      pull_next_line();
-      idx = cline_i;  
-    }
-#endif
-  
   indent_none();
 
   LEVEL_INFO levels;
@@ -6145,9 +6125,7 @@ void translate_file(FILE *fp, FILE *ofp)
 
   finalise_expression();
   
-  
   // Done
-
   dbprintf("Done");
   dbprintf("");
 }

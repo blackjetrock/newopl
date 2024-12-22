@@ -234,7 +234,7 @@ struct _FN_INFO
     { "RAISE",    1,  0, ' ',  "i",         "v", 0x00, 0 },
     { "RANDOMIZE",1,  0, ' ',  "f",         "v", 0x00, 0 },
     { "RECSIZE",  0,  0, ' ',  "",          "i", 0x00, 0 },
-    { "REM",      1,  0, ' ',  "",          "v", 0x00, 0 },
+    //    { "REM",      1,  0, ' ',  "",          "v", 0x00, 0 },
     { "RENAME",   1,  1, ' ',  "ss",        "v", 0x00, 0 },
     { "REPT$",    0,  0, ' ',  "si",        "s", 0x00, 0 },
     { "RETURN",   1,  0, ' ',  "i",         "v", 0x00, 0 },
@@ -453,6 +453,7 @@ typedef struct _OTHER_KEYWORD_INFO
 
 OTHER_KEYWORD_INFO other_keywords[] =
   {
+    {"REM"},
     {"IF"},
     {"ENDIF"},
     {"ELSE"},
@@ -2474,7 +2475,7 @@ int scan_variable(NOBJ_VAR_INFO *vi, int ref_ndeclare, NOPL_OP_ACCESS access, ch
       if( token_is_other_keyword(vname) )
 	{
 	  // Definitely not a variable
-	  dbprintf("'%s' is an other keypwod");
+	  dbprintf("'%s' is an other keyword", vname);
 	  return(0);
 	}
  
@@ -7106,23 +7107,10 @@ int scan_line(LEVEL_INFO levels)
       return(0);
     }
 
-#if 0
-  if( strlen(&cline[cline_i]) > 0 )
-    {
-      if( !is_all_spaces(cline_i) )
-	{
-	  dbprintf("===================================expr==========================================");
-	  fprintf(chkfp, "\n===================================expr==========================================");
-	  //fprintf(chkfp, "\n%ld\n", strlen(&(cline[cline_i])));
-	  fprintf(chkfp, "\n%s\n", &(cline[cline_i]));
-	}
-    }
-#endif
-  
   // If it's a REM, then the line parses and we generate no tokens
   
   idx = cline_i;
-  if( check_literal(&idx, " REM") )
+  if( check_literal(&idx, " REM ") )
     {
       cline_i = strlen(cline);
       dbprintf("Comment ignored");
@@ -7130,16 +7118,6 @@ int scan_line(LEVEL_INFO levels)
       return(1);
     }
 
-  idx = cline_i;
-  if( check_declare(&idx) )
-    {
-
-      if( scan_declare() )
-	{
-	  dbprintf("ret1");
-	  return(1);
-	}
-    }
   
   idx = cline_i;
   if( check_assignment(&idx) )
@@ -7154,6 +7132,17 @@ int scan_line(LEVEL_INFO levels)
 	{
 	  dbprintf("ret0");
 	  return(0);
+	}
+    }
+  
+  idx = cline_i;
+  if( check_declare(&idx) )
+    {
+      
+      if( scan_declare() )
+	{
+	  dbprintf("ret1");
+	  return(1);
 	}
     }
 
@@ -7622,15 +7611,6 @@ int pull_next_line(void)
   // to the end of a scan_line(), and that may leave a colon delimited line in the buffer,
   // or maybe a command without a colon delimiter (REM, or ELSE).
 
-#if 0
-  // Remove leading spaces
-
-  while( isspace( cline[strlen(cline)-1]) )
-    {
-      cline[strlen(cline)-1] = '\0';
-    }
-#endif
-
   // If an expression was parsed then we process it (as far as QCode)
   if( output_expression_started )
     {
@@ -7671,6 +7651,7 @@ int pull_next_line(void)
   // If we get here then we have not found any remaining text in the buffer
   // We read a new line from the input device and check that it's not blank
   // We remove REM statements here too
+  //------------------------------------------------------------------------------
   
   do
     {
@@ -7687,35 +7668,10 @@ int pull_next_line(void)
       // Read next line into cline[]
         dbprintf("------------------------------");
 
-  // Do we have a colon delimited line in progress?
-#if 0
-  if( multi_line_in_progress )
-    {
-      // See if we have another delimited line to return
-      
-    }
-  else
-    {
-#endif      
       // Clear the buffer in case we don't read any more text
       cline_i = 0;
       cline[0] = '\0';
       fgets(cline, MAX_NOPL_LINE, infp);
-
-
-#if 0
-      // Read another composite line and return the first delimited line
-      if( fgets(cline, MAX_NOPL_LINE, infp) == NULL )
-	{
-	  // If we get NULL then we haven't read any data. There is still data
-	  // in the buffer
-#if 0
-	  dbprintf("ret0");
-	  return(0);
-#endif
-	}
-
-#endif
       
       // We have a new line, set the buffer up ready to parse it
       cline_i = 0;
@@ -7726,29 +7682,6 @@ int pull_next_line(void)
       
       remove_trailing_newline(cline_i);
       
-#if 0      
-      dbprintf("ret1");
-      return(1);
-#endif
-      //}
-#if 0
-      if( !next_composite_line(infp) )
-	    {
-	      cline[0] = '\0';
-	    }
-	}
-#endif
-#if 0      
-      // Check it's not a line full of spaces
-      all_spaces = 1;
-      for(int i=0; i<strlen(cline); i++)
-	{
-	  if( !isspace(cline[i]) )
-	    {
-	      all_spaces = 0;
-	    }
-	}
-#endif
       // Truncate any REM statements
       char *rempos;
 
@@ -7761,19 +7694,17 @@ int pull_next_line(void)
       // it can and then remove any leading colons then (that is in the code at the start
       // of this function)
 
-      
-      if( (rempos = strstr(&(cline[cline_i]), "REM")) != NULL )
+#if 1
+      if( (rempos = strstr(&(cline[cline_i]), "REM ")) != NULL )
 	{
 	  truncate_not_in_string(&(cline[cline_i]), rempos);	  
-	  //	  *rempos = '\0';
 	}
 
-      if( (rempos = strstr(&(cline[cline_i]), "rem")) != NULL )
+      if( (rempos = strstr(&(cline[cline_i]), "rem ")) != NULL )
 	{
 	  truncate_not_in_string(&(cline[cline_i]), rempos);	  
-	  //	  *rempos = '\0';
 	}
-      
+#endif      
       // If we just have spaces then get more text from the file
       if( all_spaces = is_all_spaces(0) )
 	{
@@ -7783,8 +7714,6 @@ int pull_next_line(void)
     }
   while(all_spaces);
   
-  ////////////////
-
   dbprintf("Got a line: '%s'", cline);
   
   fprintf(ofp, "\n");
@@ -7803,8 +7732,6 @@ int pull_next_line(void)
     }
   fprintf(ofp, "\n");
 
-  
-  //  output_expression_start(cline);
   indent_none();
 
   dump_cline();
