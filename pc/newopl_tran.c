@@ -2359,7 +2359,7 @@ void modify_expression_type(NOBJ_VARTYPE t)
 
 void type_check_stack_print(void);
 
-#define MAX_TYPE_CHECK_STACK  40
+#define MAX_TYPE_CHECK_STACK  100
 
 EXP_BUFFER_ENTRY type_check_stack[MAX_TYPE_CHECK_STACK];
 int type_check_stack_ptr = 0;
@@ -2483,6 +2483,12 @@ void clear_exp_buffer(void)
 
 void add_exp_buffer_entry(OP_STACK_ENTRY op, int id)
 {
+  if( exp_buffer_i >= (MAX_EXP_BUFFER-1) )
+    {
+      internal_error("exp buffer overflow");
+      exit(-1);
+    }
+  
   exp_buffer[exp_buffer_i].op = op;
   exp_buffer[exp_buffer_i].op.buf_id = id;
   strcpy(&(exp_buffer[exp_buffer_i].name[0]), op.name);
@@ -2491,6 +2497,12 @@ void add_exp_buffer_entry(OP_STACK_ENTRY op, int id)
 
 void add_exp_buffer2_entry(OP_STACK_ENTRY op, int id)
 {
+  if( exp_buffer2_i >= (MAX_EXP_BUFFER-1) )
+    {
+      internal_error("exp buffer2 overflow");
+      exit(-1);
+    }
+
   exp_buffer2[exp_buffer2_i].op = op;
   exp_buffer2[exp_buffer2_i].op.buf_id = id;
   strcpy(&(exp_buffer2[exp_buffer2_i].name[0]), op.name);
@@ -2629,7 +2641,13 @@ void copy_buf2_to_buf(void)
 int insert_buf2_entry_after_node_id(int node_id, EXP_BUFFER_ENTRY e)
 {
   int j;
-  
+
+  if( exp_buffer2_i >= (MAX_EXP_BUFFER-1) )
+    {
+      internal_error("exp buffer 2 overflow (insert)");
+      exit(-1);
+    }
+
   dump_exp_buffer(ofp, 2);
   e.node_id = node_id_index++;
 				  
@@ -2663,7 +2681,13 @@ int insert_buf2_entry_after_node_id(int node_id, EXP_BUFFER_ENTRY e)
 int insert_buf2_entry_before_node_id(int node_id, EXP_BUFFER_ENTRY e)
 {
   int j;
-  
+
+  if( exp_buffer2_i >= (MAX_EXP_BUFFER-1) )
+    {
+      internal_error("exp buffer 2 overflow (insert)");
+      exit(-1);
+    }
+
   dump_exp_buffer(ofp, 2);
   e.node_id = node_id_index++;
 				  
@@ -3516,25 +3540,6 @@ void process_syntax_tree(void)
 		      // All OK
 		      // Build args to RTF
 
-		      // Array needs an index of 1
-#if 0
-		      init_op_stack_entry(&(ft.op));
-		      
-		      ft.node_id = node_id_index++;
-		      ft.op.buf_id = EXP_BUFF_ID_INTEGER;
-		      ft.p_idx = 1;
-		      ft.p[0] = be.node_id;
-		      strcpy(ft.name, "1");
-		      strcpy(ft.op.name, "1");
-		      ft.op.type      = NOBJ_VARTYPE_INT;
-		      insert_buf2_entry_before_node_id(op2.node_id, ft);
-#endif
-		      
-#if 0		      
-		      type_check_stack_push(ft);
-		      type_check_stack_push(op2);
-		      type_check_stack_push(op1);
-#endif		      
 		      // The array variable needs to be a reference
 		      set_node_access(op2.node_id, NOPL_OP_ACCESS_WRITE);
 		      
@@ -3566,6 +3571,12 @@ void process_syntax_tree(void)
 		  ft.op.type      = NOBJ_VARTYPE_INT;
 
 		  // Function is going to be processed next, so we just add this INT to the end of the buffer
+		  if( exp_buffer2_i >= (MAX_EXP_BUFFER-1) )
+		    {
+		      internal_error("exp buffer 2 overflow numargs");
+		      exit(-1);
+		    }
+
 		  exp_buffer2[exp_buffer2_i++] = ft;
 		  //		  insert_buf2_entry_after_node_id(be.node_id, ft);
 		  
@@ -3573,6 +3584,12 @@ void process_syntax_tree(void)
 		}
 
 	      // Now push the flist type
+	      
+	      if( exp_buffer2_i >= (MAX_EXP_BUFFER-1) )
+		{
+		  internal_error("exp buffer 2 overflow numargs");
+		  exit(-1);
+		}
 
 	      init_op_stack_entry(&(ft.op));
 	      
@@ -3609,8 +3626,14 @@ void process_syntax_tree(void)
 		  
 		      set_node_access(op1.node_id, NOPL_OP_ACCESS_WRITE);
 		    }
-	      
+	     
 		  // Add to list of arguments
+		  if( be.p_idx >= ( MAX_EXP_BUF_P-1) )
+		    {
+		      internal_error("Argument list full");
+		      exit(-1);
+		    }
+		  
 		  be.p[be.p_idx++] = op1.node_id;
 	      
 		  dbprintf("FN ARG %d type:%c %s %d(%c)", i,
@@ -3667,7 +3690,13 @@ void process_syntax_tree(void)
 	    {
 	      // Pop a parameter off
 	      op1 = type_check_stack_pop();
-	      
+
+	      if( be.p_idx >= ( MAX_EXP_BUF_P-1) )
+		{
+		  internal_error("Argument list full");
+		  exit(-1);
+		}
+
 	      // Add to list of arguments
 	      be.p[be.p_idx++] = op1.node_id;
 	      be.op.parameter_type[i] = op1.op.type;
@@ -3973,6 +4002,12 @@ void process_syntax_tree(void)
       // If entry not copied over, copy it
       if( !copied )
 	{
+	  if( exp_buffer2_i >= (MAX_EXP_BUFFER-1) )
+	    {
+	      internal_error("exp buffer 2 overflow (insert)");
+	      exit(-1);
+	    }
+	  
 	  exp_buffer2[exp_buffer2_i++] = be;
 	}
 
@@ -3990,19 +4025,6 @@ void process_syntax_tree(void)
       else
 	{
 	  dbprintf("Value left stacked so DROP needed");
-#if 0	  
-	  // We want a drop qcode to be generated to remove any value left on the stack. This is typed
-	  // so to avoid duplicating code the internal command DROP is used. That uses the structure we have for
-	  // translating functions and commands to qcode, taking the type into account.
-	  
-	  EXP_BUFFER_ENTRY res;
-	  strcpy(be.name, "DROP");
-	  strcpy(be.op.name, be.name);
-	  be.op.buf_id = EXP_BUFF_ID_FUNCTION;
-	  be.p_idx = 0;
-	  be.op.type      = be.op.type;
-	  exp_buffer2[exp_buffer2_i++] = be;
-#endif
 	}
     }
 }
@@ -4468,32 +4490,7 @@ void typecheck_expression(void)
 			  
 			  insert_buf2_entry_after_node_id(op1.node_id, autocon);
 			}
-#if 0
-		      else
-			{
-			  syntax_error("Type should be FLT or INT");
-			  
-			}
-#endif
 		    }
-
-#if 0
-		  // Insert a byte which is the number of arguments
-		  init_op_stack_entry(&(ft.op));
-
-		  ft.node_id = node_id_index++;
-		  ft.op.buf_id = EXP_BUFF_ID_BYTE;
-		  ft.p_idx = 1;
-		  ft.p[0] = be.node_id;
-		  sprintf(t_name, "%d", be.op.num_parameters);
-		  strcpy(ft.name, t_name);
-		  strcpy(ft.op.name, t_name);
-		  ft.op.type      = NOBJ_VARTYPE_INT;
-
-		  // Function is going to be processed next, so we just add this INT to the end of the buffer
-		  exp_buffer2[exp_buffer2_i++] = ft;
-#endif		  //		  insert_buf2_entry_after_node_id(be.node_id, ft);
-		  
 		  break;
 		}
 
@@ -4538,6 +4535,13 @@ void typecheck_expression(void)
 		    }
 	      
 		  // Add to list of arguments
+		  // Add to list of arguments
+		  if( be.p_idx >= ( MAX_EXP_BUF_P-1) )
+		    {
+		      internal_error("Argument list full");
+		      exit(-1);
+		    }
+
 		  be.p[be.p_idx++] = op1.node_id;
 	      
 		  dbprintf("FN ARG %d type:%c %s %d(%c)", i,
@@ -4634,6 +4638,12 @@ void typecheck_expression(void)
 	      op1.op.type = convert_type_to_non_array(op1.op.type);
 	      
 	      // Add to list of arguments
+	      if( be.p_idx >= ( MAX_EXP_BUF_P-1) )
+		{
+		  internal_error("Argument list full");
+		  exit(-1);
+		}
+
 	      be.p[be.p_idx++] = op1.node_id;
 	      be.op.parameter_type[i] = op1.op.type;
 	      
@@ -5013,6 +5023,12 @@ void typecheck_expression(void)
       // If entry not copied over, copy it
       if( !copied )
 	{
+	  if( exp_buffer2_i >= (MAX_EXP_BUFFER-1) )
+	    {
+	      internal_error("exp buffer 2 overflow (insert)");
+	      exit(-1);
+	    }
+
 	  exp_buffer2[exp_buffer2_i++] = be;
 	}
 
@@ -5042,6 +5058,13 @@ void typecheck_expression(void)
 	  be.op.buf_id = EXP_BUFF_ID_FUNCTION;
 	  be.p_idx = 0;
 	  be.op.type      = last_known_type;
+
+	  if( exp_buffer2_i >= (MAX_EXP_BUFFER-1) )
+	    {
+	      internal_error("exp buffer 2 overflow (insert)");
+	      exit(-1);
+	    }
+
 	  exp_buffer2[exp_buffer2_i++] = be;
 	}
     }
