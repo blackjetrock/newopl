@@ -1,7 +1,7 @@
 stock:
 LOCAL barstr$(32),menu%
 loop1::
-IF NOT EXIST ("A:product")	       : rem  Open product file.
+IF NOT EXIST ("A:product")             : rem  Open product file.
   CREATE "A:product",A,barcode$,qty$
 ELSE
   OPEN   "A:product",A,barcode$,qty$

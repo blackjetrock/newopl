@@ -24,7 +24,7 @@ ENDIF
 IF FLAG1%=1 AND FLAG2%=1
  L4%(1)=16258
  L4%(2)=14592
- USR(ADDR(L4%(1)),256)
+ USR(ADDR(L4%()),256)
  FILLMAIN:              :REM COPY dataabse from pack to A:
  MENU4:                 :REM LZ demo
 ELSE

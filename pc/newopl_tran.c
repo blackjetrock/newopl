@@ -526,6 +526,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "COUNT",  NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_COUNT, 0},
     {EXP_BUFF_ID_FUNCTION, "CLS",               __,     __,                   __,        __,               QCO_CLS, 0},
     {EXP_BUFF_ID_FUNCTION, "CLOCK",             __,     __,                   __,        __,               RTF_CLOCK, 0},
+    {EXP_BUFF_ID_FUNCTION, "CURSOR",            __,     __,                   __,        __,               QCO_CURSOR, 0},
 	
     {EXP_BUFF_ID_FUNCTION, "DAY",    NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_DAY, 0},
     {EXP_BUFF_ID_FUNCTION, "DISP",              __,     __,                   __,        __,               RTF_DISP, 0},
@@ -2417,7 +2418,7 @@ void type_check_stack_display(void)
       s = type_check_stack[i].name;
       type = type_check_stack[i].op.type;
       
-      dbprintf("%03d: '%s' type:%c (%d)", i, s, type_to_char(type), type);
+      dbprintf("%03d: '%s' type:%c (%d), %%:%d", i, s, type_to_char(type), type, type_check_stack[i].op.percent);
     }
 }
 
@@ -2460,7 +2461,7 @@ void type_check_stack_print(void)
   for(int i=0; i<type_check_stack_ptr; i++)
     {
       s = type_check_stack[i].name;
-      dbprintf(" N%03d: '%s' type:%d", type_check_stack[i].node_id, s, type_check_stack[i].op.type);
+      dbprintf(" N%03d: '%s' type:%d %%:%d", type_check_stack[i].node_id, s, type_check_stack[i].op.type, type_check_stack[i].op.percent );
     }
 
   dbprintf("------------------\n");
@@ -2573,7 +2574,7 @@ void dump_exp_buffer(FILE *fp, int bufnum)
       
       fprintf(fp, "  %d:", token.p_idx);
 
-      for(int pi=0; pi<token.p_idx; pi++)
+      for(int pi=0; pi< MAX_EXP_BUF_P/*token.p_idx*/; pi++)
 	{
 	  fprintf(fp, " %d", token.p[pi]);
 	}
@@ -3142,6 +3143,8 @@ void typecheck_operator_immutable(EXP_BUFFER_ENTRY be, OP_INFO op_info, EXP_BUFF
       if( op_info.returns_result )
 	{
 	  EXP_BUFFER_ENTRY res;
+	  init_exp_buffer_entry(&res);
+	  
 	  res.node_id = be.node_id;          // Result id is that of the operator
 	  res.p_idx = 2;
 	  res.p[0] = op1.node_id;
@@ -3241,6 +3244,8 @@ void process_syntax_tree(void)
   char             t_name[NOBJ_VARNAME_MAXLEN+1];
   
   dbprintf("Pass:%d", pass_number);
+
+  init_exp_buffer_entry(&autocon);
   
   // Initialise
   init_op_stack_entry(&(op1.op));
@@ -3649,6 +3654,8 @@ void process_syntax_tree(void)
 	    {
 	      // Push dummy result
 	      EXP_BUFFER_ENTRY res;
+	      init_exp_buffer_entry(&res);
+	      
 	      res.node_id = be.node_id;          // Result id is that of the operator
 	      res.p_idx = function_num_args(be.name);
 	      res.p[0] = op1.node_id;
@@ -3713,6 +3720,8 @@ void process_syntax_tree(void)
 	    {
 	      // Push dummy result
 	      EXP_BUFFER_ENTRY res;
+	      init_exp_buffer_entry(&res);
+	      
 	      res.node_id = be.node_id;          // Result id is that of the operator
 	      res.p_idx = be.op.num_parameters;
 	      res.p[0] = op1.node_id;
@@ -3930,6 +3939,8 @@ void process_syntax_tree(void)
 		      if( op_info.returns_result )
 			{
 			  EXP_BUFFER_ENTRY res;
+			  init_exp_buffer_entry(&res);
+			  
 			  strcpy(res.name, "000");
 			  res.node_id = be.node_id;   //Dummy result carries the operator node id as that is the tree node
 			  res.p_idx = 2;
@@ -3979,6 +3990,9 @@ void process_syntax_tree(void)
 	      
 	      // Push result
 	      EXP_BUFFER_ENTRY res;
+
+	      init_exp_buffer_entry(&res);
+	      
 	      strcpy(res.name, "000");
 	      res.node_id = be.node_id;   //Dummy result carries the operator node id as that is the tree node
 	      res.p_idx = 1;
@@ -4579,6 +4593,8 @@ void typecheck_expression(void)
 	    {
 	      // Push dummy result
 	      EXP_BUFFER_ENTRY res;
+	      init_exp_buffer_entry(&res);
+
 	      res.node_id = be.node_id;          // Result id is that of the operator
 	      res.p_idx = function_num_args(be.name);
 	      res.p[0] = op1.node_id;
@@ -4659,6 +4675,8 @@ void typecheck_expression(void)
 	    {
 	      // Push dummy result
 	      EXP_BUFFER_ENTRY res;
+	      init_exp_buffer_entry(&res);
+		  
 	      res.node_id = be.node_id;          // Result id is that of the operator
 	      res.p_idx = be.op.num_parameters;
 	      res.p[0] = op1.node_id;
@@ -4937,6 +4955,8 @@ void typecheck_expression(void)
 		      if( op_info.returns_result )
 			{
 			  EXP_BUFFER_ENTRY res;
+			  init_exp_buffer_entry(&res);
+				  
 			  strcpy(res.name, "000");
 			  res.node_id = be.node_id;   //Dummy result carries the operator node id as that is the tree node
 			  res.p_idx = 2;
@@ -5000,6 +5020,8 @@ void typecheck_expression(void)
 	      
 	      // Push result
 	      EXP_BUFFER_ENTRY res;
+	      init_exp_buffer_entry(&res);
+
 	      strcpy(res.name, "000");
 	      res.node_id = be.node_id;   //Dummy result carries the operator node id as that is the tree node
 	      res.p_idx = 1;
@@ -5135,6 +5157,15 @@ void init_op_stack_entry(OP_STACK_ENTRY *op)
     {
       op->bytes[i] = 0xCC;
     }
+}
+
+void init_exp_buffer_entry(EXP_BUFFER_ENTRY *e)
+{
+  init_op_stack_entry(&(e->op));
+  strcpy(e->name, "");
+  e->p_idx = 0;
+  e->node_id = 0;
+  
 }
 
 void output_float(OP_STACK_ENTRY token)

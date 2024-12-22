@@ -58,9 +58,9 @@ QCode
 002B: 22       Push integer literal     (bytes code:I)
 002C: 000A       (10)
 002E: B8       CHR$     (bytes code:-)
-002F: CE       +%     (bytes code:-)
+002F: 4B       Plus string     (bytes code:-)
 0030: 20       Push byte literal     (bytes code:B)
-0031: 01           (1)
+0031: 02           (2)
 0032: 22       Push integer literal     (bytes code:I)
 0033: 001A       (26)
 0035: B8       CHR$     (bytes code:-)
@@ -322,8 +322,8 @@ QCode Data
 
 0000:59 B2 22 04 B0 20 00 22 00 00 20 00 22 00 08 20 
 0010:00 22 00 01 20 00 22 00 00 20 00 22 00 01 32 20 
-0020:00 22 00 01 32 20 00 22 00 0D B8 22 00 0A B8 CE 
-0030:20 01 22 00 1A B8 20 02 24 00 20 02 22 00 0D B8 
+0020:00 22 00 01 32 20 00 22 00 0D B8 22 00 0A B8 4B 
+0030:20 02 22 00 1A B8 20 02 24 00 20 02 22 00 0D B8 
 0040:20 02 22 00 1A B8 20 02 24 00 20 02 22 00 0A 20 
 0050:00 22 00 00 20 00 20 0F 7D 04 4C 53 45 54 84 53 
 0060:00 08 22 00 01 7E 00 2A 0F FE FF 22 00 FE 20 00 

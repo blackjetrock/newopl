@@ -232,7 +232,7 @@ typedef struct _OP_STACK_ENTRY
 
 typedef struct _EXP_BUFFER_ENTRY
 {
-  char name[40];
+  char name[255];
   OP_STACK_ENTRY op;
   int node_id;               // Node ID of this entry
   int p_idx;                 // Number of pointers back to argument nodes
