@@ -8,6 +8,7 @@
 
 set ::PASS 0
 set ::FAIL 0
+set ::OPL_LINECOUNT 0
 
 proc compare_results {basename f1 f2} {
 
@@ -46,6 +47,8 @@ proc compare_results {basename f1 f2} {
 	incr lineno 1
     }
 
+
+    
     if { $identical } {
 	set r " identical"
 	incr ::PASS 1
@@ -115,10 +118,16 @@ foreach file [lsort $TR_TEST_FILES] {
 	# See if stdout had extra output
 	set nlines 0
 	foreach line [split $output "\n"] {
+	    if { [regexp -- {([0-9]+) lines scanned Ok  [0-9]+ lines scanned failed  [0-9]+ variables  ([0-9]+) lines blank} $line all l_scanned l_blank] } {
+		incr ::OPL_LINECOUNT [expr $l_scanned - $l_blank]
+#		puts ">>$::OPL_LINECOUNT $all"
+	    }
 	    incr nlines 1
+
 	}
 
 	set ::NLINES $nlines
+	
 	if { $nlines == 7 } {
 	    set ::OPOK 1
 	} else {
@@ -131,3 +140,4 @@ foreach file [lsort $TR_TEST_FILES] {
 }
 
 puts "\n$::PASS tests passed $::FAIL tests failed"
+puts "$::OPL_LINECOUNT lines of OPL tested"
