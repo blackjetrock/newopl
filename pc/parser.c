@@ -10,6 +10,15 @@
 #include "nopl_obj.h"
 #include "parser.h"
 
+void check_array_index(int idx, int max_idx, char *name)
+{
+  if( idx >= (max_idx -1) )
+    {
+      internal_error("Array bound %s exceeded", name);
+      exit(-1);
+    }
+}
+
 FILE *ptfp;
 
 // Tokenise OPL
@@ -1500,18 +1509,26 @@ int print_qch_field(int idx, FILE *fp, char *title, int len)
   return(idx);
 }
 
+//------------------------------------------------------------------------------
+
+void write_qcode_header_byte(int idx, int value)
+{
+  check_array_index(idx, MAX_QCODE_HEADER, "qcode_header");
+  qcode_header[idx++] = value;    
+}
+
 int set_qcode_header_byte_at(int idx, int len, int val)
 {
   dbprintf("idx:%04X len:%d val:%02X", idx, len, val);
   switch(len)
     {
     case 1:
-      qcode_header[idx++] = val;    
+      write_qcode_header_byte(idx++, val);
       break;
 
     case 2:
-      qcode_header[idx++] = val >>  8;    
-      qcode_header[idx++] = val &   0xFF;    
+      write_qcode_header_byte(idx++, val >> 8);
+      write_qcode_header_byte(idx++, val & 0xFF);
       break;
 
     default:
@@ -1528,11 +1545,12 @@ int set_qcode_header_string_at(int idx, char *str)
   int len = strlen(str);
 
   dbprintf("len of %s is %ld", str, strlen(str));
-  qcode_header[idx++] = len;
+
+  write_qcode_header_byte(idx++, len);
   
   for(int i=0; i<len; i++)
     {
-      qcode_header[idx++] = *(str++);
+      write_qcode_header_byte(idx++, *(str++));
     }
   
   return idx;
@@ -2936,6 +2954,12 @@ int check_integer(int *index)
   
   while( isdigit(chstr[0] = cline[idx]) )
     {
+      if( strlen(intval) >=19 )
+	{
+	  internal_error("Integer too large %s", __FUNCTION__);
+	  exit(-1);
+	}
+      
       strcat(intval, chstr);
       idx++;
       num_digits++;
@@ -2987,6 +3011,12 @@ int scan_integer(int *intdest)
   
   while( isdigit(chstr[0] = cline[cline_i]) )
     {
+      if( strlen(intval) >=19 )
+	{
+	  internal_error("Integer too large %s", __FUNCTION__);
+	  exit(-1);
+	}
+       
       strcat(intval, chstr);
       cline_i++;
       num_digits++;
@@ -3201,6 +3231,12 @@ int check_float(int *index)
   
   while( isfloatdigit(chstr[0] = cline[idx]) )
     {
+      if( strlen(fltval) >=19 )
+	{
+	  internal_error("Float too large %s", __FUNCTION__);
+	  exit(-1);
+	}
+ 
       if( chstr[0] == '.' )
 	{
 	  decimal_present = 1;
@@ -3267,6 +3303,12 @@ int scan_float(char *fltdest)
   
   while( isfloatdigit(chstr[0] = cline[cline_i]) )
     {
+      if( strlen(fltval) >=19 )
+	{
+	  internal_error("Float too large %s", __FUNCTION__);
+	  exit(-1);
+	}
+
       if( chstr[0] == '.' )
 	{
 	  decimal_present = 1;
@@ -3330,6 +3372,12 @@ int check_hex(int *index)
   idx++;
   while( isxdigit(chstr[0] = cline[idx]) )
     {
+      if( strlen(intval) >=19 )
+	{
+	  internal_error("Integer too large %s", __FUNCTION__);
+	  exit(-1);
+	}
+
       strcat(intval, chstr);
       idx++;
       num_digits++;
@@ -3379,6 +3427,12 @@ int scan_hex(int *intdest)
 
   while( isxdigit(chstr[0] = cline[cline_i]) )
     {
+      if( strlen(intval) >=19 )
+	{
+	  internal_error("Integer too large %s", __FUNCTION__);
+	  exit(-1);
+	}
+
       strcat(intval, chstr);
       cline_i++;
       num_digits++;

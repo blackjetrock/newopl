@@ -1535,6 +1535,12 @@ void output_qcode_for_line(void)
 
 	      // Add the logical file name
 	      i++;
+	      if( i > (MAX_EXP_BUFFER-1) )
+		{
+		  internal_error("exp_buffer2 overflow");
+		  exit(-1);
+		}
+		
 	      if( exp_buffer2[i].op.buf_id == EXP_BUFF_ID_LOGICALFILE )
 		{
 		  qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer2[i].op.name[0] - 'A');
@@ -1545,7 +1551,12 @@ void output_qcode_for_line(void)
 		}
 	      
 	      i++;
-	      
+	      if( i > (MAX_EXP_BUFFER-1) )
+		{
+		  internal_error("exp_buffer2 overflow");
+		  exit(-1);
+		}
+
 	      // Now add the field variables
 	      while( !((exp_buffer2[i].op.buf_id == EXP_BUFF_ID_META) && (strcmp(exp_buffer2[i].op.name, "ENDFIELDS")==0)) )
 		{
@@ -1558,6 +1569,11 @@ void output_qcode_for_line(void)
 		      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, exp_buffer2[i].op.name[n+2]);
 		    }
 		  i++;
+		  if( i > (MAX_EXP_BUFFER-1) )
+		    {
+		      internal_error("exp_buffer2 overflow");
+		      exit(-1);
+		    }
 		}
 	      
 	      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, QCO_END_FIELDS);
@@ -2044,6 +2060,12 @@ char *get_name(char *n, NOBJ_VARTYPE *t)
   
   while (*gns_ptr != '\0')
     {
+      if( i>=(NOBJ_VARNAME_MAXLEN-1) )
+	{
+	  internal_error("gn_str overflow");
+	  exit(-1);
+	}
+      
       gn_str[i++] = *gns_ptr;
       switch(*gns_ptr)
 	{
