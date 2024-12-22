@@ -5021,7 +5021,7 @@ void expression_tree_process(char *expr)
 
 // String display of type stack
 
-char tss[40];
+char tss[400];
 
 char *type_stack_str(void)
 {
@@ -5031,7 +5031,7 @@ char *type_stack_str(void)
   
   for(int i=0; i<exp_type_stack_ptr; i++)
     {
-      sprintf(tmps, "%c ", type_to_char(exp_type_stack[i]));
+      sprintf(tmps, "%c", type_to_char(exp_type_stack[i]));
       strcat(tss, tmps);
     }
   strcat(tss, ")]");
@@ -5433,6 +5433,8 @@ void exp_type_push(NOBJ_VARTYPE t)
     {
       fprintf(ofp, "\nSub expression stack full");
       typecheck_error("Sub expression stack full");
+
+      dbprintf("Expression stack: %s", type_stack_str());
       return;
     }
 }
@@ -6010,6 +6012,7 @@ void translate_file(FILE *fp, FILE *ofp)
     {
       if( !scan_line(levels) )
 	{
+	  dbprintf("Scan line failed");
 	  break;
 	}
 

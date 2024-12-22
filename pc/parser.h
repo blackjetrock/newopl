@@ -7,7 +7,7 @@ NOBJ_VARTYPE char_to_type(char ch);
 char type_to_char(NOBJ_VARTYPE t);
 extern NOBJ_VARTYPE expression_type;
 
-#define MAX_EXP_TYPE_STACK  20
+#define MAX_EXP_TYPE_STACK  100
 
 extern char cline[MAX_NOPL_LINE];
 extern int cline_i;

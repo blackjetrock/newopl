@@ -54,6 +54,7 @@ proc compare_results {basename f1 f2} {
 	incr ::FAIL 1
     }
 
+    
     # Now find blocks of non-identical lines
     set last_state 1
     set num_diffblocks 0
@@ -71,7 +72,13 @@ proc compare_results {basename f1 f2} {
 	set last_state $line_identical($i)
     }
 
-    puts -nonewline [format "%-20s   %-14s" $basename\.opl $r]
+    if { $::OPOK } {
+	set opok_str " "
+    } else {
+	set opok_str "*"
+    }
+
+    puts -nonewline [format "%-20s   %-14s %s" $basename\.opl $r $opok_str]
     
     puts -nonewline " "
     foreach db [array names diffblock_start] {
@@ -98,9 +105,26 @@ foreach file [lsort $TR_TEST_FILES] {
     
     if { [regexp -- {(.*)_psion.tr.test} $file all basename] } {
 	# Re-translate the source to get the file we need to test against
-	exec ./newopl_tran $basename\.opl
+	exec ./newopl_tran $basename\.opl > $basename\_nopl.out.test
 	exec ./newopl_objdump ob3_nopl.bin > $basename\_nopl.tr.test
 
+	set opf [open $basename\_nopl.out.test]
+	set output [read $opf]
+	close $opf
+	
+	# See if stdout had extra output
+	set nlines 0
+	foreach line [split $output "\n"] {
+	    incr nlines 1
+	}
+
+	set ::NLINES $nlines
+	if { $nlines == 7 } {
+	    set ::OPOK 1
+	} else {
+	    set ::OPOK 0
+	}
+	
 	# Compare the results
 	compare_results $basename $file $basename\_nopl.tr.test
     }

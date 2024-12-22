@@ -4004,7 +4004,7 @@ int check_expression(int *index, int ignore_comma)
 	    }
 	  else
 	    {
-	      syntax_error("Expression error, expecting term");
+	      //syntax_error("Expression error, expecting term");
 	      dbprintf("ret0 '%s'", &(cline[cline_i]));
 	      return(0);
 	    }
@@ -4019,14 +4019,14 @@ int check_expression(int *index, int ignore_comma)
 
   // Now perform
   //
-  // (<operator> <eitem>)+
+  // (<operator> <eitem> ('%'){0,1} )+
   //
 
   //idx = cline_i;
   
   while( check_operator(&idx, &is_comma, ignore_comma) )
     {
-      // We allow any number of operstors between eitems (for unary operstors)
+      // We allow any number of operators between eitems (for unary operstors)
       while( check_operator(&idx, &is_comma, ignore_comma) )
 	{
 	}
@@ -4040,13 +4040,16 @@ int check_expression(int *index, int ignore_comma)
 	}
       else
 	{
-	  syntax_error("Expression error, expecting term");
+	  //syntax_error("Expression error, expecting term");
 	  dbprintf("ret0 '%s'", &(cline[idx]));
 	  *index = idx;
 	  return(0);
 	}
       
-      //idx = cline_i;
+      if( check_literal(&idx, " %") )
+	{
+	  dbprintf("Found '%'");
+	}
     }
 
   //  *num_commas = n_commas;
@@ -4122,7 +4125,7 @@ int scan_expression(int *num_commas, int ignore_comma)
   
   // Now perform
   //
-  // (<operator> <eitem>)+
+  // (<operator> <eitem> ('%'){0,1} )+
   //
 
   idx = cline_i;
@@ -4150,22 +4153,6 @@ int scan_expression(int *num_commas, int ignore_comma)
 	    }
 	  
 	}
-      
-      dbprintf("'%s' Before scan op igncomma:%d", &(cline[idx]), ignore_comma);
-#if 0
-      if( scan_operator(&is_comma, ignore_comma) )
-	{
-	  // All OK
-	  // After an operator, we can have an operator (unary)
-	  idx = cline_i;
-	}
-      else
-	{
-	  syntax_error("Expression error, expecting operator");
-	  dbprintf("ret0 '%s'", &(cline[cline_i]));
-	  return(0);
-	}
-#endif
       
       dbprintf("'%s' Before scan_eitem igncomma:%d", &(cline[idx]), ignore_comma);
       if( scan_eitem(&n_commas2, ignore_comma) )
@@ -7048,7 +7035,7 @@ int scan_line(LEVEL_INFO levels)
   
   drop_space(&cline_i);
   
-  dbprintf("%s:", __FUNCTION__);
+  dbprintf("");
 
   // Before we parse a line we pull more data from the parser text buffer which
   // is presented to the parser in the cline[] array.
@@ -7056,7 +7043,7 @@ int scan_line(LEVEL_INFO levels)
   if( !pull_next_line() )
     {
       // No more text available, so fail the line scan, we are done
-      dbprintf("ret0 pull_next_line=0");
+      dbprintf("ret0: pull_next_line=0");
       return(0);
     }
 
@@ -7374,8 +7361,8 @@ int scan_line(LEVEL_INFO levels)
       
       if( scan_label(label) )
 	{
-	  dbprintf("ret1 goto");
 	  output_generic(op, label, EXP_BUFF_ID_GOTO);
+	  dbprintf("ret1 goto");
 	  return(1);
 	}
     }
@@ -7420,7 +7407,7 @@ int scan_line(LEVEL_INFO levels)
       
       if( scan_command(cmdname, SCAN_TRAPPABLE) )
 	{
-	  //	  dbprintf("ret1: Is a trappable com");
+	  dbprintf("ret1: Is a trappable com");
 	  return(1);
 	}
 
