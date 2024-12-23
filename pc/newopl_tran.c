@@ -3330,7 +3330,7 @@ void process_syntax_tree(void)
       be.node_id = node_id_index++;
 
       
-      dbprintf("Processing :%s", be.name);
+      dbprintf("*********Processing :%s   *************", be.name);
 		  
       switch(be.op.buf_id)
 	{
@@ -3426,7 +3426,7 @@ void process_syntax_tree(void)
 	  // If the variable is an array then we need to pop the index
 	  // The index is an integer, we need to convert from a float if its not an int
 
-	  if( pass_number == 2 )
+	  if( pass_number == 2,1 )
 	    {
 	      // If the variable is a field then we don't look for it in the var info
 	      if( be.name[1] == '.' )
@@ -4173,7 +4173,7 @@ void typecheck_expression(void)
 	  last_known_type = be.op.type;
 	}
 
-      dbprintf(" *** BE:%s", be.name);
+      dbprintf(" *** BE:%s    **********", be.name);
 		  
       switch(be.op.buf_id)
 	{
@@ -4242,7 +4242,7 @@ void typecheck_expression(void)
 	  // If the variable is an array then we need to pop the index
 	  // The index is an integer, we need to convert from a float if its not an int
 
-	  if( pass_number == 2 )
+	  if( pass_number == 2,1 )
 	    {
 	      // If the variable is a field then we don't look for it in the var info
 	      if( be.name[1] == '.' )
