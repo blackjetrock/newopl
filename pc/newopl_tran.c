@@ -1218,6 +1218,10 @@ int convert_to_compact_float(int qcode_idx, char *fltstr)
 	  // End the string at the 'E'
 	  fltstr[i] = '\0';
 	}
+      else
+	{
+	  dbprintf("No 'E' found");
+	}
     }
   
   dbprintf("Exponent:%d", exponent);
@@ -1236,6 +1240,8 @@ int convert_to_compact_float(int qcode_idx, char *fltstr)
       start = 0;
     }
 
+  dbprintf("Sign:%d start:%d", sign, start);
+  
   // Remove leading zeroes
   while( fltstr[start] == '0' )
     {
@@ -1248,6 +1254,8 @@ int convert_to_compact_float(int qcode_idx, char *fltstr)
   // Normalise the mantissa, adjusting the exponent as we normalise
   if( fltstr[start] == '.' )
     {
+      dbprintf("Need to make larger");
+      
       // Need to make larger to normalise, find first significant digit
       for(int i=start; i<strlen(fltstr); i++)
 	{
@@ -1272,15 +1280,21 @@ int convert_to_compact_float(int qcode_idx, char *fltstr)
 		}
 	      normalised_mantissa[j] = '\0';
 	    }
+	  
+	  dbprintf("normalised='%s'", normalised_mantissa);
 	}
 
       // Correct exponent
       exponent--;
+      dbprintf("Exponent:%d", exponent);
+      
     }
   else
     {
       int j = 0;
       int mod_exp = 1;
+
+      dbprintf("Need to make smaller");
       
       // Need to make smaller to normalise
       for(int i=start; i<strlen(fltstr); i++)
@@ -1298,15 +1312,20 @@ int convert_to_compact_float(int qcode_idx, char *fltstr)
 	    {
 	      exponent++;
 	    }
+	  
 	}
       
       normalised_mantissa[j] = '\0';
 
+      dbprintf("normalised='%s'", normalised_mantissa);
+      
       // Correct exponent
       exponent--;
     }
 
   // Drop trailing zeros
+  dbprintf("Drop trailing zeros");
+  
   for(int t=strlen(normalised_mantissa)-1; t>=0; t--)
     {
       if( normalised_mantissa[t] == '0' )
@@ -1321,13 +1340,17 @@ int convert_to_compact_float(int qcode_idx, char *fltstr)
 	}
     }
 
+  dbprintf("normalised='%s'", normalised_mantissa);
+  
   // If mantissa has an odd number of digits, add a zero back in
   if( (strlen(normalised_mantissa) % 2) != 0 )
     {
       // This zero allows the byte packing to work properly
       strcat(normalised_mantissa, "0");
     }
-  
+
+  dbprintf("After adding zero back for odd number of digits: normalised='%s'", normalised_mantissa);
+	
   // Now build the qcode compact form
   qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, strlen(normalised_mantissa)/2+1);
   

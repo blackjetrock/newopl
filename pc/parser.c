@@ -3046,10 +3046,21 @@ int scan_integer(int *intdest)
   return(0);
 }
 
-int isfloatdigit(char c)
+//------------------------------------------------------------------------------
+
+// We allow a '-' after an E, so we return a flag saying that E
+// has been seen
+
+int isfloatdigit(char c, int *seen_e)
 {
   dbprintf("%s:", __FUNCTION__);
-  if( isdigit(c) || (c == '.') || (c == 'E')
+
+  if( c == 'E' )
+    {
+      *seen_e = 1;
+    }
+  
+  if( isdigit(c) || (c == '.') || (c == 'E') || (*seen_e && (c == '-')) 
 #if FLT_INCLUDES_SIGN
       || (c == '-')
 #endif
@@ -3229,8 +3240,10 @@ int check_float(int *index)
       idx++;
     }
 #endif
+
+  int seen_e = 0;
   
-  while( isfloatdigit(chstr[0] = cline[idx]) )
+  while( isfloatdigit(chstr[0] = cline[idx], &seen_e) )
     {
       if( strlen(fltval) >=19 )
 	{
@@ -3301,8 +3314,10 @@ int scan_float(char *fltdest)
       cline_i++;
     }
 #endif
+
+  int seen_e = 0;
   
-  while( isfloatdigit(chstr[0] = cline[cline_i]) )
+  while( isfloatdigit(chstr[0] = cline[cline_i], &seen_e) )
     {
       if( strlen(fltval) >=19 )
 	{
