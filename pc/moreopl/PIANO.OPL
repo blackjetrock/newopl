@@ -1,0 +1,83 @@
+PIANO:
+LOCAL A%,N%(32),D%,T%
+ESCAPE OFF
+PRINT "** Piano 1.02 ****............**"
+D%=PEEKB($77) 
+T%=PEEKB($20C0)
+POKEB $77,0
+POKEB $20C0,0
+AT 3,2 :PRINT "*";
+A%=0
+REM G,A,B (up, down, left)
+N%(01)=FREQ:(098.0)
+N%(02)=FREQ:(110.0)
+AT 4,2 :PRINT "*";
+N%(03)=FREQ:(123.0)
+REM C,D,E,F,G,A,B (right, a to f)
+N%(04)=FREQ:(131.0)
+N%(05)=FREQ:(147.0)
+AT 5,2 :PRINT "*";
+N%(06)=FREQ:(165.0)
+N%(07)=FREQ:(175.0)
+N%(08)=FREQ:(196.0)
+AT 6,2 :PRINT "*";
+N%(09)=FREQ:(220.0)
+N%(10)=FREQ:(247.0)
+REM C,D,E,F,G,A,B (g to m)
+N%(11)=FREQ:(262.0)
+AT 7,2 :PRINT "*";
+N%(12)=FREQ:(294.0)
+N%(13)=FREQ:(330.0)
+N%(14)=FREQ:(349.0)
+AT 8,2 :PRINT "*";
+N%(15)=FREQ:(392.0)
+N%(16)=FREQ:(440.0)
+N%(17)=FREQ:(494.0)
+REM C,D,E,F,G,A,B (n to t)
+AT 9,2 :PRINT "*";
+N%(18)=FREQ:(523.0)
+N%(19)=FREQ:(587.0)
+N%(20)=FREQ:(659.0)
+AT 10,2 :PRINT "*";
+N%(21)=FREQ:(698.0)
+N%(22)=FREQ:(784.0)
+N%(23)=FREQ:(880.0)
+AT 11,2 :PRINT "*";
+N%(24)=FREQ:(988.0)
+REM C,D,E,F,G,A,B (u to x, del, y, z)
+N%(25)=FREQ:(1047.0)
+N%(26)=FREQ:(1175.0)
+AT 12,2 :PRINT "*";
+N%(27)=FREQ:(1319.0)
+N%(28)=FREQ:(1397.0)
+N%(29)=FREQ:(1568.0)
+AT 13,2 :PRINT "*";
+N%(30)=FREQ:(1760.0)
+N%(31)=FREQ:(1976.0)
+REM C (space)
+N%(32)=FREQ:(2093.0)
+AT 14,2 :PRINT "*";
+AT 1,2 :PRINT " (MODE)=Quitter ";
+DO
+  REM letters a to x
+  IF A%>64 AND A%<89
+    BEEP 200,N%(A%-60)
+  REM up,down,left,right
+  ELSEIF A%>2 AND A%<7
+    BEEP 200,N%(A%-2)
+  ELSEIF A%=8
+    BEEP 200,N%(29)
+  ELSEIF A%=89
+    BEEP 200,N%(30)
+  ELSEIF A%=90
+    BEEP 200,N%(31)
+  ELSEIF A%=32
+    BEEP 200,N%(32)
+  ENDIF
+  A%=KEY  
+UNTIL A%=2
+POKEB $77,D%
+POKEB $20C0,T%
+WHILE KEY 
+ENDWH
+ESCAPE ON

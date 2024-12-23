@@ -1,20 +1,684 @@
 
 
 
-F2
-F(20)
-DOOR$
-FLOAT(123)
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+T$
+H$
+UDG(1 1 1 1 1 1 1 1 1 )
+UDG(0 0 0 0 0 0 0 0 31 )
+UDG(2 1 1 1 1 1 1 1 31 )
+UDG(4 31 31 31 31 31 31 31 31 )
+UDG(5 21 0 21 0 21 0 21 0 )
+UDG(6 0 4 8 31 8 4 0 31 )
+MZ% := 4
+start::
+AT(4 2 )
+PRINT("Loading maze ")
+PRINT((MZ% + 1))
+<nl>
+
+"a:mzdat"
+USE()
+
+LAST()
+NM% := ((POS() - 1) / 20)
+POSITION(((MZ% * 20) + 2) )
+IF (MZ% < (NM% - 1))
+MZ% := (MZ% + 1)
+ELSE
+MZ% := 0
+ENDIF
+CT% := 0
+DO
+
+CT% := (CT% + 1)
+A$(CT%) := A.DAT$
+NN% := 2
+T$ := ""
+DO
+NN% := (NN% + 1)
+T$ := (T$ + CHR$(VAL(MID$(A$(CT%) NN% 1 ) ) ))
+UNTIL (NN% > 21)
+A$(CT%) := T$
+NEXT()
+UNTIL (CT% > 19)
+CLOSE()
+TOP::
+KSTAT(1 )
+POKEB(119 1 )
+POKEB(8384 0 )
+AT(1 1 )
+S% := 1
+H% := 1
+V% := 1
+AU% := 0
+K% := 6
+SET% := 0
+OP% := 0
+S7% := 0
+PRINT(A$(S%))
+PRINT(A$((S% + 1)))
+PRINT(A$((S% + 2)))
+PRINT(A$((S% + 3)))
+
+UDG(3 0 0 0 0 0 0 0 0 )
+UDG(4 0 0 12 12 12 0 0 31 )
+AT(1 1 )
+PRINT(CHR$(4 ))
+<nl>
+
+O% := ((MINUTE() * 60) + SECOND())
+M% := 0
+PPP::
+IF ((K% = 0) OR AU%)
+M% := ((SECOND() + (MINUTE() * 60)) - O%)
+P% := (17 + ((M% AND 7) * 2))
+IF (P% <> OP%)
+SET% := 0
+OP% := P%
+ELSE
+SET% := 1
+ENDIF
+Q% := (17 + ((M% AND 56) / 4))
+UDG(7 31 Q% Q% P% P% Q% Q% 31 )
+IF (H% < 11)
+AT(20 4 )
+PRINT(CHR$(7 ))
+<nl>
+
+IF ((H% > 1) OR (V% < 4))
+AT(1 4 )
+PRINT(MID$(A$((S% + 3)) 1 1 ))
+<nl>
+
+ENDIF
+ELSE
+AT(1 4 )
+PRINT(CHR$(7 ))
+<nl>
+
+IF ((H% < 20) OR (V% < 4))
+AT(20 4 )
+PRINT(MID$(A$((S% + 3)) 20 1 ))
+<nl>
+
+ENDIF
+ENDIF
+ENDIF
+IF ((P% = 31) AND (SET% = 0))
+IF (S7% = 3)
+S7% := 0
+ELSE
+S7% := (S7% + 1)
+ENDIF
+IF (S7% < 2)
+UDG(3 0 0 0 0 0 0 0 0 )
+ENDIF
+IF (S7% = 2)
+UDG(3 1 0 1 0 1 0 21 0 )
+ENDIF
+IF (S7% > 2)
+UDG(3 1 1 1 1 1 1 1 31 )
+ENDIF
+PO% := 6
+GOTO PROC1
+B6::
+SET% := 1
+ENDIF
+IF (K% = 78)
+GOTO START
+ENDIF
+IF (K% = 84)
+GOTO TOP
+ENDIF
+IF (K% = 72)
+"a:mzdat"
+CT% := DISP((UMIN 1) H$ )
+CLOSE()
+GOTO top
+ENDIF
+CT% := (K% - 49)
+IF (((CT% > (UMIN 1)) AND (CT% < NM%)) AND (CT% <> (MZ% - 1)))
+MZ% := CT%
+GOTO START
+ENDIF
+IF (M% > 190)
+AT(6 2 )
+PRINT("TIME IS UP")
+<nl>
+
+GOTO LAST
+ENDIF
+IF ((H% = 1) AND ((S% + V%) = 3))
+AT(4 4 )
+PRINT("CONGRATULATIONS")
+<nl>
+
+PAUSE(15 )
+<nl>
+PAUSE(5 )
+<nl>
+PAUSE(5 )
+<nl>
+PAUSE(5 )
+<nl>
+AT(1 1 )
+PRINT(" Completed in ")
+PRINT(M%)
+PRINT(" s.")
+<nl>
+
+GOTO start
+ENDIF
+IF AU%
+K% := (3 + (RND() * 4))
+ELSE
+K% := KEY()
+ENDIF
+IF (KEY$() = "A")
+IF AU%
+AU% := 0
+ENDIF
+ENDIF
+IF (K% = 2)
+AU% := 1
+ENDIF
+IF (K% = 3)
+IF (V% > 1)
+OC% := ASC(MID$(A$(((S% + V%) - 2)) H% 1 ) )
+IF (UNOT ((OC% = 3) AND (S7% > 2)))
+AT(H% V% )
+PRINT(MID$(A$(((S% + V%) - 1)) H% 1 ))
+<nl>
+
+V% := (V% - 1)
+ENDIF
+ELSEIF ((S% > 1) AND (V% = 1))
+S% := (S% - 1)
+V% := 2
+AT(1 1 )
+PRINT(A$(S%))
+PRINT(A$((S% + 1)))
+PRINT(A$((S% + 2)))
+PRINT(A$((S% + 3)))
+
+ENDIF
+PO% := 1
+GOTO proc1
+b1::
+ENDIF
+IF (K% = 4)
+IF (V% < 4)
+OC% := ASC(MID$(A$(((S% + V%) - 1)) H% 1 ) )
+IF (OC% = 6)
+GOTO LEF
+ENDIF
+IF (UNOT ((OC% = 3) AND (S7% > 2)))
+AT(H% V% )
+PRINT(CHR$(OC% ))
+<nl>
+
+V% := (V% + 1)
+ENDIF
+ELSEIF ((S% < 17) AND (V% = 4))
+S% := (S% + 1)
+V% := 3
+AT(1 1 )
+PRINT(A$(S%))
+PRINT(A$((S% + 1)))
+PRINT(A$((S% + 2)))
+PRINT(A$((S% + 3)))
+
+IF (OC% = 6)
+GOTO LEF
+ENDIF
+ENDIF
+PO% := 2
+GOTO proc1
+b2::
+ENDIF
+IF (K% = 5)
+LEF::
+IF (H% > 1)
+OC% := ASC(MID$(A$(((S% + V%) - 1)) (H% - 1) 1 ) )
+IF (UNOT ((OC% = 3) AND (S7% > 2)))
+AT(H% V% )
+PRINT(MID$(A$(((S% + V%) - 1)) H% 1 ))
+<nl>
+
+H% := (H% - 1)
+ENDIF
+ENDIF
+PO% := 3
+GOTO proc1
+b3::
+IF ((OC% = 6) AND (H% <> 1))
+GOTO LEF
+ENDIF
+ENDIF
+IF (K% = 6)
+IF (H% < 20)
+OC% := ASC(MID$(A$(((S% + V%) - 1)) H% 1 ) )
+IF (UNOT ((OC% = 3) AND (S7% > 2)))
+AT(H% V% )
+PRINT(CHR$(OC% ))
+<nl>
+
+H% := (H% + 1)
+ENDIF
+ENDIF
+PO% := 4
+GOTO proc1
+b4::
+ENDIF
+IF (K% <> 81)
+GOTO PPP
+ENDIF
+LAST::
+POKEB(119 14 )
+POKEB(8384 1 )
+AT(5 3 )
+PRINT("Again ")
+PRINT(CHR$(63 ))
+PRINT(" (Y/N)")
+<nl>
+
+IF (GET$() = "Y")
+GOTO TOP
+ENDIF
+PO% := 0
+proc1::
+IF PO%
+OC% := ASC(MID$(A$(((S% + V%) - 1)) H% 1 ) )
+IF (OC% = 0)
+UDG(4 0 0 12 12 12 0 0 31 )
+ENDIF
+IF (OC% = 1)
+UDG(4 1 1 13 13 13 1 1 1 )
+ENDIF
+IF (OC% = 2)
+UDG(4 1 1 13 13 13 1 1 31 )
+ENDIF
+IF (OC% = 3)
+IF (S7% < 2)
+UDG(4 0 0 12 12 12 0 0 0 )
+ENDIF
+IF (S7% = 2)
+UDG(4 1 0 13 12 13 0 21 0 )
+ENDIF
+IF (S7% > 2)
+UDG(4 1 1 13 13 13 1 1 31 )
+ENDIF
+ENDIF
+IF (OC% = 5)
+UDG(4 21 0 31 12 31 0 21 0 )
+ENDIF
+IF (OC% = 6)
+UDG(4 31 27 23 0 23 27 31 31 )
+ENDIF
+AT(H% V% )
+PRINT(CHR$(4 ))
+<nl>
+
+IF (PO% = 1)
+GOTO b1
+ENDIF
+IF (PO% = 2)
+GOTO b2
+ENDIF
+IF (PO% = 3)
+GOTO b3
+ENDIF
+IF (PO% = 4)
+GOTO b4
+ENDIF
+IF (PO% = 6)
+GOTO B6
+ENDIF
+ENDIF
+
+
+
+
+POKEB(119 14 )
 
 
 
 DROP()
 DROP()
+UDG(1 1 1 1 1 1 1 1 1 )
+UDG(0 0 0 0 0 0 0 0 31 )
+UDG(2 1 1 1 1 1 1 1 31 )
+UDG(4 31 31 31 31 31 31 31 31 )
+UDG(5 21 0 21 0 21 0 21 0 )
+UDG(6 0 4 8 31 8 4 0 31 )
+MZ% := 4
+start::
+AT(4 2 )
+PRINT("Loading maze ")
+PRINT((MZ% + 1))
+<nl>
+
+"a:mzdat"
+USE()
+
+LAST()
+NM% := ((POS() - 1) / 20)
+POSITION(((MZ% * 20) + 2) )
+IF (MZ% < (NM% - 1))
+MZ% := (MZ% + 1)
+ELSE
+MZ% := 0
+ENDIF
+CT% := 0
+DO
+
+CT% := (CT% + 1)
+A$(CT%) := A.DAT$
+NN% := 2
+T$ := ""
+DO
+NN% := (NN% + 1)
+T$ := (T$ + CHR$(VAL(MID$(A$(CT%) NN% 1 ) ) ))
+UNTIL (NN% > 21)
+A$(CT%) := T$
+NEXT()
+UNTIL (CT% > 19)
+CLOSE()
+TOP::
+KSTAT(1 )
+POKEB(119 1 )
+POKEB(8384 0 )
+AT(1 1 )
+S% := 1
+H% := 1
+V% := 1
+AU% := 0
+K% := 6
+SET% := 0
+OP% := 0
+S7% := 0
+PRINT(A$(S%))
+PRINT(A$((S% + 1)))
+PRINT(A$((S% + 2)))
+PRINT(A$((S% + 3)))
+
+UDG(3 0 0 0 0 0 0 0 0 )
+UDG(4 0 0 12 12 12 0 0 31 )
+AT(1 1 )
+PRINT(CHR$(4 ))
+<nl>
+
+O% := ((MINUTE() * 60) + SECOND())
+M% := 0
+PPP::
+IF ((K% = 0) OR AU%)
+M% := ((SECOND() + (MINUTE() * 60)) - O%)
+P% := (17 + ((M% AND 7) * 2))
+IF (P% <> OP%)
+SET% := 0
+OP% := P%
+ELSE
+SET% := 1
+ENDIF
+Q% := (17 + ((M% AND 56) / 4))
+UDG(7 31 Q% Q% P% P% Q% Q% 31 )
+IF (H% < 11)
+AT(20 4 )
+PRINT(CHR$(7 ))
+<nl>
+
+IF ((H% > 1) OR (V% < 4))
+AT(1 4 )
+PRINT(MID$(A$((S% + 3)) 1 1 ))
+<nl>
+
+ENDIF
+ELSE
+AT(1 4 )
+PRINT(CHR$(7 ))
+<nl>
+
+IF ((H% < 20) OR (V% < 4))
+AT(20 4 )
+PRINT(MID$(A$((S% + 3)) 20 1 ))
+<nl>
+
+ENDIF
+ENDIF
+ENDIF
+IF ((P% = 31) AND (SET% = 0))
+IF (S7% = 3)
+S7% := 0
+ELSE
+S7% := (S7% + 1)
+ENDIF
+IF (S7% < 2)
+UDG(3 0 0 0 0 0 0 0 0 )
+ENDIF
+IF (S7% = 2)
+UDG(3 1 0 1 0 1 0 21 0 )
+ENDIF
+IF (S7% > 2)
+UDG(3 1 1 1 1 1 1 1 31 )
+ENDIF
+PO% := 6
+GOTO PROC1
+B6::
+SET% := 1
+ENDIF
+IF (K% = 78)
+GOTO START
+ENDIF
+IF (K% = 84)
+GOTO TOP
+ENDIF
+IF (K% = 72)
+"a:mzdat"
+CT% := DISP((UMIN 1) H$ )
+CLOSE()
+GOTO top
+ENDIF
+CT% := (K% - 49)
+IF (((CT% > (UMIN 1)) AND (CT% < NM%)) AND (CT% <> (MZ% - 1)))
+MZ% := CT%
+GOTO START
+ENDIF
+IF (M% > 190)
+AT(6 2 )
+PRINT("TIME IS UP")
+<nl>
+
+GOTO LAST
+ENDIF
+IF ((H% = 1) AND ((S% + V%) = 3))
+AT(4 4 )
+PRINT("CONGRATULATIONS")
+<nl>
+
+PAUSE(15 )
+<nl>
+PAUSE(5 )
+<nl>
+PAUSE(5 )
+<nl>
+PAUSE(5 )
+<nl>
+AT(1 1 )
+PRINT(" Completed in ")
+PRINT(M%)
+PRINT(" s.")
+<nl>
+
+GOTO start
+ENDIF
+IF AU%
+K% := (3 + (RND() * 4))
+ELSE
+K% := KEY()
+ENDIF
+IF (KEY$() = "A")
+IF AU%
+AU% := 0
+ENDIF
+ENDIF
+IF (K% = 2)
+AU% := 1
+ENDIF
+IF (K% = 3)
+IF (V% > 1)
+OC% := ASC(MID$(A$(((S% + V%) - 2)) H% 1 ) )
 DROP()
+AT(H% V% )
+PRINT(MID$(A$(((S% + V%) - 1)) H% 1 ))
+<nl>
+
+V% := (V% - 1)
+ENDIF
+ELSEIF ((S% > 1) AND (V% = 1))
+S% := (S% - 1)
+V% := 2
+AT(1 1 )
+PRINT(A$(S%))
+PRINT(A$((S% + 1)))
+PRINT(A$((S% + 2)))
+PRINT(A$((S% + 3)))
+
+ENDIF
+PO% := 1
+GOTO proc1
+b1::
+ENDIF
+IF (K% = 4)
+IF (V% < 4)
+OC% := ASC(MID$(A$(((S% + V%) - 1)) H% 1 ) )
+IF (OC% = 6)
+GOTO LEF
+ENDIF
 DROP()
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+AT(H% V% )
+PRINT(CHR$(OC% ))
+<nl>
+
+V% := (V% + 1)
+ENDIF
+ELSEIF ((S% < 17) AND (V% = 4))
+S% := (S% + 1)
+V% := 3
+AT(1 1 )
+PRINT(A$(S%))
+PRINT(A$((S% + 1)))
+PRINT(A$((S% + 2)))
+PRINT(A$((S% + 3)))
+
+IF (OC% = 6)
+GOTO LEF
+ENDIF
+ENDIF
+PO% := 2
+GOTO proc1
+b2::
+ENDIF
+IF (K% = 5)
+LEF::
+IF (H% > 1)
+OC% := ASC(MID$(A$(((S% + V%) - 1)) (H% - 1) 1 ) )
+DROP()
+AT(H% V% )
+PRINT(MID$(A$(((S% + V%) - 1)) H% 1 ))
+<nl>
+
+H% := (H% - 1)
+ENDIF
+ENDIF
+PO% := 3
+GOTO proc1
+b3::
+IF ((OC% = 6) AND (H% <> 1))
+GOTO LEF
+ENDIF
+ENDIF
+IF (K% = 6)
+IF (H% < 20)
+OC% := ASC(MID$(A$(((S% + V%) - 1)) H% 1 ) )
+DROP()
+AT(H% V% )
+PRINT(CHR$(OC% ))
+<nl>
+
+H% := (H% + 1)
+ENDIF
+ENDIF
+PO% := 4
+GOTO proc1
+b4::
+ENDIF
+IF (K% <> 81)
+GOTO PPP
+ENDIF
+LAST::
+POKEB(119 14 )
+POKEB(8384 1 )
+AT(5 3 )
+PRINT("Again ")
+PRINT(CHR$(63 ))
+PRINT(" (Y/N)")
+<nl>
+
+IF (GET$() = "Y")
+GOTO TOP
+ENDIF
+PO% := 0
+proc1::
+IF PO%
+OC% := ASC(MID$(A$(((S% + V%) - 1)) H% 1 ) )
+IF (OC% = 0)
+UDG(4 0 0 12 12 12 0 0 31 )
+ENDIF
+IF (OC% = 1)
+UDG(4 1 1 13 13 13 1 1 1 )
+ENDIF
+IF (OC% = 2)
+UDG(4 1 1 13 13 13 1 1 31 )
+ENDIF
+IF (OC% = 3)
+IF (S7% < 2)
+UDG(4 0 0 12 12 12 0 0 0 )
+ENDIF
+IF (S7% = 2)
+UDG(4 1 0 13 12 13 0 21 0 )
+ENDIF
+IF (S7% > 2)
+UDG(4 1 1 13 13 13 1 1 31 )
+ENDIF
+ENDIF
+IF (OC% = 5)
+UDG(4 21 0 31 12 31 0 21 0 )
+ENDIF
+IF (OC% = 6)
+UDG(4 31 27 23 0 23 27 31 31 )
+ENDIF
+AT(H% V% )
+PRINT(CHR$(4 ))
+<nl>
+
+IF (PO% = 1)
+GOTO b1
+ENDIF
+IF (PO% = 2)
+GOTO b2
+ENDIF
+IF (PO% = 3)
+GOTO b3
+ENDIF
+IF (PO% = 4)
+GOTO b4
+ENDIF
+IF (PO% = 6)
+GOTO B6
+ENDIF
+ENDIF
+
+
+
+
+POKEB(119 14 )

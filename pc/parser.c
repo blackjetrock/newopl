@@ -414,7 +414,7 @@ OP_INFO  op_info[] =
     // (Handle bitwise on integer, logical on floats somewhere)
     { "AND",  1, 2, NOBJ_VARTYPE_INT,     0, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY}, 0 },
     { "OR",   1, 2, NOBJ_VARTYPE_INT,     0, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY}, 0 },
-    { "NOT",  1, 1, NOBJ_VARTYPE_INT,     1, 0, "UNOT", 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY}, 0 },
+    { "NOT",  1, 3, NOBJ_VARTYPE_INT,     1, 0, "UNOT", 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY}, 0 },
 
     // LZ only
     { "+%",   1, 5, NOBJ_VARTYPE_FLT,     0, 0, "",     1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT}, 0 },
@@ -4694,7 +4694,7 @@ int scan_createopen_list(char *keyword, int create_nopen, int trapped)
    
    drop_space(&cline_i);
    
-   if( cline[cline_i] == '\0' )
+   if( cline[cline_i] == '\0',1 )
      {
 #if 0
        // Store info about the variable
