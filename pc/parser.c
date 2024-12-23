@@ -6858,6 +6858,72 @@ int scan_createopen(int create_nopen, int trapped)
   return(0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+#define FOREACH(STR, STRARRAY) {char *STR; for(int i=0; i<(sizeof(STRARRAY)/sizeof(char *)); i++) { STR=STRARRAY[i];
+#define END_FOREACH }}
+
+//------------------------------------------------------------------------------
+
+char *remstrings[] =
+  {
+    " REM ",
+    " REM& "
+  };
+
+char *remstrings_nospc[] =
+  {
+    "REM",
+    "REM&"
+  };
+
+int check_rem(int *index)
+{
+
+  FOREACH(remstr, remstrings_nospc)
+    
+  int idx = cline_i;
+
+  if( strcmp(&(cline[idx]), remstr) == 0 )
+    {
+      *index = idx;
+      dbprintf("ret1:");
+      return(1);
+    }
+
+  if( check_literal(&idx, remstr) )
+    {
+      *index = idx;
+      dbprintf("ret1:");
+      return(1);
+    }
+
+  END_FOREACH
+  
+
+  if( strcmp(&(cline[cline_i]), "REM") == 0 )
+    {
+      dbprintf("ret1:");
+      return(1);
+    }
+  
+  FOREACH(remstr, remstrings)
+    
+  int idx = cline_i;
+  
+  if( check_literal(&idx, remstr) )
+    {
+      *index = idx;
+      dbprintf("ret1:");
+      return(1);
+    }
+
+  END_FOREACH
+    
+  dbprintf("ret0 proc cll");
+  return(0);
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -6875,6 +6941,7 @@ int check_line(int *index)
   
   dbprintf("%s:", __FUNCTION__);
 
+#if 0
   idx = cline_i;
   if( check_literal(&idx, " REM ") )
     {
@@ -6882,6 +6949,22 @@ int check_line(int *index)
       return(1);
     }
 
+  idx = cline_i;
+  if( check_literal(&idx, " REM& ") )
+    {
+      dbprintf("%s:ret1: Comment", __FUNCTION__);
+      return(1);
+    }
+#else
+  idx = cline_i;
+  if( check_rem(&idx) )
+    {
+      dbprintf("%s:ret1: Comment", __FUNCTION__);
+      return(1);
+    }
+  
+#endif
+  
   idx = cline_i;
   if( check_assignment(&idx) )
     {
@@ -7108,7 +7191,7 @@ int scan_line(LEVEL_INFO levels)
     }
 
   // If it's a REM, then the line parses and we generate no tokens
-  
+#if 0
   idx = cline_i;
   if( check_literal(&idx, " REM ") )
     {
@@ -7118,6 +7201,24 @@ int scan_line(LEVEL_INFO levels)
       return(1);
     }
 
+  idx = cline_i;
+  if( check_literal(&idx, " REM& ") )
+    {
+      cline_i = strlen(cline);
+      dbprintf("Comment ignored");
+      dbprintf("ret1");
+      return(1);
+    }
+#else
+  idx = cline_i;
+  if( check_rem(&idx) )
+    {
+      cline_i = strlen(cline);
+      dbprintf("Comment ignored");
+      dbprintf("ret1");
+      return(1);
+    }
+#endif
   
   idx = cline_i;
   if( check_assignment(&idx) )
@@ -7701,6 +7802,16 @@ int pull_next_line(void)
 	}
 
       if( (rempos = strstr(&(cline[cline_i]), "rem ")) != NULL )
+	{
+	  truncate_not_in_string(&(cline[cline_i]), rempos);	  
+	}
+
+      if( (rempos = strstr(&(cline[cline_i]), "REM& ")) != NULL )
+	{
+	  truncate_not_in_string(&(cline[cline_i]), rempos);	  
+	}
+
+      if( (rempos = strstr(&(cline[cline_i]), "rem& ")) != NULL )
 	{
 	  truncate_not_in_string(&(cline[cline_i]), rempos);	  
 	}

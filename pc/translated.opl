@@ -1,12 +1,20 @@
 
 
 
-T%
-P%(3)
-N$
+F2
+F(20)
+DOOR$
+FLOAT(123)
+EXTTOP% := 8
+S1$ := "abc"
+SA$(10) := "def"
 
 
 
 DROP()
 DROP()
 DROP()
+DROP()
+EXTTOP% := 8
+S1$ := "abc"
+SA$(10) := "def"
