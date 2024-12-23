@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:0331
-QCode Space Size:00C7
+QCode Space Size:00CC
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -29,7 +29,7 @@ QCode
 0006: 0001       (1)
 0008: 7F       Assign integer     (bytes code:-)
 0009: 53       ONERR     (bytes code:D)
-000A: Dest:0098 (Dist:008E)
+000A: Dest:009D (Dist:0093)
 000C: 24       Push string literal     (bytes code:S)
 000D: Len:10
 000E: 'remote.doc'
@@ -52,7 +52,7 @@ QCode
 002F: 22       Push integer literal     (bytes code:I)
 0030: 0001       (1)
 0032: 7E       Branch if false     (bytes code:D)
-0033: Dest:008C (Dist:0059)
+0033: Dest:0091 (Dist:005E)
 0035: 00       Push local/global integer variable value     (bytes code:v)
 0036: FCCF       (64719)
 0038: 12       Pop integer index and push local/global string array variable reference     (bytes code:v)
@@ -72,84 +72,88 @@ QCode
 004D: 7D       Procedure call.     (bytes code:S)
 004E: Len:5
 004F: 'XFEOF'
-0054: 7E       Branch if false     (bytes code:D)
-0055: Dest:005A (Dist:0005)
-0057: 51       GOTO     (bytes code:D)
-0058: Dest:008C (Dist:0034)
-005A: 0D       Push local/global integer variable reference     (bytes code:v)
-005B: FCCF       (64719)
-005D: 00       Push local/global integer variable value     (bytes code:v)
-005E: FCCF       (64719)
-0060: 22       Push integer literal     (bytes code:I)
-0061: 0001       (1)
-0063: 2D       Plus integer     (bytes code:-)
-0064: 7F       Assign integer     (bytes code:-)
-0065: 00       Push local/global integer variable value     (bytes code:v)
-0066: FCCF       (64719)
-0068: 22       Push integer literal     (bytes code:I)
-0069: 000B       (11)
-006B: 2C       Equal integer     (bytes code:-)
-006C: 7E       Branch if false     (bytes code:D)
-006D: Dest:0089 (Dist:001C)
-006F: 24       Push string literal     (bytes code:S)
-0070: Len:16
-0071: 'Too many records'
-0081: 71       PRINT string     (bytes code:-)
-0082: 73       PRINT newline     (bytes code:-)
-0083: 91       GET     (bytes code:-)
-0084: 83       drop integer from stack     (bytes code:-)
-0085: 4E       CLS     (bytes code:-)
-0086: 51       GOTO     (bytes code:D)
-0087: Dest:008C (Dist:0005)
-0089: 51       GOTO     (bytes code:D)
-008A: Dest:002F (Dist:FFFFFFA5)
-008C: 20       Push byte literal     (bytes code:B)
-008D: 00           (0)
-008E: 7D       Procedure call.     (bytes code:S)
-008F: Len:7
-0090: 'XFCLOSE'
-0097: 84       drop float from stack     (bytes code:-)
-0098: 8E       ERR     (bytes code:-)
-0099: 22       Push integer literal     (bytes code:I)
-009A: 00BE       (190)
-009C: 28       Less than equal integer     (bytes code:-)
-009D: 7E       Branch if false     (bytes code:D)
-009E: Dest:00C0 (Dist:0022)
-00A0: 24       Push string literal     (bytes code:S)
-00A1: Len:12
-00A2: 'Remote error'
-00AE: 71       PRINT string     (bytes code:-)
-00AF: 73       PRINT newline     (bytes code:-)
-00B0: 24       Push string literal     (bytes code:S)
-00B1: Len:6
-00B2: 'number'
-00B8: 71       PRINT string     (bytes code:-)
-00B9: 72       PRINT ,     (bytes code:-)
-00BA: 8E       ERR     (bytes code:-)
-00BB: 6F       PRINT integer     (bytes code:-)
-00BC: 73       PRINT newline     (bytes code:-)
-00BD: 51       GOTO     (bytes code:D)
-00BE: Dest:00C4 (Dist:0006)
-00C0: 8E       ERR     (bytes code:-)
-00C1: BA       ERR$     (bytes code:-)
-00C2: 71       PRINT string     (bytes code:-)
-00C3: 73       PRINT newline     (bytes code:-)
-00C4: 91       GET     (bytes code:-)
-00C5: 83       drop integer from stack     (bytes code:-)
-00C6: 7B       RETURN (float 0)     (bytes code:-)
+0054: 23       Push float literal     (bytes code:F)
+0055: Len:2
+0056: '00E0
+0058: 3A       Not equal float     (bytes code:-)
+0059: 7E       Branch if false     (bytes code:D)
+005A: Dest:005F (Dist:0005)
+005C: 51       GOTO     (bytes code:D)
+005D: Dest:0091 (Dist:0034)
+005F: 0D       Push local/global integer variable reference     (bytes code:v)
+0060: FCCF       (64719)
+0062: 00       Push local/global integer variable value     (bytes code:v)
+0063: FCCF       (64719)
+0065: 22       Push integer literal     (bytes code:I)
+0066: 0001       (1)
+0068: 2D       Plus integer     (bytes code:-)
+0069: 7F       Assign integer     (bytes code:-)
+006A: 00       Push local/global integer variable value     (bytes code:v)
+006B: FCCF       (64719)
+006D: 22       Push integer literal     (bytes code:I)
+006E: 000B       (11)
+0070: 2C       Equal integer     (bytes code:-)
+0071: 7E       Branch if false     (bytes code:D)
+0072: Dest:008E (Dist:001C)
+0074: 24       Push string literal     (bytes code:S)
+0075: Len:16
+0076: 'Too many records'
+0086: 71       PRINT string     (bytes code:-)
+0087: 73       PRINT newline     (bytes code:-)
+0088: 91       GET     (bytes code:-)
+0089: 83       drop integer from stack     (bytes code:-)
+008A: 4E       CLS     (bytes code:-)
+008B: 51       GOTO     (bytes code:D)
+008C: Dest:0091 (Dist:0005)
+008E: 51       GOTO     (bytes code:D)
+008F: Dest:002F (Dist:FFFFFFA0)
+0091: 20       Push byte literal     (bytes code:B)
+0092: 00           (0)
+0093: 7D       Procedure call.     (bytes code:S)
+0094: Len:7
+0095: 'XFCLOSE'
+009C: 84       drop float from stack     (bytes code:-)
+009D: 8E       ERR     (bytes code:-)
+009E: 22       Push integer literal     (bytes code:I)
+009F: 00BE       (190)
+00A1: 28       Less than equal integer     (bytes code:-)
+00A2: 7E       Branch if false     (bytes code:D)
+00A3: Dest:00C5 (Dist:0022)
+00A5: 24       Push string literal     (bytes code:S)
+00A6: Len:12
+00A7: 'Remote error'
+00B3: 71       PRINT string     (bytes code:-)
+00B4: 73       PRINT newline     (bytes code:-)
+00B5: 24       Push string literal     (bytes code:S)
+00B6: Len:6
+00B7: 'number'
+00BD: 71       PRINT string     (bytes code:-)
+00BE: 72       PRINT ,     (bytes code:-)
+00BF: 8E       ERR     (bytes code:-)
+00C0: 6F       PRINT integer     (bytes code:-)
+00C1: 73       PRINT newline     (bytes code:-)
+00C2: 51       GOTO     (bytes code:D)
+00C3: Dest:00C9 (Dist:0006)
+00C5: 8E       ERR     (bytes code:-)
+00C6: BA       ERR$     (bytes code:-)
+00C7: 71       PRINT string     (bytes code:-)
+00C8: 73       PRINT newline     (bytes code:-)
+00C9: 91       GET     (bytes code:-)
+00CA: 83       drop integer from stack     (bytes code:-)
+00CB: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
-0000:59 B2 0D FC CF 22 00 01 7F 53 00 8E 24 0A 72 65 
+0000:59 B2 0D FC CF 22 00 01 7F 53 00 93 24 0A 72 65 
 0010:6D 6F 74 65 2E 64 6F 63 20 02 22 00 00 20 00 22 
 0020:00 00 20 00 20 03 7D 06 58 46 4F 50 45 4E 84 22 
-0030:00 01 7E 00 59 00 FC CF 12 FC D2 22 00 50 20 00 
+0030:00 01 7E 00 5E 00 FC CF 12 FC D2 22 00 50 20 00 
 0040:20 01 7D 06 58 46 47 45 54 24 81 20 00 7D 05 58 
-0050:46 45 4F 46 7E 00 05 51 00 34 0D FC CF 00 FC CF 
-0060:22 00 01 2D 7F 00 FC CF 22 00 0B 2C 7E 00 1C 24 
-0070:10 54 6F 6F 20 6D 61 6E 79 20 72 65 63 6F 72 64 
-0080:73 71 73 91 83 4E 51 00 05 51 FF A5 20 00 7D 07 
-0090:58 46 43 4C 4F 53 45 84 8E 22 00 BE 28 7E 00 22 
-00A0:24 0C 52 65 6D 6F 74 65 20 65 72 72 6F 72 71 73 
-00B0:24 06 6E 75 6D 62 65 72 71 72 8E 6F 73 51 00 06 
-00C0:8E BA 71 73 91 83 7B 
+0050:46 45 4F 46 23 02 00 00 3A 7E 00 05 51 00 34 0D 
+0060:FC CF 00 FC CF 22 00 01 2D 7F 00 FC CF 22 00 0B 
+0070:2C 7E 00 1C 24 10 54 6F 6F 20 6D 61 6E 79 20 72 
+0080:65 63 6F 72 64 73 71 73 91 83 4E 51 00 05 51 FF 
+0090:A0 20 00 7D 07 58 46 43 4C 4F 53 45 84 8E 22 00 
+00A0:BE 28 7E 00 22 24 0C 52 65 6D 6F 74 65 20 65 72 
+00B0:72 6F 72 71 73 24 06 6E 75 6D 62 65 72 71 72 8E 
+00C0:6F 73 51 00 06 8E BA 71 73 91 83 7B 

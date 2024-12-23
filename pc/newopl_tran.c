@@ -4344,12 +4344,35 @@ void typecheck_expression(void)
 	  
 	  // These need to pop a value off the stack to keep the stack
 	  // correct for cleaning up at the end with a drop code.
+	  // As they test an integer, if the argument is a float we add some code to get an integer
+	  // from the float
 	case EXP_BUFF_ID_IF:
 	case EXP_BUFF_ID_ELSEIF:
 	case EXP_BUFF_ID_WHILE:
 	case EXP_BUFF_ID_UNTIL:
 	  dbprintf("%d args", function_num_args(be.name));
 	  op1 = type_check_stack_pop();
+
+	  EXP_BUFFER_ENTRY fconv;
+	  
+	  switch(op1.op.type)
+	    {
+	    case NOBJ_VARTYPE_FLT:
+	    case NOBJ_VARTYPE_FLTARY:
+
+	      init_exp_buffer_entry(&fconv);
+	      
+	      strcpy(fconv.name, "<>");
+	      strcpy(fconv.op.name, "<>");
+	      fconv.op.buf_id = EXP_BUFF_ID_OPERATOR;
+	      insert_buf2_entry_after_node_id(op1.node_id, fconv);
+	      strcpy(fconv.name, "0.0");
+	      strcpy(fconv.op.name, "0.0");
+	      fconv.op.buf_id = EXP_BUFF_ID_FLT;
+	      insert_buf2_entry_after_node_id(op1.node_id, fconv);
+
+	      break;
+	    }
 	  break;
 	  
 	case EXP_BUFF_ID_PRINT:

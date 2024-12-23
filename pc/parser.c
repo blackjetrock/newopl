@@ -6073,6 +6073,7 @@ int check_proc_call(int *index)
   int idx = *index;
   char textlabel[NOBJ_VARNAME_MAXLEN+1];
   NOBJ_VARTYPE type;
+  int num_elem;
   
   indent_more();
   
@@ -6082,10 +6083,26 @@ int check_proc_call(int *index)
       dbprintf("'%s' is text label", textlabel);
       if( check_literal(&idx, ":") )
 	{
-	  dbprintf("ret1");
-	  *index = idx;
-	  dbprintf("%s:ret1 idx='%s'", __FUNCTION__, &(cline[idx]));
-	  return(1);
+	  // If there's an open bracket then we have parameters
+	  if( check_literal(&idx, " (") )
+	    {
+	      if( check_expression_list(&idx, &num_elem) )
+		{
+		  if( check_literal(&idx, " )") )
+		    {
+		      // All OK
+		      *index = idx;
+		      dbprintf("ret1:Args present idx='%s'", &(cline[idx]));
+		      return(1);
+		    }
+		}
+	    }
+	  else
+	    {
+	      *index = idx;
+	      dbprintf("ret1:No args idx='%s'", &(cline[idx]));
+	      return(1);
+	    }
 	}
     }
   
