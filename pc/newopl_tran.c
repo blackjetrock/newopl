@@ -1247,7 +1247,43 @@ int convert_to_compact_float(int qcode_idx, char *fltstr)
     {
       start++;
     }
+  
 
+  // Check for various forms of zero
+  // If we only have dot and zero digits up to end or E then its zero
+  int is_zero = 1;
+  int done = 0;
+  
+  for(int i=0; (i<strlen(&(fltstr[start]))) && (!done); i++)
+    {
+      switch(fltstr[start+i])
+	{
+	case '0':
+	case '.':
+	  // All ok
+	  break;
+
+	case 'E':
+	  // All done
+	  done = 1;
+	  break;
+	  
+	default:
+	  // Not zero
+	  is_zero = 0;
+	  break;
+	}
+    }
+
+  if( is_zero )
+    {
+      dbprintf("Detected zero");
+      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x02);
+      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+      qcode_idx = set_qcode_header_byte_at(qcode_idx, 1, 0x00);
+      return(qcode_idx);
+    }
+  
   dbprintf("Normalising:'%s'", &(fltstr[start]));
   normalised_mantissa[0] = '\0';
   
