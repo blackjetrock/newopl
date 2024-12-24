@@ -108,6 +108,8 @@ foreach file [lsort $TR_TEST_FILES] {
     
     if { [regexp -- {(.*)_psion.tr.test} $file all basename] } {
 	# Re-translate the source to get the file we need to test against
+	#puts "$basename\n"
+	
 	exec ./newopl_tran $basename\.opl > $basename\_nopl.out.test
 	exec ./newopl_objdump ob3_nopl.bin > $basename\_nopl.tr.test
 

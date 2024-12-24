@@ -3272,7 +3272,7 @@ int check_float(int *index)
   dbprintf("Fltval:'%s' float:%le", fltval, float_val);
   
   if( ((num_digits > 0) &&  decimal_present) ||
-      ((!decimal_present) && (float_val > 65535.0)) )
+      ((!decimal_present) && (float_val > 32767.0)) )
     {
       dbprintf("%s: ret1", __FUNCTION__);
       *index = idx;
@@ -3347,7 +3347,7 @@ int scan_float(char *fltdest)
   
   //  if( (num_digits > 0) &&  decimal_present )
   if( ((num_digits > 0) &&  decimal_present) ||
-      ((!decimal_present) && (float_val > 65535.0)) )
+      ((!decimal_present) && (float_val > 32767.0)) )
     {
       dbprintf("%s: ret1", __FUNCTION__);
       strcpy(op.name, fltval);
