@@ -218,6 +218,7 @@ struct _FN_INFO
     { "MIN",      0,  0, 'L',  "",         "f", 0x00, 0 },    // Multiple forms
     { "MONTH$",   0,  0, ' ',  "i",         "s", 0x00, 0 },    
     { "MONTH",    0,  0, ' ',  "",          "i", 0x00, 0 },
+    //{ "NOT",      0,  0, ' ',  "i",          "i", 0x00, 0 },
     { "NEXT",     0,  1, ' ',  "",          "v", 0x00, 0 },
     { "NUM$",     0,  0, ' ',  "fi",        "s", 0x00, 0 },
     { "OFFX",     1,  0, ' ',  "i",         "v", 0x00, 0 },    // OFF or OFF x%
@@ -395,8 +396,13 @@ char function_arg_parse(char *fname)
 
 OP_INFO  op_info[] =
   {
-    // Array dereference internal operator (not used)
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //      ret pr    out type         can  qc  unary  left  immutable?   assig?                                      Argument types                                                                %
+    //      res                       unary ty  op     assc                                                                                                                                        cvt?
+    //
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    
     { "=",    1, 2, NOBJ_VARTYPE_INT,     0, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY}, 0 },
     { "<>",   1, 2, NOBJ_VARTYPE_INT,     0, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY}, 0 },
     { ":=",   0, 1, NOBJ_VARTYPE_UNKNOWN, 0, 0, "",     0,   MUTABLE_TYPE, 1, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_STR, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_STRARY}, 0 },
@@ -414,7 +420,7 @@ OP_INFO  op_info[] =
     // (Handle bitwise on integer, logical on floats somewhere)
     { "AND",  1, 2, NOBJ_VARTYPE_INT,     0, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY}, 0 },
     { "OR",   1, 2, NOBJ_VARTYPE_INT,     0, 0, "",     1,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY}, 0 },
-    { "NOT",  1, 3, NOBJ_VARTYPE_INT,     1, 0, "UNOT", 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY}, 0 },
+    { "NOT",  1, 2, NOBJ_VARTYPE_INT,     1, 0, "UNOT", 0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_INT, NOBJ_VARTYPE_INTARY, NOBJ_VARTYPE_FLTARY, NOBJ_VARTYPE_INTARY}, 0 },
 
     // LZ only
     { "+%",   1, 5, NOBJ_VARTYPE_FLT,     0, 0, "",     1, IMMUTABLE_TYPE, 0, {NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT}, 0 },
@@ -427,7 +433,7 @@ OP_INFO  op_info[] =
 
     // Unary versions
     { "UMIN", 1, 6, NOBJ_VARTYPE_UNKNOWN, 0, 0, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT}, 0 },
-    { "UNOT", 1, 1, NOBJ_VARTYPE_INT,     0, 1, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT}, 0 },
+    { "UNOT", 1, 3, NOBJ_VARTYPE_INT,     0, 1, "",     0,   MUTABLE_TYPE, 0, {NOBJ_VARTYPE_INT, NOBJ_VARTYPE_FLT, NOBJ_VARTYPE_FLT}, 0 },
   };
 
 
@@ -4100,7 +4106,7 @@ int check_expression(int *index, int ignore_comma)
   
   while( check_operator(&idx, &is_comma, ignore_comma) )
     {
-      // We allow any number of operators between eitems (for unary operstors)
+      // We allow any number of operators between eitems (for unary operators)
       while( check_operator(&idx, &is_comma, ignore_comma) )
 	{
 	}
@@ -4210,7 +4216,7 @@ int scan_expression(int *num_commas, int ignore_comma)
     {
       idx = idx2;
       
-      // We allow any number of operstors between eitems, for unary operstors
+      // We allow any number of operators between eitems, for unary operators
       while( check_operator(&idx, &is_comma, ignore_comma) )
 	{
 	  if( scan_operator(&is_comma, ignore_comma) )

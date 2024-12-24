@@ -24,6 +24,8 @@ FILE *icfp;
 FILE *ofp;
 FILE *chkfp;
 FILE *trfp;
+FILE *exfp;
+FILE *shfp;
 
 // Reads next composite line into buffer
 
@@ -2427,7 +2429,8 @@ int type_check_stack_ptr = 0;
 void type_check_stack_push(EXP_BUFFER_ENTRY entry)
 {
   dbprintf(" %s: '%s'", __FUNCTION__, entry.name);
-  
+  fprintf(exfp, "\nPush:'%s'", entry.name);
+ 
   if( type_check_stack_ptr < MAX_TYPE_CHECK_STACK )
     {
       type_check_stack[type_check_stack_ptr++] = entry;
@@ -2435,9 +2438,11 @@ void type_check_stack_push(EXP_BUFFER_ENTRY entry)
   else
     {
       fprintf(ofp, "\n%s: Operator stack full", __FUNCTION__);
+      fprintf(exfp, "\nOperator stack full");
       typecheck_error("Stack full");
       n_stack_errors++;
     }
+  
   type_check_stack_print();
 
 }
@@ -2451,6 +2456,8 @@ EXP_BUFFER_ENTRY type_check_stack_pop(void)
   if( type_check_stack_ptr == 0 )
     {
       fprintf(ofp, "\n%s: Operator stack empty", __FUNCTION__);
+      fprintf(exfp, "\nOperator stack empty");
+      
       typecheck_error("Stack empty");
       n_stack_errors++;
       return(o);
@@ -2461,6 +2468,8 @@ EXP_BUFFER_ENTRY type_check_stack_pop(void)
   o = type_check_stack[type_check_stack_ptr];
   
   dbprintf("  %s: '%s'", __FUNCTION__, o.name);
+  fprintf(exfp, "\nPop: '%s'", o.name);
+  
   type_check_stack_print();
   return(o);
 }
@@ -2478,6 +2487,22 @@ void type_check_stack_display(void)
       type = type_check_stack[i].op.type;
       
       dbprintf("%03d: '%s' type:%c (%d), %%:%d", i, s, type_to_char(type), type, type_check_stack[i].op.percent);
+    }
+}
+
+void type_check_stack_fprint(FILE *fp)
+{
+  char *s;
+  NOBJ_VARTYPE type;
+  
+  //fprintf(fp, "\n                    Type Check Stack (%d)", type_check_stack_ptr);
+
+  for(int i=0; i<type_check_stack_ptr; i++)
+    {
+      s = type_check_stack[i].name;
+      type = type_check_stack[i].op.type;
+      
+      fprintf(fp, "\n                    %03d: '%s' type:%c (%d), %%:%d", i, s, type_to_char(type), type, type_check_stack[i].op.percent);
     }
 }
 
@@ -4157,12 +4182,14 @@ void typecheck_expression(void)
 
   type_check_stack_init();
 
+  fprintf(exfp, "\n====================\n");
+  
   for(int i=0; i<exp_buffer_i; i++)
     {
       // Execute
       be = exp_buffer[i];
       copied = 0;
-
+      
 #if 0      
       // Give every entry a node id
       be.node_id = node_id_index++;
@@ -4174,7 +4201,9 @@ void typecheck_expression(void)
 	}
 
       dbprintf(" *** BE:%s    **********", be.name);
-		  
+
+      fprintf(exfp, "\n%s %s", exp_buffer_id_str[be.op.buf_id], be.name);
+      
       switch(be.op.buf_id)
 	{
 	  // Not used
@@ -5137,7 +5166,10 @@ void typecheck_expression(void)
 	}
 
       type_check_stack_display();
+      type_check_stack_fprint(exfp);
     }
+
+  fprintf(exfp, "\n--------------------\n");
 
   // Do we have a value stacked that isn't going to be used?
   if( (pass_number == 2) && (type_check_stack_ptr > 0) )
@@ -5503,6 +5535,19 @@ void op_stack_display(void)
     }
 }
 
+void op_stack_fprint(FILE *fp)
+{
+  char *s;
+  
+  for(int i=0; i<op_stack_ptr; i++)
+    {
+      s = op_stack[i].name;
+      fprintf(fp, "\n          %03d:type:%c '%s'", i, type_to_char(op_stack[i].type), s);
+    }
+  fprintf(fp, "\n");
+  
+}
+
 void op_stack_print(void)
 {
   char *s;
@@ -5676,6 +5721,10 @@ void process_token(OP_STACK_ENTRY *token)
 	  exp_buffer_id_str[token->buf_id]);
 
   o1 = *token;
+
+
+  fprintf(shfp, "\n%s", token->name);
+  
   //strcpy(o1.name, token);
   if( o1.type == NOBJ_VARTYPE_UNKNOWN )
     {
@@ -5710,6 +5759,8 @@ void process_token(OP_STACK_ENTRY *token)
       expression_type = NOBJ_VARTYPE_UNKNOWN;
       first_token = 0;
       unary_next = 1;
+      op_stack_fprint(shfp);
+
       return;
     }
 
@@ -5728,6 +5779,7 @@ void process_token(OP_STACK_ENTRY *token)
 	{
 	  // Mismatched parentheses
 	  dbprintf("\nMismatched parentheses");
+	  op_stack_fprint(shfp);
 	  return;
 	}
 
@@ -5741,6 +5793,8 @@ void process_token(OP_STACK_ENTRY *token)
       if( strcmp(o2.name, "(") != 0 )
 	{
 	  dbprintf("\n**** Should be left parenthesis");
+	  op_stack_fprint(shfp);
+  
 	  return;
 	}
       
@@ -5749,6 +5803,7 @@ void process_token(OP_STACK_ENTRY *token)
       output_sub_end();
       first_token = 0;
       unary_next = 0;
+      op_stack_fprint(shfp);
       return;
     }
 
@@ -5779,6 +5834,8 @@ void process_token(OP_STACK_ENTRY *token)
       op_stack_push(o1);
       first_token = 0;
       unary_next = 0;
+      op_stack_fprint(shfp);
+
       return;
       break;
 
@@ -5791,6 +5848,8 @@ void process_token(OP_STACK_ENTRY *token)
       //      o1.req_type = expression_type;
       output_return(o1);
       unary_next = 0;
+      op_stack_fprint(shfp);
+
       return;
       break;
       
@@ -5801,6 +5860,8 @@ void process_token(OP_STACK_ENTRY *token)
       //      o1.req_type = expression_type;
       output_proc_call(o1);
       unary_next = 0;
+  op_stack_fprint(shfp);
+
       return;
       break;
 
@@ -5820,6 +5881,8 @@ void process_token(OP_STACK_ENTRY *token)
       //      o1.req_type = expression_type;
       output_generic(o1, o1.name, o1.buf_id);
       unary_next = 0;
+  op_stack_fprint(shfp);
+
       return;
       break;
       
@@ -5840,6 +5903,8 @@ void process_token(OP_STACK_ENTRY *token)
       //      o1.req_type = expression_type;
       output_fieldvar(o1, o1.name, o1.buf_id);
       unary_next = 0;
+  op_stack_fprint(shfp);
+
       return;
       break;
 	    
@@ -5851,6 +5916,7 @@ void process_token(OP_STACK_ENTRY *token)
       o1.type     = NOBJ_VARTYPE_VAR_ADDR;
       output_var_addr_name(o1);
       unary_next = 0;
+  op_stack_fprint(shfp);
       return;
       break;
     }
@@ -5872,9 +5938,15 @@ void process_token(OP_STACK_ENTRY *token)
 	}
       
       unary_next = 1;
-      
+#define O2_HAS_GRTR_PREC_THAN_O1     ( OP_PREC(op_stack_top()) > opr1  )
+#define O1_AND_O1_HAVE_SAME_PREC     ( opr1 == OP_PREC(op_stack_top()) )
+#define O1_IS_LEFT_ASSOC             ( operator_left_assoc(o1.name)    )
+#if 0
       while( (strlen(op_stack_top().name) != 0) && (strcmp(op_stack_top().name, "(") != 0 ) &&
 	     ( OP_PREC(op_stack_top()) > opr1) || ((opr1 == OP_PREC(op_stack_top()) && operator_left_assoc(o1.name)))
+#endif
+	     while( (strlen(op_stack_top().name) != 0) && (strcmp(op_stack_top().name, "(") != 0 ) &&
+		    ( O2_HAS_GRTR_PREC_THAN_O1 || (O1_AND_O1_HAVE_SAME_PREC && O1_IS_LEFT_ASSOC) )
 	     )
 	{
 	  fprintf(ofp, "\nPop 1");
@@ -5894,6 +5966,7 @@ void process_token(OP_STACK_ENTRY *token)
       //      o1.req_type = expression_type;
       op_stack_push(o1);
       first_token = 0;
+  op_stack_fprint(shfp);
       return;
     }
 
@@ -5909,6 +5982,7 @@ void process_token(OP_STACK_ENTRY *token)
       output_float(o1);
       first_token = 0;
       unary_next = 0;
+  op_stack_fprint(shfp);
       return;
     }
 
@@ -5921,6 +5995,7 @@ void process_token(OP_STACK_ENTRY *token)
       output_integer(o1);
       first_token = 0;
       unary_next = 0;
+  op_stack_fprint(shfp);
       return;
     }
 
@@ -5948,6 +6023,7 @@ void process_token(OP_STACK_ENTRY *token)
       op_stack_push(o1);
       first_token = 0;
       unary_next = 0;
+  op_stack_fprint(shfp);
       return;
     }
 
@@ -6016,6 +6092,7 @@ void process_token(OP_STACK_ENTRY *token)
       first_token = 0;
       unary_next = 0;
 
+  op_stack_fprint(shfp);
       
       return;
     }
@@ -6027,13 +6104,15 @@ void process_token(OP_STACK_ENTRY *token)
       modify_expression_type(o1.type);
       first_token = 0;
       unary_next = 0;
+      op_stack_fprint(shfp);
       return;
     }
   
   first_token = 0;
   unary_next = 0;
-
+  
   dbprintf("**Unknown token **      '%s'", o1.name);
+  op_stack_fprint(shfp);
 }
 
 int is_op_delimiter(char ch)
@@ -6055,9 +6134,11 @@ int is_op_delimiter(char ch)
     case '<':
       //    case '$':
     case '=':
+  op_stack_fprint(shfp);
       return(1);
       break;
     }
+  op_stack_fprint(shfp);
 
   return 0;
   
@@ -6085,10 +6166,12 @@ int is_delimiter(char ch)
       //case '$':
     case '=':
     case '"':
+  op_stack_fprint(shfp);
       return(1);
       break;
     }
 
+  op_stack_fprint(shfp);
   return 0;
   
 }
@@ -6250,8 +6333,9 @@ int main(int argc, char *argv[])
   
   init_output();
 
-  ptfp = fopen("parse_text.txt", "w");
-
+  ptfp = fopen("parse_text.txt",  "w");
+  exfp = fopen("expressions.txt", "w");
+  shfp = fopen("shunting.txt",    "w");  
   parser_check();
 
   // Perform two passes of translation and qcode generation
@@ -6295,6 +6379,8 @@ int main(int argc, char *argv[])
   dump_vars(vfp);
   fclose(vfp); 
   fclose(ptfp);
+  fclose(exfp);
+  fclose(shfp);
   
   dbprintf("\n");
   dbprintf("\n %d lines scanned OK",       n_lines_ok);
