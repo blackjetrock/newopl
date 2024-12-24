@@ -1,0 +1,222 @@
+MAZENEW:(BX%,BY%)
+rem
+rem Maze game for the Psion Organiser II LZ : Create new maze module
+rem Copyright 1992-1997 Zac Schroff, all rights reserved.
+rem
+rem Please see the main module for other notices.
+rem
+
+
+rem Create a new maze pseudorandomly using the pseudorecursive
+rem method I developed for a maze experiment in CS125.
+
+rem Additional functions :
+rem     ON : end maze generate soon (cleanup)
+rem   MODE : end maze generate soon (cleanup)
+rem    DEL : end maze generate soon (no cleanup)
+rem  SPACE : toggle maze position display while generating
+
+rem Note that this saves the current maze position when done.
+
+LOCAL X%,Y%,Q%
+LOCAL AC%,AX%,AY%
+LOCAL AD%,SM%,QEX%
+LOCAL A%,B%,D%,E%,F%
+LOCAL S%(96),SP%,SL%
+local mo%,ky%,view%,xl%,tx%,ty%
+mo%=ms%+1
+xl%=ms%-3
+view%=0
+Q%=PEEKB($7C)
+POKEB $7C,0
+MAZESCN:
+AT 14,4
+PRINT "New    ";
+RANDOMIZE PEEKW($20CB)
+SL%=96
+SP%=0
+Y%=1
+QEX%=0
+DO
+ AT 18,4
+ PRINT Y%,
+ A$(Y%)=rept$("õ",ms%)
+ Y%=Y%+1
+UNTIL Y%>ms%
+X%=BX%
+Y%=BY%
+DO
+ AT 18,4
+ PRINT SP%,
+ AD%=ADDR(A$())+X%+1+Y%*mo%
+ A%=(PEEKB(AD%-mo%)=$F5)*-1+(PEEKB(AD%+1)=$F5)*-2+(PEEKB(AD%+mo%)=$F5)*-4+(PEEKB(AD%-1)=$F5)*-8+(PEEKB(AD%)=$F5)*-16
+ B%=(Y%>0)*-1+(X%<ms%-1)*-2+(Y%<ms%-1)*-4+(X%>0)*-8
+ D%=A% AND B%
+ DO
+  E%=RND*16
+  E%=E% AND D%
+ UNTIL D%=0 OR E%<>0 OR RND<.02
+ IF A% AND 16
+  POKEB AD%,32
+ ELSE
+  E%=0
+  IF PEEKB(AD%)<>32
+   POKEB AD%,255
+  ENDIF
+ ENDIF
+ IF (D% AND NOT E%)AND 1
+  POKEB AD%-mo%,255
+ ENDIF
+ IF (D% AND NOT E%)AND 2
+  POKEB AD%+1,255
+ ENDIF
+ IF (D% AND NOT E%)AND 4
+  POKEB AD%+mo%,255
+ ENDIF
+ IF (D% AND NOT E%)AND 8
+  POKEB AD%-1,255
+ ENDIF
+ IF (D% AND 3)=3
+  POKEB AD%-ms%,255
+ ENDIF
+ IF (D% AND 6)=6
+  POKEB AD%+mo%+1,255
+ ENDIF
+ IF (D% AND 12)=12
+  POKEB AD%+ms%,255
+ ENDIF
+ IF (D% AND 9)=9
+  POKEB AD%-mo%-1,255
+ ENDIF
+ DO
+  F%=RND*4
+  F%=(2**F%) AND E%
+ UNTIL F%<>0 OR E%=0
+ IF F%=1
+  IF PEEKB(AD%-mo%*2)<>$F5
+   F%=0
+   IF PEEKB(AD%-mo%)=$F5
+    POKEB AD%-mo%,255
+   ENDIF
+  ENDIF
+ ELSEIF F%=2
+  IF PEEKB(AD%+2)<>$F5
+   F%=0
+   IF PEEKB(AD%+1)=$F5
+    POKEB AD%+1,255
+   ENDIF
+  ENDIF
+ ELSEIF F%=4
+  IF PEEKB(AD%+mo%*2)<>$F5
+   F%=0
+   IF PEEKB(AD%+mo%)=$F5
+    POKEB AD%+mo%,255
+   ENDIF
+  ENDIF
+ ELSE
+  IF PEEKB(AD%-2)<>$F5
+   F%=0
+   IF PEEKB(AD%-1)=$F5
+    POKEB AD%-1,255
+   ENDIF
+  ENDIF
+ ENDIF
+ IF (E% AND NOT F%)AND 1
+  IF SP%<SL%
+   SP%=SP%+1
+   S%(SP%)=X%+(Y%-1)*256
+  ENDIF
+ ENDIF
+ IF (E% AND NOT F%)AND 2
+  IF SP%<SL%
+   SP%=SP%+1
+   S%(SP%)=X%+1+Y%*256
+  ENDIF
+ ENDIF
+ IF (E% AND NOT F%)AND 4
+  IF SP%<SL%
+   SP%=SP%+1
+   S%(SP%)=X%+(Y%+1)*256
+  ENDIF
+ ENDIF
+ IF (E% AND NOT F%)AND 8
+  IF SP%<SL%
+   SP%=SP%+1
+   S%(SP%)=X%-1+Y%*256
+  ENDIF
+ ENDIF
+ if view%
+  AT 14,2
+  PRINT num$(X%,-2);",";num$(Y%,-2);
+  AT 14,3
+  PRINT num$(EX%,-2);",";num$(EY%,-2);
+  TX%=X%-1
+  TY%=Y%-1
+  IF TX%<0 :TX%=0 :ENDIF
+  IF TY%<0 :TY%=0 :ENDIF
+  IF TX%>xl% :TX%=xl% :ENDIF
+  IF TY%>xl% :TY%=xl% :ENDIF
+  POKEW $2072,tx%+ty%*mo%+1
+  K%=USR(ADDR(MD$)+1,0)
+ endif
+ IF F% AND 1
+  Y%=Y%-1
+ ELSEIF F% AND 2
+  X%=X%+1
+ ELSEIF F% AND 4
+  Y%=Y%+1
+ ELSEIF F% AND 8
+  X%=X%-1
+ ELSE 
+  IF SP%>0 AND QEX%=0
+   X%=S%(SP%) AND $FF
+   Y%=S%(SP%)/256
+   SP%=SP%-1
+   F%=-1
+  ENDIF
+ ENDIF
+ IF SP%>=SM%
+  EX%=X%
+  EY%=Y%
+  SM%=SP%
+ ENDIF
+ ky%=key
+ if ky%=32
+  view%=not(view%)
+  if not(view%)
+   mazescn:
+   AT 14,4
+   PRINT "New  ";
+  endif
+ endif
+ IF QEX%=0
+  QEX%=ky%
+  IF QEX%<>1 AND QEX%<>2 AND QEX%<>8
+   QEX%=0
+  ELSE
+   AT 14,4
+   PRINT "***";
+  ENDIF
+ ENDIF
+UNTIL F%=0
+POKEB ADDR(A$())+EX%+1+EY%*mo%,$B8
+IF QEX%<>8
+ Y%=0
+ DO
+  X%=1
+  AT 18,4
+  PRINT Y%,
+  DO
+   IF PEEKB(ADDR(A$())+X%+Y%*mo%)=$F5
+    POKEB ADDR(A$())+X%+Y%*mo%,255
+   ENDIF
+   X%=X%+1
+  UNTIL X%>ms%
+  Y%=Y%+1
+ UNTIL Y%>ms%-1
+ENDIF
+MAZEPUT:("MAZEPOS")
+DO :UNTIL KEY=0
+POKEW $7D,PEEKW($20CD)
+POKEB $7C,Q%
+
