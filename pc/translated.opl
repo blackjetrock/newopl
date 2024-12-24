@@ -1,20 +1,9630 @@
 
 
 
-F2
-F(20)
-DOOR$
-FLOAT(123)
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+IF (CP% = 1)
+A$ := "1317B01.B01E03L."
+ELSEIF (CP% = 2)
+A$ := "1317A17C01C02.I02B02D03K18E10O."
+ELSEIF (CP% = 3)
+A$ := "3218B03.D05N."
+ELSEIF (CP% = 4)
+A$ := "1319B05.B05L."
+ELSEIF (CP% = 5)
+A$ := "1320B06.B06L."
+ELSEIF (CP% = 6)
+A$ := "2900A14E07.D04N."
+ELSEIF (CP% = 7)
+A$ := "2900A14.E07M."
+ELSEIF (CP% = 8)
+A$ := "1322B08.B08L."
+ELSEIF (CP% = 9)
+A$ := "1323B09.B09L."
+ELSEIF (CP% = 10)
+A$ := "1417B01.C01F03L."
+ELSEIF (CP% = 11)
+A$ := "1417B02.C02L."
+ELSEIF (CP% = 12)
+A$ := "1419B05.C05L."
+ELSEIF (CP% = 13)
+A$ := "1420B06.C06L."
+ELSEIF (CP% = 14)
+A$ := "1422B08.C08L."
+ELSEIF (CP% = 15)
+A$ := "1423B09.C09L."
+ELSEIF (CP% = 16)
+A$ := "0500A10C10.D10M."
+ELSEIF (CP% = 17)
+A$ := "0500A08C10.D10M."
+ELSEIF (CP% = 18)
+A$ := "0500A10.K11O."
+ELSEIF (CP% = 19)
+A$ := "0500A08.K19O."
+ELSEIF (CP% = 20)
+A$ := "0500A15.F02K14O."
+ELSEIF (CP% = 21)
+A$ := "0600A14.E02K15O."
+ELSEIF (CP% = 22)
+A$ := "3100D02.H01E03L."
+ELSEIF (CP% = 23)
+A$ := "3100B01.D11N."
+ELSEIF (CP% = 24)
+A$ := "3219B04B06.H04J06B05L."
+ELSEIF (CP% = 25)
+A$ := "3219B04B09.H04D06B05M."
+ELSEIF (CP% = 26)
+A$ := "3000B05B11B08.D12I10J08J11M."
+ELSEIF (CP% = 27)
+A$ := "1333B11.B11L."
+ELSEIF (CP% = 28)
+A$ := "1433B11.C11L."
+ELSEIF (CP% = 29)
+A$ := "1500A02.K03O."
+ELSEIF (CP% = 30)
+A$ := "1500A12.K13O."
+ELSEIF (CP% = 31)
+A$ := "1500A18F10.K17O."
+ELSEIF (CP% = 32)
+A$ := "1600A03.K02O."
+ELSEIF (CP% = 33)
+A$ := "1600A13.K12O."
+ELSEIF (CP% = 34)
+A$ := "1600A17.K18O."
+ELSEIF (CP% = 35)
+A$ := "1500A05.K06O."
+ELSEIF (CP% = 36)
+A$ := "3400A03.D09M."
+ELSEIF (CP% = 37)
+A$ := "3400A13E08.D14M."
+ELSEIF (CP% = 38)
+A$ := "3400A13.E08D13I06B06M."
+ELSEIF (CP% = 39)
+A$ := "1500A18E10.D16M."
+ELSEIF (CP% = 40)
+A$ := "1318B10.B10L."
+ELSEIF (CP% = 41)
+A$ := "1418B10.C10L."
+ELSEIF (CP% = 42)
+A$ := "1318B03.D09M."
+ELSEIF (CP% = 43)
+A$ := "1317B02.B02L."
+ELSEIF (CP% = 44)
+A$ := "3500.A."
+ELSEIF (CP% = 45)
+A$ := "3600.P."
+ELSEIF (CP% = 46)
+A$ := "3700.O."
+ELSEIF (CP% = 47)
+A$ := "5000.N."
+ENDIF
+RETURNA14
+Q%(1) := 0
+O$(1) := "A LIGHTED TORCH"
+Q%(2) := 0
+O$(2) := "A TORCH"
+Q%(3) := 3
+O$(3) := "A LADDER"
+Q%(4) := 3
+O$(4) := "A HAMMER"
+Q%(5) := 0
+O$(5) := "A HAMMER"
+Q%(6) := 0
+O$(6) := "A WAD OF NOTES"
+Q%(7) := 0
+O$(7) := "MANHOLE COVER"
+Q%(8) := 15
+O$(8) := "A BAG OF NAILS"
+Q%(9) := 16
+O$(9) := "A BARCLAYCARD"
+Q%(10) := 0
+O$(10) := "A ROUGH LADDER"
+Q%(11) := 4
+O$(11) := "SOME WOOD"
+V$(1) := "01N"
+V$(2) := "01NORT"
+V$(3) := "02E"
+V$(4) := "02EAST"
+V$(5) := "03S"
+V$(6) := "03SOUT"
+V$(7) := "04W"
+V$(8) := "04WEST"
+V$(9) := "05U"
+V$(10) := "05UP"
+V$(11) := "06D"
+V$(12) := "06DOWN"
+V$(13) := "13TAKE"
+V$(14) := "14PUT"
+V$(15) := "14DROP"
+V$(16) := "15ENTE"
+V$(17) := "15IN"
+V$(18) := "16OUT"
+V$(19) := "16EXIT"
+V$(20) := "16LEAV"
+V$(21) := "17TORC"
+V$(22) := "18LADD"
+V$(23) := "19HAMM"
+V$(24) := "20WAD"
+V$(25) := "20NOTE"
+V$(26) := "22BAG"
+V$(27) := "22NAIL"
+V$(28) := "23BARC"
+V$(29) := "05SCAL"
+V$(30) := "05CLIM"
+V$(31) := "29OPEN"
+V$(32) := "29LIFT"
+V$(33) := "30MAKE"
+V$(34) := "30BUIL"
+V$(35) := "31SWIT"
+V$(36) := "31LIGH"
+V$(37) := "32BUY"
+V$(38) := "33WOOD"
+V$(39) := "34ROB"
+V$(40) := "34STEA"
+V$(41) := "35INVE"
+V$(42) := "36QUIT"
+V$(43) := "37LOOK"
+M$(1) := "00"
+M$(2) := "01040209041800"
+M$(3) := "00"
+M$(4) := "0202050500"
+M$(5) := "0604040700"
+M$(6) := "00"
+M$(7) := "0108030500"
+M$(8) := "030700"
+M$(9) := "011202100314040200"
+M$(10) := "040900"
+M$(11) := "00"
+M$(12) := "0209041800"
+M$(13) := "00"
+M$(14) := "010900"
+M$(15) := "031600"
+M$(16) := "011500"
+M$(17) := "00"
+M$(18) := "0112020200"
+M$(19) := "00"
+C$(1) := "A01.K02O."
+C$(2) := "A16H30.G0121."
+C$(3) := "G01.D01Q."
+C$(4) := "B06H10.D02J06."
+C$(5) := "A14E07.D07N."
+C$(6) := "A14F07.D08N."
+C$(7) := "A11.Q."
+C$(8) := "A19.Q."
+C$(9) := "A06.K03O."
+C$(10) := ".N."
+ACRES
+IF (C% < 0)
+B% := VIEW(2 "GOODBYE!" )
+PAUSE(30 )
+STOP()
+ENDIF
+C% := (C% - 1)
+B% := VIEW(1 (("BUT YOU HAVE ONLY " + GEN$(A% 4 )) + " ACRES.") )
+addtop(POS%, )(ITEM$)
+A%(2)
+IF (LEN(ITEM$ ) > 8)
+RAISE(202 )
+ENDIF
+POKEB(8583 LEN(ITEM$ ) )
+I% := 1
+WHILE (I% <= LEN(ITEM$ ))
+POKEB((8583 + I%) ASC(MID$(ITEM$ I% 1 ) ) )
+I% := (I% + 1)
+ENDWH
+POKEW((8584 + LEN(ITEM$ )) 0 )
+A%(1) := 16229
+A%(2) := 14592
+USR(ADDR(A%() ) POS% )
+ALZAN
+O1%
+T$
+A%
+CP%
+A1% := 47
+O1% := 11
+A14
+ROOM% := 1
+S%(2) := 0
+I% := 0
+DO
+I% := (I% + 1)
+O%(I%) := Q%(I%)
+UNTIL (I% = 11)
+A% := VIEW(1 "WELCOME TO ADVENTURE" )
+AGAIN::
+IF (S%(2) = 0)
+GOTO ROOM
+ENDIF
+IF (C%(2) >= 1)
+C%(2) := (C%(2) - 1)
+ENDIF
+IF (S%(3) = 1)
+GOTO ROOM
+ENDIF
+A% := VIEW(2 "IT IS DARK - BETTER GET SOME LIGHT OR YOU MAY BE IN TROUBLE." )
+IF (C%(3) >= 1)
+C%(3) := (C%(3) - 1)
+ENDIF
+GOTO COMMAND
+ROOM::
+ROOMS10
+F% := 0
+I% := 0
+DO
+I% := (I% + 1)
+IF (O%(I%) <> ROOM%)
+GOTO SKIP1
+ENDIF
+IF (F% = 1)
+GOTO SKIP2
+ENDIF
+A% := VIEW(2 "THERE IS ALSO:" )
+F% := 1
+SKIP2::
+A% := VIEW(2 O$(I%) )
+SKIP1::
+UNTIL (I% = 11)
+COMMAND::
+T1% := 1
+GOTO CHECK2
+CEC::
+IF (C%(1) >= 1)
+C%(1) := (C%(1) - 1)
+ENDIF
+IF (C%(4) >= 1)
+C%(4) := (C%(4) - 1)
+ENDIF
+AT(1 2 )
+PRINT(">")
+
+Y$
+CLS()
+Y% := 0
+P$(2) := "00"
+W% := 0
+DO
+W% := (W% + 1)
+GREMOVE::
+
+IF (Y% >= LEN(Y$ ))
+
+ENDIF
+IF (P$(W%) = "00")
+GOTO GREMOVE
+ENDIF
+UNTIL (W% = 2)
+IF (P$(1) <> "00")
+GOTO CHECK1
+ENDIF
+A% := VIEW(2 "PARDON?" )
+GOTO AGAIN
+CHECK1::
+Z% := 1
+GMK::
+T$ := MID$(M$(ROOM%) Z% 2 )
+IF (T$ = "00")
+GOTO SATF
+ENDIF
+IF (T$ <> P$(1))
+GOTO TNM
+ENDIF
+ROOM% := VAL(MID$(M$(ROOM%) (Z% + 2) 2 ) )
+GOTO AGAIN
+TNM::
+Z% := (Z% + 4)
+GOTO GMK
+SATF::
+T1% := 0
+MATCH% := 0
+CHECK2::
+CP% := 0
+TSN::
+CP% := (CP% + 1)
+IF (T1% < 1)
+GOTO HABS
+ENDIF
+E$ := C$(CP%)
+GOTO NSFC
+HABS::
+IF (CP% <= A1%)
+GOTO CIMK1
+ENDIF
+IF (MATCH% >= 1)
+GOTO COMMAND
+ENDIF
+A% := VIEW(2 "YOU CAN'T" )
+IF (VAL(P$(1) ) < 13)
+A% := VIEW(2 "GO THAT WAY" )
+ENDIF
+GOTO AGAIN
+CIMK1::
+A13
+IF (LEFT$(A$ 2 ) <> P$(1))
+GOTO TSN
+ENDIF
+Y$ := MID$(A$ 3 2 )
+IF (Y$ <> "00")
+IF (Y$ <> P$(2))
+GOTO TSN
+ENDIF
+ENDIF
+E$ := MID$(A$ 5 30 )
+NSFC::
+E% := 1
+FSEC::
+IF (MID$(E$ E% 1 ) = ".")
+GOTO ACTIONS
+ENDIF
+TYPE% := (ASC(MID$(E$ E% 1 ) ) - 65)
+N% := VAL(MID$(E$ (E% + 1) 2 ) )
+OK% := 0
+IF (TYPE% = 0)
+IF (N% = ROOM%)
+OK% := 1
+ENDIF
+ELSEIF (TYPE% = 1)
+IF (O%(N%) = ROOM%)
+OK% := 1
+ENDIF
+IF (O%(N%) < 0)
+OK% := 1
+ENDIF
+ELSEIF (TYPE% = 2)
+IF (O%(N%) <> ROOM%)
+IF (O%(N%) >= 0)
+OK% := 1
+ENDIF
+ENDIF
+ELSEIF (TYPE% = 3)
+IF (O%(N%) < 0)
+OK% := 1
+ENDIF
+ELSEIF (TYPE% = 4)
+OK% := S%(N%)
+ELSEIF (TYPE% = 5)
+IF (S%(N%) = 0)
+OK% := 1
+ENDIF
+ELSEIF (TYPE% = 6)
+IF (C%(N%) = 1)
+OK% := 1
+ENDIF
+ELSEIF (TYPE% = 7)
+IF ((INT((RND() * 100) ) + 1) <= N%)
+OK% := 1
+ENDIF
+ENDIF
+IF (OK% = 0)
+GOTO TSN
+ENDIF
+E% := (E% + 3)
+GOTO FSEC
+ACTIONS::
+MATCH% := 1
+E% := (E% + 1)
+NPA::
+IF (MID$(E$ E% 1 ) = ".")
+GOTO TSN
+ENDIF
+TYPE% := (ASC(MID$(E$ E% 1 ) ) - 65)
+IF (MID$(E$ (E% + 1) 1 ) <> ".")
+N% := VAL(MID$(E$ (E% + 1) 2 ) )
+ENDIF
+BREAK% := 0
+IF (TYPE% = 0)
+A% := VIEW(2 "YOU ARE HOLDING:" )
+F% := 1
+X% := 0
+DO
+X% := (X% + 1)
+IF (O%(X%) >= 0)
+GOTO NEXTX
+ENDIF
+A% := VIEW(2 O$(X%) )
+F% := 0
+NEXTX::
+UNTIL (X% = O1%)
+IF (F% >= 1)
+A% := VIEW(2 " NOTHING." )
+ENDIF
+BREAK% := 100
+ELSEIF (TYPE% = 1)
+IF (S%(1) < 5)
+GOTO IFON
+ENDIF
+A% := VIEW(2 "YOU CANNOT CARRY MORE." )
+BREAK% := 100
+GOTO C
+IFON::
+IF (O%(N%) = (UMIN 1))
+GOTO PYAHI
+ENDIF
+O%(N%) := (UMIN 1)
+S%(1) := (S%(1) + 1)
+GOTO C
+PYAHI::
+A% := VIEW(2 "YOU ALREADY HAVE IT." )
+BREAK% := 100
+C::
+ELSEIF (TYPE% = 2)
+IF (O%(N%) = (UMIN 1))
+GOTO ONER
+ENDIF
+A% := VIEW(2 ("YOU DON'T HAVE " + O$(N%)) )
+BREAK% := 100
+GOTO D
+ONER::
+O%(N%) := ROOM%
+S%(1) := (S%(1) - 1)
+D::
+ELSEIF (TYPE% = 3)
+TEXT3
+ELSEIF (TYPE% = 4)
+S%(N%) := 1
+ELSEIF (TYPE% = 5)
+S%(N%) := 0
+ELSEIF (TYPE% = 6)
+C%(N%) := VAL(MID$(E$ (E% + 3) 2 ) )
+E% := (E% + 2)
+ELSEIF (TYPE% = 7)
+X% := O%(N%)
+O%(N%) := O%((N% + 1))
+O%((N% + 1)) := X%
+ELSEIF (TYPE% = 8)
+O%(N%) := ROOM%
+ELSEIF (TYPE% = 9)
+IF (O%(N%) < 0)
+S%(1) := (S%(1) - 1)
+ENDIF
+O%(N%) := 0
+ELSEIF (TYPE% = 10)
+ROOM% := N%
+ELSEIF (TYPE% = 11)
+A% := VIEW(2 "OKAY." )
+BREAK% := 1000
+ELSEIF (TYPE% = 12)
+BREAK% := 1000
+ELSEIF (TYPE% = 13)
+BREAK% := 1100
+ELSEIF (TYPE% = 14)
+BREAK% := 100
+ELSEIF (TYPE% = 15)
+AT(1 2 )
+PRINT("ARE YOU SURE? ")
+
+W$
+BREAK% := 1100
+IF (CHR$(ASC(W$ ) ) <> "Y")
+BREAK% := 100
+ELSE
+STOP()
+ENDIF
+ELSEIF (TYPE% = 16)
+STOP()
+ENDIF
+IF (BREAK% = 100)
+GOTO AGAIN
+ELSEIF (BREAK% = 1000)
+GOTO COMMAND
+ELSEIF (BREAK% = 1100)
+GOTO CEC
+ENDIF
+E% := (E% + 3)
+GOTO NPA
+blue
+T
+T := M
+M := ABS(M )
+IF (M > 131)
+A$ := "80A+"
+M := (M - 131)
+ENDIF
+IF ((M >= 5) AND (M < 15))
+B$ := "82"
+ELSEIF ((M >= 15) AND (M < 25))
+B$ := "82A"
+ELSEIF ((M >= 25) AND (M < 35))
+B$ := "82B"
+ELSEIF ((M >= 35) AND (M < 50))
+B$ := "82C"
+ELSEIF ((M >= 50) AND (M < 65))
+B$ := "80D"
+ELSEIF ((M >= 65) AND (M < 95))
+B$ := "80C"
+ELSEIF ((M >= 95) AND (M < 120))
+B$ := "80B"
+ELSEIF (M > 120)
+B$ := "80A"
+ENDIF
+PRINT("Colour correction")
+<nl>
+
+PRINT("BLUE")
+< > 
+PRINT(T)
+< > 
+PRINT("Mired")
+<nl>
+
+PRINT(A$)
+PRINT(B$)
+< > 
+PRINT("Filter")
+<nl>
+
+boot
+ADDTOP(0, )("Film")
+border
+B%
+A% := 1
+P% := 0
+B% := 10
+BL$ := REPT$(CHR$(32 ) 20 )
+CLS()
+AT(1 1 )
+PRINT("       Border")
+<nl>
+
+AT(1 2 )
+PRINT("    G.Pollington.")
+<nl>
+
+AT(1 3 )
+PRINT("Use cursor keys then")
+<nl>
+
+AT(1 4 )
+PRINT("   EXE to select.")
+<nl>
+
+DO
+CH$ := (CH$ + CHR$(P% ))
+P% := (P% + 1)
+IF (P% = 8)
+P% := 32
+ENDIF
+UNTIL (P% = 256)
+CLS()
+DO
+AT(3 4 )
+PRINT("Select Character")
+<nl>
+
+AT(9 3 )
+PRINT(CHR$(127 ))
+< > 
+PRINT(CHR$(126 ))
+<nl>
+
+IF (B% < 1)
+B% := 1
+A% := (A% - 1)
+ELSEIF (B% > 20)
+B% := 20
+A% := (A% + 1)
+ENDIF
+AT(1 2 )
+PRINT(BL$)
+<nl>
+
+AT(B% 2 )
+PRINT(CHR$(169 ))
+<nl>
+
+IF (A% < 1)
+A% := 1
+ELSEIF (A% > 213)
+A% := 213
+ENDIF
+W$ := MID$(CH$ A% 20 )
+AT(1 1 )
+PRINT(W$)
+<nl>
+
+K% := KEY()
+IF (K% = 6)
+B% := (B% + 1)
+ELSEIF (K% = 5)
+B% := (B% - 1)
+ENDIF
+UNTIL (K% = 13)
+P% := ASC(MID$(CH$ ((A% + B%) - 1) 1 ) )
+POKEB(8345 P% )
+BL$ := REPT$(CHR$(P% ) 20 )
+CLS()
+AT(1 1 )
+PRINT(BL$)
+<nl>
+
+AT(1 2 )
+PRINT(CHR$(P% ))
+PRINT(CHR$(P% ))
+PRINT("   New Border   ")
+PRINT(CHR$(P% ))
+PRINT(CHR$(P% ))
+<nl>
+
+AT(1 3 )
+PRINT(CHR$(P% ))
+PRINT(CHR$(P% ))
+PRINT("    Selected    ")
+PRINT(CHR$(P% ))
+PRINT(CHR$(P% ))
+<nl>
+
+AT(1 4 )
+PRINT(BL$)
+<nl>
+
+GET()
+BUSH
+IF (C% < 0)
+B% := VIEW(2 "GOODBYE!" )
+PAUSE(30 )
+STOP()
+ENDIF
+C% := (C% - 1)
+B% := VIEW(1 (("BUT YOU HAVE ONLY " + GEN$(S% 4 )) + " BUSHELS IN STORE.") )
+creakey$(B$, )(A$)
+P%(8)
+Y%
+A% := LEN(A$ )
+B% := LEN(B$ )
+RANDOMIZE(((8 * (B% - 1)) + A%) )
+MN% := 123
+MX% := 255
+I% := 0
+DO
+I% := (I% + 1)
+IF (I% <= A%)
+L%(I%) := ASC(MID$(A$ I% 1 ) )
+ELSE
+L%(I%) := L%((INT((RND() * A%) ) + 1))
+ENDIF
+IF (I% <= B%)
+P%(I%) := ASC(MID$(B$ I% 1 ) )
+ELSE
+P%(I%) := P%((INT((RND() * B%) ) + 1))
+ENDIF
+UNTIL (I% = 8)
+I% := 0
+DO
+I% := (I% + 1)
+EL%(I%) := (INT((RND() * (MX% - MN%)) ) + MN%)
+EP%(I%) := (INT((RND() * (MX% - MN%)) ) + MN%)
+UNTIL (I% = 8)
+I% := 0
+DO
+I% := (I% + 1)
+X% := (L%(I%) + EL%(I%))
+Y% := (P%(I%) + EP%(I%))
+WHILE (X% > MX%)
+X% := (X% - ((MX% - MN%) + 1))
+ENDWH
+WHILE (Y% > MX%)
+Y% := (Y% - ((MX% - MN%) + 1))
+ENDWH
+IF ((I% / 2.0) = (I% / 2))
+EL$ := (EL$ + CHR$(Y% ))
+EP$ := (EP$ + CHR$(X% ))
+ELSE
+EL$ := (EL$ + CHR$(X% ))
+EP$ := (EP$ + CHR$(Y% ))
+ENDIF
+UNTIL (I% = 8)
+EL$ + EP$
+depth
+HY
+M := MENU("35mm,16mm,8mm,70mm" )
+IF (M = 1)
+C := 0.0339
+ELSEIF (M = 2)
+C := 0.0254
+ELSEIF (M = 3)
+C := 0.0254
+ELSEIF (M = 4)
+C := 0.0339
+ENDIF
+CLS()
+PRINT("Focal length")
+<nl>
+
+F
+CLS()
+PRINT("f STOP")
+<nl>
+
+S
+CLS()
+H := ((F ** 2) / (S * C))
+C := INTF(H )
+HY := (C / 1000)
+CLS()
+S := (S / 1000)
+H := (H / 1000)
+PRINT("FOCUS DISTANCE")
+<nl>
+
+D
+CLS()
+AT(1 1 )
+PRINT("Hypofocal distance")
+<nl>
+
+AT(1 2 )
+PRINT(HY)
+< > 
+PRINT("m")
+<nl>
+
+IF (D > H)
+N := ((H * D) / (H + (D - S)))
+N := (N * 100)
+N := INTF(N )
+N := (N / 100)
+AT(1 3 )
+PRINT("NEAR ")
+PRINT(N)
+PRINT(" m")
+<nl>
+
+AT(1 4 )
+PRINT("INFINITY")
+<nl>
+
+ELSE
+N := ((H * D) / (H + (D - S)))
+C := ((H * D) / (H - (D - S)))
+N := (N * 100)
+N := INTF(N )
+N := (N / 100)
+C := (C * 100)
+C := INTF(C )
+C := (C / 100)
+AT(1 3 )
+PRINT("NEAR")
+< > 
+PRINT(N)
+< > 
+PRINT("m")
+<nl>
+
+AT(1 4 )
+PRINT("FAR")
+< > 
+PRINT(C)
+< > 
+PRINT("m")
+<nl>
+
+ENDIF
+GET()
+N := MENU("DEPTH,FILM,MENU" )
+IF (N = 1)
+DEPTH
+ELSEIF (N = 2)
+FILM
+ENDIF
+STOP()
+DICE
+D%
+KSTAT(1 )
+DO
+AT(1 2 )
+PRINT(("Stop" + CHR$(63 )))
+<nl>
+
+AT(1 4 )
+PRINT("Press key.")
+<nl>
+
+WHILE (KEY() = 0)
+PAUSE(2 )
+AT(1 1 )
+PRINT(CHR$(26 ))
+<nl>
+
+AT(15 2 )
+PRINT(CHR$(26 ))
+<nl>
+
+AT(1 3 )
+PRINT(CHR$(26 ))
+<nl>
+
+D% := (RND() * 6)
+IF (((D% = 0) OR (D% = 2)) OR (D% = 4))
+AT(19 2 )
+PRINT(CHR$(255 ))
+<nl>
+
+ENDIF
+IF (D% > 0)
+AT(18 1 )
+PRINT(CHR$(255 ))
+<nl>
+
+AT(20 3 )
+PRINT(CHR$(255 ))
+<nl>
+
+ENDIF
+IF (D% > 2)
+AT(20 1 )
+PRINT(CHR$(255 ))
+<nl>
+
+AT(18 3 )
+PRINT(CHR$(255 ))
+<nl>
+
+ENDIF
+IF (D% = 5)
+AT(18 2 )
+PRINT(((CHR$(255 ) + " ") + CHR$(255 )))
+<nl>
+
+ENDIF
+ENDWH
+AT(1 2 )
+PRINT("     ")
+<nl>
+
+AT(1 4 )
+PRINT((((CHR$(26 ) + "Again") + CHR$(63 )) + " Y"))
+<nl>
+
+UNTIL (GET$() <> "Y")
+distance
+LE
+PRINT("Select known data")
+<nl>
+
+A := MENUN(2 "HEIGHT,WIDTH" )
+IF (A = 1)
+PRINT("WHAT HEIGHT mt")
+PRINT(CHR$(63 ))
+<nl>
+
+H
+WI := H
+S$ := "m height"
+H := (H * 1000)
+CLS()
+PRINT("WHAT mm LENS")
+PRINT(CHR$(63 ))
+<nl>
+
+L
+LE := L
+D := ((H * L) / T)
+CLS()
+ELSEIF (A = 2)
+PRINT("WHAT WIDTH mt")
+PRINT(CHR$(63 ))
+<nl>
+
+W
+WI := W
+S$ := "m width"
+W := (W * 1000)
+CLS()
+PRINT("WHAT LENS mm")
+PRINT(CHR$(63 ))
+<nl>
+
+L
+LE := L
+CLS()
+D := ((W * L) / I)
+ENDIF
+D := INTF((D / 10) )
+D := (D / 100)
+PRINT("A")
+< > 
+PRINT(LE)
+< > 
+PRINT("mm lens")
+<nl>
+
+PRINT("gives a")
+< > 
+PRINT(WI)
+< > 
+PRINT(S$)
+<nl>
+
+PRINT("@")
+< > 
+PRINT(D)
+< > 
+PRINT("metres")
+<nl>
+
+PRINT("Distance...")
+<nl>
+
+GET()
+DumpPack
+THEKEY%
+KB%
+ESCAPE()
+
+OFFSET% := 0
+1 := ADDR(MC1%() )
+MC1%(1) := 16226
+MC1%(2) := 14592
+MC1%(3) := 52736
+MC1%(4) := 63
+MC1%(5) := 24780
+MC1%(6) := 128
+MC1%(7) := 52736
+MC1%(8) := 63
+MC1%(9) := 24121
+CLS()
+PRINT(" DumpPack v0.1")
+
+BUFF$ := "  Copies a pack to PC (even if protected or corrupted). Please make sure the CommsLink is booted in and activate Psi2Win.  "
+IF (VIEW(2 BUFF$ ) = 1)
+
+ENDIF
+DO
+PACK% := (MENU((("Which" + CHR$(254 )) + "pack,B:,C:,D:") ) - 1)
+IF (PACK% = (UMIN 1))
+
+ENDIF
+UNTIL (PACK% > 0)
+DO
+KB% := (4 * (2 ** (MENU("AUTO,8K,16K,32K,64K,128K,256K" ) - 1)))
+IF (KB% = 0)
+
+ELSEIF (KB% = 4)
+USR(MC1ADDR% PACK% )
+KB% := (PEEKB((8408 + (10 * PACK%)) ) * 8)
+PRINT("Detected")
+< > 
+PRINT(NUM$(KB% 3 ))
+PRINT("k")
+<nl>
+
+PAUSE((UMIN 20) )
+ENDIF
+UNTIL ((KB% >= 8) AND (KB% <= 256))
+CLS()
+BUFF$ := ""
+PRINT("PC file name:")
+<nl>
+
+BUFF$
+IF (BUFF$ = "")
+
+ENDIF
+CLS()
+PRINT("Connecting")
+<nl>
+
+PRINT("to PC...")
+
+ESCAPE()
+xfopen(0, )(1, )((BUFF$ + ".opk"))
+ESCAPE()
+BUFF$ := ("OPK" + CHR$((KB% / 64) ))
+IF (KB% < 64)
+BUFF$ := ((BUFF$ + CHR$((KB% * 4) )) + CHR$(0 ))
+ELSE
+BUFF$ := ((BUFF$ + CHR$(0 )) + CHR$(0 ))
+ENDIF
+xfput(BUFF$)
+MC1%(2) := 50688
+BUFFLOC% := (ADDR(BUFF$ ) + 1)
+POKEB((BUFFLOC% - 1) 128 )
+POKEW((MC1ADDR% + 13) BUFFLOC% )
+SIZE := (1024.0 * KB%)
+AT(1 1 )
+PRINT((("Copying " + CHR$((65 + PACK%) )) + ":"))
+<nl>
+
+CNT := OFFSET%
+DO
+HIADDR := INTF((CNT / 65536) )
+LOADDR := (CNT - (65536 * INTF((CNT / 65536) )))
+H$ := HEX$((LOADDR + (65536 * (LOADDR > 32767))) )
+AT(12 1 )
+PRINT(HEX$(HIADDR ))
+PRINT(LEFT$("0000" (4 - LEN(H$ )) ))
+PRINT(H$)
+<nl>
+
+POKEW((MC1ADDR% + 5) (LOADDR + (65536 * (LOADDR > 32767))) )
+POKEB((MC1ADDR% + 3) HIADDR )
+USR(MC1ADDR% PACK% )
+xfput(BUFF$)
+AT(13 2 )
+PRINT(FIX$(INT(((CNT / SIZE) * 100) ) 0 (UMIN 3) ))
+PRINT("%")
+
+IF (CNT = OFFSET%)
+CNT := 0
+ENDIF
+CNT := (CNT + 128)
+IF (KEY() = 1)
+RAISE(206 )
+ENDIF
+UNTIL (CNT >= SIZE)
+xfclose
+CLS()
+PRINT(" DumpPack v0.1")
+<nl>
+
+PRINT(("Copy Complete..." + CHR$(16 )))
+
+GET()
+
+ERROR::
+
+IF (ERR() = 203)
+BUFF$ := "* No CommsLink *"
+ELSE
+IF (ERR() = 206)
+BUFF$ := "** User Break **"
+ELSEIF (ERR() = 190)
+BUFF$ := "Bad PC file name"
+ELSEIF ((ERR() = 188) OR (ERR() = 186))
+BUFF$ := "*** PC Error ***"
+ELSEIF (((ERR() = 192) OR (ERR() = 193)) OR (ERR() = 199))
+BUFF$ := " Connect Error  "
+ELSEIF (ERR() < 191)
+BUFF$ := (("** ERROR " + NUM$(ERR() 3 )) + " ***")
+ELSE
+BUFF$ := ERR$(ERR() )
+ENDIF
+xfclose
+ENDIF
+PRINT(CHR$(15 ))
+PRINT(BUFF$)
+PRINT(CHR$(16 ))
+
+GET()
+
+END
+LOOK::
+Y% := (Y% + 1)
+IF (Y% > LEN(Y$ ))
+END% := 1
+ELSE
+END% := 0
+ENDIF
+IF (END% = 1)
+
+ENDIF
+IF (MID$(Y$ Y% 1 ) = " ")
+GOTO LOOK
+ENDIFEOW
+Y% := (Y% + 1)
+IF (Y% > LEN(Y$ ))
+END% := 1
+ELSE
+END% := 0
+ENDIF
+IF (END% >= 1)
+
+ENDIF
+IF (MID$(Y$ Y% 1 ) = " ")
+END% := 1
+ELSE
+END% := 0
+ENDIFexpo
+N
+PRINT("What ASA is the ")
+<nl>
+
+PRINT("filmstock?")
+<nl>
+
+A
+CLS()
+TIME::
+PRINT("CAMERA SPEED;")
+<nl>
+
+W := MENUN(2 "Frames-per-second,Exposure,Seconds-per-frame," )
+IF (W = 2)
+PRINT("Exposure in seconds?")
+<nl>
+
+T
+WORD$ := "sec"
+Z := T
+ELSEIF (W = 1)
+PRINT("Frames per second?")
+<nl>
+
+P
+WORD$ := "fps"
+Z := P
+CLS()
+PRINT("Shutter angle in")
+<nl>
+
+PRINT("degrees?")
+<nl>
+
+B
+T := (B / (360 * P))
+CLS()
+ELSEIF (W = 3)
+PRINT("Seconds per frame?")
+<nl>
+
+P
+Z := P
+WORD$ := "spf"
+CLS()
+PRINT("Shutter angle in")
+<nl>
+
+PRINT("degrees")
+<nl>
+
+B
+T := ((P * B) / 360)
+CLS()
+ENDIF
+CLS()
+IF ((T >= 1) AND (T < 10))
+T := (T / 1.4)
+ELSEIF ((T >= 10) AND (T < 30))
+T := (T / 2.8)
+ELSEIF (T >= 30)
+T := (T / 4)
+ENDIF
+S := SQR(2 )
+F := ((25 * (S ** 2)) / (A * T))
+IF (F > 5)
+W := 0
+ELSEIF (F <= 5)
+W := 2
+ENDIF
+A$ := "  T1.4 "
+B$ := "  T2 "
+C$ := "  T2.8 "
+D$ := "  T4 "
+E$ := "  T5.6 "
+F$ := FIX$(F W 8 )
+G$ := FIX$((F * 2) W 8 )
+H$ := FIX$((F * 4) W 8 )
+I$ := FIX$((F * 8) W 8 )
+J$ := FIX$((F * 16) W 8 )
+A$ := (((((((((A$ + F$) + B$) + G$) + C$) + H$) + D$) + I$) + E$) + J$)
+PRINT("For exposure...")
+<nl>
+
+PRINT(A)
+< > 
+PRINT("ASA")
+< > 
+PRINT(Z)
+< > 
+PRINT(WORD$)
+< > 
+PRINT(B)
+< > 
+PRINT(CHR$(223 ))
+<nl>
+
+AT(1 3 )
+PRINT("Footcandles;")
+<nl>
+
+VIEW(4 A$ )
+GET()
+C := MENU("SHUT,EXPO,FILM,MENU," )
+IF (C = 1)
+GOTO TIME
+ELSEIF (C = 2)
+EXPO
+ELSEIF (C = 3)
+FILM
+ENDIF
+film
+Z%
+CLS()
+IF (UNOT EXIST("A:printer" ))
+PRINTER
+ELSE
+"A:printer"
+ENDIF
+FIRST()
+Z% := A.P%
+CLOSE()
+IF (Z% = 1)
+LSET
+ELSEIF (Z% = 2)
+LSET(0, )(4, )("", )(CHR$(26 ), )(CHR$(10 ), )("", )(CHR$(26 ), )("", )(0, )(0, )(2, )(2, )(8, )(1, )(2400)
+ENDIF
+CLS()
+N := 0
+N := MENU("STOP,EXPO,DEPTH,FOCUS,LENS,MIRED,LIGHT,HMI,LENGTH,TIME,LAPSE,SUN,PAN,MACRO,HORIZON,PRINTER" )
+IF (N = 1)
+STOP
+ELSEIF (N = 2)
+EXPO
+ELSEIF (N = 3)
+DEPTH
+ELSEIF (N = 4)
+FOCUS2
+ELSEIF (N = 5)
+LENS
+ELSEIF (N = 6)
+MIRED
+ELSEIF (N = 7)
+LIGHT
+ELSEIF (N = 8)
+HMI
+ELSEIF (N = 9)
+LENGTH
+ELSEIF (N = 10)
+TIME
+ELSEIF (N = 11)
+LAPSE
+ELSEIF (N = 12)
+SUNPOS
+ELSEIF (N = 13)
+PAN
+ELSEIF (N = 14)
+MACRO
+ELSEIF (N = 15)
+HORIZON
+ELSEIF (N = 16)
+PRINTER
+ENDIF
+FLIGHTS
+LIN$(2,16)
+KY%
+FLY$ := "B:FLYDATA"
+FS$ := ""
+IF EXIST(FLY$ )
+FLY$
+ELSE
+FLY$
+ENDIF
+STATE% := 1
+WHILE (STATE% <> 0)
+IF (STATE% = 1)
+OPT% := MENU("COUNT,FIND,LIST,NEW" )
+IF (OPT% = 0)
+STATE% := 0
+ELSEIF (OPT% = 1)
+STATE% := 6
+ELSEIF (OPT% = 2)
+STATE% := 2
+ELSEIF (OPT% = 3)
+STATE% := 9
+ELSEIF (OPT% = 4)
+STATE% := 7
+ELSE
+CRASH
+ENDIF
+ELSEIF (STATE% = 2)
+CLS()
+PRINT("Find flight")
+<nl>
+
+PRINT(">")
+
+KSTAT(1 )
+EDIT(FS$ )
+IF (ERR() = 206)
+STATE% := 1
+ELSE
+FIRST()
+IF (FIND(FS$ ) = 0)
+STATE% := 3
+ELSE
+STATE% := 4
+ENDIF
+ENDIF
+ELSEIF (STATE% = 3)
+CLS()
+PRINT("Not found")
+
+IF (GET() = 1)
+STATE% := 1
+ELSE
+STATE% := 2
+ENDIF
+ELSEIF (STATE% = 4)
+FLYSPLIT
+OPT% := FLYVIEW%
+IF (OPT% = 1)
+STATE% := 2
+ELSEIF (OPT% = 2)
+STATE% := 5
+ELSEIF (OPT% = 3)
+BACK()
+ELSEIF (OPT% = 8)
+STATE% := 8
+ELSEIF ((OPT% = 4) OR (OPT% = 13))
+NEXT()
+IF EOF()
+CLS()
+PRINT("****************")
+
+PRINT("**END OF PACK***")
+
+GET()
+STATE% := 2
+ELSEIF (OPT% = 13)
+IF (FIND(FS$ ) = 0)
+CLS()
+PRINT("****************")
+
+PRINT("**END OF PACK***")
+
+GET()
+STATE% := 2
+ENDIF
+ENDIF
+ENDIF
+ELSEIF (STATE% = 5)
+IF (FLYEDIT% = 1)
+FLYBUILD
+UPDATE()
+FLYSPLIT
+FLYVIEW%
+ENDIF
+STATE% := 2
+ELSEIF (STATE% = 6)
+CLS()
+PRINT(COUNT())
+< > 
+PRINT("flights")
+<nl>
+
+GET()
+STATE% := 1
+ELSEIF (STATE% = 7)
+DAT$ := ""
+AIR$ := ""
+FNO$ := ""
+OUT$ := ""
+DEP$ := ""
+INP$ := ""
+ARR$ := ""
+IF (FLYEDIT% = 1)
+FLYBUILD
+APPEND()
+FLYSPLIT
+FLYVIEW%
+ENDIF
+STATE% := 1
+ELSEIF (STATE% = 8)
+CLS()
+PRINT("Delete flight")
+<nl>
+
+PRINT("record Y/N")
+
+KSTAT(1 )
+DO
+KY% := GET()
+UNTIL ((KY% = 78) OR (KY% = 89))
+IF (KY% = 78)
+STATE% := 4
+ELSE
+ERASE()
+CLS()
+PRINT("Flight record")
+<nl>
+
+PRINT("deleted")
+<nl>
+
+GET()
+STATE% := 2
+ENDIF
+ELSEIF (STATE% = 9)
+L<nl>
+IF (ERR() = 230)
+CLS()
+PRINT("No comms link")
+
+GET()
+STATE% := 1
+ELSE
+LPRINT("NUM     DATE     FLIGHT#   DEPARTING   ARRIVING")
+L<nl>
+
+LPRINT("---   --------   -------   ---------   ---------")
+L<nl>
+
+KY% := 0
+FIRST()
+WHILE (UNOT EOF())
+KY% := (KY% + 1)
+LPRINT(FIX$(KY% 0 (UMIN 3) ))
+L< > 
+LPRINT(" ")
+L< > 
+
+LPRINT(MID$(A.FDAT$ 1 2 ))
+LPRINT("/")
+LPRINT(MID$(A.FDAT$ 3 2 ))
+LPRINT("/")
+LPRINT(MID$(A.FDAT$ 5 6 ))
+L< > 
+LPRINT(" ")
+L< > 
+
+LPRINT(A.FAIR$)
+L< > 
+LPRINT(A.FFNO$)
+L< > 
+LPRINT(" ")
+L< > 
+
+LPRINT(A.FOUT$)
+L< > 
+LPRINT(LEFT$(A.FDEP$ 2 ))
+LPRINT(":")
+LPRINT(RIGHT$(A.FDEP$ 2 ))
+L< > 
+LPRINT(" ")
+L< > 
+
+LPRINT(A.FINP$)
+L< > 
+LPRINT(LEFT$(A.FARR$ 2 ))
+LPRINT(":")
+LPRINT(RIGHT$(A.FARR$ 2 ))
+L<nl>
+
+NEXT()
+ENDWH
+ENDIF
+STATE% := 1
+ELSEIF (STATE% = 99)
+CLS()
+PRINT("Not available")
+
+GET()
+STATE% := 1
+ELSE
+CRASH
+ENDIF
+ENDWH
+CLOSE()
+FLYBUILD
+A.FDAT$ := DAT$
+A.FAIR$ := AIR$
+A.FFNO$ := FNO$
+A.FOUT$ := OUT$
+A.FDEP$ := DEP$
+A.FINP$ := INP$
+A.FARR$ := ARR$
+FLYEDIT%
+RETN%
+RETN% := 0
+STATE% := 1
+WHILE (STATE% <> 0)
+IF (STATE% = 1)
+CLS()
+PRINT("Departure date")
+<nl>
+
+PRINT(">")
+
+KSTAT(3 )
+EDIT(DAT$ )
+IF (ERR() = 206)
+STATE% := 0
+ELSEIF (LEN(DAT$ ) = 4)
+DAT$ := (DAT$ + "--")
+STATE% := 2
+ELSEIF (LEN(DAT$ ) = 6)
+STATE% := 2
+ENDIF
+ELSEIF (STATE% = 2)
+CLS()
+PRINT("Airline code")
+<nl>
+
+PRINT(">")
+
+KSTAT(1 )
+EDIT(AIR$ )
+IF (ERR() = 206)
+STATE% := 0
+ELSEIF (LEN(AIR$ ) = 0)
+AIR$ := "--"
+STATE% := 3
+ELSEIF (LEN(AIR$ ) = 2)
+STATE% := 3
+ENDIF
+ELSEIF (STATE% = 3)
+CLS()
+PRINT("Flight number")
+<nl>
+
+PRINT(">")
+
+KSTAT(3 )
+EDIT(FNO$ )
+IF (ERR() = 206)
+STATE% := 0
+ELSEIF (LEN(FNO$ ) = 0)
+FNO$ := "----"
+STATE% := 4
+ELSE
+FNO$ := LEFT$((FNO$ + "   ") 4 )
+STATE% := 4
+ENDIF
+ELSEIF (STATE% = 4)
+CLS()
+PRINT("Departing city")
+<nl>
+
+PRINT(">")
+
+KSTAT(1 )
+EDIT(OUT$ )
+IF (ERR() = 206)
+STATE% := 0
+ELSEIF (LEN(OUT$ ) = 3)
+STATE% := 5
+ENDIF
+ELSEIF (STATE% = 5)
+CLS()
+PRINT("Departure time")
+<nl>
+
+PRINT(">")
+
+KSTAT(3 )
+EDIT(DEP$ )
+IF (ERR() = 206)
+STATE% := 0
+ELSEIF (LEN(DEP$ ) = 0)
+DEP$ := "----"
+STATE% := 6
+ELSEIF (LEN(DEP$ ) = 4)
+STATE% := 6
+ENDIF
+ELSEIF (STATE% = 6)
+CLS()
+PRINT("Arriving city")
+<nl>
+
+PRINT(">")
+
+KSTAT(1 )
+EDIT(INP$ )
+IF (ERR() = 206)
+STATE% := 0
+ELSEIF (LEN(INP$ ) = 3)
+STATE% := 7
+ENDIF
+ELSEIF (STATE% = 7)
+CLS()
+PRINT("Arrival time")
+<nl>
+
+PRINT(">")
+
+KSTAT(3 )
+EDIT(ARR$ )
+IF (ERR() = 206)
+STATE% := 0
+ELSEIF (LEN(ARR$ ) = 0)
+ARR$ := "----"
+STATE% := 8
+ELSEIF (LEN(ARR$ ) = 4)
+STATE% := 8
+ENDIF
+ELSEIF (STATE% = 8)
+RETN% := 1
+STATE% := 0
+ENDIF
+ENDWH
+RETN%
+FLYSPLIT
+DAT$ := A.FDAT$
+AIR$ := A.FAIR$
+FNO$ := A.FFNO$
+OUT$ := A.FOUT$
+DEP$ := A.FDEP$
+INP$ := A.FINP$
+ARR$ := A.FARR$
+LIN$(1) := ((((DAT$ + "  ") + OUT$) + " ") + DEP$)
+LIN$(2) := ((((((AIR$ + " ") + FNO$) + " ") + INP$) + " ") + ARR$)
+FLYVIEW%
+KY%
+CLS()
+AT(1 1 )
+PRINT(LIN$(1))
+
+AT(1 2 )
+PRINT(LIN$(2))
+
+DO
+KY% := GET()
+UNTIL ((((((KY% = 1) OR (KY% = 2)) OR (KY% = 3)) OR (KY% = 4)) OR (KY% = 8)) OR (KY% = 13))
+KY%
+FOCUS2
+HY
+CLS()
+PRINT("Choose...")
+<nl>
+
+HY := MENUN(2 "Imperial,Metric" )
+CLS()
+IF (HY = 2)
+FOCUS
+ENDIF
+F(1) := 1
+F(2) := 1.2
+F(3) := 1.3
+F(4) := 1.4
+F(5) := 1.6
+F(6) := 1.8
+F(7) := 2
+F(8) := 2.2
+F(9) := 2.5
+F(10) := 2.8
+F(11) := 3.2
+F(12) := 3.5
+F(13) := 4
+F(14) := 4.5
+F(15) := 5
+F(16) := 5.6
+F(17) := 6
+F(18) := 7
+F(19) := 8
+F(20) := 9
+F(21) := 10
+F(22) := 11
+F(23) := 12
+F(24) := 14
+F(25) := 16
+F(26) := 18
+F(27) := 20
+F(28) := 22
+F(29) := 25
+F(30) := 28
+F(31) := 32
+F(32) := 36
+F(33) := 40
+F(34) := 44
+F(35) := 50
+F(36) := 56
+F(37) := 64
+F(38) := 1
+PRINT("Film Format cc")
+<nl>
+
+M := MENUN(2 "35mm,16mm,8mm,70mm" )
+IF (M = 1)
+C := 0.0359
+ELSEIF (M = 2)
+C := 0.0127
+ELSEIF (M = 3)
+C := 0.0127
+ELSEIF (M = 4)
+C := 0.0339
+ENDIF
+CLS()
+PRINT("Focal Length of the")
+<nl>
+
+PRINT("lens in mm?")
+<nl>
+
+MM
+CLS()
+PRINT("NEAR DISTANCE?")
+<nl>
+
+PRINT("Feet....?")
+<nl>
+
+FEET
+AT(1 2 )
+PRINT("inches...?")
+<nl>
+
+INCH
+NE := FOOT(INCH, )(FEET)
+CLS()
+PRINT("FAR DISTANCE?")
+<nl>
+
+PRINT("Feet....?")
+<nl>
+
+FEET
+AT(1 2 )
+PRINT("Inches...?")
+<nl>
+
+INCH
+FA := FOOT(INCH, )(FEET)
+CLS()
+DIS := (((2 * NE) * FA) / (NE + FA))
+NU := 0
+DO
+NU := (NU + 1)
+HY := (((MM ** 2) / (F(NU) * C)) / 1000)
+NEAR := ((HY * DIS) / (HY + (DIS - (F(NU) / 1000))))
+FAR := ((HY * DIS) / (HY - (DIS - (F(NU) / 1000))))
+CLS()
+AT(9 2 )
+PRINT("f")
+PRINT(F(NU))
+<nl>
+
+IF (DIS > HY)
+FAR := (FA + 1)
+ENDIF
+UNTIL (((NEAR < NE) AND (FAR > FA)) OR (NU = 38))
+IF (NU < 38)
+CLS()
+S$ := METRE$(DIS)
+AT(1 1 )
+PRINT("At ")
+PRINT(S$)
+<nl>
+
+PRINT(MM)
+PRINT("mm @ f")
+PRINT(F(NU))
+<nl>
+
+S$ := METRE$(NEAR)
+PRINT("Near ")
+PRINT(S$)
+<nl>
+
+IF (DIS < HY)
+S$ := METRE$(FAR)
+PRINT("Far ")
+PRINT(S$)
+<nl>
+
+ELSE
+PRINT("...to Infinity!")
+<nl>
+
+ENDIF
+ELSEIF (NU = 38)
+CLS()
+PRINT("  ###############")
+<nl>
+
+PRINT("  NOT POSSIBLE!!!")
+<nl>
+
+PRINT("  ###############")
+<nl>
+
+ENDIF
+GET()
+CLS()
+PRINT("Choose....")
+<nl>
+
+NU := MENUN(2 "AGAIN,FILM,MENU" )
+IF (NU = 1)
+FOCUS2
+ELSEIF (NU = 2)
+FILM
+ENDIF
+focus
+HY
+F(1) := 1
+F(2) := 1.2
+F(3) := 1.3
+F(4) := 1.4
+F(5) := 1.6
+F(6) := 1.8
+F(7) := 2
+F(8) := 2.2
+F(9) := 2.5
+F(10) := 2.8
+F(11) := 3.2
+F(12) := 3.5
+F(13) := 4
+F(14) := 4.5
+F(15) := 5
+F(16) := 5.6
+F(17) := 6
+F(18) := 7
+F(19) := 8
+F(20) := 9
+F(21) := 10
+F(22) := 11
+F(23) := 12
+F(24) := 14
+F(25) := 16
+F(26) := 18
+F(27) := 20
+F(28) := 22
+F(29) := 25
+F(30) := 28
+F(31) := 32
+F(32) := 36
+F(33) := 40
+F(34) := 44
+F(35) := 50
+F(36) := 56
+F(37) := 64
+F(38) := 1
+M := MENU("35mm,16mm,8mm,70mm" )
+IF (M = 1)
+C := 0.0359
+ELSEIF (M = 2)
+C := 0.0127
+ELSEIF (M = 3)
+C := 0.0127
+ELSEIF (M = 4)
+C := 0.0339
+ENDIF
+CLS()
+PRINT("Focal Length of the")
+<nl>
+
+PRINT("lens in mm?")
+<nl>
+
+MM
+CLS()
+PRINT("Near distance in")
+<nl>
+
+PRINT("metres?")
+<nl>
+
+NE
+CLS()
+PRINT("Far distance in")
+<nl>
+
+PRINT("metres?")
+<nl>
+
+FA
+CLS()
+DIS := (((2 * NE) * FA) / (NE + FA))
+NU := 0
+DO
+NU := (NU + 1)
+HY := (((MM ** 2) / (F(NU) * C)) / 1000)
+NEAR := ((HY * DIS) / (HY + (DIS - (F(NU) / 1000))))
+FAR := ((HY * DIS) / (HY - (DIS - (F(NU) / 1000))))
+CLS()
+AT(9 2 )
+PRINT("f")
+PRINT(F(NU))
+<nl>
+
+IF (DIS > HY)
+FAR := (FA + 1)
+ENDIF
+UNTIL (((NEAR < NE) AND (FAR > FA)) OR (NU = 38))
+IF (NU < 38)
+CLS()
+DIS := (INTF((DIS * 100) ) / 100)
+NEAR := (INTF((NEAR * 100) ) / 100)
+FAR := (INTF((FAR * 100) ) / 100)
+AT(1 1 )
+PRINT(MM)
+< > 
+PRINT("mm @")
+< > 
+PRINT(DIS)
+< > 
+PRINT("m")
+<nl>
+
+PRINT("Stop of f")
+PRINT(F(NU))
+<nl>
+
+PRINT("Near ")
+PRINT(NEAR)
+< > 
+PRINT("m")
+<nl>
+
+IF (DIS < HY)
+PRINT("Far ")
+PRINT(FAR)
+< > 
+PRINT("m")
+<nl>
+
+ELSE
+PRINT("...to Infinity!")
+<nl>
+
+ENDIF
+ELSEIF (NU = 38)
+CLS()
+PRINT("  ###############")
+<nl>
+
+PRINT("  NOT POSSIBLE!!!")
+<nl>
+
+PRINT("  ###############")
+<nl>
+
+ENDIF
+GET()
+CLS()
+PRINT("Choose....")
+<nl>
+
+NU := MENUN(2 "AGAIN,FILM,MENU" )
+IF (NU = 1)
+FOCUS
+ELSEIF (NU = 2)
+FILM
+ENDIF
+footdist
+LE
+PRINT("Select known data")
+<nl>
+
+A := MENUN(2 "HEIGHT,WIDTH" )
+IF (A = 1)
+PRINT("WHAT HEIGHT?")
+<nl>
+
+AT(1 2 )
+PRINT("Feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("Inches...")
+<nl>
+
+INS
+H := FOOT(INS, )(FT)
+WI := H
+S$ := "height"
+H := (H * 1000)
+CLS()
+PRINT("WHAT mm LENS")
+PRINT(CHR$(63 ))
+<nl>
+
+L
+LE := L
+D := ((H * L) / T)
+CLS()
+ELSEIF (A = 2)
+PRINT("Width of subject?")
+<nl>
+
+AT(1 2 )
+PRINT("Feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("Inches...")
+<nl>
+
+INS
+W := FOOT(INS, )(FT)
+WI := W
+S$ := "width"
+W := (W * 1000)
+CLS()
+PRINT("WHAT LENS mm?")
+<nl>
+
+L
+LE := L
+CLS()
+D := ((W * L) / I)
+ENDIF
+D := INTF((D / 10) )
+D := (D / 100)
+A$ := metre$(WI)
+PRINT("A")
+< > 
+PRINT(LE)
+< > 
+PRINT("mm lens")
+<nl>
+
+PRINT(A$)
+< > 
+PRINT(S$)
+<nl>
+
+A$ := metre$(D)
+PRINT("@")
+< > 
+PRINT(A$)
+<nl>
+
+PRINT("Distance...")
+<nl>
+
+GET()
+footLENS
+INS
+PRINT("Select sought data")
+<nl>
+
+N := MENUN(2 "LENS,DISTANCE,HEIGHT-WIDTH," )
+IF (N = 1)
+PRINT("Select known factor")
+<nl>
+
+A := MENUN(2 "HEIGHT,WIDTH" )
+CLS()
+IF (A = 2)
+PRINT("What is the width?")
+<nl>
+
+AT(1 2 )
+PRINT("Feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("inches...")
+<nl>
+
+INS
+W := FOOT(INS, )(FT)
+S$ := "width"
+WI := W
+W := (W * 1000)
+CLS()
+PRINT("DISTANCE?")
+<nl>
+
+AT(1 2 )
+PRINT("feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("inches...")
+<nl>
+
+INS
+D := FOOT(INS, )(FT)
+DI := D
+D := (D * 1000)
+L := ((D * I) / W)
+ELSEIF (A = 1)
+PRINT("Height of subject?")
+<nl>
+
+AT(1 2 )
+PRINT("Feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("Inches...")
+<nl>
+
+INS
+H := FOOT(INS, )(FT)
+WI := H
+S$ := "height"
+H := (H * 1000)
+CLS()
+PRINT("Distance to subject?")
+<nl>
+
+AT(1 2 )
+PRINT("Feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("Inches...")
+<nl>
+
+INS
+D := FOOT(INS, )(FT)
+DI := D
+D := (D * 1000)
+L := ((D * T) / H)
+ENDIF
+CLS()
+L := INTF((L + 0.5) )
+A$ := metre$(DI)
+PRINT("@")
+< > 
+PRINT(A$)
+< > 
+PRINT("dist")
+<nl>
+
+A$ := metre$(WI)
+PRINT("&")
+< > 
+PRINT(A$)
+< > 
+PRINT(S$)
+< > 
+
+PRINT("needs a.....")
+<nl>
+
+PRINT(L)
+< > 
+PRINT("mm lens")
+<nl>
+
+GET()
+ELSEIF (N = 2)
+FOOTDIST
+ELSEIF (N = 3)
+FOOTWIDT
+ENDIF
+CLS()
+PRINT("Choose...")
+<nl>
+
+N := MENUN(2 "LENS,FILM,MENU" )
+IF (N = 1)
+LENS
+ELSEIF (N = 2)
+FILM
+ELSE
+STOP()
+ENDIF
+foot(INCH, )(FEET)
+((FEET * 12) + INCH) * 0.0254
+footwidt
+INS
+PRINT("DISTANCE?")
+<nl>
+
+AT(1 2 )
+PRINT("Feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("Inches...")
+<nl>
+
+INS
+D := FOOT(INS, )(FT)
+D := (D * 1000)
+CLS()
+PRINT("WHAT LENS in mm")
+PRINT(CHR$(63 ))
+<nl>
+
+L
+CLS()
+W := ((D * I) / L)
+H := ((D * T) / L)
+W := INTF((W / 10) )
+W := (W / 100)
+H := INTF((H / 10) )
+H := (H / 100)
+D := (D / 1000)
+A$ := metre$(D)
+PRINT("With")
+< > 
+PRINT(L)
+< > 
+PRINT("mm lens")
+<nl>
+
+PRINT("@")
+< > 
+PRINT(A$)
+<nl>
+
+A$ := metre$(H)
+PRINT("HEIGHT")
+< > 
+PRINT(A$)
+<nl>
+
+A$ := metre$(W)
+PRINT("WIDTH")
+< > 
+PRINT(A$)
+<nl>
+
+GET()
+frame
+HZ
+PRINT("Hertz ?")
+<nl>
+
+HZ
+CLS()
+PRINT("Shutter Angle ?")
+<nl>
+
+S
+CLS()
+FPS := (HZ / (360 / S))
+PRINT("Camera Speed")
+<nl>
+
+PRINT(FPS)
+< > 
+PRINT("fps")
+<nl>
+
+GET()
+N := MENU("FPS,HMI,FILM,MENU" )
+IF (N = 1)
+frame
+ELSEIF (N = 2)
+HMI
+ELSEIF (N = 3)
+FILM
+ENDIF
+FRAN
+C% := (INT((5 * ABS(RND() )) ) + 1)
+hamu
+D%
+B%
+P% := 95
+S% := 2800
+H% := 3000
+E := 200
+Y% := 3
+A% := 1000
+I% := 5
+Q% := 1
+START::
+D% := 0
+START1::
+B% := VIEW(1 (("HAMURABI: LAST YEAR " + GEN$(D% 4 )) + " STARVED,") )
+B% := VIEW(1 (GEN$(I% 4 ) + " ARRIVED.") )
+P% := (P% + I%)
+IF (Q% = 0)
+P% := INT((P% / 2) )
+B% := VIEW(1 "**PLAGUE**" )
+ENDIF
+B% := VIEW(1 ("POPULATION IS " + GEN$(P% 4 )) )
+B% := VIEW(1 (("THE CITY OWNS " + GEN$(A% 4 )) + " ACRES.") )
+B% := VIEW(1 (("WE HARVESTED " + GEN$(Y% 4 )) + " BUSHELS PER ACRE.") )
+C% := 1
+B% := VIEW(1 (("RATS ATE " + GEN$(E 4 )) + " BUSHELS.") )
+B% := VIEW(1 (("YOU NOW HAVE " + GEN$(S% 4 )) + " BUSHELS IN STORE.") )
+FRAN
+Y% := (C% + 17)
+B% := VIEW(1 (("HAMURABI: LAND IS TRADING AT " + GEN$(Y% 4 )) + " BUSHELS PER ACRE.") )
+C% := 1
+BUY::
+B% := VIEW(1 "HOW MANY ACRES OF LAND DO YOU WISH TO BUY?" )
+AT(1 2 )
+PRINT(">")
+
+Q%
+IF (Q% < 0)
+GOTO GBYE
+ELSEIF (Q% = 0)
+GOTO SELL
+ENDIF
+B% := ((Y% * Q%) - S%)
+IF (B% < 0)
+GOTO SOLD
+ELSEIF (B% = 0)
+GOTO S1
+ENDIF
+BUSH
+GOTO BUY
+S2::
+ACRES
+GOTO BUY
+S1::
+A% := (A% + Q%)
+S% := (S% - (Y% * Q%))
+C% := 0
+GOTO NOGRAIN
+SELL::
+B% := VIEW(1 "TO SELL?" )
+AT(1 2 )
+PRINT(">")
+
+Q%
+IF (Q% < 0)
+GOTO GBYE
+ELSEIF (Q% = 0)
+GOTO SOLD
+ENDIF
+Q% := (UMIN Q%)
+IF ((A% + Q%) < 0)
+GOTO S2
+ENDIF
+SOLD::
+A% := (A% + Q%)
+S% := (S% - (Y% * Q%))
+C% := 0
+SOLD1::
+B% := VIEW(1 "BUSHELS TO USE AS FOOD?" )
+AT(1 2 )
+PRINT(">")
+
+Q%
+IF (Q% < 0)
+GOTO GBYE
+ENDIF
+IF ((Q% - S%) < 0)
+GOTO S3
+ELSEIF ((Q% - S%) = 0)
+GOTO S4
+ENDIF
+BUSH
+GOTO SOLD1
+S3::
+S% := (S% - Q%)
+C% := 1
+S7::
+B% := VIEW(1 "HOW MANY ACRES DO YOU WISH TO PLANT WITH SEED?" )
+AT(1 2 )
+PRINT(">")
+
+D%
+IF (D% < 0)
+GOTO GBYE
+ENDIF
+IF ((A% - D%) < 0)
+GOTO S5
+ENDIF
+IF (((INT((D% / 2) ) - S%) - 1) < 0)
+GOTO S6
+ENDIF
+BUSH
+GOTO S7
+S5::
+ACRES
+GOTO S7
+S6::
+IF (((D% - (10 * P%)) - 1) < 0)
+GOTO S8
+ENDIF
+IF (C% < 0)
+GOTO GBYE
+ENDIF
+C% := (C% - 1)
+B% := VIEW(1 (("BUT YOU HAVE ONLY " + GEN$(P% 4 )) + " PEOPLE.") )
+GOTO S7
+S4::
+S% := (S% - Q%)
+C% := 1
+NOGRAIN::
+B% := VIEW(1 "YOU HAVE NO GRAIN LEFT AS SEED!" )
+D% := 0
+S8::
+S% := (S% - INT((D% / 2) ))
+FRAN
+Y% := C%
+H% := (D% * Y%)
+FRAN
+E := 0
+IF ((INT((C% / 2) ) - (C% / 2)) < 0)
+GOTO S9
+ENDIF
+E := (S% / C%)
+S9::
+S% := ((S% - E) + H%)
+FRAN
+I% := INT(((((C% * ((2 * A%) + S%)) / P%) / 10) + 1) )
+C% := INT((Q% / 20) )
+Q% := INT((10 * ABS(RND() )) )
+IF ((P% - C%) < 0)
+GOTO START
+ENDIF
+D% := (P% - C%)
+P% := C%
+GOTO START1
+GBYE::
+B% := VIEW(2 "GOODBYE!" )
+PAUSE(30 )
+STOPhertz
+H
+PRINT("Camera Speed")
+< > 
+PRINT(CHR$(63 ))
+<nl>
+
+C
+CLS()
+PRINT("Shutter Angle")
+< > 
+PRINT(CHR$(63 ))
+<nl>
+
+A
+H := ((C * 360) / A)
+H := INTF((H * 10) )
+H := (H / 10)
+CLS()
+PRINT(H)
+< > 
+PRINT("HERTZ")
+<nl>
+
+PRINT("Electrical Freq.")
+<nl>
+
+GET()
+C := MENU("HERTZ,HMI,FILM,MENU" )
+IF (C = 1)
+HERTZ
+ELSEIF (C = 2)
+HMI
+ELSEIF (C = 3)
+FILM
+ENDIF
+hmi
+N
+N := MENU("SHUTTER,FPS,HERTZ" )
+IF (N = 1)
+SHUT
+ELSEIF (N = 2)
+FRAME
+ELSEIF (N = 3)
+HERTZ
+ENDIF
+horizon
+D
+PRINT("At what height are")
+<nl>
+
+PRINT("you? (In metres)")
+<nl>
+
+H
+D := SQR((H * 12.5) )
+D := (D * 10)
+D := INT(D )
+D := (D / 10)
+CLS()
+PRINT("At a height of ")
+PRINT(H)
+<nl>
+
+PRINT("you can see ")
+PRINT(D)
+<nl>
+
+PRINT("Kilometres")
+<nl>
+
+GET()
+lapse
+D
+PRINT("Screen time in ")
+<nl>
+
+PRINT("seconds?")
+<nl>
+
+S
+CLS()
+PRINT("Projection Speed?")
+<nl>
+
+AT(1 3 )
+NU := MENUN(2 "24FPS,25FPS" )
+IF (NU = 1)
+S := (S * 24)
+ELSE
+S := (S * 25)
+ENDIF
+CLS()
+PRINT("Select filming time")
+<nl>
+
+PRINT("in...")
+<nl>
+
+M := MENUN(2 "MINUTES,HOURS,DAYS" )
+IF (M = 1)
+PRINT("Length of the event")
+<nl>
+
+PRINT("in minutes?")
+<nl>
+
+T
+T := (T * 60)
+CLS()
+ELSEIF (M = 2)
+PRINT("Length of the event")
+<nl>
+
+PRINT("in hours?")
+<nl>
+
+T
+T := (T * 3600)
+CLS()
+ELSEIF (M = 3)
+PRINT("Length of the event")
+<nl>
+
+PRINT("in days?")
+<nl>
+
+T
+T := (T * 86400)
+CLS()
+ENDIF
+P := (T / S)
+IF ((P < 120) AND (P > 1))
+P := INTF(P )
+PRINT("1 Fr /")
+< > 
+PRINT(P)
+< > 
+PRINT(" SEC")
+<nl>
+
+ELSEIF (P > 120)
+P := INTF((P / 60) )
+PRINT("1 Fr /")
+< > 
+PRINT(P)
+< > 
+PRINT("MIN")
+<nl>
+
+ELSEIF (P < 1)
+P := (INT((10 / P) ) / 10)
+PRINT(P)
+< > 
+PRINT("FPS")
+<nl>
+
+ENDIF
+GET()
+P := MENU("LAPSE,FILM,MENU" )
+IF (P = 1)
+LAPSE
+ELSEIF (P = 2)
+FILM
+ENDIF
+length
+Z
+A := MENU("16mm,35mm,8mm,70mm" )
+IF (A = 1)
+F := 0.0076208333
+Z := 40
+ELSEIF (A = 2)
+F := 0.019
+Z := 16
+ELSEIF (A = 3)
+F := 0.00423400463
+Z := 72
+ELSEIF (A = 4)
+F := 0.02375
+Z := 12.8
+ENDIF
+PRINT("CAMERA SPEED")
+< > 
+PRINT(CHR$(63 ))
+<nl>
+
+A
+CLS()
+PRINT("TIME-hours")
+< > 
+PRINT(CHR$(63 ))
+<nl>
+
+T
+T := (T * 60)
+CLS()
+PRINT("TIME-minutes")
+< > 
+PRINT(CHR$(63 ))
+<nl>
+
+M
+T := ((T + M) * 60)
+CLS()
+PRINT("TIME-seconds")
+< > 
+PRINT(CHR$(63 ))
+<nl>
+
+S
+T := (T + S)
+CLS()
+M := ((T * F) * A)
+F := M
+S := M
+M := INTF(M )
+F := (F - M)
+F := (F * 100)
+F := INT(F )
+F := (F / 100)
+F := (F + M)
+PRINT(F)
+< > 
+PRINT("Metres")
+<nl>
+
+M := (S * 3.28947368421)
+T := INTF(M )
+A := (M - T)
+A := (A * Z)
+A := INT((A + 0.5) )
+PRINT(T)
+< > 
+PRINT("Ft")
+< > 
+PRINT(A)
+< > 
+PRINT("Fr")
+<nl>
+
+GET()
+CLS()
+F := MENU("LENGTH,FILM,MENU" )
+IF (F = 1)
+LENGTH
+ELSEIF (F = 2)
+FILM
+ENDIF
+lens
+W
+CLS()
+PRINT("Choose.....")
+<nl>
+
+FOOT% := MENUN(2 "Imperial,Metric" )
+CLS()
+PRINT("Choose film format")
+<nl>
+
+N := MENUN(2 "35mm,16mm,Anam,1.85,Sup16,8mm," )
+IF (N = 1)
+I := 20.96
+T := 15.29
+ELSEIF (N = 2)
+I := 9.65
+T := 7.26
+ELSEIF (N = 3)
+I := 42.58
+T := 17.78
+ELSEIF (N = 4)
+I := 20.96
+T := 11.9
+ELSEIF (N = 5)
+I := 11.79
+T := 7.26
+ELSEIF (N = 6)
+I := 5.31
+T := 4.01
+ENDIF
+IF (FOOT% = 1)
+FOOTLENS
+ENDIF
+PRINT("Select sought data")
+<nl>
+
+N := MENUN(2 "LENS,DISTANCE,HEIGHT-WIDTH," )
+IF (N = 1)
+PRINT("Select known factor")
+<nl>
+
+A := MENUN(2 "HEIGHT,WIDTH" )
+CLS()
+IF (A = 2)
+PRINT("WIDTH metres")
+PRINT(CHR$(63 ))
+<nl>
+
+W
+S$ := "width"
+WI := W
+W := (W * 1000)
+CLS()
+PRINT("DISTANCE mtrs")
+PRINT(CHR$(63 ))
+<nl>
+
+D
+DI := D
+D := (D * 1000)
+L := ((D * I) / W)
+ELSEIF (A = 1)
+PRINT("HEIGHT metres")
+PRINT(CHR$(63 ))
+<nl>
+
+H
+WI := H
+S$ := "height"
+H := (H * 1000)
+CLS()
+PRINT("DISTANCE mtrs")
+PRINT(CHR$(63 ))
+<nl>
+
+D
+DI := D
+D := (D * 1000)
+L := ((D * T) / H)
+ENDIF
+CLS()
+L := INTF((L + 0.5) )
+PRINT("@")
+< > 
+PRINT(DI)
+< > 
+PRINT("m distance")
+<nl>
+
+PRINT("&")
+< > 
+PRINT(WI)
+< > 
+PRINT("m")
+< > 
+PRINT(S$)
+< > 
+
+PRINT("needs a.....")
+<nl>
+
+PRINT(L)
+< > 
+PRINT("mm lens")
+<nl>
+
+GET()
+ELSEIF (N = 2)
+DISTANCE
+ELSEIF (N = 3)
+WIDTH
+ENDIF
+CLS()
+PRINT("Choose...")
+<nl>
+
+N := MENUN(2 "LENS,FILM,MENU" )
+IF (N = 1)
+LENS
+ELSEIF (N = 2)
+FILM
+ENDIF
+light
+LW
+PRINT("CHOOSE TYPE OF LAMP")
+<nl>
+
+N% := MENUN(2 "Tungsten,HMI,Arc" )
+IF (N% = 1)
+LW := 40
+ELSEIF (N% = 2)
+LW := 102
+ELSEIF (N% = 3)
+LW := 40
+KW := 16
+GOTO ARC
+ENDIF
+CLS()
+PRINT("Lamp power kw?")
+<nl>
+
+KW
+CLS()
+ARC::
+PRINT("Choose...")
+<nl>
+
+FOOT% := MENUN(2 "Imperial,Metric" )
+IF (FOOT% = 1)
+CLS()
+PRINT("Distance?")
+<nl>
+
+PRINT("Feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("Inches..")
+<nl>
+
+INS
+D := FOOT(INS, )(FT)
+ELSEIF (FOOT% = 2)
+PRINT("Distance mtrs?")
+<nl>
+
+D
+ENDIF
+CLS()
+FTCD := (((KW * LW) * 40) / (D * D))
+FTCD := INTF(FTCD )
+D := (INTF((D * 100) ) / 100)
+PRINT("At ")
+PRINT(D)
+< > 
+PRINT("m or")
+<nl>
+
+PRINT(FT)
+< > 
+PRINT("ft")
+< > 
+PRINT(INS)
+< > 
+PRINT("ins")
+<nl>
+
+PRINT(KW)
+< > 
+PRINT("kw lamp flood")
+<nl>
+
+PRINT("gives")
+< > 
+PRINT(FTCD)
+< > 
+PRINT("Ftcd")
+<nl>
+
+GET()
+CLS()
+PRINT("Choose...")
+<nl>
+
+N% := MENUN(2 "Again,Film,Menu" )
+IF (N% = 1)
+LIGHT
+ELSEIF (N% = 2)
+FILM
+ELSEIF (N% = 3)
+STOP()
+ENDIF
+login
+W%
+Z%(2)
+ESCAPE()
+FILE$ := "A:LOGIN"
+W% := 0
+Z%(1) := 1
+Z%(2) := 1
+IF EXIST(FILE$ )
+FILE$
+OI$(1) := A.A$
+OI$(2) := A.B$
+OI$(3) := A.C$
+OI$(4) := A.D$
+ELSE
+OI$(1) := "Registered to"
+OI$(2) := "<name>"
+OI$(3) := "<phone number>"
+OI$(4) := "<email>"
+SETPASSW
+GOTO lockup
+ENDIF
+R% := 0
+DO
+R% := (R% + 1)
+C% := ASC(UPPER$(MID$(A.K$ R% 1 ) ) )
+IF (C% < 123)
+CLS()
+BEEP(50 400 )
+BEEP(50 600 )
+AT(2 2 )
+PRINT("PASSWORD CORRUPTED")
+<nl>
+
+AT(4 3 )
+PRINT("AT POSITION")
+< > 
+PRINT(R%)
+<nl>
+
+GET()
+STOP()
+ENDIF
+UNTIL (R% = 16)
+lockup::
+CLS()
+OFF()
+KSTAT(1 )
+R% := 0
+DO
+R% := (R% + 1)
+AT(((22 - LEN(OI$(R%) )) / 2) R% )
+PRINT(OI$(R%))
+<nl>
+
+UNTIL (R% = 4)
+R% := GET()
+IF (R% <> 2)
+GOTO lockup
+ENDIF
+CLS()
+PRINT(" PASSWORD PROTECTED")
+<nl>
+
+PRINT(CHR$(25 ))
+<nl>
+
+DO
+AT(1 4 )
+PRINT("Login:")
+< > 
+
+N$
+UNTIL (LEN(N$ ) > (Z%(1) - 1))
+AT(1 4 )
+PRINT("Passw:")
+PRINT(CHR$(26 ))
+<nl>
+
+P$ := PWINP$(4, )(8, )(0)
+AT(1 4 )
+PRINT("Verify...")
+PRINT(CHR$(26 ))
+<nl>
+
+K$ := CREAKEY$(P$, )(N$)
+IF (UNOT (A.K$ = K$))
+W% := (W% + 1)
+"A:MAIN"
+B.D$ := (("xxx" + DATIM$()) + "xxx")
+B.L$ := ((""" + N$) + """)
+B.P$ := ((""" + P$) + """)
+APPEND()
+CLOSE()
+GOTO lockup
+ENDIF
+CLS()
+IF W%
+BEEP(50 400 )
+BEEP(50 600 )
+AT(4 2 )
+PRINT(W%)
+< > 
+PRINT("WRONG ENTRIES")
+<nl>
+
+AT(7 3 )
+PRINT("RECORDED")
+<nl>
+
+GET()
+ENDIF
+LZMAZE
+T$
+H$
+UDG(1 1 1 1 1 1 1 1 1 )
+UDG(0 0 0 0 0 0 0 0 31 )
+UDG(2 1 1 1 1 1 1 1 31 )
+UDG(4 31 31 31 31 31 31 31 31 )
+UDG(5 21 0 21 0 21 0 21 0 )
+UDG(6 0 4 8 31 8 4 0 31 )
+MZ% := 4
+start::
+AT(4 2 )
+PRINT("Loading maze ")
+PRINT((MZ% + 1))
+<nl>
+
+"a:mzdat"
+USE()
+
+LAST()
+NM% := ((POS() - 1) / 20)
+POSITION(((MZ% * 20) + 2) )
+IF (MZ% < (NM% - 1))
+MZ% := (MZ% + 1)
+ELSE
+MZ% := 0
+ENDIF
+CT% := 0
+DO
+
+CT% := (CT% + 1)
+A$(CT%) := A.DAT$
+NN% := 2
+T$ := ""
+DO
+NN% := (NN% + 1)
+T$ := (T$ + CHR$(VAL(MID$(A$(CT%) NN% 1 ) ) ))
+UNTIL (NN% > 21)
+A$(CT%) := T$
+NEXT()
+UNTIL (CT% > 19)
+CLOSE()
+TOP::
+KSTAT(1 )
+POKEB(119 1 )
+POKEB(8384 0 )
+AT(1 1 )
+S% := 1
+H% := 1
+V% := 1
+AU% := 0
+K% := 6
+SET% := 0
+OP% := 0
+S7% := 0
+PRINT(A$(S%))
+PRINT(A$((S% + 1)))
+PRINT(A$((S% + 2)))
+PRINT(A$((S% + 3)))
+
+UDG(3 0 0 0 0 0 0 0 0 )
+UDG(4 0 0 12 12 12 0 0 31 )
+AT(1 1 )
+PRINT(CHR$(4 ))
+<nl>
+
+O% := ((MINUTE() * 60) + SECOND())
+M% := 0
+PPP::
+IF ((K% = 0) OR AU%)
+M% := ((SECOND() + (MINUTE() * 60)) - O%)
+P% := (17 + ((M% AND 7) * 2))
+IF (P% <> OP%)
+SET% := 0
+OP% := P%
+ELSE
+SET% := 1
+ENDIF
+Q% := (17 + ((M% AND 56) / 4))
+UDG(7 31 Q% Q% P% P% Q% Q% 31 )
+IF (H% < 11)
+AT(20 4 )
+PRINT(CHR$(7 ))
+<nl>
+
+IF ((H% > 1) OR (V% < 4))
+AT(1 4 )
+PRINT(MID$(A$((S% + 3)) 1 1 ))
+<nl>
+
+ENDIF
+ELSE
+AT(1 4 )
+PRINT(CHR$(7 ))
+<nl>
+
+IF ((H% < 20) OR (V% < 4))
+AT(20 4 )
+PRINT(MID$(A$((S% + 3)) 20 1 ))
+<nl>
+
+ENDIF
+ENDIF
+ENDIF
+IF ((P% = 31) AND (SET% = 0))
+IF (S7% = 3)
+S7% := 0
+ELSE
+S7% := (S7% + 1)
+ENDIF
+IF (S7% < 2)
+UDG(3 0 0 0 0 0 0 0 0 )
+ENDIF
+IF (S7% = 2)
+UDG(3 1 0 1 0 1 0 21 0 )
+ENDIF
+IF (S7% > 2)
+UDG(3 1 1 1 1 1 1 1 31 )
+ENDIF
+PO% := 6
+GOTO PROC1
+B6::
+SET% := 1
+ENDIF
+IF (K% = 78)
+GOTO START
+ENDIF
+IF (K% = 84)
+GOTO TOP
+ENDIF
+IF (K% = 72)
+"a:mzdat"
+CT% := DISP((UMIN 1) H$ )
+CLOSE()
+GOTO top
+ENDIF
+CT% := (K% - 49)
+IF (((CT% > (UMIN 1)) AND (CT% < NM%)) AND (CT% <> (MZ% - 1)))
+MZ% := CT%
+GOTO START
+ENDIF
+IF (M% > 190)
+AT(6 2 )
+PRINT("TIME IS UP")
+<nl>
+
+GOTO LAST
+ENDIF
+IF ((H% = 1) AND ((S% + V%) = 3))
+AT(4 4 )
+PRINT("CONGRATULATIONS")
+<nl>
+
+PAUSE(15 )
+<nl>
+PAUSE(5 )
+<nl>
+PAUSE(5 )
+<nl>
+PAUSE(5 )
+<nl>
+AT(1 1 )
+PRINT(" Completed in ")
+PRINT(M%)
+PRINT(" s.")
+<nl>
+
+GOTO start
+ENDIF
+IF AU%
+K% := (3 + (RND() * 4))
+ELSE
+K% := KEY()
+ENDIF
+IF (KEY$() = "A")
+IF AU%
+AU% := 0
+ENDIF
+ENDIF
+IF (K% = 2)
+AU% := 1
+ENDIF
+IF (K% = 3)
+IF (V% > 1)
+OC% := ASC(MID$(A$(((S% + V%) - 2)) H% 1 ) )
+IF ((((OC% <> 0) AND (OC% <> 2)) AND (OC% <> 6)) AND (UNOT ((OC% = 3) AND (S7% > 2))))
+AT(H% V% )
+PRINT(MID$(A$(((S% + V%) - 1)) H% 1 ))
+<nl>
+
+V% := (V% - 1)
+ENDIF
+ELSEIF ((S% > 1) AND (V% = 1))
+S% := (S% - 1)
+V% := 2
+AT(1 1 )
+PRINT(A$(S%))
+PRINT(A$((S% + 1)))
+PRINT(A$((S% + 2)))
+PRINT(A$((S% + 3)))
+
+ENDIF
+PO% := 1
+GOTO proc1
+b1::
+ENDIF
+IF (K% = 4)
+IF (V% < 4)
+OC% := ASC(MID$(A$(((S% + V%) - 1)) H% 1 ) )
+IF (OC% = 6)
+GOTO LEF
+ENDIF
+IF ((((OC% <> 0) AND (OC% <> 2)) AND (OC% <> 6)) AND (UNOT ((OC% = 3) AND (S7% > 2))))
+AT(H% V% )
+PRINT(CHR$(OC% ))
+<nl>
+
+V% := (V% + 1)
+ENDIF
+ELSEIF ((S% < 17) AND (V% = 4))
+S% := (S% + 1)
+V% := 3
+AT(1 1 )
+PRINT(A$(S%))
+PRINT(A$((S% + 1)))
+PRINT(A$((S% + 2)))
+PRINT(A$((S% + 3)))
+
+IF (OC% = 6)
+GOTO LEF
+ENDIF
+ENDIF
+PO% := 2
+GOTO proc1
+b2::
+ENDIF
+IF (K% = 5)
+LEF::
+IF (H% > 1)
+OC% := ASC(MID$(A$(((S% + V%) - 1)) (H% - 1) 1 ) )
+IF (((OC% <> 1) AND (OC% <> 2)) AND (UNOT ((OC% = 3) AND (S7% > 2))))
+AT(H% V% )
+PRINT(MID$(A$(((S% + V%) - 1)) H% 1 ))
+<nl>
+
+H% := (H% - 1)
+ENDIF
+ENDIF
+PO% := 3
+GOTO proc1
+b3::
+IF ((OC% = 6) AND (H% <> 1))
+GOTO LEF
+ENDIF
+ENDIF
+IF (K% = 6)
+IF (H% < 20)
+OC% := ASC(MID$(A$(((S% + V%) - 1)) H% 1 ) )
+IF ((((OC% <> 1) AND (OC% <> 2)) AND (OC% <> 6)) AND (UNOT ((OC% = 3) AND (S7% > 2))))
+AT(H% V% )
+PRINT(CHR$(OC% ))
+<nl>
+
+H% := (H% + 1)
+ENDIF
+ENDIF
+PO% := 4
+GOTO proc1
+b4::
+ENDIF
+IF (K% <> 81)
+GOTO PPP
+ENDIF
+LAST::
+POKEB(119 14 )
+POKEB(8384 1 )
+AT(5 3 )
+PRINT("Again ")
+PRINT(CHR$(63 ))
+PRINT(" (Y/N)")
+<nl>
+
+IF (GET$() = "Y")
+GOTO TOP
+ENDIF
+PO% := 0
+proc1::
+IF PO%
+OC% := ASC(MID$(A$(((S% + V%) - 1)) H% 1 ) )
+IF (OC% = 0)
+UDG(4 0 0 12 12 12 0 0 31 )
+ENDIF
+IF (OC% = 1)
+UDG(4 1 1 13 13 13 1 1 1 )
+ENDIF
+IF (OC% = 2)
+UDG(4 1 1 13 13 13 1 1 31 )
+ENDIF
+IF (OC% = 3)
+IF (S7% < 2)
+UDG(4 0 0 12 12 12 0 0 0 )
+ENDIF
+IF (S7% = 2)
+UDG(4 1 0 13 12 13 0 21 0 )
+ENDIF
+IF (S7% > 2)
+UDG(4 1 1 13 13 13 1 1 31 )
+ENDIF
+ENDIF
+IF (OC% = 5)
+UDG(4 21 0 31 12 31 0 21 0 )
+ENDIF
+IF (OC% = 6)
+UDG(4 31 27 23 0 23 27 31 31 )
+ENDIF
+AT(H% V% )
+PRINT(CHR$(4 ))
+<nl>
+
+IF (PO% = 1)
+GOTO b1
+ENDIF
+IF (PO% = 2)
+GOTO b2
+ENDIF
+IF (PO% = 3)
+GOTO b3
+ENDIF
+IF (PO% = 4)
+GOTO b4
+ENDIF
+IF (PO% = 6)
+GOTO B6
+ENDIF
+ENDIF
 
 
 
+
+POKEB(119 14 )
+macro
+C
+PRINT("FILM FORMAT?")
+<nl>
+
+N% := MENUN(2 "35mm,16mm,Sup16,8mm,70mm" )
+IF (N% = 1)
+F := 20.96
+CC := 0.0339
+ELSEIF (N% = 2)
+F := 9.65
+CC := 0.0254
+ELSEIF (N% = 3)
+F := 11.79
+CC := 0.0254
+ELSEIF (N% = 4)
+F := 5.69
+CC := 0.0254
+ELSEIF (N% = 5)
+F := 52.63
+CC := 0.0339
+ENDIF
+CLS()
+PRINT("What is the T stop ")
+<nl>
+
+PRINT("now?")
+<nl>
+
+T
+CLS()
+PRINT("What is the width of")
+<nl>
+
+AT(1 2 )
+PRINT("the subject in mm?")
+<nl>
+
+I
+CLS()
+M := (F / I)
+S := (T / (M + 1))
+D := ((((2 * CC) * S) * (1 + M)) / (M ** 2))
+D := INTF((D * 1000) )
+D := (D / 1000)
+S := INT((S * 10) )
+S := (S / 10)
+C := ((LOG(T ) - LOG(S )) / 0.15)
+C := INTF(((C + .5) * 10) )
+C := (C / 10)
+PRINT("Stop now ")
+PRINT(T)
+<nl>
+
+PRINT("New Stop ")
+PRINT(S)
+<nl>
+
+PRINT("Depth ")
+PRINT(D)
+PRINT(" mm")
+<nl>
+
+PRINT("Open up ")
+PRINT(C)
+PRINT(" stops")
+<nl>
+
+A$ := GET$()
+CLS()
+IF ((A$ = "P") OR (A$ = "p"))
+PRINT("Printing.....")
+<nl>
+
+LPRINT("Maxim Ford's Psion Camera Program")
+L<nl>
+
+L<nl>
+LPRINT("Width of the subject ")
+LPRINT(I)
+LPRINT("mms and exposure")
+L<nl>
+
+LPRINT("T Stop of ")
+LPRINT(T)
+LPRINT(" The magnification is ")
+LPRINT(M)
+L<nl>
+
+LPRINT("Open up ")
+LPRINT(C)
+LPRINT(" stops, to give a new stop")
+L<nl>
+
+LPRINT("of ")
+LPRINT(S)
+L<nl>
+
+LPRINT("Depth of field is ")
+LPRINT(D)
+LPRINT(" mm")
+L<nl>
+
+L<nl>
+LPRINT(DATIM$())
+L<nl>
+
+L<nl>
+L<nl>
+L<nl>
+L<nl>
+ENDIF
+CLS()
+N% := MENUN(2 "Again,Film,Menu" )
+IF (N% = 1)
+MACRO
+ELSEIF (N% = 2)
+FILM
+ENDIF
+STOP()
+metre$(MET)
+S$
+IN := ((MET * 39.3700787402) + 0.5)
+FO := INTF((IN / 12) )
+IN := INTF((IN - (FO * 12)) )
+IF (FO > 0)
+M := (INT(LOG(FO ) ) + 1)
+ELSE
+M := 1
+ENDIF
+A$ := NUM$(FO M )
+IF (IN > 0)
+M := (INT(LOG(IN ) ) + 1)
+ELSE
+M := 1
+ENDIF
+B$ := NUM$(IN M )
+S$ := (((A$ + " Ft ") + B$) + " in")
+S$
+mired
+M
+F
+PRINT("Colour temperature")
+<nl>
+
+PRINT("of filmstock..")
+<nl>
+
+F := MENUN(2 "TUNGSTEN,DAYLIGHT,OTHER" )
+IF (F = 1)
+F := 3200
+ELSEIF (F = 2)
+F := 5500
+ELSEIF (F = 3)
+CLS()
+PRINT("Colour temperature")
+<nl>
+
+PRINT("of film/filter")
+<nl>
+
+F
+ENDIF
+CLS()
+PRINT("Colour temperature")
+<nl>
+
+PRINT("of light?")
+<nl>
+
+T
+CLS()
+M := ((1000000 / F) - (1000000 / T))
+M := INT(M )
+IF (M > 5)
+ORANGE
+ELSEIF (M < (UMIN 5))
+BLUE
+ELSEIF ((M <= 5) AND (M >= (UMIN 5)))
+PRINT("NO FILTER")
+<nl>
+
+ENDIF
+GET()
+CLS()
+PRINT("Choose...")
+<nl>
+
+M := MENUN(2 "MIRED,FILM,MENU" )
+IF (M = 1)
+MIRED
+ELSEIF (M = 2)
+FILM
+ENDIF
+MORSE
+W%
+MSETUP
+KSTAT(1 )
+DIT% := MENU("Fast,Medium,Slow" )
+IF (DIT% = 0)
+STOP()
+ELSEIF (DIT% = 1)
+DIT% := 50
+ELSEIF (DIT% = 2)
+DIT% := 75
+ELSE
+DIT% := 100
+ENDIF
+CLS()
+PRINT("Which letters :")
+<nl>
+
+LET$
+IF (ERR() = 206)
+STOP()
+ENDIF
+CLS()
+PRINT("Right : 0")
+<nl>
+
+PRINT("Wrong : 0")
+<nl>
+
+DO
+IF (LET$ = "")
+D% := ((RND() * 26) + 1)
+ELSE
+D% := (ASC(MID$(LET$ ((RND() * LEN(LET$ )) + 1) 1 ) ) - 64)
+ENDIF
+SOUND(L$(D%))
+DO
+C% := GET()
+IF (C% = 1)
+GOTO FIN
+ELSEIF ((C% - 64) <> D%)
+W% := (W% + 1)
+IF (LOC(W$ CHR$((D% + 64) ) ) = 0)
+W$ := ((W$ + CHR$((D% + 64) )) + " ")
+ENDIF
+AT(9 2 )
+PRINT(W%)
+
+SOUND(L$(D%))
+ENDIF
+UNTIL ((C% - 64) = D%)
+R% := (R% + 1)
+AT(9 1 )
+PRINT(R%)
+<nl>
+
+UNTIL (C% = 0)
+FIN::
+CLS()
+PRINT("% Incorrect :")
+<nl>
+
+IF (R% = 0)
+R% := 1
+ENDIF
+W% := ((W% * 100) / R%)
+IF (W% > 100)
+W% := 100
+ENDIF
+PRINT(W%)
+
+W% := GET()
+CLS()
+IF (W$ = "")
+PRINT("Well done.")
+<nl>
+
+W% := GET()
+ELSE
+PRINT("You dont know :")
+<nl>
+
+VIEW(2 W$ )
+ENDIFMSETUP
+L$(1) := ".-"
+L$(2) := "-..."
+L$(3) := "-.-."
+L$(4) := "-.."
+L$(5) := "."
+L$(6) := "..-."
+L$(7) := "--."
+L$(8) := "...."
+L$(9) := ".."
+L$(10) := ".---"
+L$(11) := "-.-"
+L$(12) := ".-.."
+L$(13) := "--"
+L$(14) := "-."
+L$(15) := "---"
+L$(16) := ".--."
+L$(17) := "--.-"
+L$(18) := ".-."
+L$(19) := "..."
+L$(20) := "-"
+L$(21) := "..-"
+L$(22) := "...-"
+L$(23) := ".--"
+L$(24) := "-..-"
+L$(25) := "-.--"
+L$(26) := ("--.." OR ange)
+T
+T := M
+IF (M > 136)
+B$ := "85B+"
+M := (M - 131)
+ENDIF
+IF ((M >= 5) AND (M <= 15))
+A$ := "81"
+ELSEIF ((M > 15) AND (M <= 25))
+A$ := "81A"
+ELSEIF ((M > 25) AND (M <= 30))
+A$ := "81B"
+ELSEIF ((M > 30) AND (M <= 40))
+A$ := "81C"
+ELSEIF ((M > 40) AND (M <= 50))
+A$ := "81D"
+ELSEIF ((M > 50) AND (M <= 70))
+A$ := "81EF"
+ELSEIF ((M > 70) AND (M <= 100))
+A$ := "85C"
+ELSEIF ((M > 100) AND (M <= 125))
+A$ := "85"
+ELSEIF (M > 125)
+A$ := "85B"
+ENDIF
+PRINT("Colour correction")
+<nl>
+
+PRINT("ORANGE")
+< > 
+PRINT(T)
+PRINT(" mired")
+<nl>
+
+PRINT(B$)
+PRINT(A$)
+< > 
+PRINT("Filter")
+<nl>
+
+pan
+P
+CLS()
+PRINT("Choose format...")
+<nl>
+
+N := MENUN(2 "35mm,16mm,8mm,70mm" )
+IF (N = 1)
+B := 1
+ELSEIF (N = 2)
+B := 2
+ELSEIF (N = 3)
+B := 4
+ELSEIF (N = 4)
+B := 0.5
+ENDIF
+PRINT("What is the Focal")
+<nl>
+
+PRINT("length of the lens?")
+<nl>
+
+A
+A := (A * B)
+CLS()
+PRINT("Choose....")
+<nl>
+
+N := MENUN(2 "FPS,Sec/Fr,Min/Fr" )
+IF (N = 1)
+PRINT("Frames/Second")
+PRINT(CHR$(63 ))
+<nl>
+
+F
+ELSEIF (N = 2)
+PRINT("SECONDS/FRAME")
+PRINT(CHR$(63 ))
+<nl>
+
+F
+F := (1 / F)
+ELSEIF (N = 3)
+PRINT("MINUTES/FRAME")
+PRINT(CHR$(63 ))
+<nl>
+
+F
+F := (1 / (F * 60))
+ENDIF
+CLS()
+PRINT("PAN in degrees")
+<nl>
+
+P
+CLS()
+T := (((0.1389 * P) * A) / F)
+SECONDS
+PRINT("Time for")
+< > 
+PRINT(P)
+PRINT(CHR$(223 ))
+PRINT("Pan")
+
+AT(1 2 )
+PRINT(D)
+PRINT("d")
+< > 
+PRINT(H)
+PRINT("hr")
+< > 
+PRINT(M)
+PRINT("m")
+< > 
+PRINT(S)
+PRINT("s")
+<nl>
+
+GET()
+N := MENU("PAN,FILM,MENU" )
+IF (N = 1)
+PAN
+ELSEIF (N = 2)
+FILM
+ENDIF
+PLATO
+G%(816)
+L::
+CLS()
+A% := MENU("TETRA,CUBE,OCTA,ICOSA" )
+IF (A% = 0)
+
+ELSE
+"GRAF" + CHR$((A% + 48) )
+ENDIF
+CLS()
+PRINT("Please wait...")
+
+A% := 1
+C% := 1
+DO
+B% := 1
+DO
+G%(C%) := (ASC(MID$(A.A$ (B% + 2) 1 ) ) - 65)
+B% := (B% + 1)
+C% := (C% + 1)
+UNTIL (B% > 48)
+NEXT()
+A% := (A% + 1)
+UNTIL (A% > 17)
+CLOSE()
+CLS()
+IF ((PEEKB(65512 ) AND 7) > 4)
+PRINT((REPT$((((CHR$(0 ) + CHR$(2 )) + CHR$(4 )) + " ") 5 ) + REPT$((((CHR$(1 ) + CHR$(3 )) + CHR$(5 )) + " ") 5 )))
+
+PRINT((" " + REPT$((((" " + CHR$(0 )) + CHR$(2 )) + CHR$(4 )) 4 )))
+<nl>
+
+PRINT((" " + REPT$((((" " + CHR$(1 )) + CHR$(3 )) + CHR$(5 )) 4 )))
+<nl>
+
+ELSE
+PRINT(REPT$((((CHR$(0 ) + CHR$(2 )) + CHR$(4 )) + " ") 4 ))
+PRINT(REPT$((((CHR$(1 ) + CHR$(3 )) + CHR$(5 )) + " ") 4 ))
+
+ENDIF
+B% := 721
+C% := 48
+A% := (RND() * 3)
+DO
+POKEB(384 64 )
+E% := (B% + 48)
+D% := B%
+DO
+POKEB(385 G%(D%) )
+D% := (D% + 1)
+UNTIL (D% = E%)
+IF ((B% = 721) OR (B% = 769))
+D% := INT((RND() * 2) )
+A% := (D% - (D% >= A%))
+B% := ((1 + (240 * A%)) + (192 AND (B% = 769)))
+ELSE
+B% := (B% + C%)
+PAUSE(1 )
+IF (C% = 48)
+IF (((B% = 241) OR (B% = 481)) OR (B% = 721))
+B% := 769
+C% := (UMIN 48)
+ENDIF
+ELSEIF (((B% = (UMIN 47)) OR (B% = 193)) OR (B% = 433))
+B% := 721
+C% := 48
+ENDIF
+ENDIF
+UNTIL (KEY() = 13)
+GOTO L
+PRINTER
+NUM%
+CLS()
+PRINT("Printer setup?")
+<nl>
+
+NUM% := MENUN(2 "Psion,Epson,None" )
+DELETE()
+"A:printer"
+A.P% := NUM%
+APPEND()
+CLOSE()
+pwinp$(J%, )(I%, )(SET%)
+PW$
+KSTAT(1 )
+N% := 0
+DO
+AT(I% J% )
+PRINT(REPT$("#" N% ))
+PRINT(CHR$(26 ))
+<nl>
+
+K% := GET()
+IF (K% = 1)
+IF ((N% = 0) AND SET%)
+STOP()
+ENDIF
+N% := 0
+PW$ := ""
+ELSEIF (K% = 8)
+IF (N% = 0)
+BEEP(50 600 )
+ELSE
+N% := (N% - 1)
+PW$ := LEFT$(PW$ (LEN(PW$ ) - 1) )
+ENDIF
+ELSEIF ((K% > 31) AND (K% < 123))
+IF (N% = 8)
+BEEP(50 600 )
+ELSE
+N% := (N% + 1)
+PW$ := (PW$ + CHR$(K% ))
+ENDIF
+ENDIF
+UNTIL ((K% = 13) AND (N% > (Z%(2) - 1)))
+PW$
+
+A$(4,1)
+P$(W%) := "00"
+END
+IF (END% >= 1)
+
+ENDIF
+Q% := 0
+DO
+Q% := (Q% + 1)
+A$(Q%) := MID$(Y$ Y% 1 )
+W1$ := (((A$(1) + A$(2)) + A$(3)) + A$(4))
+EOW
+IF (END% >= 1)
+GOTO NOWORD
+ENDIF
+UNTIL (Q% = 4)
+SUB::
+EOW
+IF (END% < 1)
+GOTO SUB
+ENDIF
+NOWORD::
+IF (W1$ = "    ")
+
+ENDIF
+Q% := 0
+DO
+Q% := (Q% + 1)
+IF (W1$ = MID$(V$(Q%) 3 4 ))
+GOTO KEYWORD
+ENDIF
+UNTIL (Q% = 43)
+
+KEYWORD::
+P$(W%) := LEFT$(V$(Q%) 2 )
+ROOMS10
+IF (ROOM% = 1)
+A% := VIEW(1 "WELCOME TO ALZAN. YOU MUST SCALE THE WALLS IF YOU WISH TO ESCAPE FROM THIS CITY OF THIEVES AND CUT-THROATS." )
+ELSEIF (ROOM% = 2)
+A% := VIEW(1 "YOU ARE IN THE MAIN STREET OUTSIDE A HARDWARE SHOP. THE STREET STRETCHES EAST/WEST AND A SMALL ALLEY LEADS NORTH BESIDE THE SHOP." )
+ELSEIF (ROOM% = 3)
+A% := VIEW(1 "YOU ARE INSIDE THE SHOP. THE SHOPKEEPER LOOKS SHIFTY, BUT HE HAS MANY FINE GOODS ON DISPLAY." )
+ELSEIF (ROOM% = 4)
+A% := VIEW(1 "YOU ARE IN AN ALLEY BEHIND THE TALL BUILDINGS. THERE ARE MANY FULL DUSTBINS UNDER THE FIRE ESCAPE." )
+ELSEIF (ROOM% = 5)
+A% := VIEW(1 "YOU ARE ON THE FIRE ESCAPE, WHICH LEADS PAST A DOOR IN THE BUILDINGS." )
+ELSEIF (ROOM% = 6)
+A% := VIEW(1 "YOU HAVE COME DOWN A SECRET STAIRCASE INTO THE SHOP." )
+ELSEIF (ROOM% = 7)
+A% := VIEW(1 "YOU ARE ON SOME CATWALKS BETWEEN THE BUILDINGS." )
+ELSEIF (ROOM% = 8)
+A% := VIEW(1 "THIS IS PART OF THE CITY WALLS. THERE IS AN UNUSED DOOR IN THE WALL HERE." )
+ELSEIF (ROOM% = 9)
+A% := VIEW(1 "YOU ARE AT A CROSSROADS." )
+ELSEIF (ROOM% = 10)
+A% := VIEW(1 "HERE IS PART OF THE CITY WALLS. THE SEA MIST IS QUITE THICK, MAKING IT HARD TO SEE FAR." )
+ELSEIF (ROOM% = 11)
+A% := VIEW(1 "YOU PLUNGE FROM THE WALL - RIGHT DOWN ONTO THE ROCKS BY THE SEA, 500 FT BELOW. WELL, NEVER MIND. BETTER LUCK NEXT TIME." )
+ELSEIF (ROOM% = 12)
+A% := VIEW(1 "YOU ARE OUTSIDE THE TOWN BANK." )
+ELSEIF (ROOM% = 13)
+A% := VIEW(1 "INSIDE THE BANK THERE ARE MANY GUARDS WHO SEEM RATHER BORED." )
+ELSEIF (ROOM% = 14)
+A% := VIEW(1 "YOU HAVE ARRIVED AT A DEAD END, BUT THERE IS A MANHOLE IN THE ROAD ..." )
+ELSEIF (ROOM% = 15)
+A% := VIEW(1 "YOU ARE IN A SMALL ALCOVE UNDERNEATH THE MANHOLE.  A PASSAGE LEADS SOUTH." )
+ELSEIF (ROOM% = 16)
+A% := VIEW(1 "THE PASSAGE LEADS TO AN ANCIENT TOMB, WHERE MANY SARCOPHAGI LIE SCATTERED ABOUT." )
+ELSEIF (ROOM% = 17)
+A% := VIEW(1 "THE USHER WILL NOT LET YOU IN AS THE PROGRAMME HAS STARTED. HE BLOCKS YOUR PATH WITH HIS TORCH." )
+ELSEIF (ROOM% = 18)
+A% := VIEW(1 "YOU ARE OUTSIDE THE CINEMA. SOUNDS OF GUNFIRE COME FROM WITHIN." )
+ELSEIF (ROOM% = 19)
+A% := VIEW(1 "***CONGRATULATIONS*** YOU MADE IT OUTSIDE THE CITY WALLS. THIS IS INDEED A RARE OCCASION. WELL DONE." )
+ENDIF
+SECONDS
+D := (T / 86400)
+D := INTF(D )
+H := ((T / 3600) - (D * 24))
+H := INTF(H )
+M := ((T / 60) - ((H * 60) + (D * 1440)))
+M := INTF(M )
+S := (T - (((M * 60) + (H * 3600)) + (D * 86400)))
+S := INTF(S )
+setpassw
+I%
+CLS()
+KSTAT(1 )
+AT(5 1 )
+PRINT("SET PASSWORD")
+<nl>
+
+PRINT(CHR$(25 ))
+<nl>
+
+I% := 0
+DO
+I% := (I% + 1)
+AT(1 4 )
+PRINT("Info L")
+PRINT(I%)
+PRINT(":")
+< > 
+
+EDIT(OI$(I%) )
+UNTIL (I% = 4)
+DO
+AT(1 4 )
+PRINT("Login:")
+< > 
+
+N$
+UNTIL (LEN(N$ ) <> (Z%(1) - 1))
+DO
+I% := 0
+DO
+I% := (I% + 1)
+AT(1 4 )
+PRINT(MID$("PasswAgain" ((UMIN (I% = 1)) - (6 * (I% = 2))) 5 ))
+PRINT(":")
+<nl>
+
+P$(I%) := PWINP$(4, )(8, )(1)
+UNTIL (I% = 2)
+UNTIL (P$(1) = P$(2))
+FILE$
+A.A$ := OI$(1)
+A.B$ := OI$(2)
+A.C$ := OI$(3)
+A.D$ := OI$(4)
+A.K$ := CREAKEY$(P$(1), )(N$)
+APPEND()
+shut
+N%
+CLS()
+PRINT("Camera Speed FPS?")
+<nl>
+
+F
+CLS()
+PRINT("Electrical freq.")
+<nl>
+
+PRINT("in Hertz?")
+<nl>
+
+HZ
+CLS()
+S := ((F * 360) / HZ)
+PRINT(F)
+PRINT(" FPS Camera &")
+<nl>
+
+PRINT(HZ)
+PRINT(" Hertz lights")
+<nl>
+
+PRINT(S)
+PRINT(CHR$(223 ))
+<nl>
+
+PRINT("Camera Shutter")
+<nl>
+
+GET()
+N% := MENU("Again,HMI,FILM,MENU" )
+IF (N% = 1)
+SHUT
+ELSEIF (N% = 2)
+HMI
+ELSEIF (N% = 3)
+FILM
+ELSEIF (N% = 4)
+STOP()
+ENDIF
+SOUND(A$)
+B$
+B$ := A$
+DO
+IF (LEFT$(B$ 1 ) = ".")
+BEEP(DIT% 100 )
+ELSE
+BEEP((DIT% * 3) 100 )
+ENDIF
+PAUSE((DIT% / 50) )
+B$ := RIGHT$(B$ (LEN(B$ ) - 1) )
+UNTIL (B$ = "")
+stop
+N
+ASA::
+PRINT("FILMSTOCK")
+<nl>
+
+PRINT("What ASA?")
+<nl>
+
+A
+TIME::
+CLS()
+PRINT("Select camera speed")
+<nl>
+
+W := MENUN(2 "Frames-per-second,Exposure,Seconds-per-Frame" )
+IF (W = 2)
+A$ := "sec"
+PRINT("Exposure in seconds?")
+<nl>
+
+T
+D := T
+SH := 0
+ELSEIF (W = 1)
+PRINT("Frames per second?")
+<nl>
+
+P
+A$ := "FPS"
+D := P
+CLS()
+PRINT("Shutter angle?")
+<nl>
+
+B
+SH := B
+T := (B / (360 * P))
+CLS()
+ELSEIF (W = 3)
+PRINT("Seconds per frame?")
+<nl>
+
+P
+D := P
+A$ := "SPF"
+CLS()
+PRINT("Shutter angle?")
+<nl>
+
+B
+SH := B
+T := ((P * B) / 360)
+CLS()
+ENDIF
+CLS()
+IF ((T >= 1) AND (T < 10))
+T := (T / 1.4)
+ELSEIF ((T >= 10) AND (T < 30))
+T := (T / 2.8)
+ELSEIF (T >= 30)
+T := (T / 4)
+ENDIF
+FTCD::
+N := 0
+PRINT("LIGHT READING?")
+<nl>
+
+W := MENUN(2 "Footcandles,Pentax(EV),Lux" )
+IF (W = 1)
+PRINT("FOOTCANDLES")
+PRINT(CHR$(63 ))
+<nl>
+
+F
+CLS()
+ELSEIF (W = 2)
+PRINT("PENTAX NUMBER")
+PRINT(CHR$(63 ))
+<nl>
+
+F
+F := (0.5 * (2 ** (F - 1)))
+CLS()
+ELSEIF (W = 3)
+PRINT("LUX")
+PRINT(CHR$(63 ))
+<nl>
+
+F
+F := (F / 10.76)
+CLS()
+ENDIF
+S := SQR((((F * A) * T) / 25) )
+RS := INTF((S * 10) )
+RS := (RS / 10)
+XX::
+IF (S > 11.5)
+N := (N + 0.9)
+S := (S / 2.8)
+GOTO XX
+ENDIF
+S := (S * 10)
+S := INT(S )
+S := (S / 10)
+CLS()
+AT(1 1 )
+PRINT(A)
+< > 
+PRINT("ASA")
+< > 
+PRINT(D)
+< > 
+PRINT(A$)
+< > 
+PRINT(SH)
+PRINT(CHR$(223 ))
+<nl>
+
+AT(1 2 )
+E := (LOG((F * 4) ) / 0.3)
+E := INT((E * 10) )
+E := (E / 10)
+F := INTF((F * 100) )
+PRINT((F / 100))
+< > 
+PRINT("ftcd")
+< > 
+PRINT(E)
+< > 
+PRINT("EV")
+<nl>
+
+AT(1 3 )
+PRINT("ND")
+< > 
+PRINT(N)
+< > 
+PRINT("Filter")
+< > 
+PRINT((N / 0.3))
+< > 
+PRINT("Stops")
+<nl>
+
+AT(1 4 )
+PRINT("T STOP")
+< > 
+PRINT(S)
+< > 
+PRINT("(")
+PRINT(RS)
+PRINT(")")
+<nl>
+
+IF (S = 0)
+AT(1 4 )
+PRINT("NO EXPOSURE             ")
+<nl>
+
+ENDIF
+GET()
+C := MENU("LIGHT,EXPO,ASA,PRINT,FILM,MENU," )
+IF (C = 1)
+GOTO FTCD
+ELSEIF (C = 2)
+GOTO TIME
+ELSEIF (C = 3)
+GOTO ASA
+ELSEIF (C = 4)
+STOPRINT
+ELSEIF (C = 5)
+FILM
+ENDIF
+stoprint
+CLS()
+PRINT("Printing....")
+<nl>
+
+LPRINT(" PSION CAMERA PROGRAM by Maxim Ford")
+L<nl>
+
+L<nl>
+LPRINT(A)
+L< > 
+LPRINT("ASA Filmstock")
+L< > 
+LPRINT(D)
+L< > 
+LPRINT(A$)
+L< > 
+LPRINT(SH)
+LPRINT(" degrees")
+L<nl>
+
+LPRINT((F / 100))
+L< > 
+LPRINT("Ftcd")
+L< > 
+LPRINT(E)
+L< > 
+LPRINT("EV units")
+L<nl>
+
+L<nl>
+LPRINT("BLACK               18%          WHITE")
+L<nl>
+
+LPRINT((E - 5))
+L< > 
+LPRINT((E - 4))
+L< > 
+LPRINT((E - 3))
+L< > 
+LPRINT((E - 2))
+L< > 
+LPRINT((E - 1))
+L< > 
+LPRINT(E)
+L< > 
+LPRINT((E + 1))
+L< > 
+LPRINT((E + 2))
+L< > 
+LPRINT((E + 3))
+L<nl>
+
+L<nl>
+IF (N > 0)
+LPRINT(N)
+L< > 
+LPRINT("Neutral density filter =")
+L< > 
+LPRINT((N / 0.3))
+L< > 
+LPRINT("Stops")
+L<nl>
+
+LPRINT("Real Stop ")
+LPRINT(RS)
+L<nl>
+
+L<nl>
+LPRINT(CHR$(27 ))
+LPRINT("E")
+
+LPRINT("T Stop with ND filters ")
+LPRINT(S)
+L<nl>
+
+ELSEIF (N = 0)
+L<nl>
+LPRINT(CHR$(27 ))
+LPRINT("E")
+
+LPRINT("    ***   T Stop ")
+L< > 
+LPRINT(S)
+LPRINT("   ***")
+L<nl>
+
+ENDIF
+LPRINT(CHR$(27 ))
+LPRINT("F")
+
+L<nl>
+LPRINT(DATIM$())
+L< > 
+
+L<nl>
+L<nl>
+L<nl>
+L<nl>
+L<nl>
+CLS()
+FILM
+sunpos
+MI
+EU
+CLS()
+NEWPLACE::
+PRINT("Part of the World?")
+<nl>
+
+N% := MENUN(2 "North-West,North-East,South-West,South-East" )
+CLS()
+PRINT("LATITUDE?  N-S")
+<nl>
+
+PRINT("degrees...")
+<nl>
+
+LAT
+LATI$ := FIX$(LAT 0 2 )
+AT(1 2 )
+PRINT("minutes...")
+<nl>
+
+MN
+LAT := (LAT + (MN / 60))
+LATI$ := ((LATI$ + CHR$(223 )) + FIX$(MN 0 2 ))
+AT(1 2 )
+PRINT("Seconds.....")
+<nl>
+
+S
+LAT := (LAT + (S / 3600))
+LATI$ := (((LATI$ + "'") + FIX$(S 0 2 )) + CHR$(34 ))
+IF ((N% = 3) OR (N% = 4))
+LAT := (0 - LAT)
+ENDIF
+CLS()
+PRINT("LONGITUDE E-W")
+<nl>
+
+PRINT("Degrees...")
+<nl>
+
+DE
+LONG$ := (FIX$(DE 0 2 ) + CHR$(223 ))
+AT(1 2 )
+PRINT("Minutes...")
+<nl>
+
+MN
+LONG$ := ((LONG$ + FIX$(MN 0 2 )) + "'")
+AT(1 2 )
+PRINT("Seconds...")
+<nl>
+
+S
+LONG$ := ((LONG$ + FIX$(S 0 2 )) + CHR$(34 ))
+LNG := ((DE + (MN / 60)) + (S / 3600))
+IF ((N% = 1) OR (N% = 3))
+LNG := (0 - LNG)
+ENDIF
+CLS()
+NEWDATE::
+IF (FLAG% <> 1)
+PRINT("DATE?")
+<nl>
+
+PRINT("Year....")
+<nl>
+
+YR
+AT(1 2 )
+PRINT("Month....")
+<nl>
+
+MO
+AT(1 2 )
+PRINT("Day...")
+<nl>
+
+DY
+NEWTIME::
+CLS()
+PRINT("TIME?  24 clock")
+<nl>
+
+PRINT("Hours....")
+<nl>
+
+HR
+AT(1 2 )
+PRINT("Minutes...")
+<nl>
+
+MI
+FLAG% := 0
+ENDIF
+CLS()
+AT(1 2 )
+PRINT("Thinking....")
+<nl>
+
+TIMESIDE
+D := WATCH
+N := ((360 / 365.242191) * D)
+NU := (N / 360)
+NU := INTF(NU )
+N := (N - (NU * 360))
+M := ((N + 279.403303) - 282.768422)
+IF (M < 0)
+M := (M + 360)
+ENDIF
+M := SIN(RAD(M ) )
+EU := (((360 / PI()) * 0.016713) * M)
+GEO := ((N + EU) + 279.403303)
+IF (GEO > 360)
+GEO := (GEO - 360)
+ENDIF
+GEL := 0
+DEC := ((SIN(RAD(GEL ) ) * COS(RAD(23.441884 ) )) + ((COS(RAD(GEL ) ) * SIN(RAD(23.441884 ) )) * SIN(RAD(GEO ) )))
+DEC := DEG(ASIN(DEC ) )
+Y := ((SIN(RAD(GEO ) ) * COS(RAD(23.441884 ) )) - (TAN(RAD(GEL ) ) * SIN(RAD(23.441884 ) )))
+X := COS(RAD(GEO ) )
+AS := (Y / X)
+AS := DEG(ATAN(AS ) )
+IF ((X >= 0) AND (Y >= 0))
+WHILE ((AS < 0) OR (AS > 90))
+IF (AS < 0)
+AS := (AS + 180)
+ELSEIF (AS > 0)
+AS := (AS - 180)
+ENDIF
+ENDWH
+ELSEIF ((Y >= 0) AND (X < 0))
+WHILE ((AS < 90) OR (AS > 180))
+IF (AS < 90)
+AS := (AS + 180)
+ELSEIF (AS > 180)
+AS := (AS - 180)
+ENDIF
+ENDWH
+ELSEIF ((Y < 0) AND (X < 0))
+WHILE ((AS < 180) OR (AS > 270))
+IF (AS < 180)
+AS := (AS + 180)
+ELSEIF (AS > 270)
+AS := (AS - 180)
+ENDIF
+ENDWH
+ELSEIF ((Y < 0) AND (X >= 0))
+WHILE ((AS < 270) OR (AS > 360))
+IF (AS < 270)
+AS := (AS + 180)
+ELSEIF (AS > 360)
+AS := (AS - 180)
+ENDIF
+ENDWH
+ENDIF
+AS := (AS / 15)
+LST := (GST + (LNG / 15))
+NU := INTF((LST / 24) )
+LST := (LST - (24 * NU))
+ALT := (LST - AS)
+NU := INTF((ALT / 24) )
+AS := (ALT - (24 * NU))
+AS := (AS * 15)
+CH := SIN(RAD(AS ) )
+ALT := ((SIN(RAD(DEC ) ) * SIN(RAD(LAT ) )) + ((COS(RAD(DEC ) ) * COS(RAD(LAT ) )) * COS(RAD(AS ) )))
+ALT := DEG(ASIN(ALT ) )
+AZI := ((SIN(RAD(DEC ) ) - (SIN(RAD(LAT ) ) * SIN(RAD(ALT ) ))) / (COS(RAD(LAT ) ) * COS(RAD(ALT ) )))
+AZI := DEG(ACOS(AZI ) )
+IF (CH >= 0)
+AZI := (360 - AZI)
+ENDIF
+CLS()
+PRINT("   Sun's position")
+<nl>
+
+PRINT(DY)
+PRINT("/")
+PRINT(MO)
+PRINT("/")
+PRINT(YR)
+< > 
+PRINT("@")
+< > 
+PRINT(HR)
+PRINT(".")
+PRINT(MI)
+<nl>
+
+PRINT("Horizontal")
+< > 
+PRINT(INT((AZI + 0.5) ))
+PRINT(CHR$(223 ))
+PRINT(CHR$(175 ))
+<nl>
+
+PRINT("Height")
+< > 
+PRINT(INT((ALT + 0.5) ))
+PRINT(CHR$(223 ))
+PRINT(CHR$(169 ))
+<nl>
+
+GET()
+AGAIN::
+CLS()
+PRINT("Choose...")
+<nl>
+
+S := MENUN(2 "Again,Newdate,Newplace,Newtime,Print,Film,Menu" )
+IF (S = 1)
+SUNPOS
+ELSEIF (S = 2)
+GOTO NEWDATE
+ELSEIF (S = 3)
+FLAG% := 1
+GOTO NEWPLACE
+ELSEIF (S = 4)
+GOTO NEWTIME
+ELSEIF (S = 5)
+LPRINT("              Sun's position")
+L<nl>
+
+L<nl>
+LPRINT("Latitude ")
+LPRINT(LATI$)
+L< > 
+LPRINT("Longitude")
+L< > 
+LPRINT(LONG$)
+L<nl>
+
+LPRINT(DY)
+LPRINT("/")
+LPRINT(MO)
+LPRINT("/")
+LPRINT(YR)
+L< > 
+LPRINT("@")
+L< > 
+LPRINT(HR)
+LPRINT(".")
+LPRINT(MI)
+L<nl>
+
+LPRINT("Horizontal")
+L< > 
+LPRINT(INT((AZI + 0.5) ))
+LPRINT(CHR$(223 ))
+LPRINT(CHR$(175 ))
+LPRINT("Height")
+L< > 
+LPRINT(INT((ALT + 0.5) ))
+LPRINT(CHR$(223 ))
+LPRINT(CHR$(169 ))
+L<nl>
+
+GOTO AGAIN
+ELSEIF (S = 6)
+FILM
+ENDIF
+TEXT3
+IF (N% = 1)
+A% := VIEW(2 "OH DEAR. YOU MUST HAVE CAUGHT THE PLAGUE IN THE TOMB. IT SEEMS THAT YOU HAVE DIED" )
+ELSEIF (N% = 2)
+A% := VIEW(2 "--WHOOSH-- EL GRABBO, THE LOCAL THIEF, SNATCHES YOUR MONEY AND DISAPPEARS INTO THE SEA MIST" )
+ELSEIF (N% = 3)
+A% := VIEW(2 "'STOP THIEF!' SHOUTS THE USHER, BUT YOU MANAGE TO ESCAPE." )
+ELSEIF (N% = 4)
+A% := VIEW(2 "THE COVER IS ALREADY OPEN." )
+ELSEIF (N% = 5)
+A% := VIEW(2 "IT COSTS MORE THAN YOU CAN AFFORD." )
+ELSEIF (N% = 6)
+A% := VIEW(2 "THAT WILL DO NICELY, SIR." )
+ELSEIF (N% = 7)
+A% := VIEW(2 "THAT MANHOLE COVER IS OPEN." )
+ELSEIF (N% = 8)
+A% := VIEW(2 "THAT MANHOLE COVER IS SHUT." )
+ELSEIF (N% = 9)
+A% := VIEW(2 "THE SHOPKEEPER IS BIGGER THAN YOU ..." )
+ELSEIF (N% = 10)
+A% := VIEW(2 "YOU WILL NEED A LADDER TO GET OVER THESE WALLS." )
+ELSEIF (N% = 11)
+A% := VIEW(2 "IT IS ALREADY ON." )
+ELSEIF (N% = 12)
+A% := VIEW(2 "WHAT A STROKE OF GENIUS." )
+ELSEIF (N% = 13)
+A% := VIEW(2 "YOU CATCH THE GUARDS UNAWARE AND MANAGE TO SNATCH A WAD OF NOTES. NO-ONE HAS NOTICED." )
+ELSEIF (N% = 14)
+A% := VIEW(2 "YOU HAVE TAKEN ALL THERE IS" )
+ELSEIF (N% = 15)
+A% := VIEW(2 "I DON'T SEE A TORCH." )
+ELSEIF (N% = 16)
+A% := VIEW(2 "THE CINEMA IS BOOKED FOR A PRIVATE FUNCTION." )
+ENDIF
+RETURNtime
+S
+N := MENU("35mm,16mm,8mm,70mm" )
+CLS()
+T := MENU("METRIC,IMPERIAL" )
+CLS()
+IF (T = 1)
+PRINT("HOW MANY METRE")
+PRINT(CHR$(63 ))
+<nl>
+
+M
+ELSEIF (T = 2)
+PRINT("HOW MANY FEET")
+PRINT(CHR$(63 ))
+<nl>
+
+M
+M := (M / 3.2894736842)
+ELSE
+PRINT("WHAT")
+PRINT(CHR$(63 ))
+<nl>
+
+GET()
+TIME
+ENDIF
+IF (N = 1)
+T := (M / 0.456)
+ELSEIF (N = 2)
+T := (M / 0.1824)
+ELSEIF (N = 3)
+T := (M / 0.1)
+ELSEIF (N = 4)
+T := (M / 0.57)
+ENDIF
+CLS()
+PRINT("CAMERA SPEED")
+< > 
+PRINT(CHR$(63 ))
+<nl>
+
+C
+T := ((T * 24) / C)
+CLS()
+SECONDS
+PRINT("TIME")
+<nl>
+
+AT(1 2 )
+PRINT(D)
+PRINT("d")
+< > 
+PRINT(H)
+PRINT("hr")
+< > 
+PRINT(M)
+PRINT("m")
+< > 
+PRINT(S)
+PRINT("s")
+<nl>
+
+GET()
+N := MENU("TIME,LENGTH,FILM,MENU" )
+IF (N = 1)
+TIME
+ELSEIF (N = 2)
+LENGTH
+ELSEIF (N = 3)
+FILM
+ENDIF
+timeside
+NU
+JD := (2415020.5 + DAYS(DY MO YR ))
+S := (JD - 2451545)
+T := (S / 36525)
+T0 := ((6.697374588 + (2400.051336 * T)) + (0.000025862 * (T ** 2)))
+NU := INTF((T0 / 24) )
+T0 := (T0 - (24 * NU))
+MON := MI
+MON := (MON / 60)
+UT := (HR + MON)
+UT := (UT * 1.002737909)
+GST := (T0 + UT)
+NU := INTF((GST / 24) )
+GST := (GST - (24 * NU))
+tob3
+
+
+RECEIVE$
+CLS()
+PRINT("Enter name (.ob3)")
+<nl>
+
+PRINT("to receive")
+<nl>
+
+SEND$
+xtrecv(3, )(SEND$, )(SEND$)
+stopwatch
+SCS
+DYS := (DAYS(DY MO YR ) - DAYS(31 12 1989 ))
+HRS := HR
+HRS := (HRS / 24)
+MNS := MI
+MNS := (MNS / 1440)
+DYS := ((DYS + HRS) + MNS)
+DYS
+width
+PRINT("DISTANCE in mtrs")
+PRINT(CHR$(63 ))
+<nl>
+
+D
+D := (D * 1000)
+CLS()
+PRINT("WHAT LENS in mm")
+PRINT(CHR$(63 ))
+<nl>
+
+L
+CLS()
+W := ((D * I) / L)
+H := ((D * T) / L)
+W := INTF((W / 10) )
+W := (W / 100)
+H := INTF((H / 10) )
+H := (H / 100)
+PRINT("With")
+< > 
+PRINT(L)
+< > 
+PRINT("mm lens")
+<nl>
+
+PRINT("@")
+< > 
+PRINT((D / 1000))
+< > 
+PRINT("m")
+<nl>
+
+PRINT("HEIGHT")
+< > 
+PRINT(H)
+< > 
+PRINT("m")
+<nl>
+
+PRINT("WIDTH")
+< > 
+PRINT(W)
+< > 
+PRINT("m")
+<nl>
+
+GET()
+
+
+
+
+
+
+IF (CP% = 1)
+A$ := "1317B01.B01E03L."
+ELSEIF (CP% = 2)
+A$ := "1317A17C01C02.I02B02D03K18E10O."
+ELSEIF (CP% = 3)
+A$ := "3218B03.D05N."
+ELSEIF (CP% = 4)
+A$ := "1319B05.B05L."
+ELSEIF (CP% = 5)
+A$ := "1320B06.B06L."
+ELSEIF (CP% = 6)
+A$ := "2900A14E07.D04N."
+ELSEIF (CP% = 7)
+A$ := "2900A14.E07M."
+ELSEIF (CP% = 8)
+A$ := "1322B08.B08L."
+ELSEIF (CP% = 9)
+A$ := "1323B09.B09L."
+ELSEIF (CP% = 10)
+A$ := "1417B01.C01F03L."
+ELSEIF (CP% = 11)
+A$ := "1417B02.C02L."
+ELSEIF (CP% = 12)
+A$ := "1419B05.C05L."
+ELSEIF (CP% = 13)
+A$ := "1420B06.C06L."
+ELSEIF (CP% = 14)
+A$ := "1422B08.C08L."
+ELSEIF (CP% = 15)
+A$ := "1423B09.C09L."
+ELSEIF (CP% = 16)
+A$ := "0500A10C10.D10M."
+ELSEIF (CP% = 17)
+A$ := "0500A08C10.D10M."
+ELSEIF (CP% = 18)
+A$ := "0500A10.K11O."
+ELSEIF (CP% = 19)
+A$ := "0500A08.K19O."
+ELSEIF (CP% = 20)
+A$ := "0500A15.F02K14O."
+ELSEIF (CP% = 21)
+A$ := "0600A14.E02K15O."
+ELSEIF (CP% = 22)
+A$ := "3100D02.H01E03L."
+ELSEIF (CP% = 23)
+A$ := "3100B01.D11N."
+ELSEIF (CP% = 24)
+A$ := "3219B04B06.H04J06B05L."
+ELSEIF (CP% = 25)
+A$ := "3219B04B09.H04D06B05M."
+ELSEIF (CP% = 26)
+A$ := "3000B05B11B08.D12I10J08J11M."
+ELSEIF (CP% = 27)
+A$ := "1333B11.B11L."
+ELSEIF (CP% = 28)
+A$ := "1433B11.C11L."
+ELSEIF (CP% = 29)
+A$ := "1500A02.K03O."
+ELSEIF (CP% = 30)
+A$ := "1500A12.K13O."
+ELSEIF (CP% = 31)
+A$ := "1500A18F10.K17O."
+ELSEIF (CP% = 32)
+A$ := "1600A03.K02O."
+ELSEIF (CP% = 33)
+A$ := "1600A13.K12O."
+ELSEIF (CP% = 34)
+A$ := "1600A17.K18O."
+ELSEIF (CP% = 35)
+A$ := "1500A05.K06O."
+ELSEIF (CP% = 36)
+A$ := "3400A03.D09M."
+ELSEIF (CP% = 37)
+A$ := "3400A13E08.D14M."
+ELSEIF (CP% = 38)
+A$ := "3400A13.E08D13I06B06M."
+ELSEIF (CP% = 39)
+A$ := "1500A18E10.D16M."
+ELSEIF (CP% = 40)
+A$ := "1318B10.B10L."
+ELSEIF (CP% = 41)
+A$ := "1418B10.C10L."
+ELSEIF (CP% = 42)
+A$ := "1318B03.D09M."
+ELSEIF (CP% = 43)
+A$ := "1317B02.B02L."
+ELSEIF (CP% = 44)
+A$ := "3500.A."
+ELSEIF (CP% = 45)
+A$ := "3600.P."
+ELSEIF (CP% = 46)
+A$ := "3700.O."
+ELSEIF (CP% = 47)
+A$ := "5000.N."
+ENDIF
+DROP()
+Q%(1) := 0
+O$(1) := "A LIGHTED TORCH"
+Q%(2) := 0
+O$(2) := "A TORCH"
+Q%(3) := 3
+O$(3) := "A LADDER"
+Q%(4) := 3
+O$(4) := "A HAMMER"
+Q%(5) := 0
+O$(5) := "A HAMMER"
+Q%(6) := 0
+O$(6) := "A WAD OF NOTES"
+Q%(7) := 0
+O$(7) := "MANHOLE COVER"
+Q%(8) := 15
+O$(8) := "A BAG OF NAILS"
+Q%(9) := 16
+O$(9) := "A BARCLAYCARD"
+Q%(10) := 0
+O$(10) := "A ROUGH LADDER"
+Q%(11) := 4
+O$(11) := "SOME WOOD"
+V$(1) := "01N"
+V$(2) := "01NORT"
+V$(3) := "02E"
+V$(4) := "02EAST"
+V$(5) := "03S"
+V$(6) := "03SOUT"
+V$(7) := "04W"
+V$(8) := "04WEST"
+V$(9) := "05U"
+V$(10) := "05UP"
+V$(11) := "06D"
+V$(12) := "06DOWN"
+V$(13) := "13TAKE"
+V$(14) := "14PUT"
+V$(15) := "14DROP"
+V$(16) := "15ENTE"
+V$(17) := "15IN"
+V$(18) := "16OUT"
+V$(19) := "16EXIT"
+V$(20) := "16LEAV"
+V$(21) := "17TORC"
+V$(22) := "18LADD"
+V$(23) := "19HAMM"
+V$(24) := "20WAD"
+V$(25) := "20NOTE"
+V$(26) := "22BAG"
+V$(27) := "22NAIL"
+V$(28) := "23BARC"
+V$(29) := "05SCAL"
+V$(30) := "05CLIM"
+V$(31) := "29OPEN"
+V$(32) := "29LIFT"
+V$(33) := "30MAKE"
+V$(34) := "30BUIL"
+V$(35) := "31SWIT"
+V$(36) := "31LIGH"
+V$(37) := "32BUY"
+V$(38) := "33WOOD"
+V$(39) := "34ROB"
+V$(40) := "34STEA"
+V$(41) := "35INVE"
+V$(42) := "36QUIT"
+V$(43) := "37LOOK"
+M$(1) := "00"
+M$(2) := "01040209041800"
+M$(3) := "00"
+M$(4) := "0202050500"
+M$(5) := "0604040700"
+M$(6) := "00"
+M$(7) := "0108030500"
+M$(8) := "030700"
+M$(9) := "011202100314040200"
+M$(10) := "040900"
+M$(11) := "00"
+M$(12) := "0209041800"
+M$(13) := "00"
+M$(14) := "010900"
+M$(15) := "031600"
+M$(16) := "011500"
+M$(17) := "00"
+M$(18) := "0112020200"
+M$(19) := "00"
+C$(1) := "A01.K02O."
+C$(2) := "A16H30.G0121."
+C$(3) := "G01.D01Q."
+C$(4) := "B06H10.D02J06."
+C$(5) := "A14E07.D07N."
+C$(6) := "A14F07.D08N."
+C$(7) := "A11.Q."
+C$(8) := "A19.Q."
+C$(9) := "A06.K03O."
+C$(10) := ".N."
+DROP()
+IF (C% < 0)
+B% := VIEW(2 "GOODBYE!" )
+PAUSE(30 )
+STOP()
+ENDIF
+C% := (C% - 1)
+B% := VIEW(1 (("BUT YOU HAVE ONLY " + GEN$(A% 4 )) + " ACRES.") )
+DROP()
+DROP()
+IF (LEN(ITEM$ ) > 8)
+RAISE(202 )
+ENDIF
+POKEB(8583 LEN(ITEM$ ) )
+I% := 1
+WHILE (I% <= LEN(ITEM$ ))
+POKEB((8583 + I%) ASC(MID$(ITEM$ I% 1 ) ) )
+I% := (I% + 1)
+ENDWH
+POKEW((8584 + LEN(ITEM$ )) 0 )
+A%(1) := 16229
+A%(2) := 14592
 DROP()
 DROP()
 DROP()
 DROP()
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+DROP()
+DROP()
+A1% := 47
+O1% := 11
+DROP()
+ROOM% := 1
+S%(2) := 0
+I% := 0
+DO
+I% := (I% + 1)
+O%(I%) := Q%(I%)
+UNTIL (I% = 11)
+A% := VIEW(1 "WELCOME TO ADVENTURE" )
+AGAIN::
+IF (S%(2) = 0)
+GOTO ROOM
+ENDIF
+IF (C%(2) >= 1)
+C%(2) := (C%(2) - 1)
+ENDIF
+IF (S%(3) = 1)
+GOTO ROOM
+ENDIF
+A% := VIEW(2 "IT IS DARK - BETTER GET SOME LIGHT OR YOU MAY BE IN TROUBLE." )
+IF (C%(3) >= 1)
+C%(3) := (C%(3) - 1)
+ENDIF
+GOTO COMMAND
+ROOM::
+DROP()
+F% := 0
+I% := 0
+DO
+I% := (I% + 1)
+IF (O%(I%) <> ROOM%)
+GOTO SKIP1
+ENDIF
+IF (F% = 1)
+GOTO SKIP2
+ENDIF
+A% := VIEW(2 "THERE IS ALSO:" )
+F% := 1
+SKIP2::
+A% := VIEW(2 O$(I%) )
+SKIP1::
+UNTIL (I% = 11)
+COMMAND::
+T1% := 1
+GOTO CHECK2
+CEC::
+IF (C%(1) >= 1)
+C%(1) := (C%(1) - 1)
+ENDIF
+IF (C%(4) >= 1)
+C%(4) := (C%(4) - 1)
+ENDIF
+AT(1 2 )
+PRINT(">")
+
+Y$
+CLS()
+Y% := 0
+P$(2) := "00"
+W% := 0
+DO
+W% := (W% + 1)
+GREMOVE::
+
+IF (Y% >= LEN(Y$ ))
+
+ENDIF
+IF (P$(W%) = "00")
+GOTO GREMOVE
+ENDIF
+UNTIL (W% = 2)
+IF (P$(1) <> "00")
+GOTO CHECK1
+ENDIF
+A% := VIEW(2 "PARDON?" )
+GOTO AGAIN
+CHECK1::
+Z% := 1
+GMK::
+T$ := MID$(M$(ROOM%) Z% 2 )
+IF (T$ = "00")
+GOTO SATF
+ENDIF
+IF (T$ <> P$(1))
+GOTO TNM
+ENDIF
+ROOM% := VAL(MID$(M$(ROOM%) (Z% + 2) 2 ) )
+GOTO AGAIN
+TNM::
+Z% := (Z% + 4)
+GOTO GMK
+SATF::
+T1% := 0
+MATCH% := 0
+CHECK2::
+CP% := 0
+TSN::
+CP% := (CP% + 1)
+IF (T1% < 1)
+GOTO HABS
+ENDIF
+E$ := C$(CP%)
+GOTO NSFC
+HABS::
+IF (CP% <= A1%)
+GOTO CIMK1
+ENDIF
+IF (MATCH% >= 1)
+GOTO COMMAND
+ENDIF
+A% := VIEW(2 "YOU CAN'T" )
+IF (VAL(P$(1) ) < 13)
+A% := VIEW(2 "GO THAT WAY" )
+ENDIF
+GOTO AGAIN
+CIMK1::
+DROP()
+IF (LEFT$(A$ 2 ) <> P$(1))
+GOTO TSN
+ENDIF
+Y$ := MID$(A$ 3 2 )
+IF (Y$ <> "00")
+IF (Y$ <> P$(2))
+GOTO TSN
+ENDIF
+ENDIF
+E$ := MID$(A$ 5 30 )
+NSFC::
+E% := 1
+FSEC::
+IF (MID$(E$ E% 1 ) = ".")
+GOTO ACTIONS
+ENDIF
+TYPE% := (ASC(MID$(E$ E% 1 ) ) - 65)
+N% := VAL(MID$(E$ (E% + 1) 2 ) )
+OK% := 0
+IF (TYPE% = 0)
+IF (N% = ROOM%)
+OK% := 1
+ENDIF
+ELSEIF (TYPE% = 1)
+IF (O%(N%) = ROOM%)
+OK% := 1
+ENDIF
+IF (O%(N%) < 0)
+OK% := 1
+ENDIF
+ELSEIF (TYPE% = 2)
+IF (O%(N%) <> ROOM%)
+IF (O%(N%) >= 0)
+OK% := 1
+ENDIF
+ENDIF
+ELSEIF (TYPE% = 3)
+IF (O%(N%) < 0)
+OK% := 1
+ENDIF
+ELSEIF (TYPE% = 4)
+OK% := S%(N%)
+ELSEIF (TYPE% = 5)
+IF (S%(N%) = 0)
+OK% := 1
+ENDIF
+ELSEIF (TYPE% = 6)
+IF (C%(N%) = 1)
+OK% := 1
+ENDIF
+ELSEIF (TYPE% = 7)
+IF ((INT((RND() * 100) ) + 1) <= N%)
+OK% := 1
+ENDIF
+ENDIF
+IF (OK% = 0)
+GOTO TSN
+ENDIF
+E% := (E% + 3)
+GOTO FSEC
+ACTIONS::
+MATCH% := 1
+E% := (E% + 1)
+NPA::
+IF (MID$(E$ E% 1 ) = ".")
+GOTO TSN
+ENDIF
+TYPE% := (ASC(MID$(E$ E% 1 ) ) - 65)
+IF (MID$(E$ (E% + 1) 1 ) <> ".")
+N% := VAL(MID$(E$ (E% + 1) 2 ) )
+ENDIF
+BREAK% := 0
+IF (TYPE% = 0)
+A% := VIEW(2 "YOU ARE HOLDING:" )
+F% := 1
+X% := 0
+DO
+X% := (X% + 1)
+IF (O%(X%) >= 0)
+GOTO NEXTX
+ENDIF
+A% := VIEW(2 O$(X%) )
+F% := 0
+NEXTX::
+UNTIL (X% = O1%)
+IF (F% >= 1)
+A% := VIEW(2 " NOTHING." )
+ENDIF
+BREAK% := 100
+ELSEIF (TYPE% = 1)
+IF (S%(1) < 5)
+GOTO IFON
+ENDIF
+A% := VIEW(2 "YOU CANNOT CARRY MORE." )
+BREAK% := 100
+GOTO C
+IFON::
+IF (O%(N%) = (UMIN 1))
+GOTO PYAHI
+ENDIF
+O%(N%) := (UMIN 1)
+S%(1) := (S%(1) + 1)
+GOTO C
+PYAHI::
+A% := VIEW(2 "YOU ALREADY HAVE IT." )
+BREAK% := 100
+C::
+ELSEIF (TYPE% = 2)
+IF (O%(N%) = (UMIN 1))
+GOTO ONER
+ENDIF
+A% := VIEW(2 ("YOU DON'T HAVE " + O$(N%)) )
+BREAK% := 100
+GOTO D
+ONER::
+O%(N%) := ROOM%
+S%(1) := (S%(1) - 1)
+D::
+ELSEIF (TYPE% = 3)
+DROP()
+ELSEIF (TYPE% = 4)
+S%(N%) := 1
+ELSEIF (TYPE% = 5)
+S%(N%) := 0
+ELSEIF (TYPE% = 6)
+C%(N%) := VAL(MID$(E$ (E% + 3) 2 ) )
+E% := (E% + 2)
+ELSEIF (TYPE% = 7)
+X% := O%(N%)
+O%(N%) := O%((N% + 1))
+O%((N% + 1)) := X%
+ELSEIF (TYPE% = 8)
+O%(N%) := ROOM%
+ELSEIF (TYPE% = 9)
+IF (O%(N%) < 0)
+S%(1) := (S%(1) - 1)
+ENDIF
+O%(N%) := 0
+ELSEIF (TYPE% = 10)
+ROOM% := N%
+ELSEIF (TYPE% = 11)
+A% := VIEW(2 "OKAY." )
+BREAK% := 1000
+ELSEIF (TYPE% = 12)
+BREAK% := 1000
+ELSEIF (TYPE% = 13)
+BREAK% := 1100
+ELSEIF (TYPE% = 14)
+BREAK% := 100
+ELSEIF (TYPE% = 15)
+AT(1 2 )
+PRINT("ARE YOU SURE? ")
+
+W$
+BREAK% := 1100
+IF (CHR$(ASC(W$ ) ) <> "Y")
+BREAK% := 100
+ELSE
+STOP()
+ENDIF
+ELSEIF (TYPE% = 16)
+STOP()
+ENDIF
+IF (BREAK% = 100)
+GOTO AGAIN
+ELSEIF (BREAK% = 1000)
+GOTO COMMAND
+ELSEIF (BREAK% = 1100)
+GOTO CEC
+ENDIF
+E% := (E% + 3)
+GOTO NPA
+DROP()
+DROP()
+T := M
+M := ABS(M )
+IF (M > 131)
+A$ := "80A+"
+M := (M - 131)
+ENDIF
+IF ((M >= 5) AND (M < 15))
+B$ := "82"
+ELSEIF ((M >= 15) AND (M < 25))
+B$ := "82A"
+ELSEIF ((M >= 25) AND (M < 35))
+B$ := "82B"
+ELSEIF ((M >= 35) AND (M < 50))
+B$ := "82C"
+ELSEIF ((M >= 50) AND (M < 65))
+B$ := "80D"
+ELSEIF ((M >= 65) AND (M < 95))
+B$ := "80C"
+ELSEIF ((M >= 95) AND (M < 120))
+B$ := "80B"
+ELSEIF (M > 120)
+B$ := "80A"
+ENDIF
+PRINT("Colour correction")
+<nl>
+
+PRINT("BLUE")
+< > 
+PRINT(T)
+< > 
+PRINT("Mired")
+<nl>
+
+PRINT(A$)
+PRINT(B$)
+< > 
+PRINT("Filter")
+<nl>
+
+DROP()
+DROP()
+DROP()
+DROP()
+A% := 1
+P% := 0
+B% := 10
+BL$ := REPT$(CHR$(32 ) 20 )
+CLS()
+AT(1 1 )
+PRINT("       Border")
+<nl>
+
+AT(1 2 )
+PRINT("    G.Pollington.")
+<nl>
+
+AT(1 3 )
+PRINT("Use cursor keys then")
+<nl>
+
+AT(1 4 )
+PRINT("   EXE to select.")
+<nl>
+
+DO
+CH$ := (CH$ + CHR$(P% ))
+P% := (P% + 1)
+IF (P% = 8)
+P% := 32
+ENDIF
+UNTIL (P% = 256)
+CLS()
+DO
+AT(3 4 )
+PRINT("Select Character")
+<nl>
+
+AT(9 3 )
+PRINT(CHR$(127 ))
+< > 
+PRINT(CHR$(126 ))
+<nl>
+
+IF (B% < 1)
+B% := 1
+A% := (A% - 1)
+ELSEIF (B% > 20)
+B% := 20
+A% := (A% + 1)
+ENDIF
+AT(1 2 )
+PRINT(BL$)
+<nl>
+
+AT(B% 2 )
+PRINT(CHR$(169 ))
+<nl>
+
+IF (A% < 1)
+A% := 1
+ELSEIF (A% > 213)
+A% := 213
+ENDIF
+W$ := MID$(CH$ A% 20 )
+AT(1 1 )
+PRINT(W$)
+<nl>
+
+K% := KEY()
+IF (K% = 6)
+B% := (B% + 1)
+ELSEIF (K% = 5)
+B% := (B% - 1)
+ENDIF
+UNTIL (K% = 13)
+P% := ASC(MID$(CH$ ((A% + B%) - 1) 1 ) )
+POKEB(8345 P% )
+BL$ := REPT$(CHR$(P% ) 20 )
+CLS()
+AT(1 1 )
+PRINT(BL$)
+<nl>
+
+AT(1 2 )
+PRINT(CHR$(P% ))
+PRINT(CHR$(P% ))
+PRINT("   New Border   ")
+PRINT(CHR$(P% ))
+PRINT(CHR$(P% ))
+<nl>
+
+AT(1 3 )
+PRINT(CHR$(P% ))
+PRINT(CHR$(P% ))
+PRINT("    Selected    ")
+PRINT(CHR$(P% ))
+PRINT(CHR$(P% ))
+<nl>
+
+AT(1 4 )
+PRINT(BL$)
+<nl>
+
+DROP()
+DROP()
+IF (C% < 0)
+B% := VIEW(2 "GOODBYE!" )
+PAUSE(30 )
+STOP()
+ENDIF
+C% := (C% - 1)
+B% := VIEW(1 (("BUT YOU HAVE ONLY " + GEN$(S% 4 )) + " BUSHELS IN STORE.") )
+DROP()
+DROP()
+DROP()
+A% := LEN(A$ )
+B% := LEN(B$ )
+RANDOMIZE(((8 * (B% - 1)) + A%) )
+MN% := 123
+MX% := 255
+I% := 0
+DO
+I% := (I% + 1)
+IF (I% <= A%)
+L%(I%) := ASC(MID$(A$ I% 1 ) )
+ELSE
+L%(I%) := L%((INT((RND() * A%) ) + 1))
+ENDIF
+IF (I% <= B%)
+P%(I%) := ASC(MID$(B$ I% 1 ) )
+ELSE
+P%(I%) := P%((INT((RND() * B%) ) + 1))
+ENDIF
+UNTIL (I% = 8)
+I% := 0
+DO
+I% := (I% + 1)
+EL%(I%) := (INT((RND() * (MX% - MN%)) ) + MN%)
+EP%(I%) := (INT((RND() * (MX% - MN%)) ) + MN%)
+UNTIL (I% = 8)
+I% := 0
+DO
+I% := (I% + 1)
+X% := (L%(I%) + EL%(I%))
+Y% := (P%(I%) + EP%(I%))
+WHILE (X% > MX%)
+X% := (X% - ((MX% - MN%) + 1))
+ENDWH
+WHILE (Y% > MX%)
+Y% := (Y% - ((MX% - MN%) + 1))
+ENDWH
+IF ((I% / 2.0) = (I% / 2))
+EL$ := (EL$ + CHR$(Y% ))
+EP$ := (EP$ + CHR$(X% ))
+ELSE
+EL$ := (EL$ + CHR$(X% ))
+EP$ := (EP$ + CHR$(Y% ))
+ENDIF
+UNTIL (I% = 8)
+EL$ + EP$
+DROP()
+DROP()
+M := MENU("35mm,16mm,8mm,70mm" )
+IF (M = 1)
+C := 0.0339
+ELSEIF (M = 2)
+C := 0.0254
+ELSEIF (M = 3)
+C := 0.0254
+ELSEIF (M = 4)
+C := 0.0339
+ENDIF
+CLS()
+PRINT("Focal length")
+<nl>
+
+F
+CLS()
+PRINT("f STOP")
+<nl>
+
+S
+CLS()
+H := ((F ** 2) / (S * C))
+C := INTF(H )
+HY := (C / 1000)
+CLS()
+S := (S / 1000)
+H := (H / 1000)
+PRINT("FOCUS DISTANCE")
+<nl>
+
+D
+CLS()
+AT(1 1 )
+PRINT("Hypofocal distance")
+<nl>
+
+AT(1 2 )
+PRINT(HY)
+< > 
+PRINT("m")
+<nl>
+
+IF (D > H)
+N := ((H * D) / (H + (D - S)))
+N := (N * 100)
+N := INTF(N )
+N := (N / 100)
+AT(1 3 )
+PRINT("NEAR ")
+PRINT(N)
+PRINT(" m")
+<nl>
+
+AT(1 4 )
+PRINT("INFINITY")
+<nl>
+
+ELSE
+N := ((H * D) / (H + (D - S)))
+C := ((H * D) / (H - (D - S)))
+N := (N * 100)
+N := INTF(N )
+N := (N / 100)
+C := (C * 100)
+C := INTF(C )
+C := (C / 100)
+AT(1 3 )
+PRINT("NEAR")
+< > 
+PRINT(N)
+< > 
+PRINT("m")
+<nl>
+
+AT(1 4 )
+PRINT("FAR")
+< > 
+PRINT(C)
+< > 
+PRINT("m")
+<nl>
+
+ENDIF
+DROP()
+N := MENU("DEPTH,FILM,MENU" )
+IF (N = 1)
+DROP()
+ELSEIF (N = 2)
+DROP()
+ENDIF
+STOP()
+DROP()
+DROP()
+KSTAT(1 )
+DO
+AT(1 2 )
+PRINT(("Stop" + CHR$(63 )))
+<nl>
+
+AT(1 4 )
+PRINT("Press key.")
+<nl>
+
+WHILE (KEY() = 0)
+PAUSE(2 )
+AT(1 1 )
+PRINT(CHR$(26 ))
+<nl>
+
+AT(15 2 )
+PRINT(CHR$(26 ))
+<nl>
+
+AT(1 3 )
+PRINT(CHR$(26 ))
+<nl>
+
+D% := (RND() * 6)
+IF (((D% = 0) OR (D% = 2)) OR (D% = 4))
+AT(19 2 )
+PRINT(CHR$(255 ))
+<nl>
+
+ENDIF
+IF (D% > 0)
+AT(18 1 )
+PRINT(CHR$(255 ))
+<nl>
+
+AT(20 3 )
+PRINT(CHR$(255 ))
+<nl>
+
+ENDIF
+IF (D% > 2)
+AT(20 1 )
+PRINT(CHR$(255 ))
+<nl>
+
+AT(18 3 )
+PRINT(CHR$(255 ))
+<nl>
+
+ENDIF
+IF (D% = 5)
+AT(18 2 )
+PRINT(((CHR$(255 ) + " ") + CHR$(255 )))
+<nl>
+
+ENDIF
+ENDWH
+AT(1 2 )
+PRINT("     ")
+<nl>
+
+AT(1 4 )
+PRINT((((CHR$(26 ) + "Again") + CHR$(63 )) + " Y"))
+<nl>
+
+UNTIL (GET$() <> "Y")
+DROP()
+DROP()
+PRINT("Select known data")
+<nl>
+
+A := MENUN(2 "HEIGHT,WIDTH" )
+IF (A = 1)
+PRINT("WHAT HEIGHT mt")
+PRINT(CHR$(63 ))
+<nl>
+
+H
+WI := H
+S$ := "m height"
+H := (H * 1000)
+CLS()
+PRINT("WHAT mm LENS")
+PRINT(CHR$(63 ))
+<nl>
+
+L
+LE := L
+D := ((H * L) / T)
+CLS()
+ELSEIF (A = 2)
+PRINT("WHAT WIDTH mt")
+PRINT(CHR$(63 ))
+<nl>
+
+W
+WI := W
+S$ := "m width"
+W := (W * 1000)
+CLS()
+PRINT("WHAT LENS mm")
+PRINT(CHR$(63 ))
+<nl>
+
+L
+LE := L
+CLS()
+D := ((W * L) / I)
+ENDIF
+D := INTF((D / 10) )
+D := (D / 100)
+PRINT("A")
+< > 
+PRINT(LE)
+< > 
+PRINT("mm lens")
+<nl>
+
+PRINT("gives a")
+< > 
+PRINT(WI)
+< > 
+PRINT(S$)
+<nl>
+
+PRINT("@")
+< > 
+PRINT(D)
+< > 
+PRINT("metres")
+<nl>
+
+PRINT("Distance...")
+<nl>
+
+DROP()
+DROP()
+DROP()
+DROP()
+ESCAPE()
+
+OFFSET% := 0
+1 := ADDR(MC1%() )
+MC1%(1) := 16226
+MC1%(2) := 14592
+MC1%(3) := 52736
+MC1%(4) := 63
+MC1%(5) := 24780
+MC1%(6) := 128
+MC1%(7) := 52736
+MC1%(8) := 63
+MC1%(9) := 24121
+CLS()
+PRINT(" DumpPack v0.1")
+
+BUFF$ := "  Copies a pack to PC (even if protected or corrupted). Please make sure the CommsLink is booted in and activate Psi2Win.  "
+IF (VIEW(2 BUFF$ ) = 1)
+
+ENDIF
+DO
+PACK% := (MENU((("Which" + CHR$(254 )) + "pack,B:,C:,D:") ) - 1)
+IF (PACK% = (UMIN 1))
+
+ENDIF
+UNTIL (PACK% > 0)
+DO
+KB% := (4 * (2 ** (MENU("AUTO,8K,16K,32K,64K,128K,256K" ) - 1)))
+IF (KB% = 0)
+
+ELSEIF (KB% = 4)
+DROP()
+KB% := (PEEKB((8408 + (10 * PACK%)) ) * 8)
+PRINT("Detected")
+< > 
+PRINT(NUM$(KB% 3 ))
+PRINT("k")
+<nl>
+
+PAUSE((UMIN 20) )
+ENDIF
+UNTIL ((KB% >= 8) AND (KB% <= 256))
+CLS()
+BUFF$ := ""
+PRINT("PC file name:")
+<nl>
+
+BUFF$
+IF (BUFF$ = "")
+
+ENDIF
+CLS()
+PRINT("Connecting")
+<nl>
+
+PRINT("to PC...")
+
+ESCAPE()
+DROP()
+ESCAPE()
+BUFF$ := ("OPK" + CHR$((KB% / 64) ))
+IF (KB% < 64)
+BUFF$ := ((BUFF$ + CHR$((KB% * 4) )) + CHR$(0 ))
+ELSE
+BUFF$ := ((BUFF$ + CHR$(0 )) + CHR$(0 ))
+ENDIF
+DROP()
+MC1%(2) := 50688
+BUFFLOC% := (ADDR(BUFF$ ) + 1)
+POKEB((BUFFLOC% - 1) 128 )
+POKEW((MC1ADDR% + 13) BUFFLOC% )
+SIZE := (1024.0 * KB%)
+AT(1 1 )
+PRINT((("Copying " + CHR$((65 + PACK%) )) + ":"))
+<nl>
+
+CNT := OFFSET%
+DO
+HIADDR := INTF((CNT / 65536) )
+LOADDR := (CNT - (65536 * INTF((CNT / 65536) )))
+H$ := HEX$((LOADDR + (65536 * (LOADDR > 32767))) )
+AT(12 1 )
+PRINT(HEX$(HIADDR ))
+PRINT(LEFT$("0000" (4 - LEN(H$ )) ))
+PRINT(H$)
+<nl>
+
+POKEW((MC1ADDR% + 5) (LOADDR + (65536 * (LOADDR > 32767))) )
+POKEB((MC1ADDR% + 3) HIADDR )
+DROP()
+DROP()
+AT(13 2 )
+PRINT(FIX$(INT(((CNT / SIZE) * 100) ) 0 (UMIN 3) ))
+PRINT("%")
+
+IF (CNT = OFFSET%)
+CNT := 0
+ENDIF
+CNT := (CNT + 128)
+IF (KEY() = 1)
+RAISE(206 )
+ENDIF
+UNTIL (CNT >= SIZE)
+DROP()
+CLS()
+PRINT(" DumpPack v0.1")
+<nl>
+
+PRINT(("Copy Complete..." + CHR$(16 )))
+
+DROP()
+
+ERROR::
+
+IF (ERR() = 203)
+BUFF$ := "* No CommsLink *"
+ELSE
+IF (ERR() = 206)
+BUFF$ := "** User Break **"
+ELSEIF (ERR() = 190)
+BUFF$ := "Bad PC file name"
+ELSEIF ((ERR() = 188) OR (ERR() = 186))
+BUFF$ := "*** PC Error ***"
+ELSEIF (((ERR() = 192) OR (ERR() = 193)) OR (ERR() = 199))
+BUFF$ := " Connect Error  "
+ELSEIF (ERR() < 191)
+BUFF$ := (("** ERROR " + NUM$(ERR() 3 )) + " ***")
+ELSE
+BUFF$ := ERR$(ERR() )
+ENDIF
+DROP()
+ENDIF
+PRINT(CHR$(15 ))
+PRINT(BUFF$)
+PRINT(CHR$(16 ))
+
+DROP()
+
+DROP()
+LOOK::
+Y% := (Y% + 1)
+IF (Y% > LEN(Y$ ))
+END% := 1
+ELSE
+END% := 0
+ENDIF
+IF (END% = 1)
+
+ENDIF
+IF (MID$(Y$ Y% 1 ) = " ")
+GOTO LOOK
+DROP()
+Y% := (Y% + 1)
+IF (Y% > LEN(Y$ ))
+END% := 1
+ELSE
+END% := 0
+ENDIF
+IF (END% >= 1)
+
+ENDIF
+IF (MID$(Y$ Y% 1 ) = " ")
+END% := 1
+ELSE
+END% := 0
+DROP()
+DROP()
+PRINT("What ASA is the ")
+<nl>
+
+PRINT("filmstock?")
+<nl>
+
+A
+CLS()
+TIME::
+PRINT("CAMERA SPEED;")
+<nl>
+
+W := MENUN(2 "Frames-per-second,Exposure,Seconds-per-frame," )
+IF (W = 2)
+PRINT("Exposure in seconds?")
+<nl>
+
+T
+WORD$ := "sec"
+Z := T
+ELSEIF (W = 1)
+PRINT("Frames per second?")
+<nl>
+
+P
+WORD$ := "fps"
+Z := P
+CLS()
+PRINT("Shutter angle in")
+<nl>
+
+PRINT("degrees?")
+<nl>
+
+B
+T := (B / (360 * P))
+CLS()
+ELSEIF (W = 3)
+PRINT("Seconds per frame?")
+<nl>
+
+P
+Z := P
+WORD$ := "spf"
+CLS()
+PRINT("Shutter angle in")
+<nl>
+
+PRINT("degrees")
+<nl>
+
+B
+T := ((P * B) / 360)
+CLS()
+ENDIF
+CLS()
+IF ((T >= 1) AND (T < 10))
+T := (T / 1.4)
+ELSEIF ((T >= 10) AND (T < 30))
+T := (T / 2.8)
+ELSEIF (T >= 30)
+T := (T / 4)
+ENDIF
+S := SQR(2 )
+F := ((25 * (S ** 2)) / (A * T))
+IF (F > 5)
+W := 0
+ELSEIF (F <= 5)
+W := 2
+ENDIF
+A$ := "  T1.4 "
+B$ := "  T2 "
+C$ := "  T2.8 "
+D$ := "  T4 "
+E$ := "  T5.6 "
+F$ := FIX$(F W 8 )
+G$ := FIX$((F * 2) W 8 )
+H$ := FIX$((F * 4) W 8 )
+I$ := FIX$((F * 8) W 8 )
+J$ := FIX$((F * 16) W 8 )
+A$ := (((((((((A$ + F$) + B$) + G$) + C$) + H$) + D$) + I$) + E$) + J$)
+PRINT("For exposure...")
+<nl>
+
+PRINT(A)
+< > 
+PRINT("ASA")
+< > 
+PRINT(Z)
+< > 
+PRINT(WORD$)
+< > 
+PRINT(B)
+< > 
+PRINT(CHR$(223 ))
+<nl>
+
+AT(1 3 )
+PRINT("Footcandles;")
+<nl>
+
+DROP()
+DROP()
+C := MENU("SHUT,EXPO,FILM,MENU," )
+IF (C = 1)
+GOTO TIME
+ELSEIF (C = 2)
+DROP()
+ELSEIF (C = 3)
+DROP()
+ENDIF
+DROP()
+DROP()
+CLS()
+IF (UNOT EXIST("A:printer" ))
+DROP()
+ELSE
+"A:printer"
+ENDIF
+FIRST()
+Z% := A.P%
+CLOSE()
+IF (Z% = 1)
+DROP()
+ELSEIF (Z% = 2)
+DROP()
+ENDIF
+CLS()
+N := 0
+N := MENU("STOP,EXPO,DEPTH,FOCUS,LENS,MIRED,LIGHT,HMI,LENGTH,TIME,LAPSE,SUN,PAN,MACRO,HORIZON,PRINTER" )
+IF (N = 1)
+DROP()
+ELSEIF (N = 2)
+DROP()
+ELSEIF (N = 3)
+DROP()
+ELSEIF (N = 4)
+DROP()
+ELSEIF (N = 5)
+DROP()
+ELSEIF (N = 6)
+DROP()
+ELSEIF (N = 7)
+DROP()
+ELSEIF (N = 8)
+DROP()
+ELSEIF (N = 9)
+DROP()
+ELSEIF (N = 10)
+DROP()
+ELSEIF (N = 11)
+DROP()
+ELSEIF (N = 12)
+DROP()
+ELSEIF (N = 13)
+DROP()
+ELSEIF (N = 14)
+DROP()
+ELSEIF (N = 15)
+DROP()
+ELSEIF (N = 16)
+DROP()
+ENDIF
+DROP()
+DROP()
+DROP()
+FLY$ := "B:FLYDATA"
+FS$ := ""
+IF EXIST(FLY$ )
+FLY$
+ELSE
+FLY$
+ENDIF
+STATE% := 1
+WHILE (STATE% <> 0)
+IF (STATE% = 1)
+OPT% := MENU("COUNT,FIND,LIST,NEW" )
+IF (OPT% = 0)
+STATE% := 0
+ELSEIF (OPT% = 1)
+STATE% := 6
+ELSEIF (OPT% = 2)
+STATE% := 2
+ELSEIF (OPT% = 3)
+STATE% := 9
+ELSEIF (OPT% = 4)
+STATE% := 7
+ELSE
+DROP()
+ENDIF
+ELSEIF (STATE% = 2)
+CLS()
+PRINT("Find flight")
+<nl>
+
+PRINT(">")
+
+KSTAT(1 )
+EDIT(FS$ )
+IF (ERR() = 206)
+STATE% := 1
+ELSE
+FIRST()
+IF (FIND(FS$ ) = 0)
+STATE% := 3
+ELSE
+STATE% := 4
+ENDIF
+ENDIF
+ELSEIF (STATE% = 3)
+CLS()
+PRINT("Not found")
+
+IF (GET() = 1)
+STATE% := 1
+ELSE
+STATE% := 2
+ENDIF
+ELSEIF (STATE% = 4)
+DROP()
+OPT% := FLYVIEW%
+IF (OPT% = 1)
+STATE% := 2
+ELSEIF (OPT% = 2)
+STATE% := 5
+ELSEIF (OPT% = 3)
+BACK()
+ELSEIF (OPT% = 8)
+STATE% := 8
+ELSEIF ((OPT% = 4) OR (OPT% = 13))
+NEXT()
+IF EOF()
+CLS()
+PRINT("****************")
+
+PRINT("**END OF PACK***")
+
+DROP()
+STATE% := 2
+ELSEIF (OPT% = 13)
+IF (FIND(FS$ ) = 0)
+CLS()
+PRINT("****************")
+
+PRINT("**END OF PACK***")
+
+DROP()
+STATE% := 2
+ENDIF
+ENDIF
+ENDIF
+ELSEIF (STATE% = 5)
+IF (FLYEDIT% = 1)
+DROP()
+UPDATE()
+DROP()
+DROP()
+ENDIF
+STATE% := 2
+ELSEIF (STATE% = 6)
+CLS()
+PRINT(COUNT())
+< > 
+PRINT("flights")
+<nl>
+
+DROP()
+STATE% := 1
+ELSEIF (STATE% = 7)
+DAT$ := ""
+AIR$ := ""
+FNO$ := ""
+OUT$ := ""
+DEP$ := ""
+INP$ := ""
+ARR$ := ""
+IF (FLYEDIT% = 1)
+DROP()
+APPEND()
+DROP()
+DROP()
+ENDIF
+STATE% := 1
+ELSEIF (STATE% = 8)
+CLS()
+PRINT("Delete flight")
+<nl>
+
+PRINT("record Y/N")
+
+KSTAT(1 )
+DO
+KY% := GET()
+UNTIL ((KY% = 78) OR (KY% = 89))
+IF (KY% = 78)
+STATE% := 4
+ELSE
+ERASE()
+CLS()
+PRINT("Flight record")
+<nl>
+
+PRINT("deleted")
+<nl>
+
+DROP()
+STATE% := 2
+ENDIF
+ELSEIF (STATE% = 9)
+L<nl>
+IF (ERR() = 230)
+CLS()
+PRINT("No comms link")
+
+DROP()
+STATE% := 1
+ELSE
+LPRINT("NUM     DATE     FLIGHT#   DEPARTING   ARRIVING")
+L<nl>
+
+LPRINT("---   --------   -------   ---------   ---------")
+L<nl>
+
+KY% := 0
+FIRST()
+WHILE (UNOT EOF())
+KY% := (KY% + 1)
+LPRINT(FIX$(KY% 0 (UMIN 3) ))
+L< > 
+LPRINT(" ")
+L< > 
+
+LPRINT(MID$(A.FDAT$ 1 2 ))
+LPRINT("/")
+LPRINT(MID$(A.FDAT$ 3 2 ))
+LPRINT("/")
+LPRINT(MID$(A.FDAT$ 5 6 ))
+L< > 
+LPRINT(" ")
+L< > 
+
+LPRINT(A.FAIR$)
+L< > 
+LPRINT(A.FFNO$)
+L< > 
+LPRINT(" ")
+L< > 
+
+LPRINT(A.FOUT$)
+L< > 
+LPRINT(LEFT$(A.FDEP$ 2 ))
+LPRINT(":")
+LPRINT(RIGHT$(A.FDEP$ 2 ))
+L< > 
+LPRINT(" ")
+L< > 
+
+LPRINT(A.FINP$)
+L< > 
+LPRINT(LEFT$(A.FARR$ 2 ))
+LPRINT(":")
+LPRINT(RIGHT$(A.FARR$ 2 ))
+L<nl>
+
+NEXT()
+ENDWH
+ENDIF
+STATE% := 1
+ELSEIF (STATE% = 99)
+CLS()
+PRINT("Not available")
+
+DROP()
+STATE% := 1
+ELSE
+DROP()
+ENDIF
+ENDWH
+CLOSE()
+DROP()
+A.FDAT$ := DAT$
+A.FAIR$ := AIR$
+A.FFNO$ := FNO$
+A.FOUT$ := OUT$
+A.FDEP$ := DEP$
+A.FINP$ := INP$
+A.FARR$ := ARR$
+DROP()
+DROP()
+RETN% := 0
+STATE% := 1
+WHILE (STATE% <> 0)
+IF (STATE% = 1)
+CLS()
+PRINT("Departure date")
+<nl>
+
+PRINT(">")
+
+KSTAT(3 )
+EDIT(DAT$ )
+IF (ERR() = 206)
+STATE% := 0
+ELSEIF (LEN(DAT$ ) = 4)
+DAT$ := (DAT$ + "--")
+STATE% := 2
+ELSEIF (LEN(DAT$ ) = 6)
+STATE% := 2
+ENDIF
+ELSEIF (STATE% = 2)
+CLS()
+PRINT("Airline code")
+<nl>
+
+PRINT(">")
+
+KSTAT(1 )
+EDIT(AIR$ )
+IF (ERR() = 206)
+STATE% := 0
+ELSEIF (LEN(AIR$ ) = 0)
+AIR$ := "--"
+STATE% := 3
+ELSEIF (LEN(AIR$ ) = 2)
+STATE% := 3
+ENDIF
+ELSEIF (STATE% = 3)
+CLS()
+PRINT("Flight number")
+<nl>
+
+PRINT(">")
+
+KSTAT(3 )
+EDIT(FNO$ )
+IF (ERR() = 206)
+STATE% := 0
+ELSEIF (LEN(FNO$ ) = 0)
+FNO$ := "----"
+STATE% := 4
+ELSE
+FNO$ := LEFT$((FNO$ + "   ") 4 )
+STATE% := 4
+ENDIF
+ELSEIF (STATE% = 4)
+CLS()
+PRINT("Departing city")
+<nl>
+
+PRINT(">")
+
+KSTAT(1 )
+EDIT(OUT$ )
+IF (ERR() = 206)
+STATE% := 0
+ELSEIF (LEN(OUT$ ) = 3)
+STATE% := 5
+ENDIF
+ELSEIF (STATE% = 5)
+CLS()
+PRINT("Departure time")
+<nl>
+
+PRINT(">")
+
+KSTAT(3 )
+EDIT(DEP$ )
+IF (ERR() = 206)
+STATE% := 0
+ELSEIF (LEN(DEP$ ) = 0)
+DEP$ := "----"
+STATE% := 6
+ELSEIF (LEN(DEP$ ) = 4)
+STATE% := 6
+ENDIF
+ELSEIF (STATE% = 6)
+CLS()
+PRINT("Arriving city")
+<nl>
+
+PRINT(">")
+
+KSTAT(1 )
+EDIT(INP$ )
+IF (ERR() = 206)
+STATE% := 0
+ELSEIF (LEN(INP$ ) = 3)
+STATE% := 7
+ENDIF
+ELSEIF (STATE% = 7)
+CLS()
+PRINT("Arrival time")
+<nl>
+
+PRINT(">")
+
+KSTAT(3 )
+EDIT(ARR$ )
+IF (ERR() = 206)
+STATE% := 0
+ELSEIF (LEN(ARR$ ) = 0)
+ARR$ := "----"
+STATE% := 8
+ELSEIF (LEN(ARR$ ) = 4)
+STATE% := 8
+ENDIF
+ELSEIF (STATE% = 8)
+RETN% := 1
+STATE% := 0
+ENDIF
+ENDWH
+RETN%
+DROP()
+DAT$ := A.FDAT$
+AIR$ := A.FAIR$
+FNO$ := A.FFNO$
+OUT$ := A.FOUT$
+DEP$ := A.FDEP$
+INP$ := A.FINP$
+ARR$ := A.FARR$
+LIN$(1) := ((((DAT$ + "  ") + OUT$) + " ") + DEP$)
+LIN$(2) := ((((((AIR$ + " ") + FNO$) + " ") + INP$) + " ") + ARR$)
+DROP()
+DROP()
+CLS()
+AT(1 1 )
+PRINT(LIN$(1))
+
+AT(1 2 )
+PRINT(LIN$(2))
+
+DO
+KY% := GET()
+UNTIL ((((((KY% = 1) OR (KY% = 2)) OR (KY% = 3)) OR (KY% = 4)) OR (KY% = 8)) OR (KY% = 13))
+KY%
+DROP()
+DROP()
+CLS()
+PRINT("Choose...")
+<nl>
+
+HY := MENUN(2 "Imperial,Metric" )
+CLS()
+IF (HY = 2)
+DROP()
+ENDIF
+F(1) := 1
+F(2) := 1.2
+F(3) := 1.3
+F(4) := 1.4
+F(5) := 1.6
+F(6) := 1.8
+F(7) := 2
+F(8) := 2.2
+F(9) := 2.5
+F(10) := 2.8
+F(11) := 3.2
+F(12) := 3.5
+F(13) := 4
+F(14) := 4.5
+F(15) := 5
+F(16) := 5.6
+F(17) := 6
+F(18) := 7
+F(19) := 8
+F(20) := 9
+F(21) := 10
+F(22) := 11
+F(23) := 12
+F(24) := 14
+F(25) := 16
+F(26) := 18
+F(27) := 20
+F(28) := 22
+F(29) := 25
+F(30) := 28
+F(31) := 32
+F(32) := 36
+F(33) := 40
+F(34) := 44
+F(35) := 50
+F(36) := 56
+F(37) := 64
+F(38) := 1
+PRINT("Film Format cc")
+<nl>
+
+M := MENUN(2 "35mm,16mm,8mm,70mm" )
+IF (M = 1)
+C := 0.0359
+ELSEIF (M = 2)
+C := 0.0127
+ELSEIF (M = 3)
+C := 0.0127
+ELSEIF (M = 4)
+C := 0.0339
+ENDIF
+CLS()
+PRINT("Focal Length of the")
+<nl>
+
+PRINT("lens in mm?")
+<nl>
+
+MM
+CLS()
+PRINT("NEAR DISTANCE?")
+<nl>
+
+PRINT("Feet....?")
+<nl>
+
+FEET
+AT(1 2 )
+PRINT("inches...?")
+<nl>
+
+INCH
+NE := FOOT(INCH, )(FEET)
+CLS()
+PRINT("FAR DISTANCE?")
+<nl>
+
+PRINT("Feet....?")
+<nl>
+
+FEET
+AT(1 2 )
+PRINT("Inches...?")
+<nl>
+
+INCH
+FA := FOOT(INCH, )(FEET)
+CLS()
+DIS := (((2 * NE) * FA) / (NE + FA))
+NU := 0
+DO
+NU := (NU + 1)
+HY := (((MM ** 2) / (F(NU) * C)) / 1000)
+NEAR := ((HY * DIS) / (HY + (DIS - (F(NU) / 1000))))
+FAR := ((HY * DIS) / (HY - (DIS - (F(NU) / 1000))))
+CLS()
+AT(9 2 )
+PRINT("f")
+PRINT(F(NU))
+<nl>
+
+IF (DIS > HY)
+FAR := (FA + 1)
+ENDIF
+UNTIL (((NEAR < NE) AND (FAR > FA)) OR (NU = 38))
+IF (NU < 38)
+CLS()
+S$ := METRE$(DIS)
+AT(1 1 )
+PRINT("At ")
+PRINT(S$)
+<nl>
+
+PRINT(MM)
+PRINT("mm @ f")
+PRINT(F(NU))
+<nl>
+
+S$ := METRE$(NEAR)
+PRINT("Near ")
+PRINT(S$)
+<nl>
+
+IF (DIS < HY)
+S$ := METRE$(FAR)
+PRINT("Far ")
+PRINT(S$)
+<nl>
+
+ELSE
+PRINT("...to Infinity!")
+<nl>
+
+ENDIF
+ELSEIF (NU = 38)
+CLS()
+PRINT("  ###############")
+<nl>
+
+PRINT("  NOT POSSIBLE!!!")
+<nl>
+
+PRINT("  ###############")
+<nl>
+
+ENDIF
+DROP()
+CLS()
+PRINT("Choose....")
+<nl>
+
+NU := MENUN(2 "AGAIN,FILM,MENU" )
+IF (NU = 1)
+DROP()
+ELSEIF (NU = 2)
+DROP()
+ENDIF
+DROP()
+DROP()
+F(1) := 1
+F(2) := 1.2
+F(3) := 1.3
+F(4) := 1.4
+F(5) := 1.6
+F(6) := 1.8
+F(7) := 2
+F(8) := 2.2
+F(9) := 2.5
+F(10) := 2.8
+F(11) := 3.2
+F(12) := 3.5
+F(13) := 4
+F(14) := 4.5
+F(15) := 5
+F(16) := 5.6
+F(17) := 6
+F(18) := 7
+F(19) := 8
+F(20) := 9
+F(21) := 10
+F(22) := 11
+F(23) := 12
+F(24) := 14
+F(25) := 16
+F(26) := 18
+F(27) := 20
+F(28) := 22
+F(29) := 25
+F(30) := 28
+F(31) := 32
+F(32) := 36
+F(33) := 40
+F(34) := 44
+F(35) := 50
+F(36) := 56
+F(37) := 64
+F(38) := 1
+M := MENU("35mm,16mm,8mm,70mm" )
+IF (M = 1)
+C := 0.0359
+ELSEIF (M = 2)
+C := 0.0127
+ELSEIF (M = 3)
+C := 0.0127
+ELSEIF (M = 4)
+C := 0.0339
+ENDIF
+CLS()
+PRINT("Focal Length of the")
+<nl>
+
+PRINT("lens in mm?")
+<nl>
+
+MM
+CLS()
+PRINT("Near distance in")
+<nl>
+
+PRINT("metres?")
+<nl>
+
+NE
+CLS()
+PRINT("Far distance in")
+<nl>
+
+PRINT("metres?")
+<nl>
+
+FA
+CLS()
+DIS := (((2 * NE) * FA) / (NE + FA))
+NU := 0
+DO
+NU := (NU + 1)
+HY := (((MM ** 2) / (F(NU) * C)) / 1000)
+NEAR := ((HY * DIS) / (HY + (DIS - (F(NU) / 1000))))
+FAR := ((HY * DIS) / (HY - (DIS - (F(NU) / 1000))))
+CLS()
+AT(9 2 )
+PRINT("f")
+PRINT(F(NU))
+<nl>
+
+IF (DIS > HY)
+FAR := (FA + 1)
+ENDIF
+UNTIL (((NEAR < NE) AND (FAR > FA)) OR (NU = 38))
+IF (NU < 38)
+CLS()
+DIS := (INTF((DIS * 100) ) / 100)
+NEAR := (INTF((NEAR * 100) ) / 100)
+FAR := (INTF((FAR * 100) ) / 100)
+AT(1 1 )
+PRINT(MM)
+< > 
+PRINT("mm @")
+< > 
+PRINT(DIS)
+< > 
+PRINT("m")
+<nl>
+
+PRINT("Stop of f")
+PRINT(F(NU))
+<nl>
+
+PRINT("Near ")
+PRINT(NEAR)
+< > 
+PRINT("m")
+<nl>
+
+IF (DIS < HY)
+PRINT("Far ")
+PRINT(FAR)
+< > 
+PRINT("m")
+<nl>
+
+ELSE
+PRINT("...to Infinity!")
+<nl>
+
+ENDIF
+ELSEIF (NU = 38)
+CLS()
+PRINT("  ###############")
+<nl>
+
+PRINT("  NOT POSSIBLE!!!")
+<nl>
+
+PRINT("  ###############")
+<nl>
+
+ENDIF
+DROP()
+CLS()
+PRINT("Choose....")
+<nl>
+
+NU := MENUN(2 "AGAIN,FILM,MENU" )
+IF (NU = 1)
+DROP()
+ELSEIF (NU = 2)
+DROP()
+ENDIF
+DROP()
+DROP()
+PRINT("Select known data")
+<nl>
+
+A := MENUN(2 "HEIGHT,WIDTH" )
+IF (A = 1)
+PRINT("WHAT HEIGHT?")
+<nl>
+
+AT(1 2 )
+PRINT("Feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("Inches...")
+<nl>
+
+INS
+H := FOOT(INS, )(FT)
+WI := H
+S$ := "height"
+H := (H * 1000)
+CLS()
+PRINT("WHAT mm LENS")
+PRINT(CHR$(63 ))
+<nl>
+
+L
+LE := L
+D := ((H * L) / T)
+CLS()
+ELSEIF (A = 2)
+PRINT("Width of subject?")
+<nl>
+
+AT(1 2 )
+PRINT("Feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("Inches...")
+<nl>
+
+INS
+W := FOOT(INS, )(FT)
+WI := W
+S$ := "width"
+W := (W * 1000)
+CLS()
+PRINT("WHAT LENS mm?")
+<nl>
+
+L
+LE := L
+CLS()
+D := ((W * L) / I)
+ENDIF
+D := INTF((D / 10) )
+D := (D / 100)
+A$ := metre$(WI)
+PRINT("A")
+< > 
+PRINT(LE)
+< > 
+PRINT("mm lens")
+<nl>
+
+PRINT(A$)
+< > 
+PRINT(S$)
+<nl>
+
+A$ := metre$(D)
+PRINT("@")
+< > 
+PRINT(A$)
+<nl>
+
+PRINT("Distance...")
+<nl>
+
+DROP()
+DROP()
+DROP()
+PRINT("Select sought data")
+<nl>
+
+N := MENUN(2 "LENS,DISTANCE,HEIGHT-WIDTH," )
+IF (N = 1)
+PRINT("Select known factor")
+<nl>
+
+A := MENUN(2 "HEIGHT,WIDTH" )
+CLS()
+IF (A = 2)
+PRINT("What is the width?")
+<nl>
+
+AT(1 2 )
+PRINT("Feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("inches...")
+<nl>
+
+INS
+W := FOOT(INS, )(FT)
+S$ := "width"
+WI := W
+W := (W * 1000)
+CLS()
+PRINT("DISTANCE?")
+<nl>
+
+AT(1 2 )
+PRINT("feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("inches...")
+<nl>
+
+INS
+D := FOOT(INS, )(FT)
+DI := D
+D := (D * 1000)
+L := ((D * I) / W)
+ELSEIF (A = 1)
+PRINT("Height of subject?")
+<nl>
+
+AT(1 2 )
+PRINT("Feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("Inches...")
+<nl>
+
+INS
+H := FOOT(INS, )(FT)
+WI := H
+S$ := "height"
+H := (H * 1000)
+CLS()
+PRINT("Distance to subject?")
+<nl>
+
+AT(1 2 )
+PRINT("Feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("Inches...")
+<nl>
+
+INS
+D := FOOT(INS, )(FT)
+DI := D
+D := (D * 1000)
+L := ((D * T) / H)
+ENDIF
+CLS()
+L := INTF((L + 0.5) )
+A$ := metre$(DI)
+PRINT("@")
+< > 
+PRINT(A$)
+< > 
+PRINT("dist")
+<nl>
+
+A$ := metre$(WI)
+PRINT("&")
+< > 
+PRINT(A$)
+< > 
+PRINT(S$)
+< > 
+
+PRINT("needs a.....")
+<nl>
+
+PRINT(L)
+< > 
+PRINT("mm lens")
+<nl>
+
+DROP()
+ELSEIF (N = 2)
+DROP()
+ELSEIF (N = 3)
+DROP()
+ENDIF
+CLS()
+PRINT("Choose...")
+<nl>
+
+N := MENUN(2 "LENS,FILM,MENU" )
+IF (N = 1)
+DROP()
+ELSEIF (N = 2)
+DROP()
+ELSE
+STOP()
+ENDIF
+DROP()
+((FEET * 12) + INCH) * 0.0254
+DROP()
+DROP()
+PRINT("DISTANCE?")
+<nl>
+
+AT(1 2 )
+PRINT("Feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("Inches...")
+<nl>
+
+INS
+D := FOOT(INS, )(FT)
+D := (D * 1000)
+CLS()
+PRINT("WHAT LENS in mm")
+PRINT(CHR$(63 ))
+<nl>
+
+L
+CLS()
+W := ((D * I) / L)
+H := ((D * T) / L)
+W := INTF((W / 10) )
+W := (W / 100)
+H := INTF((H / 10) )
+H := (H / 100)
+D := (D / 1000)
+A$ := metre$(D)
+PRINT("With")
+< > 
+PRINT(L)
+< > 
+PRINT("mm lens")
+<nl>
+
+PRINT("@")
+< > 
+PRINT(A$)
+<nl>
+
+A$ := metre$(H)
+PRINT("HEIGHT")
+< > 
+PRINT(A$)
+<nl>
+
+A$ := metre$(W)
+PRINT("WIDTH")
+< > 
+PRINT(A$)
+<nl>
+
+DROP()
+DROP()
+DROP()
+PRINT("Hertz ?")
+<nl>
+
+HZ
+CLS()
+PRINT("Shutter Angle ?")
+<nl>
+
+S
+CLS()
+FPS := (HZ / (360 / S))
+PRINT("Camera Speed")
+<nl>
+
+PRINT(FPS)
+< > 
+PRINT("fps")
+<nl>
+
+DROP()
+N := MENU("FPS,HMI,FILM,MENU" )
+IF (N = 1)
+DROP()
+ELSEIF (N = 2)
+DROP()
+ELSEIF (N = 3)
+DROP()
+ENDIF
+DROP()
+C% := (INT((5 * ABS(RND() )) ) + 1)
+DROP()
+DROP()
+DROP()
+P% := 95
+S% := 2800
+H% := 3000
+E := 200
+Y% := 3
+A% := 1000
+I% := 5
+Q% := 1
+START::
+D% := 0
+START1::
+B% := VIEW(1 (("HAMURABI: LAST YEAR " + GEN$(D% 4 )) + " STARVED,") )
+B% := VIEW(1 (GEN$(I% 4 ) + " ARRIVED.") )
+P% := (P% + I%)
+IF (Q% = 0)
+P% := INT((P% / 2) )
+B% := VIEW(1 "**PLAGUE**" )
+ENDIF
+B% := VIEW(1 ("POPULATION IS " + GEN$(P% 4 )) )
+B% := VIEW(1 (("THE CITY OWNS " + GEN$(A% 4 )) + " ACRES.") )
+B% := VIEW(1 (("WE HARVESTED " + GEN$(Y% 4 )) + " BUSHELS PER ACRE.") )
+C% := 1
+B% := VIEW(1 (("RATS ATE " + GEN$(E 4 )) + " BUSHELS.") )
+B% := VIEW(1 (("YOU NOW HAVE " + GEN$(S% 4 )) + " BUSHELS IN STORE.") )
+DROP()
+Y% := (C% + 17)
+B% := VIEW(1 (("HAMURABI: LAND IS TRADING AT " + GEN$(Y% 4 )) + " BUSHELS PER ACRE.") )
+C% := 1
+BUY::
+B% := VIEW(1 "HOW MANY ACRES OF LAND DO YOU WISH TO BUY?" )
+AT(1 2 )
+PRINT(">")
+
+Q%
+IF (Q% < 0)
+GOTO GBYE
+ELSEIF (Q% = 0)
+GOTO SELL
+ENDIF
+B% := ((Y% * Q%) - S%)
+IF (B% < 0)
+GOTO SOLD
+ELSEIF (B% = 0)
+GOTO S1
+ENDIF
+DROP()
+GOTO BUY
+S2::
+DROP()
+GOTO BUY
+S1::
+A% := (A% + Q%)
+S% := (S% - (Y% * Q%))
+C% := 0
+GOTO NOGRAIN
+SELL::
+B% := VIEW(1 "TO SELL?" )
+AT(1 2 )
+PRINT(">")
+
+Q%
+IF (Q% < 0)
+GOTO GBYE
+ELSEIF (Q% = 0)
+GOTO SOLD
+ENDIF
+Q% := (UMIN Q%)
+IF ((A% + Q%) < 0)
+GOTO S2
+ENDIF
+SOLD::
+A% := (A% + Q%)
+S% := (S% - (Y% * Q%))
+C% := 0
+SOLD1::
+B% := VIEW(1 "BUSHELS TO USE AS FOOD?" )
+AT(1 2 )
+PRINT(">")
+
+Q%
+IF (Q% < 0)
+GOTO GBYE
+ENDIF
+IF ((Q% - S%) < 0)
+GOTO S3
+ELSEIF ((Q% - S%) = 0)
+GOTO S4
+ENDIF
+DROP()
+GOTO SOLD1
+S3::
+S% := (S% - Q%)
+C% := 1
+S7::
+B% := VIEW(1 "HOW MANY ACRES DO YOU WISH TO PLANT WITH SEED?" )
+AT(1 2 )
+PRINT(">")
+
+D%
+IF (D% < 0)
+GOTO GBYE
+ENDIF
+IF ((A% - D%) < 0)
+GOTO S5
+ENDIF
+IF (((INT((D% / 2) ) - S%) - 1) < 0)
+GOTO S6
+ENDIF
+DROP()
+GOTO S7
+S5::
+DROP()
+GOTO S7
+S6::
+IF (((D% - (10 * P%)) - 1) < 0)
+GOTO S8
+ENDIF
+IF (C% < 0)
+GOTO GBYE
+ENDIF
+C% := (C% - 1)
+B% := VIEW(1 (("BUT YOU HAVE ONLY " + GEN$(P% 4 )) + " PEOPLE.") )
+GOTO S7
+S4::
+S% := (S% - Q%)
+C% := 1
+NOGRAIN::
+B% := VIEW(1 "YOU HAVE NO GRAIN LEFT AS SEED!" )
+D% := 0
+S8::
+S% := (S% - INT((D% / 2) ))
+DROP()
+Y% := C%
+H% := (D% * Y%)
+DROP()
+E := 0
+IF ((INT((C% / 2) ) - (C% / 2)) < 0)
+GOTO S9
+ENDIF
+E := (S% / C%)
+S9::
+S% := ((S% - E) + H%)
+DROP()
+I% := INT(((((C% * ((2 * A%) + S%)) / P%) / 10) + 1) )
+C% := INT((Q% / 20) )
+Q% := INT((10 * ABS(RND() )) )
+IF ((P% - C%) < 0)
+GOTO START
+ENDIF
+D% := (P% - C%)
+P% := C%
+GOTO START1
+GBYE::
+B% := VIEW(2 "GOODBYE!" )
+PAUSE(30 )
+DROP()
+DROP()
+PRINT("Camera Speed")
+< > 
+PRINT(CHR$(63 ))
+<nl>
+
+C
+CLS()
+PRINT("Shutter Angle")
+< > 
+PRINT(CHR$(63 ))
+<nl>
+
+A
+H := ((C * 360) / A)
+H := INTF((H * 10) )
+H := (H / 10)
+CLS()
+PRINT(H)
+< > 
+PRINT("HERTZ")
+<nl>
+
+PRINT("Electrical Freq.")
+<nl>
+
+DROP()
+C := MENU("HERTZ,HMI,FILM,MENU" )
+IF (C = 1)
+DROP()
+ELSEIF (C = 2)
+DROP()
+ELSEIF (C = 3)
+DROP()
+ENDIF
+DROP()
+DROP()
+N := MENU("SHUTTER,FPS,HERTZ" )
+IF (N = 1)
+DROP()
+ELSEIF (N = 2)
+DROP()
+ELSEIF (N = 3)
+DROP()
+ENDIF
+DROP()
+DROP()
+PRINT("At what height are")
+<nl>
+
+PRINT("you? (In metres)")
+<nl>
+
+H
+D := SQR((H * 12.5) )
+D := (D * 10)
+D := INT(D )
+D := (D / 10)
+CLS()
+PRINT("At a height of ")
+PRINT(H)
+<nl>
+
+PRINT("you can see ")
+PRINT(D)
+<nl>
+
+PRINT("Kilometres")
+<nl>
+
+DROP()
+DROP()
+DROP()
+PRINT("Screen time in ")
+<nl>
+
+PRINT("seconds?")
+<nl>
+
+S
+CLS()
+PRINT("Projection Speed?")
+<nl>
+
+AT(1 3 )
+NU := MENUN(2 "24FPS,25FPS" )
+IF (NU = 1)
+S := (S * 24)
+ELSE
+S := (S * 25)
+ENDIF
+CLS()
+PRINT("Select filming time")
+<nl>
+
+PRINT("in...")
+<nl>
+
+M := MENUN(2 "MINUTES,HOURS,DAYS" )
+IF (M = 1)
+PRINT("Length of the event")
+<nl>
+
+PRINT("in minutes?")
+<nl>
+
+T
+T := (T * 60)
+CLS()
+ELSEIF (M = 2)
+PRINT("Length of the event")
+<nl>
+
+PRINT("in hours?")
+<nl>
+
+T
+T := (T * 3600)
+CLS()
+ELSEIF (M = 3)
+PRINT("Length of the event")
+<nl>
+
+PRINT("in days?")
+<nl>
+
+T
+T := (T * 86400)
+CLS()
+ENDIF
+P := (T / S)
+IF ((P < 120) AND (P > 1))
+P := INTF(P )
+PRINT("1 Fr /")
+< > 
+PRINT(P)
+< > 
+PRINT(" SEC")
+<nl>
+
+ELSEIF (P > 120)
+P := INTF((P / 60) )
+PRINT("1 Fr /")
+< > 
+PRINT(P)
+< > 
+PRINT("MIN")
+<nl>
+
+ELSEIF (P < 1)
+P := (INT((10 / P) ) / 10)
+PRINT(P)
+< > 
+PRINT("FPS")
+<nl>
+
+ENDIF
+DROP()
+P := MENU("LAPSE,FILM,MENU" )
+IF (P = 1)
+DROP()
+ELSEIF (P = 2)
+DROP()
+ENDIF
+DROP()
+DROP()
+A := MENU("16mm,35mm,8mm,70mm" )
+IF (A = 1)
+F := 0.0076208333
+Z := 40
+ELSEIF (A = 2)
+F := 0.019
+Z := 16
+ELSEIF (A = 3)
+F := 0.00423400463
+Z := 72
+ELSEIF (A = 4)
+F := 0.02375
+Z := 12.8
+ENDIF
+PRINT("CAMERA SPEED")
+< > 
+PRINT(CHR$(63 ))
+<nl>
+
+A
+CLS()
+PRINT("TIME-hours")
+< > 
+PRINT(CHR$(63 ))
+<nl>
+
+T
+T := (T * 60)
+CLS()
+PRINT("TIME-minutes")
+< > 
+PRINT(CHR$(63 ))
+<nl>
+
+M
+T := ((T + M) * 60)
+CLS()
+PRINT("TIME-seconds")
+< > 
+PRINT(CHR$(63 ))
+<nl>
+
+S
+T := (T + S)
+CLS()
+M := ((T * F) * A)
+F := M
+S := M
+M := INTF(M )
+F := (F - M)
+F := (F * 100)
+F := INT(F )
+F := (F / 100)
+F := (F + M)
+PRINT(F)
+< > 
+PRINT("Metres")
+<nl>
+
+M := (S * 3.28947368421)
+T := INTF(M )
+A := (M - T)
+A := (A * Z)
+A := INT((A + 0.5) )
+PRINT(T)
+< > 
+PRINT("Ft")
+< > 
+PRINT(A)
+< > 
+PRINT("Fr")
+<nl>
+
+DROP()
+CLS()
+F := MENU("LENGTH,FILM,MENU" )
+IF (F = 1)
+DROP()
+ELSEIF (F = 2)
+DROP()
+ENDIF
+DROP()
+DROP()
+CLS()
+PRINT("Choose.....")
+<nl>
+
+FOOT% := MENUN(2 "Imperial,Metric" )
+CLS()
+PRINT("Choose film format")
+<nl>
+
+N := MENUN(2 "35mm,16mm,Anam,1.85,Sup16,8mm," )
+IF (N = 1)
+I := 20.96
+T := 15.29
+ELSEIF (N = 2)
+I := 9.65
+T := 7.26
+ELSEIF (N = 3)
+I := 42.58
+T := 17.78
+ELSEIF (N = 4)
+I := 20.96
+T := 11.9
+ELSEIF (N = 5)
+I := 11.79
+T := 7.26
+ELSEIF (N = 6)
+I := 5.31
+T := 4.01
+ENDIF
+IF (FOOT% = 1)
+DROP()
+ENDIF
+PRINT("Select sought data")
+<nl>
+
+N := MENUN(2 "LENS,DISTANCE,HEIGHT-WIDTH," )
+IF (N = 1)
+PRINT("Select known factor")
+<nl>
+
+A := MENUN(2 "HEIGHT,WIDTH" )
+CLS()
+IF (A = 2)
+PRINT("WIDTH metres")
+PRINT(CHR$(63 ))
+<nl>
+
+W
+S$ := "width"
+WI := W
+W := (W * 1000)
+CLS()
+PRINT("DISTANCE mtrs")
+PRINT(CHR$(63 ))
+<nl>
+
+D
+DI := D
+D := (D * 1000)
+L := ((D * I) / W)
+ELSEIF (A = 1)
+PRINT("HEIGHT metres")
+PRINT(CHR$(63 ))
+<nl>
+
+H
+WI := H
+S$ := "height"
+H := (H * 1000)
+CLS()
+PRINT("DISTANCE mtrs")
+PRINT(CHR$(63 ))
+<nl>
+
+D
+DI := D
+D := (D * 1000)
+L := ((D * T) / H)
+ENDIF
+CLS()
+L := INTF((L + 0.5) )
+PRINT("@")
+< > 
+PRINT(DI)
+< > 
+PRINT("m distance")
+<nl>
+
+PRINT("&")
+< > 
+PRINT(WI)
+< > 
+PRINT("m")
+< > 
+PRINT(S$)
+< > 
+
+PRINT("needs a.....")
+<nl>
+
+PRINT(L)
+< > 
+PRINT("mm lens")
+<nl>
+
+DROP()
+ELSEIF (N = 2)
+DROP()
+ELSEIF (N = 3)
+DROP()
+ENDIF
+CLS()
+PRINT("Choose...")
+<nl>
+
+N := MENUN(2 "LENS,FILM,MENU" )
+IF (N = 1)
+DROP()
+ELSEIF (N = 2)
+DROP()
+ENDIF
+DROP()
+DROP()
+PRINT("CHOOSE TYPE OF LAMP")
+<nl>
+
+N% := MENUN(2 "Tungsten,HMI,Arc" )
+IF (N% = 1)
+LW := 40
+ELSEIF (N% = 2)
+LW := 102
+ELSEIF (N% = 3)
+LW := 40
+KW := 16
+GOTO ARC
+ENDIF
+CLS()
+PRINT("Lamp power kw?")
+<nl>
+
+KW
+CLS()
+ARC::
+PRINT("Choose...")
+<nl>
+
+FOOT% := MENUN(2 "Imperial,Metric" )
+IF (FOOT% = 1)
+CLS()
+PRINT("Distance?")
+<nl>
+
+PRINT("Feet...")
+<nl>
+
+FT
+AT(1 2 )
+PRINT("Inches..")
+<nl>
+
+INS
+D := FOOT(INS, )(FT)
+ELSEIF (FOOT% = 2)
+PRINT("Distance mtrs?")
+<nl>
+
+D
+ENDIF
+CLS()
+FTCD := (((KW * LW) * 40) / (D * D))
+FTCD := INTF(FTCD )
+D := (INTF((D * 100) ) / 100)
+PRINT("At ")
+PRINT(D)
+< > 
+PRINT("m or")
+<nl>
+
+PRINT(FT)
+< > 
+PRINT("ft")
+< > 
+PRINT(INS)
+< > 
+PRINT("ins")
+<nl>
+
+PRINT(KW)
+< > 
+PRINT("kw lamp flood")
+<nl>
+
+PRINT("gives")
+< > 
+PRINT(FTCD)
+< > 
+PRINT("Ftcd")
+<nl>
+
+DROP()
+CLS()
+PRINT("Choose...")
+<nl>
+
+N% := MENUN(2 "Again,Film,Menu" )
+IF (N% = 1)
+DROP()
+ELSEIF (N% = 2)
+DROP()
+ELSEIF (N% = 3)
+STOP()
+ENDIF
+DROP()
+DROP()
+DROP()
+ESCAPE()
+FILE$ := "A:LOGIN"
+W% := 0
+Z%(1) := 1
+Z%(2) := 1
+IF EXIST(FILE$ )
+FILE$
+OI$(1) := A.A$
+OI$(2) := A.B$
+OI$(3) := A.C$
+OI$(4) := A.D$
+ELSE
+OI$(1) := "Registered to"
+OI$(2) := "<name>"
+OI$(3) := "<phone number>"
+OI$(4) := "<email>"
+DROP()
+GOTO lockup
+ENDIF
+R% := 0
+DO
+R% := (R% + 1)
+C% := ASC(UPPER$(MID$(A.K$ R% 1 ) ) )
+IF (C% < 123)
+CLS()
+BEEP(50 400 )
+BEEP(50 600 )
+AT(2 2 )
+PRINT("PASSWORD CORRUPTED")
+<nl>
+
+AT(4 3 )
+PRINT("AT POSITION")
+< > 
+PRINT(R%)
+<nl>
+
+DROP()
+STOP()
+ENDIF
+UNTIL (R% = 16)
+lockup::
+CLS()
+OFF()
+KSTAT(1 )
+R% := 0
+DO
+R% := (R% + 1)
+AT(((22 - LEN(OI$(R%) )) / 2) R% )
+PRINT(OI$(R%))
+<nl>
+
+UNTIL (R% = 4)
+R% := GET()
+IF (R% <> 2)
+GOTO lockup
+ENDIF
+CLS()
+PRINT(" PASSWORD PROTECTED")
+<nl>
+
+PRINT(CHR$(25 ))
+<nl>
+
+DO
+AT(1 4 )
+PRINT("Login:")
+< > 
+
+N$
+UNTIL (LEN(N$ ) > (Z%(1) - 1))
+AT(1 4 )
+PRINT("Passw:")
+PRINT(CHR$(26 ))
+<nl>
+
+P$ := PWINP$(4, )(8, )(0)
+AT(1 4 )
+PRINT("Verify...")
+PRINT(CHR$(26 ))
+<nl>
+
+K$ := CREAKEY$(P$, )(N$)
+IF (UNOT (A.K$ = K$))
+W% := (W% + 1)
+"A:MAIN"
+B.D$ := (("xxx" + DATIM$()) + "xxx")
+B.L$ := ((""" + N$) + """)
+B.P$ := ((""" + P$) + """)
+APPEND()
+CLOSE()
+GOTO lockup
+ENDIF
+CLS()
+IF W%
+BEEP(50 400 )
+BEEP(50 600 )
+AT(4 2 )
+PRINT(W%)
+< > 
+PRINT("WRONG ENTRIES")
+<nl>
+
+AT(7 3 )
+PRINT("RECORDED")
+<nl>
+
+DROP()
+ENDIF
+DROP()
+DROP()
+DROP()
+UDG(1 1 1 1 1 1 1 1 1 )
+UDG(0 0 0 0 0 0 0 0 31 )
+UDG(2 1 1 1 1 1 1 1 31 )
+UDG(4 31 31 31 31 31 31 31 31 )
+UDG(5 21 0 21 0 21 0 21 0 )
+UDG(6 0 4 8 31 8 4 0 31 )
+MZ% := 4
+start::
+AT(4 2 )
+PRINT("Loading maze ")
+PRINT((MZ% + 1))
+<nl>
+
+"a:mzdat"
+USE()
+
+LAST()
+NM% := ((POS() - 1) / 20)
+POSITION(((MZ% * 20) + 2) )
+IF (MZ% < (NM% - 1))
+MZ% := (MZ% + 1)
+ELSE
+MZ% := 0
+ENDIF
+CT% := 0
+DO
+
+CT% := (CT% + 1)
+A$(CT%) := A.DAT$
+NN% := 2
+T$ := ""
+DO
+NN% := (NN% + 1)
+T$ := (T$ + CHR$(VAL(MID$(A$(CT%) NN% 1 ) ) ))
+UNTIL (NN% > 21)
+A$(CT%) := T$
+NEXT()
+UNTIL (CT% > 19)
+CLOSE()
+TOP::
+KSTAT(1 )
+POKEB(119 1 )
+POKEB(8384 0 )
+AT(1 1 )
+S% := 1
+H% := 1
+V% := 1
+AU% := 0
+K% := 6
+SET% := 0
+OP% := 0
+S7% := 0
+PRINT(A$(S%))
+PRINT(A$((S% + 1)))
+PRINT(A$((S% + 2)))
+PRINT(A$((S% + 3)))
+
+UDG(3 0 0 0 0 0 0 0 0 )
+UDG(4 0 0 12 12 12 0 0 31 )
+AT(1 1 )
+PRINT(CHR$(4 ))
+<nl>
+
+O% := ((MINUTE() * 60) + SECOND())
+M% := 0
+PPP::
+IF ((K% = 0) OR AU%)
+M% := ((SECOND() + (MINUTE() * 60)) - O%)
+P% := (17 + ((M% AND 7) * 2))
+IF (P% <> OP%)
+SET% := 0
+OP% := P%
+ELSE
+SET% := 1
+ENDIF
+Q% := (17 + ((M% AND 56) / 4))
+UDG(7 31 Q% Q% P% P% Q% Q% 31 )
+IF (H% < 11)
+AT(20 4 )
+PRINT(CHR$(7 ))
+<nl>
+
+IF ((H% > 1) OR (V% < 4))
+AT(1 4 )
+PRINT(MID$(A$((S% + 3)) 1 1 ))
+<nl>
+
+ENDIF
+ELSE
+AT(1 4 )
+PRINT(CHR$(7 ))
+<nl>
+
+IF ((H% < 20) OR (V% < 4))
+AT(20 4 )
+PRINT(MID$(A$((S% + 3)) 20 1 ))
+<nl>
+
+ENDIF
+ENDIF
+ENDIF
+IF ((P% = 31) AND (SET% = 0))
+IF (S7% = 3)
+S7% := 0
+ELSE
+S7% := (S7% + 1)
+ENDIF
+IF (S7% < 2)
+UDG(3 0 0 0 0 0 0 0 0 )
+ENDIF
+IF (S7% = 2)
+UDG(3 1 0 1 0 1 0 21 0 )
+ENDIF
+IF (S7% > 2)
+UDG(3 1 1 1 1 1 1 1 31 )
+ENDIF
+PO% := 6
+GOTO PROC1
+B6::
+SET% := 1
+ENDIF
+IF (K% = 78)
+GOTO START
+ENDIF
+IF (K% = 84)
+GOTO TOP
+ENDIF
+IF (K% = 72)
+"a:mzdat"
+CT% := DISP((UMIN 1) H$ )
+CLOSE()
+GOTO top
+ENDIF
+CT% := (K% - 49)
+IF (((CT% > (UMIN 1)) AND (CT% < NM%)) AND (CT% <> (MZ% - 1)))
+MZ% := CT%
+GOTO START
+ENDIF
+IF (M% > 190)
+AT(6 2 )
+PRINT("TIME IS UP")
+<nl>
+
+GOTO LAST
+ENDIF
+IF ((H% = 1) AND ((S% + V%) = 3))
+AT(4 4 )
+PRINT("CONGRATULATIONS")
+<nl>
+
+PAUSE(15 )
+<nl>
+PAUSE(5 )
+<nl>
+PAUSE(5 )
+<nl>
+PAUSE(5 )
+<nl>
+AT(1 1 )
+PRINT(" Completed in ")
+PRINT(M%)
+PRINT(" s.")
+<nl>
+
+GOTO start
+ENDIF
+IF AU%
+K% := (3 + (RND() * 4))
+ELSE
+K% := KEY()
+ENDIF
+IF (KEY$() = "A")
+IF AU%
+AU% := 0
+ENDIF
+ENDIF
+IF (K% = 2)
+AU% := 1
+ENDIF
+IF (K% = 3)
+IF (V% > 1)
+OC% := ASC(MID$(A$(((S% + V%) - 2)) H% 1 ) )
+IF ((((OC% <> 0) AND (OC% <> 2)) AND (OC% <> 6)) AND (UNOT ((OC% = 3) AND (S7% > 2))))
+AT(H% V% )
+PRINT(MID$(A$(((S% + V%) - 1)) H% 1 ))
+<nl>
+
+V% := (V% - 1)
+ENDIF
+ELSEIF ((S% > 1) AND (V% = 1))
+S% := (S% - 1)
+V% := 2
+AT(1 1 )
+PRINT(A$(S%))
+PRINT(A$((S% + 1)))
+PRINT(A$((S% + 2)))
+PRINT(A$((S% + 3)))
+
+ENDIF
+PO% := 1
+GOTO proc1
+b1::
+ENDIF
+IF (K% = 4)
+IF (V% < 4)
+OC% := ASC(MID$(A$(((S% + V%) - 1)) H% 1 ) )
+IF (OC% = 6)
+GOTO LEF
+ENDIF
+IF ((((OC% <> 0) AND (OC% <> 2)) AND (OC% <> 6)) AND (UNOT ((OC% = 3) AND (S7% > 2))))
+AT(H% V% )
+PRINT(CHR$(OC% ))
+<nl>
+
+V% := (V% + 1)
+ENDIF
+ELSEIF ((S% < 17) AND (V% = 4))
+S% := (S% + 1)
+V% := 3
+AT(1 1 )
+PRINT(A$(S%))
+PRINT(A$((S% + 1)))
+PRINT(A$((S% + 2)))
+PRINT(A$((S% + 3)))
+
+IF (OC% = 6)
+GOTO LEF
+ENDIF
+ENDIF
+PO% := 2
+GOTO proc1
+b2::
+ENDIF
+IF (K% = 5)
+LEF::
+IF (H% > 1)
+OC% := ASC(MID$(A$(((S% + V%) - 1)) (H% - 1) 1 ) )
+IF (((OC% <> 1) AND (OC% <> 2)) AND (UNOT ((OC% = 3) AND (S7% > 2))))
+AT(H% V% )
+PRINT(MID$(A$(((S% + V%) - 1)) H% 1 ))
+<nl>
+
+H% := (H% - 1)
+ENDIF
+ENDIF
+PO% := 3
+GOTO proc1
+b3::
+IF ((OC% = 6) AND (H% <> 1))
+GOTO LEF
+ENDIF
+ENDIF
+IF (K% = 6)
+IF (H% < 20)
+OC% := ASC(MID$(A$(((S% + V%) - 1)) H% 1 ) )
+IF ((((OC% <> 1) AND (OC% <> 2)) AND (OC% <> 6)) AND (UNOT ((OC% = 3) AND (S7% > 2))))
+AT(H% V% )
+PRINT(CHR$(OC% ))
+<nl>
+
+H% := (H% + 1)
+ENDIF
+ENDIF
+PO% := 4
+GOTO proc1
+b4::
+ENDIF
+IF (K% <> 81)
+GOTO PPP
+ENDIF
+LAST::
+POKEB(119 14 )
+POKEB(8384 1 )
+AT(5 3 )
+PRINT("Again ")
+PRINT(CHR$(63 ))
+PRINT(" (Y/N)")
+<nl>
+
+IF (GET$() = "Y")
+GOTO TOP
+ENDIF
+PO% := 0
+proc1::
+IF PO%
+OC% := ASC(MID$(A$(((S% + V%) - 1)) H% 1 ) )
+IF (OC% = 0)
+UDG(4 0 0 12 12 12 0 0 31 )
+ENDIF
+IF (OC% = 1)
+UDG(4 1 1 13 13 13 1 1 1 )
+ENDIF
+IF (OC% = 2)
+UDG(4 1 1 13 13 13 1 1 31 )
+ENDIF
+IF (OC% = 3)
+IF (S7% < 2)
+UDG(4 0 0 12 12 12 0 0 0 )
+ENDIF
+IF (S7% = 2)
+UDG(4 1 0 13 12 13 0 21 0 )
+ENDIF
+IF (S7% > 2)
+UDG(4 1 1 13 13 13 1 1 31 )
+ENDIF
+ENDIF
+IF (OC% = 5)
+UDG(4 21 0 31 12 31 0 21 0 )
+ENDIF
+IF (OC% = 6)
+UDG(4 31 27 23 0 23 27 31 31 )
+ENDIF
+AT(H% V% )
+PRINT(CHR$(4 ))
+<nl>
+
+IF (PO% = 1)
+GOTO b1
+ENDIF
+IF (PO% = 2)
+GOTO b2
+ENDIF
+IF (PO% = 3)
+GOTO b3
+ENDIF
+IF (PO% = 4)
+GOTO b4
+ENDIF
+IF (PO% = 6)
+GOTO B6
+ENDIF
+ENDIF
+
+
+
+
+POKEB(119 14 )
+DROP()
+DROP()
+PRINT("FILM FORMAT?")
+<nl>
+
+N% := MENUN(2 "35mm,16mm,Sup16,8mm,70mm" )
+IF (N% = 1)
+F := 20.96
+CC := 0.0339
+ELSEIF (N% = 2)
+F := 9.65
+CC := 0.0254
+ELSEIF (N% = 3)
+F := 11.79
+CC := 0.0254
+ELSEIF (N% = 4)
+F := 5.69
+CC := 0.0254
+ELSEIF (N% = 5)
+F := 52.63
+CC := 0.0339
+ENDIF
+CLS()
+PRINT("What is the T stop ")
+<nl>
+
+PRINT("now?")
+<nl>
+
+T
+CLS()
+PRINT("What is the width of")
+<nl>
+
+AT(1 2 )
+PRINT("the subject in mm?")
+<nl>
+
+I
+CLS()
+M := (F / I)
+S := (T / (M + 1))
+D := ((((2 * CC) * S) * (1 + M)) / (M ** 2))
+D := INTF((D * 1000) )
+D := (D / 1000)
+S := INT((S * 10) )
+S := (S / 10)
+C := ((LOG(T ) - LOG(S )) / 0.15)
+C := INTF(((C + .5) * 10) )
+C := (C / 10)
+PRINT("Stop now ")
+PRINT(T)
+<nl>
+
+PRINT("New Stop ")
+PRINT(S)
+<nl>
+
+PRINT("Depth ")
+PRINT(D)
+PRINT(" mm")
+<nl>
+
+PRINT("Open up ")
+PRINT(C)
+PRINT(" stops")
+<nl>
+
+A$ := GET$()
+CLS()
+IF ((A$ = "P") OR (A$ = "p"))
+PRINT("Printing.....")
+<nl>
+
+LPRINT("Maxim Ford's Psion Camera Program")
+L<nl>
+
+L<nl>
+LPRINT("Width of the subject ")
+LPRINT(I)
+LPRINT("mms and exposure")
+L<nl>
+
+LPRINT("T Stop of ")
+LPRINT(T)
+LPRINT(" The magnification is ")
+LPRINT(M)
+L<nl>
+
+LPRINT("Open up ")
+LPRINT(C)
+LPRINT(" stops, to give a new stop")
+L<nl>
+
+LPRINT("of ")
+LPRINT(S)
+L<nl>
+
+LPRINT("Depth of field is ")
+LPRINT(D)
+LPRINT(" mm")
+L<nl>
+
+L<nl>
+LPRINT(DATIM$())
+L<nl>
+
+L<nl>
+L<nl>
+L<nl>
+L<nl>
+ENDIF
+CLS()
+N% := MENUN(2 "Again,Film,Menu" )
+IF (N% = 1)
+DROP()
+ELSEIF (N% = 2)
+DROP()
+ENDIF
+STOP()
+DROP()
+DROP()
+IN := ((MET * 39.3700787402) + 0.5)
+FO := INTF((IN / 12) )
+IN := INTF((IN - (FO * 12)) )
+IF (FO > 0)
+M := (INT(LOG(FO ) ) + 1)
+ELSE
+M := 1
+ENDIF
+A$ := NUM$(FO M )
+IF (IN > 0)
+M := (INT(LOG(IN ) ) + 1)
+ELSE
+M := 1
+ENDIF
+B$ := NUM$(IN M )
+S$ := (((A$ + " Ft ") + B$) + " in")
+S$
+DROP()
+DROP()
+DROP()
+PRINT("Colour temperature")
+<nl>
+
+PRINT("of filmstock..")
+<nl>
+
+F := MENUN(2 "TUNGSTEN,DAYLIGHT,OTHER" )
+IF (F = 1)
+F := 3200
+ELSEIF (F = 2)
+F := 5500
+ELSEIF (F = 3)
+CLS()
+PRINT("Colour temperature")
+<nl>
+
+PRINT("of film/filter")
+<nl>
+
+F
+ENDIF
+CLS()
+PRINT("Colour temperature")
+<nl>
+
+PRINT("of light?")
+<nl>
+
+T
+CLS()
+M := ((1000000 / F) - (1000000 / T))
+M := INT(M )
+IF (M > 5)
+DROP()
+ELSEIF (M < (UMIN 5))
+DROP()
+ELSEIF ((M <= 5) AND (M >= (UMIN 5)))
+PRINT("NO FILTER")
+<nl>
+
+ENDIF
+DROP()
+CLS()
+PRINT("Choose...")
+<nl>
+
+M := MENUN(2 "MIRED,FILM,MENU" )
+IF (M = 1)
+DROP()
+ELSEIF (M = 2)
+DROP()
+ENDIF
+DROP()
+DROP()
+DROP()
+KSTAT(1 )
+DIT% := MENU("Fast,Medium,Slow" )
+IF (DIT% = 0)
+STOP()
+ELSEIF (DIT% = 1)
+DIT% := 50
+ELSEIF (DIT% = 2)
+DIT% := 75
+ELSE
+DIT% := 100
+ENDIF
+CLS()
+PRINT("Which letters :")
+<nl>
+
+LET$
+IF (ERR() = 206)
+STOP()
+ENDIF
+CLS()
+PRINT("Right : 0")
+<nl>
+
+PRINT("Wrong : 0")
+<nl>
+
+DO
+IF (LET$ = "")
+D% := ((RND() * 26) + 1)
+ELSE
+D% := (ASC(MID$(LET$ ((RND() * LEN(LET$ )) + 1) 1 ) ) - 64)
+ENDIF
+DROP()
+DO
+C% := GET()
+IF (C% = 1)
+GOTO FIN
+ELSEIF ((C% - 64) <> D%)
+W% := (W% + 1)
+IF (LOC(W$ CHR$((D% + 64) ) ) = 0)
+W$ := ((W$ + CHR$((D% + 64) )) + " ")
+ENDIF
+AT(9 2 )
+PRINT(W%)
+
+DROP()
+ENDIF
+UNTIL ((C% - 64) = D%)
+R% := (R% + 1)
+AT(9 1 )
+PRINT(R%)
+<nl>
+
+UNTIL (C% = 0)
+FIN::
+CLS()
+PRINT("% Incorrect :")
+<nl>
+
+IF (R% = 0)
+R% := 1
+ENDIF
+W% := ((W% * 100) / R%)
+IF (W% > 100)
+W% := 100
+ENDIF
+PRINT(W%)
+
+W% := GET()
+CLS()
+IF (W$ = "")
+PRINT("Well done.")
+<nl>
+
+W% := GET()
+ELSE
+PRINT("You dont know :")
+<nl>
+
+DROP()
+DROP()
+L$(1) := ".-"
+L$(2) := "-..."
+L$(3) := "-.-."
+L$(4) := "-.."
+L$(5) := "."
+L$(6) := "..-."
+L$(7) := "--."
+L$(8) := "...."
+L$(9) := ".."
+L$(10) := ".---"
+L$(11) := "-.-"
+L$(12) := ".-.."
+L$(13) := "--"
+L$(14) := "-."
+L$(15) := "---"
+L$(16) := ".--."
+L$(17) := "--.-"
+L$(18) := ".-."
+L$(19) := "..."
+L$(20) := "-"
+L$(21) := "..-"
+L$(22) := "...-"
+L$(23) := ".--"
+L$(24) := "-..-"
+L$(25) := "-.--"
+L$(26) := ("--.." OR ange)
+DROP()
+T := M
+IF (M > 136)
+B$ := "85B+"
+M := (M - 131)
+ENDIF
+IF ((M >= 5) AND (M <= 15))
+A$ := "81"
+ELSEIF ((M > 15) AND (M <= 25))
+A$ := "81A"
+ELSEIF ((M > 25) AND (M <= 30))
+A$ := "81B"
+ELSEIF ((M > 30) AND (M <= 40))
+A$ := "81C"
+ELSEIF ((M > 40) AND (M <= 50))
+A$ := "81D"
+ELSEIF ((M > 50) AND (M <= 70))
+A$ := "81EF"
+ELSEIF ((M > 70) AND (M <= 100))
+A$ := "85C"
+ELSEIF ((M > 100) AND (M <= 125))
+A$ := "85"
+ELSEIF (M > 125)
+A$ := "85B"
+ENDIF
+PRINT("Colour correction")
+<nl>
+
+PRINT("ORANGE")
+< > 
+PRINT(T)
+PRINT(" mired")
+<nl>
+
+PRINT(B$)
+PRINT(A$)
+< > 
+PRINT("Filter")
+<nl>
+
+DROP()
+DROP()
+CLS()
+PRINT("Choose format...")
+<nl>
+
+N := MENUN(2 "35mm,16mm,8mm,70mm" )
+IF (N = 1)
+B := 1
+ELSEIF (N = 2)
+B := 2
+ELSEIF (N = 3)
+B := 4
+ELSEIF (N = 4)
+B := 0.5
+ENDIF
+PRINT("What is the Focal")
+<nl>
+
+PRINT("length of the lens?")
+<nl>
+
+A
+A := (A * B)
+CLS()
+PRINT("Choose....")
+<nl>
+
+N := MENUN(2 "FPS,Sec/Fr,Min/Fr" )
+IF (N = 1)
+PRINT("Frames/Second")
+PRINT(CHR$(63 ))
+<nl>
+
+F
+ELSEIF (N = 2)
+PRINT("SECONDS/FRAME")
+PRINT(CHR$(63 ))
+<nl>
+
+F
+F := (1 / F)
+ELSEIF (N = 3)
+PRINT("MINUTES/FRAME")
+PRINT(CHR$(63 ))
+<nl>
+
+F
+F := (1 / (F * 60))
+ENDIF
+CLS()
+PRINT("PAN in degrees")
+<nl>
+
+P
+CLS()
+T := (((0.1389 * P) * A) / F)
+DROP()
+PRINT("Time for")
+< > 
+PRINT(P)
+PRINT(CHR$(223 ))
+PRINT("Pan")
+
+AT(1 2 )
+PRINT(D)
+PRINT("d")
+< > 
+PRINT(H)
+PRINT("hr")
+< > 
+PRINT(M)
+PRINT("m")
+< > 
+PRINT(S)
+PRINT("s")
+<nl>
+
+DROP()
+N := MENU("PAN,FILM,MENU" )
+IF (N = 1)
+DROP()
+ELSEIF (N = 2)
+DROP()
+ENDIF
+DROP()
+DROP()
+L::
+CLS()
+A% := MENU("TETRA,CUBE,OCTA,ICOSA" )
+IF (A% = 0)
+
+ELSE
+"GRAF" + CHR$((A% + 48) )
+ENDIF
+CLS()
+PRINT("Please wait...")
+
+A% := 1
+C% := 1
+DO
+B% := 1
+DO
+G%(C%) := (ASC(MID$(A.A$ (B% + 2) 1 ) ) - 65)
+B% := (B% + 1)
+C% := (C% + 1)
+UNTIL (B% > 48)
+NEXT()
+A% := (A% + 1)
+UNTIL (A% > 17)
+CLOSE()
+CLS()
+IF ((PEEKB(65512 ) AND 7) > 4)
+PRINT((REPT$((((CHR$(0 ) + CHR$(2 )) + CHR$(4 )) + " ") 5 ) + REPT$((((CHR$(1 ) + CHR$(3 )) + CHR$(5 )) + " ") 5 )))
+
+PRINT((" " + REPT$((((" " + CHR$(0 )) + CHR$(2 )) + CHR$(4 )) 4 )))
+<nl>
+
+PRINT((" " + REPT$((((" " + CHR$(1 )) + CHR$(3 )) + CHR$(5 )) 4 )))
+<nl>
+
+ELSE
+PRINT(REPT$((((CHR$(0 ) + CHR$(2 )) + CHR$(4 )) + " ") 4 ))
+PRINT(REPT$((((CHR$(1 ) + CHR$(3 )) + CHR$(5 )) + " ") 4 ))
+
+ENDIF
+B% := 721
+C% := 48
+A% := (RND() * 3)
+DO
+POKEB(384 64 )
+E% := (B% + 48)
+D% := B%
+DO
+POKEB(385 G%(D%) )
+D% := (D% + 1)
+UNTIL (D% = E%)
+IF ((B% = 721) OR (B% = 769))
+D% := INT((RND() * 2) )
+A% := (D% - (D% >= A%))
+B% := ((1 + (240 * A%)) + (192 AND (B% = 769)))
+ELSE
+B% := (B% + C%)
+PAUSE(1 )
+IF (C% = 48)
+IF (((B% = 241) OR (B% = 481)) OR (B% = 721))
+B% := 769
+C% := (UMIN 48)
+ENDIF
+ELSEIF (((B% = (UMIN 47)) OR (B% = 193)) OR (B% = 433))
+B% := 721
+C% := 48
+ENDIF
+ENDIF
+UNTIL (KEY() = 13)
+GOTO L
+DROP()
+DROP()
+CLS()
+PRINT("Printer setup?")
+<nl>
+
+NUM% := MENUN(2 "Psion,Epson,None" )
+DROP()
+"A:printer"
+A.P% := NUM%
+APPEND()
+CLOSE()
+DROP()
+DROP()
+KSTAT(1 )
+N% := 0
+DO
+AT(I% J% )
+PRINT(REPT$("#" N% ))
+PRINT(CHR$(26 ))
+<nl>
+
+K% := GET()
+IF (K% = 1)
+IF ((N% = 0) AND SET%)
+STOP()
+ENDIF
+N% := 0
+PW$ := ""
+ELSEIF (K% = 8)
+IF (N% = 0)
+BEEP(50 600 )
+ELSE
+N% := (N% - 1)
+PW$ := LEFT$(PW$ (LEN(PW$ ) - 1) )
+ENDIF
+ELSEIF ((K% > 31) AND (K% < 123))
+IF (N% = 8)
+BEEP(50 600 )
+ELSE
+N% := (N% + 1)
+PW$ := (PW$ + CHR$(K% ))
+ENDIF
+ENDIF
+UNTIL ((K% = 13) AND (N% > (Z%(2) - 1)))
+PW$
+
+DROP()
+P$(W%) := "00"
+DROP()
+IF (END% >= 1)
+
+ENDIF
+Q% := 0
+DO
+Q% := (Q% + 1)
+A$(Q%) := MID$(Y$ Y% 1 )
+W1$ := (((A$(1) + A$(2)) + A$(3)) + A$(4))
+DROP()
+IF (END% >= 1)
+GOTO NOWORD
+ENDIF
+UNTIL (Q% = 4)
+SUB::
+DROP()
+IF (END% < 1)
+GOTO SUB
+ENDIF
+NOWORD::
+IF (W1$ = "    ")
+
+ENDIF
+Q% := 0
+DO
+Q% := (Q% + 1)
+IF (W1$ = MID$(V$(Q%) 3 4 ))
+GOTO KEYWORD
+ENDIF
+UNTIL (Q% = 43)
+
+KEYWORD::
+P$(W%) := LEFT$(V$(Q%) 2 )
+DROP()
+IF (ROOM% = 1)
+A% := VIEW(1 "WELCOME TO ALZAN. YOU MUST SCALE THE WALLS IF YOU WISH TO ESCAPE FROM THIS CITY OF THIEVES AND CUT-THROATS." )
+ELSEIF (ROOM% = 2)
+A% := VIEW(1 "YOU ARE IN THE MAIN STREET OUTSIDE A HARDWARE SHOP. THE STREET STRETCHES EAST/WEST AND A SMALL ALLEY LEADS NORTH BESIDE THE SHOP." )
+ELSEIF (ROOM% = 3)
+A% := VIEW(1 "YOU ARE INSIDE THE SHOP. THE SHOPKEEPER LOOKS SHIFTY, BUT HE HAS MANY FINE GOODS ON DISPLAY." )
+ELSEIF (ROOM% = 4)
+A% := VIEW(1 "YOU ARE IN AN ALLEY BEHIND THE TALL BUILDINGS. THERE ARE MANY FULL DUSTBINS UNDER THE FIRE ESCAPE." )
+ELSEIF (ROOM% = 5)
+A% := VIEW(1 "YOU ARE ON THE FIRE ESCAPE, WHICH LEADS PAST A DOOR IN THE BUILDINGS." )
+ELSEIF (ROOM% = 6)
+A% := VIEW(1 "YOU HAVE COME DOWN A SECRET STAIRCASE INTO THE SHOP." )
+ELSEIF (ROOM% = 7)
+A% := VIEW(1 "YOU ARE ON SOME CATWALKS BETWEEN THE BUILDINGS." )
+ELSEIF (ROOM% = 8)
+A% := VIEW(1 "THIS IS PART OF THE CITY WALLS. THERE IS AN UNUSED DOOR IN THE WALL HERE." )
+ELSEIF (ROOM% = 9)
+A% := VIEW(1 "YOU ARE AT A CROSSROADS." )
+ELSEIF (ROOM% = 10)
+A% := VIEW(1 "HERE IS PART OF THE CITY WALLS. THE SEA MIST IS QUITE THICK, MAKING IT HARD TO SEE FAR." )
+ELSEIF (ROOM% = 11)
+A% := VIEW(1 "YOU PLUNGE FROM THE WALL - RIGHT DOWN ONTO THE ROCKS BY THE SEA, 500 FT BELOW. WELL, NEVER MIND. BETTER LUCK NEXT TIME." )
+ELSEIF (ROOM% = 12)
+A% := VIEW(1 "YOU ARE OUTSIDE THE TOWN BANK." )
+ELSEIF (ROOM% = 13)
+A% := VIEW(1 "INSIDE THE BANK THERE ARE MANY GUARDS WHO SEEM RATHER BORED." )
+ELSEIF (ROOM% = 14)
+A% := VIEW(1 "YOU HAVE ARRIVED AT A DEAD END, BUT THERE IS A MANHOLE IN THE ROAD ..." )
+ELSEIF (ROOM% = 15)
+A% := VIEW(1 "YOU ARE IN A SMALL ALCOVE UNDERNEATH THE MANHOLE.  A PASSAGE LEADS SOUTH." )
+ELSEIF (ROOM% = 16)
+A% := VIEW(1 "THE PASSAGE LEADS TO AN ANCIENT TOMB, WHERE MANY SARCOPHAGI LIE SCATTERED ABOUT." )
+ELSEIF (ROOM% = 17)
+A% := VIEW(1 "THE USHER WILL NOT LET YOU IN AS THE PROGRAMME HAS STARTED. HE BLOCKS YOUR PATH WITH HIS TORCH." )
+ELSEIF (ROOM% = 18)
+A% := VIEW(1 "YOU ARE OUTSIDE THE CINEMA. SOUNDS OF GUNFIRE COME FROM WITHIN." )
+ELSEIF (ROOM% = 19)
+A% := VIEW(1 "***CONGRATULATIONS*** YOU MADE IT OUTSIDE THE CITY WALLS. THIS IS INDEED A RARE OCCASION. WELL DONE." )
+ENDIF
+SECONDS
+D := (T / 86400)
+D := INTF(D )
+H := ((T / 3600) - (D * 24))
+H := INTF(H )
+M := ((T / 60) - ((H * 60) + (D * 1440)))
+M := INTF(M )
+S := (T - (((M * 60) + (H * 3600)) + (D * 86400)))
+S := INTF(S )
+DROP()
+DROP()
+CLS()
+KSTAT(1 )
+AT(5 1 )
+PRINT("SET PASSWORD")
+<nl>
+
+PRINT(CHR$(25 ))
+<nl>
+
+I% := 0
+DO
+I% := (I% + 1)
+AT(1 4 )
+PRINT("Info L")
+PRINT(I%)
+PRINT(":")
+< > 
+
+EDIT(OI$(I%) )
+UNTIL (I% = 4)
+DO
+AT(1 4 )
+PRINT("Login:")
+< > 
+
+N$
+UNTIL (LEN(N$ ) <> (Z%(1) - 1))
+DO
+I% := 0
+DO
+I% := (I% + 1)
+AT(1 4 )
+PRINT(MID$("PasswAgain" ((UMIN (I% = 1)) - (6 * (I% = 2))) 5 ))
+PRINT(":")
+<nl>
+
+P$(I%) := PWINP$(4, )(8, )(1)
+UNTIL (I% = 2)
+UNTIL (P$(1) = P$(2))
+FILE$
+A.A$ := OI$(1)
+A.B$ := OI$(2)
+A.C$ := OI$(3)
+A.D$ := OI$(4)
+A.K$ := CREAKEY$(P$(1), )(N$)
+APPEND()
+DROP()
+DROP()
+CLS()
+PRINT("Camera Speed FPS?")
+<nl>
+
+F
+CLS()
+PRINT("Electrical freq.")
+<nl>
+
+PRINT("in Hertz?")
+<nl>
+
+HZ
+CLS()
+S := ((F * 360) / HZ)
+PRINT(F)
+PRINT(" FPS Camera &")
+<nl>
+
+PRINT(HZ)
+PRINT(" Hertz lights")
+<nl>
+
+PRINT(S)
+PRINT(CHR$(223 ))
+<nl>
+
+PRINT("Camera Shutter")
+<nl>
+
+DROP()
+N% := MENU("Again,HMI,FILM,MENU" )
+IF (N% = 1)
+DROP()
+ELSEIF (N% = 2)
+DROP()
+ELSEIF (N% = 3)
+DROP()
+ELSEIF (N% = 4)
+STOP()
+ENDIF
+DROP()
+DROP()
+B$ := A$
+DO
+IF (LEFT$(B$ 1 ) = ".")
+BEEP(DIT% 100 )
+ELSE
+BEEP((DIT% * 3) 100 )
+ENDIF
+PAUSE((DIT% / 50) )
+B$ := RIGHT$(B$ (LEN(B$ ) - 1) )
+UNTIL (B$ = "")
+DROP()
+DROP()
+ASA::
+PRINT("FILMSTOCK")
+<nl>
+
+PRINT("What ASA?")
+<nl>
+
+A
+TIME::
+CLS()
+PRINT("Select camera speed")
+<nl>
+
+W := MENUN(2 "Frames-per-second,Exposure,Seconds-per-Frame" )
+IF (W = 2)
+A$ := "sec"
+PRINT("Exposure in seconds?")
+<nl>
+
+T
+D := T
+SH := 0
+ELSEIF (W = 1)
+PRINT("Frames per second?")
+<nl>
+
+P
+A$ := "FPS"
+D := P
+CLS()
+PRINT("Shutter angle?")
+<nl>
+
+B
+SH := B
+T := (B / (360 * P))
+CLS()
+ELSEIF (W = 3)
+PRINT("Seconds per frame?")
+<nl>
+
+P
+D := P
+A$ := "SPF"
+CLS()
+PRINT("Shutter angle?")
+<nl>
+
+B
+SH := B
+T := ((P * B) / 360)
+CLS()
+ENDIF
+CLS()
+IF ((T >= 1) AND (T < 10))
+T := (T / 1.4)
+ELSEIF ((T >= 10) AND (T < 30))
+T := (T / 2.8)
+ELSEIF (T >= 30)
+T := (T / 4)
+ENDIF
+FTCD::
+N := 0
+PRINT("LIGHT READING?")
+<nl>
+
+W := MENUN(2 "Footcandles,Pentax(EV),Lux" )
+IF (W = 1)
+PRINT("FOOTCANDLES")
+PRINT(CHR$(63 ))
+<nl>
+
+F
+CLS()
+ELSEIF (W = 2)
+PRINT("PENTAX NUMBER")
+PRINT(CHR$(63 ))
+<nl>
+
+F
+F := (0.5 * (2 ** (F - 1)))
+CLS()
+ELSEIF (W = 3)
+PRINT("LUX")
+PRINT(CHR$(63 ))
+<nl>
+
+F
+F := (F / 10.76)
+CLS()
+ENDIF
+S := SQR((((F * A) * T) / 25) )
+RS := INTF((S * 10) )
+RS := (RS / 10)
+XX::
+IF (S > 11.5)
+N := (N + 0.9)
+S := (S / 2.8)
+GOTO XX
+ENDIF
+S := (S * 10)
+S := INT(S )
+S := (S / 10)
+CLS()
+AT(1 1 )
+PRINT(A)
+< > 
+PRINT("ASA")
+< > 
+PRINT(D)
+< > 
+PRINT(A$)
+< > 
+PRINT(SH)
+PRINT(CHR$(223 ))
+<nl>
+
+AT(1 2 )
+E := (LOG((F * 4) ) / 0.3)
+E := INT((E * 10) )
+E := (E / 10)
+F := INTF((F * 100) )
+PRINT((F / 100))
+< > 
+PRINT("ftcd")
+< > 
+PRINT(E)
+< > 
+PRINT("EV")
+<nl>
+
+AT(1 3 )
+PRINT("ND")
+< > 
+PRINT(N)
+< > 
+PRINT("Filter")
+< > 
+PRINT((N / 0.3))
+< > 
+PRINT("Stops")
+<nl>
+
+AT(1 4 )
+PRINT("T STOP")
+< > 
+PRINT(S)
+< > 
+PRINT("(")
+PRINT(RS)
+PRINT(")")
+<nl>
+
+IF (S = 0)
+AT(1 4 )
+PRINT("NO EXPOSURE             ")
+<nl>
+
+ENDIF
+DROP()
+C := MENU("LIGHT,EXPO,ASA,PRINT,FILM,MENU," )
+IF (C = 1)
+GOTO FTCD
+ELSEIF (C = 2)
+GOTO TIME
+ELSEIF (C = 3)
+GOTO ASA
+ELSEIF (C = 4)
+DROP()
+ELSEIF (C = 5)
+DROP()
+ENDIF
+DROP()
+CLS()
+PRINT("Printing....")
+<nl>
+
+LPRINT(" PSION CAMERA PROGRAM by Maxim Ford")
+L<nl>
+
+L<nl>
+LPRINT(A)
+L< > 
+LPRINT("ASA Filmstock")
+L< > 
+LPRINT(D)
+L< > 
+LPRINT(A$)
+L< > 
+LPRINT(SH)
+LPRINT(" degrees")
+L<nl>
+
+LPRINT((F / 100))
+L< > 
+LPRINT("Ftcd")
+L< > 
+LPRINT(E)
+L< > 
+LPRINT("EV units")
+L<nl>
+
+L<nl>
+LPRINT("BLACK               18%          WHITE")
+L<nl>
+
+LPRINT((E - 5))
+L< > 
+LPRINT((E - 4))
+L< > 
+LPRINT((E - 3))
+L< > 
+LPRINT((E - 2))
+L< > 
+LPRINT((E - 1))
+L< > 
+LPRINT(E)
+L< > 
+LPRINT((E + 1))
+L< > 
+LPRINT((E + 2))
+L< > 
+LPRINT((E + 3))
+L<nl>
+
+L<nl>
+IF (N > 0)
+LPRINT(N)
+L< > 
+LPRINT("Neutral density filter =")
+L< > 
+LPRINT((N / 0.3))
+L< > 
+LPRINT("Stops")
+L<nl>
+
+LPRINT("Real Stop ")
+LPRINT(RS)
+L<nl>
+
+L<nl>
+LPRINT(CHR$(27 ))
+LPRINT("E")
+
+LPRINT("T Stop with ND filters ")
+LPRINT(S)
+L<nl>
+
+ELSEIF (N = 0)
+L<nl>
+LPRINT(CHR$(27 ))
+LPRINT("E")
+
+LPRINT("    ***   T Stop ")
+L< > 
+LPRINT(S)
+LPRINT("   ***")
+L<nl>
+
+ENDIF
+LPRINT(CHR$(27 ))
+LPRINT("F")
+
+L<nl>
+LPRINT(DATIM$())
+L< > 
+
+L<nl>
+L<nl>
+L<nl>
+L<nl>
+L<nl>
+CLS()
+DROP()
+DROP()
+DROP()
+DROP()
+CLS()
+NEWPLACE::
+PRINT("Part of the World?")
+<nl>
+
+N% := MENUN(2 "North-West,North-East,South-West,South-East" )
+CLS()
+PRINT("LATITUDE?  N-S")
+<nl>
+
+PRINT("degrees...")
+<nl>
+
+LAT
+LATI$ := FIX$(LAT 0 2 )
+AT(1 2 )
+PRINT("minutes...")
+<nl>
+
+MN
+LAT := (LAT + (MN / 60))
+LATI$ := ((LATI$ + CHR$(223 )) + FIX$(MN 0 2 ))
+AT(1 2 )
+PRINT("Seconds.....")
+<nl>
+
+S
+LAT := (LAT + (S / 3600))
+LATI$ := (((LATI$ + "'") + FIX$(S 0 2 )) + CHR$(34 ))
+IF ((N% = 3) OR (N% = 4))
+LAT := (0 - LAT)
+ENDIF
+CLS()
+PRINT("LONGITUDE E-W")
+<nl>
+
+PRINT("Degrees...")
+<nl>
+
+DE
+LONG$ := (FIX$(DE 0 2 ) + CHR$(223 ))
+AT(1 2 )
+PRINT("Minutes...")
+<nl>
+
+MN
+LONG$ := ((LONG$ + FIX$(MN 0 2 )) + "'")
+AT(1 2 )
+PRINT("Seconds...")
+<nl>
+
+S
+LONG$ := ((LONG$ + FIX$(S 0 2 )) + CHR$(34 ))
+LNG := ((DE + (MN / 60)) + (S / 3600))
+IF ((N% = 1) OR (N% = 3))
+LNG := (0 - LNG)
+ENDIF
+CLS()
+NEWDATE::
+IF (FLAG% <> 1)
+PRINT("DATE?")
+<nl>
+
+PRINT("Year....")
+<nl>
+
+YR
+AT(1 2 )
+PRINT("Month....")
+<nl>
+
+MO
+AT(1 2 )
+PRINT("Day...")
+<nl>
+
+DY
+NEWTIME::
+CLS()
+PRINT("TIME?  24 clock")
+<nl>
+
+PRINT("Hours....")
+<nl>
+
+HR
+AT(1 2 )
+PRINT("Minutes...")
+<nl>
+
+MI
+FLAG% := 0
+ENDIF
+CLS()
+AT(1 2 )
+PRINT("Thinking....")
+<nl>
+
+DROP()
+D := WATCH
+N := ((360 / 365.242191) * D)
+NU := (N / 360)
+NU := INTF(NU )
+N := (N - (NU * 360))
+M := ((N + 279.403303) - 282.768422)
+IF (M < 0)
+M := (M + 360)
+ENDIF
+M := SIN(RAD(M ) )
+EU := (((360 / PI()) * 0.016713) * M)
+GEO := ((N + EU) + 279.403303)
+IF (GEO > 360)
+GEO := (GEO - 360)
+ENDIF
+GEL := 0
+DEC := ((SIN(RAD(GEL ) ) * COS(RAD(23.441884 ) )) + ((COS(RAD(GEL ) ) * SIN(RAD(23.441884 ) )) * SIN(RAD(GEO ) )))
+DEC := DEG(ASIN(DEC ) )
+Y := ((SIN(RAD(GEO ) ) * COS(RAD(23.441884 ) )) - (TAN(RAD(GEL ) ) * SIN(RAD(23.441884 ) )))
+X := COS(RAD(GEO ) )
+AS := (Y / X)
+AS := DEG(ATAN(AS ) )
+IF ((X >= 0) AND (Y >= 0))
+WHILE ((AS < 0) OR (AS > 90))
+IF (AS < 0)
+AS := (AS + 180)
+ELSEIF (AS > 0)
+AS := (AS - 180)
+ENDIF
+ENDWH
+ELSEIF ((Y >= 0) AND (X < 0))
+WHILE ((AS < 90) OR (AS > 180))
+IF (AS < 90)
+AS := (AS + 180)
+ELSEIF (AS > 180)
+AS := (AS - 180)
+ENDIF
+ENDWH
+ELSEIF ((Y < 0) AND (X < 0))
+WHILE ((AS < 180) OR (AS > 270))
+IF (AS < 180)
+AS := (AS + 180)
+ELSEIF (AS > 270)
+AS := (AS - 180)
+ENDIF
+ENDWH
+ELSEIF ((Y < 0) AND (X >= 0))
+WHILE ((AS < 270) OR (AS > 360))
+IF (AS < 270)
+AS := (AS + 180)
+ELSEIF (AS > 360)
+AS := (AS - 180)
+ENDIF
+ENDWH
+ENDIF
+AS := (AS / 15)
+LST := (GST + (LNG / 15))
+NU := INTF((LST / 24) )
+LST := (LST - (24 * NU))
+ALT := (LST - AS)
+NU := INTF((ALT / 24) )
+AS := (ALT - (24 * NU))
+AS := (AS * 15)
+CH := SIN(RAD(AS ) )
+ALT := ((SIN(RAD(DEC ) ) * SIN(RAD(LAT ) )) + ((COS(RAD(DEC ) ) * COS(RAD(LAT ) )) * COS(RAD(AS ) )))
+ALT := DEG(ASIN(ALT ) )
+AZI := ((SIN(RAD(DEC ) ) - (SIN(RAD(LAT ) ) * SIN(RAD(ALT ) ))) / (COS(RAD(LAT ) ) * COS(RAD(ALT ) )))
+AZI := DEG(ACOS(AZI ) )
+IF (CH >= 0)
+AZI := (360 - AZI)
+ENDIF
+CLS()
+PRINT("   Sun's position")
+<nl>
+
+PRINT(DY)
+PRINT("/")
+PRINT(MO)
+PRINT("/")
+PRINT(YR)
+< > 
+PRINT("@")
+< > 
+PRINT(HR)
+PRINT(".")
+PRINT(MI)
+<nl>
+
+PRINT("Horizontal")
+< > 
+PRINT(INT((AZI + 0.5) ))
+PRINT(CHR$(223 ))
+PRINT(CHR$(175 ))
+<nl>
+
+PRINT("Height")
+< > 
+PRINT(INT((ALT + 0.5) ))
+PRINT(CHR$(223 ))
+PRINT(CHR$(169 ))
+<nl>
+
+DROP()
+AGAIN::
+CLS()
+PRINT("Choose...")
+<nl>
+
+S := MENUN(2 "Again,Newdate,Newplace,Newtime,Print,Film,Menu" )
+IF (S = 1)
+DROP()
+ELSEIF (S = 2)
+GOTO NEWDATE
+ELSEIF (S = 3)
+FLAG% := 1
+GOTO NEWPLACE
+ELSEIF (S = 4)
+GOTO NEWTIME
+ELSEIF (S = 5)
+LPRINT("              Sun's position")
+L<nl>
+
+L<nl>
+LPRINT("Latitude ")
+LPRINT(LATI$)
+L< > 
+LPRINT("Longitude")
+L< > 
+LPRINT(LONG$)
+L<nl>
+
+LPRINT(DY)
+LPRINT("/")
+LPRINT(MO)
+LPRINT("/")
+LPRINT(YR)
+L< > 
+LPRINT("@")
+L< > 
+LPRINT(HR)
+LPRINT(".")
+LPRINT(MI)
+L<nl>
+
+LPRINT("Horizontal")
+L< > 
+LPRINT(INT((AZI + 0.5) ))
+LPRINT(CHR$(223 ))
+LPRINT(CHR$(175 ))
+LPRINT("Height")
+L< > 
+LPRINT(INT((ALT + 0.5) ))
+LPRINT(CHR$(223 ))
+LPRINT(CHR$(169 ))
+L<nl>
+
+GOTO AGAIN
+ELSEIF (S = 6)
+DROP()
+ENDIF
+DROP()
+IF (N% = 1)
+A% := VIEW(2 "OH DEAR. YOU MUST HAVE CAUGHT THE PLAGUE IN THE TOMB. IT SEEMS THAT YOU HAVE DIED" )
+ELSEIF (N% = 2)
+A% := VIEW(2 "--WHOOSH-- EL GRABBO, THE LOCAL THIEF, SNATCHES YOUR MONEY AND DISAPPEARS INTO THE SEA MIST" )
+ELSEIF (N% = 3)
+A% := VIEW(2 "'STOP THIEF!' SHOUTS THE USHER, BUT YOU MANAGE TO ESCAPE." )
+ELSEIF (N% = 4)
+A% := VIEW(2 "THE COVER IS ALREADY OPEN." )
+ELSEIF (N% = 5)
+A% := VIEW(2 "IT COSTS MORE THAN YOU CAN AFFORD." )
+ELSEIF (N% = 6)
+A% := VIEW(2 "THAT WILL DO NICELY, SIR." )
+ELSEIF (N% = 7)
+A% := VIEW(2 "THAT MANHOLE COVER IS OPEN." )
+ELSEIF (N% = 8)
+A% := VIEW(2 "THAT MANHOLE COVER IS SHUT." )
+ELSEIF (N% = 9)
+A% := VIEW(2 "THE SHOPKEEPER IS BIGGER THAN YOU ..." )
+ELSEIF (N% = 10)
+A% := VIEW(2 "YOU WILL NEED A LADDER TO GET OVER THESE WALLS." )
+ELSEIF (N% = 11)
+A% := VIEW(2 "IT IS ALREADY ON." )
+ELSEIF (N% = 12)
+A% := VIEW(2 "WHAT A STROKE OF GENIUS." )
+ELSEIF (N% = 13)
+A% := VIEW(2 "YOU CATCH THE GUARDS UNAWARE AND MANAGE TO SNATCH A WAD OF NOTES. NO-ONE HAS NOTICED." )
+ELSEIF (N% = 14)
+A% := VIEW(2 "YOU HAVE TAKEN ALL THERE IS" )
+ELSEIF (N% = 15)
+A% := VIEW(2 "I DON'T SEE A TORCH." )
+ELSEIF (N% = 16)
+A% := VIEW(2 "THE CINEMA IS BOOKED FOR A PRIVATE FUNCTION." )
+ENDIF
+DROP()
+DROP()
+N := MENU("35mm,16mm,8mm,70mm" )
+CLS()
+T := MENU("METRIC,IMPERIAL" )
+CLS()
+IF (T = 1)
+PRINT("HOW MANY METRE")
+PRINT(CHR$(63 ))
+<nl>
+
+M
+ELSEIF (T = 2)
+PRINT("HOW MANY FEET")
+PRINT(CHR$(63 ))
+<nl>
+
+M
+M := (M / 3.2894736842)
+ELSE
+PRINT("WHAT")
+PRINT(CHR$(63 ))
+<nl>
+
+DROP()
+DROP()
+ENDIF
+IF (N = 1)
+T := (M / 0.456)
+ELSEIF (N = 2)
+T := (M / 0.1824)
+ELSEIF (N = 3)
+T := (M / 0.1)
+ELSEIF (N = 4)
+T := (M / 0.57)
+ENDIF
+CLS()
+PRINT("CAMERA SPEED")
+< > 
+PRINT(CHR$(63 ))
+<nl>
+
+C
+T := ((T * 24) / C)
+CLS()
+DROP()
+PRINT("TIME")
+<nl>
+
+AT(1 2 )
+PRINT(D)
+PRINT("d")
+< > 
+PRINT(H)
+PRINT("hr")
+< > 
+PRINT(M)
+PRINT("m")
+< > 
+PRINT(S)
+PRINT("s")
+<nl>
+
+DROP()
+N := MENU("TIME,LENGTH,FILM,MENU" )
+IF (N = 1)
+DROP()
+ELSEIF (N = 2)
+DROP()
+ELSEIF (N = 3)
+DROP()
+ENDIF
+DROP()
+DROP()
+JD := (2415020.5 + DAYS(DY MO YR ))
+S := (JD - 2451545)
+T := (S / 36525)
+T0 := ((6.697374588 + (2400.051336 * T)) + (0.000025862 * (T ** 2)))
+NU := INTF((T0 / 24) )
+T0 := (T0 - (24 * NU))
+MON := MI
+MON := (MON / 60)
+UT := (HR + MON)
+UT := (UT * 1.002737909)
+GST := (T0 + UT)
+NU := INTF((GST / 24) )
+GST := (GST - (24 * NU))
+DROP()
+
+
+DROP()
+CLS()
+PRINT("Enter name (.ob3)")
+<nl>
+
+PRINT("to receive")
+<nl>
+
+SEND$
+DROP()
+DROP()
+DROP()
+DYS := (DAYS(DY MO YR ) - DAYS(31 12 1989 ))
+HRS := HR
+HRS := (HRS / 24)
+MNS := MI
+MNS := (MNS / 1440)
+DYS := ((DYS + HRS) + MNS)
+DYS
+DROP()
+PRINT("DISTANCE in mtrs")
+PRINT(CHR$(63 ))
+<nl>
+
+D
+D := (D * 1000)
+CLS()
+PRINT("WHAT LENS in mm")
+PRINT(CHR$(63 ))
+<nl>
+
+L
+CLS()
+W := ((D * I) / L)
+H := ((D * T) / L)
+W := INTF((W / 10) )
+W := (W / 100)
+H := INTF((H / 10) )
+H := (H / 100)
+PRINT("With")
+< > 
+PRINT(L)
+< > 
+PRINT("mm lens")
+<nl>
+
+PRINT("@")
+< > 
+PRINT((D / 1000))
+< > 
+PRINT("m")
+<nl>
+
+PRINT("HEIGHT")
+< > 
+PRINT(H)
+< > 
+PRINT("m")
+<nl>
+
+PRINT("WIDTH")
+< > 
+PRINT(W)
+< > 
+PRINT("m")
+<nl>
+
+DROP()
+
+
+
