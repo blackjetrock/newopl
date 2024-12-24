@@ -1,0 +1,2 @@
+for n in `ls *.OB3 | cut -f 1 -d .`; do echo $n ;../newopl_objdump $n.OB3 > $n\_psion.tr.test; done
+for n in `ls *.OPL | cut -f 1 -d .`; do echo $n ; mv $n.OPL $n.opl; done
