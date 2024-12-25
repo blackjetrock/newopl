@@ -1,194 +1,42 @@
 
-Size of NOBJ_PROC:2864
-Loaded './ob3_nopl.bin'
 Reading OB3 header
 Hdr                  : ORG
 OB3 File length word : 01CE
 Block file type      : 83
 OB3 Block length word: 01CA
-Init machine...
-Init machine done.
-Push parameters...
-push_machine_8:pushing 58 to 3EFF
-push_machine_8:pushing 58 to 3EFE
-push_machine_8:pushing 58 to 3EFD
-push_machine_8:pushing 3A to 3EFC
-push_machine_8:pushing 41 to 3EFB
-push_machine_8:pushing 03 to 3EFA
-push_machine_8:pushing 00 to 3EF9
-Push parameters done.
+Enter:read_proc_file
+Loading 0
+Loading 1
+Loading 2
+Parameters num:0
+Global varname size
+Loading 3
+Var space size     :2014
 
+Global varname size:44
 
-===================================Proc=========================================
-
-
-Pushing procedure './ob3_nopl.bin'
-  Top:1
-  onto machine:
-  SP:3EF9
-  FP:0000
-  PC:0000
-
-Size of variables    :10 16
-Size of QCode        :27 39
-Number of parameters :00 0
-Base SP              :3EB9 16057
-push_machine_8:pushing 00 to 3EF8
-push_machine_16:pushing 0000 to 3EF8
-push_machine_16:pushing 0000 to 3EF6
-push_machine_16:pushing 3EB9 to 3EF4
-rta_fp = 3EF0
-push_machine_16:pushing 0000 to 3EF2
-Size of global table:00 (0)
-Start of global table:3EEE (SP now 3EF0)
-push_machine_16:pushing 3EEE to 3EF0
-Zeroing stack from base_sp to start of global table
-3EB9 to 3EED
-Size of external table:00 0
-Building Indirection Table
-Searching for externals...
-Applying fixups...
-Fixup at FFF0, data 0A, add:13EE0
-Executing QCode 0F at 3EB9
-
- Executing QI_LS_STR_SIM_FP
-
-qcode_next_16: PC:3EBA
-qcode_next_16: FFF1
-ind ptr:FFF1
-IND Addr: 3EE1
-push_machine_8:pushing 0A to 3EB8
-push_machine_16:pushing 3EE1 to 3EB8
-Executing QCode 24 at 3EBC
-
- Executing QI_STR_CON
-
-qcode_next_8: 03 at 3EBD
-  Len:3
-qcode_next_8: 41 at 3EBE
-qcode_next_8: 42 at 3EBF
-qcode_next_8: 43 at 3EC0
-push_machine_string:pushing ABC to 3EB6 len:3
-push_machine_8:pushing 43 to 3EB5
-push_machine_8:pushing 42 to 3EB4
-push_machine_8:pushing 41 to 3EB3
-push_machine_8:pushing 03 to 3EB2
-Executing QCode 81 at 3EC1
-
- Executing QCO_ASS_STR
-
-pop_machine_8:Popped 03 from SP:3EB2
-pop_machine_8:Popped 41 from SP:3EB3
-pop_machine_8:Popped 42 from SP:3EB4
-pop_machine_8:Popped 43 from SP:3EB5
-pop_machine_string:Popped 'ABC' from 3EB2
-pop_machine_16:Popped 3EE1 from SP:3EB6
-Executing QCode 0D at 3EC2
-
- Executing QI_LS_INT_SIM_FP
-
-qcode_next_16: PC:3EC3
-qcode_next_16: FFFC
-ind ptr:FFFC
-IND Addr: 3EEC
-push_machine_16:pushing 3EEC to 3EB8
-push_machine_8:pushing 00 to 3EB5
-Executing QCode 22 at 3EC5
-
- Executing QI_INT_CON
-
-qcode_next_8: 00 at 3EC6
-push_machine_8:pushing 00 to 3EB4
-qcode_next_8: 7B at 3EC7
-push_machine_8:pushing 7B to 3EB3
-Executing QCode 7F at 3EC8
-
- Executing QCO_ASS_INT
-
-pop_machine_8:Popped 7B from SP:3EB3
-pop_machine_8:Popped 00 from SP:3EB4
-pop_machine_8:Popped 00 from SP:3EB5
-pop_machine_16:Popped 3EEC from SP:3EB6
-Executing QCode 0D at 3EC9
-
- Executing QI_LS_INT_SIM_FP
-
-qcode_next_16: PC:3ECA
-qcode_next_16: FFFC
-ind ptr:FFFC
-IND Addr: 3EEC
-push_machine_16:pushing 3EEC to 3EB8
-push_machine_8:pushing 00 to 3EB5
-Executing QCode 00 at 3ECC
-
- Executing QI_INT_SIM_FP
-
-qcode_next_16: PC:3ECD
-qcode_next_16: FFFC
-ind ptr:FFFC
-IND Addr: 3EEC
-push_machine_16:pushing 007B to 3EB5
-Executing QCode 22 at 3ECF
-
- Executing QI_INT_CON
-
-qcode_next_8: 00 at 3ED0
-push_machine_8:pushing 00 to 3EB2
-qcode_next_8: 01 at 3ED1
-push_machine_8:pushing 01 to 3EB1
-Executing QCode 2E at 3ED2
-
- Executing QCO_SUB_INT
-
-pop_machine_8:Popped 01 from SP:3EB1
-pop_machine_8:Popped 00 from SP:3EB2
-pop_machine_8:Popped 00 from SP:3EB3
-pop_machine_8:Popped 7B from SP:3EB4
-push_machine_16:pushing 007A to 3EB5
-Executing QCode 7F at 3ED3
-
- Executing QCO_ASS_INT
-
-pop_machine_8:Popped 00 from SP:3EB3
-pop_machine_8:Popped 7A from SP:3EB4
-pop_machine_8:Popped 00 from SP:3EB5
-pop_machine_16:Popped 3EEC from SP:3EB6
-Executing QCode 00 at 3ED4
-
- Executing QI_INT_SIM_FP
-
-qcode_next_16: PC:3ED5
-qcode_next_16: FFFC
-ind ptr:FFFC
-IND Addr: 3EEC
-push_machine_16:pushing 007A to 3EB8
-Executing QCode 6F at 3ED7
-
- Executing QCO_PRINT_INT
-
-pop_machine_8:Popped 00 from SP:3EB6
-pop_machine_8:Popped 7A from SP:3EB7
-Executing QCode 02 at 3ED8
-
- Executing QI_STR_SIM_FP
-
-qcode_next_16: PC:3ED9
-qcode_next_16: FFF1
-ind ptr:FFF1
-IND Addr: 3EE1
-push_machine_string:pushing ABC to 3EB8 len:3
-push_machine_8:pushing 43 to 3EB7
-push_machine_8:pushing 42 to 3EB6
-push_machine_8:pushing 41 to 3EB5
-push_machine_8:pushing 03 to 3EB4
-Executing QCode 71 at 3EDB
-
- Executing QCO_PRINT_STR
-
-pop_machine_8:Popped 03 from SP:3EB4
-pop_machine_8:Popped 41 from SP:3EB5
-Executing QCode 73 at 3EDC
-
- Executing QCO_PRINT_CR
-
-Executing QCode 7B at 3EDD
+Global varname entry length: 5
+varname='PEAR%'
+Varname type=00
+Addr addr=CCFF
+Global varname entry length: 5
+varname='DOOR$'
+Varname type=02
+Addr addr=C1FF
+Global varname entry length: 5
+varname='OPEN%'
+Varname type=03
+Addr addr=5AFF
+Global varname entry length: 4
+varname='POS$'
+Varname type=05
+Addr addr=ECFC
+Global varname entry length: 5
+varname='FLOAT'
+Varname type=04
+Addr addr=11F9
+Num global vars: 5
+Loading 4
+Loading 5
+Loading 6
+Exit:read_proc_file

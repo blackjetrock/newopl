@@ -1,22 +1,20 @@
 
 
 
-S$
-S$ := "ABC"
-A% := 123
-A% := (A% - 1)
-PRINT(A%)
-PRINT(S$)
-<nl>
-
+F2
+F(20)
+DOOR$
+FLOAT(123)
+EXTTOP% := 8
+S1$ := "abc"
+SA$(10) := "def"
 
 
 
 DROP()
-S$ := "ABC"
-A% := 123
-A% := (A% - 1)
-PRINT(A%)
-PRINT(S$)
-<nl>
-
+DROP()
+DROP()
+DROP()
+EXTTOP% := 8
+S1$ := "abc"
+SA$(10) := "def"
