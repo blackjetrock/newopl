@@ -50,3 +50,214 @@ Searching for externals...
 Applying fixups...
 Fixup at FFF0, data 0A, add:13EE0
 Executing QCode 0F at 3EC4
+
+ Executing QI_LS_STR_SIM_FP
+
+qcode_next_16: PC:3EC5
+qcode_next_16: FFF1
+ind ptr:FFF1
+IND Addr: 3EE1
+push_machine_8:pushing 0A to 3EC3
+push_machine_16:pushing 3EE1 to 3EC3
+Executing QCode 24 at 3EC7
+
+ Executing QI_STR_CON
+
+qcode_next_8: 03 at 3EC8
+  Len:3
+qcode_next_8: 41 at 3EC9
+qcode_next_8: 42 at 3ECA
+qcode_next_8: 43 at 3ECB
+push_machine_string:pushing ABC to 3EC1 len:3
+push_machine_8:pushing 43 to 3EC0
+push_machine_8:pushing 42 to 3EBF
+push_machine_8:pushing 41 to 3EBE
+push_machine_8:pushing 03 to 3EBD
+Executing QCode 81 at 3ECC
+
+ Executing QCO_ASS_STR
+
+pop_machine_8:Popped 03 from SP:3EBD
+pop_machine_8:Popped 41 from SP:3EBE
+pop_machine_8:Popped 42 from SP:3EBF
+pop_machine_8:Popped 43 from SP:3EC0
+pop_machine_string:Popped 'ABC' from 3EBD
+pop_machine_16:Popped 3EE1 from SP:3EC1
+Executing QCode 0D at 3ECD
+
+ Executing QI_LS_INT_SIM_FP
+
+qcode_next_16: PC:3ECE
+qcode_next_16: FFFC
+ind ptr:FFFC
+IND Addr: 3EEC
+push_machine_16:pushing 3EEC to 3EC3
+push_machine_8:pushing 00 to 3EC0
+Executing QCode 22 at 3ED0
+
+ Executing QI_INT_CON
+
+qcode_next_8: 00 at 3ED1
+push_machine_8:pushing 00 to 3EBF
+qcode_next_8: 7B at 3ED2
+push_machine_8:pushing 7B to 3EBE
+Executing QCode 7F at 3ED3
+
+ Executing QCO_ASS_INT
+
+pop_machine_8:Popped 7B from SP:3EBE
+pop_machine_8:Popped 00 from SP:3EBF
+pop_machine_8:Popped 00 from SP:3EC0
+pop_machine_16:Popped 3EEC from SP:3EC1
+Executing QCode 00 at 3ED4
+
+ Executing QI_INT_SIM_FP
+
+qcode_next_16: PC:3ED5
+qcode_next_16: FFFC
+ind ptr:FFFC
+IND Addr: 3EEC
+push_machine_16:pushing 007B to 3EC3
+Executing QCode 6F at 3ED7
+
+ Executing QCO_PRINT_INT
+
+pop_machine_8:Popped 00 from SP:3EC1
+pop_machine_8:Popped 7B from SP:3EC2
+Executing QCode 02 at 3ED8
+
+ Executing QI_STR_SIM_FP
+
+qcode_next_16: PC:3ED9
+qcode_next_16: FFF1
+ind ptr:FFF1
+IND Addr: 3EE1
+push_machine_string:pushing ABC to 3EC3 len:3
+push_machine_8:pushing 43 to 3EC2
+push_machine_8:pushing 42 to 3EC1
+push_machine_8:pushing 41 to 3EC0
+push_machine_8:pushing 03 to 3EBF
+Executing QCode 71 at 3EDB
+
+ Executing QCO_PRINT_STR
+
+pop_machine_8:Popped 03 from SP:3EBF
+pop_machine_8:Popped 41 from SP:3EC0
+Executing QCode 73 at 3EDC
+
+ Executing QCO_PRINT_CR
+
+Executing QCode 7B at 3EDD
+
+ Executing QCO_RETURN_ZERO
+
+==============================================Unwind============================
+3EFF: 58 X
+3EFE: 58 X
+3EFD: 58 X
+3EFC: 3A :
+3EFB: 41 A
+3EFA: 03 .
+3EF9: 00 .
+3EF8: 00 .
+3EF7: 00 .
+3EF6: 00 .
+3EF5: 00 .
+3EF4: 00 .
+3EF3: C4 .
+3EF2: 3E >
+3EF1: 00 .
+3EF0: 00 .
+3EEF: EE .
+3EEE: 3E >
+3EED: 7B {
+3EEC: 00 .
+3EEB: 22 "
+3EEA: 22 "
+3EE9: 22 "
+3EE8: 22 "
+3EE7: 22 "
+3EE6: 22 "
+3EE5: 22 "
+3EE4: 22 "
+3EE3: 43 C
+3EE2: 42 B
+3EE1: 41 A
+3EE0: 03 .
+3EDF: 22 "
+3EDE: 22 "
+3EDD: 7B {
+3EDC: 73 s
+3EDB: 71 q
+3EDA: F1 .
+3ED9: FF .
+3ED8: 02 .
+3ED7: 6F o
+3ED6: FC .
+3ED5: FF .
+3ED4: 00 .
+3ED3: 7F .
+3ED2: 7B {
+3ED1: 00 .
+3ED0: 22 "
+3ECF: FC .
+3ECE: FF .
+3ECD: 0D .
+3ECC: 81 .
+3ECB: 43 C
+3ECA: 42 B
+3EC9: 41 A
+3EC8: 03 .
+3EC7: 24 $
+3EC6: F1 .
+3EC5: FF .
+3EC4: 0F .
+3EC3: 0A .
+3EC2: 43 C
+3EC1: 42 B
+
+================================================================================
+
+  SP:3EC1
+  FP:3EF0
+  PC:3EDE
+
+
+Machine Procedures:
+3EF0:  Previous FP        : 0000
+3EF2:  Base SP            : 3EC4
+3EF4:  ONERR Address      : 0000
+3EF6:  Return PC          : 0000
+3EF8:  Device             : 00
+3EEE:  Global Table Start : 3EEE
+
+================================================================================
+
+Stack reset
+push_machine_8:pushing 00 to 3EFF
+push_machine_8:pushing 00 to 3EFE
+push_machine_8:pushing 00 to 3EFD
+push_machine_8:pushing 00 to 3EFC
+push_machine_8:pushing 00 to 3EFB
+push_machine_8:pushing 00 to 3EFA
+push_machine_8:pushing 00 to 3EF9
+push_machine_8:pushing 00 to 3EF8
+===  Exit ====
+3EFF: 00 .
+3EFE: 00 .
+3EFD: 00 .
+3EFC: 00 .
+3EFB: 00 .
+3EFA: 00 .
+3EF9: 00 .
+3EF8: 00 .
+
+================================================================================
+
+  SP:3EF8
+  FP:0000
+  PC:3EDE
+
+
+Machine Procedures:
+================================================================================

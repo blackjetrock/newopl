@@ -119,15 +119,16 @@ void qca_null(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_str_ind_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+  int dp = s->ind_ptr-1;
   
   // Now stack the string
-  s->len = stack_entry_8(m, (s->ind_ptr++) );
+  s->len = stack_entry_8(m, dp++ );
 
   int i;
   
   for(i=0; i<s->len; i++)
     {
-      s->str[i] = stack_entry_8(m, s->ind_ptr++);
+      s->str[i] = stack_entry_8(m, dp++);
     }
   
   s->str[i] = '\0';
@@ -194,7 +195,7 @@ void qca_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_16(m, s->ind_ptr);
   
   // Push field flag
-  push_machine_8(m, 0);
+  //push_machine_8(m, 0);
 }
 
 void qca_push_int_addr(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -353,42 +354,29 @@ void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   pop_machine_string(m, &(s->len), s->str);
 
   // Check for field
-  s->field_flag = pop_machine_8(m);
+  //s->field_flag = pop_machine_8(m);
 	  
   // Drop string reference
   s->str_addr = pop_machine_16(m);
-  s->max_sz = pop_machine_8(m);
+  //  s->len      = pop_machine_8(m);
 	  
-  // Assign
-  if( s->field_flag )
+  // Assign string to variable
+  // We are pointing at first byte of string
+  
+  // All OK
+  // Copy data
+  
+  // We copy the length with the data
+  m->stack[s->str_addr-1] = s->len;
+  
+  for(int i=0; i<s->len; i++)
     {
+      m->stack[s->str_addr+i] = s->str[i];
     }
-  else
-    {
-      // Assign string to variable
-      // We are pointing at length byte of string
-      // Check lengths
-      if( s->len <= s->max_sz )
-	{
-	  // All OK
-	  // Copy data
-
-	  // We copy the length with the data
-	  for(int i=0; i<s->len+1; i++)
-	    {
-	      m->stack[s->str_addr+i] = s->str[i];
-	    }
-
-	  // No need to zero the remaining space
-		 
-	}
-      else
-	{
-	  debug("\n*** String too big. Len %d but variable max is %d", s->len, s->max_sz);
-	}
-    }
+  
+  // No need to zero the remaining space
+  
 }
-
 
 void qca_push_zero(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -504,15 +492,17 @@ void display_frame(NOBJ_MACHINE *m)
   
   // rta_fp points to the frame pointer entry in the frame
 
-  int retadd  = stack_entry_16(m, fp+6);
-  int onerr   = stack_entry_16(m, fp+4);
-  int basesp  = stack_entry_16(m, fp+2);
-  int framep  = stack_entry_16(m, fp+0);
+  int retadd   = stack_entry_16(m, fp+6);
+  int onerr    = stack_entry_16(m, fp+4);
+  int basesp   = stack_entry_16(m, fp+2);
+  int framep   = stack_entry_16(m, fp+0);
+  int globtab  = stack_entry_16(m, fp-2);
 
-  printf("\nReturn PC: %04X", retadd);
-  printf("\nONERR    : %04X", onerr);
-  printf("\nBASE SP  : %04X", basesp);
-  printf("\nFP       : %04X", framep);
+  printf("\n%04X: Return PC    : %04X", fp+6, retadd  );
+  printf("\n%04X: ONERR        : %04X", fp+4, onerr   );
+  printf("\n%04X: BASE SP      : %04X", fp+2, basesp  );
+  printf("\n%04X: FP           : %04X", fp+0, framep  );
+  printf("\n%04X: Global Table : %04X", fp-2, globtab );
   
   printf("\n");
 }
