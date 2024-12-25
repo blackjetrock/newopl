@@ -514,7 +514,7 @@ void display_frame(NOBJ_MACHINE *m)
   printf("\nBASE SP  : %04X", basesp);
   printf("\nFP       : %04X", framep);
   
-
+  printf("\n");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
