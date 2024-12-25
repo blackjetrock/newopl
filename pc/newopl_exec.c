@@ -798,22 +798,11 @@ int main(int argc, char *argv[])
   // Put some parameters on the stack for our test code
   push_parameters(&machine);
 
-#if 0
-  // Reading the proc into data structures and then pushing it on the stack isn't
-  // going to work too well with limited RAM.
-  
-  // Read the object file
-  read_proc_file(fp, &proc);
-
-  // Push it it on the stack
-  push_proc_on_stack(&proc, &machine);
-#endif
-
   // Push proc onto stack
   push_proc(fp, &machine, argv[1], 1);
 
   // Execute it
-  execute_qcode(&machine);
+  execute_qcode(&machine, 1);
   
   debug("\n\n");
   

@@ -598,7 +598,7 @@ void push_machine_16(NOBJ_MACHINE *m, int16_t v)
 void push_machine_string(NOBJ_MACHINE *m, int len, char *str)
 {
 #if DEBUG_PUSH_POP
-  debug("\n%s:pushing %s to %04X", __FUNCTION__, str, m->rta_sp);
+  debug("\n%s:pushing %s to %04X len:%d", __FUNCTION__, str, m->rta_sp, len);
 #endif
 
   // Push the string

@@ -10,6 +10,7 @@
 #include "nopl_obj.h"
 #include "newopl_exec.h"
 #include "newopl_lib.h"
+
 #include "qcode.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -214,6 +215,12 @@ void qca_push_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_push_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Push integer at the address we calculated
+  push_machine_16(m,  stack_entry_16(m, s->ind_ptr));
+}
+
+void qca_push_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Push string at the address we calculated
   push_machine_16(m,  stack_entry_16(m, s->ind_ptr));
 }
 
@@ -427,9 +434,22 @@ void qca_pop_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->integer = pop_machine_int(m);
 }
 
+void qca_pop_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  s->integer = pop_machine_int(m);
+}
+
 void qca_print_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   printf("%d", s->integer);
+}
+
+void qca_print_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  for(int i=0; i<s->len; i++)
+    {
+      printf("%c", s->str[i]);
+    }
 }
 
 void qca_print_cr(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -445,42 +465,75 @@ void qca_print_cr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 NOBJ_QCODE_INFO qcode_info[] =
   {
-    { 0x00, "QI_INT_SIM_FP",     {qca_fp,           qca_null,        qca_push_int}},
-    { 0x09, "QI_STR_SIM_IND",    {qca_fp,           qca_ind,         qca_str_ind_con}},
-    { 0x0D, "QI_LS_INT_SIM_FP",  {qca_fp,           qca_null,        qca_push_int_addr }},
-    { 0x0F, "QI_LS_STR_SIM_FP",  {qca_fp,           qca_null,        qca_str }},
-    { 0x16, "QI_LS_STR_SIM_IND", {qca_fp,           qca_ind,         qca_str }},
-    { 0x20, "QI_STK_LIT_BYTE",   {qca_null,         qca_null,        qca_push_qc_byte}},
-    { 0x22, "QI_INT_CON",        {qca_null,         qca_null,        qca_int_qc_con}},
-    { 0x24, "QI_STR_CON",        {qca_null,         qca_null,        qca_str_qc_con}},
+    { QI_INT_SIM_FP,     "QI_INT_SIM_FP",     {qca_fp,           qca_null,        qca_push_int}},
+    { QI_STR_SIM_FP,     "QI_STR_SIM_FP",     {qca_fp,           qca_null,        qca_str_ind_con}},
+    { QI_STR_SIM_IND,    "QI_STR_SIM_IND",    {qca_fp,           qca_ind,         qca_str_ind_con}},
+    { QI_LS_INT_SIM_FP,  "QI_LS_INT_SIM_FP",  {qca_fp,           qca_null,        qca_push_int_addr }},
+    { QI_LS_STR_SIM_FP,  "QI_LS_STR_SIM_FP",  {qca_fp,           qca_null,        qca_str }},
+    { QI_LS_STR_SIM_IND, "QI_LS_STR_SIM_IND", {qca_fp,           qca_ind,         qca_str }},
+    { QI_STK_LIT_BYTE,   "QI_STK_LIT_BYTE",   {qca_null,         qca_null,        qca_push_qc_byte}},
+    { QI_INT_CON,        "QI_INT_CON",        {qca_null,         qca_null,        qca_int_qc_con}},
+    { QI_STR_CON,        "QI_STR_CON",        {qca_null,         qca_null,        qca_str_qc_con}},
 
-    { 0x6F, "QCO_PRINT_INT",     {qca_pop_int,      qca_print_int,   qca_null}},
-    { 0x73, "QCO_PRINT_CR",      {qca_null,         qca_print_cr,    qca_null}},
+    { QCO_PRINT_INT,     "QCO_PRINT_INT",     {qca_pop_int,      qca_print_int,   qca_null}},
+    { QCO_PRINT_STR,     "QCO_PRINT_STR",     {qca_pop_str,      qca_print_str,   qca_null}},
+    { QCO_PRINT_CR,      "QCO_PRINT_CR",      {qca_null,         qca_print_cr,    qca_null}},
 
-    { 0x79, "QCO_RETURN",        {qca_unwind_proc,  qca_null,        qca_null}},
-    { 0x7A, "QCO_RETURN_NOUGHT", {qca_unwind_proc,  qca_push_nought, qca_null}},
-    { 0x7B, "QCO_RETURN_ZERO",   {qca_unwind_proc,  qca_push_zero,   qca_null}},
-    { 0x7C, "QCO_RETURN_NULL",   {qca_unwind_proc,  qca_push_null,   qca_null}},
-    { 0x7D, "QCO_PROC",          {qca_push_proc,    qca_push_null,   qca_null}},
-    { 0x7F, "QCO_ASS_INT",       {qca_ass_int,      qca_null,        qca_null}},
-    { 0x81, "QCO_ASS_STR",       {qca_ass_str,      qca_null,        qca_null}},
-    { 0x84, "QCO_DROP_NUM",      {qca_pop_num,      qca_null,        qca_null}},
+    { QCO_RETURN,        "QCO_RETURN",        {qca_unwind_proc,  qca_null,        qca_null}},
+    { QCO_RETURN_NOUGHT, "QCO_RETURN_NOUGHT", {qca_unwind_proc,  qca_push_nought, qca_null}},
+    { QCO_RETURN_ZERO,   "QCO_RETURN_ZERO",   {qca_unwind_proc,  qca_push_zero,   qca_null}},
+    { QCO_RETURN_NULL,   "QCO_RETURN_NULL",   {qca_unwind_proc,  qca_push_null,   qca_null}},
+    { QCO_PROC,          "QCO_PROC",          {qca_push_proc,    qca_push_null,   qca_null}},
+    { QCO_ASS_INT,       "QCO_ASS_INT",       {qca_ass_int,      qca_null,        qca_null}},
+    { QCO_ASS_STR,       "QCO_ASS_STR",       {qca_ass_str,      qca_null,        qca_null}},
+    { QCO_DROP_NUM,      "QCO_DROP_NUM",      {qca_pop_num,      qca_null,        qca_null}},
   };
 
 #define SIZEOF_QCODE_INFO (sizeof(qcode_info)/sizeof(NOBJ_QCODE_INFO))
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Execute one QCode 
+// Display frame
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-int execute_qcode(NOBJ_MACHINE *m)
+
+void display_frame(NOBJ_MACHINE *m)
+{
+  int fp = m->rta_fp;
+  
+  // rta_fp points to the frame pointer entry in the frame
+
+  int retadd  = stack_entry_16(m, fp+6);
+  int onerr   = stack_entry_16(m, fp+4);
+  int basesp  = stack_entry_16(m, fp+2);
+  int framep  = stack_entry_16(m, fp+0);
+
+  printf("\nReturn PC: %04X", retadd);
+  printf("\nONERR    : %04X", onerr);
+  printf("\nBASE SP  : %04X", basesp);
+  printf("\nFP       : %04X", framep);
+  
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Execute one QCode 
+//
+////////////////////////////////////////////////////////////////////////////////
+//
+// Single step mode aows execution to be stepped and information queried
+// before execution of next instruction
+//
+
+int execute_qcode(NOBJ_MACHINE *m, int single_step)
 {
   uint8_t    field_flag;
   NOBJ_QCS   s;
   int        found;
-
+  char outline[250];
+  
   s.done = 0;
   
   while(!s.done)
@@ -493,19 +546,16 @@ int execute_qcode(NOBJ_MACHINE *m)
       
       (m->rta_pc)++;
 
+      
       found = 0;
-
+      int qci = 0;
+      
       for(int q=0; q<SIZEOF_QCODE_INFO; q++)
 	{
 	  if( s.qcode == qcode_info[q].qcode )
 	    {
-	      debug("\n Executing %s", qcode_info[q].name);
+	      qci = q;
 	      
-	      // Perform actions
-	      for(int a=0; a<NOBJ_QC_NUM_ACTIONS; a++)
-		{
-		  qcode_info[q].action[a](m, &s);
-		}
 	      found = 1;
 	      break;
 	    }
@@ -513,7 +563,96 @@ int execute_qcode(NOBJ_MACHINE *m)
 
       if( !found )
 	{
+	  debug("\nNot found so exit: %02X\n", s.qcode);
 	  s.done = 1;
+	}
+
+      if( single_step )
+	{
+	  sprintf(outline, "rta_sp:%04X rta_fp:%04X rta_pc:%04X qcode:%02X %s",
+		 m->rta_sp,
+		 m->rta_fp,
+		 m->rta_pc,
+		 s.qcode,
+		 qcode_info[qci].name
+		 );
+
+	  printf("\n%s", outline);
+
+	  for(int i = 0; i<40-(strlen(outline) % 40); i++)
+	    {
+	      printf(" ");
+	    }
+
+	  printf(" %04X: ", m->rta_sp-16);
+	  
+	  for(int i=m->rta_sp-16; i<=m->rta_sp+16; i++)
+	    {
+	      if( i == m->rta_sp )
+		{
+		  printf("(%02X) ", m->stack[i]);
+		}
+	      else
+		{
+		  printf("%02X ", m->stack[i]);
+		}
+	    }
+	  
+	  printf(" :%04X ", m->rta_sp+16);
+	  printf("\n");
+	  
+	  int done = 0;
+	  char cmdline[250];
+	  while(!done)
+	    {
+	      fgets(cmdline, 250, stdin);
+
+	      if( cmdline[strlen(cmdline)-1] == '\n' )
+		{
+		  cmdline[strlen(cmdline)-1] = '\0';
+		}
+	      
+	      if( strlen(cmdline)==0 )
+		{
+		  done = 1;
+		}
+	      
+	      if( strcmp(cmdline, "cont") == 0 )
+		{
+		  done = 1;
+		}
+
+	      if( strcmp(cmdline, "f") == 0 )
+		{
+		  // Display frame
+		  display_frame(m);
+		}
+	      
+	      if( strcmp(cmdline, "s") == 0 )
+		{
+		  // Print the stack out, around rta_sp
+		  printf("\nrta_sp:%04X", m->rta_sp);
+		  
+		  for(int i=m->rta_sp; i<=0x3F00; i++)
+		    {
+		      printf("\n%04X: %02X '%c'", i, m->stack[i], isprint(m->stack[i])?m->stack[i]:' ');
+		    }
+		  printf("\n");
+		}
+	      
+	      if( sscanf(cmdline, "cont") == 1 )
+		{
+		  done = 1;
+		}
+	    }
+	}
+
+      debug("\n\n Executing %s\n", qcode_info[qci].name);
+      
+      // Perform actions
+      for(int a=0; a<NOBJ_QC_NUM_ACTIONS; a++)
+	{
+	  qcode_info[qci].action[a](m, &s);
 	}
 
       if ( m->rta_fp == 0 )
