@@ -377,8 +377,8 @@ char *qc_byte_prt_fn_F(int i, NOBJ_QCODE *qc)
   uint8_t first_byte;
    int8_t exponent;
   uint8_t sign;
-  char line[12];
-  char digits[12];
+  char line[100];
+  char digits[30];
   
   first_byte = *(++qc);
   qc_len = first_byte & 0x7F;
