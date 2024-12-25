@@ -4,6 +4,7 @@
 S$
 S$ := "ABC"
 A% := 123
+A% := (A% - 1)
 PRINT(A%)
 PRINT(S$)
 <nl>
@@ -14,6 +15,7 @@ PRINT(S$)
 DROP()
 S$ := "ABC"
 A% := 123
+A% := (A% - 1)
 PRINT(A%)
 PRINT(S$)
 <nl>

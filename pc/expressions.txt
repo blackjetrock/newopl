@@ -73,6 +73,39 @@ Pop: 'A%'
 --------------------
 
 Push:'A%'
+Push:'A%'
+Push:'1'
+Pop: '1'
+Pop: 'A%'
+Push:'000'
+Pop: '000'
+Pop: 'A%'
+====================
+
+EXP_BUFF_ID_VARIABLE A%
+Push:'A%'
+                    000: 'A%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE A%
+Push:'A%'
+                    000: 'A%' type:i (0), %:0
+                    001: 'A%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 1
+Push:'1'
+                    000: 'A%' type:i (0), %:0
+                    001: 'A%' type:i (0), %:0
+                    002: '1' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR -
+Pop: '1'
+Pop: 'A%'
+Push:'000'
+                    000: 'A%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'A%'
+--------------------
+
+Push:'A%'
 Pop: 'A%'
 ====================
 
@@ -177,6 +210,39 @@ Push:'123'
                     001: '123' type:i (0), %:0
 EXP_BUFF_ID_OPERATOR :=
 Pop: '123'
+Pop: 'A%'
+--------------------
+
+Push:'A%'
+Push:'A%'
+Push:'1'
+Pop: '1'
+Pop: 'A%'
+Push:'000'
+Pop: '000'
+Pop: 'A%'
+====================
+
+EXP_BUFF_ID_VARIABLE A%
+Push:'A%'
+                    000: 'A%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE A%
+Push:'A%'
+                    000: 'A%' type:i (0), %:0
+                    001: 'A%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 1
+Push:'1'
+                    000: 'A%' type:i (0), %:0
+                    001: 'A%' type:i (0), %:0
+                    002: '1' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR -
+Pop: '1'
+Pop: 'A%'
+Push:'000'
+                    000: 'A%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
 Pop: 'A%'
 --------------------
 

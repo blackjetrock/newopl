@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:0010
-QCode Space Size:001C
+QCode Space Size:0027
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -33,16 +33,25 @@ QCode
 000E: 22       Push integer literal     (bytes code:I)
 000F: 007B       (123)
 0011: 7F       Assign integer     (bytes code:-)
-0012: 00       Push local/global integer variable value     (bytes code:v)
+0012: 0D       Push local/global integer variable reference     (bytes code:v)
 0013: FFFC       (65532)
-0015: 6F       PRINT integer     (bytes code:-)
-0016: 02       Push local/global string variable value     (bytes code:v)
-0017: FFF1       (65521)
-0019: 71       PRINT string     (bytes code:-)
-001A: 73       PRINT newline     (bytes code:-)
-001B: 7B       RETURN (float 0)     (bytes code:-)
+0015: 00       Push local/global integer variable value     (bytes code:v)
+0016: FFFC       (65532)
+0018: 22       Push integer literal     (bytes code:I)
+0019: 0001       (1)
+001B: 2E       Minus integer     (bytes code:-)
+001C: 7F       Assign integer     (bytes code:-)
+001D: 00       Push local/global integer variable value     (bytes code:v)
+001E: FFFC       (65532)
+0020: 6F       PRINT integer     (bytes code:-)
+0021: 02       Push local/global string variable value     (bytes code:v)
+0022: FFF1       (65521)
+0024: 71       PRINT string     (bytes code:-)
+0025: 73       PRINT newline     (bytes code:-)
+0026: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
 0000:59 B2 0F FF F1 24 03 41 42 43 81 0D FF FC 22 00 
-0010:7B 7F 00 FF FC 6F 02 FF F1 71 73 7B 
+0010:7B 7F 0D FF FC 00 FF FC 22 00 01 2E 7F 00 FF FC 
+0020:6F 02 FF F1 71 73 7B 
