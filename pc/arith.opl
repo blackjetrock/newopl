@@ -1,8 +1,9 @@
 ARITH%:
 
-LOCAL A%, B%
+LOCAL A%, B%, R%
 
-A% = 1000 + 100
+A% = 100
+R% = 0
 
 print A%
 A% = A% / 2
@@ -10,11 +11,28 @@ A% = A% / 2
 print A%
 A% = A% * 3
 
+A% = A% + 1000
 print A%
 
-A% = 1000 + 100 / 2 * 3
+B% = 1000 + 100 / 2 * 3
 
-print A%
+print B%
 
-return A%
+R% = 0
+
+IF A% == B%
+R% = R% + 1
+ELSE
+R% = R% + 10
+ENDIF
+
+IF A% <> B%
+R% = R% + 100
+ELSE
+R% = R% + 1000
+ENDIF
+
+PRINT R%
+
+return R%
 

@@ -483,6 +483,8 @@ void qca_pop_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->integer = pop_machine_int(m);
 }
 
+//------------------------------------------------------------------------------
+
 void qca_print_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   printf("%d", s->integer);
@@ -501,6 +503,68 @@ void qca_print_cr(NOBJ_MACHINE *m, NOBJ_QCS *s)
   printf("\n");
 }
 
+//------------------------------------------------------------------------------
+
+void qca_eq_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
+
+  if( s->integer == s->integer2 )
+    {
+      res = NOBJ_TRUE;    
+    }
+  else
+    {
+      res = NOBJ_FALSE;
+    }
+
+  // Push result
+  push_machine_16(m, res);
+}
+
+void qca_ne_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
+
+  if( s->integer != s->integer2 )
+    {
+      res = NOBJ_TRUE;    
+    }
+  else
+    {
+      res = NOBJ_FALSE;
+    }
+
+  // Push result
+  push_machine_16(m, res);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void qca_bra_false(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT flag;
+  int16_t offset;
+
+  // Get flag to test
+  flag = pop_machine_16(m);
+
+  // Get offset
+  offset = m->stack[m->rta_pc++];
+  offset <<= 8;
+  offset |= m->stack[m->rta_pc++];
+  
+  dbq("Flag:(%04X) offset %d (%04X)", flag, offset, offset);
+
+  if( flag == 0 )
+    {
+      m->rta_pc += offset -2;
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -518,12 +582,17 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_STK_LIT_BYTE,   "QI_STK_LIT_BYTE",   {qca_null,         qca_null,        qca_push_qc_byte}},
     { QI_INT_CON,        "QI_INT_CON",        {qca_null,         qca_null,        qca_int_qc_con}},
     { QI_STR_CON,        "QI_STR_CON",        {qca_null,         qca_null,        qca_str_qc_con}},
+    
+    { QCO_EQ_INT,        "QI_EQ_INT",         {qca_pop_2int,     qca_eq_int,      qca_null}},
+    { QCO_NE_INT,        "QI_NE_INT",         {qca_pop_2int,     qca_ne_int,      qca_null}},
 
     { QCO_PRINT_INT,     "QCO_PRINT_INT",     {qca_pop_int,      qca_print_int,   qca_null}},
     { QCO_PRINT_STR,     "QCO_PRINT_STR",     {qca_pop_str,      qca_print_str,   qca_null}},
     { QCO_PRINT_CR,      "QCO_PRINT_CR",      {qca_null,         qca_print_cr,    qca_null}},
-
+    
+    { QCO_BRA_FALSE,     "QCO_BRA_FALSE",     {qca_bra_false,    qca_null,        qca_null}},
     { QCO_RETURN,        "QCO_RETURN",        {qca_unwind_proc,  qca_null,        qca_null}},
+    
     { QCO_RETURN_NOUGHT, "QCO_RETURN_NOUGHT", {qca_unwind_proc,  qca_push_nought, qca_null}},
     { QCO_RETURN_ZERO,   "QCO_RETURN_ZERO",   {qca_unwind_proc,  qca_push_zero,   qca_null}},
     { QCO_RETURN_NULL,   "QCO_RETURN_NULL",   {qca_unwind_proc,  qca_push_null,   qca_null}},
@@ -616,6 +685,7 @@ int execute_qcode(NOBJ_MACHINE *m, int single_step)
 	{
 	  dbq("Not found so exit: %02X\n", s.qcode);
 	  s.done = 1;
+	  continue;
 	}
 
       sprintf(outline, "rta_sp:%04X rta_fp:%04X rta_pc:%04X qcode:%02X %s",

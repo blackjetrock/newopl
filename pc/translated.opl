@@ -1,8 +1,9 @@
 
 
 
-B%
-A% := (1000 + 100)
+R%
+A% := 100
+R% := 0
 PRINT(A%)
 <nl>
 
@@ -11,19 +12,35 @@ PRINT(A%)
 <nl>
 
 A% := (A% * 3)
+A% := (A% + 1000)
 PRINT(A%)
 <nl>
 
-A% := (1000 + ((100 / 2) * 3))
-PRINT(A%)
+B% := (1000 + ((100 / 2) * 3))
+PRINT(B%)
 <nl>
 
-A%
+R% := 0
+IF (A% = (A% = B%))
+R% := (R% + 1)
+ELSE
+R% := (R% + 10)
+ENDIF
+IF (A% <> B%)
+R% := (R% + 100)
+ELSE
+R% := (R% + 1000)
+ENDIF
+PRINT(R%)
+<nl>
+
+R%
 
 
 
 DROP()
-A% := (1000 + 100)
+A% := 100
+R% := 0
 PRINT(A%)
 <nl>
 
@@ -32,11 +49,26 @@ PRINT(A%)
 <nl>
 
 A% := (A% * 3)
+A% := (A% + 1000)
 PRINT(A%)
 <nl>
 
-A% := (1000 + ((100 / 2) * 3))
-PRINT(A%)
+B% := (1000 + ((100 / 2) * 3))
+PRINT(B%)
 <nl>
 
-A%
+R% := 0
+IF (A% = (A% = B%))
+R% := (R% + 1)
+ELSE
+R% := (R% + 10)
+ENDIF
+IF (A% <> B%)
+R% := (R% + 100)
+ELSE
+R% := (R% + 1000)
+ENDIF
+PRINT(R%)
+<nl>
+
+R%
