@@ -29,77 +29,85 @@ Pushing procedure 'ob3_nopl.bin'
   FP:0000
   PC:0000
 
-Size of variables    :10 16
-Size of QCode        :20 32
+Size of variables    :0E 14
+Size of QCode        :25 37
 Number of parameters :00 0
-Base SP              :3EC0 16064
+Base SP              :3EBD 16061
 push_machine_8:pushing 00 to 3EF8
 push_machine_16:pushing 0000 to 3EF8
 push_machine_16:pushing 0000 to 3EF6
-push_machine_16:pushing 3EC0 to 3EF4
+push_machine_16:pushing 3EBD to 3EF4
 rta_fp = 3EF0
 push_machine_16:pushing 0000 to 3EF2
 Size of global table:00 (0)
 Start of global table:3EEE (SP now 3EF0)
 push_machine_16:pushing 3EEE to 3EF0
 Zeroing stack from base_sp to start of global table
-3EC0 to 3EED
+3EBD to 3EED
 Size of external table:00 0
 Building Indirection Table
 Searching for externals...
 Applying fixups...
 Fixup at FFF2, data 0A, add:13EE2
-push_machine_8:pushing 0A to 3EBF
-push_machine_16:pushing 3EE3 to 3EBF
-push_machine_8:pushing 00 to 3EBC
-push_machine_string:pushing 0ABC to 3EBC len:4
+push_machine_8:pushing 0A to 3EBC
+push_machine_16:pushing 3EE3 to 3EBC
+push_machine_8:pushing 00 to 3EB9
+push_machine_string:pushing ABC to 3EB9 len:3
+push_machine_8:pushing 43 to 3EB8
+push_machine_8:pushing 42 to 3EB7
+push_machine_8:pushing 41 to 3EB6
+push_machine_8:pushing 03 to 3EB5
+pop_machine_8:Popped 03 from SP:3EB5
+pop_machine_8:Popped 41 from SP:3EB6
+pop_machine_8:Popped 42 from SP:3EB7
+pop_machine_8:Popped 43 from SP:3EB8
+pop_machine_string:Popped 'ABC' from 3EB5
+pop_machine_8:Popped 00 from SP:3EB9
+pop_machine_16:Popped 3EE3 from SP:3EBA
+push_machine_string:pushing ABC to 3EBC len:3
 push_machine_8:pushing 43 to 3EBB
 push_machine_8:pushing 42 to 3EBA
 push_machine_8:pushing 41 to 3EB9
-push_machine_8:pushing 30 to 3EB8
-push_machine_8:pushing 04 to 3EB7
-pop_machine_8:Popped 04 from SP:3EB7
-pop_machine_8:Popped 30 from SP:3EB8
+push_machine_8:pushing 03 to 3EB8
+pop_machine_8:Popped 03 from SP:3EB8
 pop_machine_8:Popped 41 from SP:3EB9
 pop_machine_8:Popped 42 from SP:3EBA
 pop_machine_8:Popped 43 from SP:3EBB
-pop_machine_string:Popped '0ABC' from 3EB7
-pop_machine_8:Popped 00 from SP:3EBC
-pop_machine_16:Popped 3EE3 from SP:3EBD
-push_machine_16:pushing 3EE0 to 3EBF
-push_machine_8:pushing 00 to 3EBC
-push_machine_string:pushing 0ABC to 3EBC len:4
+pop_machine_string:Popped 'ABC' from 3EB8
+push_machine_string:pushing ABC to 3EBC len:3
 push_machine_8:pushing 43 to 3EBB
 push_machine_8:pushing 42 to 3EBA
 push_machine_8:pushing 41 to 3EB9
-push_machine_8:pushing 30 to 3EB8
-push_machine_8:pushing 04 to 3EB7
-pop_machine_8:Popped 04 from SP:3EB7
-pop_machine_8:Popped 30 from SP:3EB8
+push_machine_8:pushing 03 to 3EB8
+push_machine_string:pushing ABC to 3EB8 len:3
+push_machine_8:pushing 43 to 3EB7
+push_machine_8:pushing 42 to 3EB6
+push_machine_8:pushing 41 to 3EB5
+push_machine_8:pushing 03 to 3EB4
+pop_machine_8:Popped 03 from SP:3EB4
+pop_machine_8:Popped 41 from SP:3EB5
+pop_machine_8:Popped 42 from SP:3EB6
+pop_machine_8:Popped 43 from SP:3EB7
+pop_machine_string:Popped 'ABC' from 3EB4
+pop_machine_8:Popped 03 from SP:3EB8
 pop_machine_8:Popped 41 from SP:3EB9
 pop_machine_8:Popped 42 from SP:3EBA
 pop_machine_8:Popped 43 from SP:3EBB
-pop_machine_string:Popped '0ABC' from 3EB7
-push_machine_16:pushing 0030 to 3EBC
-pop_machine_16:Popped 0030 from SP:3EBA
-pop_machine_8:Popped 00 from SP:3EBC
-pop_machine_16:Popped 3EE0 from SP:3EBD
-push_machine_16:pushing 0030 to 3EBF
-pop_machine_16:Popped 0030 from SP:3EBD
-push_machine_string:pushing 0ABC to 3EBF len:4
-push_machine_8:pushing 43 to 3EBE
-push_machine_8:pushing 42 to 3EBD
-push_machine_8:pushing 41 to 3EBC
-push_machine_8:pushing 30 to 3EBB
-push_machine_8:pushing 04 to 3EBA
-pop_machine_8:Popped 04 from SP:3EBA
-pop_machine_8:Popped 30 from SP:3EBB
-pop_machine_8:Popped 41 from SP:3EBC
-pop_machine_8:Popped 42 from SP:3EBD
-pop_machine_8:Popped 43 from SP:3EBE
-pop_machine_string:Popped '0ABC' from 3EBA
-push_machine_16:pushing 0004 to 3EBF
-pop_machine_16:Popped 0004 from SP:3EBD
+pop_machine_string:Popped 'ABC' from 3EB8
+push_machine_16:pushing FFFFFFFF to 3EBC
+pop_machine_16:Popped FFFF from SP:3EBA
+push_machine_string:pushing PASS to 3EBC len:4
+push_machine_8:pushing 53 to 3EBB
+push_machine_8:pushing 53 to 3EBA
+push_machine_8:pushing 41 to 3EB9
+push_machine_8:pushing 50 to 3EB8
+push_machine_8:pushing 04 to 3EB7
+pop_machine_8:Popped 04 from SP:3EB7
+pop_machine_8:Popped 50 from SP:3EB8
+pop_machine_8:Popped 41 from SP:3EB9
+pop_machine_8:Popped 53 from SP:3EBA
+pop_machine_8:Popped 53 from SP:3EBB
+pop_machine_string:Popped 'PASS' from 3EB7
 3EFF: 58 X
 3EFE: 58 X
 3EFD: 58 X
@@ -112,7 +120,7 @@ pop_machine_16:Popped 0004 from SP:3EBD
 3EF6: 00 .
 3EF5: 00 .
 3EF4: 00 .
-3EF3: C0 .
+3EF3: BD .
 3EF2: 3E >
 3EF1: 00 .
 3EF0: 00 .
@@ -125,57 +133,60 @@ pop_machine_16:Popped 0004 from SP:3EBD
 3EE9: 22 "
 3EE8: 22 "
 3EE7: 22 "
-3EE6: 43 C
-3EE5: 42 B
-3EE4: 41 A
-3EE3: 30 0
-3EE2: 04 .
-3EE1: 30 0
-3EE0: 00 .
-3EDF: 22 "
-3EDE: 22 "
-3EDD: 7A z
-3EDC: 73 s
-3EDB: 6F o
-3EDA: 96 .
-3ED9: F3 .
-3ED8: FF .
-3ED7: 02 .
-3ED6: 73 s
-3ED5: 6F o
-3ED4: F0 .
-3ED3: FF .
-3ED2: 00 .
-3ED1: 7F .
-3ED0: 8B .
-3ECF: F3 .
-3ECE: FF .
-3ECD: 02 .
-3ECC: F0 .
-3ECB: FF .
-3ECA: 0D .
-3EC9: 81 .
-3EC8: 43 C
-3EC7: 42 B
-3EC6: 41 A
-3EC5: 30 0
-3EC4: 04 .
-3EC3: 24 $
-3EC2: F3 .
-3EC1: FF .
-3EC0: 0F .
-3EBF: 0A .
+3EE6: 22 "
+3EE5: 43 C
+3EE4: 42 B
+3EE3: 41 A
+3EE2: 03 .
+3EE1: 22 "
+3EE0: 22 "
+3EDF: 7B {
+3EDE: 73 s
+3EDD: 71 q
+3EDC: 53 S
+3EDB: 53 S
+3EDA: 41 A
+3ED9: 50 P
+3ED8: 04 .
+3ED7: 24 $
+3ED6: 0A .
+3ED5: 00 .
+3ED4: 7E ~
+3ED3: 4A J
+3ED2: 43 C
+3ED1: 42 B
+3ED0: 41 A
+3ECF: 03 .
+3ECE: 24 $
+3ECD: F3 .
+3ECC: FF .
+3ECB: 02 .
+3ECA: 73 s
+3EC9: 71 q
+3EC8: F3 .
+3EC7: FF .
+3EC6: 02 .
+3EC5: 81 .
+3EC4: 43 C
+3EC3: 42 B
+3EC2: 41 A
+3EC1: 03 .
+3EC0: 24 $
+3EBF: F3 .
+3EBE: FF .
+3EBD: 0F .
+3EBC: 0A .
 
 ================================================================================
 
-  SP:3EBF
+  SP:3EBC
   FP:3EF0
-  PC:3EDE
+  PC:3EE0
 
 
 Machine Procedures:
 3EF0:  Previous FP        : 0000
-3EF2:  Base SP            : 3EC0
+3EF2:  Base SP            : 3EBD
 3EF4:  ONERR Address      : 0000
 3EF6:  Return PC          : 0000
 3EF8:  Device             : 00
@@ -185,14 +196,26 @@ Machine Procedures:
 
 push_machine_8:pushing 00 to 3EFF
 push_machine_8:pushing 00 to 3EFE
+push_machine_8:pushing 00 to 3EFD
+push_machine_8:pushing 00 to 3EFC
+push_machine_8:pushing 00 to 3EFB
+push_machine_8:pushing 00 to 3EFA
+push_machine_8:pushing 00 to 3EF9
+push_machine_8:pushing 00 to 3EF8
 3EFF: 00 .
 3EFE: 00 .
+3EFD: 00 .
+3EFC: 00 .
+3EFB: 00 .
+3EFA: 00 .
+3EF9: 00 .
+3EF8: 00 .
 
 ================================================================================
 
-  SP:3EFE
+  SP:3EF8
   FP:0000
-  PC:3EDE
+  PC:3EE0
 
 
 Machine Procedures:
