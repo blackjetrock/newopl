@@ -7,10 +7,6 @@ A%
 
 ,
 
-B%
-
-,
-
 R%
 
 A%
@@ -18,7 +14,7 @@ A%
 :=
           000:type:i ':='
 
-100
+1
           000:type:i ':='
 
 R%
@@ -31,138 +27,10 @@ R%
 
 A%
 
-PRINT
-          000:type:U 'PRINT'
-
-A%
-
 :=
           000:type:i ':='
 
 A%
-          000:type:i ':='
-
-/
-          000:type:i ':='
-          001:type:i '/'
-
-2
-          000:type:i ':='
-          001:type:i '/'
-
-"A:"
-
-;
-
-A%
-
-PRINT
-          000:type:U 'PRINT'
-
-A%
-
-:=
-          000:type:i ':='
-
-A%
-          000:type:i ':='
-
-*
-          000:type:i ':='
-          001:type:i '*'
-
-3
-          000:type:i ':='
-          001:type:i '*'
-
-A%
-
-:=
-          000:type:i ':='
-
-A%
-          000:type:i ':='
-
-+
-          000:type:i ':='
-          001:type:i '+'
-
-1000
-          000:type:i ':='
-          001:type:i '+'
-
-A%
-
-PRINT
-          000:type:U 'PRINT'
-
-B%
-
-:=
-          000:type:i ':='
-
-1000
-          000:type:i ':='
-
-+
-          000:type:i ':='
-          001:type:i '+'
-
-100
-          000:type:i ':='
-          001:type:i '+'
-
-/
-          000:type:i ':='
-          001:type:i '+'
-          002:type:i '/'
-
-2
-          000:type:i ':='
-          001:type:i '+'
-          002:type:i '/'
-
-*
-          000:type:i ':='
-          001:type:i '+'
-          002:type:i '*'
-
-3
-          000:type:i ':='
-          001:type:i '+'
-          002:type:i '*'
-
-"B:"
-
-;
-
-B%
-
-PRINT
-          000:type:U 'PRINT'
-
-R%
-
-:=
-          000:type:i ':='
-
-0
-          000:type:i ':='
-
-A%
-
-=
-          000:type:i '='
-
-B%
-          000:type:i '='
-
-R%
-
-:=
-          000:type:i ':='
-
-R%
           000:type:i ':='
 
 +
@@ -173,72 +41,22 @@ R%
           000:type:i ':='
           001:type:i '+'
 
-R%
+TEST_EXPR
 
-:=
-          000:type:i ':='
+A%
 
-R%
-          000:type:i ':='
-
-+
-          000:type:i ':='
-          001:type:i '+'
+=
+          000:type:i '='
 
 10
-          000:type:i ':='
-          001:type:i '+'
-
-ENDIF
+          000:type:i '='
 
 A%
-
-<>
-          000:type:i '<>'
-
-B%
-          000:type:i '<>'
-
-R%
-
-:=
-          000:type:i ':='
-
-R%
-          000:type:i ':='
-
-+
-          000:type:i ':='
-          001:type:i '+'
-
-100
-          000:type:i ':='
-          001:type:i '+'
-
-R%
-
-:=
-          000:type:i ':='
-
-R%
-          000:type:i ':='
-
-+
-          000:type:i ':='
-          001:type:i '+'
-
-1000
-          000:type:i ':='
-          001:type:i '+'
-
-ENDIF
-
-R%
 
 =
           000:type:i '='
 
-1001
+10
           000:type:i '='
 
 R%
@@ -246,22 +64,77 @@ R%
 :=
           000:type:i ':='
 
+R%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
 1
           000:type:i ':='
+          001:type:i '+'
+
+ENDIF
+
+TEST_EXPR
+
+A%
+
+>
+          000:type:i '>'
+
+5
+          000:type:i '>'
+
+A%
+
+PRINT
+          000:type:U 'PRINT'
+
+A%
+
+:=
+          000:type:i ':='
+
+A%
+          000:type:i ':='
+
+-
+          000:type:i ':='
+          001:type:i '-'
+
+1
+          000:type:i ':='
+          001:type:i '-'
+
+ENDWH
+
+A%
+
+=
+          000:type:i '='
+
+5
+          000:type:i '='
 
 R%
 
 :=
           000:type:i ':='
 
-0
+R%
           000:type:i ':='
 
++
+          000:type:i ':='
+          001:type:i '+'
+
+1
+          000:type:i ':='
+          001:type:i '+'
+
 ENDIF
-
-"Result:"
-
-;
 
 R%
 
@@ -273,7 +146,7 @@ R%
 =
           000:type:i '='
 
-1
+2
           000:type:i '='
 
 "PASS"
@@ -281,14 +154,7 @@ R%
 PRINT
           000:type:U 'PRINT'
 
-"FAIL"
-
-PRINT
-          000:type:U 'PRINT'
-
 ENDIF
-
-R%
 
 PROCDEF
 
@@ -298,10 +164,6 @@ A%
 
 ,
 
-B%
-
-,
-
 R%
 
 A%
@@ -309,7 +171,7 @@ A%
 :=
           000:type:i ':='
 
-100
+1
           000:type:i ':='
 
 R%
@@ -322,138 +184,10 @@ R%
 
 A%
 
-PRINT
-          000:type:U 'PRINT'
-
-A%
-
 :=
           000:type:i ':='
 
 A%
-          000:type:i ':='
-
-/
-          000:type:i ':='
-          001:type:i '/'
-
-2
-          000:type:i ':='
-          001:type:i '/'
-
-"A:"
-
-;
-
-A%
-
-PRINT
-          000:type:U 'PRINT'
-
-A%
-
-:=
-          000:type:i ':='
-
-A%
-          000:type:i ':='
-
-*
-          000:type:i ':='
-          001:type:i '*'
-
-3
-          000:type:i ':='
-          001:type:i '*'
-
-A%
-
-:=
-          000:type:i ':='
-
-A%
-          000:type:i ':='
-
-+
-          000:type:i ':='
-          001:type:i '+'
-
-1000
-          000:type:i ':='
-          001:type:i '+'
-
-A%
-
-PRINT
-          000:type:U 'PRINT'
-
-B%
-
-:=
-          000:type:i ':='
-
-1000
-          000:type:i ':='
-
-+
-          000:type:i ':='
-          001:type:i '+'
-
-100
-          000:type:i ':='
-          001:type:i '+'
-
-/
-          000:type:i ':='
-          001:type:i '+'
-          002:type:i '/'
-
-2
-          000:type:i ':='
-          001:type:i '+'
-          002:type:i '/'
-
-*
-          000:type:i ':='
-          001:type:i '+'
-          002:type:i '*'
-
-3
-          000:type:i ':='
-          001:type:i '+'
-          002:type:i '*'
-
-"B:"
-
-;
-
-B%
-
-PRINT
-          000:type:U 'PRINT'
-
-R%
-
-:=
-          000:type:i ':='
-
-0
-          000:type:i ':='
-
-A%
-
-=
-          000:type:i '='
-
-B%
-          000:type:i '='
-
-R%
-
-:=
-          000:type:i ':='
-
-R%
           000:type:i ':='
 
 +
@@ -464,72 +198,22 @@ R%
           000:type:i ':='
           001:type:i '+'
 
-R%
+TEST_EXPR
 
-:=
-          000:type:i ':='
+A%
 
-R%
-          000:type:i ':='
-
-+
-          000:type:i ':='
-          001:type:i '+'
+=
+          000:type:i '='
 
 10
-          000:type:i ':='
-          001:type:i '+'
-
-ENDIF
+          000:type:i '='
 
 A%
-
-<>
-          000:type:i '<>'
-
-B%
-          000:type:i '<>'
-
-R%
-
-:=
-          000:type:i ':='
-
-R%
-          000:type:i ':='
-
-+
-          000:type:i ':='
-          001:type:i '+'
-
-100
-          000:type:i ':='
-          001:type:i '+'
-
-R%
-
-:=
-          000:type:i ':='
-
-R%
-          000:type:i ':='
-
-+
-          000:type:i ':='
-          001:type:i '+'
-
-1000
-          000:type:i ':='
-          001:type:i '+'
-
-ENDIF
-
-R%
 
 =
           000:type:i '='
 
-1001
+10
           000:type:i '='
 
 R%
@@ -537,22 +221,77 @@ R%
 :=
           000:type:i ':='
 
+R%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
 1
           000:type:i ':='
+          001:type:i '+'
+
+ENDIF
+
+TEST_EXPR
+
+A%
+
+>
+          000:type:i '>'
+
+5
+          000:type:i '>'
+
+A%
+
+PRINT
+          000:type:U 'PRINT'
+
+A%
+
+:=
+          000:type:i ':='
+
+A%
+          000:type:i ':='
+
+-
+          000:type:i ':='
+          001:type:i '-'
+
+1
+          000:type:i ':='
+          001:type:i '-'
+
+ENDWH
+
+A%
+
+=
+          000:type:i '='
+
+5
+          000:type:i '='
 
 R%
 
 :=
           000:type:i ':='
 
-0
+R%
           000:type:i ':='
 
++
+          000:type:i ':='
+          001:type:i '+'
+
+1
+          000:type:i ':='
+          001:type:i '+'
+
 ENDIF
-
-"Result:"
-
-;
 
 R%
 
@@ -564,7 +303,7 @@ R%
 =
           000:type:i '='
 
-1
+2
           000:type:i '='
 
 "PASS"
@@ -572,11 +311,4 @@ R%
 PRINT
           000:type:U 'PRINT'
 
-"FAIL"
-
-PRINT
-          000:type:U 'PRINT'
-
 ENDIF
-
-R%

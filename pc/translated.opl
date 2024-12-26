@@ -2,107 +2,57 @@
 
 
 R%
-A% := 100
+A% := 1
 R% := 0
-PRINT(A%)
-<nl>
-
-A% := (A% / 2)
-PRINT("A:")
-PRINT(A%)
-<nl>
-
-A% := (A% * 3)
-A% := (A% + 1000)
-PRINT(A%)
-<nl>
-
-B% := (1000 + ((100 / 2) * 3))
-PRINT("B:")
-PRINT(B%)
-<nl>
-
-R% := 0
-IF (A% = B%)
+DO
+A% := (A% + 1)
+UNTIL (A% = 10)
+IF (A% = 10)
 R% := (R% + 1)
-ELSE
-R% := (R% + 10)
 ENDIF
-IF (A% <> B%)
-R% := (R% + 100)
-ELSE
-R% := (R% + 1000)
+WHILE (A% > 5)
+PRINT(A%)
+<nl>
+
+A% := (A% - 1)
+ENDWH
+IF (A% = 5)
+R% := (R% + 1)
 ENDIF
-IF (R% = 1001)
-R% := 1
-ELSE
-R% := 0
-ENDIF
-PRINT("Result:")
 PRINT(R%)
 <nl>
 
-IF (R% = 1)
+IF (R% = 2)
 PRINT("PASS")
 <nl>
 
-ELSE
-PRINT("FAIL")
-<nl>
-
 ENDIF
-R%
 
 
 
 DROP()
-A% := 100
+A% := 1
 R% := 0
-PRINT(A%)
-<nl>
-
-A% := (A% / 2)
-PRINT("A:")
-PRINT(A%)
-<nl>
-
-A% := (A% * 3)
-A% := (A% + 1000)
-PRINT(A%)
-<nl>
-
-B% := (1000 + ((100 / 2) * 3))
-PRINT("B:")
-PRINT(B%)
-<nl>
-
-R% := 0
-IF (A% = B%)
+DO
+A% := (A% + 1)
+UNTIL (A% = 10)
+IF (A% = 10)
 R% := (R% + 1)
-ELSE
-R% := (R% + 10)
 ENDIF
-IF (A% <> B%)
-R% := (R% + 100)
-ELSE
-R% := (R% + 1000)
+WHILE (A% > 5)
+PRINT(A%)
+<nl>
+
+A% := (A% - 1)
+ENDWH
+IF (A% = 5)
+R% := (R% + 1)
 ENDIF
-IF (R% = 1001)
-R% := 1
-ELSE
-R% := 0
-ENDIF
-PRINT("Result:")
 PRINT(R%)
 <nl>
 
-IF (R% = 1)
+IF (R% = 2)
 PRINT("PASS")
 <nl>
 
-ELSE
-PRINT("FAIL")
-<nl>
-
 ENDIF
-R%

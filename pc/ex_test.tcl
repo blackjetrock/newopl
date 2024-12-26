@@ -106,12 +106,19 @@ puts "\n"
 
 foreach file [lsort $EX_TEST_FILES] {
     if { [regexp -- {(.*).opl} $file all basename] } {
-	puts "Testimg..."
+
 	set op [exec ./newopl_tran $basename\.opl]
-	puts $op
 	set op [exec ./newopl_exec ob3_nopl.bin]
-	puts $op
-	
+
+	if { [regexp -- "PASS" $op] } {
+	    set result PASS
+	    incr ::PASS 1
+	} else {
+	    set result FAIL
+	    incr ::FAIL 1
+	}
+
+	puts "$basename   $result"
     }
 }
 
