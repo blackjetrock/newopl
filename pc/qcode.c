@@ -562,6 +562,63 @@ void qca_gt_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_16(m, res);
 }
 
+void qca_lt_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
+
+  if( s->integer2 < s->integer )
+    {
+      res = NOBJ_TRUE;    
+    }
+  else
+    {
+      res = NOBJ_FALSE;
+    }
+
+  // Push result
+  push_machine_16(m, res);
+}
+
+void qca_gte_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
+
+  if( s->integer2 >= s->integer )
+    {
+      res = NOBJ_TRUE;    
+    }
+  else
+    {
+      res = NOBJ_FALSE;
+    }
+
+  // Push result
+  push_machine_16(m, res);
+}
+
+void qca_lte_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
+
+  if( s->integer2 <= s->integer )
+    {
+      res = NOBJ_TRUE;    
+    }
+  else
+    {
+      res = NOBJ_FALSE;
+    }
+
+  // Push result
+  push_machine_16(m, res);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 void qca_bra_false(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -619,6 +676,9 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_EQ_INT,        "QI_EQ_INT",         {qca_pop_2int,     qca_eq_int,      qca_null}},
     { QCO_NE_INT,        "QI_NE_INT",         {qca_pop_2int,     qca_ne_int,      qca_null}},
     { QCO_GT_INT,        "QI_GT_INT",         {qca_pop_2int,     qca_gt_int,      qca_null}},
+    { QCO_LT_INT,        "QI_LT_INT",         {qca_pop_2int,     qca_lt_int,      qca_null}},
+    { QCO_GTE_INT,       "QI_GTE_INT",        {qca_pop_2int,     qca_gte_int,     qca_null}},
+    { QCO_LTE_INT,       "QI_LTE_INT",        {qca_pop_2int,     qca_lte_int,     qca_null}},
 
     { QCO_PRINT_INT,     "QCO_PRINT_INT",     {qca_pop_int,      qca_print_int,   qca_null}},
     { QCO_PRINT_STR,     "QCO_PRINT_STR",     {qca_pop_str,      qca_print_str,   qca_null}},

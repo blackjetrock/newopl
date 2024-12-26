@@ -9,14 +9,6 @@ A%
 
 R%
 
-A%
-
-:=
-          000:type:i ':='
-
-1
-          000:type:i ':='
-
 R%
 
 :=
@@ -25,98 +17,91 @@ R%
 0
           000:type:i ':='
 
-A%
-
-:=
-          000:type:i ':='
-
-A%
-          000:type:i ':='
-
-+
-          000:type:i ':='
-          001:type:i '+'
-
 1
-          000:type:i ':='
-          001:type:i '+'
-
-TEST_EXPR
-
-A%
-
-=
-          000:type:i '='
-
-10
-          000:type:i '='
-
-A%
-
-=
-          000:type:i '='
-
-10
-          000:type:i '='
-
-R%
-
-:=
-          000:type:i ':='
-
-R%
-          000:type:i ':='
-
-+
-          000:type:i ':='
-          001:type:i '+'
-
-1
-          000:type:i ':='
-          001:type:i '+'
-
-ENDIF
-
-TEST_EXPR
-
-A%
 
 >
           000:type:i '>'
 
-5
+2
           000:type:i '>'
 
-A%
-
-PRINT
-          000:type:U 'PRINT'
-
-A%
+R%
 
 :=
           000:type:i ':='
 
-A%
+R%
           000:type:i ':='
 
--
++
           000:type:i ':='
-          001:type:i '-'
+          001:type:i '+'
 
 1
           000:type:i ':='
-          001:type:i '-'
+          001:type:i '+'
 
-ENDWH
+ENDIF
 
-A%
+2
 
-=
-          000:type:i '='
+<
+          000:type:i '<'
 
-5
-          000:type:i '='
+1
+          000:type:i '<'
+
+R%
+
+:=
+          000:type:i ':='
+
+R%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+1
+          000:type:i ':='
+          001:type:i '+'
+
+ENDIF
+
+1
+
+>=
+          000:type:i '>='
+
+2
+          000:type:i '>='
+
+R%
+
+:=
+          000:type:i ':='
+
+R%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+1
+          000:type:i ':='
+          001:type:i '+'
+
+ENDIF
+
+2
+
+<=
+          000:type:i '<='
+
+1
+          000:type:i '<='
 
 R%
 
@@ -138,15 +123,10 @@ ENDIF
 
 R%
 
-PRINT
-          000:type:U 'PRINT'
-
-R%
-
 =
           000:type:i '='
 
-2
+4
           000:type:i '='
 
 "PASS"
@@ -166,14 +146,6 @@ A%
 
 R%
 
-A%
-
-:=
-          000:type:i ':='
-
-1
-          000:type:i ':='
-
 R%
 
 :=
@@ -182,98 +154,91 @@ R%
 0
           000:type:i ':='
 
-A%
-
-:=
-          000:type:i ':='
-
-A%
-          000:type:i ':='
-
-+
-          000:type:i ':='
-          001:type:i '+'
-
 1
-          000:type:i ':='
-          001:type:i '+'
-
-TEST_EXPR
-
-A%
-
-=
-          000:type:i '='
-
-10
-          000:type:i '='
-
-A%
-
-=
-          000:type:i '='
-
-10
-          000:type:i '='
-
-R%
-
-:=
-          000:type:i ':='
-
-R%
-          000:type:i ':='
-
-+
-          000:type:i ':='
-          001:type:i '+'
-
-1
-          000:type:i ':='
-          001:type:i '+'
-
-ENDIF
-
-TEST_EXPR
-
-A%
 
 >
           000:type:i '>'
 
-5
+2
           000:type:i '>'
 
-A%
-
-PRINT
-          000:type:U 'PRINT'
-
-A%
+R%
 
 :=
           000:type:i ':='
 
-A%
+R%
           000:type:i ':='
 
--
++
           000:type:i ':='
-          001:type:i '-'
+          001:type:i '+'
 
 1
           000:type:i ':='
-          001:type:i '-'
+          001:type:i '+'
 
-ENDWH
+ENDIF
 
-A%
+2
 
-=
-          000:type:i '='
+<
+          000:type:i '<'
 
-5
-          000:type:i '='
+1
+          000:type:i '<'
+
+R%
+
+:=
+          000:type:i ':='
+
+R%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+1
+          000:type:i ':='
+          001:type:i '+'
+
+ENDIF
+
+1
+
+>=
+          000:type:i '>='
+
+2
+          000:type:i '>='
+
+R%
+
+:=
+          000:type:i ':='
+
+R%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+1
+          000:type:i ':='
+          001:type:i '+'
+
+ENDIF
+
+2
+
+<=
+          000:type:i '<='
+
+1
+          000:type:i '<='
 
 R%
 
@@ -295,15 +260,10 @@ ENDIF
 
 R%
 
-PRINT
-          000:type:U 'PRINT'
-
-R%
-
 =
           000:type:i '='
 
-2
+4
           000:type:i '='
 
 "PASS"
