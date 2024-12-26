@@ -65,6 +65,55 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 
 --------------------
 
+Push:'A$'
+Push:'"ABC"'
+Pop: '"ABC"'
+Pop: 'A$'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_VARIABLE A$
+Push:'A$'
+                    000: 'A$' type:s (2), %:0
+EXP_BUFF_ID_STR "ABC"
+Push:'"ABC"'
+                    000: 'A$' type:s (2), %:0
+                    001: '"ABC"' type:s (2), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '"ABC"'
+Pop: 'A$'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_IF IF
+Pop: '000'
+--------------------
+
+Push:'"PASS"'
+Pop: '"PASS"'
+====================
+
+EXP_BUFF_ID_STR "PASS"
+Push:'"PASS"'
+                    000: '"PASS"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"PASS"'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+====================
+
+EXP_BUFF_ID_ENDIF ENDIF
+--------------------
+
 ====================
 
 --------------------
@@ -133,6 +182,55 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 
 ====================
 
+--------------------
+
+Push:'A$'
+Push:'"ABC"'
+Pop: '"ABC"'
+Pop: 'A$'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_VARIABLE A$
+Push:'A$'
+                    000: 'A$' type:s (2), %:0
+EXP_BUFF_ID_STR "ABC"
+Push:'"ABC"'
+                    000: 'A$' type:s (2), %:0
+                    001: '"ABC"' type:s (2), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '"ABC"'
+Pop: 'A$'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_IF IF
+Pop: '000'
+--------------------
+
+Push:'"PASS"'
+Pop: '"PASS"'
+====================
+
+EXP_BUFF_ID_STR "PASS"
+Push:'"PASS"'
+                    000: '"PASS"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"PASS"'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+====================
+
+EXP_BUFF_ID_ENDIF ENDIF
 --------------------
 
 ====================

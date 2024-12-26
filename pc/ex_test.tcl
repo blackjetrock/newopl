@@ -46,8 +46,6 @@ proc compare_results {basename f1 f2} {
 	
 	incr lineno 1
     }
-
-
     
     if { $identical } {
 	set r " identical"
@@ -56,7 +54,6 @@ proc compare_results {basename f1 f2} {
 	set r " not identical"
 	incr ::FAIL 1
     }
-
     
     # Now find blocks of non-identical lines
     set last_state 1
@@ -118,7 +115,7 @@ foreach file [lsort $EX_TEST_FILES] {
 	    incr ::FAIL 1
 	}
 
-	puts "$basename   $result"
+	puts [format "%-20s %-6s" $basename   $result]
     }
 }
 

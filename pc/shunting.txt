@@ -26,6 +26,21 @@ A$
 PRINT
           000:type:U 'PRINT'
 
+A$
+
+=
+          000:type:s '='
+
+"ABC"
+          000:type:s '='
+
+"PASS"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
 PROCDEF
 
  LOCAL
@@ -52,3 +67,18 @@ A$
 
 PRINT
           000:type:U 'PRINT'
+
+A$
+
+=
+          000:type:s '='
+
+"ABC"
+          000:type:s '='
+
+"PASS"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF

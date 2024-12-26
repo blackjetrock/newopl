@@ -91,8 +91,10 @@ typedef struct _NOBJ_QCS
   NOBJ_INT   result;
   uint16_t   ind_ptr;
   uint8_t    len;
+  uint8_t    len2;
   uint8_t    data8;
-  char       str[NOBJ_FILENAME_MAXLEN];
+  char       str[NOBJ_FILENAME_MAXLEN+1];
+  char       str2[NOBJ_FILENAME_MAXLEN+1];
   uint16_t   str_addr;
   uint16_t   addr;
   char       procpath[NOBJ_FILENAME_MAXLEN];
@@ -487,6 +489,12 @@ void qca_pop_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->integer = pop_machine_int(m);
 }
 
+void qca_pop_2str(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  pop_machine_string(m, &(s->len), s->str);
+  pop_machine_string(m, &(s->len2), s->str2);
+}
+
 //------------------------------------------------------------------------------
 
 void qca_print_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -508,6 +516,29 @@ void qca_print_cr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 }
 
 //------------------------------------------------------------------------------
+
+void qca_eq_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
+
+  // Terminate for C
+  s->str[s->len]   = '\0';
+  s->str2[s->len2] = '\0';
+  
+  if( strcmp(s->str, s->str2) == 0 )
+    {
+      res = NOBJ_TRUE;    
+    }
+  else
+    {
+      res = NOBJ_FALSE;
+    }
+
+  // Push result
+  push_machine_16(m, res);
+}
 
 void qca_eq_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -676,7 +707,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_STK_LIT_BYTE,   "QI_STK_LIT_BYTE",   {qca_null,         qca_null,        qca_push_qc_byte}},
     { QI_INT_CON,        "QI_INT_CON",        {qca_null,         qca_null,        qca_int_qc_con}},
     { QI_STR_CON,        "QI_STR_CON",        {qca_null,         qca_null,        qca_str_qc_con}},
-    
+
+    { QCO_EQ_STR,        "QI_EQ_STR",         {qca_pop_2str,     qca_eq_str,      qca_null}},
     { QCO_EQ_INT,        "QI_EQ_INT",         {qca_pop_2int,     qca_eq_int,      qca_null}},
     { QCO_NE_INT,        "QI_NE_INT",         {qca_pop_2int,     qca_ne_int,      qca_null}},
     { QCO_GT_INT,        "QI_GT_INT",         {qca_pop_2int,     qca_gt_int,      qca_null}},

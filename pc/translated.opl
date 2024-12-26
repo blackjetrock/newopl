@@ -6,6 +6,11 @@ A$ := "ABC"
 PRINT(A$)
 <nl>
 
+IF (A$ = "ABC")
+PRINT("PASS")
+<nl>
+
+ENDIF
 
 
 
@@ -14,3 +19,8 @@ A$ := "ABC"
 PRINT(A$)
 <nl>
 
+IF (A$ = "ABC")
+PRINT("PASS")
+<nl>
+
+ENDIF
