@@ -1,42 +1,245 @@
 
+Size of NOBJ_PROC:2864
+Loaded './ob3_nopl.bin'
 Reading OB3 header
 Hdr                  : ORG
 OB3 File length word : 01CE
 Block file type      : 83
 OB3 Block length word: 01CA
-Enter:read_proc_file
-Loading 0
-Loading 1
-Loading 2
-Parameters num:0
-Global varname size
-Loading 3
-Var space size     :2014
+Init machine...
+Init machine done.
+Push parameters...
+push_machine_8:pushing 58 to 3EFF
+push_machine_8:pushing 58 to 3EFE
+push_machine_8:pushing 58 to 3EFD
+push_machine_8:pushing 3A to 3EFC
+push_machine_8:pushing 41 to 3EFB
+push_machine_8:pushing 03 to 3EFA
+push_machine_8:pushing 00 to 3EF9
+Push parameters done.
 
-Global varname size:44
 
-Global varname entry length: 5
-varname='PEAR%'
-Varname type=00
-Addr addr=CCFF
-Global varname entry length: 5
-varname='DOOR$'
-Varname type=02
-Addr addr=C1FF
-Global varname entry length: 5
-varname='OPEN%'
-Varname type=03
-Addr addr=5AFF
-Global varname entry length: 4
-varname='POS$'
-Varname type=05
-Addr addr=ECFC
-Global varname entry length: 5
-varname='FLOAT'
-Varname type=04
-Addr addr=11F9
-Num global vars: 5
-Loading 4
-Loading 5
-Loading 6
-Exit:read_proc_file
+===================================Proc=========================================
+
+
+Pushing procedure './ob3_nopl.bin'
+  Top:1
+  onto machine:
+  SP:3EF9
+  FP:0000
+  PC:0000
+
+Size of variables    :06 6
+Size of QCode        :4E 78
+Number of parameters :00 0
+Base SP              :3E9C 16028
+push_machine_8:pushing 00 to 3EF8
+push_machine_16:pushing 0000 to 3EF8
+push_machine_16:pushing 0000 to 3EF6
+push_machine_16:pushing 3E9C to 3EF4
+rta_fp = 3EF0
+push_machine_16:pushing 0000 to 3EF2
+Size of global table:00 (0)
+Start of global table:3EEE (SP now 3EF0)
+push_machine_16:pushing 3EEE to 3EF0
+Zeroing stack from base_sp to start of global table
+3E9C to 3EED
+Size of external table:00 0
+Building Indirection Table
+Searching for externals...
+Applying fixups...
+push_machine_16:pushing 3EEC to 3E9C
+push_machine_8:pushing 00 to 3E99
+push_machine_8:pushing E8 to 3E98
+push_machine_8:pushing 03 to 3E97
+push_machine_8:pushing 64 to 3E96
+push_machine_8:pushing 00 to 3E95
+pop_machine_16:Popped 0064 from SP:3E95
+pop_machine_16:Popped 03E8 from SP:3E97
+push_machine_16:pushing 044C to 3E99
+pop_machine_16:Popped 044C from SP:3E97
+pop_machine_8:Popped 00 from SP:3E99
+pop_machine_16:Popped 3EEC from SP:3E9A
+push_machine_16:pushing 044C to 3E9C
+pop_machine_16:Popped 044C from SP:3E9A
+push_machine_16:pushing 3EEC to 3E9C
+push_machine_8:pushing 00 to 3E99
+push_machine_16:pushing 044C to 3E99
+push_machine_8:pushing 02 to 3E96
+push_machine_8:pushing 00 to 3E95
+pop_machine_16:Popped 0002 from SP:3E95
+pop_machine_16:Popped 044C from SP:3E97
+push_machine_16:pushing 0226 to 3E99
+pop_machine_16:Popped 0226 from SP:3E97
+pop_machine_8:Popped 00 from SP:3E99
+pop_machine_16:Popped 3EEC from SP:3E9A
+push_machine_16:pushing 0226 to 3E9C
+pop_machine_16:Popped 0226 from SP:3E9A
+push_machine_16:pushing 3EEC to 3E9C
+push_machine_8:pushing 00 to 3E99
+push_machine_16:pushing 0226 to 3E99
+push_machine_8:pushing 03 to 3E96
+push_machine_8:pushing 00 to 3E95
+pop_machine_16:Popped 0003 from SP:3E95
+pop_machine_16:Popped 0226 from SP:3E97
+push_machine_16:pushing 0672 to 3E99
+pop_machine_16:Popped 0672 from SP:3E97
+pop_machine_8:Popped 00 from SP:3E99
+pop_machine_16:Popped 3EEC from SP:3E9A
+push_machine_16:pushing 0672 to 3E9C
+pop_machine_16:Popped 0672 from SP:3E9A
+push_machine_16:pushing 3EEC to 3E9C
+push_machine_8:pushing 00 to 3E99
+push_machine_8:pushing E8 to 3E98
+push_machine_8:pushing 03 to 3E97
+push_machine_8:pushing 64 to 3E96
+push_machine_8:pushing 00 to 3E95
+push_machine_8:pushing 02 to 3E94
+push_machine_8:pushing 00 to 3E93
+pop_machine_16:Popped 0002 from SP:3E93
+pop_machine_16:Popped 0064 from SP:3E95
+push_machine_16:pushing 0032 to 3E97
+push_machine_8:pushing 03 to 3E94
+push_machine_8:pushing 00 to 3E93
+pop_machine_16:Popped 0003 from SP:3E93
+pop_machine_16:Popped 0032 from SP:3E95
+push_machine_16:pushing 0096 to 3E97
+pop_machine_16:Popped 0096 from SP:3E95
+pop_machine_16:Popped 03E8 from SP:3E97
+push_machine_16:pushing 047E to 3E99
+pop_machine_16:Popped 047E from SP:3E97
+pop_machine_8:Popped 00 from SP:3E99
+pop_machine_16:Popped 3EEC from SP:3E9A
+push_machine_16:pushing 047E to 3E9C
+pop_machine_16:Popped 047E from SP:3E9A
+push_machine_16:pushing 047E to 3E9C
+3EFF: 58 X
+3EFE: 58 X
+3EFD: 58 X
+3EFC: 3A :
+3EFB: 41 A
+3EFA: 03 .
+3EF9: 00 .
+3EF8: 00 .
+3EF7: 00 .
+3EF6: 00 .
+3EF5: 00 .
+3EF4: 00 .
+3EF3: 9C .
+3EF2: 3E >
+3EF1: 00 .
+3EF0: 00 .
+3EEF: EE .
+3EEE: 3E >
+3EED: 7E ~
+3EEC: 04 .
+3EEB: 22 "
+3EEA: 22 "
+3EE9: 22 "
+3EE8: 22 "
+3EE7: 79 y
+3EE6: FC .
+3EE5: FF .
+3EE4: 00 .
+3EE3: 73 s
+3EE2: 6F o
+3EE1: FC .
+3EE0: FF .
+3EDF: 00 .
+3EDE: 7F .
+3EDD: 2D -
+3EDC: 2F /
+3EDB: 03 .
+3EDA: 00 .
+3ED9: 22 "
+3ED8: 30 0
+3ED7: 02 .
+3ED6: 00 .
+3ED5: 22 "
+3ED4: 64 d
+3ED3: 00 .
+3ED2: 22 "
+3ED1: E8 .
+3ED0: 03 .
+3ECF: 22 "
+3ECE: FC .
+3ECD: FF .
+3ECC: 0D .
+3ECB: 73 s
+3ECA: 6F o
+3EC9: FC .
+3EC8: FF .
+3EC7: 00 .
+3EC6: 7F .
+3EC5: 2F /
+3EC4: 03 .
+3EC3: 00 .
+3EC2: 22 "
+3EC1: FC .
+3EC0: FF .
+3EBF: 00 .
+3EBE: FC .
+3EBD: FF .
+3EBC: 0D .
+3EBB: 73 s
+3EBA: 6F o
+3EB9: FC .
+3EB8: FF .
+3EB7: 00 .
+3EB6: 7F .
+3EB5: 30 0
+3EB4: 02 .
+3EB3: 00 .
+3EB2: 22 "
+3EB1: FC .
+3EB0: FF .
+3EAF: 00 .
+3EAE: FC .
+3EAD: FF .
+3EAC: 0D .
+3EAB: 73 s
+3EAA: 6F o
+3EA9: FC .
+3EA8: FF .
+3EA7: 00 .
+3EA6: 7F .
+3EA5: 2D -
+3EA4: 64 d
+3EA3: 00 .
+3EA2: 22 "
+3EA1: E8 .
+3EA0: 03 .
+3E9F: 22 "
+3E9E: FC .
+3E9D: FF .
+3E9C: 0D .
+3E9B: 7E ~
+3E9A: 04 .
+
+================================================================================
+
+  SP:3E9A
+  FP:3EF0
+  PC:3EE8
+
+
+Machine Procedures:
+3EF0:  Previous FP        : 0000
+3EF2:  Base SP            : 3E9C
+3EF4:  ONERR Address      : 0000
+3EF6:  Return PC          : 0000
+3EF8:  Device             : 00
+3EEE:  Global Table Start : 3EEE
+
+================================================================================
+
+
+================================================================================
+
+  SP:3F00
+  FP:0000
+  PC:3EE8
+
+
+Machine Procedures:
+================================================================================

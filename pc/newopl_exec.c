@@ -90,10 +90,14 @@
 #include "newopl_lib.h"
 #include "qcode.h"
 
-NOBJ_MACHINE machine;
+////////////////////////////////////////////////////////////////////////////////
 
+NOBJ_MACHINE machine;
+FILE *exdbfp;
 FILE *fp;
 NOBJ_PROC proc;
+
+////////////////////////////////////////////////////////////////////////////////
 
 void push_parameters(NOBJ_MACHINE *m)
 {
@@ -773,9 +777,18 @@ void display_machine(NOBJ_MACHINE *m)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+int do_single_step = 0;
+
 int main(int argc, char *argv[])
 {
+  exdbfp = fopen("exec_db.txt", "w");
 
+  if( exdbfp == NULL )
+    {
+      printf("\nCould not open 'exec_db.txt'\n");
+      exit(-1);
+    }
+  
   debug("\nSize of NOBJ_PROC:%ld", sizeof(NOBJ_PROC));
   
   // Load the procedure file
@@ -789,6 +802,22 @@ int main(int argc, char *argv[])
 
   debug("\nLoaded '%s'", argv[1]);
 
+  if( argc > 2 )
+    {
+      printf("%c", argv[2][0]);
+      
+      switch(argv[2][0])
+	{
+	case 't':
+
+	  break;
+	  
+	case 'n':
+	  do_single_step = 1;
+	  break;
+	}
+    }
+  
   // Discard header
   read_ob3_header(fp);
   
@@ -802,11 +831,13 @@ int main(int argc, char *argv[])
   push_proc(fp, &machine, argv[1], 1);
 
   // Execute it
-  execute_qcode(&machine, 1);
+  execute_qcode(&machine, do_single_step);
   
   debug("\n\n");
   
   display_machine(&machine);
   
   debug("\n");
+
+  fclose(exdbfp);
 }

@@ -1,0 +1,20 @@
+ARITH%:
+
+LOCAL A%, B%
+
+A% = 1000 + 100
+
+print A%
+A% = A% / 2
+
+print A%
+A% = A% * 3
+
+print A%
+
+A% = 1000 + 100 / 2 * 3
+
+print A%
+
+return A%
+

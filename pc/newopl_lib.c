@@ -614,13 +614,15 @@ void push_machine_string(NOBJ_MACHINE *m, int len, char *str)
 
 NOBJ_INT pop_machine_int(NOBJ_MACHINE *m)
 {
+#if 0
   NOBJ_INT r;
 
   r = pop_machine_8(m);
-  r<< 8;
-  r |= pop_machine_8(m);
-
-  return(r);
+  //  r <<= 8;
+  r |= pop_machine_8(m) <<8;
+#endif
+  
+  return(pop_machine_16(m));
 }
 
 void pop_machine_string(NOBJ_MACHINE *m, uint8_t *len, char *str)
@@ -755,7 +757,8 @@ uint16_t pop_machine_16(NOBJ_MACHINE *m)
       error("\nAttempting to pop from empty stack");
     }
   
-  val16  = (m->stack[(m->rta_sp)++]) << 8;
+  val16  = (m->stack[(m->rta_sp)++]);
+  val16 <<= 8;
   val16 |= (m->stack[(m->rta_sp)++]);
 
 #if DEBUG_PUSH_POP

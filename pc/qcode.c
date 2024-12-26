@@ -13,18 +13,19 @@
 
 #include "qcode.h"
 
+
 ////////////////////////////////////////////////////////////////////////////////
 
-void db_qcode(char *s, ...)
+void dbpfq(const char *caller, char *fmt, ...)
 {
   va_list valist;
 
-  va_start(valist, s);
-  printf("\n   ");
+  va_start(valist, fmt);
+  fprintf(exdbfp, "\n(%s)", caller);
   
-  vprintf(s, valist);
+  vfprintf(exdbfp, fmt, valist);
   va_end(valist);
-
+  fflush(exdbfp);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +45,6 @@ void qcode_get_string_push_stack(NOBJ_MACHINE *m)
 
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -55,15 +55,17 @@ uint16_t qcode_next_16(NOBJ_MACHINE *m)
 {
   uint16_t r;
 
-  debug("\n%s: PC:%04X", __FUNCTION__, m->rta_pc);
+  dbq("PC:%04X", m->rta_pc);
   
   r  = (m->stack[(m->rta_pc)++]) << 8;
   r |= (m->stack[(m->rta_pc)++]);
 
-  debug("\n%s: %04X", __FUNCTION__, r);
+  dbq("val:%04X", r);
   
   return(r);
 }
+
+//------------------------------------------------------------------------------
 
 uint8_t qcode_next_8(NOBJ_MACHINE *m)
 {
@@ -71,7 +73,7 @@ uint8_t qcode_next_8(NOBJ_MACHINE *m)
 
   r  = (m->stack[(m->rta_pc)++]);
 
-  debug("\n%s: %02X at %04X", __FUNCTION__, r, (m->rta_pc)-1);
+  dbq("%s: %02X at %04X", __FUNCTION__, r, (m->rta_pc)-1);
   
   return(r);
 }
@@ -122,7 +124,7 @@ void qca_null(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_str_ind_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   int dp = s->ind_ptr-1;
-  
+
   // Now stack the string
   s->len = stack_entry_8(m, dp++ );
 
@@ -140,10 +142,14 @@ void qca_str_ind_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_int_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+  int h, l;
+
+  h = qcode_next_8(m);
+  l = qcode_next_8(m);
   
   // Get int from qcodes and push onto stack
-  push_machine_8(m, qcode_next_8(m));
-  push_machine_8(m, qcode_next_8(m));
+  push_machine_8(m, l);
+  push_machine_8(m, h);
 }
 
 void qca_str_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -152,7 +158,7 @@ void qca_str_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
   // Get string from qcodes and push onto stack
   s->len = qcode_next_8(m);
   
-  debug("\n  Len:%d", s->len);
+  dbq("  Len:%d", s->len);
 
   int i;
   
@@ -166,17 +172,23 @@ void qca_str_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_string(m, s->len, s->str);
 }
 
+
+//------------------------------------------------------------------------------
+
 void qca_fp(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Get pointer to string
   s->ind_ptr = qcode_next_16(m);
-  debug("\nind ptr:%04X", s->ind_ptr);
+  
+  dbq("ind ptr:%04X", s->ind_ptr);
   
   // Add to FP
   s->ind_ptr += m->rta_fp;
   
-  debug("\nIND Addr: %04X", s->ind_ptr);
+  dbq("ind_ptr: %04X", s->ind_ptr);
 }
+
+//------------------------------------------------------------------------------
 
 void qca_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -215,10 +227,14 @@ void qca_push_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_16(m, s->ind_ptr);
 }
 
-void qca_push_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+void qca_push_int_at_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+  int val = stack_entry_16(m, s->ind_ptr);
+
+  dbq("val=%d (%04X)", val, val);
+  
   // Push integer at the address we calculated
-  push_machine_16(m,  stack_entry_16(m, s->ind_ptr));
+  push_machine_16(m,  val);
 }
 
 void qca_push_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -229,14 +245,14 @@ void qca_push_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_push_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  db_qcode("QCO_PROC");
+  dbq("QCO_PROC");
 
   FILE *fp;
   
   // Get proc name
   s->len = qcode_next_8(m);
 
-  debug("\n  Len:%d", s->len);
+  dbq("  Len:%d", s->len);
 
   int i;
   
@@ -253,18 +269,18 @@ void qca_push_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 	  
   // We have the name, open the file
-  debug("\nLoading PROC %s", s->str);
+  dbq("Loading PROC %s", s->str);
 	  
   // Load the procedure file
   fp = fopen(s->str, "r");
 	  
   if( fp == NULL )
     {
-      debug("\nCannot open '%s'", s->str);
+      dbq("Cannot open '%s'", s->str);
       exit(-1);
     }
 	  
-  debug("\nLoaded '%s'", s->str);
+  dbq("Loaded '%s'", s->str);
 	  
   // Discard header
   read_ob3_header(fp);
@@ -289,8 +305,8 @@ void qca_push_qc_byte(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_unwind_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  // Dump stack for debug
-  debug("\n==============================================Unwind============================");
+  // Dump stack for dbq
+  dbq("==============================================Unwind============================");
   display_machine(m);
 	  
   // Unwind the procedure (remove it from the stack), then
@@ -305,7 +321,7 @@ void qca_unwind_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
       // Ignore PC and FP, set the stack to empty
       init_sp(m, 0x3F00);       // For full example 4
 
-      debug("\nStack reset");
+      dbq("Stack reset");
     }
   else
     {
@@ -324,39 +340,40 @@ void qca_unwind_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
   m->rta_fp = last_fp;
 }
 
+//------------------------------------------------------------------------------
+
 void qca_ass_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  NOBJ_INT integer;
-  
   // Drop int
-  integer = pop_machine_int(m);
+  s->integer = pop_machine_int(m);
 
   // Check for field
   s->field_flag = pop_machine_8(m);
-	  
+  
   // Drop int address
   s->addr = pop_machine_16(m);
-	  
-  // Assign
+
+  dbq("Int:%d (%04X) Addr:%04X", s->integer, s->integer, s->addr);
+
   if( s->field_flag )
     {
     }
   else
     {
       // Assign integer to variable
-      m->stack[s->addr+0] = integer >> 8;
-      m->stack[s->addr+1] = integer  & 0xFF;
+      m->stack[s->addr+0] = s->integer >> 8;
+      m->stack[s->addr+1] = s->integer  & 0xFF;
     }
 }
 
 void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
 
+  // Check for field
+  s->field_flag = pop_machine_8(m);
+
   // Drop string
   pop_machine_string(m, &(s->len), s->str);
-
-  // Check for field
-  //s->field_flag = pop_machine_8(m);
 	  
   // Drop string reference
   s->str_addr = pop_machine_16(m);
@@ -426,13 +443,18 @@ void qca_pop_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_pop_2int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+  dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
   s->integer  = pop_machine_int(m);
   s->integer2 = pop_machine_int(m);
+  dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
 }
 
 void qca_add(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+  dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
   s->result = s->integer+s->integer2;
+  
+  dbq("Res:%d (%04X)", s->result, s->result);
 }
 
 void qca_sub(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -442,7 +464,7 @@ void qca_sub(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_mul(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  s->result = s->integer*s->integer2;
+  s->result = s->integer * s->integer2;
 }
 
 void qca_div(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -452,6 +474,7 @@ void qca_div(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_push_result(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+  dbq("res:%d (%04X)", s->result, s->result);
   push_machine_16(m, s->result);
 }
 
@@ -486,7 +509,7 @@ void qca_print_cr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 NOBJ_QCODE_INFO qcode_info[] =
   {
-    { QI_INT_SIM_FP,     "QI_INT_SIM_FP",     {qca_fp,           qca_null,        qca_push_int}},
+    { QI_INT_SIM_FP,     "QI_INT_SIM_FP",     {qca_fp,           qca_null,        qca_push_int_at_ind}},
     { QI_STR_SIM_FP,     "QI_STR_SIM_FP",     {qca_fp,           qca_null,        qca_str_ind_con}},
     { QI_STR_SIM_IND,    "QI_STR_SIM_IND",    {qca_fp,           qca_ind,         qca_str_ind_con}},
     { QI_LS_INT_SIM_FP,  "QI_LS_INT_SIM_FP",  {qca_fp,           qca_null,        qca_push_int_addr }},
@@ -569,7 +592,8 @@ int execute_qcode(NOBJ_MACHINE *m, int single_step)
       
       s.qcode = m->stack[m->rta_pc];
 
-      debug("\nExecuting QCode %02X at %04X", s.qcode, m->rta_pc);
+      dbq("--------------------------------------------------------------------------------");
+      dbq("Executing QCode %02X at %04X", s.qcode, m->rta_pc);
       
       (m->rta_pc)++;
 
@@ -590,20 +614,22 @@ int execute_qcode(NOBJ_MACHINE *m, int single_step)
 
       if( !found )
 	{
-	  debug("\nNot found so exit: %02X\n", s.qcode);
+	  dbq("Not found so exit: %02X\n", s.qcode);
 	  s.done = 1;
 	}
 
+      sprintf(outline, "rta_sp:%04X rta_fp:%04X rta_pc:%04X qcode:%02X %s",
+	      m->rta_sp,
+	      m->rta_fp,
+	      m->rta_pc,
+	      s.qcode,
+	      qcode_info[qci].name
+	      );
+
+      dbq(outline);
+      
       if( single_step )
 	{
-	  sprintf(outline, "rta_sp:%04X rta_fp:%04X rta_pc:%04X qcode:%02X %s",
-		 m->rta_sp,
-		 m->rta_fp,
-		 m->rta_pc,
-		 s.qcode,
-		 qcode_info[qci].name
-		 );
-
 	  printf("\n%s", outline);
 
 	  for(int i = 0; i<40-(strlen(outline) % 40); i++)
@@ -674,7 +700,7 @@ int execute_qcode(NOBJ_MACHINE *m, int single_step)
 	    }
 	}
 
-      debug("\n\n Executing %s\n", qcode_info[qci].name);
+      dbq("Executing %s\n", qcode_info[qci].name);
       
       // Perform actions
       for(int a=0; a<NOBJ_QC_NUM_ACTIONS; a++)
@@ -682,9 +708,19 @@ int execute_qcode(NOBJ_MACHINE *m, int single_step)
 	  qcode_info[qci].action[a](m, &s);
 	}
 
+      sprintf(outline, "rta_sp:%04X rta_fp:%04X rta_pc:%04X qcode:%02X %s",
+	      m->rta_sp,
+	      m->rta_fp,
+	      m->rta_pc,
+	      s.qcode,
+	      qcode_info[qci].name
+	      );
+
+      dbq(outline);
+
       if ( m->rta_fp == 0 )
 	{
-	  debug("\n===  Exit ====");
+	  dbq("===  Exit ====");
 	  display_machine(m);
 	  exit(0);
 	  // Exit?

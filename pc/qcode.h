@@ -248,3 +248,7 @@ uint16_t qcode_next_16(NOBJ_MACHINE *m);
 void push_machine_string(NOBJ_MACHINE *m, int len, char *str);
 void db_qcode(char *s, ...);
 
+extern FILE *exdbfp;
+
+#define dbq(fmt...) dbpfq(__FUNCTION__, fmt)
+void dbpfq(const char *caller, char *fmt, ...);

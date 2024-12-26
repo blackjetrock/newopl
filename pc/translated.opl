@@ -1,20 +1,42 @@
 
 
 
-F2
-F(20)
-DOOR$
-FLOAT(123)
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+B%
+A% := (1000 + 100)
+PRINT(A%)
+<nl>
+
+A% := (A% / 2)
+PRINT(A%)
+<nl>
+
+A% := (A% * 3)
+PRINT(A%)
+<nl>
+
+A% := (1000 + ((100 / 2) * 3))
+PRINT(A%)
+<nl>
+
+A%
 
 
 
 DROP()
-DROP()
-DROP()
-DROP()
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+A% := (1000 + 100)
+PRINT(A%)
+<nl>
+
+A% := (A% / 2)
+PRINT(A%)
+<nl>
+
+A% := (A% * 3)
+PRINT(A%)
+<nl>
+
+A% := (1000 + ((100 / 2) * 3))
+PRINT(A%)
+<nl>
+
+A%
