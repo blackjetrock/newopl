@@ -138,6 +138,9 @@ void qca_str_ind_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->str[i] = '\0';
   
   push_machine_string(m, s->len, s->str);
+
+  // Push field
+  //push_machine_8(m, 0);
 }
 
 void qca_int_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -209,7 +212,7 @@ void qca_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_16(m, s->ind_ptr);
   
   // Push field flag
-  //push_machine_8(m, 0);
+  push_machine_8(m, 0);
 }
 
 void qca_push_int_addr(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -369,12 +372,13 @@ void qca_ass_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
 
-  // Check for field
-  s->field_flag = pop_machine_8(m);
 
   // Drop string
   pop_machine_string(m, &(s->len), s->str);
-	  
+  
+  // Check for field
+  s->field_flag = pop_machine_8(m);
+  
   // Drop string reference
   s->str_addr = pop_machine_16(m);
   //  s->len      = pop_machine_8(m);

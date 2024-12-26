@@ -1,44 +1,16 @@
 
 
 
-R%
-R% := 0
-IF (1 > 2)
-R% := (R% + 1)
-ENDIF
-IF (2 < 1)
-R% := (R% + 1)
-ENDIF
-IF (1 >= 2)
-R% := (R% + 1)
-ENDIF
-IF (2 <= 1)
-R% := (R% + 1)
-ENDIF
-IF (R% = 4)
-PRINT("PASS")
+A$
+A$ := "ABC"
+PRINT(A$)
 <nl>
 
-ENDIF
 
 
 
 DROP()
-R% := 0
-IF (1 > 2)
-R% := (R% + 1)
-ENDIF
-IF (2 < 1)
-R% := (R% + 1)
-ENDIF
-IF (1 >= 2)
-R% := (R% + 1)
-ENDIF
-IF (2 <= 1)
-R% := (R% + 1)
-ENDIF
-IF (R% = 4)
-PRINT("PASS")
+A$ := "ABC"
+PRINT(A$)
 <nl>
 
-ENDIF

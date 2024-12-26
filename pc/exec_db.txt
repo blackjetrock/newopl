@@ -1,198 +1,59 @@
 
 (execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 0D at 3E7A
-(execute_qcode)rta_sp:3E7A rta_fp:3EF0 rta_pc:3E7B qcode:0D QI_LS_INT_SIM_FP
-(execute_qcode)Executing QI_LS_INT_SIM_FP
+(execute_qcode)Executing QCode 0F at 3ED1
+(execute_qcode)rta_sp:3ED1 rta_fp:3EF0 rta_pc:3ED2 qcode:0F QI_LS_STR_SIM_FP
+(execute_qcode)Executing QI_LS_STR_SIM_FP
 
-(qcode_next_16)PC:3E7B
-(qcode_next_16)val:FFFA
-(qca_fp)ind ptr:FFFA
-(qca_fp)ind_ptr: 3EEA
-(execute_qcode)rta_sp:3E77 rta_fp:3EF0 rta_pc:3E7D qcode:0D QI_LS_INT_SIM_FP
+(qcode_next_16)PC:3ED2
+(qcode_next_16)val:FFF3
+(qca_fp)ind ptr:FFF3
+(qca_fp)ind_ptr: 3EE3
+(execute_qcode)rta_sp:3ECD rta_fp:3EF0 rta_pc:3ED4 qcode:0F QI_LS_STR_SIM_FP
 (execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 22 at 3E7D
-(execute_qcode)rta_sp:3E77 rta_fp:3EF0 rta_pc:3E7E qcode:22 QI_INT_CON
-(execute_qcode)Executing QI_INT_CON
+(execute_qcode)Executing QCode 24 at 3ED4
+(execute_qcode)rta_sp:3ECD rta_fp:3EF0 rta_pc:3ED5 qcode:24 QI_STR_CON
+(execute_qcode)Executing QI_STR_CON
 
-(qcode_next_8)qcode_next_8: 00 at 3E7E
-(qcode_next_8)qcode_next_8: 00 at 3E7F
-(execute_qcode)rta_sp:3E75 rta_fp:3EF0 rta_pc:3E80 qcode:22 QI_INT_CON
+(qcode_next_8)qcode_next_8: 03 at 3ED5
+(qca_str_qc_con)  Len:3
+(qcode_next_8)qcode_next_8: 41 at 3ED6
+(qcode_next_8)qcode_next_8: 42 at 3ED7
+(qcode_next_8)qcode_next_8: 43 at 3ED8
+(execute_qcode)rta_sp:3EC9 rta_fp:3EF0 rta_pc:3ED9 qcode:24 QI_STR_CON
 (execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 7F at 3E80
-(execute_qcode)rta_sp:3E75 rta_fp:3EF0 rta_pc:3E81 qcode:7F QCO_ASS_INT
-(execute_qcode)Executing QCO_ASS_INT
+(execute_qcode)Executing QCode 81 at 3ED9
+(execute_qcode)rta_sp:3EC9 rta_fp:3EF0 rta_pc:3EDA qcode:81 QCO_ASS_STR
+(execute_qcode)Executing QCO_ASS_STR
 
-(qca_ass_int)Int:0 (0000) Addr:3EEA
-(execute_qcode)rta_sp:3E7A rta_fp:3EF0 rta_pc:3E81 qcode:7F QCO_ASS_INT
+(execute_qcode)rta_sp:3ED0 rta_fp:3EF0 rta_pc:3EDA qcode:81 QCO_ASS_STR
 (execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 22 at 3E81
-(execute_qcode)rta_sp:3E7A rta_fp:3EF0 rta_pc:3E82 qcode:22 QI_INT_CON
-(execute_qcode)Executing QI_INT_CON
+(execute_qcode)Executing QCode 02 at 3EDA
+(execute_qcode)rta_sp:3ED0 rta_fp:3EF0 rta_pc:3EDB qcode:02 QI_STR_SIM_FP
+(execute_qcode)Executing QI_STR_SIM_FP
 
-(qcode_next_8)qcode_next_8: 00 at 3E82
-(qcode_next_8)qcode_next_8: 01 at 3E83
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3E84 qcode:22 QI_INT_CON
+(qcode_next_16)PC:3EDB
+(qcode_next_16)val:FFF3
+(qca_fp)ind ptr:FFF3
+(qca_fp)ind_ptr: 3EE3
+(execute_qcode)rta_sp:3ECC rta_fp:3EF0 rta_pc:3EDD qcode:02 QI_STR_SIM_FP
 (execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 22 at 3E84
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3E85 qcode:22 QI_INT_CON
-(execute_qcode)Executing QI_INT_CON
+(execute_qcode)Executing QCode 71 at 3EDD
+(execute_qcode)rta_sp:3ECC rta_fp:3EF0 rta_pc:3EDE qcode:71 QCO_PRINT_STR
+(execute_qcode)Executing QCO_PRINT_STR
 
-(qcode_next_8)qcode_next_8: 00 at 3E85
-(qcode_next_8)qcode_next_8: 02 at 3E86
-(execute_qcode)rta_sp:3E76 rta_fp:3EF0 rta_pc:3E87 qcode:22 QI_INT_CON
+(execute_qcode)rta_sp:3ECE rta_fp:3EF0 rta_pc:3EDE qcode:71 QCO_PRINT_STR
 (execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 29 at 3E87
-(execute_qcode)rta_sp:3E76 rta_fp:3EF0 rta_pc:3E88 qcode:29 QI_GT_INT
-(execute_qcode)Executing QI_GT_INT
+(execute_qcode)Executing QCode 73 at 3EDE
+(execute_qcode)rta_sp:3ECE rta_fp:3EF0 rta_pc:3EDF qcode:73 QCO_PRINT_CR
+(execute_qcode)Executing QCO_PRINT_CR
 
-(qca_pop_2int)Int:0 (0000) Int2:0 (0000)
-(qca_pop_2int)Int:2 (0002) Int2:1 (0001)
-(qca_gt_int)Int:2 (0002) Int2:1 (0001)
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3E88 qcode:29 QI_GT_INT
+(execute_qcode)rta_sp:3ECE rta_fp:3EF0 rta_pc:3EDF qcode:73 QCO_PRINT_CR
 (execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 7E at 3E88
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3E89 qcode:7E QCO_BRA_FALSE
-(execute_qcode)Executing QCO_BRA_FALSE
-
-(qca_bra_false)Flag:(0000) offset 13 (000D)
-(execute_qcode)rta_sp:3E7A rta_fp:3EF0 rta_pc:3E96 qcode:7E QCO_BRA_FALSE
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 22 at 3E96
-(execute_qcode)rta_sp:3E7A rta_fp:3EF0 rta_pc:3E97 qcode:22 QI_INT_CON
-(execute_qcode)Executing QI_INT_CON
-
-(qcode_next_8)qcode_next_8: 00 at 3E97
-(qcode_next_8)qcode_next_8: 02 at 3E98
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3E99 qcode:22 QI_INT_CON
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 22 at 3E99
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3E9A qcode:22 QI_INT_CON
-(execute_qcode)Executing QI_INT_CON
-
-(qcode_next_8)qcode_next_8: 00 at 3E9A
-(qcode_next_8)qcode_next_8: 01 at 3E9B
-(execute_qcode)rta_sp:3E76 rta_fp:3EF0 rta_pc:3E9C qcode:22 QI_INT_CON
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 27 at 3E9C
-(execute_qcode)rta_sp:3E76 rta_fp:3EF0 rta_pc:3E9D qcode:27 QI_LT_INT
-(execute_qcode)Executing QI_LT_INT
-
-(qca_pop_2int)Int:2 (0002) Int2:1 (0001)
-(qca_pop_2int)Int:1 (0001) Int2:2 (0002)
-(qca_lt_int)Int:1 (0001) Int2:2 (0002)
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3E9D qcode:27 QI_LT_INT
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 7E at 3E9D
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3E9E qcode:7E QCO_BRA_FALSE
-(execute_qcode)Executing QCO_BRA_FALSE
-
-(qca_bra_false)Flag:(0000) offset 13 (000D)
-(execute_qcode)rta_sp:3E7A rta_fp:3EF0 rta_pc:3EAB qcode:7E QCO_BRA_FALSE
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 22 at 3EAB
-(execute_qcode)rta_sp:3E7A rta_fp:3EF0 rta_pc:3EAC qcode:22 QI_INT_CON
-(execute_qcode)Executing QI_INT_CON
-
-(qcode_next_8)qcode_next_8: 00 at 3EAC
-(qcode_next_8)qcode_next_8: 01 at 3EAD
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3EAE qcode:22 QI_INT_CON
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 22 at 3EAE
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3EAF qcode:22 QI_INT_CON
-(execute_qcode)Executing QI_INT_CON
-
-(qcode_next_8)qcode_next_8: 00 at 3EAF
-(qcode_next_8)qcode_next_8: 02 at 3EB0
-(execute_qcode)rta_sp:3E76 rta_fp:3EF0 rta_pc:3EB1 qcode:22 QI_INT_CON
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 2A at 3EB1
-(execute_qcode)rta_sp:3E76 rta_fp:3EF0 rta_pc:3EB2 qcode:2A QI_GTE_INT
-(execute_qcode)Executing QI_GTE_INT
-
-(qca_pop_2int)Int:1 (0001) Int2:2 (0002)
-(qca_pop_2int)Int:2 (0002) Int2:1 (0001)
-(qca_gte_int)Int:2 (0002) Int2:1 (0001)
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3EB2 qcode:2A QI_GTE_INT
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 7E at 3EB2
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3EB3 qcode:7E QCO_BRA_FALSE
-(execute_qcode)Executing QCO_BRA_FALSE
-
-(qca_bra_false)Flag:(0000) offset 13 (000D)
-(execute_qcode)rta_sp:3E7A rta_fp:3EF0 rta_pc:3EC0 qcode:7E QCO_BRA_FALSE
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 22 at 3EC0
-(execute_qcode)rta_sp:3E7A rta_fp:3EF0 rta_pc:3EC1 qcode:22 QI_INT_CON
-(execute_qcode)Executing QI_INT_CON
-
-(qcode_next_8)qcode_next_8: 00 at 3EC1
-(qcode_next_8)qcode_next_8: 02 at 3EC2
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3EC3 qcode:22 QI_INT_CON
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 22 at 3EC3
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3EC4 qcode:22 QI_INT_CON
-(execute_qcode)Executing QI_INT_CON
-
-(qcode_next_8)qcode_next_8: 00 at 3EC4
-(qcode_next_8)qcode_next_8: 01 at 3EC5
-(execute_qcode)rta_sp:3E76 rta_fp:3EF0 rta_pc:3EC6 qcode:22 QI_INT_CON
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 28 at 3EC6
-(execute_qcode)rta_sp:3E76 rta_fp:3EF0 rta_pc:3EC7 qcode:28 QI_LTE_INT
-(execute_qcode)Executing QI_LTE_INT
-
-(qca_pop_2int)Int:2 (0002) Int2:1 (0001)
-(qca_pop_2int)Int:1 (0001) Int2:2 (0002)
-(qca_lte_int)Int:1 (0001) Int2:2 (0002)
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3EC7 qcode:28 QI_LTE_INT
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 7E at 3EC7
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3EC8 qcode:7E QCO_BRA_FALSE
-(execute_qcode)Executing QCO_BRA_FALSE
-
-(qca_bra_false)Flag:(0000) offset 13 (000D)
-(execute_qcode)rta_sp:3E7A rta_fp:3EF0 rta_pc:3ED5 qcode:7E QCO_BRA_FALSE
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 00 at 3ED5
-(execute_qcode)rta_sp:3E7A rta_fp:3EF0 rta_pc:3ED6 qcode:00 QI_INT_SIM_FP
-(execute_qcode)Executing QI_INT_SIM_FP
-
-(qcode_next_16)PC:3ED6
-(qcode_next_16)val:FFFA
-(qca_fp)ind ptr:FFFA
-(qca_fp)ind_ptr: 3EEA
-(qca_push_int_at_ind)val=0 (0000)
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3ED8 qcode:00 QI_INT_SIM_FP
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 22 at 3ED8
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3ED9 qcode:22 QI_INT_CON
-(execute_qcode)Executing QI_INT_CON
-
-(qcode_next_8)qcode_next_8: 00 at 3ED9
-(qcode_next_8)qcode_next_8: 04 at 3EDA
-(execute_qcode)rta_sp:3E76 rta_fp:3EF0 rta_pc:3EDB qcode:22 QI_INT_CON
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 2C at 3EDB
-(execute_qcode)rta_sp:3E76 rta_fp:3EF0 rta_pc:3EDC qcode:2C QI_EQ_INT
-(execute_qcode)Executing QI_EQ_INT
-
-(qca_pop_2int)Int:1 (0001) Int2:2 (0002)
-(qca_pop_2int)Int:4 (0004) Int2:0 (0000)
-(qca_eq_int)Int:4 (0004) Int2:0 (0000)
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3EDC qcode:2C QI_EQ_INT
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 7E at 3EDC
-(execute_qcode)rta_sp:3E78 rta_fp:3EF0 rta_pc:3EDD qcode:7E QCO_BRA_FALSE
-(execute_qcode)Executing QCO_BRA_FALSE
-
-(qca_bra_false)Flag:(0000) offset 10 (000A)
-(execute_qcode)rta_sp:3E7A rta_fp:3EF0 rta_pc:3EE7 qcode:7E QCO_BRA_FALSE
-(execute_qcode)--------------------------------------------------------------------------------
-(execute_qcode)Executing QCode 7A at 3EE7
-(execute_qcode)rta_sp:3E7A rta_fp:3EF0 rta_pc:3EE8 qcode:7A QCO_RETURN_NOUGHT
-(execute_qcode)Executing QCO_RETURN_NOUGHT
+(execute_qcode)Executing QCode 7B at 3EDF
+(execute_qcode)rta_sp:3ECE rta_fp:3EF0 rta_pc:3EE0 qcode:7B QCO_RETURN_ZERO
+(execute_qcode)Executing QCO_RETURN_ZERO
 
 (qca_unwind_proc)==============================================Unwind============================
 (qca_unwind_proc)Stack reset
-(execute_qcode)rta_sp:3EFE rta_fp:0000 rta_pc:3EE8 qcode:7A QCO_RETURN_NOUGHT
+(execute_qcode)rta_sp:3EF8 rta_fp:0000 rta_pc:3EE0 qcode:7B QCO_RETURN_ZERO
 (execute_qcode)===  Exit ====

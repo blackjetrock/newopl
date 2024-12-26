@@ -8,7 +8,7 @@ if 1 > 2
   r% = r% + 1
 endif
 
-if 2 < 1
+if 2 > 1
   r% = r% + 1
 endif
 
@@ -16,10 +16,20 @@ if 1 >= 2
   r% = r% + 1
 endif
 
-if 2 <= 1
+if 1 <= 2
   r% = r% + 1
 endif
 
+if r% = r%
+  r% = r% + 1
+endif
+
+if r% <> R%
+  r% = r% + 1
+endif
+
+print r%
+print r%
 if r% = 4
   print "PASS"
 endif
