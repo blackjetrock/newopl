@@ -486,7 +486,7 @@ void qca_push_result(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_pop_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  s->integer = pop_machine_int(m);
+  pop_machine_string(m, &(s->len), s->str);
 }
 
 void qca_pop_2str(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -656,6 +656,11 @@ void qca_lte_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void qca_asc(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  s->result = s->str[0];
+}
+
 void qca_bra_false(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOBJ_INT flag;
@@ -730,11 +735,15 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_PROC,          "QCO_PROC",          {qca_push_proc,    qca_push_null,   qca_null}},
     { QCO_ASS_INT,       "QCO_ASS_INT",       {qca_ass_int,      qca_null,        qca_null}},
     { QCO_ASS_STR,       "QCO_ASS_STR",       {qca_ass_str,      qca_null,        qca_null}},
+    // DROP int
+    //DROP str
     { QCO_DROP_NUM,      "QCO_DROP_NUM",      {qca_pop_num,      qca_null,        qca_null}},
     { QCO_ADD_INT,       "QCO_ADD_INT",       {qca_pop_2int,     qca_add,         qca_push_result}},
     { QCO_SUB_INT,       "QCO_SUB_INT",       {qca_pop_2int,     qca_sub,         qca_push_result}},
     { QCO_MUL_INT,       "QCO_MUL_INT",       {qca_pop_2int,     qca_mul,         qca_push_result}},
     { QCO_DIV_INT,       "QCO_DIV_INT",       {qca_pop_2int,     qca_div,         qca_push_result}},
+    { RTF_ASC,           "RTF_ASC",           {qca_pop_str,      qca_asc,         qca_push_result}},
+    
   };
 
 #define SIZEOF_QCODE_INFO (sizeof(qcode_info)/sizeof(NOBJ_QCODE_INFO))

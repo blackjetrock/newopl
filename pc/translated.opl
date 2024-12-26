@@ -1,26 +1,18 @@
 
 
 
-A$
-A$ := "ABC"
-PRINT(A$)
+C%
+A$ := "0ABC"
+C% := ASC(A$ )
+PRINT(C%)
 <nl>
 
-IF (A$ = "ABC")
-PRINT("PASS")
-<nl>
-
-ENDIF
 
 
 
 DROP()
-A$ := "ABC"
-PRINT(A$)
+A$ := "0ABC"
+C% := ASC(A$ )
+PRINT(C%)
 <nl>
 
-IF (A$ = "ABC")
-PRINT("PASS")
-<nl>
-
-ENDIF

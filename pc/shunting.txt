@@ -13,33 +13,52 @@ PROCDEF
 
 A$
 
+,
+
+C%
+
 A$
 
 :=
           000:type:s ':='
 
-"ABC"
+"0ABC"
           000:type:s ':='
 
+C%
+
+:=
+          000:type:i ':='
+
+(
+          000:type:i ':='
+          001:type:U '('
+
+(
+          000:type:i ':='
+          001:type:U '('
+          002:type:U '('
+
 A$
+          000:type:i ':='
+          001:type:U '('
+          002:type:U '('
+
+)
+          000:type:i ':='
+          001:type:U '('
+
+)
+          000:type:i ':='
+
+ASC
+          000:type:i ':='
+          001:type:i 'ASC'
+
+C%
 
 PRINT
           000:type:U 'PRINT'
-
-A$
-
-=
-          000:type:s '='
-
-"ABC"
-          000:type:s '='
-
-"PASS"
-
-PRINT
-          000:type:U 'PRINT'
-
-ENDIF
 
 PROCDEF
 
@@ -55,30 +74,49 @@ PROCDEF
 
 A$
 
+,
+
+C%
+
 A$
 
 :=
           000:type:s ':='
 
-"ABC"
+"0ABC"
           000:type:s ':='
 
+C%
+
+:=
+          000:type:i ':='
+
+(
+          000:type:i ':='
+          001:type:U '('
+
+(
+          000:type:i ':='
+          001:type:U '('
+          002:type:U '('
+
 A$
+          000:type:i ':='
+          001:type:U '('
+          002:type:U '('
+
+)
+          000:type:i ':='
+          001:type:U '('
+
+)
+          000:type:i ':='
+
+ASC
+          000:type:i ':='
+          001:type:i 'ASC'
+
+C%
 
 PRINT
           000:type:U 'PRINT'
-
-A$
-
-=
-          000:type:s '='
-
-"ABC"
-          000:type:s '='
-
-"PASS"
-
-PRINT
-          000:type:U 'PRINT'
-
-ENDIF

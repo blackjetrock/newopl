@@ -10,6 +10,7 @@ EXP_BUFF_ID_META PROCDEF
 
 Push:'10'
 Push:'A$'
+Push:'C%'
 ====================
 
 EXP_BUFF_ID_META  LOCAL
@@ -25,35 +26,81 @@ EXP_BUFF_ID_VARIABLE A$
 Push:'A$'
                     000: '10' type:i (0), %:0
                     001: 'A$' type:s (2), %:0
+EXP_BUFF_ID_VARIABLE C%
+Push:'C%'
+                    000: '10' type:i (0), %:0
+                    001: 'A$' type:s (2), %:0
+                    002: 'C%' type:i (0), %:0
 --------------------
 
 Push:'A$'
-Push:'"ABC"'
-Pop: '"ABC"'
+Push:'"0ABC"'
+Pop: '"0ABC"'
 Pop: 'A$'
 ====================
 
 EXP_BUFF_ID_VARIABLE A$
 Push:'A$'
                     000: 'A$' type:s (2), %:0
-EXP_BUFF_ID_STR "ABC"
-Push:'"ABC"'
+EXP_BUFF_ID_STR "0ABC"
+Push:'"0ABC"'
                     000: 'A$' type:s (2), %:0
-                    001: '"ABC"' type:s (2), %:0
+                    001: '"0ABC"' type:s (2), %:0
 EXP_BUFF_ID_OPERATOR :=
-Pop: '"ABC"'
+Pop: '"0ABC"'
 Pop: 'A$'
 --------------------
 
+Push:'C%'
 Push:'A$'
 Pop: 'A$'
+Push:'000'
+Pop: '000'
+Pop: 'C%'
 ====================
 
+EXP_BUFF_ID_VARIABLE C%
+Push:'C%'
+                    000: 'C%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'C%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'C%' type:i (0), %:0
 EXP_BUFF_ID_VARIABLE A$
 Push:'A$'
-                    000: 'A$' type:s (2), %:0
-EXP_BUFF_ID_PRINT PRINT
+                    000: 'C%' type:i (0), %:0
+                    001: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'C%' type:i (0), %:0
+                    001: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'C%' type:i (0), %:0
+                    001: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'C%' type:i (0), %:0
+                    001: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'C%' type:i (0), %:0
+                    001: 'A$' type:s (2), %:0
+EXP_BUFF_ID_FUNCTION ASC
 Pop: 'A$'
+Push:'000'
+                    000: 'C%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'C%'
+--------------------
+
+Push:'C%'
+Pop: 'C%'
+====================
+
+EXP_BUFF_ID_VARIABLE C%
+Push:'C%'
+                    000: 'C%' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'C%'
 --------------------
 
 ====================
@@ -63,55 +110,6 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 
 ====================
 
---------------------
-
-Push:'A$'
-Push:'"ABC"'
-Pop: '"ABC"'
-Pop: 'A$'
-Push:'000'
-Pop: '000'
-====================
-
-EXP_BUFF_ID_VARIABLE A$
-Push:'A$'
-                    000: 'A$' type:s (2), %:0
-EXP_BUFF_ID_STR "ABC"
-Push:'"ABC"'
-                    000: 'A$' type:s (2), %:0
-                    001: '"ABC"' type:s (2), %:0
-EXP_BUFF_ID_OPERATOR =
-Pop: '"ABC"'
-Pop: 'A$'
-Push:'000'
-                    000: '000' type:i (0), %:0
-EXP_BUFF_ID_IF IF
-Pop: '000'
---------------------
-
-Push:'"PASS"'
-Pop: '"PASS"'
-====================
-
-EXP_BUFF_ID_STR "PASS"
-Push:'"PASS"'
-                    000: '"PASS"' type:s (2), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: '"PASS"'
---------------------
-
-====================
-
-EXP_BUFF_ID_PRINT_NEWLINE PRINT
---------------------
-
-====================
-
---------------------
-
-====================
-
-EXP_BUFF_ID_ENDIF ENDIF
 --------------------
 
 ====================
@@ -129,6 +127,7 @@ EXP_BUFF_ID_META PROCDEF
 
 Push:'10'
 Push:'A$'
+Push:'C%'
 ====================
 
 EXP_BUFF_ID_META  LOCAL
@@ -144,35 +143,81 @@ EXP_BUFF_ID_VARIABLE A$
 Push:'A$'
                     000: '10' type:i (0), %:0
                     001: 'A$' type:s (2), %:0
+EXP_BUFF_ID_VARIABLE C%
+Push:'C%'
+                    000: '10' type:i (0), %:0
+                    001: 'A$' type:s (2), %:0
+                    002: 'C%' type:i (0), %:0
 --------------------
 
 Push:'A$'
-Push:'"ABC"'
-Pop: '"ABC"'
+Push:'"0ABC"'
+Pop: '"0ABC"'
 Pop: 'A$'
 ====================
 
 EXP_BUFF_ID_VARIABLE A$
 Push:'A$'
                     000: 'A$' type:s (2), %:0
-EXP_BUFF_ID_STR "ABC"
-Push:'"ABC"'
+EXP_BUFF_ID_STR "0ABC"
+Push:'"0ABC"'
                     000: 'A$' type:s (2), %:0
-                    001: '"ABC"' type:s (2), %:0
+                    001: '"0ABC"' type:s (2), %:0
 EXP_BUFF_ID_OPERATOR :=
-Pop: '"ABC"'
+Pop: '"0ABC"'
 Pop: 'A$'
 --------------------
 
+Push:'C%'
 Push:'A$'
 Pop: 'A$'
+Push:'000'
+Pop: '000'
+Pop: 'C%'
 ====================
 
+EXP_BUFF_ID_VARIABLE C%
+Push:'C%'
+                    000: 'C%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'C%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'C%' type:i (0), %:0
 EXP_BUFF_ID_VARIABLE A$
 Push:'A$'
-                    000: 'A$' type:s (2), %:0
-EXP_BUFF_ID_PRINT PRINT
+                    000: 'C%' type:i (0), %:0
+                    001: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'C%' type:i (0), %:0
+                    001: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'C%' type:i (0), %:0
+                    001: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'C%' type:i (0), %:0
+                    001: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'C%' type:i (0), %:0
+                    001: 'A$' type:s (2), %:0
+EXP_BUFF_ID_FUNCTION ASC
 Pop: 'A$'
+Push:'000'
+                    000: 'C%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'C%'
+--------------------
+
+Push:'C%'
+Pop: 'C%'
+====================
+
+EXP_BUFF_ID_VARIABLE C%
+Push:'C%'
+                    000: 'C%' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'C%'
 --------------------
 
 ====================
@@ -182,55 +227,6 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 
 ====================
 
---------------------
-
-Push:'A$'
-Push:'"ABC"'
-Pop: '"ABC"'
-Pop: 'A$'
-Push:'000'
-Pop: '000'
-====================
-
-EXP_BUFF_ID_VARIABLE A$
-Push:'A$'
-                    000: 'A$' type:s (2), %:0
-EXP_BUFF_ID_STR "ABC"
-Push:'"ABC"'
-                    000: 'A$' type:s (2), %:0
-                    001: '"ABC"' type:s (2), %:0
-EXP_BUFF_ID_OPERATOR =
-Pop: '"ABC"'
-Pop: 'A$'
-Push:'000'
-                    000: '000' type:i (0), %:0
-EXP_BUFF_ID_IF IF
-Pop: '000'
---------------------
-
-Push:'"PASS"'
-Pop: '"PASS"'
-====================
-
-EXP_BUFF_ID_STR "PASS"
-Push:'"PASS"'
-                    000: '"PASS"' type:s (2), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: '"PASS"'
---------------------
-
-====================
-
-EXP_BUFF_ID_PRINT_NEWLINE PRINT
---------------------
-
-====================
-
---------------------
-
-====================
-
-EXP_BUFF_ID_ENDIF ENDIF
 --------------------
 
 ====================

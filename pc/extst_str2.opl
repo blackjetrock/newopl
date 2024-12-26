@@ -1,0 +1,10 @@
+str2%:
+
+local A$(10), c%
+
+A$="0ABC"
+
+C% = ASC(A$)
+
+print c%
+
