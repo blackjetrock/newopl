@@ -661,6 +661,11 @@ void qca_asc(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->result = s->str[0];
 }
 
+void qca_len(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  s->result = strlen(s->str);
+}
+
 void qca_bra_false(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOBJ_INT flag;
@@ -743,6 +748,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_MUL_INT,       "QCO_MUL_INT",       {qca_pop_2int,     qca_mul,         qca_push_result}},
     { QCO_DIV_INT,       "QCO_DIV_INT",       {qca_pop_2int,     qca_div,         qca_push_result}},
     { RTF_ASC,           "RTF_ASC",           {qca_pop_str,      qca_asc,         qca_push_result}},
+    { RTF_LEN,           "RTF_LEN",           {qca_pop_str,      qca_len,         qca_push_result}},
     
   };
 

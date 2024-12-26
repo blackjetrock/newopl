@@ -112,6 +112,42 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 
 --------------------
 
+Push:'A$'
+Pop: 'A$'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE A$
+Push:'A$'
+                    000: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'A$' type:s (2), %:0
+EXP_BUFF_ID_FUNCTION LEN
+Pop: 'A$'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
 ====================
 
 --------------------
@@ -218,6 +254,42 @@ Push:'C%'
                     000: 'C%' type:i (0), %:0
 EXP_BUFF_ID_PRINT PRINT
 Pop: 'C%'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+Push:'A$'
+Pop: 'A$'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE A$
+Push:'A$'
+                    000: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'A$' type:s (2), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'A$' type:s (2), %:0
+EXP_BUFF_ID_FUNCTION LEN
+Pop: 'A$'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
 --------------------
 
 ====================

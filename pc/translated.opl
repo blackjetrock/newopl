@@ -7,6 +7,9 @@ C% := ASC(A$ )
 PRINT(C%)
 <nl>
 
+PRINT(LEN(A$ ))
+<nl>
+
 
 
 
@@ -14,5 +17,8 @@ DROP()
 A$ := "0ABC"
 C% := ASC(A$ )
 PRINT(C%)
+<nl>
+
+PRINT(LEN(A$ ))
 <nl>
 

@@ -60,6 +60,28 @@ C%
 PRINT
           000:type:U 'PRINT'
 
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+A$
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+LEN
+          000:type:i 'LEN'
+
+PRINT
+          000:type:U 'PRINT'
+
 PROCDEF
 
  LOCAL
@@ -117,6 +139,28 @@ ASC
           001:type:i 'ASC'
 
 C%
+
+PRINT
+          000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+A$
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+LEN
+          000:type:i 'LEN'
 
 PRINT
           000:type:U 'PRINT'
