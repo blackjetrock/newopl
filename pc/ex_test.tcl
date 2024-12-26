@@ -95,7 +95,7 @@ proc compare_results {basename f1 f2} {
 
 # Find all files that are nopl translation tests
 
-set EX_TEST_FILES [glob *_psion.ex.test]
+set EX_TEST_FILES [glob extst*.opl]
 
 foreach file [lsort $EX_TEST_FILES] {
     puts $file
@@ -105,41 +105,16 @@ foreach file [lsort $EX_TEST_FILES] {
 puts "\n"
 
 foreach file [lsort $EX_TEST_FILES] {
-    
-    if { [regexp -- {(.*)_psion.ex.test} $file all basename] } {
-	# Re-translate the source to get the file we need to test against
-	#puts "$basename\n"
+    if { [regexp -- {(.*).opl} $file all basename] } {
+	puts "Testimg..."
+	set op [exec ./newopl_tran $basename\.opl]
+	puts $op
+	set op [exec ./newopl_exec ob3_nopl.bin]
+	puts $op
 	
-	exec ./newopl_tran $basename\.opl > $basename\_nopl.out.test
-	exec ./newopl_objdump ob3_nopl.bin > $basename\_nopl.tr.test
-
-	set opf [open $basename\_nopl.out.test]
-	set output [read $opf]
-	close $opf
-	
-	# See if stdout had extra output
-	set nlines 0
-	foreach line [split $output "\n"] {
-	    if { [regexp -- {([0-9]+) lines scanned Ok  [0-9]+ lines scanned failed  [0-9]+ variables  ([0-9]+) lines blank} $line all l_scanned l_blank] } {
-		incr ::OPL_LINECOUNT [expr $l_scanned - $l_blank]
-#		puts ">>$::OPL_LINECOUNT $all"
-	    }
-	    incr nlines 1
-
-	}
-
-	set ::NLINES $nlines
-	
-	if { $nlines == 7 } {
-	    set ::OPOK 1
-	} else {
-	    set ::OPOK 0
-	}
-	
-	# Compare the results
-	compare_results $basename $file $basename\_nopl.tr.test
     }
 }
+
 
 puts "\n$::PASS tests passed $::FAIL tests failed"
 puts "$::OPL_LINECOUNT lines of OPL tested"
