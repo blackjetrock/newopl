@@ -566,6 +566,20 @@ void qca_bra_false(NOBJ_MACHINE *m, NOBJ_QCS *s)
     }
 }
 
+void qca_goto(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int16_t offset;
+
+  // Get offset
+  offset = m->stack[m->rta_pc++];
+  offset <<= 8;
+  offset |= m->stack[m->rta_pc++];
+  
+  dbq("Offset %d (%04X)", offset, offset);
+
+  m->rta_pc += offset -2;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -591,6 +605,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_PRINT_CR,      "QCO_PRINT_CR",      {qca_null,         qca_print_cr,    qca_null}},
     
     { QCO_BRA_FALSE,     "QCO_BRA_FALSE",     {qca_bra_false,    qca_null,        qca_null}},
+    { QCO_GOTO,          "QCO_GOTO",          {qca_goto,         qca_null,        qca_null}},
     { QCO_RETURN,        "QCO_RETURN",        {qca_unwind_proc,  qca_null,        qca_null}},
     
     { QCO_RETURN_NOUGHT, "QCO_RETURN_NOUGHT", {qca_unwind_proc,  qca_push_nought, qca_null}},

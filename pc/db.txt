@@ -30,148 +30,193 @@ Pushing procedure './ob3_nopl.bin'
   PC:0000
 
 Size of variables    :08 8
-Size of QCode        :AF 175
+Size of QCode        :FA 250
 Number of parameters :00 0
-Base SP              :3E39 15929
+Base SP              :3DEE 15854
 push_machine_8:pushing 00 to 3EF8
 push_machine_16:pushing 0000 to 3EF8
 push_machine_16:pushing 0000 to 3EF6
-push_machine_16:pushing 3E39 to 3EF4
+push_machine_16:pushing 3DEE to 3EF4
 rta_fp = 3EF0
 push_machine_16:pushing 0000 to 3EF2
 Size of global table:00 (0)
 Start of global table:3EEE (SP now 3EF0)
 push_machine_16:pushing 3EEE to 3EF0
 Zeroing stack from base_sp to start of global table
-3E39 to 3EED
+3DEE to 3EED
 Size of external table:00 0
 Building Indirection Table
 Searching for externals...
 Applying fixups...
-push_machine_16:pushing 3EEC to 3E39
-push_machine_8:pushing 00 to 3E36
-push_machine_8:pushing 64 to 3E35
-push_machine_8:pushing 00 to 3E34
-pop_machine_16:Popped 0064 from SP:3E34
-pop_machine_8:Popped 00 from SP:3E36
-pop_machine_16:Popped 3EEC from SP:3E37
-push_machine_16:pushing 3EE8 to 3E39
-push_machine_8:pushing 00 to 3E36
-push_machine_8:pushing 00 to 3E35
-push_machine_8:pushing 00 to 3E34
-pop_machine_16:Popped 0000 from SP:3E34
-pop_machine_8:Popped 00 from SP:3E36
-pop_machine_16:Popped 3EE8 from SP:3E37
-push_machine_16:pushing 0064 to 3E39
-pop_machine_16:Popped 0064 from SP:3E37
-push_machine_16:pushing 3EEC to 3E39
-push_machine_8:pushing 00 to 3E36
-push_machine_16:pushing 0064 to 3E36
-push_machine_8:pushing 02 to 3E33
-push_machine_8:pushing 00 to 3E32
-pop_machine_16:Popped 0002 from SP:3E32
-pop_machine_16:Popped 0064 from SP:3E34
-push_machine_16:pushing 0032 to 3E36
-pop_machine_16:Popped 0032 from SP:3E34
-pop_machine_8:Popped 00 from SP:3E36
-pop_machine_16:Popped 3EEC from SP:3E37
-push_machine_16:pushing 0032 to 3E39
-pop_machine_16:Popped 0032 from SP:3E37
-push_machine_16:pushing 3EEC to 3E39
-push_machine_8:pushing 00 to 3E36
-push_machine_16:pushing 0032 to 3E36
-push_machine_8:pushing 03 to 3E33
-push_machine_8:pushing 00 to 3E32
-pop_machine_16:Popped 0003 from SP:3E32
-pop_machine_16:Popped 0032 from SP:3E34
-push_machine_16:pushing 0096 to 3E36
-pop_machine_16:Popped 0096 from SP:3E34
-pop_machine_8:Popped 00 from SP:3E36
-pop_machine_16:Popped 3EEC from SP:3E37
-push_machine_16:pushing 3EEC to 3E39
-push_machine_8:pushing 00 to 3E36
-push_machine_16:pushing 0096 to 3E36
-push_machine_8:pushing E8 to 3E33
-push_machine_8:pushing 03 to 3E32
-pop_machine_16:Popped 03E8 from SP:3E32
-pop_machine_16:Popped 0096 from SP:3E34
-push_machine_16:pushing 047E to 3E36
-pop_machine_16:Popped 047E from SP:3E34
-pop_machine_8:Popped 00 from SP:3E36
-pop_machine_16:Popped 3EEC from SP:3E37
-push_machine_16:pushing 047E to 3E39
-pop_machine_16:Popped 047E from SP:3E37
-push_machine_16:pushing 3EEA to 3E39
-push_machine_8:pushing 00 to 3E36
-push_machine_8:pushing E8 to 3E35
-push_machine_8:pushing 03 to 3E34
-push_machine_8:pushing 64 to 3E33
-push_machine_8:pushing 00 to 3E32
-push_machine_8:pushing 02 to 3E31
-push_machine_8:pushing 00 to 3E30
-pop_machine_16:Popped 0002 from SP:3E30
-pop_machine_16:Popped 0064 from SP:3E32
-push_machine_16:pushing 0032 to 3E34
-push_machine_8:pushing 03 to 3E31
-push_machine_8:pushing 00 to 3E30
-pop_machine_16:Popped 0003 from SP:3E30
-pop_machine_16:Popped 0032 from SP:3E32
-push_machine_16:pushing 0096 to 3E34
-pop_machine_16:Popped 0096 from SP:3E32
-pop_machine_16:Popped 03E8 from SP:3E34
-push_machine_16:pushing 047E to 3E36
-pop_machine_16:Popped 047E from SP:3E34
-pop_machine_8:Popped 00 from SP:3E36
-pop_machine_16:Popped 3EEA from SP:3E37
-push_machine_16:pushing 047E to 3E39
-pop_machine_16:Popped 047E from SP:3E37
-push_machine_16:pushing 3EE8 to 3E39
-push_machine_8:pushing 00 to 3E36
-push_machine_8:pushing 00 to 3E35
-push_machine_8:pushing 00 to 3E34
-pop_machine_16:Popped 0000 from SP:3E34
-pop_machine_8:Popped 00 from SP:3E36
-pop_machine_16:Popped 3EE8 from SP:3E37
-push_machine_16:pushing 047E to 3E39
-push_machine_16:pushing 047E to 3E37
-pop_machine_16:Popped 047E from SP:3E35
-pop_machine_16:Popped 047E from SP:3E37
-push_machine_16:pushing FFFFFFFF to 3E39
-pop_machine_16:Popped FFFF from SP:3E37
-pop_machine_16:Popped 0DFF from SP:3E39
-push_machine_16:pushing 0000 to 3E3B
-pop_machine_16:Popped 0000 from SP:3E39
-push_machine_16:pushing 3EE8 to 3E3B
-push_machine_8:pushing 00 to 3E38
-push_machine_16:pushing 0000 to 3E38
-push_machine_8:pushing 0A to 3E35
-push_machine_8:pushing 00 to 3E34
-pop_machine_16:Popped 000A from SP:3E34
-pop_machine_16:Popped 0000 from SP:3E36
-push_machine_16:pushing 000A to 3E38
-pop_machine_16:Popped 000A from SP:3E36
-pop_machine_8:Popped 00 from SP:3E38
-pop_machine_16:Popped 3EE8 from SP:3E39
-push_machine_16:pushing 047E to 3E3B
-push_machine_16:pushing 047E to 3E39
-pop_machine_16:Popped 047E from SP:3E37
-pop_machine_16:Popped 047E from SP:3E39
-push_machine_16:pushing 0000 to 3E3B
-pop_machine_16:Popped 0000 from SP:3E39
-push_machine_16:pushing 3EE8 to 3E3B
-push_machine_8:pushing 00 to 3E38
-push_machine_16:pushing 000A to 3E38
-push_machine_8:pushing E8 to 3E35
-push_machine_8:pushing 03 to 3E34
-pop_machine_16:Popped 03E8 from SP:3E34
-pop_machine_16:Popped 000A from SP:3E36
-push_machine_16:pushing 03F2 to 3E38
-pop_machine_16:Popped 03F2 from SP:3E36
-pop_machine_8:Popped 00 from SP:3E38
-pop_machine_16:Popped 3EE8 from SP:3E39
-push_machine_16:pushing 03F2 to 3E3B
-pop_machine_16:Popped 03F2 from SP:3E39
-push_machine_16:pushing 03F2 to 3E3B
+push_machine_16:pushing 3EEC to 3DEE
+push_machine_8:pushing 00 to 3DEB
+push_machine_8:pushing 64 to 3DEA
+push_machine_8:pushing 00 to 3DE9
+pop_machine_16:Popped 0064 from SP:3DE9
+pop_machine_8:Popped 00 from SP:3DEB
+pop_machine_16:Popped 3EEC from SP:3DEC
+push_machine_16:pushing 3EE8 to 3DEE
+push_machine_8:pushing 00 to 3DEB
+push_machine_8:pushing 00 to 3DEA
+push_machine_8:pushing 00 to 3DE9
+pop_machine_16:Popped 0000 from SP:3DE9
+pop_machine_8:Popped 00 from SP:3DEB
+pop_machine_16:Popped 3EE8 from SP:3DEC
+push_machine_16:pushing 0064 to 3DEE
+pop_machine_16:Popped 0064 from SP:3DEC
+push_machine_16:pushing 3EEC to 3DEE
+push_machine_8:pushing 00 to 3DEB
+push_machine_16:pushing 0064 to 3DEB
+push_machine_8:pushing 02 to 3DE8
+push_machine_8:pushing 00 to 3DE7
+pop_machine_16:Popped 0002 from SP:3DE7
+pop_machine_16:Popped 0064 from SP:3DE9
+push_machine_16:pushing 0032 to 3DEB
+pop_machine_16:Popped 0032 from SP:3DE9
+pop_machine_8:Popped 00 from SP:3DEB
+pop_machine_16:Popped 3EEC from SP:3DEC
+push_machine_string:pushing A: to 3DEE len:2
+push_machine_8:pushing 3A to 3DED
+push_machine_8:pushing 41 to 3DEC
+push_machine_8:pushing 02 to 3DEB
+pop_machine_16:Popped 0241 from SP:3DEB
+push_machine_16:pushing 0032 to 3DED
+pop_machine_16:Popped 0032 from SP:3DEB
+push_machine_16:pushing 3EEC to 3DED
+push_machine_8:pushing 00 to 3DEA
+push_machine_16:pushing 0032 to 3DEA
+push_machine_8:pushing 03 to 3DE7
+push_machine_8:pushing 00 to 3DE6
+pop_machine_16:Popped 0003 from SP:3DE6
+pop_machine_16:Popped 0032 from SP:3DE8
+push_machine_16:pushing 0096 to 3DEA
+pop_machine_16:Popped 0096 from SP:3DE8
+pop_machine_8:Popped 00 from SP:3DEA
+pop_machine_16:Popped 3EEC from SP:3DEB
+push_machine_16:pushing 3EEC to 3DED
+push_machine_8:pushing 00 to 3DEA
+push_machine_16:pushing 0096 to 3DEA
+push_machine_8:pushing E8 to 3DE7
+push_machine_8:pushing 03 to 3DE6
+pop_machine_16:Popped 03E8 from SP:3DE6
+pop_machine_16:Popped 0096 from SP:3DE8
+push_machine_16:pushing 047E to 3DEA
+pop_machine_16:Popped 047E from SP:3DE8
+pop_machine_8:Popped 00 from SP:3DEA
+pop_machine_16:Popped 3EEC from SP:3DEB
+push_machine_16:pushing 047E to 3DED
+pop_machine_16:Popped 047E from SP:3DEB
+push_machine_16:pushing 3EEA to 3DED
+push_machine_8:pushing 00 to 3DEA
+push_machine_8:pushing E8 to 3DE9
+push_machine_8:pushing 03 to 3DE8
+push_machine_8:pushing 64 to 3DE7
+push_machine_8:pushing 00 to 3DE6
+push_machine_8:pushing 02 to 3DE5
+push_machine_8:pushing 00 to 3DE4
+pop_machine_16:Popped 0002 from SP:3DE4
+pop_machine_16:Popped 0064 from SP:3DE6
+push_machine_16:pushing 0032 to 3DE8
+push_machine_8:pushing 03 to 3DE5
+push_machine_8:pushing 00 to 3DE4
+pop_machine_16:Popped 0003 from SP:3DE4
+pop_machine_16:Popped 0032 from SP:3DE6
+push_machine_16:pushing 0096 to 3DE8
+pop_machine_16:Popped 0096 from SP:3DE6
+pop_machine_16:Popped 03E8 from SP:3DE8
+push_machine_16:pushing 047E to 3DEA
+pop_machine_16:Popped 047E from SP:3DE8
+pop_machine_8:Popped 00 from SP:3DEA
+pop_machine_16:Popped 3EEA from SP:3DEB
+push_machine_string:pushing B: to 3DED len:2
+push_machine_8:pushing 3A to 3DEC
+push_machine_8:pushing 42 to 3DEB
+push_machine_8:pushing 02 to 3DEA
+pop_machine_16:Popped 0242 from SP:3DEA
+push_machine_16:pushing 047E to 3DEC
+pop_machine_16:Popped 047E from SP:3DEA
+push_machine_16:pushing 3EE8 to 3DEC
+push_machine_8:pushing 00 to 3DE9
+push_machine_8:pushing 00 to 3DE8
+push_machine_8:pushing 00 to 3DE7
+pop_machine_16:Popped 0000 from SP:3DE7
+pop_machine_8:Popped 00 from SP:3DE9
+pop_machine_16:Popped 3EE8 from SP:3DEA
+push_machine_16:pushing 047E to 3DEC
+push_machine_16:pushing 047E to 3DEA
+pop_machine_16:Popped 047E from SP:3DE8
+pop_machine_16:Popped 047E from SP:3DEA
+push_machine_16:pushing FFFFFFFF to 3DEC
+pop_machine_16:Popped FFFF from SP:3DEA
+push_machine_16:pushing 3EE8 to 3DEC
+push_machine_8:pushing 00 to 3DE9
+push_machine_16:pushing 0000 to 3DE9
+push_machine_8:pushing 01 to 3DE6
+push_machine_8:pushing 00 to 3DE5
+pop_machine_16:Popped 0001 from SP:3DE5
+pop_machine_16:Popped 0000 from SP:3DE7
+push_machine_16:pushing 0001 to 3DE9
+pop_machine_16:Popped 0001 from SP:3DE7
+pop_machine_8:Popped 00 from SP:3DE9
+pop_machine_16:Popped 3EE8 from SP:3DEA
+push_machine_16:pushing 047E to 3DEC
+push_machine_16:pushing 047E to 3DEA
+pop_machine_16:Popped 047E from SP:3DE8
+pop_machine_16:Popped 047E from SP:3DEA
+push_machine_16:pushing 0000 to 3DEC
+pop_machine_16:Popped 0000 from SP:3DEA
+push_machine_16:pushing 3EE8 to 3DEC
+push_machine_8:pushing 00 to 3DE9
+push_machine_16:pushing 0001 to 3DE9
+push_machine_8:pushing E8 to 3DE6
+push_machine_8:pushing 03 to 3DE5
+pop_machine_16:Popped 03E8 from SP:3DE5
+pop_machine_16:Popped 0001 from SP:3DE7
+push_machine_16:pushing 03E9 to 3DE9
+pop_machine_16:Popped 03E9 from SP:3DE7
+pop_machine_8:Popped 00 from SP:3DE9
+pop_machine_16:Popped 3EE8 from SP:3DEA
+push_machine_16:pushing 03E9 to 3DEC
+push_machine_8:pushing E9 to 3DE9
+push_machine_8:pushing 03 to 3DE8
+pop_machine_16:Popped 03E9 from SP:3DE8
+pop_machine_16:Popped 03E9 from SP:3DEA
+push_machine_16:pushing FFFFFFFF to 3DEC
+pop_machine_16:Popped FFFF from SP:3DEA
+push_machine_16:pushing 3EE8 to 3DEC
+push_machine_8:pushing 00 to 3DE9
+push_machine_8:pushing 01 to 3DE8
+push_machine_8:pushing 00 to 3DE7
+pop_machine_16:Popped 0001 from SP:3DE7
+pop_machine_8:Popped 00 from SP:3DE9
+pop_machine_16:Popped 3EE8 from SP:3DEA
+push_machine_string:pushing Result: to 3DEC len:7
+push_machine_8:pushing 3A to 3DEB
+push_machine_8:pushing 74 to 3DEA
+push_machine_8:pushing 6C to 3DE9
+push_machine_8:pushing 75 to 3DE8
+push_machine_8:pushing 73 to 3DE7
+push_machine_8:pushing 65 to 3DE6
+push_machine_8:pushing 52 to 3DE5
+push_machine_8:pushing 07 to 3DE4
+pop_machine_16:Popped 0752 from SP:3DE4
+push_machine_16:pushing 0001 to 3DE6
+pop_machine_16:Popped 0001 from SP:3DE4
+push_machine_16:pushing 0001 to 3DE6
+push_machine_8:pushing 01 to 3DE3
+push_machine_8:pushing 00 to 3DE2
+pop_machine_16:Popped 0001 from SP:3DE2
+pop_machine_16:Popped 0001 from SP:3DE4
+push_machine_16:pushing FFFFFFFF to 3DE6
+pop_machine_16:Popped FFFF from SP:3DE4
+push_machine_string:pushing PASS to 3DE6 len:4
+push_machine_8:pushing 53 to 3DE5
+push_machine_8:pushing 53 to 3DE4
+push_machine_8:pushing 41 to 3DE3
+push_machine_8:pushing 50 to 3DE2
+push_machine_8:pushing 04 to 3DE1
+pop_machine_16:Popped 0450 from SP:3DE1
+push_machine_16:pushing 0001 to 3DE3
 3EFF: 58 X
 3EFE: 58 X
 3EFD: 58 X
@@ -184,8 +229,8 @@ push_machine_16:pushing 03F2 to 3E3B
 3EF6: 00 .
 3EF5: 00 .
 3EF4: 00 .
-3EF3: 39 9
-3EF2: 3E >
+3EF3: EE .
+3EF2: 3D =
 3EF1: 00 .
 3EF0: 00 .
 3EEF: EE .
@@ -194,8 +239,8 @@ push_machine_16:pushing 03F2 to 3E3B
 3EEC: 04 .
 3EEB: 7E ~
 3EEA: 04 .
-3EE9: F2 .
-3EE8: 03 .
+3EE9: 01 .
+3EE8: 00 .
 3EE7: 22 "
 3EE6: 22 "
 3EE5: 79 y
@@ -203,185 +248,273 @@ push_machine_16:pushing 03F2 to 3E3B
 3EE3: FF .
 3EE2: 00 .
 3EE1: 73 s
-3EE0: 6F o
-3EDF: F8 .
-3EDE: FF .
-3EDD: 00 .
-3EDC: 7F .
-3EDB: 2D -
-3EDA: E8 .
-3ED9: 03 .
-3ED8: 22 "
-3ED7: F8 .
-3ED6: FF .
-3ED5: 00 .
-3ED4: F8 .
-3ED3: FF .
-3ED2: 0D .
-3ED1: 0D .
-3ED0: 00 .
-3ECF: 51 Q
-3ECE: 7F .
-3ECD: 2D -
-3ECC: 64 d
-3ECB: 00 .
-3ECA: 22 "
-3EC9: F8 .
-3EC8: FF .
-3EC7: 00 .
-3EC6: F8 .
-3EC5: FF .
-3EC4: 0D .
-3EC3: 10 .
-3EC2: 00 .
-3EC1: 7E ~
-3EC0: 2B +
-3EBF: FA .
-3EBE: FF .
-3EBD: 00 .
-3EBC: FC .
-3EBB: FF .
-3EBA: 00 .
-3EB9: 7F .
-3EB8: 2D -
-3EB7: 0A .
-3EB6: 00 .
-3EB5: 22 "
-3EB4: F8 .
-3EB3: FF .
-3EB2: 00 .
+3EE0: 71 q
+3EDF: 4C L
+3EDE: 49 I
+3EDD: 41 A
+3EDC: 46 F
+3EDB: 04 .
+3EDA: 24 $
+3ED9: 0A .
+3ED8: 00 .
+3ED7: 51 Q
+3ED6: 73 s
+3ED5: 71 q
+3ED4: 53 S
+3ED3: 53 S
+3ED2: 41 A
+3ED1: 50 P
+3ED0: 04 .
+3ECF: 24 $
+3ECE: 0D .
+3ECD: 00 .
+3ECC: 7E ~
+3ECB: 2C ,
+3ECA: 01 .
+3EC9: 00 .
+3EC8: 22 "
+3EC7: F8 .
+3EC6: FF .
+3EC5: 00 .
+3EC4: 73 s
+3EC3: 6F o
+3EC2: F8 .
+3EC1: FF .
+3EC0: 00 .
+3EBF: 71 q
+3EBE: 3A :
+3EBD: 74 t
+3EBC: 6C l
+3EBB: 75 u
+3EBA: 73 s
+3EB9: 65 e
+3EB8: 52 R
+3EB7: 07 .
+3EB6: 24 $
+3EB5: 7F .
+3EB4: 00 .
+3EB3: 00 .
+3EB2: 22 "
 3EB1: F8 .
 3EB0: FF .
 3EAF: 0D .
-3EAE: 0D .
+3EAE: 09 .
 3EAD: 00 .
 3EAC: 51 Q
 3EAB: 7F .
-3EAA: 2D -
-3EA9: 01 .
-3EA8: 00 .
-3EA7: 22 "
-3EA6: F8 .
-3EA5: FF .
-3EA4: 00 .
-3EA3: F8 .
-3EA2: FF .
-3EA1: 0D .
-3EA0: 10 .
-3E9F: 00 .
-3E9E: 7E ~
-3E9D: 2C ,
-3E9C: 2C ,
-3E9B: FA .
-3E9A: FF .
-3E99: 00 .
-3E98: FC .
-3E97: FF .
-3E96: 00 .
-3E95: 7F .
-3E94: 00 .
+3EAA: 01 .
+3EA9: 00 .
+3EA8: 22 "
+3EA7: F8 .
+3EA6: FF .
+3EA5: 0D .
+3EA4: 0C .
+3EA3: 00 .
+3EA2: 7E ~
+3EA1: 2C ,
+3EA0: E9 .
+3E9F: 03 .
+3E9E: 22 "
+3E9D: F8 .
+3E9C: FF .
+3E9B: 00 .
+3E9A: 7F .
+3E99: 2D -
+3E98: E8 .
+3E97: 03 .
+3E96: 22 "
+3E95: F8 .
+3E94: FF .
 3E93: 00 .
-3E92: 22 "
-3E91: F8 .
-3E90: FF .
+3E92: F8 .
+3E91: FF .
+3E90: 0D .
 3E8F: 0D .
-3E8E: 73 s
-3E8D: 6F o
-3E8C: FA .
-3E8B: FF .
-3E8A: 00 .
-3E89: 7F .
-3E88: 2D -
-3E87: 2F /
-3E86: 03 .
+3E8E: 00 .
+3E8D: 51 Q
+3E8C: 7F .
+3E8B: 2D -
+3E8A: 64 d
+3E89: 00 .
+3E88: 22 "
+3E87: F8 .
+3E86: FF .
 3E85: 00 .
-3E84: 22 "
-3E83: 30 0
-3E82: 02 .
-3E81: 00 .
-3E80: 22 "
-3E7F: 64 d
-3E7E: 00 .
-3E7D: 22 "
-3E7C: E8 .
-3E7B: 03 .
-3E7A: 22 "
-3E79: FA .
-3E78: FF .
-3E77: 0D .
-3E76: 73 s
-3E75: 6F o
-3E74: FC .
-3E73: FF .
-3E72: 00 .
-3E71: 7F .
-3E70: 2D -
-3E6F: E8 .
-3E6E: 03 .
-3E6D: 22 "
-3E6C: FC .
-3E6B: FF .
-3E6A: 00 .
-3E69: FC .
-3E68: FF .
-3E67: 0D .
-3E66: 7F .
-3E65: 2F /
-3E64: 03 .
-3E63: 00 .
-3E62: 22 "
-3E61: FC .
+3E84: F8 .
+3E83: FF .
+3E82: 0D .
+3E81: 10 .
+3E80: 00 .
+3E7F: 7E ~
+3E7E: 2B +
+3E7D: FA .
+3E7C: FF .
+3E7B: 00 .
+3E7A: FC .
+3E79: FF .
+3E78: 00 .
+3E77: 7F .
+3E76: 2D -
+3E75: 0A .
+3E74: 00 .
+3E73: 22 "
+3E72: F8 .
+3E71: FF .
+3E70: 00 .
+3E6F: F8 .
+3E6E: FF .
+3E6D: 0D .
+3E6C: 0D .
+3E6B: 00 .
+3E6A: 51 Q
+3E69: 7F .
+3E68: 2D -
+3E67: 01 .
+3E66: 00 .
+3E65: 22 "
+3E64: F8 .
+3E63: FF .
+3E62: 00 .
+3E61: F8 .
 3E60: FF .
-3E5F: 00 .
-3E5E: FC .
-3E5D: FF .
-3E5C: 0D .
-3E5B: 73 s
-3E5A: 6F o
-3E59: FC .
-3E58: FF .
-3E57: 00 .
-3E56: 7F .
-3E55: 30 0
-3E54: 02 .
+3E5F: 0D .
+3E5E: 10 .
+3E5D: 00 .
+3E5C: 7E ~
+3E5B: 2C ,
+3E5A: FA .
+3E59: FF .
+3E58: 00 .
+3E57: FC .
+3E56: FF .
+3E55: 00 .
+3E54: 7F .
 3E53: 00 .
-3E52: 22 "
-3E51: FC .
-3E50: FF .
-3E4F: 00 .
-3E4E: FC .
-3E4D: FF .
-3E4C: 0D .
-3E4B: 73 s
-3E4A: 6F o
-3E49: FC .
-3E48: FF .
-3E47: 00 .
-3E46: 7F .
-3E45: 00 .
-3E44: 00 .
-3E43: 22 "
-3E42: F8 .
-3E41: FF .
-3E40: 0D .
-3E3F: 7F .
-3E3E: 64 d
-3E3D: 00 .
-3E3C: 22 "
-3E3B: FC .
-3E3A: F2 .
-3E39: 03 .
+3E52: 00 .
+3E51: 22 "
+3E50: F8 .
+3E4F: FF .
+3E4E: 0D .
+3E4D: 73 s
+3E4C: 6F o
+3E4B: FA .
+3E4A: FF .
+3E49: 00 .
+3E48: 71 q
+3E47: 3A :
+3E46: 42 B
+3E45: 02 .
+3E44: 24 $
+3E43: 7F .
+3E42: 2D -
+3E41: 2F /
+3E40: 03 .
+3E3F: 00 .
+3E3E: 22 "
+3E3D: 30 0
+3E3C: 02 .
+3E3B: 00 .
+3E3A: 22 "
+3E39: 64 d
+3E38: 00 .
+3E37: 22 "
+3E36: E8 .
+3E35: 03 .
+3E34: 22 "
+3E33: FA .
+3E32: FF .
+3E31: 0D .
+3E30: 73 s
+3E2F: 6F o
+3E2E: FC .
+3E2D: FF .
+3E2C: 00 .
+3E2B: 7F .
+3E2A: 2D -
+3E29: E8 .
+3E28: 03 .
+3E27: 22 "
+3E26: FC .
+3E25: FF .
+3E24: 00 .
+3E23: FC .
+3E22: FF .
+3E21: 0D .
+3E20: 7F .
+3E1F: 2F /
+3E1E: 03 .
+3E1D: 00 .
+3E1C: 22 "
+3E1B: FC .
+3E1A: FF .
+3E19: 00 .
+3E18: FC .
+3E17: FF .
+3E16: 0D .
+3E15: 73 s
+3E14: 6F o
+3E13: FC .
+3E12: FF .
+3E11: 00 .
+3E10: 71 q
+3E0F: 3A :
+3E0E: 41 A
+3E0D: 02 .
+3E0C: 24 $
+3E0B: 7F .
+3E0A: 30 0
+3E09: 02 .
+3E08: 00 .
+3E07: 22 "
+3E06: FC .
+3E05: FF .
+3E04: 00 .
+3E03: FC .
+3E02: FF .
+3E01: 0D .
+3E00: 73 s
+3DFF: 6F o
+3DFE: FC .
+3DFD: FF .
+3DFC: 00 .
+3DFB: 7F .
+3DFA: 00 .
+3DF9: 00 .
+3DF8: 22 "
+3DF7: F8 .
+3DF6: FF .
+3DF5: 0D .
+3DF4: 7F .
+3DF3: 64 d
+3DF2: 00 .
+3DF1: 22 "
+3DF0: FC .
+3DEF: FF .
+3DEE: 0D .
+3DED: 3A :
+3DEC: 3A :
+3DEB: 3A :
+3DEA: 74 t
+3DE9: 6C l
+3DE8: 75 u
+3DE7: 73 s
+3DE6: 65 e
+3DE5: 53 S
+3DE4: 53 S
+3DE3: 41 A
+3DE2: 01 .
+3DE1: 00 .
 
 ================================================================================
 
-  SP:3E39
+  SP:3DE1
   FP:3EF0
   PC:3EE6
 
 
 Machine Procedures:
 3EF0:  Previous FP        : 0000
-3EF2:  Base SP            : 3E39
+3EF2:  Base SP            : 3DEE
 3EF4:  ONERR Address      : 0000
 3EF6:  Return PC          : 0000
 3EF8:  Device             : 00

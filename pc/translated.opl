@@ -8,6 +8,7 @@ PRINT(A%)
 <nl>
 
 A% := (A% / 2)
+PRINT("A:")
 PRINT(A%)
 <nl>
 
@@ -17,11 +18,12 @@ PRINT(A%)
 <nl>
 
 B% := (1000 + ((100 / 2) * 3))
+PRINT("B:")
 PRINT(B%)
 <nl>
 
 R% := 0
-IF (A% = (A% = B%))
+IF (A% = B%)
 R% := (R% + 1)
 ELSE
 R% := (R% + 10)
@@ -31,9 +33,24 @@ R% := (R% + 100)
 ELSE
 R% := (R% + 1000)
 ENDIF
+IF (R% = 1001)
+R% := 1
+ELSE
+R% := 0
+ENDIF
+PRINT("Result:")
 PRINT(R%)
 <nl>
 
+IF (R% = 1)
+PRINT("PASS")
+<nl>
+
+ELSE
+PRINT("FAIL")
+<nl>
+
+ENDIF
 R%
 
 
@@ -45,6 +62,7 @@ PRINT(A%)
 <nl>
 
 A% := (A% / 2)
+PRINT("A:")
 PRINT(A%)
 <nl>
 
@@ -54,11 +72,12 @@ PRINT(A%)
 <nl>
 
 B% := (1000 + ((100 / 2) * 3))
+PRINT("B:")
 PRINT(B%)
 <nl>
 
 R% := 0
-IF (A% = (A% = B%))
+IF (A% = B%)
 R% := (R% + 1)
 ELSE
 R% := (R% + 10)
@@ -68,7 +87,22 @@ R% := (R% + 100)
 ELSE
 R% := (R% + 1000)
 ENDIF
+IF (R% = 1001)
+R% := 1
+ELSE
+R% := 0
+ENDIF
+PRINT("Result:")
 PRINT(R%)
 <nl>
 
+IF (R% = 1)
+PRINT("PASS")
+<nl>
+
+ELSE
+PRINT("FAIL")
+<nl>
+
+ENDIF
 R%
