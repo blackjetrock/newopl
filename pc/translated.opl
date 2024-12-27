@@ -1,40 +1,24 @@
 
 
 
-YEAR%
+I%
+I% := 0
 DO
-S% := SECOND()
-MIN% := MINUTE()
-HOUR% := HOUR()
-DAY% := DAY()
-MONTH% := MONTH()
-YEAR% := YEAR()
-PRINT("Time:")
-PRINT(HOUR%)
-PRINT(":")
-PRINT(MIN%)
-PRINT(":")
-PRINT(S%)
+ptime%
+I% := (I% + 1)
+UNTIL (I% = 10)
+PRINT("PASS")
 <nl>
 
-UNTIL 0
 
 
 
 DROP()
+I% := 0
 DO
-S% := SECOND()
-MIN% := MINUTE()
-HOUR% := HOUR()
-DAY% := DAY()
-MONTH% := MONTH()
-YEAR% := YEAR()
-PRINT("Time:")
-PRINT(HOUR%)
-PRINT(":")
-PRINT(MIN%)
-PRINT(":")
-PRINT(S%)
+DROP()
+I% := (I% + 1)
+UNTIL (I% = 10)
+PRINT("PASS")
 <nl>
 
-UNTIL 0

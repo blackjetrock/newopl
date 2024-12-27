@@ -243,6 +243,7 @@ void qca_push_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
 	  
   if( fp == NULL )
     {
+      runtime_error("Cannot open '%s'", s->str);
       dbq("Cannot open '%s'", s->str);
       exit(-1);
     }
@@ -719,6 +720,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // DROP int
     //DROP str
     { QCO_DROP_NUM,      "QCO_DROP_NUM",      {qca_pop_num,      qca_null,        qca_null}},
+    { QCO_DROP_WORD,     "QCO_DROP_WORD",     {qca_pop_int,      qca_null,        qca_null}},
     { QCO_ADD_INT,       "QCO_ADD_INT",       {qca_pop_2int,     qca_add,         qca_push_result}},
     { QCO_SUB_INT,       "QCO_SUB_INT",       {qca_pop_2int,     qca_sub,         qca_push_result}},
     { QCO_MUL_INT,       "QCO_MUL_INT",       {qca_pop_2int,     qca_mul,         qca_push_result}},

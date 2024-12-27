@@ -82,6 +82,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "nopl.h"
 #include "newopl.h"
@@ -96,6 +97,25 @@ NOBJ_MACHINE machine;
 FILE *exdbfp;
 FILE *fp;
 NOBJ_PROC proc;
+
+////////////////////////////////////////////////////////////////////////////////
+
+void runtime_error(char *fmt, ...)
+{
+  va_list valist;
+  char line[80];
+  
+  va_start(valist, fmt);
+
+  vsprintf(line, fmt, valist);
+  va_end(valist);
+
+  dbq("Internal compiler error ***");
+  dbq("\n\n\n*** Internal compiler error ***\n");
+
+  printf("\n%s\n", line);
+
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 

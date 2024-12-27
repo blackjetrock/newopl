@@ -8,48 +8,31 @@ EXP_BUFF_ID_META PROCDEF
 
 --------------------
 
-Push:'S%'
-Push:'MIN%'
-Push:'HOUR%'
-Push:'DAY%'
-Push:'MONTH%'
-Push:'YEAR%'
+Push:'I%'
 ====================
 
 EXP_BUFF_ID_META  LOCAL
-EXP_BUFF_ID_VARIABLE S%
-Push:'S%'
-                    000: 'S%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE MIN%
-Push:'MIN%'
-                    000: 'S%' type:i (0), %:0
-                    001: 'MIN%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE HOUR%
-Push:'HOUR%'
-                    000: 'S%' type:i (0), %:0
-                    001: 'MIN%' type:i (0), %:0
-                    002: 'HOUR%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE DAY%
-Push:'DAY%'
-                    000: 'S%' type:i (0), %:0
-                    001: 'MIN%' type:i (0), %:0
-                    002: 'HOUR%' type:i (0), %:0
-                    003: 'DAY%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE MONTH%
-Push:'MONTH%'
-                    000: 'S%' type:i (0), %:0
-                    001: 'MIN%' type:i (0), %:0
-                    002: 'HOUR%' type:i (0), %:0
-                    003: 'DAY%' type:i (0), %:0
-                    004: 'MONTH%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE YEAR%
-Push:'YEAR%'
-                    000: 'S%' type:i (0), %:0
-                    001: 'MIN%' type:i (0), %:0
-                    002: 'HOUR%' type:i (0), %:0
-                    003: 'DAY%' type:i (0), %:0
-                    004: 'MONTH%' type:i (0), %:0
-                    005: 'YEAR%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE I%
+Push:'I%'
+                    000: 'I%' type:i (0), %:0
+--------------------
+
+Push:'I%'
+Push:'0'
+Pop: '0'
+Pop: 'I%'
+====================
+
+EXP_BUFF_ID_VARIABLE I%
+Push:'I%'
+                    000: 'I%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 0
+Push:'0'
+                    000: 'I%' type:i (0), %:0
+                    001: '0' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '0'
+Pop: 'I%'
 --------------------
 
 ====================
@@ -57,214 +40,81 @@ Push:'YEAR%'
 EXP_BUFF_ID_DO DO
 --------------------
 
-Push:'S%'
 Push:'000'
-Pop: '000'
-Pop: 'S%'
 ====================
 
-EXP_BUFF_ID_VARIABLE S%
-Push:'S%'
-                    000: 'S%' type:i (0), %:0
-EXP_BUFF_ID_SUB_START 
-                    000: 'S%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'S%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'S%' type:i (0), %:0
-EXP_BUFF_ID_FUNCTION SECOND
+EXP_BUFF_ID_PROC_CALL ptime%
 Push:'000'
-                    000: 'S%' type:i (0), %:0
+                    000: '000' type:i (0), %:0
+--------------------
+
+Push:'I%'
+Push:'I%'
+Push:'1'
+Pop: '1'
+Pop: 'I%'
+Push:'000'
+Pop: '000'
+Pop: 'I%'
+====================
+
+EXP_BUFF_ID_VARIABLE I%
+Push:'I%'
+                    000: 'I%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE I%
+Push:'I%'
+                    000: 'I%' type:i (0), %:0
+                    001: 'I%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 1
+Push:'1'
+                    000: 'I%' type:i (0), %:0
+                    001: 'I%' type:i (0), %:0
+                    002: '1' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '1'
+Pop: 'I%'
+Push:'000'
+                    000: 'I%' type:i (0), %:0
                     001: '000' type:i (0), %:0
 EXP_BUFF_ID_OPERATOR :=
 Pop: '000'
-Pop: 'S%'
+Pop: 'I%'
 --------------------
 
-Push:'MIN%'
+Push:'I%'
+Push:'10'
+Pop: '10'
+Pop: 'I%'
 Push:'000'
 Pop: '000'
-Pop: 'MIN%'
 ====================
 
-EXP_BUFF_ID_VARIABLE MIN%
-Push:'MIN%'
-                    000: 'MIN%' type:i (0), %:0
-EXP_BUFF_ID_SUB_START 
-                    000: 'MIN%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'MIN%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'MIN%' type:i (0), %:0
-EXP_BUFF_ID_FUNCTION MINUTE
+EXP_BUFF_ID_META TEST_EXPR
+EXP_BUFF_ID_VARIABLE I%
+Push:'I%'
+                    000: 'I%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 10
+Push:'10'
+                    000: 'I%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '10'
+Pop: 'I%'
 Push:'000'
-                    000: 'MIN%' type:i (0), %:0
-                    001: '000' type:i (0), %:0
-EXP_BUFF_ID_OPERATOR :=
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_UNTIL UNTIL
 Pop: '000'
-Pop: 'MIN%'
 --------------------
 
-Push:'HOUR%'
-Push:'000'
-Pop: '000'
-Pop: 'HOUR%'
+Push:'"PASS"'
+Pop: '"PASS"'
 ====================
 
-EXP_BUFF_ID_VARIABLE HOUR%
-Push:'HOUR%'
-                    000: 'HOUR%' type:i (0), %:0
-EXP_BUFF_ID_SUB_START 
-                    000: 'HOUR%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'HOUR%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'HOUR%' type:i (0), %:0
-EXP_BUFF_ID_FUNCTION HOUR
-Push:'000'
-                    000: 'HOUR%' type:i (0), %:0
-                    001: '000' type:i (0), %:0
-EXP_BUFF_ID_OPERATOR :=
-Pop: '000'
-Pop: 'HOUR%'
---------------------
-
-Push:'DAY%'
-Push:'000'
-Pop: '000'
-Pop: 'DAY%'
-====================
-
-EXP_BUFF_ID_VARIABLE DAY%
-Push:'DAY%'
-                    000: 'DAY%' type:i (0), %:0
-EXP_BUFF_ID_SUB_START 
-                    000: 'DAY%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'DAY%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'DAY%' type:i (0), %:0
-EXP_BUFF_ID_FUNCTION DAY
-Push:'000'
-                    000: 'DAY%' type:i (0), %:0
-                    001: '000' type:i (0), %:0
-EXP_BUFF_ID_OPERATOR :=
-Pop: '000'
-Pop: 'DAY%'
---------------------
-
-Push:'MONTH%'
-Push:'000'
-Pop: '000'
-Pop: 'MONTH%'
-====================
-
-EXP_BUFF_ID_VARIABLE MONTH%
-Push:'MONTH%'
-                    000: 'MONTH%' type:i (0), %:0
-EXP_BUFF_ID_SUB_START 
-                    000: 'MONTH%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'MONTH%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'MONTH%' type:i (0), %:0
-EXP_BUFF_ID_FUNCTION MONTH
-Push:'000'
-                    000: 'MONTH%' type:i (0), %:0
-                    001: '000' type:i (0), %:0
-EXP_BUFF_ID_OPERATOR :=
-Pop: '000'
-Pop: 'MONTH%'
---------------------
-
-Push:'YEAR%'
-Push:'000'
-Pop: '000'
-Pop: 'YEAR%'
-====================
-
-EXP_BUFF_ID_VARIABLE YEAR%
-Push:'YEAR%'
-                    000: 'YEAR%' type:i (0), %:0
-EXP_BUFF_ID_SUB_START 
-                    000: 'YEAR%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'YEAR%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'YEAR%' type:i (0), %:0
-EXP_BUFF_ID_FUNCTION YEAR
-Push:'000'
-                    000: 'YEAR%' type:i (0), %:0
-                    001: '000' type:i (0), %:0
-EXP_BUFF_ID_OPERATOR :=
-Pop: '000'
-Pop: 'YEAR%'
---------------------
-
-Push:'"Time:"'
-Pop: '"Time:"'
-====================
-
-EXP_BUFF_ID_STR "Time:"
-Push:'"Time:"'
-                    000: '"Time:"' type:s (2), %:0
+EXP_BUFF_ID_STR "PASS"
+Push:'"PASS"'
+                    000: '"PASS"' type:s (2), %:0
 EXP_BUFF_ID_PRINT PRINT
-Pop: '"Time:"'
---------------------
-
-Push:'HOUR%'
-Pop: 'HOUR%'
-====================
-
-EXP_BUFF_ID_VARIABLE HOUR%
-Push:'HOUR%'
-                    000: 'HOUR%' type:i (0), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: 'HOUR%'
---------------------
-
-Push:'":"'
-Pop: '":"'
-====================
-
-EXP_BUFF_ID_STR ":"
-Push:'":"'
-                    000: '":"' type:s (2), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: '":"'
---------------------
-
-Push:'MIN%'
-Pop: 'MIN%'
-====================
-
-EXP_BUFF_ID_VARIABLE MIN%
-Push:'MIN%'
-                    000: 'MIN%' type:i (0), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: 'MIN%'
---------------------
-
-Push:'":"'
-Pop: '":"'
-====================
-
-EXP_BUFF_ID_STR ":"
-Push:'":"'
-                    000: '":"' type:s (2), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: '":"'
---------------------
-
-Push:'S%'
-Pop: 'S%'
-====================
-
-EXP_BUFF_ID_VARIABLE S%
-Push:'S%'
-                    000: 'S%' type:i (0), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: 'S%'
+Pop: '"PASS"'
 --------------------
 
 ====================
@@ -274,18 +124,6 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 
 ====================
 
---------------------
-
-Push:'0'
-Pop: '0'
-====================
-
-EXP_BUFF_ID_META TEST_EXPR
-EXP_BUFF_ID_INTEGER 0
-Push:'0'
-                    000: '0' type:i (0), %:0
-EXP_BUFF_ID_UNTIL UNTIL
-Pop: '0'
 --------------------
 
 ====================
@@ -301,48 +139,31 @@ EXP_BUFF_ID_META PROCDEF
 
 --------------------
 
-Push:'S%'
-Push:'MIN%'
-Push:'HOUR%'
-Push:'DAY%'
-Push:'MONTH%'
-Push:'YEAR%'
+Push:'I%'
 ====================
 
 EXP_BUFF_ID_META  LOCAL
-EXP_BUFF_ID_VARIABLE S%
-Push:'S%'
-                    000: 'S%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE MIN%
-Push:'MIN%'
-                    000: 'S%' type:i (0), %:0
-                    001: 'MIN%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE HOUR%
-Push:'HOUR%'
-                    000: 'S%' type:i (0), %:0
-                    001: 'MIN%' type:i (0), %:0
-                    002: 'HOUR%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE DAY%
-Push:'DAY%'
-                    000: 'S%' type:i (0), %:0
-                    001: 'MIN%' type:i (0), %:0
-                    002: 'HOUR%' type:i (0), %:0
-                    003: 'DAY%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE MONTH%
-Push:'MONTH%'
-                    000: 'S%' type:i (0), %:0
-                    001: 'MIN%' type:i (0), %:0
-                    002: 'HOUR%' type:i (0), %:0
-                    003: 'DAY%' type:i (0), %:0
-                    004: 'MONTH%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE YEAR%
-Push:'YEAR%'
-                    000: 'S%' type:i (0), %:0
-                    001: 'MIN%' type:i (0), %:0
-                    002: 'HOUR%' type:i (0), %:0
-                    003: 'DAY%' type:i (0), %:0
-                    004: 'MONTH%' type:i (0), %:0
-                    005: 'YEAR%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE I%
+Push:'I%'
+                    000: 'I%' type:i (0), %:0
+--------------------
+
+Push:'I%'
+Push:'0'
+Pop: '0'
+Pop: 'I%'
+====================
+
+EXP_BUFF_ID_VARIABLE I%
+Push:'I%'
+                    000: 'I%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 0
+Push:'0'
+                    000: 'I%' type:i (0), %:0
+                    001: '0' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '0'
+Pop: 'I%'
 --------------------
 
 ====================
@@ -350,214 +171,81 @@ Push:'YEAR%'
 EXP_BUFF_ID_DO DO
 --------------------
 
-Push:'S%'
 Push:'000'
-Pop: '000'
-Pop: 'S%'
 ====================
 
-EXP_BUFF_ID_VARIABLE S%
-Push:'S%'
-                    000: 'S%' type:i (0), %:0
-EXP_BUFF_ID_SUB_START 
-                    000: 'S%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'S%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'S%' type:i (0), %:0
-EXP_BUFF_ID_FUNCTION SECOND
+EXP_BUFF_ID_PROC_CALL ptime%
 Push:'000'
-                    000: 'S%' type:i (0), %:0
+                    000: '000' type:i (0), %:0
+--------------------
+
+Push:'I%'
+Push:'I%'
+Push:'1'
+Pop: '1'
+Pop: 'I%'
+Push:'000'
+Pop: '000'
+Pop: 'I%'
+====================
+
+EXP_BUFF_ID_VARIABLE I%
+Push:'I%'
+                    000: 'I%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE I%
+Push:'I%'
+                    000: 'I%' type:i (0), %:0
+                    001: 'I%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 1
+Push:'1'
+                    000: 'I%' type:i (0), %:0
+                    001: 'I%' type:i (0), %:0
+                    002: '1' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '1'
+Pop: 'I%'
+Push:'000'
+                    000: 'I%' type:i (0), %:0
                     001: '000' type:i (0), %:0
 EXP_BUFF_ID_OPERATOR :=
 Pop: '000'
-Pop: 'S%'
+Pop: 'I%'
 --------------------
 
-Push:'MIN%'
+Push:'I%'
+Push:'10'
+Pop: '10'
+Pop: 'I%'
 Push:'000'
 Pop: '000'
-Pop: 'MIN%'
 ====================
 
-EXP_BUFF_ID_VARIABLE MIN%
-Push:'MIN%'
-                    000: 'MIN%' type:i (0), %:0
-EXP_BUFF_ID_SUB_START 
-                    000: 'MIN%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'MIN%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'MIN%' type:i (0), %:0
-EXP_BUFF_ID_FUNCTION MINUTE
+EXP_BUFF_ID_META TEST_EXPR
+EXP_BUFF_ID_VARIABLE I%
+Push:'I%'
+                    000: 'I%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 10
+Push:'10'
+                    000: 'I%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '10'
+Pop: 'I%'
 Push:'000'
-                    000: 'MIN%' type:i (0), %:0
-                    001: '000' type:i (0), %:0
-EXP_BUFF_ID_OPERATOR :=
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_UNTIL UNTIL
 Pop: '000'
-Pop: 'MIN%'
 --------------------
 
-Push:'HOUR%'
-Push:'000'
-Pop: '000'
-Pop: 'HOUR%'
+Push:'"PASS"'
+Pop: '"PASS"'
 ====================
 
-EXP_BUFF_ID_VARIABLE HOUR%
-Push:'HOUR%'
-                    000: 'HOUR%' type:i (0), %:0
-EXP_BUFF_ID_SUB_START 
-                    000: 'HOUR%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'HOUR%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'HOUR%' type:i (0), %:0
-EXP_BUFF_ID_FUNCTION HOUR
-Push:'000'
-                    000: 'HOUR%' type:i (0), %:0
-                    001: '000' type:i (0), %:0
-EXP_BUFF_ID_OPERATOR :=
-Pop: '000'
-Pop: 'HOUR%'
---------------------
-
-Push:'DAY%'
-Push:'000'
-Pop: '000'
-Pop: 'DAY%'
-====================
-
-EXP_BUFF_ID_VARIABLE DAY%
-Push:'DAY%'
-                    000: 'DAY%' type:i (0), %:0
-EXP_BUFF_ID_SUB_START 
-                    000: 'DAY%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'DAY%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'DAY%' type:i (0), %:0
-EXP_BUFF_ID_FUNCTION DAY
-Push:'000'
-                    000: 'DAY%' type:i (0), %:0
-                    001: '000' type:i (0), %:0
-EXP_BUFF_ID_OPERATOR :=
-Pop: '000'
-Pop: 'DAY%'
---------------------
-
-Push:'MONTH%'
-Push:'000'
-Pop: '000'
-Pop: 'MONTH%'
-====================
-
-EXP_BUFF_ID_VARIABLE MONTH%
-Push:'MONTH%'
-                    000: 'MONTH%' type:i (0), %:0
-EXP_BUFF_ID_SUB_START 
-                    000: 'MONTH%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'MONTH%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'MONTH%' type:i (0), %:0
-EXP_BUFF_ID_FUNCTION MONTH
-Push:'000'
-                    000: 'MONTH%' type:i (0), %:0
-                    001: '000' type:i (0), %:0
-EXP_BUFF_ID_OPERATOR :=
-Pop: '000'
-Pop: 'MONTH%'
---------------------
-
-Push:'YEAR%'
-Push:'000'
-Pop: '000'
-Pop: 'YEAR%'
-====================
-
-EXP_BUFF_ID_VARIABLE YEAR%
-Push:'YEAR%'
-                    000: 'YEAR%' type:i (0), %:0
-EXP_BUFF_ID_SUB_START 
-                    000: 'YEAR%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'YEAR%' type:i (0), %:0
-EXP_BUFF_ID_SUB_END 
-                    000: 'YEAR%' type:i (0), %:0
-EXP_BUFF_ID_FUNCTION YEAR
-Push:'000'
-                    000: 'YEAR%' type:i (0), %:0
-                    001: '000' type:i (0), %:0
-EXP_BUFF_ID_OPERATOR :=
-Pop: '000'
-Pop: 'YEAR%'
---------------------
-
-Push:'"Time:"'
-Pop: '"Time:"'
-====================
-
-EXP_BUFF_ID_STR "Time:"
-Push:'"Time:"'
-                    000: '"Time:"' type:s (2), %:0
+EXP_BUFF_ID_STR "PASS"
+Push:'"PASS"'
+                    000: '"PASS"' type:s (2), %:0
 EXP_BUFF_ID_PRINT PRINT
-Pop: '"Time:"'
---------------------
-
-Push:'HOUR%'
-Pop: 'HOUR%'
-====================
-
-EXP_BUFF_ID_VARIABLE HOUR%
-Push:'HOUR%'
-                    000: 'HOUR%' type:i (0), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: 'HOUR%'
---------------------
-
-Push:'":"'
-Pop: '":"'
-====================
-
-EXP_BUFF_ID_STR ":"
-Push:'":"'
-                    000: '":"' type:s (2), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: '":"'
---------------------
-
-Push:'MIN%'
-Pop: 'MIN%'
-====================
-
-EXP_BUFF_ID_VARIABLE MIN%
-Push:'MIN%'
-                    000: 'MIN%' type:i (0), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: 'MIN%'
---------------------
-
-Push:'":"'
-Pop: '":"'
-====================
-
-EXP_BUFF_ID_STR ":"
-Push:'":"'
-                    000: '":"' type:s (2), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: '":"'
---------------------
-
-Push:'S%'
-Pop: 'S%'
-====================
-
-EXP_BUFF_ID_VARIABLE S%
-Push:'S%'
-                    000: 'S%' type:i (0), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: 'S%'
+Pop: '"PASS"'
 --------------------
 
 ====================
@@ -567,18 +255,6 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 
 ====================
 
---------------------
-
-Push:'0'
-Pop: '0'
-====================
-
-EXP_BUFF_ID_META TEST_EXPR
-EXP_BUFF_ID_INTEGER 0
-Push:'0'
-                    000: '0' type:i (0), %:0
-EXP_BUFF_ID_UNTIL UNTIL
-Pop: '0'
 --------------------
 
 ====================

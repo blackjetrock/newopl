@@ -3,300 +3,92 @@ PROCDEF
 
  LOCAL
 
-S%
+I%
 
-,
-
-MIN%
-
-,
-
-HOUR%
-
-,
-
-DAY%
-
-,
-
-MONTH%
-
-,
-
-YEAR%
-
-S%
+I%
 
 :=
           000:type:i ':='
 
-(
-          000:type:i ':='
-          001:type:U '('
-
-)
+0
           000:type:i ':='
 
-SECOND
-          000:type:i ':='
-          001:type:i 'SECOND'
+ptime%
 
-MIN%
+I%
 
 :=
           000:type:i ':='
 
-(
-          000:type:i ':='
-          001:type:U '('
-
-)
+I%
           000:type:i ':='
 
-MINUTE
++
           000:type:i ':='
-          001:type:i 'MINUTE'
+          001:type:i '+'
 
-HOUR%
-
-:=
+1
           000:type:i ':='
-
-(
-          000:type:i ':='
-          001:type:U '('
-
-)
-          000:type:i ':='
-
-HOUR
-          000:type:i ':='
-          001:type:i 'HOUR'
-
-DAY%
-
-:=
-          000:type:i ':='
-
-(
-          000:type:i ':='
-          001:type:U '('
-
-)
-          000:type:i ':='
-
-DAY
-          000:type:i ':='
-          001:type:i 'DAY'
-
-MONTH%
-
-:=
-          000:type:i ':='
-
-(
-          000:type:i ':='
-          001:type:U '('
-
-)
-          000:type:i ':='
-
-MONTH
-          000:type:i ':='
-          001:type:i 'MONTH'
-
-YEAR%
-
-:=
-          000:type:i ':='
-
-(
-          000:type:i ':='
-          001:type:U '('
-
-)
-          000:type:i ':='
-
-YEAR
-          000:type:i ':='
-          001:type:i 'YEAR'
-
-"Time:"
-
-;
-
-HOUR%
-
-;
-
-":"
-
-;
-
-MIN%
-
-;
-
-":"
-
-;
-
-S%
-
-PRINT
-          000:type:U 'PRINT'
+          001:type:i '+'
 
 TEST_EXPR
 
-0
+I%
+
+=
+          000:type:i '='
+
+10
+          000:type:i '='
+
+"PASS"
+
+PRINT
+          000:type:U 'PRINT'
 
 PROCDEF
 
  LOCAL
 
-S%
+I%
 
-,
-
-MIN%
-
-,
-
-HOUR%
-
-,
-
-DAY%
-
-,
-
-MONTH%
-
-,
-
-YEAR%
-
-S%
+I%
 
 :=
           000:type:i ':='
 
-(
-          000:type:i ':='
-          001:type:U '('
-
-)
+0
           000:type:i ':='
 
-SECOND
-          000:type:i ':='
-          001:type:i 'SECOND'
+ptime%
 
-MIN%
+I%
 
 :=
           000:type:i ':='
 
-(
-          000:type:i ':='
-          001:type:U '('
-
-)
+I%
           000:type:i ':='
 
-MINUTE
++
           000:type:i ':='
-          001:type:i 'MINUTE'
+          001:type:i '+'
 
-HOUR%
-
-:=
+1
           000:type:i ':='
-
-(
-          000:type:i ':='
-          001:type:U '('
-
-)
-          000:type:i ':='
-
-HOUR
-          000:type:i ':='
-          001:type:i 'HOUR'
-
-DAY%
-
-:=
-          000:type:i ':='
-
-(
-          000:type:i ':='
-          001:type:U '('
-
-)
-          000:type:i ':='
-
-DAY
-          000:type:i ':='
-          001:type:i 'DAY'
-
-MONTH%
-
-:=
-          000:type:i ':='
-
-(
-          000:type:i ':='
-          001:type:U '('
-
-)
-          000:type:i ':='
-
-MONTH
-          000:type:i ':='
-          001:type:i 'MONTH'
-
-YEAR%
-
-:=
-          000:type:i ':='
-
-(
-          000:type:i ':='
-          001:type:U '('
-
-)
-          000:type:i ':='
-
-YEAR
-          000:type:i ':='
-          001:type:i 'YEAR'
-
-"Time:"
-
-;
-
-HOUR%
-
-;
-
-":"
-
-;
-
-MIN%
-
-;
-
-":"
-
-;
-
-S%
-
-PRINT
-          000:type:U 'PRINT'
+          001:type:i '+'
 
 TEST_EXPR
 
-0
+I%
+
+=
+          000:type:i '='
+
+10
+          000:type:i '='
+
+"PASS"
+
+PRINT
+          000:type:U 'PRINT'
