@@ -435,6 +435,14 @@ void qca_pop_2int(NOBJ_MACHINE *m, NOBJ_QCS *s)
   dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
 }
 
+void qca_pop_2num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
+  s->integer  = pop_machine_int(m);
+  s->integer2 = pop_machine_int(m);
+  dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
+}
+
 void qca_add(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
@@ -459,6 +467,12 @@ void qca_div(NOBJ_MACHINE *m, NOBJ_QCS *s)
 }
 
 void qca_push_result(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  dbq("res:%d (%04X)", s->result, s->result);
+  push_machine_16(m, s->result);
+}
+
+void qca_push_num_result(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   dbq("res:%d (%04X)", s->result, s->result);
   push_machine_16(m, s->result);
@@ -634,6 +648,24 @@ void qca_lte_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_16(m, res);
 }
 
+void qca_add_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  s->result = s->integer2 + s->integer;
+
+  dbq("Int:%d (%04X) + Int2:%d (%04X) = %d (%04X)", s->integer, s->integer, s->integer2, s->integer2, s->result, s->result);
+}
+
+void qca_add_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  s->result = s->integer2 + s->integer;
+
+  dbq("Int:%d (%04X) + Int2:%d (%04X) = %d (%04X)", s->integer, s->integer, s->integer2, s->integer2, s->result, s->result);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 void qca_asc(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -753,6 +785,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_DAY,           "RTF_DAY",           {qca_clock_day,    qca_null,        qca_null}},
     { RTF_MONTH,         "RTF_MONTH",         {qca_clock_month,  qca_null,        qca_null}},
     { RTF_YEAR,          "RTF_YEAR",          {qca_clock_year,   qca_null,        qca_null}},
+    { QCO_ADD_INT,       "QCO_ADD_INT",       {qca_pop_2int,     qca_add_int,     qca_push_result}},
+    { QCO_ADD_NUM,       "QCO_ADD_NUM",       {qca_pop_2num,     qca_add_num,     qca_push_num_result}},
     
   };
 
