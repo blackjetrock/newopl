@@ -1,26 +1,40 @@
 
 
 
-A$
-A$ := "ABC"
-PRINT(A$)
+YEAR%
+DO
+S% := SECOND()
+MIN% := MINUTE()
+HOUR% := HOUR()
+DAY% := DAY()
+MONTH% := MONTH()
+YEAR% := YEAR()
+PRINT("Time:")
+PRINT(HOUR%)
+PRINT(":")
+PRINT(MIN%)
+PRINT(":")
+PRINT(S%)
 <nl>
 
-IF (A$ = "ABC")
-PRINT("PASS")
-<nl>
-
-ENDIF
+UNTIL 0
 
 
 
 DROP()
-A$ := "ABC"
-PRINT(A$)
+DO
+S% := SECOND()
+MIN% := MINUTE()
+HOUR% := HOUR()
+DAY% := DAY()
+MONTH% := MONTH()
+YEAR% := YEAR()
+PRINT("Time:")
+PRINT(HOUR%)
+PRINT(":")
+PRINT(MIN%)
+PRINT(":")
+PRINT(S%)
 <nl>
 
-IF (A$ = "ABC")
-PRINT("PASS")
-<nl>
-
-ENDIF
+UNTIL 0

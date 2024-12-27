@@ -237,6 +237,45 @@
 
 //------------------------------------------------------------------------------
 
+////////////////////////////////////////////////////////////////////////////////
+
+// QCode state
+// Used to pass execution state of a single QCode
+
+typedef struct _NOBJ_QCS
+{
+  NOBJ_QCODE qcode;
+  NOBJ_INT   integer;
+  NOBJ_INT   integer2;
+  NOBJ_INT   result;
+  uint16_t   ind_ptr;
+  uint8_t    len;
+  uint8_t    len2;
+  uint8_t    data8;
+  char       str[NOBJ_FILENAME_MAXLEN+1];
+  char       str2[NOBJ_FILENAME_MAXLEN+1];
+  uint16_t   str_addr;
+  uint16_t   addr;
+  char       procpath[NOBJ_FILENAME_MAXLEN];
+  uint8_t    max_sz;
+  int        i;
+  uint8_t    field_flag;
+  int        done;
+} NOBJ_QCS;
+
+typedef void (*NOBJ_QC_ACTION)(NOBJ_MACHINE *m, NOBJ_QCS *s);
+
+#define NOBJ_QC_NUM_ACTIONS 3
+
+typedef struct
+{
+  NOBJ_QCODE      qcode;
+  char            *name;
+  NOBJ_QC_ACTION  action[NOBJ_QC_NUM_ACTIONS];
+  
+} NOBJ_QCODE_INFO;
+
+////////////////////////////////////////////////////////////////////////////////
 
 
 

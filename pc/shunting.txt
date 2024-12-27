@@ -3,82 +3,300 @@ PROCDEF
 
  LOCAL
 
-(
-          000:type:U '('
+S%
 
-10
-          000:type:U '('
+,
 
-)
+MIN%
 
-A$
+,
 
-A$
+HOUR%
+
+,
+
+DAY%
+
+,
+
+MONTH%
+
+,
+
+YEAR%
+
+S%
 
 :=
-          000:type:s ':='
+          000:type:i ':='
 
-"ABC"
-          000:type:s ':='
+(
+          000:type:i ':='
+          001:type:U '('
 
-A$
+)
+          000:type:i ':='
+
+SECOND
+          000:type:i ':='
+          001:type:i 'SECOND'
+
+MIN%
+
+:=
+          000:type:i ':='
+
+(
+          000:type:i ':='
+          001:type:U '('
+
+)
+          000:type:i ':='
+
+MINUTE
+          000:type:i ':='
+          001:type:i 'MINUTE'
+
+HOUR%
+
+:=
+          000:type:i ':='
+
+(
+          000:type:i ':='
+          001:type:U '('
+
+)
+          000:type:i ':='
+
+HOUR
+          000:type:i ':='
+          001:type:i 'HOUR'
+
+DAY%
+
+:=
+          000:type:i ':='
+
+(
+          000:type:i ':='
+          001:type:U '('
+
+)
+          000:type:i ':='
+
+DAY
+          000:type:i ':='
+          001:type:i 'DAY'
+
+MONTH%
+
+:=
+          000:type:i ':='
+
+(
+          000:type:i ':='
+          001:type:U '('
+
+)
+          000:type:i ':='
+
+MONTH
+          000:type:i ':='
+          001:type:i 'MONTH'
+
+YEAR%
+
+:=
+          000:type:i ':='
+
+(
+          000:type:i ':='
+          001:type:U '('
+
+)
+          000:type:i ':='
+
+YEAR
+          000:type:i ':='
+          001:type:i 'YEAR'
+
+"Time:"
+
+;
+
+HOUR%
+
+;
+
+":"
+
+;
+
+MIN%
+
+;
+
+":"
+
+;
+
+S%
 
 PRINT
           000:type:U 'PRINT'
 
-A$
+TEST_EXPR
 
-=
-          000:type:s '='
-
-"ABC"
-          000:type:s '='
-
-"PASS"
-
-PRINT
-          000:type:U 'PRINT'
-
-ENDIF
+0
 
 PROCDEF
 
  LOCAL
 
-(
-          000:type:U '('
+S%
 
-10
-          000:type:U '('
+,
 
-)
+MIN%
 
-A$
+,
 
-A$
+HOUR%
+
+,
+
+DAY%
+
+,
+
+MONTH%
+
+,
+
+YEAR%
+
+S%
 
 :=
-          000:type:s ':='
+          000:type:i ':='
 
-"ABC"
-          000:type:s ':='
+(
+          000:type:i ':='
+          001:type:U '('
 
-A$
+)
+          000:type:i ':='
+
+SECOND
+          000:type:i ':='
+          001:type:i 'SECOND'
+
+MIN%
+
+:=
+          000:type:i ':='
+
+(
+          000:type:i ':='
+          001:type:U '('
+
+)
+          000:type:i ':='
+
+MINUTE
+          000:type:i ':='
+          001:type:i 'MINUTE'
+
+HOUR%
+
+:=
+          000:type:i ':='
+
+(
+          000:type:i ':='
+          001:type:U '('
+
+)
+          000:type:i ':='
+
+HOUR
+          000:type:i ':='
+          001:type:i 'HOUR'
+
+DAY%
+
+:=
+          000:type:i ':='
+
+(
+          000:type:i ':='
+          001:type:U '('
+
+)
+          000:type:i ':='
+
+DAY
+          000:type:i ':='
+          001:type:i 'DAY'
+
+MONTH%
+
+:=
+          000:type:i ':='
+
+(
+          000:type:i ':='
+          001:type:U '('
+
+)
+          000:type:i ':='
+
+MONTH
+          000:type:i ':='
+          001:type:i 'MONTH'
+
+YEAR%
+
+:=
+          000:type:i ':='
+
+(
+          000:type:i ':='
+          001:type:U '('
+
+)
+          000:type:i ':='
+
+YEAR
+          000:type:i ':='
+          001:type:i 'YEAR'
+
+"Time:"
+
+;
+
+HOUR%
+
+;
+
+":"
+
+;
+
+MIN%
+
+;
+
+":"
+
+;
+
+S%
 
 PRINT
           000:type:U 'PRINT'
 
-A$
+TEST_EXPR
 
-=
-          000:type:s '='
-
-"ABC"
-          000:type:s '='
-
-"PASS"
-
-PRINT
-          000:type:U 'PRINT'
-
-ENDIF
+0

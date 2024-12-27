@@ -12,6 +12,7 @@
 #include "newopl_lib.h"
 
 #include "qcode.h"
+#include "qcode_clock.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -78,45 +79,6 @@ uint8_t qcode_next_8(NOBJ_MACHINE *m)
   return(r);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-// QCode state
-// Used to pass execution state of a single QCode
-
-typedef struct _NOBJ_QCS
-{
-  NOBJ_QCODE qcode;
-  NOBJ_INT   integer;
-  NOBJ_INT   integer2;
-  NOBJ_INT   result;
-  uint16_t   ind_ptr;
-  uint8_t    len;
-  uint8_t    len2;
-  uint8_t    data8;
-  char       str[NOBJ_FILENAME_MAXLEN+1];
-  char       str2[NOBJ_FILENAME_MAXLEN+1];
-  uint16_t   str_addr;
-  uint16_t   addr;
-  char       procpath[NOBJ_FILENAME_MAXLEN];
-  uint8_t    max_sz;
-  int        i;
-  uint8_t    field_flag;
-  int        done;
-} NOBJ_QCS;
-
-typedef void (*NOBJ_QC_ACTION)(NOBJ_MACHINE *m, NOBJ_QCS *s);
-
-#define NOBJ_QC_NUM_ACTIONS 3
-
-typedef struct
-{
-  NOBJ_QCODE      qcode;
-  char            *name;
-  NOBJ_QC_ACTION  action[NOBJ_QC_NUM_ACTIONS];
-  
-} NOBJ_QCODE_INFO;
-
-////////////////////////////////////////////////////////////////////////////////
 
 void qca_null(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -764,6 +726,12 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_ASC,           "RTF_ASC",           {qca_pop_str,      qca_asc,         qca_push_result}},
     { RTF_LEN,           "RTF_LEN",           {qca_pop_str,      qca_len,         qca_push_result}},
     { RTF_LOC,           "RTF_LOC",           {qca_pop_2str,     qca_loc,         qca_push_result}},
+    { RTF_SECOND,        "RTF_SECOND",        {qca_clock_second, qca_null,        qca_null}},
+    { RTF_MINUTE,        "RTF_MINUTE",        {qca_clock_minute, qca_null,        qca_null}},
+    { RTF_HOUR,          "RTF_HOUR",          {qca_clock_hour,   qca_null,        qca_null}},
+    { RTF_DAY,           "RTF_DAY",           {qca_clock_day,    qca_null,        qca_null}},
+    { RTF_MONTH,         "RTF_MONTH",         {qca_clock_month,  qca_null,        qca_null}},
+    { RTF_YEAR,          "RTF_YEAR",          {qca_clock_year,   qca_null,        qca_null}},
     
   };
 
