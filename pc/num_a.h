@@ -1,0 +1,12 @@
+////////////////////////////////////////////////////////////////////////////////
+
+#define NUM_MAX_DIGITS 12
+
+typedef struct _NUM
+{
+  int exponent;
+  int sign;
+  int digits[NUM_MAX_DIGITS];
+} NUM;
+
+
