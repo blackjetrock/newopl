@@ -410,6 +410,23 @@ void qca_pop_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->integer = pop_machine_int(m);
 }
 
+// Pop a variable ref, then push the address
+void qca_pop_ref(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int addr;
+  int field;
+  
+  // Field flag
+  field = pop_machine_8(m);
+  
+  // Address
+  addr = pop_machine_16(m);
+  
+  push_machine_16(m, addr);
+  
+  dbq("Field:%d (%02X) Addr:%d (%04X)", field, field, addr, addr);
+}
+
 void qca_pop_2int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
@@ -721,10 +738,12 @@ NOBJ_QCODE_INFO qcode_info[] =
     //DROP str
     { QCO_DROP_NUM,      "QCO_DROP_NUM",      {qca_pop_num,      qca_null,        qca_null}},
     { QCO_DROP_WORD,     "QCO_DROP_WORD",     {qca_pop_int,      qca_null,        qca_null}},
+    { QCO_DROP_STR,      "QCO_DROP_STR",      {qca_pop_str,      qca_null,        qca_null}},
     { QCO_ADD_INT,       "QCO_ADD_INT",       {qca_pop_2int,     qca_add,         qca_push_result}},
     { QCO_SUB_INT,       "QCO_SUB_INT",       {qca_pop_2int,     qca_sub,         qca_push_result}},
     { QCO_MUL_INT,       "QCO_MUL_INT",       {qca_pop_2int,     qca_mul,         qca_push_result}},
     { QCO_DIV_INT,       "QCO_DIV_INT",       {qca_pop_2int,     qca_div,         qca_push_result}},
+    { RTF_ADDR,          "RTF_ADDR",          {qca_pop_ref,      qca_null,        qca_null}},
     { RTF_ASC,           "RTF_ASC",           {qca_pop_str,      qca_asc,         qca_push_result}},
     { RTF_LEN,           "RTF_LEN",           {qca_pop_str,      qca_len,         qca_push_result}},
     { RTF_LOC,           "RTF_LOC",           {qca_pop_2str,     qca_loc,         qca_push_result}},
@@ -792,7 +811,7 @@ int execute_qcode(NOBJ_MACHINE *m, int single_step)
       
       s.qcode = m->stack[m->rta_pc];
 
-      dbq("--------------------------------------------------------------------------------");
+      dbq("\n--------------------------------------------------------------------------------\n");
       dbq("Executing QCode %02X at %04X", s.qcode, m->rta_pc);
       
       (m->rta_pc)++;

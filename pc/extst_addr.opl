@@ -1,0 +1,16 @@
+addr:
+
+local x%, ad%
+
+ad% = addr(x%)
+
+print "Expecting:";$3eec
+print "Got:";ad%
+
+
+if ad% = $3EEC
+
+  print "PASS"
+
+endif
+
