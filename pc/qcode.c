@@ -6,13 +6,6 @@
 #include <string.h>
 
 #include "nopl.h"
-#include "newopl.h"
-#include "nopl_obj.h"
-#include "newopl_exec.h"
-#include "newopl_lib.h"
-
-#include "qcode.h"
-#include "qcode_clock.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,6 +21,285 @@ void dbpfq(const char *caller, char *fmt, ...)
   va_end(valist);
   fflush(exdbfp);
 }
+////////////////////////////////////////////////////////////////////////////////
+
+void push_machine_8(NOBJ_MACHINE *m, uint8_t v)
+{
+#if DEBUG_PUSH_POP
+  debug("\n%s:pushing %02X to %04X", __FUNCTION__, v, (m->rta_sp)-1);
+#endif
+
+  if( m->rta_sp > 0 )
+    {
+      m->stack[--(m->rta_sp)] = v;
+    }
+  else
+    {
+      error("Attempt to push off end of stack");
+    }
+}
+
+void push_machine_16(NOBJ_MACHINE *m, int16_t v)
+{
+  
+  if( m->rta_sp > 0 )
+    {
+      m->stack[--(m->rta_sp)] = (v &  0xFF);
+      m->stack[--(m->rta_sp)] = (v >> 8);
+    }
+  else
+    {
+      error("Attempt to push off end of stack");
+    }
+
+#if DEBUG_PUSH_POP
+  debug("\n%s:pushing %04X to %04X", __FUNCTION__, v, m->rta_sp+2);
+#endif
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Push a string onto the stack. Must be pushed in such a way that the
+// length is popped off then the string in character order.
+// Must be pushed in reverse, then.
+
+void push_machine_string(NOBJ_MACHINE *m, int len, char *str)
+{
+#if DEBUG_PUSH_POP
+  debug("\n%s:pushing %s to %04X len:%d", __FUNCTION__, str, m->rta_sp, len);
+#endif
+
+  // Push the string
+
+  for(int i=0; i< len; i++)
+    {
+      push_machine_8(m, str[len - i - 1 ]);
+    }
+  
+  // Length last so popped first
+  push_machine_8(m, len);
+}
+
+NOBJ_INT pop_machine_int(NOBJ_MACHINE *m)
+{
+  return(pop_machine_16(m));
+}
+
+NOPL_FLOAT pop_machine_num(NOBJ_MACHINE *m)
+{
+  NOPL_FLOAT n;
+
+  pop_machine_8(m);
+  return(n);
+}
+
+void pop_machine_string(NOBJ_MACHINE *m, uint8_t *len, char *str)
+{
+  uint16_t   orig_sp = m->rta_sp;
+  int i;
+  
+  *len = pop_machine_8(m);
+
+  for(i=0; i<*len; i++)
+    {
+      str[i] = pop_machine_8(m);
+    }
+  str[i] = '\0';
+  
+#if DEBUG_PUSH_POP
+  debug("\n%s:Popped '%s' from %04X", __FUNCTION__, str, orig_sp);
+#endif
+  
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+uint16_t stack_entry_16(NOBJ_MACHINE *m, uint16_t ptr)
+{
+  uint16_t ret = 0;
+  
+  ret =  (uint16_t)(m->stack[ptr+0]) << 8;
+  ret |=            m->stack[ptr+1];
+
+  return(ret);
+  
+}
+
+uint8_t stack_entry_8(NOBJ_MACHINE *m, uint16_t ptr)
+{
+  uint8_t ret = 0;
+  
+  ret =  (uint16_t)(m->stack[ptr+0]);
+
+  return(ret);
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// Gets a 16 bit value from the machine stack
+// New SP returned, machine sp unchanged
+
+uint16_t get_machine_16(NOBJ_MACHINE *m, uint16_t sp, uint16_t *v)
+{
+  uint16_t value = 0;
+  
+  if( sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to get from empty stack");
+    }
+
+  //debug("\n   from %04X", sp+1);
+  
+  value  =  m->stack[sp++];
+  value |= (m->stack[sp++]) << 8;
+  *v = value;
+  
+  return(sp);  
+}
+
+uint16_t get_machine_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *v)
+{
+  uint8_t value = 0;
+  
+  if( sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to get from empty stack");
+    }
+
+  value  =  m->stack[sp++];
+  *v = value;
+  
+  return(sp);  
+}
+
+
+//------------------------------------------------------------------------------
+// Pop byte off stack and return new stack pointer value.
+
+uint16_t pop_sp_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val)
+{
+  if( sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to pop from empty stack");
+    }
+  
+  *val = m->stack[sp++];
+
+#if DEBUG_PUSH_POP
+  debug("\n%s:Popped %02X from %04X", __FUNCTION__, *val, (m->rta_sp)-1);
+#endif
+
+  return(sp);  
+}
+
+//------------------------------------------------------------------------------
+// Pop byte off stack
+
+uint8_t pop_machine_8(NOBJ_MACHINE *m)
+{
+  uint8_t val8;
+  
+  if( m->rta_sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to pop from empty stack");
+    }
+  
+  val8 = m->stack[(m->rta_sp)++];
+
+#if DEBUG_PUSH_POP
+  debug("\n%s:Popped %02X from SP:%04X", __FUNCTION__, val8, (m->rta_sp)-1);
+#endif
+
+  return(val8);  
+}
+
+uint16_t pop_machine_16(NOBJ_MACHINE *m)
+{
+  uint16_t val16;
+  
+  if( m->rta_sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to pop from empty stack");
+    }
+  
+  val16  = (m->stack[(m->rta_sp)++]);
+  val16 <<= 8;
+  val16 |= (m->stack[(m->rta_sp)++]);
+
+#if DEBUG_PUSH_POP
+  debug("\n%s:Popped %04X from SP:%04X", __FUNCTION__, val16, (m->rta_sp)-2);
+#endif
+
+  return(val16);  
+}
+////////////////////////////////////////////////////////////////////////////////
+
+uint16_t pop_discard_sp_int(NOBJ_MACHINE *m, uint16_t sp)
+{
+  if( sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to pop from empty stack");
+    }
+
+  for(int i=0; i<2; i++)
+    {
+      ++sp;
+      
+#if DEBUG_PUSH_POP
+      debug("\n%s:Popped from SP:%04X", __FUNCTION__, (m->rta_sp)-1);
+#endif
+    }
+  
+
+  return(sp);  
+}
+
+uint16_t pop_discard_sp_float(NOBJ_MACHINE *m, uint16_t sp)
+{
+  if( sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to pop from empty stack");
+    }
+
+  for(int i=0; i<8; i++)
+    {
+      ++sp;
+#if DEBUG_PUSH_POP
+      debug("\n%s:Popped and discarded from SP:%04X", __FUNCTION__, (m->rta_sp)-1);
+#endif
+      
+    }
+
+  return(sp);  
+}
+
+uint16_t pop_discard_sp_str(NOBJ_MACHINE *m, uint16_t sp)
+{
+  if( sp == NOBJ_MACHINE_STACK_SIZE )
+    {
+      error("\nAttempting to pop from empty stack");
+    }
+
+  uint8_t len_str;
+  
+  sp = pop_sp_8(m, sp, &len_str);
+  
+  for(int i=0; i<len_str; i++)
+    {
+      ++sp;
+#if DEBUG_PUSH_POP
+      debug("\n%s:Popped and discarded from SP:%04X", __FUNCTION__, (m->rta_sp)-1);
+#endif
+      
+    }
+
+  return(sp);  
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -139,6 +411,40 @@ void qca_str_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_string(m, s->len, s->str);
 }
 
+// Get compact float form and push a full float on the stack
+
+void qca_num_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int n;
+  NOPL_FLOAT num;
+  
+  n = qcode_next_8(m);
+  num.sign = n & 0x80;
+  n &= 0x7f;
+  
+  for(int i=0; i<n-1; i++)
+    {
+      uint8_t digit;
+
+      // Two digits in each byte
+      digit = qcode_next_8(m);
+
+      num.digits[i*2+0] = digit >> 4;
+      num.digits[i*2+1] = digit & 0x0F;
+    }
+  
+  num.exponent = qcode_next_8(m);
+
+  // Now push the float on to the stack
+  for(int i=NUM_MAX_DIGITS-1; i<=0; i++)
+    {
+      push_machine_8(m, (num.digits[i] << 4) + num.digits[i] );
+    }
+
+  push_machine_8(m, num.sign);
+  push_machine_8(m, num.exponent);
+  
+}
 
 //------------------------------------------------------------------------------
 
@@ -179,7 +485,7 @@ void qca_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_8(m, 0);
 }
 
-void qca_push_int_addr(NOBJ_MACHINE *m, NOBJ_QCS *s)
+void qca_push_ind_addr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Push address of integer
   push_machine_16(m, s->ind_ptr);
@@ -314,6 +620,30 @@ void qca_ass_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Drop int
   s->integer = pop_machine_int(m);
+
+  // Check for field
+  s->field_flag = pop_machine_8(m);
+  
+  // Drop int address
+  s->addr = pop_machine_16(m);
+
+  dbq("Int:%d (%04X) Addr:%04X", s->integer, s->integer, s->addr);
+
+  if( s->field_flag )
+    {
+    }
+  else
+    {
+      // Assign integer to variable
+      m->stack[s->addr+0] = s->integer >> 8;
+      m->stack[s->addr+1] = s->integer  & 0xFF;
+    }
+}
+
+void qca_ass_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Drop int
+  s->num = pop_machine_num(m);
 
   // Check for field
   s->field_flag = pop_machine_8(m);
@@ -736,13 +1066,16 @@ NOBJ_QCODE_INFO qcode_info[] =
   {
     { QI_INT_SIM_FP,     "QI_INT_SIM_FP",     {qca_fp,           qca_null,        qca_push_int_at_ind}},
     { QI_STR_SIM_FP,     "QI_STR_SIM_FP",     {qca_fp,           qca_null,        qca_str_ind_con}},
+
     { QI_STR_SIM_IND,    "QI_STR_SIM_IND",    {qca_fp,           qca_ind,         qca_str_ind_con}},
-    { QI_LS_INT_SIM_FP,  "QI_LS_INT_SIM_FP",  {qca_fp,           qca_null,        qca_push_int_addr }},
+    { QI_LS_INT_SIM_FP,  "QI_LS_INT_SIM_FP",  {qca_fp,           qca_null,        qca_push_ind_addr }},
     { QI_LS_STR_SIM_FP,  "QI_LS_STR_SIM_FP",  {qca_fp,           qca_null,        qca_str }},
+    { QI_LS_NUM_SIM_FP,  "QI_LS_NUM_SIM_FP",  {qca_fp,           qca_null,        qca_push_ind_addr}},
     { QI_LS_STR_SIM_IND, "QI_LS_STR_SIM_IND", {qca_fp,           qca_ind,         qca_str }},
     { QI_STK_LIT_BYTE,   "QI_STK_LIT_BYTE",   {qca_null,         qca_null,        qca_push_qc_byte}},
     { QI_INT_CON,        "QI_INT_CON",        {qca_null,         qca_null,        qca_int_qc_con}},
     { QI_STR_CON,        "QI_STR_CON",        {qca_null,         qca_null,        qca_str_qc_con}},
+    { QI_NUM_CON,        "QI_NUM_CON",        {qca_null,         qca_null,        qca_num_qc_con}},
 
     { QCO_EQ_STR,        "QI_EQ_STR",         {qca_pop_2str,     qca_eq_str,      qca_null}},
     { QCO_EQ_INT,        "QI_EQ_INT",         {qca_pop_2int,     qca_eq_int,      qca_null}},
@@ -766,6 +1099,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_PROC,          "QCO_PROC",          {qca_push_proc,    qca_push_null,   qca_null}},
     { QCO_ASS_INT,       "QCO_ASS_INT",       {qca_ass_int,      qca_null,        qca_null}},
     { QCO_ASS_STR,       "QCO_ASS_STR",       {qca_ass_str,      qca_null,        qca_null}},
+    { QCO_ASS_NUM,       "QCO_ASS_NUM",       {qca_ass_num,      qca_null,        qca_null}},
+    
     // DROP int
     //DROP str
     { QCO_DROP_NUM,      "QCO_DROP_NUM",      {qca_pop_num,      qca_null,        qca_null}},
@@ -787,7 +1122,9 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_YEAR,          "RTF_YEAR",          {qca_clock_year,   qca_null,        qca_null}},
     { QCO_ADD_INT,       "QCO_ADD_INT",       {qca_pop_2int,     qca_add_int,     qca_push_result}},
     { QCO_ADD_NUM,       "QCO_ADD_NUM",       {qca_pop_2num,     qca_add_num,     qca_push_num_result}},
-    
+
+
+   
   };
 
 #define SIZEOF_QCODE_INFO (sizeof(qcode_info)/sizeof(NOBJ_QCODE_INFO))

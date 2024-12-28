@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+
 
 
 //------------------------------------------------------------------------------
@@ -248,6 +254,7 @@ typedef struct _NOBJ_QCS
   NOBJ_INT   integer;
   NOBJ_INT   integer2;
   NOBJ_INT   result;
+  NOPL_FLOAT        num;
   uint16_t   ind_ptr;
   uint8_t    len;
   uint8_t    len2;
@@ -286,6 +293,34 @@ uint8_t qcode_next_8(NOBJ_MACHINE *m);
 uint16_t qcode_next_16(NOBJ_MACHINE *m);
 void push_machine_string(NOBJ_MACHINE *m, int len, char *str);
 void db_qcode(char *s, ...);
+
+void push_machine_8(NOBJ_MACHINE *m, uint8_t v);
+void push_machine_16(NOBJ_MACHINE *m, int16_t v);
+void push_machine_string(NOBJ_MACHINE *m, int len, char *str);
+uint8_t pop_machine_8(NOBJ_MACHINE *m);
+uint16_t pop_machine_16(NOBJ_MACHINE *m);
+void pop_machine_string(NOBJ_MACHINE *m, uint8_t *len, char *str);
+NOBJ_INT pop_machine_int(NOBJ_MACHINE *m);
+NOPL_FLOAT pop_machine_num(NOBJ_MACHINE *m);
+void pop_machine_string(NOBJ_MACHINE *m, uint8_t *len, char *str);
+uint16_t stack_entry_16(NOBJ_MACHINE *m, uint16_t ptr);
+uint8_t stack_entry_8(NOBJ_MACHINE *m, uint16_t ptr);
+uint16_t get_machine_16(NOBJ_MACHINE *m, uint16_t sp, uint16_t *v);
+uint16_t get_machine_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *v);
+uint16_t pop_sp_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *val);
+uint8_t pop_machine_8(NOBJ_MACHINE *m);
+uint16_t pop_machine_16(NOBJ_MACHINE *m);
+uint16_t pop_discard_sp_int(NOBJ_MACHINE *m, uint16_t sp);
+uint16_t pop_discard_sp_float(NOBJ_MACHINE *m, uint16_t sp);
+uint16_t pop_discard_sp_str(NOBJ_MACHINE *m, uint16_t sp);
+
+
+uint16_t pop_discard_sp_int(NOBJ_MACHINE *m, uint16_t sp);
+uint16_t pop_discard_sp_float(NOBJ_MACHINE *m, uint16_t sp);
+uint16_t pop_discard_sp_str(NOBJ_MACHINE *m, uint16_t sp);
+
+uint16_t get_machine_16(NOBJ_MACHINE *m, uint16_t sp, uint16_t *v);
+uint16_t get_machine_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *v);
 
 extern FILE *exdbfp;
 

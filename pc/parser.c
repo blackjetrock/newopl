@@ -5,11 +5,8 @@
 #include <string.h>
 #include <stdarg.h>
 #include <inttypes.h>
+
 #include "nopl.h"
-#include "newopl.h"
-#include "nopl_obj.h"
-#include "qcode.h"
-#include "parser.h"
 
 void check_array_index(int idx, int max_idx, char *name)
 {

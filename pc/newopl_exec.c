@@ -85,11 +85,6 @@
 #include <stdarg.h>
 
 #include "nopl.h"
-#include "newopl.h"
-#include "nopl_obj.h"
-#include "newopl_exec.h"
-#include "newopl_lib.h"
-#include "qcode.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -8,9 +8,6 @@
 #include <inttypes.h>
 #include <string.h>
 #include "nopl.h"
-#include "newopl.h"
-#include "nopl_obj.h"
-#include "newopl_lib.h"
 
 #define QCO_OPEN     0x65
 #define QCO_CREATE   0x5E

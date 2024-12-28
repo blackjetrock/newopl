@@ -3,45 +3,50 @@ PROCDEF
 
  LOCAL
 
-I%
+A%
 
-I%
+,
+
+B%
+
+,
+
+C%
+
+,
+
+E
+
+A%
 
 :=
           000:type:i ':='
 
-0
-          000:type:i ':='
-
-ptime%
-
-I%
-
-:=
-          000:type:i ':='
-
-I%
+100
           000:type:i ':='
 
 +
           000:type:i ':='
           001:type:i '+'
 
-1
+156
           000:type:i ':='
           001:type:i '+'
 
-TEST_EXPR
+E
 
-I%
+:=
+          000:type:f ':='
 
-=
-          000:type:i '='
+123.4
+          000:type:f ':='
 
-10
-          000:type:i '='
+E
 
-"PASS"
+PRINT
+          000:type:U 'PRINT'
+
+A%
 
 PRINT
           000:type:U 'PRINT'
@@ -50,45 +55,50 @@ PROCDEF
 
  LOCAL
 
-I%
+A%
 
-I%
+,
+
+B%
+
+,
+
+C%
+
+,
+
+E
+
+A%
 
 :=
           000:type:i ':='
 
-0
-          000:type:i ':='
-
-ptime%
-
-I%
-
-:=
-          000:type:i ':='
-
-I%
+100
           000:type:i ':='
 
 +
           000:type:i ':='
           001:type:i '+'
 
-1
+156
           000:type:i ':='
           001:type:i '+'
 
-TEST_EXPR
+E
 
-I%
+:=
+          000:type:f ':='
 
-=
-          000:type:i '='
+123.4
+          000:type:f ':='
 
-10
-          000:type:i '='
+E
 
-"PASS"
+PRINT
+          000:type:U 'PRINT'
+
+A%
 
 PRINT
           000:type:U 'PRINT'

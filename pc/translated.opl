@@ -1,24 +1,24 @@
 
 
 
-I%
-I% := 0
-DO
-ptime%
-I% := (I% + 1)
-UNTIL (I% = 10)
-PRINT("PASS")
+E
+A% := (100 + 156)
+E := 123.4
+PRINT(E)
+<nl>
+
+PRINT(A%)
 <nl>
 
 
 
 
 DROP()
-I% := 0
-DO
-DROP()
-I% := (I% + 1)
-UNTIL (I% = 10)
-PRINT("PASS")
+A% := (100 + 156)
+E := 123.4
+PRINT(E)
+<nl>
+
+PRINT(A%)
 <nl>
 
