@@ -108,12 +108,12 @@ void qca_str_ind_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_num_ind_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  int dp = s->ind_ptr;
+  int dp = s->ind_ptr+NUM_BYTE_LENGTH-1;
 
   // Now stack the float
-  for(int i=0; i<NUM_MAX_DIGITS/2+2; i++)
+  for(int i=0; i<NUM_BYTE_LENGTH; i++)
     {
-      push_machine_8(m, stack_entry_8(m, dp++));
+      push_machine_8(m, stack_entry_8(m, dp--));
     }
 }
 
