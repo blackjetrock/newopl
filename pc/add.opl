@@ -8,9 +8,21 @@ B% = 12345
 C% = 2345
 
 A% = 100+156
+print a%
 
 E = 123.4
 print e
 
+E = -123.4
+print e
 
+E = 123.4e12
+print e
+
+E = 123.4E-5
+print e
+
+A% = -345
 print a%
+
+

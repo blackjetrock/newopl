@@ -568,6 +568,26 @@ void qca_push_num_result(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_num(m, &(s->num_result));
 }
 
+void qca_push_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  dbq("Num:%d", s->num);
+  push_machine_num(m, &(s->num));
+}
+
+void qca_umin_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  dbq("Num:%d", s->num);
+
+  if( s->num.sign == 0 )
+    {
+      s->num.sign = 0x80;
+    }
+  else
+    {
+      s->num.sign = 0x00;
+    }
+}
+
 void qca_pop_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   pop_machine_string(m, &(s->len), s->str);
@@ -869,6 +889,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_PRINT_NUM,     "QCO_PRINT_NUM",     {qca_pop_num,      qca_print_num,   qca_null}},
     { QCO_PRINT_STR,     "QCO_PRINT_STR",     {qca_pop_str,      qca_print_str,   qca_null}},
     { QCO_PRINT_CR,      "QCO_PRINT_CR",      {qca_null,         qca_print_cr,    qca_null}},
+    { QCO_UMIN_NUM,      "QCO_UMIN_NUM",      {qca_pop_num,      qca_umin_num,    qca_push_num}},
     
     { QCO_BRA_FALSE,     "QCO_BRA_FALSE",     {qca_bra_false,    qca_null,        qca_null}},
     { QCO_GOTO,          "QCO_GOTO",          {qca_goto,         qca_null,        qca_null}},
