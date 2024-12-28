@@ -590,7 +590,6 @@ void qca_print_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOPL_FLOAT n = s->num;
 
-  printf("<<");
   if(n.sign)
     {
       printf("-");
@@ -600,10 +599,10 @@ void qca_print_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
   for(int i=1; i<NUM_MAX_DIGITS; i++)
     {
-      printf("_%d_", n.digits[i]);
+      printf("%d", n.digits[i]);
     }
 
-  printf(" E%d>>", (int)n.exponent);
+  printf(" E%d", (int)n.exponent);
 }
 
 void qca_print_str(NOBJ_MACHINE *m, NOBJ_QCS *s)

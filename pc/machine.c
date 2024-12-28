@@ -97,17 +97,20 @@ NOPL_FLOAT pop_machine_num(NOBJ_MACHINE *m)
 {
   NOPL_FLOAT n;
   int b;
-  
-  // Pop digits
-  for(int i = NUM_MAX_DIGITS - 1; i>=0; i--)
-    {
-      b = pop_machine_8(m);
-      n.digits[i*2] = b >> 4;
-      n.digits[i*2+1] = b & 0xFF;
-    }
 
   n.sign = pop_machine_8(m);
   n.exponent = pop_machine_8(m);
+  
+  // Pop digits
+  for(int i = (NUM_MAX_DIGITS/2)-1; i>=0; i--)
+    {
+      b = pop_machine_8(m);
+      n.digits[i*2] = b >> 4;
+      n.digits[i*2+1] = b & 0xF;
+    }
+
+
+
   
   return(n);
 }
