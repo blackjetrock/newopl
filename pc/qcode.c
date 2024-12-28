@@ -926,6 +926,92 @@ void display_frame(NOBJ_MACHINE *m)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+// Display variables
+//
+////////////////////////////////////////////////////////////////////////////////
+
+
+void display_variables(NOBJ_MACHINE *m)
+{
+  int fp = m->rta_fp;
+  FILE *vfp;
+  char line[300];
+  
+  // Read the vars.txt file and display the variables
+  vfp = fopen("vars.txt", "r");
+
+  if( vfp == NULL )
+    {
+      printf("\nCannot open vars.txt");
+      return;
+    }
+
+  int done = 0;
+
+  int i;
+  char vname[200];
+  char class[200];
+  char type[200];
+  char decref[200];
+  int max_str;
+  int max_ary;
+  int num_ind;
+  int int_offset;
+  int16_t offset;
+
+  while(!done )
+    {
+      if( fgets(line, 300, vfp) == NULL )
+	{
+	  // we are done
+	  done = 1;
+	}
+
+      // Print the line and then the value
+      //printf("\n%s   ", line);
+
+      // get information
+      int scanret = sscanf(line, "%d: VAR: '%[^']' %s %s %s max_str: %d max_ary: %d num_ind: %d offset:%x",
+	     &i,
+	     &(vname[0]),
+	     &(class[0]),
+	     &(type[0]),
+	     &(decref[0]),
+	     &max_str,
+	     &max_ary,
+	     &num_ind,
+	     &int_offset
+	     );
+
+      if( scanret == 9 )
+	{
+	  offset = (uint16_t)int_offset;
+	  
+	  printf("\n>>%d:  VAR: '%s'      %s %s           %s max_str:  %d max_ary:  %d num_ind:  %d offset:%d<<            ", 
+		 i,
+		 vname,
+		 class,
+		 type,
+		 decref,
+		 max_str,
+		 max_ary,
+		 num_ind,
+		 offset
+		 );
+	  
+	  for(int i=0; i<8; i++)
+	    {
+	      printf("%02X ", stack_entry_16(m, fp+2+i+offset));
+	    }
+	}
+    }
+
+  printf("\n");
+  return;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
 // Execute one QCode 
 //
 ////////////////////////////////////////////////////////////////////////////////
@@ -1037,6 +1123,13 @@ int execute_qcode(NOBJ_MACHINE *m, int single_step)
 		{
 		  // Display frame
 		  display_frame(m);
+		}
+
+	      if( strcmp(cmdline, "v") == 0 )
+		{
+		  // Display variables using addresses from the var.txt file
+		  // which has to be from a compilation of this .opl file
+		  display_variables(m);
 		}
 	      
 	      if( strcmp(cmdline, "s") == 0 )

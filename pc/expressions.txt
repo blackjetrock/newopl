@@ -35,6 +35,42 @@ Push:'E'
                     003: 'E' type:f (1), %:0
 --------------------
 
+Push:'B%'
+Push:'12345'
+Pop: '12345'
+Pop: 'B%'
+====================
+
+EXP_BUFF_ID_VARIABLE B%
+Push:'B%'
+                    000: 'B%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 12345
+Push:'12345'
+                    000: 'B%' type:i (0), %:0
+                    001: '12345' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '12345'
+Pop: 'B%'
+--------------------
+
+Push:'C%'
+Push:'2345'
+Pop: '2345'
+Pop: 'C%'
+====================
+
+EXP_BUFF_ID_VARIABLE C%
+Push:'C%'
+                    000: 'C%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 2345
+Push:'2345'
+                    000: 'C%' type:i (0), %:0
+                    001: '2345' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '2345'
+Pop: 'C%'
+--------------------
+
 Push:'A%'
 Push:'100'
 Push:'156'
@@ -164,6 +200,42 @@ Push:'E'
                     001: 'B%' type:i (0), %:0
                     002: 'C%' type:i (0), %:0
                     003: 'E' type:f (1), %:0
+--------------------
+
+Push:'B%'
+Push:'12345'
+Pop: '12345'
+Pop: 'B%'
+====================
+
+EXP_BUFF_ID_VARIABLE B%
+Push:'B%'
+                    000: 'B%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 12345
+Push:'12345'
+                    000: 'B%' type:i (0), %:0
+                    001: '12345' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '12345'
+Pop: 'B%'
+--------------------
+
+Push:'C%'
+Push:'2345'
+Pop: '2345'
+Pop: 'C%'
+====================
+
+EXP_BUFF_ID_VARIABLE C%
+Push:'C%'
+                    000: 'C%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 2345
+Push:'2345'
+                    000: 'C%' type:i (0), %:0
+                    001: '2345' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '2345'
+Pop: 'C%'
 --------------------
 
 Push:'A%'
