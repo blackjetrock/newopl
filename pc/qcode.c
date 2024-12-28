@@ -132,40 +132,50 @@ void qca_str_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_string(m, s->len, s->str);
 }
 
+//------------------------------------------------------------------------------
+//
 // Get compact float form and push a full float on the stack
 
 void qca_num_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   int n;
   NOPL_FLOAT num;
-  
+  uint8_t digit[NUM_MAX_DIGITS];
+
+  n = qcode_next_8(m);
+
+  // Copy digit bytes
+  // We need to reverse them
+  for(int i=0; i<n-1; i++)
+    {
+      // Two digits in each byte
+      digit[i] = qcode_next_8(m);
+    }
+
+  for(int i=0; i<n-1; i++)
+    {
+      int j = (n-1-1)-i;
+      
+      push_machine_8(m, digit[j]);
+      
+      dbq("Byte %d: j:5d digit:(%02X)", i, j, digit);
+    }
+
+  // Zero bytes on stack
+  for(int i=0; i<NUM_MAX_DIGITS/2-(n-1); i++)
+    {
+      push_machine_8(m, 0xcc);
+    }
+
   n = qcode_next_8(m);
   num.sign = n & 0x80;
   n &= 0x7f;
+  num.exponent = n;
 
   push_machine_8(m, num.exponent);
   push_machine_8(m, num.sign);
-  
-  for(int i=0; i<n-1; i++)
-    {
-      uint8_t digit;
 
-      // Two digits in each byte
-      digit = qcode_next_8(m);
-
-      num.digits[i*2+0] = digit >> 4;
-      num.digits[i*2+1] = digit & 0x0F;
-    }
-  
-  num.exponent = qcode_next_8(m);
-
-  // Now push the float on to the stack
-  for(int i=NUM_MAX_DIGITS-1; i<=0; i++)
-    {
-      push_machine_8(m, (num.digits[i] << 4) + num.digits[i] );
-    }
-
-  
+  dbq("Sign:%d Exponent:%d (%02X)", num.sign, num.exponent, num.exponent);
 }
 
 //------------------------------------------------------------------------------
