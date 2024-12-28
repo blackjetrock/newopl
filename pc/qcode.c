@@ -77,6 +77,8 @@ void qca_null(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
 }
 
+//------------------------------------------------------------------------------
+
 
 void qca_str_ind_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -98,6 +100,21 @@ void qca_str_ind_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
   // Push field
   //push_machine_8(m, 0);
+}
+
+//------------------------------------------------------------------------------
+//
+// get the variable address and push the value as a float
+
+void qca_num_ind_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int dp = s->ind_ptr;
+
+  // Now stack the float
+  for(int i=0; i<NUM_MAX_DIGITS/2+2; i++)
+    {
+      push_machine_8(m, stack_entry_8(m, dp++));
+    }
 }
 
 void qca_int_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -164,7 +181,7 @@ void qca_num_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
   // Zero bytes on stack
   for(int i=0; i<NUM_MAX_DIGITS/2-(n-1); i++)
     {
-      push_machine_8(m, 0xcc);
+      push_machine_8(m, 0x00);
     }
 
   n = qcode_next_8(m);
@@ -372,11 +389,10 @@ void qca_ass_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
     }
 }
 
+//------------------------------------------------------------------------------
+
 void qca_ass_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  // Drop int
-  s->num = pop_machine_num(m);
-
   // Check for field
   s->field_flag = pop_machine_8(m);
   
@@ -390,9 +406,11 @@ void qca_ass_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
     }
   else
     {
-      // Assign integer to variable
-      m->stack[s->addr+0] = s->integer >> 8;
-      m->stack[s->addr+1] = s->integer  & 0xFF;
+      // Copy bytes from stack to memory
+      for(int i=0; i<NUM_MAX_DIGITS/2+2; i++)
+	{
+	  m->stack[s->addr+i] = pop_machine_8(m);
+	}
     }
 }
 
@@ -457,14 +475,7 @@ void qca_push_nought(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_pop_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  pop_machine_8(m);
-  pop_machine_8(m);
-  pop_machine_8(m);
-  pop_machine_8(m);
-  pop_machine_8(m);
-  pop_machine_8(m);
-  pop_machine_8(m);
-  pop_machine_8(m);
+  s->num = pop_machine_num(m);
 }
 
 void qca_pop_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -558,6 +569,26 @@ void qca_pop_2str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_print_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   printf("%d", s->integer);
+}
+
+void qca_print_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT n = s->num;
+
+  printf("<<");
+  if(n.sign)
+    {
+      printf("-");
+    }
+
+  printf("%d.", n.digits[0]);
+
+  for(int i=1; i<NUM_MAX_DIGITS; i++)
+    {
+      printf("_%d_", n.digits[i]);
+    }
+
+  printf(" E%d>>", (int)n.exponent);
 }
 
 void qca_print_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -800,6 +831,7 @@ NOBJ_QCODE_INFO qcode_info[] =
   {
     { QI_INT_SIM_FP,     "QI_INT_SIM_FP",     {qca_fp,           qca_null,        qca_push_int_at_ind}},
     { QI_STR_SIM_FP,     "QI_STR_SIM_FP",     {qca_fp,           qca_null,        qca_str_ind_con}},
+    { QI_NUM_SIM_FP,     "QI_NUM_SIM_FP",     {qca_fp,           qca_null,        qca_num_ind_con}},
 
     { QI_STR_SIM_IND,    "QI_STR_SIM_IND",    {qca_fp,           qca_ind,         qca_str_ind_con}},
     { QI_LS_INT_SIM_FP,  "QI_LS_INT_SIM_FP",  {qca_fp,           qca_null,        qca_push_ind_addr }},
@@ -820,6 +852,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_LTE_INT,       "QI_LTE_INT",        {qca_pop_2int,     qca_lte_int,     qca_null}},
 
     { QCO_PRINT_INT,     "QCO_PRINT_INT",     {qca_pop_int,      qca_print_int,   qca_null}},
+    { QCO_PRINT_NUM,     "QCO_PRINT_NUM",     {qca_pop_num,      qca_print_num,   qca_null}},
     { QCO_PRINT_STR,     "QCO_PRINT_STR",     {qca_pop_str,      qca_print_str,   qca_null}},
     { QCO_PRINT_CR,      "QCO_PRINT_CR",      {qca_null,         qca_print_cr,    qca_null}},
     
