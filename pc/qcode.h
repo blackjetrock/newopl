@@ -254,7 +254,9 @@ typedef struct _NOBJ_QCS
   NOBJ_INT   integer;
   NOBJ_INT   integer2;
   NOBJ_INT   result;
-  NOPL_FLOAT        num;
+  NOPL_FLOAT num_result;
+  NOPL_FLOAT num;
+  NOPL_FLOAT num2;
   uint16_t   ind_ptr;
   uint8_t    len;
   uint8_t    len2;

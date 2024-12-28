@@ -7,7 +7,6 @@
 
 #include "nopl.h"
 
-
 ////////////////////////////////////////////////////////////////////////////////
 
 void dbpfq(const char *caller, char *fmt, ...)
@@ -143,6 +142,9 @@ void qca_num_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
   n = qcode_next_8(m);
   num.sign = n & 0x80;
   n &= 0x7f;
+
+  push_machine_8(m, num.exponent);
+  push_machine_8(m, num.sign);
   
   for(int i=0; i<n-1; i++)
     {
@@ -163,8 +165,6 @@ void qca_num_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
       push_machine_8(m, (num.digits[i] << 4) + num.digits[i] );
     }
 
-  push_machine_8(m, num.sign);
-  push_machine_8(m, num.exponent);
   
 }
 
@@ -490,8 +490,10 @@ void qca_pop_2int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_pop_2num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
-  s->integer  = pop_machine_int(m);
-  s->integer2 = pop_machine_int(m);
+
+  s->num   = pop_machine_num(m);
+  s->num2  = pop_machine_num(m);
+
   dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
 }
 
@@ -527,7 +529,7 @@ void qca_push_result(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_push_num_result(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   dbq("res:%d (%04X)", s->result, s->result);
-  push_machine_16(m, s->result);
+  push_machine_num(m, &(s->num_result));
 }
 
 void qca_pop_str(NOBJ_MACHINE *m, NOBJ_QCS *s)

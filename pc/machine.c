@@ -72,13 +72,46 @@ NOBJ_INT pop_machine_int(NOBJ_MACHINE *m)
   return(pop_machine_16(m));
 }
 
+//------------------------------------------------------------------------------
+
+void push_machine_num(NOBJ_MACHINE *m, NOPL_FLOAT *n)
+{
+#if DEBUG_PUSH_POP
+  debug("\n%s:pushing %s to %04X len:%d", __FUNCTION__, str, m->rta_sp, len);
+#endif
+
+  push_machine_8(m, n->exponent);
+  push_machine_8(m, n->sign);
+
+  // Now push the float on to the stack
+  for(int i=NUM_MAX_DIGITS-1; i<=0; i++)
+    {
+      push_machine_8(m, (n->digits[i] << 4) + n->digits[i] );
+    }
+}
+
+//------------------------------------------------------------------------------
+
 NOPL_FLOAT pop_machine_num(NOBJ_MACHINE *m)
 {
   NOPL_FLOAT n;
+  int b;
+  
+  // Pop digits
+  for(int i = NUM_MAX_DIGITS - 1; i>=0; i--)
+    {
+      b = pop_machine_8(m);
+      n.digits[i*2] = b >> 4;
+      n.digits[i*2+1] = b & 0xFF;
+    }
 
-  pop_machine_8(m);
+  n.sign = pop_machine_8(m);
+  n.exponent = pop_machine_8(m);
+  
   return(n);
 }
+
+//------------------------------------------------------------------------------
 
 void pop_machine_string(NOBJ_MACHINE *m, uint8_t *len, char *str)
 {
