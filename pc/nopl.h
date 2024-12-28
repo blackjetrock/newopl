@@ -15,4 +15,6 @@
 #include "qcode_clock.h"
 #include "parser.h"
 
+#include "machine.h"
+
 

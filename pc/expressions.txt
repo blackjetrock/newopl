@@ -9,121 +9,289 @@ EXP_BUFF_ID_META PROCDEF
 --------------------
 
 Push:'A%'
-Push:'B%'
-Push:'C%'
-Push:'E'
+Push:'10'
+Push:'S1$'
+Push:'F2'
 ====================
 
 EXP_BUFF_ID_META  LOCAL
 EXP_BUFF_ID_VARIABLE A%
 Push:'A%'
                     000: 'A%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE B%
-Push:'B%'
+EXP_BUFF_ID_SUB_START 
                     000: 'A%' type:i (0), %:0
-                    001: 'B%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE C%
-Push:'C%'
+EXP_BUFF_ID_INTEGER 10
+Push:'10'
                     000: 'A%' type:i (0), %:0
-                    001: 'B%' type:i (0), %:0
-                    002: 'C%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE E
-Push:'E'
+                    001: '10' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
                     000: 'A%' type:i (0), %:0
-                    001: 'B%' type:i (0), %:0
-                    002: 'C%' type:i (0), %:0
-                    003: 'E' type:f (1), %:0
+                    001: '10' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'A%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE S1$
+Push:'S1$'
+                    000: 'A%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+                    002: 'S1$' type:s (2), %:0
+EXP_BUFF_ID_VARIABLE F2
+Push:'F2'
+                    000: 'A%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+                    002: 'S1$' type:s (2), %:0
+                    003: 'F2' type:f (1), %:0
 --------------------
 
-Push:'A%'
-Push:'100'
-Push:'156'
-Pop: '156'
-Pop: '100'
-Push:'000'
-Pop: '000'
-Pop: 'A%'
+Push:'5'
+Pop: '5'
+Push:'X%'
+Push:'5'
+Push:'7'
+Pop: '7'
+Push:'S$'
+Push:'20'
+Pop: '20'
+Push:'F'
 ====================
 
-EXP_BUFF_ID_VARIABLE A%
-Push:'A%'
-                    000: 'A%' type:i (0), %:0
-EXP_BUFF_ID_INTEGER 100
-Push:'100'
-                    000: 'A%' type:i (0), %:0
-                    001: '100' type:i (0), %:0
-EXP_BUFF_ID_INTEGER 156
-Push:'156'
-                    000: 'A%' type:i (0), %:0
-                    001: '100' type:i (0), %:0
-                    002: '156' type:i (0), %:0
-EXP_BUFF_ID_OPERATOR +
-Pop: '156'
-Pop: '100'
-Push:'000'
-                    000: 'A%' type:i (0), %:0
-                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_META  LOCAL
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_INTEGER 5
+Push:'5'
+                    000: '5' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '5' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '5' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE X%
+Pop: '5'
+Push:'X%'
+                    000: 'X%' type:I (3), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'X%' type:I (3), %:0
+EXP_BUFF_ID_INTEGER 5
+Push:'5'
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 7
+Push:'7'
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: '7' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: '7' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: '7' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE S$
+Pop: '7'
+Push:'S$'
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: 'S$' type:S (5), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: 'S$' type:S (5), %:0
+EXP_BUFF_ID_INTEGER 20
+Push:'20'
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: 'S$' type:S (5), %:0
+                    003: '20' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: 'S$' type:S (5), %:0
+                    003: '20' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: 'S$' type:S (5), %:0
+                    003: '20' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE F
+Pop: '20'
+Push:'F'
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: 'S$' type:S (5), %:0
+                    003: 'F' type:F (4), %:0
+--------------------
+
+Push:'PEAR%'
+Push:'10'
+Push:'DOOR$'
+====================
+
+EXP_BUFF_ID_META  GLOBAL
+EXP_BUFF_ID_VARIABLE PEAR%
+Push:'PEAR%'
+                    000: 'PEAR%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PEAR%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 10
+Push:'10'
+                    000: 'PEAR%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PEAR%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PEAR%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE DOOR$
+Push:'DOOR$'
+                    000: 'PEAR%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+                    002: 'DOOR$' type:s (2), %:0
+--------------------
+
+Push:'50'
+Pop: '50'
+Push:'OPEN%'
+Push:'20'
+Push:'30'
+Pop: '30'
+Push:'POS$'
+Push:'123'
+Pop: '123'
+Push:'FLOAT'
+====================
+
+EXP_BUFF_ID_META  GLOBAL
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_INTEGER 50
+Push:'50'
+                    000: '50' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '50' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '50' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE OPEN%
+Pop: '50'
+Push:'OPEN%'
+                    000: 'OPEN%' type:I (3), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'OPEN%' type:I (3), %:0
+EXP_BUFF_ID_INTEGER 20
+Push:'20'
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 30
+Push:'30'
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: '30' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: '30' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: '30' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE POS$
+Pop: '30'
+Push:'POS$'
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: 'POS$' type:S (5), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: 'POS$' type:S (5), %:0
+EXP_BUFF_ID_INTEGER 123
+Push:'123'
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: 'POS$' type:S (5), %:0
+                    003: '123' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: 'POS$' type:S (5), %:0
+                    003: '123' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: 'POS$' type:S (5), %:0
+                    003: '123' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE FLOAT
+Pop: '123'
+Push:'FLOAT'
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: 'POS$' type:S (5), %:0
+                    003: 'FLOAT' type:F (4), %:0
+--------------------
+
+Push:'EXTTOP%'
+Push:'8'
+Pop: '8'
+Pop: 'EXTTOP%'
+====================
+
+EXP_BUFF_ID_VARIABLE EXTTOP%
+Push:'EXTTOP%'
+                    000: 'EXTTOP%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 8
+Push:'8'
+                    000: 'EXTTOP%' type:i (0), %:0
+                    001: '8' type:i (0), %:0
 EXP_BUFF_ID_OPERATOR :=
-Pop: '000'
-Pop: 'A%'
+Pop: '8'
+Pop: 'EXTTOP%'
 --------------------
 
-Push:'E'
-Push:'123.4'
-Pop: '123.4'
-Pop: 'E'
+Push:'S1$'
+Push:'"abc"'
+Pop: '"abc"'
+Pop: 'S1$'
 ====================
 
-EXP_BUFF_ID_VARIABLE E
-Push:'E'
-                    000: 'E' type:f (1), %:0
-EXP_BUFF_ID_FLT 123.4
-Push:'123.4'
-                    000: 'E' type:f (1), %:0
-                    001: '123.4' type:f (1), %:0
+EXP_BUFF_ID_VARIABLE S1$
+Push:'S1$'
+                    000: 'S1$' type:s (2), %:0
+EXP_BUFF_ID_STR "abc"
+Push:'"abc"'
+                    000: 'S1$' type:s (2), %:0
+                    001: '"abc"' type:s (2), %:0
 EXP_BUFF_ID_OPERATOR :=
-Pop: '123.4'
-Pop: 'E'
+Pop: '"abc"'
+Pop: 'S1$'
 --------------------
 
-Push:'E'
-Pop: 'E'
+Push:'10'
+Pop: '10'
+Push:'SA$'
+Push:'"def"'
+Pop: '"def"'
+Pop: 'SA$'
 ====================
 
-EXP_BUFF_ID_VARIABLE E
-Push:'E'
-                    000: 'E' type:f (1), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: 'E'
---------------------
-
-====================
-
-EXP_BUFF_ID_PRINT_NEWLINE PRINT
---------------------
-
-====================
-
---------------------
-
-Push:'A%'
-Pop: 'A%'
-====================
-
-EXP_BUFF_ID_VARIABLE A%
-Push:'A%'
-                    000: 'A%' type:i (0), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: 'A%'
---------------------
-
-====================
-
-EXP_BUFF_ID_PRINT_NEWLINE PRINT
---------------------
-
-====================
-
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_INTEGER 10
+Push:'10'
+                    000: '10' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '10' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '10' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE SA$
+Pop: '10'
+Push:'SA$'
+                    000: 'SA$' type:S (5), %:0
+EXP_BUFF_ID_STR "def"
+Push:'"def"'
+                    000: 'SA$' type:S (5), %:0
+                    001: '"def"' type:s (2), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '"def"'
+Pop: 'SA$'
 --------------------
 
 ====================
@@ -140,121 +308,289 @@ EXP_BUFF_ID_META PROCDEF
 --------------------
 
 Push:'A%'
-Push:'B%'
-Push:'C%'
-Push:'E'
+Push:'10'
+Push:'S1$'
+Push:'F2'
 ====================
 
 EXP_BUFF_ID_META  LOCAL
 EXP_BUFF_ID_VARIABLE A%
 Push:'A%'
                     000: 'A%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE B%
-Push:'B%'
+EXP_BUFF_ID_SUB_START 
                     000: 'A%' type:i (0), %:0
-                    001: 'B%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE C%
-Push:'C%'
+EXP_BUFF_ID_INTEGER 10
+Push:'10'
                     000: 'A%' type:i (0), %:0
-                    001: 'B%' type:i (0), %:0
-                    002: 'C%' type:i (0), %:0
-EXP_BUFF_ID_VARIABLE E
-Push:'E'
+                    001: '10' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
                     000: 'A%' type:i (0), %:0
-                    001: 'B%' type:i (0), %:0
-                    002: 'C%' type:i (0), %:0
-                    003: 'E' type:f (1), %:0
+                    001: '10' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'A%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE S1$
+Push:'S1$'
+                    000: 'A%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+                    002: 'S1$' type:s (2), %:0
+EXP_BUFF_ID_VARIABLE F2
+Push:'F2'
+                    000: 'A%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+                    002: 'S1$' type:s (2), %:0
+                    003: 'F2' type:f (1), %:0
 --------------------
 
-Push:'A%'
-Push:'100'
-Push:'156'
-Pop: '156'
-Pop: '100'
-Push:'000'
-Pop: '000'
-Pop: 'A%'
+Push:'5'
+Pop: '5'
+Push:'X%'
+Push:'5'
+Push:'7'
+Pop: '7'
+Push:'S$'
+Push:'20'
+Pop: '20'
+Push:'F'
 ====================
 
-EXP_BUFF_ID_VARIABLE A%
-Push:'A%'
-                    000: 'A%' type:i (0), %:0
-EXP_BUFF_ID_INTEGER 100
-Push:'100'
-                    000: 'A%' type:i (0), %:0
-                    001: '100' type:i (0), %:0
-EXP_BUFF_ID_INTEGER 156
-Push:'156'
-                    000: 'A%' type:i (0), %:0
-                    001: '100' type:i (0), %:0
-                    002: '156' type:i (0), %:0
-EXP_BUFF_ID_OPERATOR +
-Pop: '156'
-Pop: '100'
-Push:'000'
-                    000: 'A%' type:i (0), %:0
-                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_META  LOCAL
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_INTEGER 5
+Push:'5'
+                    000: '5' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '5' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '5' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE X%
+Pop: '5'
+Push:'X%'
+                    000: 'X%' type:I (3), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'X%' type:I (3), %:0
+EXP_BUFF_ID_INTEGER 5
+Push:'5'
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 7
+Push:'7'
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: '7' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: '7' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: '7' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE S$
+Pop: '7'
+Push:'S$'
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: 'S$' type:S (5), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: 'S$' type:S (5), %:0
+EXP_BUFF_ID_INTEGER 20
+Push:'20'
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: 'S$' type:S (5), %:0
+                    003: '20' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: 'S$' type:S (5), %:0
+                    003: '20' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: 'S$' type:S (5), %:0
+                    003: '20' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE F
+Pop: '20'
+Push:'F'
+                    000: 'X%' type:I (3), %:0
+                    001: '5' type:i (0), %:0
+                    002: 'S$' type:S (5), %:0
+                    003: 'F' type:F (4), %:0
+--------------------
+
+Push:'PEAR%'
+Push:'10'
+Push:'DOOR$'
+====================
+
+EXP_BUFF_ID_META  GLOBAL
+EXP_BUFF_ID_VARIABLE PEAR%
+Push:'PEAR%'
+                    000: 'PEAR%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PEAR%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 10
+Push:'10'
+                    000: 'PEAR%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PEAR%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PEAR%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE DOOR$
+Push:'DOOR$'
+                    000: 'PEAR%' type:i (0), %:0
+                    001: '10' type:i (0), %:0
+                    002: 'DOOR$' type:s (2), %:0
+--------------------
+
+Push:'50'
+Pop: '50'
+Push:'OPEN%'
+Push:'20'
+Push:'30'
+Pop: '30'
+Push:'POS$'
+Push:'123'
+Pop: '123'
+Push:'FLOAT'
+====================
+
+EXP_BUFF_ID_META  GLOBAL
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_INTEGER 50
+Push:'50'
+                    000: '50' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '50' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '50' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE OPEN%
+Pop: '50'
+Push:'OPEN%'
+                    000: 'OPEN%' type:I (3), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'OPEN%' type:I (3), %:0
+EXP_BUFF_ID_INTEGER 20
+Push:'20'
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 30
+Push:'30'
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: '30' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: '30' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: '30' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE POS$
+Pop: '30'
+Push:'POS$'
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: 'POS$' type:S (5), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: 'POS$' type:S (5), %:0
+EXP_BUFF_ID_INTEGER 123
+Push:'123'
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: 'POS$' type:S (5), %:0
+                    003: '123' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: 'POS$' type:S (5), %:0
+                    003: '123' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: 'POS$' type:S (5), %:0
+                    003: '123' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE FLOAT
+Pop: '123'
+Push:'FLOAT'
+                    000: 'OPEN%' type:I (3), %:0
+                    001: '20' type:i (0), %:0
+                    002: 'POS$' type:S (5), %:0
+                    003: 'FLOAT' type:F (4), %:0
+--------------------
+
+Push:'EXTTOP%'
+Push:'8'
+Pop: '8'
+Pop: 'EXTTOP%'
+====================
+
+EXP_BUFF_ID_VARIABLE EXTTOP%
+Push:'EXTTOP%'
+                    000: 'EXTTOP%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 8
+Push:'8'
+                    000: 'EXTTOP%' type:i (0), %:0
+                    001: '8' type:i (0), %:0
 EXP_BUFF_ID_OPERATOR :=
-Pop: '000'
-Pop: 'A%'
+Pop: '8'
+Pop: 'EXTTOP%'
 --------------------
 
-Push:'E'
-Push:'123.4'
-Pop: '123.4'
-Pop: 'E'
+Push:'S1$'
+Push:'"abc"'
+Pop: '"abc"'
+Pop: 'S1$'
 ====================
 
-EXP_BUFF_ID_VARIABLE E
-Push:'E'
-                    000: 'E' type:f (1), %:0
-EXP_BUFF_ID_FLT 123.4
-Push:'123.4'
-                    000: 'E' type:f (1), %:0
-                    001: '123.4' type:f (1), %:0
+EXP_BUFF_ID_VARIABLE S1$
+Push:'S1$'
+                    000: 'S1$' type:s (2), %:0
+EXP_BUFF_ID_STR "abc"
+Push:'"abc"'
+                    000: 'S1$' type:s (2), %:0
+                    001: '"abc"' type:s (2), %:0
 EXP_BUFF_ID_OPERATOR :=
-Pop: '123.4'
-Pop: 'E'
+Pop: '"abc"'
+Pop: 'S1$'
 --------------------
 
-Push:'E'
-Pop: 'E'
+Push:'10'
+Pop: '10'
+Push:'SA$'
+Push:'"def"'
+Pop: '"def"'
+Pop: 'SA$'
 ====================
 
-EXP_BUFF_ID_VARIABLE E
-Push:'E'
-                    000: 'E' type:f (1), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: 'E'
---------------------
-
-====================
-
-EXP_BUFF_ID_PRINT_NEWLINE PRINT
---------------------
-
-====================
-
---------------------
-
-Push:'A%'
-Pop: 'A%'
-====================
-
-EXP_BUFF_ID_VARIABLE A%
-Push:'A%'
-                    000: 'A%' type:i (0), %:0
-EXP_BUFF_ID_PRINT PRINT
-Pop: 'A%'
---------------------
-
-====================
-
-EXP_BUFF_ID_PRINT_NEWLINE PRINT
---------------------
-
-====================
-
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_INTEGER 10
+Push:'10'
+                    000: '10' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '10' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '10' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE SA$
+Pop: '10'
+Push:'SA$'
+                    000: 'SA$' type:S (5), %:0
+EXP_BUFF_ID_STR "def"
+Push:'"def"'
+                    000: 'SA$' type:S (5), %:0
+                    001: '"def"' type:s (2), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '"def"'
+Pop: 'SA$'
 --------------------
 
 ====================
