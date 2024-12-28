@@ -161,8 +161,17 @@ void qca_num_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
   n = qcode_next_8(m);
 
+  dbq("n:%d", n);
+
+  // Clear float
+  for(int i=0; i<NUM_MAX_DIGITS; i++)
+    {
+      digit[i] = 0;
+    }
+  
   // Copy digit bytes
   // We need to reverse them
+  
   for(int i=0; i<n-1; i++)
     {
       // Two digits in each byte
@@ -175,7 +184,7 @@ void qca_num_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
       
       push_machine_8(m, digit[j]);
       
-      dbq("Byte %d: j:5d digit:(%02X)", i, j, digit);
+      dbq("Byte %d: j:%d digit:(%02X)", i, j, digit);
     }
 
   // Zero bytes on stack
@@ -184,10 +193,10 @@ void qca_num_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
       push_machine_8(m, 0x00);
     }
 
-  n = qcode_next_8(m);
-  num.sign = n & 0x80;
-  n &= 0x7f;
-  num.exponent = n;
+  int b = qcode_next_8(m);
+  num.sign = b & 0x80;
+  b &= 0x7f;
+  num.exponent = b;
 
   push_machine_8(m, num.exponent);
   push_machine_8(m, num.sign);
@@ -393,13 +402,19 @@ void qca_ass_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_ass_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+  uint8_t  num_bytes[NUM_BYTE_LENGTH];
+  
+  // Drop float bytes
+  for(int i=0; i<NUM_BYTE_LENGTH; i++)
+    {
+      num_bytes[i] = pop_machine_8(m);
+    }
+  
   // Check for field
   s->field_flag = pop_machine_8(m);
   
   // Drop int address
   s->addr = pop_machine_16(m);
-
-  dbq("Int:%d (%04X) Addr:%04X", s->integer, s->integer, s->addr);
 
   if( s->field_flag )
     {
@@ -407,9 +422,9 @@ void qca_ass_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
   else
     {
       // Copy bytes from stack to memory
-      for(int i=0; i<NUM_MAX_DIGITS/2+2; i++)
+      for(int i=0; i<NUM_BYTE_LENGTH; i++)
 	{
-	  m->stack[s->addr+i] = pop_machine_8(m);
+	  m->stack[s->addr+i] = num_bytes[i];
 	}
     }
 }
@@ -986,8 +1001,8 @@ void display_variables(NOBJ_MACHINE *m)
       if( scanret == 9 )
 	{
 	  offset = (uint16_t)int_offset;
-	  
-	  printf("\n>>%d:  VAR: '%s'      %s %s           %s max_str:  %d max_ary:  %d num_ind:  %d offset:%d<<            ", 
+
+	  printf("\n%d:  VAR: '%s' %7s %10s %10s max_str:  %d max_ary:  %d num_ind:  %d offset:%d    ", 
 		 i,
 		 vname,
 		 class,
@@ -998,10 +1013,13 @@ void display_variables(NOBJ_MACHINE *m)
 		 num_ind,
 		 offset
 		 );
+
+	  printf("  %04X:  ", offset+fp+2);	  
 	  
 	  for(int i=0; i<8; i++)
 	    {
-	      printf("%02X ", stack_entry_16(m, fp+2+i+offset));
+	      //	      printf("%02X ", stack_entry_8(m, fp+2+i+offset));
+	      printf("%02X ", m->stack[fp+i+offset]);
 	    }
 	}
     }

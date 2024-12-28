@@ -1,6 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
-#define NUM_MAX_DIGITS 12
+#define NUM_MAX_DIGITS   12
+#define NUM_BYTE_LENGTH  8
 
 typedef struct _NOPL_FLOAT
 {
