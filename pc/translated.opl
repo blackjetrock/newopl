@@ -1,38 +1,20 @@
 
 
 
-E
-B% := 12345
-C% := 2345
-A% := (100 + 156)
-PRINT(A%)
-<nl>
-
-E := 123.4
-PRINT(E)
-<nl>
-
-E := (UMIN 123.4)
-PRINT(E)
-<nl>
-
-E := 123.4
+F2
+F(20)
+DOOR$
+FLOAT(123)
+EXTTOP% := 8
+S1$ := "abc"
+SA$(10) := "def"
 
 
 
 DROP()
-B% := 12345
-C% := 2345
-A% := (100 + 156)
-PRINT(A%)
-<nl>
-
-E := 123.4
-PRINT(E)
-<nl>
-
-E := (UMIN 123.4)
-PRINT(E)
-<nl>
-
-E := 123.4
+DROP()
+DROP()
+DROP()
+EXTTOP% := 8
+S1$ := "abc"
+SA$(10) := "def"

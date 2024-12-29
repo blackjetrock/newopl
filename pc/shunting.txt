@@ -7,91 +7,151 @@ A%
 
 ,
 
-B%
+(
+          000:type:U '('
+
+10
+          000:type:U '('
+
+)
+
+S1$
 
 ,
 
-C%
+F2
+
+ LOCAL
+
+(
+          000:type:U '('
+
+5
+          000:type:U '('
+
+)
+
+X%
 
 ,
 
-E
+(
+          000:type:U '('
 
-B%
+5
+          000:type:U '('
+
+,
+          000:type:U '('
+
+7
+          000:type:U '('
+
+)
+
+S$
+
+,
+
+(
+          000:type:U '('
+
+20
+          000:type:U '('
+
+)
+
+F
+
+ GLOBAL
+
+PEAR%
+
+,
+
+(
+          000:type:U '('
+
+10
+          000:type:U '('
+
+)
+
+DOOR$
+
+ GLOBAL
+
+(
+          000:type:U '('
+
+50
+          000:type:U '('
+
+)
+
+OPEN%
+
+,
+
+(
+          000:type:U '('
+
+20
+          000:type:U '('
+
+,
+          000:type:U '('
+
+30
+          000:type:U '('
+
+)
+
+POS$
+
+,
+
+(
+          000:type:U '('
+
+123
+          000:type:U '('
+
+)
+
+FLOAT
+
+EXTTOP%
 
 :=
           000:type:i ':='
 
-12345
+8
           000:type:i ':='
 
-C%
+S1$
 
 :=
-          000:type:i ':='
+          000:type:s ':='
 
-2345
-          000:type:i ':='
+"abc"
+          000:type:s ':='
 
-A%
+(
+          000:type:U '('
 
-:=
-          000:type:i ':='
+10
+          000:type:U '('
 
-100
-          000:type:i ':='
+)
 
-+
-          000:type:i ':='
-          001:type:i '+'
-
-156
-          000:type:i ':='
-          001:type:i '+'
-
-A%
-
-PRINT
-          000:type:U 'PRINT'
-
-E
+SA$
 
 :=
-          000:type:f ':='
+          000:type:S ':='
 
-123.4
-          000:type:f ':='
-
-E
-
-PRINT
-          000:type:U 'PRINT'
-
-E
-
-:=
-          000:type:f ':='
-
--
-          000:type:f ':='
-          001:type:f 'UMIN'
-
-123.4
-          000:type:f ':='
-          001:type:f 'UMIN'
-
-E
-
-PRINT
-          000:type:U 'PRINT'
-
-E
-
-:=
-          000:type:f ':='
-
-123.4
-          000:type:f ':='
+"def"
+          000:type:S ':='
 
 PROCDEF
 
@@ -101,88 +161,148 @@ A%
 
 ,
 
-B%
+(
+          000:type:U '('
+
+10
+          000:type:U '('
+
+)
+
+S1$
 
 ,
 
-C%
+F2
+
+ LOCAL
+
+(
+          000:type:U '('
+
+5
+          000:type:U '('
+
+)
+
+X%
 
 ,
 
-E
+(
+          000:type:U '('
 
-B%
+5
+          000:type:U '('
+
+,
+          000:type:U '('
+
+7
+          000:type:U '('
+
+)
+
+S$
+
+,
+
+(
+          000:type:U '('
+
+20
+          000:type:U '('
+
+)
+
+F
+
+ GLOBAL
+
+PEAR%
+
+,
+
+(
+          000:type:U '('
+
+10
+          000:type:U '('
+
+)
+
+DOOR$
+
+ GLOBAL
+
+(
+          000:type:U '('
+
+50
+          000:type:U '('
+
+)
+
+OPEN%
+
+,
+
+(
+          000:type:U '('
+
+20
+          000:type:U '('
+
+,
+          000:type:U '('
+
+30
+          000:type:U '('
+
+)
+
+POS$
+
+,
+
+(
+          000:type:U '('
+
+123
+          000:type:U '('
+
+)
+
+FLOAT
+
+EXTTOP%
 
 :=
           000:type:i ':='
 
-12345
+8
           000:type:i ':='
 
-C%
+S1$
 
 :=
-          000:type:i ':='
+          000:type:s ':='
 
-2345
-          000:type:i ':='
+"abc"
+          000:type:s ':='
 
-A%
+(
+          000:type:U '('
 
-:=
-          000:type:i ':='
+10
+          000:type:U '('
 
-100
-          000:type:i ':='
+)
 
-+
-          000:type:i ':='
-          001:type:i '+'
-
-156
-          000:type:i ':='
-          001:type:i '+'
-
-A%
-
-PRINT
-          000:type:U 'PRINT'
-
-E
+SA$
 
 :=
-          000:type:f ':='
+          000:type:S ':='
 
-123.4
-          000:type:f ':='
-
-E
-
-PRINT
-          000:type:U 'PRINT'
-
-E
-
-:=
-          000:type:f ':='
-
--
-          000:type:f ':='
-          001:type:f 'UMIN'
-
-123.4
-          000:type:f ':='
-          001:type:f 'UMIN'
-
-E
-
-PRINT
-          000:type:U 'PRINT'
-
-E
-
-:=
-          000:type:f ':='
-
-123.4
-          000:type:f ':='
+"def"
+          000:type:S ':='
