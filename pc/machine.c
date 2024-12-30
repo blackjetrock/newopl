@@ -80,15 +80,19 @@ void push_machine_num(NOBJ_MACHINE *m, NOPL_FLOAT *n)
   debug("\n%s:pushing %s to %04X len:%d", __FUNCTION__, str, m->rta_sp, len);
 #endif
 
-  push_machine_8(m, n->sign);
-  push_machine_8(m, n->exponent);
 
 
   // Now push the float on to the stack
-  for(int i=NUM_MAX_DIGITS-1; i<=0; i++)
+  for(int i=0; i<NUM_MAX_DIGITS; i+=2)
     {
-      push_machine_8(m, (n->digits[i] << 4) + n->digits[i] );
+      
+      push_machine_8(m, (n->digits[i] << 4) + (n->digits[i+1]) );
     }
+
+  push_machine_8(m, n->exponent);
+  push_machine_8(m, n->sign);
+
+
 }
 
 //------------------------------------------------------------------------------

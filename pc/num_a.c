@@ -6,9 +6,15 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "num.h"
-
-void num_print(NUM *n)
+#include <ctype.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <inttypes.h>
+#include <string.h>
+//#include "num_a.h"
+#include "nopl.h"
+void num_print(NOPL_FLOAT *n)
 {
   if(n->sign)
     {
@@ -26,7 +32,8 @@ void num_print(NUM *n)
 //------------------------------------------------------------------------------
 
 #define MAX_INDEX (NUM_MAX_DIGITS-1)
-void digits_right(NUM *n, int n)
+
+void digits_right(NOPL_FLOAT *n, int shift)
 {
   
   for(int i = MAX_INDEX; i>0; i--)
@@ -34,9 +41,9 @@ void digits_right(NUM *n, int n)
       n->digits[i] = n->digits[i-1];
     }
 
-  for(int i=0; i<n; i++)
+  for(int i=0; i<shift; i++)
     {
-      n->digits = 0;
+      n->digits[0] = 0;
     }
 }
 
@@ -44,7 +51,7 @@ void digits_right(NUM *n, int n)
 
 // Make the exponent of n the same as that of r
 
-void make_exp_same(NUM *n, NUM *r)
+void make_exp_same(NOPL_FLOAT *n, NOPL_FLOAT *r)
 {
   n->exponent = r->exponent;
   digits_right(n, r->exponent - n->exponent);
@@ -53,27 +60,124 @@ void make_exp_same(NUM *n, NUM *r)
 //------------------------------------------------------------------------------
 
 
-void num_add(NUM *a, NUM *b, NUM *r)
+void num_shift_digits_right(NOPL_FLOAT *n)
 {
-  NUM a1;
-  NUM b1;
-
-  b1 = *b;
-  a1 = *a;	
-
-  // Un-normalise to the larger number
-  if( a->exponent > b->exponent )
+  // Shift mantissa digits to the 'right'
+  for(int i=NUM_MAX_DIGITS-1; i>=0; i--)
     {
+      n->digits[i] = n->digits[i-1];
+    }
 
-      make_exp_same(&b1, &a1);
+  n->digits[0] = 0;
+  (n->exponent)++;
+}
+
+//------------------------------------------------------------------------------
+
+void num_shift_digits_left(NOPL_FLOAT *n)
+{
+  // Shift mantissa digits to the 'left'
+  for(int i=0; i<NUM_MAX_DIGITS;  i++)
+    {
+      n->digits[i] = n->digits[i+1];
+    }
+  
+  n->digits[NUM_MAX_DIGITS-1] = 0;
+  (n->exponent)--;
+}
+
+//------------------------------------------------------------------------------
+//
+// Propagate carries and shift exponents to get a non zero in digit[0]
+//
+
+void num_normalise(NOPL_FLOAT *n)
+{
+  // Propagate carry
+  for(int i= NUM_MAX_DIGITS-1; i>0; i--)
+    {
+      if( n->digits[i] >= 10 )
+	{
+	  n->digits[i] %= 10;
+	  n->digits[i-1]++;
+	}
+    }
+
+  // If digits[0] is 0 then we need to shift left until it is non zero
+  while( n->digits[0] == 0 )
+    {
+      num_shift_digits_left(n);
+    }
+
+  // 
+  while( n->digits[0] >= 10 )
+    {
+      num_shift_digits_right(n);
+
+      // Split the first digit into two
+      n->digits[0] = 1;
+      n->digits[1] %= 10;
+    }
+  
+}
+
+//------------------------------------------------------------------------------
+
+void num_make_exponent(NOPL_FLOAT *n, int exp)
+{
+  // The num will be left unnormalised.
+  // We shift mantissa to make the expoinent the required value. This may result
+  // in all zeros in some cases.
+
+  // There are two directions we may have to shift in.
+  
+  if( n->exponent < exp )
+    {
+      dbq("Right Exp:%d", exp);
+      while(n->exponent < exp )
+	{
+	  num_shift_digits_right(n);
+	}
     }
   else
     {
-      make_exp_same(&a1, &b1);
+      dbq("Left Exp:%d", exp);
+      
+      while(n->exponent < exp )
+	{
+	  num_shift_digits_left(n);
+	  
+	}
     }
+
 }
 
+//------------------------------------------------------------------------------
 
+void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
+{
+  // Adjust the smaller number so we have the same exponent. Shift the mantissa to line up.
+  if( a->exponent > b->exponent)
+    {
+      num_make_exponent(b, a->exponent);
+    }
+  else
+    {
+      num_make_exponent(a, b->exponent);
+    }
+  
+  // Add the mantissa digits
+  for(int i=NUM_MAX_DIGITS-1; i>=0; i--)
+    {
+      r->digits[i] = a->digits[i] + b->digits[i]; 
+    }
+
+  r->exponent = a->exponent;
+  r->sign = a->sign;
+  
+  // Normalise
+  num_normalise(r);
+}
 
 #if 0
 

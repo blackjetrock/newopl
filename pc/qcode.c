@@ -40,6 +40,28 @@ void qcode_get_string_push_stack(NOBJ_MACHINE *m)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+void dbq_num(NOPL_FLOAT *n)
+{
+  dbq("\n ");
+  
+  if(n->sign)
+    {
+      fprintf(exdbfp, "-");
+    }
+
+  fprintf(exdbfp, "%d.", n->digits[0]);
+
+  for(int i=1; i<NUM_MAX_DIGITS; i++)
+    {
+      fprintf(exdbfp, "%d", n->digits[i]);
+    }
+
+  fprintf(exdbfp, " E%d", (int)n->exponent);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
@@ -564,7 +586,8 @@ void qca_push_result(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_push_num_result(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  dbq("res:%d (%04X)", s->result, s->result);
+  dbq("Push num result");
+  dbq_num(&(s->num_result));
   push_machine_num(m, &(s->num_result));
 }
 
@@ -636,6 +659,11 @@ void qca_print_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_print_cr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   printf("\n");
+}
+
+void qca_print_sp(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  printf(" ");
 }
 
 //------------------------------------------------------------------------------
@@ -786,13 +814,14 @@ void qca_add_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
   dbq("Int:%d (%04X) + Int2:%d (%04X) = %d (%04X)", s->integer, s->integer, s->integer2, s->integer2, s->result, s->result);
 }
 
+//------------------------------------------------------------------------------
+
 void qca_add_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  NOBJ_INT res = 0;
-  
-  s->result = s->integer2 + s->integer;
-
-  dbq("Int:%d (%04X) + Int2:%d (%04X) = %d (%04X)", s->integer, s->integer, s->integer2, s->integer2, s->result, s->result);
+  num_add(&(s->num), &(s->num2), &(s->num_result));
+  dbq_num(&(s->num));
+  dbq_num(&(s->num2));
+  dbq_num(&(s->num_result));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -889,6 +918,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_PRINT_NUM,     "QCO_PRINT_NUM",     {qca_pop_num,      qca_print_num,   qca_null}},
     { QCO_PRINT_STR,     "QCO_PRINT_STR",     {qca_pop_str,      qca_print_str,   qca_null}},
     { QCO_PRINT_CR,      "QCO_PRINT_CR",      {qca_null,         qca_print_cr,    qca_null}},
+    { QCO_PRINT_SP,      "QCO_PRINT_SP",      {qca_null,         qca_print_sp,    qca_null}},
     { QCO_UMIN_NUM,      "QCO_UMIN_NUM",      {qca_pop_num,      qca_umin_num,    qca_push_num}},
     
     { QCO_BRA_FALSE,     "QCO_BRA_FALSE",     {qca_bra_false,    qca_null,        qca_null}},

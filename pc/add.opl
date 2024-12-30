@@ -1,4 +1,4 @@
-add1:
+add:
 
 local A%, B%, C%, E
 rem local s$(10), t$(5, 12)
@@ -11,12 +11,13 @@ A% = 100+156
 print a%
 
 E = 123.4
+
 print e
 
 E = -123.4
 print e
 
-E = 123.4e12
+E = 123.4E12
 print e
 
 E = 123.4E-5
@@ -24,6 +25,10 @@ print e
 
 E = E + 2.3
 print e
+
+E = 1111.0
+print E,E+23.0, E+19.0
+print E, E+199.0, E+999.0, E+ 9999.0
 
 A% = -345
 print a%

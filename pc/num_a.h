@@ -11,3 +11,4 @@ typedef struct _NOPL_FLOAT
 } NOPL_FLOAT;
 
 
+void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);

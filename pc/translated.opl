@@ -1,20 +1,102 @@
 
 
 
-F2
-F(20)
-DOOR$
-FLOAT(123)
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+E
+B% := 12345
+C% := 2345
+A% := (100 + 156)
+PRINT(A%)
+<nl>
+
+E := 123.4
+PRINT(E)
+<nl>
+
+E := (UMIN 123.4)
+PRINT(E)
+<nl>
+
+E := 123.4E12
+PRINT(E)
+<nl>
+
+E := 123.4E-5
+PRINT(E)
+<nl>
+
+E := (E + 2.3)
+PRINT(E)
+<nl>
+
+E := 1111.0
+PRINT(E)
+< > 
+PRINT((E + 23.0))
+< > 
+PRINT((E + 19.0))
+<nl>
+
+PRINT(E)
+< > 
+PRINT((E + 199.0))
+< > 
+PRINT((E + 999.0))
+< > 
+PRINT((E + 9999.0))
+<nl>
+
+A% := (UMIN 345)
+PRINT(A%)
+<nl>
 
 
 
+
 DROP()
-DROP()
-DROP()
-DROP()
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+B% := 12345
+C% := 2345
+A% := (100 + 156)
+PRINT(A%)
+<nl>
+
+E := 123.4
+PRINT(E)
+<nl>
+
+E := (UMIN 123.4)
+PRINT(E)
+<nl>
+
+E := 123.4E12
+PRINT(E)
+<nl>
+
+E := 123.4E-5
+PRINT(E)
+<nl>
+
+E := (E + 2.3)
+PRINT(E)
+<nl>
+
+E := 1111.0
+PRINT(E)
+< > 
+PRINT((E + 23.0))
+< > 
+PRINT((E + 19.0))
+<nl>
+
+PRINT(E)
+< > 
+PRINT((E + 199.0))
+< > 
+PRINT((E + 999.0))
+< > 
+PRINT((E + 9999.0))
+<nl>
+
+A% := (UMIN 345)
+PRINT(A%)
+<nl>
+
