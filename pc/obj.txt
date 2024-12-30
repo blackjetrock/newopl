@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:0010
-QCode Space Size:00C0
+QCode Space Size:00D0
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -151,17 +151,30 @@ QCode
 00AF: 3C       Plus float     (bytes code:-)
 00B0: 70       PRINT float     (bytes code:-)
 00B1: 73       PRINT newline     (bytes code:-)
-00B2: 0D       Push local/global integer variable reference     (bytes code:v)
-00B3: FFFC       (65532)
-00B5: 22       Push integer literal     (bytes code:I)
-00B6: 0159       (345)
-00B8: 32       unary minus integer     (bytes code:-)
-00B9: 7F       Assign integer     (bytes code:-)
-00BA: 00       Push local/global integer variable value     (bytes code:v)
-00BB: FFFC       (65532)
-00BD: 6F       PRINT integer     (bytes code:-)
-00BE: 73       PRINT newline     (bytes code:-)
-00BF: 7B       RETURN (float 0)     (bytes code:-)
+00B2: 01       Push local/global float variable value     (bytes code:v)
+00B3: FFF0       (65520)
+00B5: 70       PRINT float     (bytes code:-)
+00B6: 72       PRINT ,     (bytes code:-)
+00B7: 23       Push float literal     (bytes code:F)
+00B8: Len:2
+00B9: '50E99
+00BB: 23       Push float literal     (bytes code:F)
+00BC: Len:2
+00BD: '50E99
+00BF: 3C       Plus float     (bytes code:-)
+00C0: 70       PRINT float     (bytes code:-)
+00C1: 73       PRINT newline     (bytes code:-)
+00C2: 0D       Push local/global integer variable reference     (bytes code:v)
+00C3: FFFC       (65532)
+00C5: 22       Push integer literal     (bytes code:I)
+00C6: 0159       (345)
+00C8: 32       unary minus integer     (bytes code:-)
+00C9: 7F       Assign integer     (bytes code:-)
+00CA: 00       Push local/global integer variable value     (bytes code:v)
+00CB: FFFC       (65532)
+00CD: 6F       PRINT integer     (bytes code:-)
+00CE: 73       PRINT newline     (bytes code:-)
+00CF: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
@@ -176,4 +189,5 @@ QCode Data
 0080:70 72 01 FF F0 23 02 19 01 3C 70 73 01 FF F0 70 
 0090:72 01 FF F0 23 03 90 19 02 3C 70 72 01 FF F0 23 
 00A0:03 90 99 02 3C 70 72 01 FF F0 23 03 99 99 03 3C 
-00B0:70 73 0D FF FC 22 01 59 32 7F 00 FF FC 6F 73 7B 
+00B0:70 73 01 FF F0 70 72 23 02 50 63 23 02 50 63 3C 
+00C0:70 73 0D FF FC 22 01 59 32 7F 00 FF FC 6F 73 7B 

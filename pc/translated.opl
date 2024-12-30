@@ -45,6 +45,11 @@ PRINT((E + 999.0))
 PRINT((E + 9999.0))
 <nl>
 
+PRINT(E)
+< > 
+PRINT((5E99 + 5E99))
+<nl>
+
 A% := (UMIN 345)
 PRINT(A%)
 <nl>
@@ -94,6 +99,11 @@ PRINT((E + 199.0))
 PRINT((E + 999.0))
 < > 
 PRINT((E + 9999.0))
+<nl>
+
+PRINT(E)
+< > 
+PRINT((5E99 + 5E99))
 <nl>
 
 A% := (UMIN 345)

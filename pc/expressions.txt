@@ -539,6 +539,55 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 
 --------------------
 
+Push:'E'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'E'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'5E99'
+Push:'5E99'
+Pop: '5E99'
+Pop: '5E99'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_FLT 5E99
+Push:'5E99'
+                    000: '5E99' type:f (1), %:0
+EXP_BUFF_ID_FLT 5E99
+Push:'5E99'
+                    000: '5E99' type:f (1), %:0
+                    001: '5E99' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '5E99'
+Pop: '5E99'
+Push:'000'
+                    000: '000' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
 Push:'A%'
 Push:'345'
 Pop: '345'
@@ -1113,6 +1162,55 @@ Push:'9999.0'
 EXP_BUFF_ID_OPERATOR +
 Pop: '9999.0'
 Pop: 'E'
+Push:'000'
+                    000: '000' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+Push:'E'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'E'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'5E99'
+Push:'5E99'
+Pop: '5E99'
+Pop: '5E99'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_FLT 5E99
+Push:'5E99'
+                    000: '5E99' type:f (1), %:0
+EXP_BUFF_ID_FLT 5E99
+Push:'5E99'
+                    000: '5E99' type:f (1), %:0
+                    001: '5E99' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '5E99'
+Pop: '5E99'
 Push:'000'
                     000: '000' type:f (1), %:0
 EXP_BUFF_ID_PRINT PRINT

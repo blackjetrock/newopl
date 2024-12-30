@@ -152,9 +152,11 @@ void num_make_exponent(NOPL_FLOAT *n, int exp)
 
 }
 
+
+
 //------------------------------------------------------------------------------
 
-void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
+void num_add_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 {
   // Adjust the smaller number so we have the same exponent. Shift the mantissa to line up.
   if( a->exponent > b->exponent)
@@ -177,6 +179,45 @@ void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   
   // Normalise
   num_normalise(r);
+}
+
+//------------------------------------------------------------------------------
+
+void num_sub_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
+{
+  // Adjust the smaller number so we have the same exponent. Shift the mantissa to line up.
+  if( a->exponent > b->exponent)
+    {
+      num_make_exponent(b, a->exponent);
+    }
+  else
+    {
+      num_make_exponent(a, b->exponent);
+    }
+  
+  // Add the mantissa digits
+  for(int i=NUM_MAX_DIGITS-1; i>=0; i--)
+    {
+      r->digits[i] = a->digits[i] + b->digits[i]; 
+    }
+
+  r->exponent = a->exponent;
+  r->sign = a->sign;
+  
+  // Normalise
+  num_normalise(r);
+}
+
+//------------------------------------------------------------------------------
+void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
+{
+  num_add_pos(a, b, r);
+}
+
+//------------------------------------------------------------------------------
+void num_sub(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
+{
+  num_sub_pos(a, b, r);
 }
 
 #if 0
