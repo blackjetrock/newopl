@@ -3128,6 +3128,420 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 Push:'E'
+Push:'3.4'
+Push:'1.2'
+Pop: '1.2'
+Pop: '3.4'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 3.4
+Push:'3.4'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+EXP_BUFF_ID_FLT 1.2
+Push:'1.2'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+                    002: '1.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '1.2'
+Pop: '3.4'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'E'
+--------------------
+
+Push:'"G(4.6):"'
+Pop: '"G(4.6):"'
+====================
+
+EXP_BUFF_ID_STR "G(4.6):"
+Push:'"G(4.6):"'
+                    000: '"G(4.6):"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"G(4.6):"'
+--------------------
+
+Push:'E'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'E'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+Push:'E'
+Push:'3.4'
+Pop: '3.4'
+Push:'000'
+Push:'1.2'
+Pop: '1.2'
+Pop: '000'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 3.4
+Push:'3.4'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '3.4'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_FLT 1.2
+Push:'1.2'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+                    002: '1.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '1.2'
+Pop: '000'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'E'
+--------------------
+
+Push:'"H(-2.2):"'
+Pop: '"H(-2.2):"'
+====================
+
+EXP_BUFF_ID_STR "H(-2.2):"
+Push:'"H(-2.2):"'
+                    000: '"H(-2.2):"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"H(-2.2):"'
+--------------------
+
+Push:'E'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'E'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+Push:'E'
+Push:'3.4'
+Push:'1.2'
+Pop: '1.2'
+Pop: '3.4'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 3.4
+Push:'3.4'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+EXP_BUFF_ID_FLT 1.2
+Push:'1.2'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+                    002: '1.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR -
+Pop: '1.2'
+Pop: '3.4'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'E'
+--------------------
+
+Push:'"I(2.2):"'
+Pop: '"I(2.2):"'
+====================
+
+EXP_BUFF_ID_STR "I(2.2):"
+Push:'"I(2.2):"'
+                    000: '"I(2.2):"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"I(2.2):"'
+--------------------
+
+Push:'E'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'E'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+Push:'E'
+Push:'3.4'
+Pop: '3.4'
+Push:'000'
+Push:'1.2'
+Pop: '1.2'
+Pop: '000'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 3.4
+Push:'3.4'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '3.4'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_FLT 1.2
+Push:'1.2'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+                    002: '1.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR -
+Pop: '1.2'
+Pop: '000'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'E'
+--------------------
+
+Push:'"J(-4.6):"'
+Pop: '"J(-4.6):"'
+====================
+
+EXP_BUFF_ID_STR "J(-4.6):"
+Push:'"J(-4.6):"'
+                    000: '"J(-4.6):"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"J(-4.6):"'
+--------------------
+
+Push:'E'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'E'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+Push:'E'
+Push:'3.4'
+Push:'1.2'
+Pop: '1.2'
+Push:'000'
+Pop: '000'
+Pop: '3.4'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 3.4
+Push:'3.4'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+EXP_BUFF_ID_FLT 1.2
+Push:'1.2'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+                    002: '1.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '1.2'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+                    002: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: '3.4'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'E'
+--------------------
+
+Push:'"K(2.2):"'
+Pop: '"K(2.2):"'
+====================
+
+EXP_BUFF_ID_STR "K(2.2):"
+Push:'"K(2.2):"'
+                    000: '"K(2.2):"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"K(2.2):"'
+--------------------
+
+Push:'E'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'E'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+Push:'E'
+Push:'3.4'
+Push:'1.2'
+Pop: '1.2'
+Push:'000'
+Pop: '000'
+Pop: '3.4'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 3.4
+Push:'3.4'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+EXP_BUFF_ID_FLT 1.2
+Push:'1.2'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+                    002: '1.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '1.2'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+                    002: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR -
+Pop: '000'
+Pop: '3.4'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'E'
+--------------------
+
+Push:'"L(4.6):"'
+Pop: '"L(4.6):"'
+====================
+
+EXP_BUFF_ID_STR "L(4.6):"
+Push:'"L(4.6):"'
+                    000: '"L(4.6):"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"L(4.6):"'
+--------------------
+
+Push:'E'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'E'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+Push:'E'
 Push:'2.0'
 Pop: '2.0'
 Pop: 'E'
@@ -6406,6 +6820,420 @@ Push:'"F(4.6):"'
                     000: '"F(4.6):"' type:s (2), %:0
 EXP_BUFF_ID_PRINT PRINT
 Pop: '"F(4.6):"'
+--------------------
+
+Push:'E'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'E'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+Push:'E'
+Push:'3.4'
+Push:'1.2'
+Pop: '1.2'
+Pop: '3.4'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 3.4
+Push:'3.4'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+EXP_BUFF_ID_FLT 1.2
+Push:'1.2'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+                    002: '1.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '1.2'
+Pop: '3.4'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'E'
+--------------------
+
+Push:'"G(4.6):"'
+Pop: '"G(4.6):"'
+====================
+
+EXP_BUFF_ID_STR "G(4.6):"
+Push:'"G(4.6):"'
+                    000: '"G(4.6):"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"G(4.6):"'
+--------------------
+
+Push:'E'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'E'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+Push:'E'
+Push:'3.4'
+Pop: '3.4'
+Push:'000'
+Push:'1.2'
+Pop: '1.2'
+Pop: '000'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 3.4
+Push:'3.4'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '3.4'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_FLT 1.2
+Push:'1.2'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+                    002: '1.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '1.2'
+Pop: '000'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'E'
+--------------------
+
+Push:'"H(-2.2):"'
+Pop: '"H(-2.2):"'
+====================
+
+EXP_BUFF_ID_STR "H(-2.2):"
+Push:'"H(-2.2):"'
+                    000: '"H(-2.2):"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"H(-2.2):"'
+--------------------
+
+Push:'E'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'E'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+Push:'E'
+Push:'3.4'
+Push:'1.2'
+Pop: '1.2'
+Pop: '3.4'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 3.4
+Push:'3.4'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+EXP_BUFF_ID_FLT 1.2
+Push:'1.2'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+                    002: '1.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR -
+Pop: '1.2'
+Pop: '3.4'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'E'
+--------------------
+
+Push:'"I(2.2):"'
+Pop: '"I(2.2):"'
+====================
+
+EXP_BUFF_ID_STR "I(2.2):"
+Push:'"I(2.2):"'
+                    000: '"I(2.2):"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"I(2.2):"'
+--------------------
+
+Push:'E'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'E'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+Push:'E'
+Push:'3.4'
+Pop: '3.4'
+Push:'000'
+Push:'1.2'
+Pop: '1.2'
+Pop: '000'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 3.4
+Push:'3.4'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '3.4'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_FLT 1.2
+Push:'1.2'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+                    002: '1.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR -
+Pop: '1.2'
+Pop: '000'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'E'
+--------------------
+
+Push:'"J(-4.6):"'
+Pop: '"J(-4.6):"'
+====================
+
+EXP_BUFF_ID_STR "J(-4.6):"
+Push:'"J(-4.6):"'
+                    000: '"J(-4.6):"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"J(-4.6):"'
+--------------------
+
+Push:'E'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'E'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+Push:'E'
+Push:'3.4'
+Push:'1.2'
+Pop: '1.2'
+Push:'000'
+Pop: '000'
+Pop: '3.4'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 3.4
+Push:'3.4'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+EXP_BUFF_ID_FLT 1.2
+Push:'1.2'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+                    002: '1.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '1.2'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+                    002: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: '3.4'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'E'
+--------------------
+
+Push:'"K(2.2):"'
+Pop: '"K(2.2):"'
+====================
+
+EXP_BUFF_ID_STR "K(2.2):"
+Push:'"K(2.2):"'
+                    000: '"K(2.2):"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"K(2.2):"'
+--------------------
+
+Push:'E'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: 'E'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+Push:'E'
+Push:'3.4'
+Push:'1.2'
+Pop: '1.2'
+Push:'000'
+Pop: '000'
+Pop: '3.4'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+====================
+
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 3.4
+Push:'3.4'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+EXP_BUFF_ID_FLT 1.2
+Push:'1.2'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+                    002: '1.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '1.2'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '3.4' type:f (1), %:0
+                    002: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR -
+Pop: '000'
+Pop: '3.4'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'E'
+--------------------
+
+Push:'"L(4.6):"'
+Pop: '"L(4.6):"'
+====================
+
+EXP_BUFF_ID_STR "L(4.6):"
+Push:'"L(4.6):"'
+                    000: '"L(4.6):"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"L(4.6):"'
 --------------------
 
 Push:'E'

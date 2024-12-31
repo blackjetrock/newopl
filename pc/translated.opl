@@ -255,6 +255,36 @@ PRINT("F(4.6):")
 PRINT(E)
 <nl>
 
+E := (3.4 + 1.2)
+PRINT("G(4.6):")
+PRINT(E)
+<nl>
+
+E := ((UMIN 3.4) + 1.2)
+PRINT("H(-2.2):")
+PRINT(E)
+<nl>
+
+E := (3.4 - 1.2)
+PRINT("I(2.2):")
+PRINT(E)
+<nl>
+
+E := ((UMIN 3.4) - 1.2)
+PRINT("J(-4.6):")
+PRINT(E)
+<nl>
+
+E := (3.4 + (UMIN 1.2))
+PRINT("K(2.2):")
+PRINT(E)
+<nl>
+
+E := (3.4 - (UMIN 1.2))
+PRINT("L(4.6):")
+PRINT(E)
+<nl>
+
 E := 2.0
 PRINT(SQR(E ))
 <nl>
@@ -526,6 +556,36 @@ PRINT(E)
 
 E := (1.2 - (UMIN 3.4))
 PRINT("F(4.6):")
+PRINT(E)
+<nl>
+
+E := (3.4 + 1.2)
+PRINT("G(4.6):")
+PRINT(E)
+<nl>
+
+E := ((UMIN 3.4) + 1.2)
+PRINT("H(-2.2):")
+PRINT(E)
+<nl>
+
+E := (3.4 - 1.2)
+PRINT("I(2.2):")
+PRINT(E)
+<nl>
+
+E := ((UMIN 3.4) - 1.2)
+PRINT("J(-4.6):")
+PRINT(E)
+<nl>
+
+E := (3.4 + (UMIN 1.2))
+PRINT("K(2.2):")
+PRINT(E)
+<nl>
+
+E := (3.4 - (UMIN 1.2))
+PRINT("L(4.6):")
 PRINT(E)
 <nl>
 
