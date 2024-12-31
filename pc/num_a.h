@@ -24,6 +24,9 @@ int num_gt(NOPL_FLOAT *a, NOPL_FLOAT *b);
 int num_lt(NOPL_FLOAT *a, NOPL_FLOAT *b);
 int num_gte(NOPL_FLOAT *a, NOPL_FLOAT *b);
 int num_lte(NOPL_FLOAT *a, NOPL_FLOAT *b);
+int num_or(NOPL_FLOAT *a, NOPL_FLOAT *b);
+int num_not(NOPL_FLOAT *a);
+int num_and(NOPL_FLOAT *a, NOPL_FLOAT *b);
 
 
 

@@ -702,6 +702,266 @@ PRINT
 
 ENDIF
 
+NOT
+          000:type:U 'UNOT'
+
+(
+          000:type:U 'UNOT'
+          001:type:U '('
+
+3.0
+          000:type:U 'UNOT'
+          001:type:U '('
+
+)
+          000:type:U 'UNOT'
+
+=
+          000:type:U '='
+
+0
+          000:type:U '='
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"NOT(3.0) = 0 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+NOT
+          000:type:U 'UNOT'
+
+(
+          000:type:U 'UNOT'
+          001:type:U '('
+
+3.0
+          000:type:U 'UNOT'
+          001:type:U '('
+
+)
+          000:type:U 'UNOT'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"NOT(3.0) failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+(
+          000:type:U '('
+
+3.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+5.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"(3.0 AND 5.0) failed res:"
+
+;
+
+(
+          000:type:U '('
+
+3.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+5.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+(
+          000:type:U '('
+
+3.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+0.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"(3.0 AND 0.0) failed res:"
+
+;
+
+(
+          000:type:U '('
+
+3.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+0.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+(
+          000:type:U '('
+
+0.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+5.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"(0.0 AND 5.0) failed res:"
+
+;
+
+(
+          000:type:U '('
+
+0.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+5.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+(
+          000:type:U '('
+
+0.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+0.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"(0.0 AND 0.0) failed res:"
+
+;
+
+(
+          000:type:U '('
+
+0.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+0.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
 PASS%
 
 "PASS"
@@ -1413,6 +1673,266 @@ PASS%
           000:type:i ':='
 
 "(3 OR 5) = 7 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+NOT
+          000:type:U 'UNOT'
+
+(
+          000:type:U 'UNOT'
+          001:type:U '('
+
+3.0
+          000:type:U 'UNOT'
+          001:type:U '('
+
+)
+          000:type:U 'UNOT'
+
+=
+          000:type:U '='
+
+0
+          000:type:U '='
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"NOT(3.0) = 0 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+NOT
+          000:type:U 'UNOT'
+
+(
+          000:type:U 'UNOT'
+          001:type:U '('
+
+3.0
+          000:type:U 'UNOT'
+          001:type:U '('
+
+)
+          000:type:U 'UNOT'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"NOT(3.0) failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+(
+          000:type:U '('
+
+3.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+5.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"(3.0 AND 5.0) failed res:"
+
+;
+
+(
+          000:type:U '('
+
+3.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+5.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+(
+          000:type:U '('
+
+3.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+0.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"(3.0 AND 0.0) failed res:"
+
+;
+
+(
+          000:type:U '('
+
+3.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+0.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+(
+          000:type:U '('
+
+0.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+5.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"(0.0 AND 5.0) failed res:"
+
+;
+
+(
+          000:type:U '('
+
+0.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+5.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+(
+          000:type:U '('
+
+0.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+0.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"(0.0 AND 0.0) failed res:"
+
+;
+
+(
+          000:type:U '('
+
+0.0
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:f 'AND'
+
+0.0
+          000:type:U '('
+          001:type:f 'AND'
+
+)
 
 PRINT
           000:type:U 'PRINT'

@@ -119,6 +119,43 @@ pass% = 0
 print "(3 OR 5) = 7 failed"
 ENDIF
 
+if NOT(3.0) = 0
+else
+pass%=0
+print "NOT(3.0) = 0 failed"
+endif
+
+if  NOT(3.0)
+pass%=0
+print "NOT(3.0) failed"
+else
+endif
+
+if  (3.0 AND 5.0)
+else
+pass%=0
+print "(3.0 AND 5.0) failed res:";(3.0 and 5.0)
+endif
+
+if  (3.0 AND 0.0)
+pass%=0
+print "(3.0 AND 0.0) failed res:";(3.0 and 0.0)
+else
+endif
+
+if  (0.0 AND 5.0)
+pass%=0
+print "(0.0 AND 5.0) failed res:";(0.0 and 5.0)
+else
+endif
+
+if  (0.0 AND 0.0)
+pass%=0
+print "(0.0 AND 0.0) failed res:";(0.0 and 0.0)
+else
+endif
+
+ 
 IF PASS%
 print "PASS"
 else

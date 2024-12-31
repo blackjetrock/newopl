@@ -361,7 +361,63 @@ int num_gt(NOPL_FLOAT *a, NOPL_FLOAT *b)
   
   return(0);
 }
-    
+
+//------------------------------------------------------------------------------
+
+int num_zero(NOPL_FLOAT *a)
+{
+  for(int i = 0; i< NUM_MAX_DIGITS; i++)
+    {
+      if( a->digits[i] != 0 )
+	{
+	  return(0);
+	}
+    }
+  
+  return(1);
+}
+
+int num_not(NOPL_FLOAT *a)
+{
+  if( num_zero(a) )
+    {
+      return(NOBJ_TRUE);
+    }
+  
+  return(NOBJ_FALSE);
+}
+
+int num_true(NOPL_FLOAT *a)
+{
+  if( num_zero(a) == NOBJ_FALSE )
+    {
+      return(1);
+    }
+  
+  return(0);
+}
+
+
+int num_and(NOPL_FLOAT *a, NOPL_FLOAT *b)
+{
+  if( num_true(a) && num_true(b) )
+    {
+      return(NOBJ_TRUE);
+    }
+  
+  return(NOBJ_FALSE);
+}
+
+int num_or(NOPL_FLOAT *a, NOPL_FLOAT *b)
+{
+  if( num_true(a) || num_true(b) )
+    {
+      return(NOBJ_TRUE);
+    }
+  
+  return(NOBJ_FALSE);
+}
+
 //------------------------------------------------------------------------------
 
 int num_ne(NOPL_FLOAT *a, NOPL_FLOAT *b)

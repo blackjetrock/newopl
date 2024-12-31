@@ -161,6 +161,52 @@ PRINT("(3 OR 5) = 7 failed")
 <nl>
 
 ENDIF
+IF ((UNOT 3.0) = 0)
+ELSE
+PASS% := 0
+PRINT("NOT(3.0) = 0 failed")
+<nl>
+
+ENDIF
+IF (UNOT 3.0)
+PASS% := 0
+PRINT("NOT(3.0) failed")
+<nl>
+
+ELSE
+ENDIF
+IF (3.0 AND 5.0)
+ELSE
+PASS% := 0
+PRINT("(3.0 AND 5.0) failed res:")
+PRINT((3.0 AND 5.0))
+<nl>
+
+ENDIF
+IF (3.0 AND 0.0)
+PASS% := 0
+PRINT("(3.0 AND 0.0) failed res:")
+PRINT((3.0 AND 0.0))
+<nl>
+
+ELSE
+ENDIF
+IF (0.0 AND 5.0)
+PASS% := 0
+PRINT("(0.0 AND 5.0) failed res:")
+PRINT((0.0 AND 5.0))
+<nl>
+
+ELSE
+ENDIF
+IF (0.0 AND 0.0)
+PASS% := 0
+PRINT("(0.0 AND 0.0) failed res:")
+PRINT((0.0 AND 0.0))
+<nl>
+
+ELSE
+ENDIF
 IF PASS%
 PRINT("PASS")
 <nl>
@@ -332,6 +378,52 @@ PASS% := 0
 PRINT("(3 OR 5) = 7 failed")
 <nl>
 
+ENDIF
+IF ((UNOT 3.0) = 0)
+ELSE
+PASS% := 0
+PRINT("NOT(3.0) = 0 failed")
+<nl>
+
+ENDIF
+IF (UNOT 3.0)
+PASS% := 0
+PRINT("NOT(3.0) failed")
+<nl>
+
+ELSE
+ENDIF
+IF (3.0 AND 5.0)
+ELSE
+PASS% := 0
+PRINT("(3.0 AND 5.0) failed res:")
+PRINT((3.0 AND 5.0))
+<nl>
+
+ENDIF
+IF (3.0 AND 0.0)
+PASS% := 0
+PRINT("(3.0 AND 0.0) failed res:")
+PRINT((3.0 AND 0.0))
+<nl>
+
+ELSE
+ENDIF
+IF (0.0 AND 5.0)
+PASS% := 0
+PRINT("(0.0 AND 5.0) failed res:")
+PRINT((0.0 AND 5.0))
+<nl>
+
+ELSE
+ENDIF
+IF (0.0 AND 0.0)
+PASS% := 0
+PRINT("(0.0 AND 0.0) failed res:")
+PRINT((0.0 AND 0.0))
+<nl>
+
+ELSE
 ENDIF
 IF PASS%
 PRINT("PASS")
