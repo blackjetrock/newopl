@@ -16,7 +16,7 @@
 
 
 typedef uint8_t NOBJ_PARAMETER_TYPE;
-typedef uint16_t NOBJ_INT;
+typedef int16_t NOBJ_INT;
 
 typedef struct _NOBJ_VAR_SPACE_SIZE
 {

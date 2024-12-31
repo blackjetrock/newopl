@@ -39,27 +39,6 @@ void qcode_get_string_push_stack(NOBJ_MACHINE *m)
 
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-void dbq_num(NOPL_FLOAT *n)
-{
-  dbq("\n ");
-  
-  if(n->sign)
-    {
-      fprintf(exdbfp, "-");
-    }
-
-  fprintf(exdbfp, "%d.", n->digits[0]);
-
-  for(int i=1; i<NUM_MAX_DIGITS; i++)
-    {
-      fprintf(exdbfp, "%d", n->digits[i]);
-    }
-
-  fprintf(exdbfp, " E%d", (int)n->exponent);
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -547,12 +526,8 @@ void qca_pop_2int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_pop_2num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
-
   s->num   = pop_machine_num(m);
   s->num2  = pop_machine_num(m);
-
-  dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
 }
 
 void qca_add(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -586,8 +561,7 @@ void qca_push_result(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_push_num_result(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  dbq("Push num result");
-  dbq_num(&(s->num_result));
+  dbq_num("Push num result: ", &(s->num_result));
   push_machine_num(m, &(s->num_result));
 }
 
@@ -609,6 +583,14 @@ void qca_umin_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
     {
       s->num.sign = 0x00;
     }
+}
+
+void qca_umin_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  dbq("Int:%d", s->integer);
+  s->result = - s->integer;
+  dbq("-ve Int:%d", s->integer);
+
 }
 
 void qca_pop_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -691,6 +673,8 @@ void qca_eq_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_16(m, res);
 }
 
+//------------------------------------------------------------------------------
+
 void qca_eq_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOBJ_INT res = 0;
@@ -714,8 +698,6 @@ void qca_ne_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOBJ_INT res = 0;
   
-  dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
-
   if( s->integer != s->integer2 )
     {
       res = NOBJ_TRUE;    
@@ -725,6 +707,8 @@ void qca_ne_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
       res = NOBJ_FALSE;
     }
 
+  dbq("Int:%d (%04X) Int2:%d (%04X) res:%d", s->integer, s->integer, s->integer2, s->integer2, res);
+  
   // Push result
   push_machine_16(m, res);
 }
@@ -816,12 +800,125 @@ void qca_add_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 //------------------------------------------------------------------------------
 
+void qca_eq_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  if( num_eq(&(s->num), &(s->num2)) )
+    {
+      res = NOBJ_TRUE;    
+    }
+  else
+    {
+      res = NOBJ_FALSE;
+    }
+
+  // Push result
+  push_machine_16(m, res);
+}
+
+void qca_ne_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  if( num_ne((&s->num), &(s->num2)) )
+    {
+      res = NOBJ_TRUE;    
+    }
+  else
+    {
+      res = NOBJ_FALSE;
+    }
+
+  // Push result
+  push_machine_16(m, res);
+}
+
+void qca_gt_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  if( num_gt((&s->num), &(s->num2)) )
+    {
+      res = NOBJ_TRUE;    
+    }
+  else
+    {
+      res = NOBJ_FALSE;
+    }
+
+  // Push result
+  push_machine_16(m, res);
+}
+
+void qca_lt_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  if( num_lt(&(s->num2), &(s->num)) )
+    {
+      res = NOBJ_TRUE;    
+    }
+  else
+    {
+      res = NOBJ_FALSE;
+    }
+
+  // Push result
+  push_machine_16(m, res);
+}
+
+void qca_gte_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  if( num_gte(&(s->num2), &(s->num)) )
+    {
+      res = NOBJ_TRUE;    
+    }
+  else
+    {
+      res = NOBJ_FALSE;
+    }
+
+  // Push result
+  push_machine_16(m, res);
+}
+
+void qca_lte_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  if( num_lte(&(s->num2), &(s->num)) )
+    {
+      res = NOBJ_TRUE;    
+    }
+  else
+    {
+      res = NOBJ_FALSE;
+    }
+
+  // Push result
+  push_machine_16(m, res);
+}
+
+//------------------------------------------------------------------------------
+
 void qca_add_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   num_add(&(s->num), &(s->num2), &(s->num_result));
-  dbq_num(&(s->num));
-  dbq_num(&(s->num2));
-  dbq_num(&(s->num_result));
+  dbq_num("num: ", &(s->num));
+  dbq_num("num2:", &(s->num2));
+  dbq_num("res: ", &(s->num_result));
+}
+
+void qca_sub_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  num_sub(&(s->num), &(s->num2), &(s->num_result));
+  dbq_num("num: ", &(s->num));
+  dbq_num("num2:", &(s->num2));
+  dbq_num("res: ", &(s->num_result));
+  dbq_num_exploded("res: ", &(s->num_result));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -914,12 +1011,20 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_GTE_INT,       "QI_GTE_INT",        {qca_pop_2int,     qca_gte_int,     qca_null}},
     { QCO_LTE_INT,       "QI_LTE_INT",        {qca_pop_2int,     qca_lte_int,     qca_null}},
 
+    { QCO_EQ_NUM,        "QI_EQ_NUM",         {qca_pop_2num,     qca_eq_num,      qca_null}},
+    { QCO_NE_NUM,        "QI_NE_NUM",         {qca_pop_2num,     qca_ne_num,      qca_null}},
+    { QCO_GT_NUM,        "QI_GT_NUM",         {qca_pop_2num,     qca_gt_num,      qca_null}},
+    { QCO_LT_NUM,        "QI_LT_NUM",         {qca_pop_2num,     qca_lt_num,      qca_null}},
+    { QCO_GTE_NUM,       "QI_GTE_NUM",        {qca_pop_2num,     qca_gte_num,     qca_null}},
+    { QCO_LTE_NUM,       "QI_LTE_NUM",        {qca_pop_2num,     qca_lte_num,     qca_null}},
+
     { QCO_PRINT_INT,     "QCO_PRINT_INT",     {qca_pop_int,      qca_print_int,   qca_null}},
     { QCO_PRINT_NUM,     "QCO_PRINT_NUM",     {qca_pop_num,      qca_print_num,   qca_null}},
     { QCO_PRINT_STR,     "QCO_PRINT_STR",     {qca_pop_str,      qca_print_str,   qca_null}},
     { QCO_PRINT_CR,      "QCO_PRINT_CR",      {qca_null,         qca_print_cr,    qca_null}},
     { QCO_PRINT_SP,      "QCO_PRINT_SP",      {qca_null,         qca_print_sp,    qca_null}},
     { QCO_UMIN_NUM,      "QCO_UMIN_NUM",      {qca_pop_num,      qca_umin_num,    qca_push_num}},
+    { QCO_UMIN_INT,      "QCO_UMIN_INT",      {qca_pop_int,      qca_umin_int,    qca_push_result}},
     
     { QCO_BRA_FALSE,     "QCO_BRA_FALSE",     {qca_bra_false,    qca_null,        qca_null}},
     { QCO_GOTO,          "QCO_GOTO",          {qca_goto,         qca_null,        qca_null}},
@@ -954,6 +1059,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_YEAR,          "RTF_YEAR",          {qca_clock_year,   qca_null,        qca_null}},
     { QCO_ADD_INT,       "QCO_ADD_INT",       {qca_pop_2int,     qca_add_int,     qca_push_result}},
     { QCO_ADD_NUM,       "QCO_ADD_NUM",       {qca_pop_2num,     qca_add_num,     qca_push_num_result}},
+    { QCO_SUB_NUM,       "QCO_SUB_NUM",       {qca_pop_2num,     qca_sub_num,     qca_push_num_result}},
 
 
    

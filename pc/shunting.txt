@@ -17,6 +17,18 @@ C%
 
 E
 
+,
+
+PASS%
+
+PASS%
+
+:=
+          000:type:i ':='
+
+1
+          000:type:i ':='
+
 B%
 
 :=
@@ -25,6 +37,34 @@ B%
 12345
           000:type:i ':='
 
+B%
+
+PRINT
+          000:type:U 'PRINT'
+
+B%
+
+<>
+          000:type:i '<>'
+
+12345
+          000:type:i '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"B% <> 12345 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
 C%
 
 :=
@@ -32,6 +72,34 @@ C%
 
 2345
           000:type:i ':='
+
+C%
+
+PRINT
+          000:type:U 'PRINT'
+
+C%
+
+<>
+          000:type:i '<>'
+
+2345
+          000:type:i '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"C% <> 2345 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
 
 A%
 
@@ -54,6 +122,29 @@ A%
 PRINT
           000:type:U 'PRINT'
 
+A%
+
+<>
+          000:type:i '<>'
+
+256
+          000:type:i '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"A% <> 256 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
 E
 
 :=
@@ -66,6 +157,29 @@ E
 
 PRINT
           000:type:U 'PRINT'
+
+E
+
+<>
+          000:type:f '<>'
+
+123.4
+          000:type:f '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"E <> 123.4 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
 
 E
 
@@ -87,6 +201,34 @@ PRINT
 
 E
 
+<>
+          000:type:f '<>'
+
+-
+          000:type:f '<>'
+          001:type:f 'UMIN'
+
+123.4
+          000:type:f '<>'
+          001:type:f 'UMIN'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"E <> -123.4 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+E
+
 :=
           000:type:f ':='
 
@@ -100,6 +242,29 @@ PRINT
 
 E
 
+<>
+          000:type:f '<>'
+
+123.4E12
+          000:type:f '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"E <> 123.4E12 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+E
+
 :=
           000:type:f ':='
 
@@ -110,6 +275,29 @@ E
 
 PRINT
           000:type:U 'PRINT'
+
+E
+
+<>
+          000:type:f '<>'
+
+123.4E-5
+          000:type:f '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"E <> 123.4E-5 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
 
 E
 
@@ -134,11 +322,57 @@ PRINT
 
 E
 
+<>
+          000:type:f '<>'
+
+2.3
+          000:type:f '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+1
+          000:type:i ':='
+
+"E <> 2.3 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+E
+
 :=
           000:type:f ':='
 
 1111.0
           000:type:f ':='
+
+E
+
+<>
+          000:type:f '<>'
+
+1111.0
+          000:type:f '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"E <> 1111.0 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
 
 E
 
@@ -233,6 +467,39 @@ PRINT
 PRINT
           000:type:U 'PRINT'
 
+2000.0
+
++
+          000:type:f '+'
+
+2000.0
+          000:type:f '+'
+
+PRINT
+          000:type:U 'PRINT'
+
+123.0
+
+-
+          000:type:f '-'
+
+23.0
+          000:type:f '-'
+
+PRINT
+          000:type:U 'PRINT'
+
+682.3
+
+-
+          000:type:f '-'
+
+319.8
+          000:type:f '-'
+
+PRINT
+          000:type:U 'PRINT'
+
 A%
 
 :=
@@ -250,6 +517,53 @@ A%
 
 PRINT
           000:type:U 'PRINT'
+
+A%
+
+<>
+          000:type:i '<>'
+
+-
+          000:type:i '<>'
+          001:type:i 'UMIN'
+
+345
+          000:type:i '<>'
+          001:type:i 'UMIN'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"A% <> -345 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+A%
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+PASS%
+
+"PASS"
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS%
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
 
 PROCDEF
 
@@ -269,6 +583,18 @@ C%
 
 E
 
+,
+
+PASS%
+
+PASS%
+
+:=
+          000:type:i ':='
+
+1
+          000:type:i ':='
+
 B%
 
 :=
@@ -277,6 +603,34 @@ B%
 12345
           000:type:i ':='
 
+B%
+
+PRINT
+          000:type:U 'PRINT'
+
+B%
+
+<>
+          000:type:i '<>'
+
+12345
+          000:type:i '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"B% <> 12345 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
 C%
 
 :=
@@ -284,6 +638,34 @@ C%
 
 2345
           000:type:i ':='
+
+C%
+
+PRINT
+          000:type:U 'PRINT'
+
+C%
+
+<>
+          000:type:i '<>'
+
+2345
+          000:type:i '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"C% <> 2345 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
 
 A%
 
@@ -306,6 +688,29 @@ A%
 PRINT
           000:type:U 'PRINT'
 
+A%
+
+<>
+          000:type:i '<>'
+
+256
+          000:type:i '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"A% <> 256 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
 E
 
 :=
@@ -318,6 +723,29 @@ E
 
 PRINT
           000:type:U 'PRINT'
+
+E
+
+<>
+          000:type:f '<>'
+
+123.4
+          000:type:f '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"E <> 123.4 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
 
 E
 
@@ -339,6 +767,34 @@ PRINT
 
 E
 
+<>
+          000:type:f '<>'
+
+-
+          000:type:f '<>'
+          001:type:f 'UMIN'
+
+123.4
+          000:type:f '<>'
+          001:type:f 'UMIN'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"E <> -123.4 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+E
+
 :=
           000:type:f ':='
 
@@ -352,6 +808,29 @@ PRINT
 
 E
 
+<>
+          000:type:f '<>'
+
+123.4E12
+          000:type:f '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"E <> 123.4E12 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+E
+
 :=
           000:type:f ':='
 
@@ -362,6 +841,29 @@ E
 
 PRINT
           000:type:U 'PRINT'
+
+E
+
+<>
+          000:type:f '<>'
+
+123.4E-5
+          000:type:f '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"E <> 123.4E-5 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
 
 E
 
@@ -386,11 +888,57 @@ PRINT
 
 E
 
+<>
+          000:type:f '<>'
+
+2.3
+          000:type:f '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+1
+          000:type:i ':='
+
+"E <> 2.3 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+E
+
 :=
           000:type:f ':='
 
 1111.0
           000:type:f ':='
+
+E
+
+<>
+          000:type:f '<>'
+
+1111.0
+          000:type:f '<>'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"E <> 1111.0 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
 
 E
 
@@ -485,6 +1033,39 @@ PRINT
 PRINT
           000:type:U 'PRINT'
 
+2000.0
+
++
+          000:type:f '+'
+
+2000.0
+          000:type:f '+'
+
+PRINT
+          000:type:U 'PRINT'
+
+123.0
+
+-
+          000:type:f '-'
+
+23.0
+          000:type:f '-'
+
+PRINT
+          000:type:U 'PRINT'
+
+682.3
+
+-
+          000:type:f '-'
+
+319.8
+          000:type:f '-'
+
+PRINT
+          000:type:U 'PRINT'
+
 A%
 
 :=
@@ -502,3 +1083,50 @@ A%
 
 PRINT
           000:type:U 'PRINT'
+
+A%
+
+<>
+          000:type:i '<>'
+
+-
+          000:type:i '<>'
+          001:type:i 'UMIN'
+
+345
+          000:type:i '<>'
+          001:type:i 'UMIN'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"A% <> -345 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+A%
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+PASS%
+
+"PASS"
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS%
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF

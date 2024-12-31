@@ -10,5 +10,22 @@ typedef struct _NOPL_FLOAT
   int8_t digits[NUM_MAX_DIGITS];
 } NOPL_FLOAT;
 
+#define NUM_POSITIVE(NN) ((NN->sign) == 0)
+#define NUM_NEGATIVE(NN) ((NN->sign) != 0)
 
 void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);
+void num_sub(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);
+void dbq_num(char *text, NOPL_FLOAT *n);
+void dbq_num_exploded(char *text, NOPL_FLOAT *n);
+int num_eq(NOPL_FLOAT *a, NOPL_FLOAT *b);
+int num_gt(NOPL_FLOAT *a, NOPL_FLOAT *b);
+int num_ne(NOPL_FLOAT *a, NOPL_FLOAT *b);
+int num_gt(NOPL_FLOAT *a, NOPL_FLOAT *b);
+int num_lt(NOPL_FLOAT *a, NOPL_FLOAT *b);
+int num_gte(NOPL_FLOAT *a, NOPL_FLOAT *b);
+int num_lte(NOPL_FLOAT *a, NOPL_FLOAT *b);
+
+
+
+
+
