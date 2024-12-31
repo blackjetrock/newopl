@@ -111,7 +111,7 @@ QCode
 00A4: FFF0       (65520)
 00A6: 23       Push float literal     (bytes code:F)
 00A7: Len:3
-00A8: 341202  '3412E2'
+00A8: '3412E2
 00AB: 80       Assign float     (bytes code:-)
 00AC: 01       Push local/global float variable value     (bytes code:v)
 00AD: FFF0       (65520)
@@ -121,7 +121,7 @@ QCode
 00B2: FFF0       (65520)
 00B4: 23       Push float literal     (bytes code:F)
 00B5: Len:3
-00B6: 341202  '3412E2'
+00B6: '3412E2
 00B9: 3A       Not equal float     (bytes code:-)
 00BA: 7E       Branch if false     (bytes code:D)
 00BB: Dest:00D9 (Dist:001E)
@@ -139,7 +139,7 @@ QCode
 00DA: FFF0       (65520)
 00DC: 23       Push float literal     (bytes code:F)
 00DD: Len:3
-00DE: 341202  '3412E2'
+00DE: '3412E2
 00E1: 41       Unary minus float     (bytes code:-)
 00E2: 80       Assign float     (bytes code:-)
 00E3: 01       Push local/global float variable value     (bytes code:v)
@@ -150,7 +150,7 @@ QCode
 00E9: FFF0       (65520)
 00EB: 23       Push float literal     (bytes code:F)
 00EC: Len:3
-00ED: 341202  '3412E2'
+00ED: '3412E2
 00F0: 41       Unary minus float     (bytes code:-)
 00F1: 3A       Not equal float     (bytes code:-)
 00F2: 7E       Branch if false     (bytes code:D)
@@ -169,7 +169,7 @@ QCode
 0113: FFF0       (65520)
 0115: 23       Push float literal     (bytes code:F)
 0116: Len:3
-0117: 34120E  '3412E14'
+0117: '3412E14
 011A: 80       Assign float     (bytes code:-)
 011B: 01       Push local/global float variable value     (bytes code:v)
 011C: FFF0       (65520)
@@ -179,7 +179,7 @@ QCode
 0121: FFF0       (65520)
 0123: 23       Push float literal     (bytes code:F)
 0124: Len:3
-0125: 34120E  '3412E14'
+0125: '3412E14
 0128: 3A       Not equal float     (bytes code:-)
 0129: 7E       Branch if false     (bytes code:D)
 012A: Dest:014B (Dist:0021)
@@ -197,7 +197,7 @@ QCode
 014C: FFF0       (65520)
 014E: 23       Push float literal     (bytes code:F)
 014F: Len:3
-0150: 3412FD  '3412E-3'
+0150: '3412E-3
 0153: 80       Assign float     (bytes code:-)
 0154: 01       Push local/global float variable value     (bytes code:v)
 0155: FFF0       (65520)
@@ -207,7 +207,7 @@ QCode
 015A: FFF0       (65520)
 015C: 23       Push float literal     (bytes code:F)
 015D: Len:3
-015E: 3412FD  '3412E-3'
+015E: '3412E-3
 0161: 3A       Not equal float     (bytes code:-)
 0162: 7E       Branch if false     (bytes code:D)
 0163: Dest:0184 (Dist:0021)
@@ -227,7 +227,7 @@ QCode
 0188: FFF0       (65520)
 018A: 23       Push float literal     (bytes code:F)
 018B: Len:2
-018C: 2300  '23E0'
+018C: '23E0
 018E: 3C       Plus float     (bytes code:-)
 018F: 80       Assign float     (bytes code:-)
 0190: 01       Push local/global float variable value     (bytes code:v)
@@ -238,7 +238,7 @@ QCode
 0196: FFF0       (65520)
 0198: 23       Push float literal     (bytes code:F)
 0199: Len:5
-019A: 4023012300  '40230123E0'
+019A: '40230123E0
 019F: 3A       Not equal float     (bytes code:-)
 01A0: 7E       Branch if false     (bytes code:D)
 01A1: Dest:01BD (Dist:001C)
@@ -256,13 +256,13 @@ QCode
 01BE: FFF0       (65520)
 01C0: 23       Push float literal     (bytes code:F)
 01C1: Len:3
-01C2: 111103  '1111E3'
+01C2: '1111E3
 01C5: 80       Assign float     (bytes code:-)
 01C6: 01       Push local/global float variable value     (bytes code:v)
 01C7: FFF0       (65520)
 01C9: 23       Push float literal     (bytes code:F)
 01CA: Len:3
-01CB: 111103  '1111E3'
+01CB: '1111E3
 01CE: 3A       Not equal float     (bytes code:-)
 01CF: 7E       Branch if false     (bytes code:D)
 01D0: Dest:01EF (Dist:001F)
@@ -284,7 +284,7 @@ QCode
 01F5: FFF0       (65520)
 01F7: 23       Push float literal     (bytes code:F)
 01F8: Len:2
-01F9: 2301  '23E1'
+01F9: '23E1
 01FB: 3C       Plus float     (bytes code:-)
 01FC: 70       PRINT float     (bytes code:-)
 01FD: 72       PRINT ,     (bytes code:-)
@@ -292,7 +292,7 @@ QCode
 01FF: FFF0       (65520)
 0201: 23       Push float literal     (bytes code:F)
 0202: Len:2
-0203: 1901  '19E1'
+0203: '19E1
 0205: 3C       Plus float     (bytes code:-)
 0206: 70       PRINT float     (bytes code:-)
 0207: 73       PRINT newline     (bytes code:-)
@@ -304,7 +304,7 @@ QCode
 020E: FFF0       (65520)
 0210: 23       Push float literal     (bytes code:F)
 0211: Len:3
-0212: 901902  '9019E2'
+0212: '9019E2
 0215: 3C       Plus float     (bytes code:-)
 0216: 70       PRINT float     (bytes code:-)
 0217: 72       PRINT ,     (bytes code:-)
@@ -312,7 +312,7 @@ QCode
 0219: FFF0       (65520)
 021B: 23       Push float literal     (bytes code:F)
 021C: Len:3
-021D: 909902  '9099E2'
+021D: '9099E2
 0220: 3C       Plus float     (bytes code:-)
 0221: 70       PRINT float     (bytes code:-)
 0222: 72       PRINT ,     (bytes code:-)
@@ -320,7 +320,7 @@ QCode
 0224: FFF0       (65520)
 0226: 23       Push float literal     (bytes code:F)
 0227: Len:3
-0228: 999903  '9999E3'
+0228: '9999E3
 022B: 3C       Plus float     (bytes code:-)
 022C: 70       PRINT float     (bytes code:-)
 022D: 73       PRINT newline     (bytes code:-)
@@ -330,37 +330,37 @@ QCode
 0232: 72       PRINT ,     (bytes code:-)
 0233: 23       Push float literal     (bytes code:F)
 0234: Len:2
-0235: 5063  '50E99'
+0235: '50E99
 0237: 23       Push float literal     (bytes code:F)
 0238: Len:2
-0239: 5063  '50E99'
+0239: '50E99
 023B: 3C       Plus float     (bytes code:-)
 023C: 70       PRINT float     (bytes code:-)
 023D: 73       PRINT newline     (bytes code:-)
 023E: 23       Push float literal     (bytes code:F)
 023F: Len:2
-0240: 2003  '20E3'
+0240: '20E3
 0242: 23       Push float literal     (bytes code:F)
 0243: Len:2
-0244: 2003  '20E3'
+0244: '20E3
 0246: 3C       Plus float     (bytes code:-)
 0247: 70       PRINT float     (bytes code:-)
 0248: 73       PRINT newline     (bytes code:-)
 0249: 23       Push float literal     (bytes code:F)
 024A: Len:3
-024B: 301202  '3012E2'
+024B: '3012E2
 024E: 23       Push float literal     (bytes code:F)
 024F: Len:2
-0250: 2301  '23E1'
+0250: '23E1
 0252: 3D       Minus float     (bytes code:-)
 0253: 70       PRINT float     (bytes code:-)
 0254: 73       PRINT newline     (bytes code:-)
 0255: 23       Push float literal     (bytes code:F)
 0256: Len:3
-0257: 236802  '2368E2'
+0257: '2368E2
 025A: 23       Push float literal     (bytes code:F)
 025B: Len:3
-025C: 983102  '9831E2'
+025C: '9831E2
 025F: 3D       Minus float     (bytes code:-)
 0260: 70       PRINT float     (bytes code:-)
 0261: 73       PRINT newline     (bytes code:-)
@@ -488,7 +488,7 @@ QCode
 0352: 73       PRINT newline     (bytes code:-)
 0353: 23       Push float literal     (bytes code:F)
 0354: Len:2
-0355: 3000  '30E0'
+0355: '30E0
 0357: 42       NOT float     (bytes code:-)
 0358: 22       Push integer literal     (bytes code:I)
 0359: 0000       (0)
@@ -509,7 +509,7 @@ QCode
 037F: 73       PRINT newline     (bytes code:-)
 0380: 23       Push float literal     (bytes code:F)
 0381: Len:2
-0382: 3000  '30E0'
+0382: '30E0
 0384: 42       NOT float     (bytes code:-)
 0385: 7E       Branch if false     (bytes code:D)
 0386: Dest:03A5 (Dist:001F)
@@ -527,10 +527,10 @@ QCode
 03A3: Dest:03A5 (Dist:0002)
 03A5: 23       Push float literal     (bytes code:F)
 03A6: Len:2
-03A7: 3000  '30E0'
+03A7: '30E0
 03A9: 23       Push float literal     (bytes code:F)
 03AA: Len:2
-03AB: 5000  '50E0'
+03AB: '50E0
 03AD: 43       AND float     (bytes code:-)
 03AE: 7E       Branch if false     (bytes code:D)
 03AF: Dest:03B4 (Dist:0005)
@@ -547,19 +547,19 @@ QCode
 03D6: 71       PRINT string     (bytes code:-)
 03D7: 23       Push float literal     (bytes code:F)
 03D8: Len:2
-03D9: 3000  '30E0'
+03D9: '30E0
 03DB: 23       Push float literal     (bytes code:F)
 03DC: Len:2
-03DD: 5000  '50E0'
+03DD: '50E0
 03DF: 43       AND float     (bytes code:-)
 03E0: 6F       PRINT integer     (bytes code:-)
 03E1: 73       PRINT newline     (bytes code:-)
 03E2: 23       Push float literal     (bytes code:F)
 03E3: Len:2
-03E4: 3000  '30E0'
+03E4: '30E0
 03E6: 23       Push float literal     (bytes code:F)
 03E7: Len:2
-03E8: 0000  '00E0'
+03E8: '00E0
 03EA: 43       AND float     (bytes code:-)
 03EB: 7E       Branch if false     (bytes code:D)
 03EC: Dest:041F (Dist:0033)
@@ -574,10 +574,10 @@ QCode
 0410: 71       PRINT string     (bytes code:-)
 0411: 23       Push float literal     (bytes code:F)
 0412: Len:2
-0413: 3000  '30E0'
+0413: '30E0
 0415: 23       Push float literal     (bytes code:F)
 0416: Len:2
-0417: 0000  '00E0'
+0417: '00E0
 0419: 43       AND float     (bytes code:-)
 041A: 6F       PRINT integer     (bytes code:-)
 041B: 73       PRINT newline     (bytes code:-)
@@ -585,10 +585,10 @@ QCode
 041D: Dest:041F (Dist:0002)
 041F: 23       Push float literal     (bytes code:F)
 0420: Len:2
-0421: 0000  '00E0'
+0421: '00E0
 0423: 23       Push float literal     (bytes code:F)
 0424: Len:2
-0425: 5000  '50E0'
+0425: '50E0
 0427: 43       AND float     (bytes code:-)
 0428: 7E       Branch if false     (bytes code:D)
 0429: Dest:045C (Dist:0033)
@@ -603,10 +603,10 @@ QCode
 044D: 71       PRINT string     (bytes code:-)
 044E: 23       Push float literal     (bytes code:F)
 044F: Len:2
-0450: 0000  '00E0'
+0450: '00E0
 0452: 23       Push float literal     (bytes code:F)
 0453: Len:2
-0454: 5000  '50E0'
+0454: '50E0
 0456: 43       AND float     (bytes code:-)
 0457: 6F       PRINT integer     (bytes code:-)
 0458: 73       PRINT newline     (bytes code:-)
@@ -614,10 +614,10 @@ QCode
 045A: Dest:045C (Dist:0002)
 045C: 23       Push float literal     (bytes code:F)
 045D: Len:2
-045E: 0000  '00E0'
+045E: '00E0
 0460: 23       Push float literal     (bytes code:F)
 0461: Len:2
-0462: 0000  '00E0'
+0462: '00E0
 0464: 43       AND float     (bytes code:-)
 0465: 7E       Branch if false     (bytes code:D)
 0466: Dest:0499 (Dist:0033)
@@ -632,10 +632,10 @@ QCode
 048A: 71       PRINT string     (bytes code:-)
 048B: 23       Push float literal     (bytes code:F)
 048C: Len:2
-048D: 0000  '00E0'
+048D: '00E0
 048F: 23       Push float literal     (bytes code:F)
 0490: Len:2
-0491: 0000  '00E0'
+0491: '00E0
 0493: 43       AND float     (bytes code:-)
 0494: 6F       PRINT integer     (bytes code:-)
 0495: 73       PRINT newline     (bytes code:-)
@@ -643,39 +643,39 @@ QCode
 0497: Dest:0499 (Dist:0002)
 0499: 23       Push float literal     (bytes code:F)
 049A: Len:3
-049B: 602301  '6023E1'
+049B: '6023E1
 049E: B2       SIN     (bytes code:-)
 049F: 70       PRINT float     (bytes code:-)
 04A0: 73       PRINT newline     (bytes code:-)
 04A1: 23       Push float literal     (bytes code:F)
 04A2: Len:4
-04A3: 80491302  '804913E2'
+04A3: '804913E2
 04A7: A8       COS     (bytes code:-)
 04A8: 70       PRINT float     (bytes code:-)
 04A9: 73       PRINT newline     (bytes code:-)
 04AA: 23       Push float literal     (bytes code:F)
 04AB: Len:4
-04AC: 80988701  '809887E1'
+04AC: '809887E1
 04B0: B4       TAN     (bytes code:-)
 04B1: 70       PRINT float     (bytes code:-)
 04B2: 73       PRINT newline     (bytes code:-)
 04B3: 23       Push float literal     (bytes code:F)
 04B4: Len:2
-04B5: 50FF  '50E-1'
+04B5: '50E-1
 04B7: B2       SIN     (bytes code:-)
 04B8: DC       ASIN     (bytes code:-)
 04B9: 70       PRINT float     (bytes code:-)
 04BA: 73       PRINT newline     (bytes code:-)
 04BB: 23       Push float literal     (bytes code:F)
 04BC: Len:2
-04BD: 60FF  '60E-1'
+04BD: '60E-1
 04BF: A8       COS     (bytes code:-)
 04C0: DB       ACOS     (bytes code:-)
 04C1: 70       PRINT float     (bytes code:-)
 04C2: 73       PRINT newline     (bytes code:-)
 04C3: 23       Push float literal     (bytes code:F)
 04C4: Len:2
-04C5: 70FF  '70E-1'
+04C5: '70E-1
 04C7: B4       TAN     (bytes code:-)
 04C8: A7       ATAN     (bytes code:-)
 04C9: 70       PRINT float     (bytes code:-)

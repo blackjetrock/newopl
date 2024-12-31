@@ -381,17 +381,9 @@ char *qc_byte_prt_fn_F(int i, NOBJ_QCODE *qc)
   qc_len = first_byte & 0x7F;
   sign = first_byte & 0x80;
   
-  sprintf(prt_res, "\n%04X: Len:%d\n%04X: ", i+1, *(qc++), i+2);
+  sprintf(prt_res, "\n%04X: Len:%d\n%04X: '", i+1, *(qc++), i+2);
 
   line[0] = '\0';
-  
-  for(int j=0; j<qc_len; j++)
-    {
-      sprintf(digits, "%02X", *(qc+j));
-      strcat(line, digits);
-    }
-
-  strcat(line, "  '");
   
   for(int j=0; j<qc_len-1; j++)
     {
@@ -404,8 +396,6 @@ char *qc_byte_prt_fn_F(int i, NOBJ_QCODE *qc)
   sprintf(digits, "E%d", exponent);
   strcat(line, digits);
 
-  strcat(line, "'");
-  
   strcat(prt_res, line);
   return(prt_res);
 }

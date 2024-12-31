@@ -1111,92 +1111,238 @@ void qca_goto(NOBJ_MACHINE *m, NOBJ_QCS *s)
 NOBJ_QCODE_INFO qcode_info[] =
   {
     { QI_INT_SIM_FP,     "QI_INT_SIM_FP",     {qca_fp,           qca_null,        qca_push_int_at_ind}},
-    { QI_STR_SIM_FP,     "QI_STR_SIM_FP",     {qca_fp,           qca_null,        qca_str_ind_con}},
     { QI_NUM_SIM_FP,     "QI_NUM_SIM_FP",     {qca_fp,           qca_null,        qca_num_ind_con}},
-
+    { QI_STR_SIM_FP,     "QI_STR_SIM_FP",     {qca_fp,           qca_null,        qca_str_ind_con}},
+    // QI_INT_ARR_FP           0x03    
+    // QI_NUM_ARR_FP           0x04    
+    // QI_STR_ARR_FP           0x05    
+    // QI_NUM_SIM_ABS          0x06    
+    // QI_INT_SIM_IND          0x07    
+    // QI_NUM_SIM_IND          0x08    
     { QI_STR_SIM_IND,    "QI_STR_SIM_IND",    {qca_fp,           qca_ind,         qca_str_ind_con}},
+    // QI_INT_ARR_IND          0x0A    
+    // QI_NUM_ARR_IND          0x0B    
+    // QI_STR_ARR_IND          0x0C    
     { QI_LS_INT_SIM_FP,  "QI_LS_INT_SIM_FP",  {qca_fp,           qca_null,        qca_push_ind_addr }},
     { QI_LS_STR_SIM_FP,  "QI_LS_STR_SIM_FP",  {qca_fp,           qca_null,        qca_str }},
     { QI_LS_NUM_SIM_FP,  "QI_LS_NUM_SIM_FP",  {qca_fp,           qca_null,        qca_push_ind_addr}},
+    // QI_LS_INT_ARR_FP        0x10    
+    // QI_LS_NUM_ARR_FP        0x11    
+    // QI_LS_STR_ARR_FP        0x12    
+    // QI_LS_NUM_SIM_ABS       0x13    
+    // QI_LS_INT_SIM_IND       0x14    
+    // QI_LS_NUM_SIM_IND       0x15    
     { QI_LS_STR_SIM_IND, "QI_LS_STR_SIM_IND", {qca_fp,           qca_ind,         qca_str }},
+    // QI_LS_INT_ARR_IND       0x17    
+    // QI_LS_NUM_ARR_IND       0x18    
+    // QI_LS_STR_ARR_IND       0x19
+    // QI_INT_FLD              0x1A    
+    // QI_NUM_FLD              0x1B    
+    // QI_STR_FLD              0x1C    
+    // QI_LS_INT_FLD           0x1D    
+    // QI_LS_NUM_FLD           0x1E    
+    // QI_LS_STR_FLD           0x1F    
+    // QI_STK_LIT_BYTE         0x20    
     { QI_STK_LIT_BYTE,   "QI_STK_LIT_BYTE",   {qca_null,         qca_null,        qca_push_qc_byte}},
+    // QI_STK_LIT_WORD         0x21
     { QI_INT_CON,        "QI_INT_CON",        {qca_null,         qca_null,        qca_int_qc_con}},
-    { QI_STR_CON,        "QI_STR_CON",        {qca_null,         qca_null,        qca_str_qc_con}},
     { QI_NUM_CON,        "QI_NUM_CON",        {qca_null,         qca_null,        qca_num_qc_con}},
-
-    { QCO_EQ_STR,        "QI_EQ_STR",         {qca_pop_2str,     qca_eq_str,      qca_null}},
-    { QCO_EQ_INT,        "QI_EQ_INT",         {qca_pop_2int,     qca_eq_int,      qca_null}},
-    { QCO_NE_INT,        "QI_NE_INT",         {qca_pop_2int,     qca_ne_int,      qca_null}},
-    { QCO_GT_INT,        "QI_GT_INT",         {qca_pop_2int,     qca_gt_int,      qca_null}},
+    { QI_STR_CON,        "QI_STR_CON",        {qca_null,         qca_null,        qca_str_qc_con}},
+    // QCO_SPECIAL             0x25    
+    // QCO_BREAK               0x26
     { QCO_LT_INT,        "QI_LT_INT",         {qca_pop_2int,     qca_lt_int,      qca_null}},
-    { QCO_GTE_INT,       "QI_GTE_INT",        {qca_pop_2int,     qca_gte_int,     qca_null}},
     { QCO_LTE_INT,       "QI_LTE_INT",        {qca_pop_2int,     qca_lte_int,     qca_null}},
-
-    { QCO_EQ_NUM,        "QI_EQ_NUM",         {qca_pop_2num,     qca_eq_num,      qca_null}},
-    { QCO_NE_NUM,        "QI_NE_NUM",         {qca_pop_2num,     qca_ne_num,      qca_null}},
-    { QCO_GT_NUM,        "QI_GT_NUM",         {qca_pop_2num,     qca_gt_num,      qca_null}},
-    { QCO_LT_NUM,        "QI_LT_NUM",         {qca_pop_2num,     qca_lt_num,      qca_null}},
-    { QCO_GTE_NUM,       "QI_GTE_NUM",        {qca_pop_2num,     qca_gte_num,     qca_null}},
-    { QCO_LTE_NUM,       "QI_LTE_NUM",        {qca_pop_2num,     qca_lte_num,     qca_null}},
-
-    { QCO_PRINT_INT,     "QCO_PRINT_INT",     {qca_pop_int,      qca_print_int,   qca_null}},
-    { QCO_PRINT_NUM,     "QCO_PRINT_NUM",     {qca_pop_num,      qca_print_num,   qca_null}},
-    { QCO_PRINT_STR,     "QCO_PRINT_STR",     {qca_pop_str,      qca_print_str,   qca_null}},
-    { QCO_PRINT_CR,      "QCO_PRINT_CR",      {qca_null,         qca_print_cr,    qca_null}},
-    { QCO_PRINT_SP,      "QCO_PRINT_SP",      {qca_null,         qca_print_sp,    qca_null}},
-    { QCO_UMIN_NUM,      "QCO_UMIN_NUM",      {qca_pop_num,      qca_umin_num,    qca_push_num}},
-    { QCO_UMIN_INT,      "QCO_UMIN_INT",      {qca_pop_int,      qca_umin_int,    qca_push_result}},
-
-    
-    { QCO_BRA_FALSE,     "QCO_BRA_FALSE",     {qca_bra_false,    qca_null,        qca_null}},
-    { QCO_GOTO,          "QCO_GOTO",          {qca_goto,         qca_null,        qca_null}},
-    { QCO_RETURN,        "QCO_RETURN",        {qca_unwind_proc,  qca_null,        qca_null}},
-    
-    { QCO_RETURN_NOUGHT, "QCO_RETURN_NOUGHT", {qca_unwind_proc,  qca_push_nought, qca_null}},
-    { QCO_RETURN_ZERO,   "QCO_RETURN_ZERO",   {qca_unwind_proc,  qca_push_zero,   qca_null}},
-    { QCO_RETURN_NULL,   "QCO_RETURN_NULL",   {qca_unwind_proc,  qca_push_null,   qca_null}},
-    { QCO_PROC,          "QCO_PROC",          {qca_push_proc,    qca_push_null,   qca_null}},
-    { QCO_ASS_INT,       "QCO_ASS_INT",       {qca_ass_int,      qca_null,        qca_null}},
-    { QCO_ASS_STR,       "QCO_ASS_STR",       {qca_ass_str,      qca_null,        qca_null}},
-    { QCO_ASS_NUM,       "QCO_ASS_NUM",       {qca_ass_num,      qca_null,        qca_null}},
-    
-    // DROP int
-    //DROP str
-    { QCO_DROP_NUM,      "QCO_DROP_NUM",      {qca_pop_num,      qca_null,        qca_null}},
-    { QCO_DROP_WORD,     "QCO_DROP_WORD",     {qca_pop_int,      qca_null,        qca_null}},
-    { QCO_DROP_STR,      "QCO_DROP_STR",      {qca_pop_str,      qca_null,        qca_null}},
+    { QCO_GT_INT,        "QI_GT_INT",         {qca_pop_2int,     qca_gt_int,      qca_null}},
+    { QCO_GTE_INT,       "QI_GTE_INT",        {qca_pop_2int,     qca_gte_int,     qca_null}},
+    { QCO_NE_INT,        "QI_NE_INT",         {qca_pop_2int,     qca_ne_int,      qca_null}},
+    { QCO_EQ_INT,        "QI_EQ_INT",         {qca_pop_2int,     qca_eq_int,      qca_null}},
     { QCO_ADD_INT,       "QCO_ADD_INT",       {qca_pop_2int,     qca_add,         qca_push_result}},
     { QCO_SUB_INT,       "QCO_SUB_INT",       {qca_pop_2int,     qca_sub,         qca_push_result}},
     { QCO_MUL_INT,       "QCO_MUL_INT",       {qca_pop_2int,     qca_mul,         qca_push_result}},
     { QCO_DIV_INT,       "QCO_DIV_INT",       {qca_pop_2int,     qca_div,         qca_push_result}},
-    { RTF_ADDR,          "RTF_ADDR",          {qca_pop_ref,      qca_null,        qca_null}},
-    { RTF_ASC,           "RTF_ASC",           {qca_pop_str,      qca_asc,         qca_push_result}},
-    { RTF_LEN,           "RTF_LEN",           {qca_pop_str,      qca_len,         qca_push_result}},
-    { RTF_LOC,           "RTF_LOC",           {qca_pop_2str,     qca_loc,         qca_push_result}},
-    { RTF_SECOND,        "RTF_SECOND",        {qca_clock_second, qca_null,        qca_null}},
-    { RTF_MINUTE,        "RTF_MINUTE",        {qca_clock_minute, qca_null,        qca_null}},
-    { RTF_HOUR,          "RTF_HOUR",          {qca_clock_hour,   qca_null,        qca_null}},
-    { RTF_DAY,           "RTF_DAY",           {qca_clock_day,    qca_null,        qca_null}},
-    { RTF_MONTH,         "RTF_MONTH",         {qca_clock_month,  qca_null,        qca_null}},
-    { RTF_YEAR,          "RTF_YEAR",          {qca_clock_year,   qca_null,        qca_null}},
+    // QCO_POW_INT             0x31    
+    { QCO_UMIN_INT,      "QCO_UMIN_INT",      {qca_pop_int,      qca_umin_int,    qca_push_result}},
+    { QCO_NOT_INT,       "QCO_NOT_INT",       {qca_pop_int,      qca_not_int,     qca_push_result}},
     { QCO_AND_INT,       "QCO_AND_INT",       {qca_pop_2int,     qca_and_int,     qca_push_result}},
     { QCO_OR_INT,        "QCO_OR_INT",        {qca_pop_2int,     qca_or_int,      qca_push_result}},
-    { QCO_NOT_INT,       "QCO_NOT_INT",       {qca_pop_int,      qca_not_int,     qca_push_result}},
-    { QCO_AND_NUM,       "QCO_AND_NUM",       {qca_pop_2num,     qca_and_num,     qca_push_result}},
-    { QCO_OR_NUM,        "QCO_OR_NUM",        {qca_pop_2num,     qca_or_num,      qca_push_result}},
-    { QCO_NOT_NUM,       "QCO_NOT_NUM",       {qca_pop_num,      qca_not_num,     qca_push_result}},
-    { QCO_ADD_INT,       "QCO_ADD_INT",       {qca_pop_2int,     qca_add_int,     qca_push_result}},
+    { QCO_LT_NUM,        "QI_LT_NUM",         {qca_pop_2num,     qca_lt_num,      qca_null}},
+    { QCO_LTE_NUM,       "QI_LTE_NUM",        {qca_pop_2num,     qca_lte_num,     qca_null}},
+    { QCO_GT_NUM,        "QI_GT_NUM",         {qca_pop_2num,     qca_gt_num,      qca_null}},
+    { QCO_GTE_NUM,       "QI_GTE_NUM",        {qca_pop_2num,     qca_gte_num,     qca_null}},
+    { QCO_NE_NUM,        "QI_NE_NUM",         {qca_pop_2num,     qca_ne_num,      qca_null}},
+    { QCO_EQ_NUM,        "QI_EQ_NUM",         {qca_pop_2num,     qca_eq_num,      qca_null}},
     { QCO_ADD_NUM,       "QCO_ADD_NUM",       {qca_pop_2num,     qca_add_num,     qca_push_num_result}},
     { QCO_SUB_NUM,       "QCO_SUB_NUM",       {qca_pop_2num,     qca_sub_num,     qca_push_num_result}},
-    { RTF_SIN,           "RTF_SIN",           {qca_pop_num,      qca_sin_num,     qca_push_num_result}},
-    { RTF_COS,           "RTF_COS",           {qca_pop_num,      qca_cos_num,     qca_push_num_result}},
-    { RTF_TAN,           "RTF_TAN",           {qca_pop_num,      qca_tan_num,     qca_push_num_result}},
-    { RTF_ASIN,          "RTF_ASIN",          {qca_pop_num,      qca_asin_num,    qca_push_num_result}},
-    { RTF_ACOS,          "RTF_ACOS",          {qca_pop_num,      qca_acos_num,    qca_push_num_result}},
+    // QCO_MUL_NUM             0x3E    
+    // QCO_DIV_NUM             0x3F    
+    // QCO_POW_NUM             0x40    
+    { QCO_UMIN_NUM,      "QCO_UMIN_NUM",      {qca_pop_num,      qca_umin_num,    qca_push_num}},
+    { QCO_NOT_NUM,       "QCO_NOT_NUM",       {qca_pop_num,      qca_not_num,     qca_push_result}},
+    { QCO_AND_NUM,       "QCO_AND_NUM",       {qca_pop_2num,     qca_and_num,     qca_push_result}},
+    { QCO_OR_NUM,        "QCO_OR_NUM",        {qca_pop_2num,     qca_or_num,      qca_push_result}},
+    // QCO_LT_STR              0x45    
+    // QCO_LTE_STR             0x46    
+    // QCO_GT_STR              0x47    
+    // QCO_GTE_STR             0x48    
+    // QCO_NE_STR              0x49    
+    { QCO_EQ_STR,        "QI_EQ_STR",         {qca_pop_2str,     qca_eq_str,      qca_null}},
+    // QCO_ADD_STR             0x4B    
+    // QCO_AT                  0x4C    
+    // QCO_BEEP                0x4D    
+    // QCO_CLS                 0x4E    
+    // QCO_CURSOR              0x4F    
+    // QCO_ESCAPE              0x50    
+    { QCO_GOTO,          "QCO_GOTO",          {qca_goto,         qca_null,        qca_null}},
+    // QCO_OFF                 0x52    
+    // QCO_ONERR               0x53    
+    // QCO_PAUSE               0x54    
+    // QCO_POKEB               0x55    
+    // QCO_POKEW               0x56    
+    // QCO_RAISE               0x57    
+    // QCO_RANDOMIZE           0x58    
+    // QCO_STOP                0x59    
+    // QCO_TRAP                0x5A    
+    // QCO_APPEND              0x5B    
+    // QCO_CLOSE               0x5C    
+    // QCO_COPY                0x5D    
+    // QCO_CREATE              0x5E    
+    // QCO_DELETE              0x5F    
+    // QCO_ERASE               0x60    
+    // QCO_FIRST               0x61    
+    // QCO_LAST                0x62    
+    // QCO_NEXT                0x63    
+    // QCO_BACK                0x64    
+    // QCO_OPEN                0x65    
+    // QCO_POSITION            0x66    
+    // QCO_RENAME              0x67    
+    // QCO_UPDATE              0x68    
+    // QCO_USE                 0x69    
+    // QCO_KSTAT               0x6A    
+    // QCO_EDIT                0x6B    
+    // QCO_INPUT_INT           0x6C    
+    // QCO_INPUT_NUM           0x6D    
+    // QCO_INPUT_STR           0x6E
+    { QCO_PRINT_INT,     "QCO_PRINT_INT",     {qca_pop_int,      qca_print_int,   qca_null}},
+    { QCO_PRINT_NUM,     "QCO_PRINT_NUM",     {qca_pop_num,      qca_print_num,   qca_null}},
+    { QCO_PRINT_STR,     "QCO_PRINT_STR",     {qca_pop_str,      qca_print_str,   qca_null}},
+    { QCO_PRINT_SP,      "QCO_PRINT_SP",      {qca_null,         qca_print_sp,    qca_null}},
+    { QCO_PRINT_CR,      "QCO_PRINT_CR",      {qca_null,         qca_print_cr,    qca_null}},
+    // QCO_LPRINT_INT          0x74    
+    // QCO_LPRINT_NUM          0x75    
+    // QCO_LPRINT_STR          0x76    
+    // QCO_LPRINT_SP           0x77    
+    // QCO_LPRINT_CR           0x78
+    { QCO_RETURN,        "QCO_RETURN",        {qca_unwind_proc,  qca_null,        qca_null}},
+    { QCO_RETURN_NOUGHT, "QCO_RETURN_NOUGHT", {qca_unwind_proc,  qca_push_nought, qca_null}},
+    { QCO_RETURN_ZERO,   "QCO_RETURN_ZERO",   {qca_unwind_proc,  qca_push_zero,   qca_null}},
+    { QCO_RETURN_NULL,   "QCO_RETURN_NULL",   {qca_unwind_proc,  qca_push_null,   qca_null}},
+    { QCO_PROC,          "QCO_PROC",          {qca_push_proc,    qca_push_null,   qca_null}},
+    { QCO_BRA_FALSE,     "QCO_BRA_FALSE",     {qca_bra_false,    qca_null,        qca_null}},
+    { QCO_ASS_INT,       "QCO_ASS_INT",       {qca_ass_int,      qca_null,        qca_null}},
+    { QCO_ASS_STR,       "QCO_ASS_STR",       {qca_ass_str,      qca_null,        qca_null}},
+    { QCO_ASS_NUM,       "QCO_ASS_NUM",       {qca_ass_num,      qca_null,        qca_null}},
+    // QCO_DROP_BYTE           0x82    
+    { QCO_DROP_WORD,     "QCO_DROP_WORD",     {qca_pop_int,      qca_null,        qca_null}},
+    { QCO_DROP_NUM,      "QCO_DROP_NUM",      {qca_pop_num,      qca_null,        qca_null}},
+    { QCO_DROP_STR,      "QCO_DROP_STR",      {qca_pop_str,      qca_null,        qca_null}},
+    // QCO_INT_TO_NUM          0x86    
+    // QCO_NUM_TO_INT          0x87    
+    // QCO_END_FIELDS          0x88    
+    // QCO_RUN_ASSEM           0x89    
+    { RTF_ADDR,          "RTF_ADDR",          {qca_pop_ref,      qca_null,        qca_null}},
+    { RTF_ASC,           "RTF_ASC",           {qca_pop_str,      qca_asc,         qca_push_result}},
+    { RTF_DAY,           "RTF_DAY",           {qca_clock_day,    qca_null,        qca_null}},
+    // RTF_DISP                0x8D    
+    // RTF_ERR                 0x8E    
+    // RTF_FIND                0x8F    
+    // RTF_FREE                0x90    
+    // RTF_GET                 0x91    
+    { RTF_HOUR,          "RTF_HOUR",          {qca_clock_hour,   qca_null,        qca_null}},
+    // RTF_IABS                0x93    
+    // RTF_INT                 0x94    
+    // RTF_KEY                 0x95
+    { RTF_LEN,           "RTF_LEN",           {qca_pop_str,      qca_len,         qca_push_result}},
+    { RTF_LOC,           "RTF_LOC",           {qca_pop_2str,     qca_loc,         qca_push_result}},
+    // RTF_MENU                0x98
+    { RTF_MINUTE,        "RTF_MINUTE",        {qca_clock_minute, qca_null,        qca_null}},
+    { RTF_MONTH,         "RTF_MONTH",         {qca_clock_month,  qca_null,        qca_null}},
+    // RTF_PEEKB               0x9B    
+    // RTF_PEEKW               0x9C    
+    // RTF_RECSIZE             0x9D
+    { RTF_SECOND,        "RTF_SECOND",        {qca_clock_second, qca_null,        qca_null}},
+    // RTF_IUSR                0x9F    
+    // RTF_VIEW                0xA0    
+    { RTF_YEAR,          "RTF_YEAR",          {qca_clock_year,   qca_null,        qca_null}},
+    // RTF_COUNT               0xA2    
+    // RTF_EOF                 0xA3    
+    // RTF_EXIST               0xA4    
+    // RTF_POS                 0xA5    
+    // RTF_ABS                 0xA6    
     { RTF_ATAN,          "RTF_ATAN",          {qca_pop_num,      qca_atan_num,    qca_push_num_result}},
+    { RTF_COS,           "RTF_COS",           {qca_pop_num,      qca_cos_num,     qca_push_num_result}},
+    // RTF_DEG                 0xA9    
+    // RTF_EXP                 0xAA    
+    // RTF_FLT                 0xAB    
+    // RTF_INTF                0xAC    
+    // RTF_LN                  0xAD    
+    // RTF_LOG                 0xAE    
+    // RTF_PI                  0xAF    
+    // RTF_RAD                 0xB0    
+    // RTF_RND                 0xB1    
+    { RTF_SIN,           "RTF_SIN",           {qca_pop_num,      qca_sin_num,     qca_push_num_result}},
+    // RTF_SQR                 0xB3    
+    { RTF_TAN,           "RTF_TAN",           {qca_pop_num,      qca_tan_num,     qca_push_num_result}},
+    // RTF_VAL                 0xB5    
+    // RTF_SPACE               0xB6    
+    // RTF_DIR                 0xB7    
+    // RTF_CHR                 0xB8    
+    // RTF_DATIM               0xB9    
+    // RTF_SERR                0xBA    
+    // RTF_FIX                 0xBB    
+    // RTF_GEN                 0xBC    
+    // RTF_SGET                0xBD    
+    // RTF_HEX                 0xBE    
+    // RTF_SKEY                0xBF    
+    // RTF_LEFT                0xC0    
+    // RTF_LOWER               0xC1    
+    // RTF_MID                 0xC2    
+    // RTF_NUM                 0xC3    
+    // RTF_RIGHT               0xC4    
+    // RTF_REPT                0xC5    
+    // RTF_SCI                 0xC6    
+    // RTF_UPPER               0xC7    
+    // RTF_SUSR                0xC8    
+    // RTF_SADDR               0xC9    
 
-
-   
+    // LZ QCode
+    // RTF_DOW                 0xD7
+    // RTF_LTPERCENT           0xCC
+    // RTF_GTPERCENT           0xCD
+    // RTF_PLUSPERCENT         0xCE
+    // RTF_MINUSPERCENT        0xCF
+    // RTF_TIMESPERCENT        0xD0
+    // RTF_DIVIDEPERCENT       0xD1
+    // RTF_OFFX                0xD2
+    // RTF_COPYW               0xD3
+    // RTF_DELETEW             0xD4
+    // RTF_UDG                 0xD5
+    // RTF_CLOCK               0xD6
+    // RTF_DOW                 0xD7
+    // RTF_FINDW               0xD8
+    // RTF_MENUN               0xD9
+    // RTF_WEEK                0xDA
+    { RTF_ACOS,          "RTF_ACOS",          {qca_pop_num,      qca_acos_num,    qca_push_num_result}},
+    { RTF_ASIN,          "RTF_ASIN",          {qca_pop_num,      qca_asin_num,    qca_push_num_result}},
+    // RTF_DAYS                0xDD
+    // RTF_MAX                 0xDE
+    // RTF_MEAN                0xDF
+    // RTF_MIN                 0xE0
+    // RTF_STD                 0xE1
+    // RTF_SUM                 0xE2
+    // RTF_VAR                 0xE3
+    // RTF_DAYNAME             0xE4
+    // RTF_DIRW                0xE5
+    // RTF_MONTHSTR            0xE6
   };
 
 #define SIZEOF_QCODE_INFO (sizeof(qcode_info)/sizeof(NOBJ_QCODE_INFO))
