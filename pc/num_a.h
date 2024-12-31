@@ -38,6 +38,8 @@ void num_tan(NOPL_FLOAT *a, NOPL_FLOAT *r);
 void num_asin(NOPL_FLOAT *a, NOPL_FLOAT *r);
 void num_acos(NOPL_FLOAT *a, NOPL_FLOAT *r);
 void num_atan(NOPL_FLOAT *a, NOPL_FLOAT *r);
+void num_sin(NOPL_FLOAT *a, NOPL_FLOAT *r);
+void num_sqr(NOPL_FLOAT *a, NOPL_FLOAT *r);
 
 
 

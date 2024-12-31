@@ -163,6 +163,33 @@ print asin(sin(0.5))
 print acos(cos(0.6))
 print atan(tan(0.7))
 
+E = 1.2 + 3.4
+print "A(4.6):";e
+
+E = -1.2 + 3.4
+print "B(2.2):";e
+
+E = 1.2 - 3.4
+print "C(-2.2):";e
+
+E = -1.2 - 3.4
+print "D(-4.6):";e
+
+E = 1.2 + -3.4
+print "E(-2.2):";e
+
+E = 1.2 - -3.4
+print "F(4.6):";e
+
+e = 2.0
+print sqr(e)
+
+e = 16.0
+print sqr(e)
+
+
+rem --------------------------------------------------------------------------------
+
 IF PASS%
 print "PASS"
 else

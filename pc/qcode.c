@@ -1023,6 +1023,16 @@ void qca_atan_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
   dbq_num("res: ", &(s->num_result));
 }
 
+void qca_sqr_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  num_sqr(&(s->num), &(s->num_result));
+  
+  dbq_num("num: ", &(s->num));
+  dbq_num("res: ", &(s->num_result));
+}
+
 //------------------------------------------------------------------------------
 
 void qca_add_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -1290,7 +1300,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_RAD                 0xB0    
     // RTF_RND                 0xB1    
     { RTF_SIN,           "RTF_SIN",           {qca_pop_num,      qca_sin_num,     qca_push_num_result}},
-    // RTF_SQR                 0xB3    
+    { RTF_SQR,           "RTF_SQR",           {qca_pop_num,      qca_sqr_num,     qca_push_num_result}},
     { RTF_TAN,           "RTF_TAN",           {qca_pop_num,      qca_tan_num,     qca_push_num_result}},
     // RTF_VAL                 0xB5    
     // RTF_SPACE               0xB6    

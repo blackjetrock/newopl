@@ -221,6 +221,9 @@ void num_mantissa_tens_compl(NOPL_FLOAT *n)
 }
 
 //------------------------------------------------------------------------------
+//
+// Add positive floats
+//
 
 void num_add_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 {
@@ -241,7 +244,6 @@ void num_add_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
     }
 
   r->exponent = a->exponent;
-  r->sign = a->sign;
 
   dbq_num("Before normailse:", r);
   
@@ -250,6 +252,9 @@ void num_add_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 }
 
 //------------------------------------------------------------------------------
+//
+// Subtract positive floats
+//
 
 void num_sub_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 {
@@ -272,25 +277,91 @@ void num_sub_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
     }
  
   r->exponent = a->exponent;
-  r->sign = a->sign;
   
   // Normalise
   num_propagate_carry(r);
 
-  // We will always have an overflow in the fiorst digit as we are adding a ten's
+  // We will always have an overflow in the first digit as we are adding a ten's
   // complement number
   r->digits[0] -= 10;
 }
 
 //------------------------------------------------------------------------------
+//
+// Add two floats, the sign is handled here.
+//
+
 void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 {
-  num_add_pos(a, b, r);
+  // If the signs are the same then we add the mantissas:
+  //
+  // a+b
+  // -a + -b
+  //
+  // If we have different signs:
+  //
+  // -a+b
+  // a + -b
+  //
+  // These are subtractions
+  //
+  dbq("");
+  
+  if( (a->sign) == (b->sign) )
+    {
+      num_add_pos(a, b, r);
+      r->sign = a->sign;
+    }
+  else
+    {
+      // Different signs, so arrange the sum to be a difference
+      
+      if( ((a->sign) == NUM_SIGN_NEGATIVE) )
+	{
+	  // a negative, b positive
+	  // swap to make this an x-y type subtraction
+	  num_sub_pos(b, a, r);
+	}
+      else
+	{
+	  num_sub_pos(b, a, r);
+	}
+    }
 }
 
 //------------------------------------------------------------------------------
+//
+//
+//   x -  y   => x - y
+//   x - -y   => x + y
+//  -x -  y   => -(x+y)
+//  -x - -y   => y - x
+//
+
 void num_sub(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 {
+  dbq("");
+  
+  if( (a->sign) == (b->sign) )
+    {
+      num_add_pos(a, b, r);
+      r->sign = a->sign;
+    }
+  else
+    {
+      // Different signs, so arrange the sum to be a difference
+      
+      if( ((a->sign) == NUM_SIGN_NEGATIVE) )
+	{
+	  // a negative, b positive
+	  // swap to make this an x-y type subtraction
+	  num_sub_pos(b, a, r);
+	}
+      else
+	{
+	  num_sub_pos(b, a, r);
+	}
+    }
   num_sub_pos(a, b, r);
 }
 
@@ -364,7 +435,17 @@ int num_gt(NOPL_FLOAT *a, NOPL_FLOAT *b)
   
   return(0);
 }
+
 //------------------------------------------------------------------------------
+
+void num_sqr(NOPL_FLOAT *a, NOPL_FLOAT *r)
+{
+  long double d;
+
+  d = num_to_double(a);
+  d = sqrtl(d);
+  num_from_double(r, d);
+}
 
 void num_sin(NOPL_FLOAT *a, NOPL_FLOAT *r)
 {

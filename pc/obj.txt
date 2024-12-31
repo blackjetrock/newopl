@@ -4,7 +4,7 @@ File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
 Var Space Size:0012
-QCode Space Size:04E2
+QCode Space Size:05AD
 Number of parameters:00
 Parameter types:
 Global varname Size:0000
@@ -680,22 +680,156 @@ QCode
 04C8: A7       ATAN     (bytes code:-)
 04C9: 70       PRINT float     (bytes code:-)
 04CA: 73       PRINT newline     (bytes code:-)
-04CB: 00       Push local/global integer variable value     (bytes code:v)
-04CC: FFEE       (65518)
-04CE: 7E       Branch if false     (bytes code:D)
-04CF: Dest:04DC (Dist:000D)
-04D1: 24       Push string literal     (bytes code:S)
-04D2: Len:4
-04D3: 'PASS'
-04D7: 71       PRINT string     (bytes code:-)
-04D8: 73       PRINT newline     (bytes code:-)
-04D9: 51       GOTO     (bytes code:D)
-04DA: Dest:04E1 (Dist:0007)
-04DC: 00       Push local/global integer variable value     (bytes code:v)
-04DD: FFEE       (65518)
-04DF: 6F       PRINT integer     (bytes code:-)
-04E0: 73       PRINT newline     (bytes code:-)
-04E1: 7B       RETURN (float 0)     (bytes code:-)
+04CB: 0E       Push local/global float variable reference     (bytes code:v)
+04CC: FFF0       (65520)
+04CE: 23       Push float literal     (bytes code:F)
+04CF: Len:2
+04D0: '12E0
+04D2: 23       Push float literal     (bytes code:F)
+04D3: Len:2
+04D4: '34E0
+04D6: 3C       Plus float     (bytes code:-)
+04D7: 80       Assign float     (bytes code:-)
+04D8: 24       Push string literal     (bytes code:S)
+04D9: Len:7
+04DA: 'A(4.6):'
+04E1: 71       PRINT string     (bytes code:-)
+04E2: 01       Push local/global float variable value     (bytes code:v)
+04E3: FFF0       (65520)
+04E5: 70       PRINT float     (bytes code:-)
+04E6: 73       PRINT newline     (bytes code:-)
+04E7: 0E       Push local/global float variable reference     (bytes code:v)
+04E8: FFF0       (65520)
+04EA: 23       Push float literal     (bytes code:F)
+04EB: Len:2
+04EC: '12E0
+04EE: 41       Unary minus float     (bytes code:-)
+04EF: 23       Push float literal     (bytes code:F)
+04F0: Len:2
+04F1: '34E0
+04F3: 3C       Plus float     (bytes code:-)
+04F4: 80       Assign float     (bytes code:-)
+04F5: 24       Push string literal     (bytes code:S)
+04F6: Len:7
+04F7: 'B(2.2):'
+04FE: 71       PRINT string     (bytes code:-)
+04FF: 01       Push local/global float variable value     (bytes code:v)
+0500: FFF0       (65520)
+0502: 70       PRINT float     (bytes code:-)
+0503: 73       PRINT newline     (bytes code:-)
+0504: 0E       Push local/global float variable reference     (bytes code:v)
+0505: FFF0       (65520)
+0507: 23       Push float literal     (bytes code:F)
+0508: Len:2
+0509: '12E0
+050B: 23       Push float literal     (bytes code:F)
+050C: Len:2
+050D: '34E0
+050F: 3D       Minus float     (bytes code:-)
+0510: 80       Assign float     (bytes code:-)
+0511: 24       Push string literal     (bytes code:S)
+0512: Len:8
+0513: 'C(-2.2):'
+051B: 71       PRINT string     (bytes code:-)
+051C: 01       Push local/global float variable value     (bytes code:v)
+051D: FFF0       (65520)
+051F: 70       PRINT float     (bytes code:-)
+0520: 73       PRINT newline     (bytes code:-)
+0521: 0E       Push local/global float variable reference     (bytes code:v)
+0522: FFF0       (65520)
+0524: 23       Push float literal     (bytes code:F)
+0525: Len:2
+0526: '12E0
+0528: 41       Unary minus float     (bytes code:-)
+0529: 23       Push float literal     (bytes code:F)
+052A: Len:2
+052B: '34E0
+052D: 3D       Minus float     (bytes code:-)
+052E: 80       Assign float     (bytes code:-)
+052F: 24       Push string literal     (bytes code:S)
+0530: Len:8
+0531: 'D(-4.6):'
+0539: 71       PRINT string     (bytes code:-)
+053A: 01       Push local/global float variable value     (bytes code:v)
+053B: FFF0       (65520)
+053D: 70       PRINT float     (bytes code:-)
+053E: 73       PRINT newline     (bytes code:-)
+053F: 0E       Push local/global float variable reference     (bytes code:v)
+0540: FFF0       (65520)
+0542: 23       Push float literal     (bytes code:F)
+0543: Len:2
+0544: '12E0
+0546: 23       Push float literal     (bytes code:F)
+0547: Len:2
+0548: '34E0
+054A: 41       Unary minus float     (bytes code:-)
+054B: 3C       Plus float     (bytes code:-)
+054C: 80       Assign float     (bytes code:-)
+054D: 24       Push string literal     (bytes code:S)
+054E: Len:8
+054F: 'E(-2.2):'
+0557: 71       PRINT string     (bytes code:-)
+0558: 01       Push local/global float variable value     (bytes code:v)
+0559: FFF0       (65520)
+055B: 70       PRINT float     (bytes code:-)
+055C: 73       PRINT newline     (bytes code:-)
+055D: 0E       Push local/global float variable reference     (bytes code:v)
+055E: FFF0       (65520)
+0560: 23       Push float literal     (bytes code:F)
+0561: Len:2
+0562: '12E0
+0564: 23       Push float literal     (bytes code:F)
+0565: Len:2
+0566: '34E0
+0568: 41       Unary minus float     (bytes code:-)
+0569: 3D       Minus float     (bytes code:-)
+056A: 80       Assign float     (bytes code:-)
+056B: 24       Push string literal     (bytes code:S)
+056C: Len:7
+056D: 'F(4.6):'
+0574: 71       PRINT string     (bytes code:-)
+0575: 01       Push local/global float variable value     (bytes code:v)
+0576: FFF0       (65520)
+0578: 70       PRINT float     (bytes code:-)
+0579: 73       PRINT newline     (bytes code:-)
+057A: 0E       Push local/global float variable reference     (bytes code:v)
+057B: FFF0       (65520)
+057D: 23       Push float literal     (bytes code:F)
+057E: Len:2
+057F: '20E0
+0581: 80       Assign float     (bytes code:-)
+0582: 01       Push local/global float variable value     (bytes code:v)
+0583: FFF0       (65520)
+0585: B3       SQR     (bytes code:-)
+0586: 70       PRINT float     (bytes code:-)
+0587: 73       PRINT newline     (bytes code:-)
+0588: 0E       Push local/global float variable reference     (bytes code:v)
+0589: FFF0       (65520)
+058B: 23       Push float literal     (bytes code:F)
+058C: Len:2
+058D: '16E1
+058F: 80       Assign float     (bytes code:-)
+0590: 01       Push local/global float variable value     (bytes code:v)
+0591: FFF0       (65520)
+0593: B3       SQR     (bytes code:-)
+0594: 70       PRINT float     (bytes code:-)
+0595: 73       PRINT newline     (bytes code:-)
+0596: 00       Push local/global integer variable value     (bytes code:v)
+0597: FFEE       (65518)
+0599: 7E       Branch if false     (bytes code:D)
+059A: Dest:05A7 (Dist:000D)
+059C: 24       Push string literal     (bytes code:S)
+059D: Len:4
+059E: 'PASS'
+05A2: 71       PRINT string     (bytes code:-)
+05A3: 73       PRINT newline     (bytes code:-)
+05A4: 51       GOTO     (bytes code:D)
+05A5: Dest:05AC (Dist:0007)
+05A7: 00       Push local/global integer variable value     (bytes code:v)
+05A8: FFEE       (65518)
+05AA: 6F       PRINT integer     (bytes code:-)
+05AB: 73       PRINT newline     (bytes code:-)
+05AC: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
@@ -775,6 +909,18 @@ QCode Data
 0490:02 00 00 43 6F 73 51 00 02 23 03 60 23 01 B2 70 
 04A0:73 23 04 80 49 13 02 A8 70 73 23 04 80 98 87 01 
 04B0:B4 70 73 23 02 50 FF B2 DC 70 73 23 02 60 FF A8 
-04C0:DB 70 73 23 02 70 FF B4 A7 70 73 00 FF EE 7E 00 
-04D0:0D 24 04 50 41 53 53 71 73 51 00 07 00 FF EE 6F 
-04E0:73 7B 
+04C0:DB 70 73 23 02 70 FF B4 A7 70 73 0E FF F0 23 02 
+04D0:12 00 23 02 34 00 3C 80 24 07 41 28 34 2E 36 29 
+04E0:3A 71 01 FF F0 70 73 0E FF F0 23 02 12 00 41 23 
+04F0:02 34 00 3C 80 24 07 42 28 32 2E 32 29 3A 71 01 
+0500:FF F0 70 73 0E FF F0 23 02 12 00 23 02 34 00 3D 
+0510:80 24 08 43 28 2D 32 2E 32 29 3A 71 01 FF F0 70 
+0520:73 0E FF F0 23 02 12 00 41 23 02 34 00 3D 80 24 
+0530:08 44 28 2D 34 2E 36 29 3A 71 01 FF F0 70 73 0E 
+0540:FF F0 23 02 12 00 23 02 34 00 41 3C 80 24 08 45 
+0550:28 2D 32 2E 32 29 3A 71 01 FF F0 70 73 0E FF F0 
+0560:23 02 12 00 23 02 34 00 41 3D 80 24 07 46 28 34 
+0570:2E 36 29 3A 71 01 FF F0 70 73 0E FF F0 23 02 20 
+0580:00 80 01 FF F0 B3 70 73 0E FF F0 23 02 16 01 80 
+0590:01 FF F0 B3 70 73 00 FF EE 7E 00 0D 24 04 50 41 
+05A0:53 53 71 73 51 00 07 00 FF EE 6F 73 7B 
