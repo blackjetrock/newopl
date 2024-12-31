@@ -551,6 +551,157 @@ PRINT
 
 ENDIF
 
+10
+
+>
+          000:type:i '>'
+
+2
+          000:type:i '>'
+
+AND
+          000:type:i 'AND'
+
+3
+          000:type:i 'AND'
+
+<
+          000:type:i 'AND'
+          001:type:i '<'
+
+5
+          000:type:i 'AND'
+          001:type:i '<'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"Test A failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+NOT
+          000:type:U 'UNOT'
+
+(
+          000:type:U 'UNOT'
+          001:type:U '('
+
+3
+          000:type:U 'UNOT'
+          001:type:U '('
+
+)
+          000:type:U 'UNOT'
+
+=
+          000:type:U '='
+
+-
+          000:type:U '='
+          001:type:U 'UMIN'
+
+4
+          000:type:U '='
+          001:type:U 'UMIN'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"not(3) = -4 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+(
+          000:type:U '('
+
+3
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:i 'AND'
+
+5
+          000:type:U '('
+          001:type:i 'AND'
+
+)
+
+=
+          000:type:U '='
+
+1
+          000:type:U '='
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"(3 AND 5) = 1 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+(
+          000:type:U '('
+
+3
+          000:type:U '('
+
+OR
+          000:type:U '('
+          001:type:i 'OR'
+
+5
+          000:type:U '('
+          001:type:i 'OR'
+
+)
+
+=
+          000:type:U '='
+
+7
+          000:type:U '='
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"(3 OR 5) = 7 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
 PASS%
 
 "PASS"
@@ -1111,6 +1262,157 @@ PRINT
           000:type:U 'PRINT'
 
 A%
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+10
+
+>
+          000:type:i '>'
+
+2
+          000:type:i '>'
+
+AND
+          000:type:i 'AND'
+
+3
+          000:type:i 'AND'
+
+<
+          000:type:i 'AND'
+          001:type:i '<'
+
+5
+          000:type:i 'AND'
+          001:type:i '<'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"Test A failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+NOT
+          000:type:U 'UNOT'
+
+(
+          000:type:U 'UNOT'
+          001:type:U '('
+
+3
+          000:type:U 'UNOT'
+          001:type:U '('
+
+)
+          000:type:U 'UNOT'
+
+=
+          000:type:U '='
+
+-
+          000:type:U '='
+          001:type:U 'UMIN'
+
+4
+          000:type:U '='
+          001:type:U 'UMIN'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"not(3) = -4 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+(
+          000:type:U '('
+
+3
+          000:type:U '('
+
+AND
+          000:type:U '('
+          001:type:i 'AND'
+
+5
+          000:type:U '('
+          001:type:i 'AND'
+
+)
+
+=
+          000:type:U '='
+
+1
+          000:type:U '='
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"(3 AND 5) = 1 failed"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
+
+(
+          000:type:U '('
+
+3
+          000:type:U '('
+
+OR
+          000:type:U '('
+          001:type:i 'OR'
+
+5
+          000:type:U '('
+          001:type:i 'OR'
+
+)
+
+=
+          000:type:U '='
+
+7
+          000:type:U '='
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+"(3 OR 5) = 7 failed"
 
 PRINT
           000:type:U 'PRINT'

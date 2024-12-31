@@ -95,6 +95,29 @@ print "A% <> -345 failed"
 print a%
 ENDIF
 
+IF 10 > 2 AND 3 < 5
+else
+PASS% = 0
+print "Test A failed"
+ENDIF
+
+IF NOT(3) = -4
+ELSE
+pass% = 0
+print "not(3) = -4 failed"
+ENDIF
+
+IF (3 AND 5) = 1
+ELSE
+pass% = 0
+print "(3 AND 5) = 1 failed"
+ENDIF
+
+IF (3 OR 5) = 7
+ELSE
+pass% = 0
+print "(3 OR 5) = 7 failed"
+ENDIF
 
 IF PASS%
 print "PASS"

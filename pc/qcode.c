@@ -798,6 +798,33 @@ void qca_add_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
   dbq("Int:%d (%04X) + Int2:%d (%04X) = %d (%04X)", s->integer, s->integer, s->integer2, s->integer2, s->result, s->result);
 }
 
+void qca_and_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  s->result = s->integer2 &  s->integer;
+
+  dbq("Int:%d (%04X) + Int2:%d (%04X) = %d (%04X)", s->integer, s->integer, s->integer2, s->integer2, s->result, s->result);
+}
+
+void qca_or_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  s->result = s->integer2 | s->integer;
+
+  dbq("Int:%d (%04X) + Int2:%d (%04X) = %d (%04X)", s->integer, s->integer, s->integer2, s->integer2, s->result, s->result);
+}
+
+void qca_not_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  s->result = ~s->integer;
+
+  dbq("Int:%d (%04X) + Int2:%d (%04X) = %d (%04X)", s->integer, s->integer, s->integer2, s->integer2, s->result, s->result);
+}
+
 //------------------------------------------------------------------------------
 
 void qca_eq_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -1025,6 +1052,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_PRINT_SP,      "QCO_PRINT_SP",      {qca_null,         qca_print_sp,    qca_null}},
     { QCO_UMIN_NUM,      "QCO_UMIN_NUM",      {qca_pop_num,      qca_umin_num,    qca_push_num}},
     { QCO_UMIN_INT,      "QCO_UMIN_INT",      {qca_pop_int,      qca_umin_int,    qca_push_result}},
+    { QCO_NOT_INT,       "QCO_NOT_INT",       {qca_pop_int,      qca_not_int,     qca_push_result}},
     
     { QCO_BRA_FALSE,     "QCO_BRA_FALSE",     {qca_bra_false,    qca_null,        qca_null}},
     { QCO_GOTO,          "QCO_GOTO",          {qca_goto,         qca_null,        qca_null}},
@@ -1057,6 +1085,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_DAY,           "RTF_DAY",           {qca_clock_day,    qca_null,        qca_null}},
     { RTF_MONTH,         "RTF_MONTH",         {qca_clock_month,  qca_null,        qca_null}},
     { RTF_YEAR,          "RTF_YEAR",          {qca_clock_year,   qca_null,        qca_null}},
+    { QCO_AND_INT,       "QCO_AND_INT",       {qca_pop_2int,     qca_and_int,     qca_push_result}},
+    { QCO_OR_INT,        "QCO_OR_INT",        {qca_pop_2int,     qca_or_int,      qca_push_result}},
     { QCO_ADD_INT,       "QCO_ADD_INT",       {qca_pop_2int,     qca_add_int,     qca_push_result}},
     { QCO_ADD_NUM,       "QCO_ADD_NUM",       {qca_pop_2num,     qca_add_num,     qca_push_num_result}},
     { QCO_SUB_NUM,       "QCO_SUB_NUM",       {qca_pop_2num,     qca_sub_num,     qca_push_num_result}},

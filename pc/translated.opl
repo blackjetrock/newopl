@@ -133,6 +133,34 @@ PRINT(A%)
 <nl>
 
 ENDIF
+IF ((10 > 2) AND (3 < 5))
+ELSE
+PASS% := 0
+PRINT("Test A failed")
+<nl>
+
+ENDIF
+IF ((UNOT 3) = (UMIN 4))
+ELSE
+PASS% := 0
+PRINT("not(3) = -4 failed")
+<nl>
+
+ENDIF
+IF ((3 AND 5) = 1)
+ELSE
+PASS% := 0
+PRINT("(3 AND 5) = 1 failed")
+<nl>
+
+ENDIF
+IF ((3 OR 5) = 7)
+ELSE
+PASS% := 0
+PRINT("(3 OR 5) = 7 failed")
+<nl>
+
+ENDIF
 IF PASS%
 PRINT("PASS")
 <nl>
@@ -274,6 +302,34 @@ PRINT("A% <> -345 failed")
 <nl>
 
 PRINT(A%)
+<nl>
+
+ENDIF
+IF ((10 > 2) AND (3 < 5))
+ELSE
+PASS% := 0
+PRINT("Test A failed")
+<nl>
+
+ENDIF
+IF ((UNOT 3) = (UMIN 4))
+ELSE
+PASS% := 0
+PRINT("not(3) = -4 failed")
+<nl>
+
+ENDIF
+IF ((3 AND 5) = 1)
+ELSE
+PASS% := 0
+PRINT("(3 AND 5) = 1 failed")
+<nl>
+
+ENDIF
+IF ((3 OR 5) = 7)
+ELSE
+PASS% := 0
+PRINT("(3 OR 5) = 7 failed")
 <nl>
 
 ENDIF

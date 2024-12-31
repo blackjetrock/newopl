@@ -1502,6 +1502,376 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 EXP_BUFF_ID_ENDIF ENDIF
 --------------------
 
+Push:'10'
+Push:'2'
+Pop: '2'
+Pop: '10'
+Push:'000'
+Push:'3'
+Push:'5'
+Pop: '5'
+Pop: '3'
+Push:'000'
+Pop: '000'
+Pop: '000'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_INTEGER 10
+Push:'10'
+                    000: '10' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 2
+Push:'2'
+                    000: '10' type:i (0), %:0
+                    001: '2' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR >
+Pop: '2'
+Pop: '10'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 3
+Push:'3'
+                    000: '000' type:i (0), %:0
+                    001: '3' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 5
+Push:'5'
+                    000: '000' type:i (0), %:0
+                    001: '3' type:i (0), %:0
+                    002: '5' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR <
+Pop: '5'
+Pop: '3'
+Push:'000'
+                    000: '000' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR AND
+Pop: '000'
+Pop: '000'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_IF IF
+Pop: '000'
+--------------------
+
+====================
+
+EXP_BUFF_ID_ELSE ELSE
+--------------------
+
+Push:'PASS%'
+Push:'0'
+Pop: '0'
+Pop: 'PASS%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS%
+Push:'PASS%'
+                    000: 'PASS%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 0
+Push:'0'
+                    000: 'PASS%' type:i (0), %:0
+                    001: '0' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '0'
+Pop: 'PASS%'
+--------------------
+
+Push:'"Test A failed"'
+Pop: '"Test A failed"'
+====================
+
+EXP_BUFF_ID_STR "Test A failed"
+Push:'"Test A failed"'
+                    000: '"Test A failed"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"Test A failed"'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+====================
+
+EXP_BUFF_ID_ENDIF ENDIF
+--------------------
+
+Push:'3'
+Pop: '3'
+Push:'000'
+Push:'4'
+Pop: '4'
+Push:'000'
+Pop: '000'
+Pop: '000'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_INTEGER 3
+Push:'3'
+                    000: '3' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '3' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '3' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UNOT
+Pop: '3'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 4
+Push:'4'
+                    000: '000' type:i (0), %:0
+                    001: '4' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '4'
+Push:'000'
+                    000: '000' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: '000'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_IF IF
+Pop: '000'
+--------------------
+
+====================
+
+EXP_BUFF_ID_ELSE ELSE
+--------------------
+
+Push:'PASS%'
+Push:'0'
+Pop: '0'
+Pop: 'PASS%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS%
+Push:'PASS%'
+                    000: 'PASS%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 0
+Push:'0'
+                    000: 'PASS%' type:i (0), %:0
+                    001: '0' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '0'
+Pop: 'PASS%'
+--------------------
+
+Push:'"not(3) = -4 failed"'
+Pop: '"not(3) = -4 failed"'
+====================
+
+EXP_BUFF_ID_STR "not(3) = -4 failed"
+Push:'"not(3) = -4 failed"'
+                    000: '"not(3) = -4 failed"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"not(3) = -4 failed"'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+====================
+
+EXP_BUFF_ID_ENDIF ENDIF
+--------------------
+
+Push:'3'
+Push:'5'
+Pop: '5'
+Pop: '3'
+Push:'000'
+Push:'1'
+Pop: '1'
+Pop: '000'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_INTEGER 3
+Push:'3'
+                    000: '3' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 5
+Push:'5'
+                    000: '3' type:i (0), %:0
+                    001: '5' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR AND
+Pop: '5'
+Pop: '3'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 1
+Push:'1'
+                    000: '000' type:i (0), %:0
+                    001: '1' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '1'
+Pop: '000'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_IF IF
+Pop: '000'
+--------------------
+
+====================
+
+EXP_BUFF_ID_ELSE ELSE
+--------------------
+
+Push:'PASS%'
+Push:'0'
+Pop: '0'
+Pop: 'PASS%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS%
+Push:'PASS%'
+                    000: 'PASS%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 0
+Push:'0'
+                    000: 'PASS%' type:i (0), %:0
+                    001: '0' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '0'
+Pop: 'PASS%'
+--------------------
+
+Push:'"(3 AND 5) = 1 failed"'
+Pop: '"(3 AND 5) = 1 failed"'
+====================
+
+EXP_BUFF_ID_STR "(3 AND 5) = 1 failed"
+Push:'"(3 AND 5) = 1 failed"'
+                    000: '"(3 AND 5) = 1 failed"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"(3 AND 5) = 1 failed"'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+====================
+
+EXP_BUFF_ID_ENDIF ENDIF
+--------------------
+
+Push:'3'
+Push:'5'
+Pop: '5'
+Pop: '3'
+Push:'000'
+Push:'7'
+Pop: '7'
+Pop: '000'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_INTEGER 3
+Push:'3'
+                    000: '3' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 5
+Push:'5'
+                    000: '3' type:i (0), %:0
+                    001: '5' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR OR
+Pop: '5'
+Pop: '3'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 7
+Push:'7'
+                    000: '000' type:i (0), %:0
+                    001: '7' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '7'
+Pop: '000'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_IF IF
+Pop: '000'
+--------------------
+
+====================
+
+EXP_BUFF_ID_ELSE ELSE
+--------------------
+
+Push:'PASS%'
+Push:'0'
+Pop: '0'
+Pop: 'PASS%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS%
+Push:'PASS%'
+                    000: 'PASS%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 0
+Push:'0'
+                    000: 'PASS%' type:i (0), %:0
+                    001: '0' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '0'
+Pop: 'PASS%'
+--------------------
+
+Push:'"(3 OR 5) = 7 failed"'
+Pop: '"(3 OR 5) = 7 failed"'
+====================
+
+EXP_BUFF_ID_STR "(3 OR 5) = 7 failed"
+Push:'"(3 OR 5) = 7 failed"'
+                    000: '"(3 OR 5) = 7 failed"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"(3 OR 5) = 7 failed"'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+====================
+
+EXP_BUFF_ID_ENDIF ENDIF
+--------------------
+
 Push:'PASS%'
 Pop: 'PASS%'
 ====================
@@ -3054,6 +3424,376 @@ Push:'A%'
                     000: 'A%' type:i (0), %:0
 EXP_BUFF_ID_PRINT PRINT
 Pop: 'A%'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+====================
+
+EXP_BUFF_ID_ENDIF ENDIF
+--------------------
+
+Push:'10'
+Push:'2'
+Pop: '2'
+Pop: '10'
+Push:'000'
+Push:'3'
+Push:'5'
+Pop: '5'
+Pop: '3'
+Push:'000'
+Pop: '000'
+Pop: '000'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_INTEGER 10
+Push:'10'
+                    000: '10' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 2
+Push:'2'
+                    000: '10' type:i (0), %:0
+                    001: '2' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR >
+Pop: '2'
+Pop: '10'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 3
+Push:'3'
+                    000: '000' type:i (0), %:0
+                    001: '3' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 5
+Push:'5'
+                    000: '000' type:i (0), %:0
+                    001: '3' type:i (0), %:0
+                    002: '5' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR <
+Pop: '5'
+Pop: '3'
+Push:'000'
+                    000: '000' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR AND
+Pop: '000'
+Pop: '000'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_IF IF
+Pop: '000'
+--------------------
+
+====================
+
+EXP_BUFF_ID_ELSE ELSE
+--------------------
+
+Push:'PASS%'
+Push:'0'
+Pop: '0'
+Pop: 'PASS%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS%
+Push:'PASS%'
+                    000: 'PASS%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 0
+Push:'0'
+                    000: 'PASS%' type:i (0), %:0
+                    001: '0' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '0'
+Pop: 'PASS%'
+--------------------
+
+Push:'"Test A failed"'
+Pop: '"Test A failed"'
+====================
+
+EXP_BUFF_ID_STR "Test A failed"
+Push:'"Test A failed"'
+                    000: '"Test A failed"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"Test A failed"'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+====================
+
+EXP_BUFF_ID_ENDIF ENDIF
+--------------------
+
+Push:'3'
+Pop: '3'
+Push:'000'
+Push:'4'
+Pop: '4'
+Push:'000'
+Pop: '000'
+Pop: '000'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_INTEGER 3
+Push:'3'
+                    000: '3' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '3' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '3' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UNOT
+Pop: '3'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 4
+Push:'4'
+                    000: '000' type:i (0), %:0
+                    001: '4' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '4'
+Push:'000'
+                    000: '000' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: '000'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_IF IF
+Pop: '000'
+--------------------
+
+====================
+
+EXP_BUFF_ID_ELSE ELSE
+--------------------
+
+Push:'PASS%'
+Push:'0'
+Pop: '0'
+Pop: 'PASS%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS%
+Push:'PASS%'
+                    000: 'PASS%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 0
+Push:'0'
+                    000: 'PASS%' type:i (0), %:0
+                    001: '0' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '0'
+Pop: 'PASS%'
+--------------------
+
+Push:'"not(3) = -4 failed"'
+Pop: '"not(3) = -4 failed"'
+====================
+
+EXP_BUFF_ID_STR "not(3) = -4 failed"
+Push:'"not(3) = -4 failed"'
+                    000: '"not(3) = -4 failed"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"not(3) = -4 failed"'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+====================
+
+EXP_BUFF_ID_ENDIF ENDIF
+--------------------
+
+Push:'3'
+Push:'5'
+Pop: '5'
+Pop: '3'
+Push:'000'
+Push:'1'
+Pop: '1'
+Pop: '000'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_INTEGER 3
+Push:'3'
+                    000: '3' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 5
+Push:'5'
+                    000: '3' type:i (0), %:0
+                    001: '5' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR AND
+Pop: '5'
+Pop: '3'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 1
+Push:'1'
+                    000: '000' type:i (0), %:0
+                    001: '1' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '1'
+Pop: '000'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_IF IF
+Pop: '000'
+--------------------
+
+====================
+
+EXP_BUFF_ID_ELSE ELSE
+--------------------
+
+Push:'PASS%'
+Push:'0'
+Pop: '0'
+Pop: 'PASS%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS%
+Push:'PASS%'
+                    000: 'PASS%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 0
+Push:'0'
+                    000: 'PASS%' type:i (0), %:0
+                    001: '0' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '0'
+Pop: 'PASS%'
+--------------------
+
+Push:'"(3 AND 5) = 1 failed"'
+Pop: '"(3 AND 5) = 1 failed"'
+====================
+
+EXP_BUFF_ID_STR "(3 AND 5) = 1 failed"
+Push:'"(3 AND 5) = 1 failed"'
+                    000: '"(3 AND 5) = 1 failed"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"(3 AND 5) = 1 failed"'
+--------------------
+
+====================
+
+EXP_BUFF_ID_PRINT_NEWLINE PRINT
+--------------------
+
+====================
+
+--------------------
+
+====================
+
+EXP_BUFF_ID_ENDIF ENDIF
+--------------------
+
+Push:'3'
+Push:'5'
+Pop: '5'
+Pop: '3'
+Push:'000'
+Push:'7'
+Pop: '7'
+Pop: '000'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_INTEGER 3
+Push:'3'
+                    000: '3' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 5
+Push:'5'
+                    000: '3' type:i (0), %:0
+                    001: '5' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR OR
+Pop: '5'
+Pop: '3'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 7
+Push:'7'
+                    000: '000' type:i (0), %:0
+                    001: '7' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '7'
+Pop: '000'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_IF IF
+Pop: '000'
+--------------------
+
+====================
+
+EXP_BUFF_ID_ELSE ELSE
+--------------------
+
+Push:'PASS%'
+Push:'0'
+Pop: '0'
+Pop: 'PASS%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS%
+Push:'PASS%'
+                    000: 'PASS%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 0
+Push:'0'
+                    000: 'PASS%' type:i (0), %:0
+                    001: '0' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '0'
+Pop: 'PASS%'
+--------------------
+
+Push:'"(3 OR 5) = 7 failed"'
+Pop: '"(3 OR 5) = 7 failed"'
+====================
+
+EXP_BUFF_ID_STR "(3 OR 5) = 7 failed"
+Push:'"(3 OR 5) = 7 failed"'
+                    000: '"(3 OR 5) = 7 failed"' type:s (2), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '"(3 OR 5) = 7 failed"'
 --------------------
 
 ====================
