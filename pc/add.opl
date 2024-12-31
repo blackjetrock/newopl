@@ -65,7 +65,7 @@ ENDIF
 E = E + 2.3
 print e
 
-IF E <> 2.3
+IF E <> 2.301234
 PASS% = 1
 print "E <> 2.3 failed"	
 ENDIF
@@ -155,7 +155,14 @@ print "(0.0 AND 0.0) failed res:";(0.0 and 0.0)
 else
 endif
 
- 
+print sin(23.6)
+print cos(134.98)
+print tan(87.988)
+
+print asin(sin(0.5))
+print acos(cos(0.6))
+print atan(tan(0.7))
+
 IF PASS%
 print "PASS"
 else

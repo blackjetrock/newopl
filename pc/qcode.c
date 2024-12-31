@@ -160,8 +160,11 @@ void qca_num_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
   NOPL_FLOAT num;
   uint8_t digit[NUM_MAX_DIGITS];
 
+  // Sign and length in first byte
   n = qcode_next_8(m);
-
+  num.sign = n & 0x80;
+  n &= 0x7f;
+  
   dbq("n:%d", n);
 
   // Clear float
@@ -195,14 +198,12 @@ void qca_num_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
     }
 
   int b = qcode_next_8(m);
-  num.sign = b & 0x80;
-  b &= 0x7f;
   num.exponent = b;
-
+  
   push_machine_8(m, num.exponent);
   push_machine_8(m, num.sign);
 
-  dbq("Sign:%d Exponent:%d (%02X)", num.sign, num.exponent, num.exponent);
+  dbq("Sign:%d (%02X) Exponent:%d (%02X)", num.sign, num.sign, num.exponent, num.exponent);
 }
 
 //------------------------------------------------------------------------------
@@ -961,6 +962,67 @@ void qca_not_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
   dbq_num("res: ", &(s->num_result));
 }
 
+void qca_sin_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  num_sin(&(s->num), &(s->num_result));
+  
+  dbq_num("num: ", &(s->num));
+  dbq_num("res: ", &(s->num_result));
+}
+
+void qca_cos_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  num_cos(&(s->num), &(s->num_result));
+  
+  dbq_num("num: ", &(s->num));
+  dbq_num("res: ", &(s->num_result));
+}
+
+void qca_tan_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  dbq_num("num: ", &(s->num));
+    
+  num_tan(&(s->num), &(s->num_result));
+  
+  dbq_num("num: ", &(s->num));
+  dbq_num("res: ", &(s->num_result));
+}
+
+void qca_asin_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  num_asin(&(s->num), &(s->num_result));
+  
+  dbq_num("num: ", &(s->num));
+  dbq_num("res: ", &(s->num_result));
+}
+
+void qca_acos_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  num_acos(&(s->num), &(s->num_result));
+  
+  dbq_num("num: ", &(s->num));
+  dbq_num("res: ", &(s->num_result));
+}
+
+void qca_atan_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  num_atan(&(s->num), &(s->num_result));
+  
+  dbq_num("num: ", &(s->num));
+  dbq_num("res: ", &(s->num_result));
+}
+
 //------------------------------------------------------------------------------
 
 void qca_add_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -1126,6 +1188,12 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_ADD_INT,       "QCO_ADD_INT",       {qca_pop_2int,     qca_add_int,     qca_push_result}},
     { QCO_ADD_NUM,       "QCO_ADD_NUM",       {qca_pop_2num,     qca_add_num,     qca_push_num_result}},
     { QCO_SUB_NUM,       "QCO_SUB_NUM",       {qca_pop_2num,     qca_sub_num,     qca_push_num_result}},
+    { RTF_SIN,           "RTF_SIN",           {qca_pop_num,      qca_sin_num,     qca_push_num_result}},
+    { RTF_COS,           "RTF_COS",           {qca_pop_num,      qca_cos_num,     qca_push_num_result}},
+    { RTF_TAN,           "RTF_TAN",           {qca_pop_num,      qca_tan_num,     qca_push_num_result}},
+    { RTF_ASIN,          "RTF_ASIN",          {qca_pop_num,      qca_asin_num,    qca_push_num_result}},
+    { RTF_ACOS,          "RTF_ACOS",          {qca_pop_num,      qca_acos_num,    qca_push_num_result}},
+    { RTF_ATAN,          "RTF_ATAN",          {qca_pop_num,      qca_atan_num,    qca_push_num_result}},
 
 
    

@@ -7,11 +7,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <ctype.h>
+//#include <double.h>
+#include <float.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>
 #include <string.h>
+#include <math.h>
 
 #include "nopl.h"
 
@@ -361,6 +364,61 @@ int num_gt(NOPL_FLOAT *a, NOPL_FLOAT *b)
   
   return(0);
 }
+//------------------------------------------------------------------------------
+
+void num_sin(NOPL_FLOAT *a, NOPL_FLOAT *r)
+{
+  long double d;
+
+  d = num_to_double(a);
+  d = sinl(d);
+  num_from_double(r, d);
+}
+
+void num_cos(NOPL_FLOAT *a, NOPL_FLOAT *r)
+{
+  long double d;
+
+  d = num_to_double(a);
+  d = cosl(d);
+  num_from_double(r, d);
+}
+
+void num_tan(NOPL_FLOAT *a, NOPL_FLOAT *r)
+{
+  long double d;
+
+  d = num_to_double(a);
+  d = tanl(d);
+  num_from_double(r, d);
+}
+
+void num_asin(NOPL_FLOAT *a, NOPL_FLOAT *r)
+{
+  long double d;
+
+  d = num_to_double(a);
+  d = asinl(d);
+  num_from_double(r, d);
+}
+
+void num_acos(NOPL_FLOAT *a, NOPL_FLOAT *r)
+{
+  long double d;
+
+  d = num_to_double(a);
+  d = acosl(d);
+  num_from_double(r, d);
+}
+
+void num_atan(NOPL_FLOAT *a, NOPL_FLOAT *r)
+{
+  long double d;
+
+  d = num_to_double(a);
+  d = atanl(d);
+  num_from_double(r, d);
+}
 
 //------------------------------------------------------------------------------
 
@@ -438,6 +496,111 @@ int num_gte(NOPL_FLOAT *a, NOPL_FLOAT *b)
 int num_lte(NOPL_FLOAT *a, NOPL_FLOAT *b)
 {
   return(num_gt(b, a));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+long double num_to_double(NOPL_FLOAT *a)
+{
+  long double res = 0.0;
+
+  for(int i=0; i< NUM_MAX_DIGITS; i++)
+    {
+      res *= 10.0L;
+      res += (long double)(a->digits[i]);
+      dbq("Mantissa:%Lf digit:%d", res, a->digits[i]);
+    }
+
+  dbq("Mantissa:%Lf", res);
+  res /= NUM_MAX_DIGITS_POWER10;
+  res *= 10.0L;
+
+  dbq("Adjusted%Lf", res);
+    
+  if( a->sign )
+    {
+      res = -res;
+    }
+
+  dbq("Signed:%Lf", res);
+  res *= powl(10.0, a->exponent);
+
+  dbq("Exp added:%Lf", res);
+  
+  dbq_num("in:", a);
+  dbq("Out:%Lf", res);
+  return(res);
+}
+
+void num_from_double(NOPL_FLOAT *a, long double d)
+{
+  char dstr[40];
+  int m0;
+  char m[40];
+  int exp;
+  int nscanf = 0;
+  
+  sprintf(dstr, "%LE", d);
+  dbq("dstr:'%s'", dstr);
+
+  if( dstr[0] == '-' )
+    {
+      dbq("Negative");
+      if( (nscanf = sscanf(dstr, "-%d.%[^E]E%d", &m0, m, &exp))==3 )
+	{
+	  dbq("scanf: - %d . %s E %d", m0, m, exp);
+	}
+      else
+	{
+	  dbq("sscanf didn't work");
+	  dbq("scanf n(%d): - %d . %s E %d", nscanf, m0, m, exp);
+	  
+	  return;
+	}
+    }
+  else
+    {
+      dbq("Positive");
+      if( (nscanf = sscanf(dstr, "%d.%[^E]E%d", &m0, m, &exp))==3 )
+	{
+	  dbq("scanf: %d . %s E %d", m0, m, exp);
+	}
+      else
+	{
+	  dbq("sscanf didn't work");
+	  dbq("scanf n(%d): %d . %s E %d", nscanf, m0, m, exp);
+	  
+	  return;
+	}
+    }
+  
+  dbq("dstr:%s", dstr);
+  
+  if( d < 0.0 )
+    {
+      a->sign = NUM_SIGN_NEGATIVE;
+    }
+  else
+    {
+      a->sign = 0;
+    }
+
+  a->exponent = exp;
+
+
+  for(int i=0; i<NUM_MAX_DIGITS; i++)
+    {
+      a->digits[i+1] = 0;
+    }
+
+  a->digits[0] = m0;
+
+  for(int i=0; i<strlen(m); i++)
+    {
+      a->digits[i+1] = m[i]-'0';
+    }
+  
+  dbq_num("res:", a);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

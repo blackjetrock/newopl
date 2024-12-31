@@ -77,7 +77,7 @@ E := (E + 2.3)
 PRINT(E)
 <nl>
 
-IF (E <> 2.3)
+IF (E <> 2.301234)
 PASS% := 1
 PRINT("E <> 2.3 failed")
 <nl>
@@ -207,6 +207,24 @@ PRINT((0.0 AND 0.0))
 
 ELSE
 ENDIF
+PRINT(SIN(23.6 ))
+<nl>
+
+PRINT(COS(134.98 ))
+<nl>
+
+PRINT(TAN(87.988 ))
+<nl>
+
+PRINT(ASIN(SIN(0.5 ) ))
+<nl>
+
+PRINT(ACOS(COS(0.6 ) ))
+<nl>
+
+PRINT(ATAN(TAN(0.7 ) ))
+<nl>
+
 IF PASS%
 PRINT("PASS")
 <nl>
@@ -295,7 +313,7 @@ E := (E + 2.3)
 PRINT(E)
 <nl>
 
-IF (E <> 2.3)
+IF (E <> 2.301234)
 PASS% := 1
 PRINT("E <> 2.3 failed")
 <nl>
@@ -425,6 +443,24 @@ PRINT((0.0 AND 0.0))
 
 ELSE
 ENDIF
+PRINT(SIN(23.6 ))
+<nl>
+
+PRINT(COS(134.98 ))
+<nl>
+
+PRINT(TAN(87.988 ))
+<nl>
+
+PRINT(ASIN(SIN(0.5 ) ))
+<nl>
+
+PRINT(ACOS(COS(0.6 ) ))
+<nl>
+
+PRINT(ATAN(TAN(0.7 ) ))
+<nl>
+
 IF PASS%
 PRINT("PASS")
 <nl>
