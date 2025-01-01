@@ -3,306 +3,484 @@ PROCDEF
 
  LOCAL
 
-A%
+A
 
 ,
 
-(
-          000:type:U '('
-
-10
-          000:type:U '('
-
-)
-
-S1$
+B
 
 ,
 
-F2
+E
 
  LOCAL
 
-(
-          000:type:U '('
-
-5
-          000:type:U '('
-
-)
-
-X%
+PASS%
 
 ,
 
-(
-          000:type:U '('
+PASS2%
 
-5
-          000:type:U '('
-
-,
-          000:type:U '('
-
-7
-          000:type:U '('
-
-)
-
-S$
-
-,
-
-(
-          000:type:U '('
-
-20
-          000:type:U '('
-
-)
-
-F
-
- GLOBAL
-
-PEAR%
-
-,
-
-(
-          000:type:U '('
-
-10
-          000:type:U '('
-
-)
-
-DOOR$
-
- GLOBAL
-
-(
-          000:type:U '('
-
-50
-          000:type:U '('
-
-)
-
-OPEN%
-
-,
-
-(
-          000:type:U '('
-
-20
-          000:type:U '('
-
-,
-          000:type:U '('
-
-30
-          000:type:U '('
-
-)
-
-POS$
-
-,
-
-(
-          000:type:U '('
-
-123
-          000:type:U '('
-
-)
-
-FLOAT
-
-EXTTOP%
+PASS%
 
 :=
           000:type:i ':='
 
-8
+1
           000:type:i ':='
 
-S1$
+PASS2%
 
 :=
-          000:type:s ':='
+          000:type:i ':='
 
-"abc"
-          000:type:s ':='
+0
+          000:type:i ':='
+
+E
+
+:=
+          000:type:f ':='
+
+3862.0
+          000:type:f ':='
+
+*
+          000:type:f ':='
+          001:type:f '*'
+
+43.0
+          000:type:f ':='
+          001:type:f '*'
+
+"A(16606.0):"
+
+;
+
+E
+
+,
+
+PRINT
+          000:type:U 'PRINT'
 
 (
           000:type:U '('
 
-10
+E
           000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+166066.0
+          000:type:U '('
+          001:type:f '='
 
 )
 
-SA$
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
 
 :=
-          000:type:S ':='
+          000:type:i ':='
 
-"def"
-          000:type:S ':='
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+166066.0
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
+
+E
+
+:=
+          000:type:f ':='
+
+234.0
+          000:type:f ':='
+
+*
+          000:type:f ':='
+          001:type:f '*'
+
+0.0078
+          000:type:f ':='
+          001:type:f '*'
+
+"A():"
+
+;
+
+E
+
+,
+
+PRINT
+          000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+1.8252
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+166066.0
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
+
+PASS2%
+
+<>
+          000:type:i '<>'
+
+-
+          000:type:i '<>'
+          001:type:i 'UMIN'
+
+12
+          000:type:i '<>'
+          001:type:i 'UMIN'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+ENDIF
+
+PASS%
+
+"PASS"
+
+PRINT
+          000:type:U 'PRINT'
+
+"FAIL"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF
 
 PROCDEF
 
  LOCAL
 
-A%
+A
 
 ,
 
-(
-          000:type:U '('
-
-10
-          000:type:U '('
-
-)
-
-S1$
+B
 
 ,
 
-F2
+E
 
  LOCAL
 
-(
-          000:type:U '('
-
-5
-          000:type:U '('
-
-)
-
-X%
+PASS%
 
 ,
 
-(
-          000:type:U '('
+PASS2%
 
-5
-          000:type:U '('
-
-,
-          000:type:U '('
-
-7
-          000:type:U '('
-
-)
-
-S$
-
-,
-
-(
-          000:type:U '('
-
-20
-          000:type:U '('
-
-)
-
-F
-
- GLOBAL
-
-PEAR%
-
-,
-
-(
-          000:type:U '('
-
-10
-          000:type:U '('
-
-)
-
-DOOR$
-
- GLOBAL
-
-(
-          000:type:U '('
-
-50
-          000:type:U '('
-
-)
-
-OPEN%
-
-,
-
-(
-          000:type:U '('
-
-20
-          000:type:U '('
-
-,
-          000:type:U '('
-
-30
-          000:type:U '('
-
-)
-
-POS$
-
-,
-
-(
-          000:type:U '('
-
-123
-          000:type:U '('
-
-)
-
-FLOAT
-
-EXTTOP%
+PASS%
 
 :=
           000:type:i ':='
 
-8
+1
           000:type:i ':='
 
-S1$
+PASS2%
 
 :=
-          000:type:s ':='
+          000:type:i ':='
 
-"abc"
-          000:type:s ':='
+0
+          000:type:i ':='
+
+E
+
+:=
+          000:type:f ':='
+
+3862.0
+          000:type:f ':='
+
+*
+          000:type:f ':='
+          001:type:f '*'
+
+43.0
+          000:type:f ':='
+          001:type:f '*'
+
+"A(16606.0):"
+
+;
+
+E
+
+,
+
+PRINT
+          000:type:U 'PRINT'
 
 (
           000:type:U '('
 
-10
+E
           000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+166066.0
+          000:type:U '('
+          001:type:f '='
 
 )
 
-SA$
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
 
 :=
-          000:type:S ':='
+          000:type:i ':='
 
-"def"
-          000:type:S ':='
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+166066.0
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
+
+E
+
+:=
+          000:type:f ':='
+
+234.0
+          000:type:f ':='
+
+*
+          000:type:f ':='
+          001:type:f '*'
+
+0.0078
+          000:type:f ':='
+          001:type:f '*'
+
+"A():"
+
+;
+
+E
+
+,
+
+PRINT
+          000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+1.8252
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+166066.0
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
+
+PASS2%
+
+<>
+          000:type:i '<>'
+
+-
+          000:type:i '<>'
+          001:type:i 'UMIN'
+
+12
+          000:type:i '<>'
+          001:type:i 'UMIN'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+ENDIF
+
+PASS%
+
+"PASS"
+
+PRINT
+          000:type:U 'PRINT'
+
+"FAIL"
+
+PRINT
+          000:type:U 'PRINT'
+
+ENDIF

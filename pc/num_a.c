@@ -137,17 +137,22 @@ void num_shift_digits_left(NOPL_FLOAT *n)
 // Propagate carries and shift exponents to get a non zero in digit[0]
 //
 
-void num_propagate_carry(NOPL_FLOAT *n)
+void num_propagate_carry_digits(int8_t *digits, int num_digits)
 {
   // Propagate carry
-  for(int i= NUM_MAX_DIGITS-1; i>0; i--)
+  for(int i= num_digits-1; i>0; i--)
     {
-      if( n->digits[i] >= 10 )
+      if( digits[i] >= 10 )
 	{
-	  n->digits[i] %= 10;
-	  n->digits[i-1]++;
+	  digits[i-1]+= digits[i] /10;
+	  digits[i] %= 10;
 	}
     }
+}
+
+void num_propagate_carry(NOPL_FLOAT *n, int num_digits)
+{
+  num_propagate_carry_digits(n->digits, NUM_MAX_DIGITS);
 }
 
 void num_normalise(NOPL_FLOAT *n)
@@ -222,7 +227,7 @@ void num_mantissa_tens_compl(NOPL_FLOAT *n)
   // Add 1 for the ten's complement
   n->digits[NUM_MAX_DIGITS-1]++;
 
-  num_propagate_carry(n);
+  num_propagate_carry(n, NUM_MAX_DIGITS);
   num_normalise(n);
 
   dbq_num_exploded("%s after 10's compl", n);
@@ -312,7 +317,7 @@ void num_sub_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   dbq_num_exploded("%s Before normaliser:", r);
 
   // Normalise
-  num_propagate_carry(r);
+  num_propagate_carry(r, NUM_MAX_DIGITS);
 
   dbq_num_exploded("%s After carry prop r:", r);
 
@@ -452,6 +457,95 @@ void num_sub(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
       break;
     }
 
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Multiply two floats
+//
+
+
+void num_mul(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
+{
+  uint8_t d_digits[NUM_MAX_DIGITS*2];
+
+  for(int i=0; i<NUM_MAX_DIGITS*2; i++)
+    {
+      d_digits[i] = 0;
+    }
+  
+  dbq("MUL");
+  dbq_num("%s a:", a);
+  dbq_num("%s b:", b);
+
+  // Sort out the signs
+  //
+  if( a->sign == b-> sign )
+    {
+      r->sign = NUM_SIGN_POSITIVE;
+    }
+  else
+    {
+      r->sign = NUM_SIGN_POSITIVE;
+    }
+
+  // Sort out exponent
+  r->exponent = a->exponent + b->exponent;
+
+  dbq_num_exploded("%s a:", a);
+  dbq_num_exploded("%s b:", b);
+
+  // Now multiply mantissas, we use a double sized mantissa for the result
+  
+  for(int i=NUM_MAX_DIGITS-1; i>=0; i--)
+    {
+      for(int j=NUM_MAX_DIGITS-1; j>=0; j--)
+	{
+	  dbq("%d %d, %d  %d %d", i, j, a->digits[j]*b->digits[i], a->digits[j], b->digits[i]);
+	  d_digits[i+j+NUM_MAX_DIGITS] += a->digits[j]*b->digits[i];
+	}
+
+      fprintf(exdbfp, "\n");
+
+      // Now propagate the carry
+      num_propagate_carry_digits(d_digits, NUM_MAX_DIGITS*2);
+
+      for(int k=0; k<NUM_MAX_DIGITS*2; k++)
+	{
+	  fprintf(exdbfp, "% d", d_digits[k]);
+	}
+      fprintf(exdbfp, "\n");
+	    
+    }
+
+  // Build result
+  // Normalise digits, keeping track of exponent adjustment
+  int exponent_adjust = 0;
+  
+  while( d_digits[0] == 0 )
+    {
+      // Shift mantissa digits to the 'left'
+      for(int i=0; i<NUM_MAX_DIGITS*2;  i++)
+	{
+	  d_digits[i] = d_digits[i+1];
+	}
+      
+      d_digits[NUM_MAX_DIGITS*2-1] = 0;
+
+      exponent_adjust++;
+    }
+  
+  for(int i=0; i<NUM_MAX_DIGITS; i++)
+    {
+      r->digits[i] = d_digits[i];
+    }
+
+  exponent_adjust = NUM_MAX_DIGITS - exponent_adjust;
+  
+  dbq("exp adj:%d", exponent_adjust);
+
+  r->exponent += exponent_adjust;
+  dbq_num_exploded("%s result", r);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

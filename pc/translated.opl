@@ -1,20 +1,70 @@
 
 
 
-F2
-F(20)
-DOOR$
-FLOAT(123)
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+E
+PASS2%
+PASS% := 1
+PASS2% := 0
+E := (3862.0 * 43.0)
+PRINT("A(16606.0):")
+PRINT(E)
+< > 
+PRINT((E = 166066.0))
+<nl>
+
+PASS2% := (PASS2% + (E = 166066.0))
+E := (234.0 * 0.0078)
+PRINT("A():")
+PRINT(E)
+< > 
+PRINT((E = 1.8252))
+<nl>
+
+PASS2% := (PASS2% + (E = 166066.0))
+IF (PASS2% <> (UMIN 12))
+PASS% := 0
+ENDIF
+IF PASS%
+PRINT("PASS")
+<nl>
+
+ELSE
+PRINT("FAIL")
+<nl>
+
+ENDIF
 
 
 
 DROP()
 DROP()
-DROP()
-DROP()
-EXTTOP% := 8
-S1$ := "abc"
-SA$(10) := "def"
+PASS% := 1
+PASS2% := 0
+E := (3862.0 * 43.0)
+PRINT("A(16606.0):")
+PRINT(E)
+< > 
+PRINT((E = 166066.0))
+<nl>
+
+PASS2% := (PASS2% + (E = 166066.0))
+E := (234.0 * 0.0078)
+PRINT("A():")
+PRINT(E)
+< > 
+PRINT((E = 1.8252))
+<nl>
+
+PASS2% := (PASS2% + (E = 166066.0))
+IF (PASS2% <> (UMIN 12))
+PASS% := 0
+ENDIF
+IF PASS%
+PRINT("PASS")
+<nl>
+
+ELSE
+PRINT("FAIL")
+<nl>
+
+ENDIF

@@ -1052,6 +1052,22 @@ void qca_sub_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
   dbq_num_exploded("res: ", &(s->num_result));
 }
 
+void qca_mul_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  num_mul(&(s->num2), &(s->num), &(s->num_result));
+  dbq_num("num: ", &(s->num));
+  dbq_num("num2:", &(s->num2));
+  dbq_num("res: ", &(s->num_result));
+}
+
+void qca_div_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  num_add(&(s->num2), &(s->num), &(s->num_result));
+  dbq_num("num: ", &(s->num));
+  dbq_num("num2:", &(s->num2));
+  dbq_num("res: ", &(s->num_result));
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 void qca_asc(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -1183,7 +1199,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_EQ_NUM,        "QI_EQ_NUM",         {qca_pop_2num,     qca_eq_num,      qca_null}},
     { QCO_ADD_NUM,       "QCO_ADD_NUM",       {qca_pop_2num,     qca_add_num,     qca_push_num_result}},
     { QCO_SUB_NUM,       "QCO_SUB_NUM",       {qca_pop_2num,     qca_sub_num,     qca_push_num_result}},
-    // QCO_MUL_NUM             0x3E    
+    { QCO_MUL_NUM,       "QCO_MUL_NUM",       {qca_pop_2num,     qca_mul_num,     qca_push_num_result}},
     // QCO_DIV_NUM             0x3F    
     // QCO_POW_NUM             0x40    
     { QCO_UMIN_NUM,      "QCO_UMIN_NUM",      {qca_pop_num,      qca_umin_num,    qca_push_num}},
