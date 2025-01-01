@@ -1037,7 +1037,7 @@ void qca_sqr_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_add_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  num_add(&(s->num), &(s->num2), &(s->num_result));
+  num_add(&(s->num2), &(s->num), &(s->num_result));
   dbq_num("num: ", &(s->num));
   dbq_num("num2:", &(s->num2));
   dbq_num("res: ", &(s->num_result));
@@ -1045,7 +1045,7 @@ void qca_add_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_sub_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  num_sub(&(s->num), &(s->num2), &(s->num_result));
+  num_sub(&(s->num2), &(s->num), &(s->num_result));
   dbq_num("num: ", &(s->num));
   dbq_num("num2:", &(s->num2));
   dbq_num("res: ", &(s->num_result));

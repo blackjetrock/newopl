@@ -27,14 +27,14 @@ char *num_as_text(NOPL_FLOAT *n, char *text)
   
   if(n->sign)
     {
-      strcpy(line, "-");
+      strcpy(line, " -");
     }
   else
     {
-      strcpy(line, "");
+      strcpy(line, " +");
     }
   
-  sprintf(part, "%d.%s", n->digits[0], text);
+  sprintf(part, " %d . %s", n->digits[0], text);
   strcat(line, part);
   
   for(int i=1; i<NUM_MAX_DIGITS; i++)
@@ -50,15 +50,15 @@ char *num_as_text(NOPL_FLOAT *n, char *text)
 }
 
 //------------------------------------------------------------------------------
-
-void dbq_num_exploded(char *text, NOPL_FLOAT *n)
+       
+void dbq_num_exploded_f(const char *caller, char *text, NOPL_FLOAT *n)
 {
-  dbq("%s%s", text, num_as_text(n, " "));
+  dbpfq(caller, text, num_as_text(n, " "));
 }
 
-void dbq_num(char *text, NOPL_FLOAT *n)
+void dbq_num_f(const char *caller, char *text, NOPL_FLOAT *n)
 {
-  dbq("%s%s", text, num_as_text(n, ""));
+  dbpfq(caller, text, num_as_text(n, ""));
 }
 
 //------------------------------------------------------------------------------
@@ -152,12 +152,16 @@ void num_propagate_carry(NOPL_FLOAT *n)
 
 void num_normalise(NOPL_FLOAT *n)
 {
+  dbq_num_exploded("%s Entry:", n);
+  
   // If digits[0] is 0 then we need to shift left until it is non zero
   while( n->digits[0] == 0 )
     {
       num_shift_digits_left(n);
     }
 
+  dbq_num_exploded("%s After shift", n);
+  
   // If we have a carry in the LH digit then shift right until it has gone
   while( n->digits[0] >= 10 )
     {
@@ -167,6 +171,8 @@ void num_normalise(NOPL_FLOAT *n)
       n->digits[0] = 1;
       n->digits[1] %= 10;
     }
+  
+    dbq_num_exploded("%s After first dig split:", n);
 }
 
 //------------------------------------------------------------------------------
@@ -205,8 +211,8 @@ void num_make_exponent(NOPL_FLOAT *n, int exp)
 void num_mantissa_tens_compl(NOPL_FLOAT *n)
 {
   dbq("");
-  dbq_num("Before 10s compl", n);
-  
+  dbq_num_exploded("%s Before 10s compl", n);
+
   // Nine's complement
   for(int i=0; i<NUM_MAX_DIGITS; i++)
     {
@@ -215,18 +221,26 @@ void num_mantissa_tens_compl(NOPL_FLOAT *n)
 
   // Add 1 for the ten's complement
   n->digits[NUM_MAX_DIGITS-1]++;
+
+  num_propagate_carry(n);
   num_normalise(n);
 
-  dbq_num("after 10's compl", n);
+  dbq_num_exploded("%s after 10's compl", n);
 }
 
 //------------------------------------------------------------------------------
 //
 // Add positive floats
 //
+// Ignores signs
+//
 
 void num_add_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 {
+  dbq("SUB POS");
+  dbq_num("%s a:", a);
+  dbq_num("%s b:", b);
+  
   // Adjust the smaller number so we have the same exponent. Shift the mantissa to line up.
   if( a->exponent > b->exponent)
     {
@@ -236,6 +250,9 @@ void num_add_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
     {
       num_make_exponent(a, b->exponent);
     }
+
+  dbq_num("%s After exp adj a:", a);
+  dbq_num("%s After exp adj b:", b);
   
   // Add the mantissa digits
   for(int i=NUM_MAX_DIGITS-1; i>=0; i--)
@@ -243,21 +260,32 @@ void num_add_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
       r->digits[i] = a->digits[i] + b->digits[i]; 
     }
 
+  dbq_num("%s After digit sub r:", r);
+  
   r->exponent = a->exponent;
 
-  dbq_num("Before normailse:", r);
+  dbq_num("%s After digit asgn r:", r);
+  
+  dbq_num("%s Before normailse:", r);
   
   // Normalise
   num_normalise(r);
+  dbq_num("%s After normailse:", r);
 }
 
 //------------------------------------------------------------------------------
 //
 // Subtract positive floats
 //
+// Ignores signs
+//
 
 void num_sub_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 {
+  dbq("SUB POS");
+  dbq_num("%s a:", a);
+  dbq_num("%s b:", b);
+  
   // Adjust the smaller number so we have the same exponent. Shift the mantissa to line up.
   if( a->exponent > b->exponent)
     {
@@ -268,7 +296,7 @@ void num_sub_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
       num_make_exponent(a, b->exponent);
     }
 
-  num_mantissa_tens_compl(a);
+  num_mantissa_tens_compl(b);
   
   // Add the mantissa digits
   for(int i=NUM_MAX_DIGITS-1; i>=0; i--)
@@ -277,13 +305,38 @@ void num_sub_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
     }
  
   r->exponent = a->exponent;
-  
+
+  dbq_num_exploded("%s Before normaliser:", r);
+
   // Normalise
   num_propagate_carry(r);
 
+  dbq_num_exploded("%s After carry prop r:", r);
+
+    
   // We will always have an overflow in the first digit as we are adding a ten's
   // complement number
-  r->digits[0] -= 10;
+  if( r->digits[0] > 10 )
+    {
+      // No overflow, sign stays same
+      r->digits[0] -= 10;
+      r->sign = a->sign;
+    }
+  else
+    {
+      // Overflow, the sign changes
+      r->sign = NUM_INVERT_SIGN(a->sign);
+      num_mantissa_tens_compl(r);
+    }
+  
+  dbq_num_exploded("%s After adjust r:", r);
+  
+  // Normalise
+  num_normalise(r);
+
+  dbq_num_exploded("%s After normalise r:", r);
+  dbq_num("%s Exit r:", r);
+
 }
 
 //------------------------------------------------------------------------------
@@ -338,31 +391,52 @@ void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 //  -x - -y   => y - x
 //
 
+#define SIG_P_P 0
+#define SIG_P_N 1
+#define SIG_N_P 2
+#define SIG_N_N 3
+
+
 void num_sub(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 {
-  dbq("");
+
   
-  if( (a->sign) == (b->sign) )
+  int signsig = 0;
+
+  if( (a->sign) == NUM_SIGN_NEGATIVE )
     {
+      signsig |= 2;
+    }
+
+  if( (b->sign) == NUM_SIGN_NEGATIVE )
+    {
+      signsig |= 1;
+    }
+
+  dbq("Sign sig:%d", signsig)
+    ;
+  switch(signsig)
+    {
+    case SIG_P_P:
+      num_sub_pos(a, b, r);
+      break;
+
+    case SIG_P_N:
       num_add_pos(a, b, r);
-      r->sign = a->sign;
+      break;
+
+    case SIG_N_P:
+      // a negative, b positive
+      // swap to make this an x-y type subtraction
+      num_add_pos(a, b, r);
+      r->sign = NUM_SIGN_NEGATIVE;
+      break;
+
+    case SIG_N_N:
+      num_sub_pos(b, a, r);
+      break;
     }
-  else
-    {
-      // Different signs, so arrange the sum to be a difference
-      
-      if( ((a->sign) == NUM_SIGN_NEGATIVE) )
-	{
-	  // a negative, b positive
-	  // swap to make this an x-y type subtraction
-	  num_sub_pos(b, a, r);
-	}
-      else
-	{
-	  num_sub_pos(b, a, r);
-	}
-    }
-  num_sub_pos(a, b, r);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////

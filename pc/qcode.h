@@ -299,4 +299,7 @@ void db_qcode(char *s, ...);
 extern FILE *exdbfp;
 
 #define dbq(fmt...) dbpfq(__FUNCTION__, fmt)
+#define dbq_num(text, num) dbq_num_f(__FUNCTION__, text, num)
+#define dbq_num_exploded(text, num) dbq_num_exploded_f(__FUNCTION__, text, num)
+
 void dbpfq(const char *caller, char *fmt, ...);

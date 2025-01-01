@@ -15,11 +15,12 @@ typedef struct _NOPL_FLOAT
 #define NUM_NEGATIVE(NN) ((NN->sign) != 0)
 
 #define NUM_SIGN_NEGATIVE 0x80
+#define NUM_INVERT_SIGN(SS) (NUM_SIGN_NEGATIVE - SS)
 
 void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);
 void num_sub(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);
-void dbq_num(char *text, NOPL_FLOAT *n);
-void dbq_num_exploded(char *text, NOPL_FLOAT *n);
+void dbq_num_f(const char *caller, char *text, NOPL_FLOAT *n);
+void dbq_num_exploded_f(const char *caller, char *text, NOPL_FLOAT *n);
 int num_eq(NOPL_FLOAT *a, NOPL_FLOAT *b);
 int num_gt(NOPL_FLOAT *a, NOPL_FLOAT *b);
 int num_ne(NOPL_FLOAT *a, NOPL_FLOAT *b);
