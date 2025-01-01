@@ -103,14 +103,14 @@ QCode
 007C: FFE6       (65510)
 007E: 23       Push float literal     (bytes code:F)
 007F: Len:4
-0080: '666016E5
+0080: '202518E0
 0084: 3B       Equal float     (bytes code:-)
 0085: 2D       Plus integer     (bytes code:-)
 0086: 7F       Assign integer     (bytes code:-)
 0087: 00       Push local/global integer variable value     (bytes code:v)
 0088: FFE2       (65506)
 008A: 22       Push integer literal     (bytes code:I)
-008B: 000C       (12)
+008B: 0002       (2)
 008D: 32       unary minus integer     (bytes code:-)
 008E: 2B       Not equal integer     (bytes code:-)
 008F: 7E       Branch if false     (bytes code:D)
@@ -148,7 +148,7 @@ QCode Data
 0050:FF E6 23 03 40 23 02 23 02 78 FD 3E 80 24 04 41 
 0060:28 29 3A 71 01 FF E6 70 72 01 FF E6 23 04 20 25 
 0070:18 00 3B 6F 73 0D FF E2 00 FF E2 01 FF E6 23 04 
-0080:66 60 16 05 3B 2D 7F 00 FF E2 22 00 0C 32 2B 7E 
+0080:20 25 18 00 3B 2D 7F 00 FF E2 22 00 02 32 2B 7E 
 0090:00 09 0D FF E4 22 00 00 7F 00 FF E4 7E 00 0D 24 
 00A0:04 50 41 53 53 71 73 51 00 0A 24 04 46 41 49 4C 
 00B0:71 73 7B 

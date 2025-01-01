@@ -338,8 +338,8 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 Push:'PASS2%'
 Push:'PASS2%'
 Push:'E'
-Push:'166066.0'
-Pop: '166066.0'
+Push:'1.8252'
+Pop: '1.8252'
 Pop: 'E'
 Push:'000'
 Pop: '000'
@@ -364,14 +364,14 @@ Push:'E'
                     000: 'PASS2%' type:i (0), %:0
                     001: 'PASS2%' type:i (0), %:0
                     002: 'E' type:f (1), %:0
-EXP_BUFF_ID_FLT 166066.0
-Push:'166066.0'
+EXP_BUFF_ID_FLT 1.8252
+Push:'1.8252'
                     000: 'PASS2%' type:i (0), %:0
                     001: 'PASS2%' type:i (0), %:0
                     002: 'E' type:f (1), %:0
-                    003: '166066.0' type:f (1), %:0
+                    003: '1.8252' type:f (1), %:0
 EXP_BUFF_ID_OPERATOR =
-Pop: '166066.0'
+Pop: '1.8252'
 Pop: 'E'
 Push:'000'
                     000: 'PASS2%' type:i (0), %:0
@@ -397,8 +397,8 @@ Pop: 'PASS2%'
 --------------------
 
 Push:'PASS2%'
-Push:'12'
-Pop: '12'
+Push:'2'
+Pop: '2'
 Push:'000'
 Pop: '000'
 Pop: 'PASS2%'
@@ -409,12 +409,12 @@ Pop: '000'
 EXP_BUFF_ID_VARIABLE PASS2%
 Push:'PASS2%'
                     000: 'PASS2%' type:i (0), %:0
-EXP_BUFF_ID_INTEGER 12
-Push:'12'
+EXP_BUFF_ID_INTEGER 2
+Push:'2'
                     000: 'PASS2%' type:i (0), %:0
-                    001: '12' type:i (0), %:0
+                    001: '2' type:i (0), %:0
 EXP_BUFF_ID_OPERATOR_UNARY UMIN
-Pop: '12'
+Pop: '2'
 Push:'000'
                     000: 'PASS2%' type:i (0), %:0
                     001: '000' type:i (0), %:0
@@ -854,8 +854,8 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 Push:'PASS2%'
 Push:'PASS2%'
 Push:'E'
-Push:'166066.0'
-Pop: '166066.0'
+Push:'1.8252'
+Pop: '1.8252'
 Pop: 'E'
 Push:'000'
 Pop: '000'
@@ -880,14 +880,14 @@ Push:'E'
                     000: 'PASS2%' type:i (0), %:0
                     001: 'PASS2%' type:i (0), %:0
                     002: 'E' type:f (1), %:0
-EXP_BUFF_ID_FLT 166066.0
-Push:'166066.0'
+EXP_BUFF_ID_FLT 1.8252
+Push:'1.8252'
                     000: 'PASS2%' type:i (0), %:0
                     001: 'PASS2%' type:i (0), %:0
                     002: 'E' type:f (1), %:0
-                    003: '166066.0' type:f (1), %:0
+                    003: '1.8252' type:f (1), %:0
 EXP_BUFF_ID_OPERATOR =
-Pop: '166066.0'
+Pop: '1.8252'
 Pop: 'E'
 Push:'000'
                     000: 'PASS2%' type:i (0), %:0
@@ -913,8 +913,8 @@ Pop: 'PASS2%'
 --------------------
 
 Push:'PASS2%'
-Push:'12'
-Pop: '12'
+Push:'2'
+Pop: '2'
 Push:'000'
 Pop: '000'
 Pop: 'PASS2%'
@@ -925,12 +925,12 @@ Pop: '000'
 EXP_BUFF_ID_VARIABLE PASS2%
 Push:'PASS2%'
                     000: 'PASS2%' type:i (0), %:0
-EXP_BUFF_ID_INTEGER 12
-Push:'12'
+EXP_BUFF_ID_INTEGER 2
+Push:'2'
                     000: 'PASS2%' type:i (0), %:0
-                    001: '12' type:i (0), %:0
+                    001: '2' type:i (0), %:0
 EXP_BUFF_ID_OPERATOR_UNARY UMIN
-Pop: '12'
+Pop: '2'
 Push:'000'
                     000: 'PASS2%' type:i (0), %:0
                     001: '000' type:i (0), %:0
