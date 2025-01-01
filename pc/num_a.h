@@ -11,11 +11,15 @@ typedef struct _NOPL_FLOAT
   int8_t digits[NUM_MAX_DIGITS];
 } NOPL_FLOAT;
 
-#define NUM_POSITIVE(NN) ((NN->sign) == 0)
-#define NUM_NEGATIVE(NN) ((NN->sign) != 0)
 
 #define NUM_SIGN_NEGATIVE 0x80
+#define NUM_SIGN_POSITIVE 0x00
+
 #define NUM_INVERT_SIGN(SS) (NUM_SIGN_NEGATIVE - SS)
+#define NUM_IS_NEGATIVE(NN) (((uint8_t)(NN->sign))==NUM_SIGN_NEGATIVE)
+#define NUM_IS_POSITIVE(NN) (((uint8_t)(NN->sign))==NUM_SIGN_POSITIVE)
+#define NUM_POSITIVE(NN) NUM_IS_POSITIVE(NN)
+#define NUM_NEGATIVE(NN) NUM_IS_NEGATIVE(NN)
 
 void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);
 void num_sub(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);

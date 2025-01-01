@@ -1,6 +1,6 @@
 add:
 
-local A%, B%, C%, E, PASS%
+local A%, B%, C%, E, PASS%, PASS2%
 rem local s$(10), t$(5, 12)
 rem local AR%(11), F(4)
 
@@ -163,41 +163,49 @@ print asin(sin(0.5))
 print acos(cos(0.6))
 print atan(tan(0.7))
 
+PASS2% = 0
+
 E = 1.2 + 3.4
-print "A(4.6):";e
+print "A(4.6):";e,(e=4.6) : PASS2%=PASS2%+(e=4.6)
 
 E = -1.2 + 3.4
-print "B(2.2):";e
+print "B(2.2):";e,(e=2.2) : PASS2%=PASS2%+(e=2.2)
 
 E = 1.2 - 3.4
-print "C(-2.2):";e
+print "C(-2.2):";e,(e=-2.2) : PASS2%=PASS2%+(e=-2.2)
 
 E = -1.2 - 3.4
-print "D(-4.6):";e
+print "D(-4.6):";e,(e=-4.6) : PASS2%=PASS2%+(e=-4.6)
 
 E = 1.2 + -3.4
-print "E(-2.2):";e
+print "E(-2.2):";e,(e=-2.2) : PASS2%=PASS2%+(e=-2.2)
 
 E = 1.2 - -3.4
-print "F(4.6):";e
+print "F(4.6):";e,(e=4.6) : PASS2%=PASS2%+(e=4.6)
 
 E = 3.4 + 1.2
-print "G(4.6):";e
+print "G(4.6):";e,(e=4.6) : PASS2%=PASS2%+(e=4.6)
 
 E = -3.4 + 1.2
-print "H(-2.2):";e
+print "H(-2.2):";e,(e=-2.2) : PASS2%=PASS2%+(e=-2.2)
 
 E = 3.4 - 1.2
-print "I(2.2):";e
+print "I(2.2):";e,(e=2.2) : PASS2%=PASS2%+(e=2.2)
 
 E = -3.4 - 1.2
-print "J(-4.6):";e
+print "J(-4.6):";e,(e=-4.6) : PASS2%=PASS2%+(e=-4.6)
 
 E = 3.4 + -1.2
-print "K(2.2):";e
+print "K(2.2):";e,(e=2.2) : PASS2%=PASS2%+(e=2.2)
 
 E = 3.4 - -1.2
-print "L(4.6):";e
+print "L(4.6):";e,(e=4.6) : PASS2%=PASS2%+(e=4.6)
+
+if pass2% <> -12
+pass%=0
+endif
+
+rem print pass2%
 
 rem --------------------------------------------------------------------------------
 
@@ -213,7 +221,7 @@ rem ----------------------------------------------------------------------------
 IF PASS%
 print "PASS"
 else
-print PASS%
+print "FAIL"
 ENDIF
 
 

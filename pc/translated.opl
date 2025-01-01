@@ -1,7 +1,7 @@
 
 
 
-PASS%
+PASS2%
 PASS% := 1
 B% := 12345
 PRINT(B%)
@@ -225,66 +225,106 @@ PRINT(ACOS(COS(0.6 ) ))
 PRINT(ATAN(TAN(0.7 ) ))
 <nl>
 
+PASS2% := 0
 E := (1.2 + 3.4)
 PRINT("A(4.6):")
 PRINT(E)
+< > 
+PRINT((E = 4.6))
 <nl>
 
+PASS2% := (PASS2% + (E = 4.6))
 E := ((UMIN 1.2) + 3.4)
 PRINT("B(2.2):")
 PRINT(E)
+< > 
+PRINT((E = 2.2))
 <nl>
 
+PASS2% := (PASS2% + (E = 2.2))
 E := (1.2 - 3.4)
 PRINT("C(-2.2):")
 PRINT(E)
+< > 
+PRINT((E = (UMIN 2.2)))
 <nl>
 
+PASS2% := (PASS2% + (E = (UMIN 2.2)))
 E := ((UMIN 1.2) - 3.4)
 PRINT("D(-4.6):")
 PRINT(E)
+< > 
+PRINT((E = (UMIN 4.6)))
 <nl>
 
+PASS2% := (PASS2% + (E = (UMIN 4.6)))
 E := (1.2 + (UMIN 3.4))
 PRINT("E(-2.2):")
 PRINT(E)
+< > 
+PRINT((E = (UMIN 2.2)))
 <nl>
 
+PASS2% := (PASS2% + (E = (UMIN 2.2)))
 E := (1.2 - (UMIN 3.4))
 PRINT("F(4.6):")
 PRINT(E)
+< > 
+PRINT((E = 4.6))
 <nl>
 
+PASS2% := (PASS2% + (E = 4.6))
 E := (3.4 + 1.2)
 PRINT("G(4.6):")
 PRINT(E)
+< > 
+PRINT((E = 4.6))
 <nl>
 
+PASS2% := (PASS2% + (E = 4.6))
 E := ((UMIN 3.4) + 1.2)
 PRINT("H(-2.2):")
 PRINT(E)
+< > 
+PRINT((E = (UMIN 2.2)))
 <nl>
 
+PASS2% := (PASS2% + (E = (UMIN 2.2)))
 E := (3.4 - 1.2)
 PRINT("I(2.2):")
 PRINT(E)
+< > 
+PRINT((E = 2.2))
 <nl>
 
+PASS2% := (PASS2% + (E = 2.2))
 E := ((UMIN 3.4) - 1.2)
 PRINT("J(-4.6):")
 PRINT(E)
+< > 
+PRINT((E = (UMIN 4.6)))
 <nl>
 
+PASS2% := (PASS2% + (E = (UMIN 4.6)))
 E := (3.4 + (UMIN 1.2))
 PRINT("K(2.2):")
 PRINT(E)
+< > 
+PRINT((E = 2.2))
 <nl>
 
+PASS2% := (PASS2% + (E = 2.2))
 E := (3.4 - (UMIN 1.2))
 PRINT("L(4.6):")
 PRINT(E)
+< > 
+PRINT((E = 4.6))
 <nl>
 
+PASS2% := (PASS2% + (E = 4.6))
+IF (PASS2% <> (UMIN 12))
+PASS% := 0
+ENDIF
 E := 2.0
 PRINT(SQR(E ))
 <nl>
@@ -298,7 +338,7 @@ PRINT("PASS")
 <nl>
 
 ELSE
-PRINT(PASS%)
+PRINT("FAIL")
 <nl>
 
 ENDIF
@@ -529,66 +569,106 @@ PRINT(ACOS(COS(0.6 ) ))
 PRINT(ATAN(TAN(0.7 ) ))
 <nl>
 
+PASS2% := 0
 E := (1.2 + 3.4)
 PRINT("A(4.6):")
 PRINT(E)
+< > 
+PRINT((E = 4.6))
 <nl>
 
+PASS2% := (PASS2% + (E = 4.6))
 E := ((UMIN 1.2) + 3.4)
 PRINT("B(2.2):")
 PRINT(E)
+< > 
+PRINT((E = 2.2))
 <nl>
 
+PASS2% := (PASS2% + (E = 2.2))
 E := (1.2 - 3.4)
 PRINT("C(-2.2):")
 PRINT(E)
+< > 
+PRINT((E = (UMIN 2.2)))
 <nl>
 
+PASS2% := (PASS2% + (E = (UMIN 2.2)))
 E := ((UMIN 1.2) - 3.4)
 PRINT("D(-4.6):")
 PRINT(E)
+< > 
+PRINT((E = (UMIN 4.6)))
 <nl>
 
+PASS2% := (PASS2% + (E = (UMIN 4.6)))
 E := (1.2 + (UMIN 3.4))
 PRINT("E(-2.2):")
 PRINT(E)
+< > 
+PRINT((E = (UMIN 2.2)))
 <nl>
 
+PASS2% := (PASS2% + (E = (UMIN 2.2)))
 E := (1.2 - (UMIN 3.4))
 PRINT("F(4.6):")
 PRINT(E)
+< > 
+PRINT((E = 4.6))
 <nl>
 
+PASS2% := (PASS2% + (E = 4.6))
 E := (3.4 + 1.2)
 PRINT("G(4.6):")
 PRINT(E)
+< > 
+PRINT((E = 4.6))
 <nl>
 
+PASS2% := (PASS2% + (E = 4.6))
 E := ((UMIN 3.4) + 1.2)
 PRINT("H(-2.2):")
 PRINT(E)
+< > 
+PRINT((E = (UMIN 2.2)))
 <nl>
 
+PASS2% := (PASS2% + (E = (UMIN 2.2)))
 E := (3.4 - 1.2)
 PRINT("I(2.2):")
 PRINT(E)
+< > 
+PRINT((E = 2.2))
 <nl>
 
+PASS2% := (PASS2% + (E = 2.2))
 E := ((UMIN 3.4) - 1.2)
 PRINT("J(-4.6):")
 PRINT(E)
+< > 
+PRINT((E = (UMIN 4.6)))
 <nl>
 
+PASS2% := (PASS2% + (E = (UMIN 4.6)))
 E := (3.4 + (UMIN 1.2))
 PRINT("K(2.2):")
 PRINT(E)
+< > 
+PRINT((E = 2.2))
 <nl>
 
+PASS2% := (PASS2% + (E = 2.2))
 E := (3.4 - (UMIN 1.2))
 PRINT("L(4.6):")
 PRINT(E)
+< > 
+PRINT((E = 4.6))
 <nl>
 
+PASS2% := (PASS2% + (E = 4.6))
+IF (PASS2% <> (UMIN 12))
+PASS% := 0
+ENDIF
 E := 2.0
 PRINT(SQR(E ))
 <nl>
@@ -602,7 +682,7 @@ PRINT("PASS")
 <nl>
 
 ELSE
-PRINT(PASS%)
+PRINT("FAIL")
 <nl>
 
 ENDIF

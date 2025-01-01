@@ -13,6 +13,7 @@ Push:'B%'
 Push:'C%'
 Push:'E'
 Push:'PASS%'
+Push:'PASS2%'
 ====================
 
 EXP_BUFF_ID_META  LOCAL
@@ -41,6 +42,14 @@ Push:'PASS%'
                     002: 'C%' type:i (0), %:0
                     003: 'E' type:f (1), %:0
                     004: 'PASS%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'A%' type:i (0), %:0
+                    001: 'B%' type:i (0), %:0
+                    002: 'C%' type:i (0), %:0
+                    003: 'E' type:f (1), %:0
+                    004: 'PASS%' type:i (0), %:0
+                    005: 'PASS2%' type:i (0), %:0
 --------------------
 
 Push:'PASS%'
@@ -2713,6 +2722,24 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 
 --------------------
 
+Push:'PASS2%'
+Push:'0'
+Pop: '0'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 0
+Push:'0'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '0' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '0'
+Pop: 'PASS2%'
+--------------------
+
 Push:'E'
 Push:'1.2'
 Push:'3.4'
@@ -2770,11 +2797,106 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'E' type:f (1), %:0
+                    001: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -2841,11 +2963,106 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'E' type:f (1), %:0
+                    001: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -2905,11 +3122,122 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'E' type:f (1), %:0
+                    001: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '2.2'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '2.2'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -2976,11 +3304,122 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'E' type:f (1), %:0
+                    001: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '4.6'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '4.6'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -3048,11 +3487,122 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'E' type:f (1), %:0
+                    001: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '2.2'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '2.2'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -3120,11 +3670,106 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'E' type:f (1), %:0
+                    001: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -3184,11 +3829,106 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'E' type:f (1), %:0
+                    001: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -3255,11 +3995,122 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'E' type:f (1), %:0
+                    001: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '2.2'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '2.2'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -3319,11 +4170,106 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'E' type:f (1), %:0
+                    001: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -3390,11 +4336,122 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'E' type:f (1), %:0
+                    001: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '4.6'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '4.6'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -3462,11 +4519,106 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'E' type:f (1), %:0
+                    001: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -3534,11 +4686,160 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'E' type:f (1), %:0
+                    001: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
+--------------------
+
+Push:'PASS2%'
+Push:'12'
+Pop: '12'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 12
+Push:'12'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '12' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '12'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR <>
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_IF IF
+Pop: '000'
+--------------------
+
+Push:'PASS%'
+Push:'0'
+Pop: '0'
+Pop: 'PASS%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS%
+Push:'PASS%'
+                    000: 'PASS%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 0
+Push:'0'
+                    000: 'PASS%' type:i (0), %:0
+                    001: '0' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '0'
+Pop: 'PASS%'
+--------------------
+
+====================
+
+EXP_BUFF_ID_ENDIF ENDIF
 --------------------
 
 Push:'E'
@@ -3685,15 +4986,15 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 EXP_BUFF_ID_ELSE ELSE
 --------------------
 
-Push:'PASS%'
-Pop: 'PASS%'
+Push:'"FAIL"'
+Pop: '"FAIL"'
 ====================
 
-EXP_BUFF_ID_VARIABLE PASS%
-Push:'PASS%'
-                    000: 'PASS%' type:i (0), %:0
+EXP_BUFF_ID_STR "FAIL"
+Push:'"FAIL"'
+                    000: '"FAIL"' type:s (2), %:0
 EXP_BUFF_ID_PRINT PRINT
-Pop: 'PASS%'
+Pop: '"FAIL"'
 --------------------
 
 ====================
@@ -3728,6 +5029,7 @@ Push:'B%'
 Push:'C%'
 Push:'E'
 Push:'PASS%'
+Push:'PASS2%'
 ====================
 
 EXP_BUFF_ID_META  LOCAL
@@ -3756,6 +5058,14 @@ Push:'PASS%'
                     002: 'C%' type:i (0), %:0
                     003: 'E' type:f (1), %:0
                     004: 'PASS%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'A%' type:i (0), %:0
+                    001: 'B%' type:i (0), %:0
+                    002: 'C%' type:i (0), %:0
+                    003: 'E' type:f (1), %:0
+                    004: 'PASS%' type:i (0), %:0
+                    005: 'PASS2%' type:i (0), %:0
 --------------------
 
 Push:'PASS%'
@@ -6428,6 +7738,24 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 
 --------------------
 
+Push:'PASS2%'
+Push:'0'
+Pop: '0'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 0
+Push:'0'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '0' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '0'
+Pop: 'PASS2%'
+--------------------
+
 Push:'E'
 Push:'1.2'
 Push:'3.4'
@@ -6485,11 +7813,106 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'E' type:f (1), %:0
+                    001: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -6556,11 +7979,106 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'E' type:f (1), %:0
+                    001: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -6620,11 +8138,122 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'E' type:f (1), %:0
+                    001: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '2.2'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '2.2'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -6691,11 +8320,122 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'E' type:f (1), %:0
+                    001: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '4.6'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '4.6'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -6763,11 +8503,122 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'E' type:f (1), %:0
+                    001: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '2.2'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '2.2'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -6835,11 +8686,106 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'E' type:f (1), %:0
+                    001: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -6899,11 +8845,106 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'E' type:f (1), %:0
+                    001: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -6970,11 +9011,122 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'E' type:f (1), %:0
+                    001: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '2.2'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '2.2'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -7034,11 +9186,106 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'E' type:f (1), %:0
+                    001: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -7105,11 +9352,122 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'E' type:f (1), %:0
+                    001: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '4.6'
+Push:'000'
+                    000: 'E' type:f (1), %:0
+                    001: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Push:'000'
+Pop: '000'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '4.6'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '000' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '000'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -7177,11 +9535,106 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'E' type:f (1), %:0
+                    001: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'2.2'
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 2.2
+Push:'2.2'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '2.2' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '2.2'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
 --------------------
 
 Push:'E'
@@ -7249,11 +9702,160 @@ Pop: 'E'
 
 ====================
 
+EXP_BUFF_ID_PRINT_SPACE PRINT
+--------------------
+
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_SUB_START 
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'E' type:f (1), %:0
+                    001: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_PRINT PRINT
+Pop: '000'
+--------------------
+
+====================
+
 EXP_BUFF_ID_PRINT_NEWLINE PRINT
 --------------------
 
 ====================
 
+--------------------
+
+Push:'PASS2%'
+Push:'PASS2%'
+Push:'E'
+Push:'4.6'
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_SUB_START 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_VARIABLE E
+Push:'E'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+EXP_BUFF_ID_FLT 4.6
+Push:'4.6'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: 'E' type:f (1), %:0
+                    003: '4.6' type:f (1), %:0
+EXP_BUFF_ID_OPERATOR =
+Pop: '4.6'
+Pop: 'E'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_SUB_END 
+                    000: 'PASS2%' type:i (0), %:0
+                    001: 'PASS2%' type:i (0), %:0
+                    002: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR +
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '000'
+Pop: 'PASS2%'
+--------------------
+
+Push:'PASS2%'
+Push:'12'
+Pop: '12'
+Push:'000'
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+Pop: '000'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS2%
+Push:'PASS2%'
+                    000: 'PASS2%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 12
+Push:'12'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '12' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR_UNARY UMIN
+Pop: '12'
+Push:'000'
+                    000: 'PASS2%' type:i (0), %:0
+                    001: '000' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR <>
+Pop: '000'
+Pop: 'PASS2%'
+Push:'000'
+                    000: '000' type:i (0), %:0
+EXP_BUFF_ID_IF IF
+Pop: '000'
+--------------------
+
+Push:'PASS%'
+Push:'0'
+Pop: '0'
+Pop: 'PASS%'
+====================
+
+EXP_BUFF_ID_VARIABLE PASS%
+Push:'PASS%'
+                    000: 'PASS%' type:i (0), %:0
+EXP_BUFF_ID_INTEGER 0
+Push:'0'
+                    000: 'PASS%' type:i (0), %:0
+                    001: '0' type:i (0), %:0
+EXP_BUFF_ID_OPERATOR :=
+Pop: '0'
+Pop: 'PASS%'
+--------------------
+
+====================
+
+EXP_BUFF_ID_ENDIF ENDIF
 --------------------
 
 Push:'E'
@@ -7400,15 +10002,15 @@ EXP_BUFF_ID_PRINT_NEWLINE PRINT
 EXP_BUFF_ID_ELSE ELSE
 --------------------
 
-Push:'PASS%'
-Pop: 'PASS%'
+Push:'"FAIL"'
+Pop: '"FAIL"'
 ====================
 
-EXP_BUFF_ID_VARIABLE PASS%
-Push:'PASS%'
-                    000: 'PASS%' type:i (0), %:0
+EXP_BUFF_ID_STR "FAIL"
+Push:'"FAIL"'
+                    000: '"FAIL"' type:s (2), %:0
 EXP_BUFF_ID_PRINT PRINT
-Pop: 'PASS%'
+Pop: '"FAIL"'
 --------------------
 
 ====================

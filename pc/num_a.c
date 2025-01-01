@@ -27,11 +27,11 @@ char *num_as_text(NOPL_FLOAT *n, char *text)
   
   if(n->sign)
     {
-      strcpy(line, " -");
+      sprintf(line, " - (%02X)", (n->sign & 0xFF));
     }
   else
     {
-      strcpy(line, " +");
+      sprintf(line, " + (%02X)", n->sign);
     }
   
   sprintf(part, " %d . %s", n->digits[0], text);
@@ -237,7 +237,7 @@ void num_mantissa_tens_compl(NOPL_FLOAT *n)
 
 void num_add_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 {
-  dbq("SUB POS");
+  dbq("ADD POS");
   dbq_num("%s a:", a);
   dbq_num("%s b:", b);
   
@@ -285,6 +285,9 @@ void num_sub_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   dbq("SUB POS");
   dbq_num("%s a:", a);
   dbq_num("%s b:", b);
+
+  // Initialise sign
+  r->sign = a->sign;
   
   // Adjust the smaller number so we have the same exponent. Shift the mantissa to line up.
   if( a->exponent > b->exponent)
@@ -301,7 +304,7 @@ void num_sub_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   // Add the mantissa digits
   for(int i=NUM_MAX_DIGITS-1; i>=0; i--)
     {
-      r->digits[i] = a->digits[i] + b->digits[i]; 
+      r->digits[i] = a->digits[i] + b->digits[i];
     }
  
   r->exponent = a->exponent;
@@ -369,7 +372,7 @@ void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
     {
       // Different signs, so arrange the sum to be a difference
       
-      if( ((a->sign) == NUM_SIGN_NEGATIVE) )
+      if( NUM_IS_NEGATIVE(a) )
 	{
 	  // a negative, b positive
 	  // swap to make this an x-y type subtraction
@@ -399,22 +402,33 @@ void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 
 void num_sub(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 {
-
-  
   int signsig = 0;
 
-  if( (a->sign) == NUM_SIGN_NEGATIVE )
+  dbq_num_exploded("%s a:", a);
+  dbq_num_exploded("%s b:", b);
+
+  if( NUM_IS_NEGATIVE(a) )
     {
+      dbq("a -ve");
       signsig |= 2;
     }
-
-  if( (b->sign) == NUM_SIGN_NEGATIVE )
+  else
     {
-      signsig |= 1;
+      dbq("a +ve (%d %02X", a->sign, a->sign);
     }
 
-  dbq("Sign sig:%d", signsig)
-    ;
+  if( NUM_IS_NEGATIVE(b) )
+    {
+      dbq("b -ve");
+      signsig |= 1;
+    }
+  else
+    {
+      dbq("b +ve");
+    }
+
+  dbq("Sign sig:%d", signsig);
+
   switch(signsig)
     {
     case SIG_P_P:
@@ -423,6 +437,7 @@ void num_sub(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 
     case SIG_P_N:
       num_add_pos(a, b, r);
+      r->sign = NUM_SIGN_POSITIVE;
       break;
 
     case SIG_N_P:

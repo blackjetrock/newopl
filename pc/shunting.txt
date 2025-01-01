@@ -21,6 +21,10 @@ E
 
 PASS%
 
+,
+
+PASS2%
+
 PASS%
 
 :=
@@ -1175,6 +1179,14 @@ ATAN
 PRINT
           000:type:U 'PRINT'
 
+PASS2%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
 E
 
 :=
@@ -1197,8 +1209,67 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+4.6
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+4.6
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -1227,8 +1298,67 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+2.2
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+2.2
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -1252,8 +1382,81 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+-
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+2.2
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+-
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+2.2
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -1282,8 +1485,81 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+-
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+4.6
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+-
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+4.6
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -1313,8 +1589,81 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+-
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+2.2
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+-
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+2.2
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -1344,8 +1693,67 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+4.6
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+4.6
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -1369,8 +1777,67 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+4.6
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+4.6
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -1399,8 +1866,81 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+-
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+2.2
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+-
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+2.2
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -1424,8 +1964,67 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+2.2
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+2.2
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -1454,8 +2053,81 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+-
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+4.6
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+-
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+4.6
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -1485,8 +2157,67 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+2.2
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+2.2
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -1516,8 +2247,90 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+4.6
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+4.6
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
+
+PASS2%
+
+<>
+          000:type:i '<>'
+
+-
+          000:type:i '<>'
+          001:type:i 'UMIN'
+
+12
+          000:type:i '<>'
+          001:type:i 'UMIN'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+ENDIF
 
 E
 
@@ -1586,7 +2399,7 @@ PASS%
 PRINT
           000:type:U 'PRINT'
 
-PASS%
+"FAIL"
 
 PRINT
           000:type:U 'PRINT'
@@ -1615,6 +2428,10 @@ E
 
 PASS%
 
+,
+
+PASS2%
+
 PASS%
 
 :=
@@ -2769,6 +3586,14 @@ ATAN
 PRINT
           000:type:U 'PRINT'
 
+PASS2%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
 E
 
 :=
@@ -2791,8 +3616,67 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+4.6
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+4.6
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -2821,8 +3705,67 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+2.2
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+2.2
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -2846,8 +3789,81 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+-
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+2.2
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+-
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+2.2
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -2876,8 +3892,81 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+-
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+4.6
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+-
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+4.6
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -2907,8 +3996,81 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+-
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+2.2
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+-
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+2.2
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -2938,8 +4100,67 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+4.6
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+4.6
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -2963,8 +4184,67 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+4.6
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+4.6
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -2993,8 +4273,81 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+-
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+2.2
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+-
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+2.2
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -3018,8 +4371,67 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+2.2
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+2.2
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -3048,8 +4460,81 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+-
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+4.6
+          000:type:U '('
+          001:type:f '='
+          002:type:f 'UMIN'
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+-
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+4.6
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+          004:type:f 'UMIN'
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -3079,8 +4564,67 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+2.2
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+2.2
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
 
 E
 
@@ -3110,8 +4654,90 @@ E
 
 E
 
+,
+
 PRINT
           000:type:U 'PRINT'
+
+(
+          000:type:U '('
+
+E
+          000:type:U '('
+
+=
+          000:type:U '('
+          001:type:f '='
+
+4.6
+          000:type:U '('
+          001:type:f '='
+
+)
+
+PRINT
+          000:type:U 'PRINT'
+
+PASS2%
+
+:=
+          000:type:i ':='
+
+PASS2%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+(
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+E
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+
+=
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+4.6
+          000:type:i ':='
+          001:type:i '+'
+          002:type:U '('
+          003:type:f '='
+
+)
+          000:type:i ':='
+          001:type:i '+'
+
+PASS2%
+
+<>
+          000:type:i '<>'
+
+-
+          000:type:i '<>'
+          001:type:i 'UMIN'
+
+12
+          000:type:i '<>'
+          001:type:i 'UMIN'
+
+PASS%
+
+:=
+          000:type:i ':='
+
+0
+          000:type:i ':='
+
+ENDIF
 
 E
 
@@ -3180,7 +4806,7 @@ PASS%
 PRINT
           000:type:U 'PRINT'
 
-PASS%
+"FAIL"
 
 PRINT
           000:type:U 'PRINT'
