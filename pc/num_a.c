@@ -319,7 +319,7 @@ void num_sub_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
     
   // We will always have an overflow in the first digit as we are adding a ten's
   // complement number
-  if( r->digits[0] > 10 )
+  if( r->digits[0] >= 10 )
     {
       // No overflow, sign stays same
       r->digits[0] -= 10;
@@ -448,6 +448,8 @@ void num_sub(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
       break;
 
     case SIG_N_N:
+      // b is positive so force it
+      b->sign = NUM_SIGN_POSITIVE;
       num_sub_pos(b, a, r);
       break;
     }

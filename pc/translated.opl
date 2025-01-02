@@ -1,24 +1,20 @@
 
 
 
-I%
-I% := 0
-DO
-ptime%
-I% := (I% + 1)
-UNTIL (I% = 10)
-PRINT("PASS")
-<nl>
-
+F2
+F(20)
+DOOR$
+FLOAT(123)
+EXTTOP% := 8
+S1$ := "abc"
+SA$(10) := "def"
 
 
 
 DROP()
-I% := 0
-DO
 DROP()
-I% := (I% + 1)
-UNTIL (I% = 10)
-PRINT("PASS")
-<nl>
-
+DROP()
+DROP()
+EXTTOP% := 8
+S1$ := "abc"
+SA$(10) := "def"
