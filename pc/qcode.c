@@ -1299,7 +1299,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_EQ_STR,        "QI_EQ_STR",         {qca_pop_2str,     qca_eq_str,      qca_null}},
     // QCO_ADD_STR             0x4B    
     { QCO_AT,            "QI_AT",             {qca_pop_2int,     qca_null,        qca_null}},
-    // QCO_BEEP                0x4D    
+    { QCO_BEEP,          "QCO_BEEP",          {qca_pop_2int,     qca_null,        qca_null}},
     // QCO_CLS                 0x4E    
     // QCO_CURSOR              0x4F    
     // QCO_ESCAPE              0x50    
