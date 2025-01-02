@@ -66,10 +66,9 @@ E = E + 2.3
 print e
 
 IF E <> 2.301234
-PASS% = 1
+PASS% = 0
 print "E <> 2.3 failed"	
 ENDIF
-
 
 E = 1111.0
 
