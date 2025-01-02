@@ -1,308 +1,6508 @@
 
 PROCDEF
 
- LOCAL
-
-A%
-
-,
-
-(
-          000:type:U '('
-
-10
-          000:type:U '('
-
-)
-
-S1$
-
-,
-
-F2
-
- LOCAL
-
-(
-          000:type:U '('
-
-5
-          000:type:U '('
-
-)
+ GLOBAL
 
 X%
 
 ,
 
-(
-          000:type:U '('
+K%
 
-5
-          000:type:U '('
-
-,
-          000:type:U '('
-
-7
-          000:type:U '('
-
-)
-
-S$
-
-,
-
-(
-          000:type:U '('
-
-20
-          000:type:U '('
-
-)
-
-F
-
- GLOBAL
-
-PEAR%
-
-,
-
-(
-          000:type:U '('
-
-10
-          000:type:U '('
-
-)
-
-DOOR$
-
- GLOBAL
-
-(
-          000:type:U '('
-
-50
-          000:type:U '('
-
-)
-
-OPEN%
-
-,
-
-(
-          000:type:U '('
-
-20
-          000:type:U '('
-
-,
-          000:type:U '('
-
-30
-          000:type:U '('
-
-)
-
-POS$
-
-,
-
-(
-          000:type:U '('
-
-123
-          000:type:U '('
-
-)
-
-FLOAT
-
-EXTTOP%
+X%
 
 :=
           000:type:i ':='
 
-8
+2
           000:type:i ':='
 
-S1$
+UDG
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+0
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+0
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+0
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+10
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+21
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+0
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+0
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+0
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+0
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+9
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+4
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+"WAVES"
+
+PRINT
+          000:type:U 'PRINT'
+
+K%
 
 :=
-          000:type:s ':='
+          000:type:i ':='
 
-"abc"
-          000:type:s ':='
+0
+          000:type:i ':='
+
+K%
+
+PRINT
+          000:type:U 'PRINT'
+
+K%
+
+:=
+          000:type:i ':='
+
+K%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+1
+          000:type:i ':='
+          001:type:i '+'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
 
 (
           000:type:U '('
 
-10
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
           000:type:U '('
 
 )
 
-SA$
+CHR$
+          000:type:s 'CHR$'
 
-:=
-          000:type:S ':='
+;
 
-"def"
-          000:type:S ':='
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+PRINT
+          000:type:U 'PRINT'
+
+PAUSE
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+X%
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+PRINT
+          000:type:U 'PRINT'
+
+PAUSE
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+X%
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+PRINT
+          000:type:U 'PRINT'
+
+PAUSE
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+X%
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+PRINT
+          000:type:U 'PRINT'
+
+PAUSE
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+X%
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+PRINT
+          000:type:U 'PRINT'
+
+PAUSE
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+X%
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+PRINT
+          000:type:U 'PRINT'
+
+PAUSE
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+X%
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+PRINT
+          000:type:U 'PRINT'
+
+TEST_EXPR
+
+K%
+
+>
+          000:type:i '>'
+
+20
+          000:type:i '>'
 
 PROCDEF
 
- LOCAL
-
-A%
-
-,
-
-(
-          000:type:U '('
-
-10
-          000:type:U '('
-
-)
-
-S1$
-
-,
-
-F2
-
- LOCAL
-
-(
-          000:type:U '('
-
-5
-          000:type:U '('
-
-)
+ GLOBAL
 
 X%
 
 ,
 
-(
-          000:type:U '('
+K%
 
-5
-          000:type:U '('
-
-,
-          000:type:U '('
-
-7
-          000:type:U '('
-
-)
-
-S$
-
-,
-
-(
-          000:type:U '('
-
-20
-          000:type:U '('
-
-)
-
-F
-
- GLOBAL
-
-PEAR%
-
-,
-
-(
-          000:type:U '('
-
-10
-          000:type:U '('
-
-)
-
-DOOR$
-
- GLOBAL
-
-(
-          000:type:U '('
-
-50
-          000:type:U '('
-
-)
-
-OPEN%
-
-,
-
-(
-          000:type:U '('
-
-20
-          000:type:U '('
-
-,
-          000:type:U '('
-
-30
-          000:type:U '('
-
-)
-
-POS$
-
-,
-
-(
-          000:type:U '('
-
-123
-          000:type:U '('
-
-)
-
-FLOAT
-
-EXTTOP%
+X%
 
 :=
           000:type:i ':='
 
-8
+2
           000:type:i ':='
 
-S1$
+UDG
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+0
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+0
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+0
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+10
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+21
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+0
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+0
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+0
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+,
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+0
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+(
+          000:type:v 'UDG'
+          001:type:U '('
+
+)
+          000:type:v 'UDG'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+9
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+4
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+"WAVES"
+
+PRINT
+          000:type:U 'PRINT'
+
+K%
 
 :=
-          000:type:s ':='
+          000:type:i ':='
 
-"abc"
-          000:type:s ':='
+0
+          000:type:i ':='
+
+K%
+
+PRINT
+          000:type:U 'PRINT'
+
+K%
+
+:=
+          000:type:i ':='
+
+K%
+          000:type:i ':='
+
++
+          000:type:i ':='
+          001:type:i '+'
+
+1
+          000:type:i ':='
+          001:type:i '+'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
 
 (
           000:type:U '('
 
-10
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
           000:type:U '('
 
 )
 
-SA$
+CHR$
+          000:type:s 'CHR$'
 
-:=
-          000:type:S ':='
+;
 
-"def"
-          000:type:S ':='
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+PRINT
+          000:type:U 'PRINT'
+
+PAUSE
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+X%
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+PRINT
+          000:type:U 'PRINT'
+
+PAUSE
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+X%
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+PRINT
+          000:type:U 'PRINT'
+
+PAUSE
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+X%
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+PRINT
+          000:type:U 'PRINT'
+
+PAUSE
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+X%
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+PRINT
+          000:type:U 'PRINT'
+
+PAUSE
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+X%
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+PRINT
+          000:type:U 'PRINT'
+
+PAUSE
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+X%
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+(
+          000:type:v 'PAUSE'
+          001:type:U '('
+
+)
+          000:type:v 'PAUSE'
+
+AT
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+,
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+2
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:v 'AT'
+          001:type:U '('
+
+)
+          000:type:v 'AT'
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+95
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+34
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+0
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+;
+
+(
+          000:type:U '('
+
+(
+          000:type:U '('
+          001:type:U '('
+
+46
+          000:type:U '('
+          001:type:U '('
+
+)
+          000:type:U '('
+
+)
+
+CHR$
+          000:type:s 'CHR$'
+
+PRINT
+          000:type:U 'PRINT'
+
+TEST_EXPR
+
+K%
+
+>
+          000:type:i '>'
+
+20
+          000:type:i '>'

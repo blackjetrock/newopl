@@ -463,6 +463,22 @@ void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   
 }
 
+//------------------------------------------------------------------------------
+
+void qca_at(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+}
+
+
+//------------------------------------------------------------------------------
+
+void qca_pause(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+}
+
+
+//------------------------------------------------------------------------------
+
 void qca_push_zero(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Now push a zero
@@ -523,6 +539,19 @@ void qca_pop_2int(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->integer  = pop_machine_int(m);
   s->integer2 = pop_machine_int(m);
   dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
+}
+
+void qca_pop_9int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  s->integer  = pop_machine_int(m);
+  s->integer2 = pop_machine_int(m);
+  s->integer  = pop_machine_int(m);
+  s->integer2 = pop_machine_int(m);
+  s->integer  = pop_machine_int(m);
+  s->integer2 = pop_machine_int(m);
+  s->integer  = pop_machine_int(m);
+  s->integer2 = pop_machine_int(m);
+  s->integer  = pop_machine_int(m);
 }
 
 void qca_pop_2num(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -1253,7 +1282,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // QCO_NE_STR              0x49    
     { QCO_EQ_STR,        "QI_EQ_STR",         {qca_pop_2str,     qca_eq_str,      qca_null}},
     // QCO_ADD_STR             0x4B    
-    // QCO_AT                  0x4C    
+    { QCO_AT,            "QI_AT",             {qca_pop_2int,     qca_null,        qca_null}},
     // QCO_BEEP                0x4D    
     // QCO_CLS                 0x4E    
     // QCO_CURSOR              0x4F    
@@ -1261,7 +1290,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_GOTO,          "QCO_GOTO",          {qca_goto,         qca_null,        qca_null}},
     // QCO_OFF                 0x52    
     // QCO_ONERR               0x53    
-    // QCO_PAUSE               0x54    
+    // QCO_PAUSE               0x54
+    { QCO_PAUSE,         "QCO_PAUSE",         {qca_pop_int,      qca_pause,       qca_null}},
     // QCO_POKEB               0x55    
     // QCO_POKEW               0x56    
     // QCO_RAISE               0x57    
@@ -1393,6 +1423,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_COPYW               0xD3
     // RTF_DELETEW             0xD4
     // RTF_UDG                 0xD5
+    { RTF_UDG,           "RTF_UDG",           {qca_pop_9int,     qca_null,        qca_null}},
     // RTF_CLOCK               0xD6
     // RTF_DOW                 0xD7
     // RTF_FINDW               0xD8
