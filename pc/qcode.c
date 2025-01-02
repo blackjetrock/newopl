@@ -463,6 +463,22 @@ void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   
 }
 
+//------------------------------------------------------------------------------
+
+void qca_at(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+}
+
+
+//------------------------------------------------------------------------------
+
+void qca_pause(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+}
+
+
+//------------------------------------------------------------------------------
+
 void qca_push_zero(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Now push a zero
@@ -523,6 +539,19 @@ void qca_pop_2int(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->integer  = pop_machine_int(m);
   s->integer2 = pop_machine_int(m);
   dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
+}
+
+void qca_pop_9int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  s->integer  = pop_machine_int(m);
+  s->integer2 = pop_machine_int(m);
+  s->integer  = pop_machine_int(m);
+  s->integer2 = pop_machine_int(m);
+  s->integer  = pop_machine_int(m);
+  s->integer2 = pop_machine_int(m);
+  s->integer  = pop_machine_int(m);
+  s->integer2 = pop_machine_int(m);
+  s->integer  = pop_machine_int(m);
 }
 
 void qca_pop_2num(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -1035,6 +1064,42 @@ void qca_sqr_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 //------------------------------------------------------------------------------
 
+void qca_int_to_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Convert int to float form
+
+  // Check float isn't too big
+  
+  NOPL_INT res;
+  NOPL_FLOAT *n = &(s->num);
+  
+  if( s->num.exponent > 4 )
+    {
+      runtime_error("Float too big");
+    }
+  
+  if( NUM_IS_POSITIVE(n) )
+    {
+      
+    }
+  else
+    {
+    }
+  
+}
+
+void qca_num_to_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Convert float to int.
+  // This always succeeds
+  NOPL_INT res;
+
+  
+  
+}
+
+//------------------------------------------------------------------------------
+
 void qca_add_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   num_add(&(s->num2), &(s->num), &(s->num_result));
@@ -1131,6 +1196,26 @@ void qca_goto(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+
+void qca_chr(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // We have an int, build a string that has one character with the ascii code
+  // of the int.
+
+  s->str[0] = (s->integer) & 0xFF;
+  s->len = 1;
+}
+
+//------------------------------------------------------------------------------
+
+void qca_push_string(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  push_machine_string(m, s->len, s->str);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
 //
 
 
@@ -1213,7 +1298,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // QCO_NE_STR              0x49    
     { QCO_EQ_STR,        "QI_EQ_STR",         {qca_pop_2str,     qca_eq_str,      qca_null}},
     // QCO_ADD_STR             0x4B    
-    // QCO_AT                  0x4C    
+    { QCO_AT,            "QI_AT",             {qca_pop_2int,     qca_null,        qca_null}},
     // QCO_BEEP                0x4D    
     // QCO_CLS                 0x4E    
     // QCO_CURSOR              0x4F    
@@ -1221,7 +1306,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_GOTO,          "QCO_GOTO",          {qca_goto,         qca_null,        qca_null}},
     // QCO_OFF                 0x52    
     // QCO_ONERR               0x53    
-    // QCO_PAUSE               0x54    
+    // QCO_PAUSE               0x54
+    { QCO_PAUSE,         "QCO_PAUSE",         {qca_pop_int,      qca_pause,       qca_null}},
     // QCO_POKEB               0x55    
     // QCO_POKEW               0x56    
     // QCO_RAISE               0x57    
@@ -1271,8 +1357,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_DROP_WORD,     "QCO_DROP_WORD",     {qca_pop_int,      qca_null,        qca_null}},
     { QCO_DROP_NUM,      "QCO_DROP_NUM",      {qca_pop_num,      qca_null,        qca_null}},
     { QCO_DROP_STR,      "QCO_DROP_STR",      {qca_pop_str,      qca_null,        qca_null}},
-    // QCO_INT_TO_NUM          0x86    
-    // QCO_NUM_TO_INT          0x87    
+    { QCO_INT_TO_NUM,    "QCO_INT_TO_NUM",    {qca_pop_int,      qca_int_to_num,  qca_push_num_result}},
+    { QCO_NUM_TO_INT,    "QCO_NUM_TO_INT",    {qca_pop_num,      qca_num_to_int,  qca_push_result}},
     // QCO_END_FIELDS          0x88    
     // QCO_RUN_ASSEM           0x89    
     { RTF_ADDR,          "RTF_ADDR",          {qca_pop_ref,      qca_null,        qca_null}},
@@ -1321,7 +1407,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_VAL                 0xB5    
     // RTF_SPACE               0xB6    
     // RTF_DIR                 0xB7    
-    // RTF_CHR                 0xB8    
+    // RTF_CHR                 0xB8
+    { RTF_CHR,           "RTF_CHR",           {qca_pop_int,      qca_chr,         qca_push_string}},
     // RTF_DATIM               0xB9    
     // RTF_SERR                0xBA    
     // RTF_FIX                 0xBB    
@@ -1352,6 +1439,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_COPYW               0xD3
     // RTF_DELETEW             0xD4
     // RTF_UDG                 0xD5
+    { RTF_UDG,           "RTF_UDG",           {qca_pop_9int,     qca_null,        qca_null}},
     // RTF_CLOCK               0xD6
     // RTF_DOW                 0xD7
     // RTF_FINDW               0xD8

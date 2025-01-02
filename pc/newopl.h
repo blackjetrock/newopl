@@ -16,6 +16,7 @@
 #define NOBJ_DECLARE_VARNAME_MAXLEN         (8+1+1+2+6+1+6)
 
 #define NOBJ_FILENAME_MAXLEN               12
+#define NOBJ_STRING_MAXLEN                 256
 #define NOBJ_GLOBAL_VARNAME_SPACE_MAX      64
 #define NOBJ_EXTERNAL_VARNAME_SPACE_MAX    64
 #define NOBJ_STRLEN_FIXUP_MAX              64
