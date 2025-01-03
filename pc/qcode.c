@@ -895,7 +895,7 @@ void qca_gt_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOBJ_INT res = 0;
   
-  if( num_gt((&s->num), &(s->num2)) )
+  if( num_gt((&s->num2), &(s->num)) )
     {
       res = NOBJ_TRUE;    
     }

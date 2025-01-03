@@ -889,6 +889,23 @@ int num_eq(NOPL_FLOAT *a, NOPL_FLOAT *b)
 
 int num_gt(NOPL_FLOAT *a, NOPL_FLOAT *b)
 {
+  dbq("NUM GT");
+  dbq_num("%s a:", a);
+  dbq_num("%s b:", b);
+
+  // Check exponents
+  if( a->exponent > b->exponent )
+    {
+      return(1);
+    }
+
+  if( a->exponent < b->exponent )
+    {
+      return(0);
+    }
+
+  // Test mantissas as exponents are equal
+  
   // Different signs then positive is greater
   if( a->sign != b->sign )
     {
@@ -913,7 +930,7 @@ int num_gt(NOPL_FLOAT *a, NOPL_FLOAT *b)
       b = t;
     }
   
-  if( a->exponent > b->exponent )
+  //  if( a->exponent > b->exponent )
     {
       for(int i=0; i<NUM_MAX_DIGITS; i++)
 	{
