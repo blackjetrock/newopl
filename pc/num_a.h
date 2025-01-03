@@ -24,6 +24,8 @@ typedef struct _NOPL_FLOAT
 void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);
 void num_sub(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);
 void num_mul(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);
+void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);
+
 void dbq_num_f(const char *caller, char *text, NOPL_FLOAT *n);
 void dbq_num_exploded_f(const char *caller, char *text, NOPL_FLOAT *n);
 int num_eq(NOPL_FLOAT *a, NOPL_FLOAT *b);
@@ -46,6 +48,11 @@ void num_acos(NOPL_FLOAT *a, NOPL_FLOAT *r);
 void num_atan(NOPL_FLOAT *a, NOPL_FLOAT *r);
 void num_sin(NOPL_FLOAT *a, NOPL_FLOAT *r);
 void num_sqr(NOPL_FLOAT *a, NOPL_FLOAT *r);
+void num_mantissa_tens_compl(NOPL_FLOAT *n);
+void num_mantissa_tens_compl_digits(int n, int8_t *digits);
+void num_propagate_carry_digits(int8_t *digits, int num_digits);
+void num_propagate_carry(NOPL_FLOAT *n, int num_digits);
+
 
 
 

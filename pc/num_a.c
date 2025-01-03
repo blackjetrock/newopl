@@ -103,38 +103,63 @@ void make_exp_same(NOPL_FLOAT *n, NOPL_FLOAT *r)
 //------------------------------------------------------------------------------
 
 
-void num_shift_digits_right(NOPL_FLOAT *n)
+void num_shift_digits_right_n(int n, int8_t *digits, int8_t *exponent)
 {
   // Shift mantissa digits to the 'right'
-  for(int i=NUM_MAX_DIGITS-1; i>=0; i--)
+  for(int i=n-1; i>0; i--)
     {
-      n->digits[i] = n->digits[i-1];
+      digits[i] = digits[i-1];
     }
 
-  n->digits[0] = 0;
-  (n->exponent)++;
+  digits[0] = 0;
+  (*exponent)++;
+}
+
+void num_shift_digits_right(NOPL_FLOAT *n)
+{
+  num_shift_digits_right_n(NUM_MAX_DIGITS, n->digits, &(n->exponent));
+
 }
 
 //------------------------------------------------------------------------------
+
+void num_shift_digits_left_n(int n, int8_t *digits, int8_t *exponent)
+{
+  // Shift mantissa digits to the 'left'
+  for(int i=0; i<n;  i++)
+    {
+      digits[i] = digits[i+1];
+    }
+  
+  digits[n-1] = 0;
+  (*exponent)--;
+}
 
 void num_shift_digits_left(NOPL_FLOAT *n)
 {
-  // Shift mantissa digits to the 'left'
-  for(int i=0; i<NUM_MAX_DIGITS;  i++)
-    {
-      n->digits[i] = n->digits[i+1];
-    }
-  
-  n->digits[NUM_MAX_DIGITS-1] = 0;
-  (n->exponent)--;
+  num_shift_digits_left_n(NUM_MAX_DIGITS, n->digits, &(n->exponent));
 }
 
 //------------------------------------------------------------------------------
-//
+
+void num_sub_digits(int n, int8_t *a, int8_t *b, int8_t *r)
+{
+  num_mantissa_tens_compl_digits(n, b);
+  
+  // Add the mantissa digits
+  for(int i=n; i>=0; i--)
+    {
+      r[i] = a[i] + b[i];
+    }
+
+  num_propagate_carry_digits(r, n);
+}
 
 //------------------------------------------------------------------------------
 //
 // Propagate carries and shift exponents to get a non zero in digit[0]
+//
+// A digit greater than 9 can be in [0], this indicates a carry/overflow
 //
 
 void num_propagate_carry_digits(int8_t *digits, int num_digits)
@@ -155,29 +180,167 @@ void num_propagate_carry(NOPL_FLOAT *n, int num_digits)
   num_propagate_carry_digits(n->digits, NUM_MAX_DIGITS);
 }
 
+//------------------------------------------------------------------------------
+
+void num_clear_digits(int n, int8_t *d)
+{
+  for(int i=0; i<n; i++)
+    {
+      d[i] = 0;
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void num_db_digits(char *text, int n, int8_t *d)
+{
+  fprintf(exdbfp, "%s", text);
+  
+  for(int k=0; k<n; k++)
+    {
+      fprintf(exdbfp, "% d", d[k]);
+    }
+  
+  fprintf(exdbfp, "\n");
+}
+
+//------------------------------------------------------------------------------
+//
+//
+// Add N digit numbers
+// Used for larger registers when calculating * and /
+//
+
+void num_add_n_digits(int n, int8_t *a, int8_t *b, int8_t *r)
+{
+  for(int i=0; i<n; i++)
+    {
+      r[i] = a[i] + b[i];
+    }
+
+  // Sort out carry
+  num_propagate_carry_digits(r, n);
+}
+
+//------------------------------------------------------------------------------
+
+// Add a digit to the end of a number
+//
+
+int num_cat_digit(int n, int8_t *d, int digit)
+{
+  // Find the first zero digit from left and put digit there.
+  for(int i=0; i<n; i++)
+    {
+      if( d[i] == 0 )
+	{
+	  d[i] = digit;
+	  return(1);
+	}
+    }
+  
+  return(0);
+}
+
+//------------------------------------------------------------------------------
+
+void num_normalise_digits(int n, int8_t *digits, int8_t *exponent)
+{
+  // If digits[0] is 0 then we need to shift left until it is non zero
+  while( digits[0] == 0 )
+    {
+      num_shift_digits_left_n(n, digits, exponent);
+    }
+
+  //  dbq_num_exploded("%s After shift", n);
+  
+  // If we have a carry in the LH digit then shift right until it has gone
+  while( digits[0] >= 10 )
+    {
+      num_shift_digits_right_n(n, digits, exponent);
+
+      // Split the first digit into two
+      digits[0] = 1;
+      digits[1] %= 10;
+    }
+  
+  //    dbq_num_exploded("%s After first dig split:", n);
+}
+
 void num_normalise(NOPL_FLOAT *n)
 {
   dbq_num_exploded("%s Entry:", n);
+  num_normalise_digits(NUM_MAX_DIGITS, &(n->digits[0]), &n->exponent);
   
-  // If digits[0] is 0 then we need to shift left until it is non zero
-  while( n->digits[0] == 0 )
+}
+
+//------------------------------------------------------------------------------
+//
+// Builds a table of
+//  0 x num
+//  1 x num
+//   .  .
+//   .  .
+//   .  .
+//  8 x num
+//  9 x num
+
+void num_build_times_table(int n, int8_t *ttable, int8_t *num)
+{
+  char txt[20];
+
+  // Clear the first entry
+  
+  num_clear_digits(n, ttable);
+
+  // Add entries to each other to build up the table
+  
+  for(int i=1; i<10; i++)
     {
-      num_shift_digits_left(n);
+      sprintf(txt, "%d:", i);
+      
+      num_add_n_digits(n, &(ttable[((i-1)*n)]), num, &(ttable[i*n]));
+      num_db_digits(txt, n, &(ttable[i*n]));
+    }
+  
+}
+
+int num_digits_gte(int n, int8_t *a, int8_t *b)
+{
+  for(int i=0; i<n; i++)
+    {
+      if( a[i] >= b[i] )
+	{
+	  return(1);
+	}
     }
 
-  dbq_num_exploded("%s After shift", n);
-  
-  // If we have a carry in the LH digit then shift right until it has gone
-  while( n->digits[0] >= 10 )
-    {
-      num_shift_digits_right(n);
+  return(0);
+}
 
-      // Split the first digit into two
-      n->digits[0] = 1;
-      n->digits[1] %= 10;
+//------------------------------------------------------------------------------
+//
+// Does b divide into a?
+// n is number of digits and times_table is
+// 1..9 times b
+
+int num_divides_into(int n, int8_t *a, int8_t *b, int8_t *times_table)
+{
+  // If the number is greater than one of the times table entries then
+  // the b does divide into a.
+  for(int i=9; i>0; i--)
+    {
+      dbq("%d", i);
+      num_db_digits("\na:", n, a);
+      num_db_digits("b:", n, &(times_table[i*n]));
+
+      if( num_digits_gte(n, a, &(times_table[i*n])) )
+	{
+	  return(i);
+	}
     }
   
-    dbq_num_exploded("%s After first dig split:", n);
+  return(0);
 }
 
 //------------------------------------------------------------------------------
@@ -213,25 +376,30 @@ void num_make_exponent(NOPL_FLOAT *n, int exp)
 //
 // Make mantissa a ten's complement
 
-void num_mantissa_tens_compl(NOPL_FLOAT *n)
+void num_mantissa_tens_compl_digits(int n, int8_t *digits)
 {
   dbq("");
-  dbq_num_exploded("%s Before 10s compl", n);
 
   // Nine's complement
-  for(int i=0; i<NUM_MAX_DIGITS; i++)
+  for(int i=0; i<n; i++)
     {
-      n->digits[i] = 9 - n->digits[i];
+      digits[i] = 9 - digits[i];
     }
 
   // Add 1 for the ten's complement
-  n->digits[NUM_MAX_DIGITS-1]++;
+  digits[n-1]++;
 
-  num_propagate_carry(n, NUM_MAX_DIGITS);
+  num_propagate_carry_digits(digits, n);
+}
+
+void num_mantissa_tens_compl(NOPL_FLOAT *n)
+{
+  num_mantissa_tens_compl_digits(NUM_MAX_DIGITS, &(n->digits[0]));
   num_normalise(n);
 
   dbq_num_exploded("%s after 10's compl", n);
 }
+
 
 //------------------------------------------------------------------------------
 //
@@ -314,13 +482,13 @@ void num_sub_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
  
   r->exponent = a->exponent;
 
-  dbq_num_exploded("%s Before normaliser:", r);
-
-  // Normalise
   num_propagate_carry(r, NUM_MAX_DIGITS);
 
-  dbq_num_exploded("%s After carry prop r:", r);
+  dbq_num_exploded("%s Before normalise r:", r);
 
+  // Normalise
+
+  dbq_num_exploded("%s After carry prop r:", r);
     
   // We will always have an overflow in the first digit as we are adding a ten's
   // complement number
@@ -329,6 +497,7 @@ void num_sub_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
       // No overflow, sign stays same
       r->digits[0] -= 10;
       r->sign = a->sign;
+
     }
   else
     {
@@ -336,7 +505,7 @@ void num_sub_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
       r->sign = NUM_INVERT_SIGN(a->sign);
       num_mantissa_tens_compl(r);
     }
-  
+
   dbq_num_exploded("%s After adjust r:", r);
   
   // Normalise
@@ -511,13 +680,7 @@ void num_mul(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 
       // Now propagate the carry
       num_propagate_carry_digits(d_digits, NUM_MAX_DIGITS*2);
-
-      for(int k=0; k<NUM_MAX_DIGITS*2; k++)
-	{
-	  fprintf(exdbfp, "% d", d_digits[k]);
-	}
-      fprintf(exdbfp, "\n");
-	    
+      num_db_digits("d_digits:", NUM_MAX_DIGITS*2, d_digits);
     }
 
   // Build result
@@ -547,6 +710,149 @@ void num_mul(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   dbq("exp adj:%d", exponent_adjust);
 
   r->exponent += exponent_adjust;
+  dbq_num_exploded("%s result", r);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Divide two floats
+//
+
+
+void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
+{
+  uint8_t d_digits[NUM_MAX_DIGITS*2];
+
+  // Don't divide by zero
+  int is_zero = 1;
+  
+  for(int i=0; i<NUM_MAX_DIGITS; i++)
+    {
+      if( b->digits[i] != 0 )
+	{
+	  is_zero = 0;
+	  break;
+	}
+    }
+
+  if( is_zero )
+    {
+      runtime_error("Divide by zero");
+      return;
+    }
+
+  //------------------------------------------------------------------------------
+
+  // Zero the result
+  for(int i=0; i<NUM_MAX_DIGITS; i++)
+    {
+      r->digits[i] = 0;
+    }
+
+  //------------------------------------------------------------------------------
+  
+  dbq("DIV");
+  dbq_num("%s a:", a);
+  dbq_num("%s b:", b);
+
+  // Sort out the signs
+  //
+  if( a->sign == b-> sign )
+    {
+      r->sign = NUM_SIGN_POSITIVE;
+    }
+  else
+    {
+      r->sign = NUM_SIGN_POSITIVE;
+    }
+
+  // Sort out exponent
+  r->exponent = a->exponent + b->exponent;
+
+  //------------------------------------------------------------------------------
+  //
+  // Long division algorithm.
+  //
+  
+  dbq_num_exploded("%s a:", a);
+  dbq_num_exploded("%s b:", b);
+
+  // Now divide mantissas
+  int8_t   w[NUM_MAX_DIGITS*2];    // working register
+  int8_t res[NUM_MAX_DIGITS*2];    // result register
+  int8_t ttable[NUM_MAX_DIGITS*2*10];  // Times table
+  int8_t  la[NUM_MAX_DIGITS*2];        // long version of a
+  int8_t  lb[NUM_MAX_DIGITS*2];        // long version of b
+
+  // Make a longer version of b
+  num_clear_digits(NUM_MAX_DIGITS*2, lb);
+  for(int i=0; i<NUM_MAX_DIGITS; i++)
+    {
+      lb[i] = b->digits[i];
+    }
+
+  // Make a longer version of a
+  num_clear_digits(NUM_MAX_DIGITS*2, la);
+  for(int i=0; i<NUM_MAX_DIGITS; i++)
+    {
+      la[i] = a->digits[i];
+    }
+  
+  num_clear_digits(NUM_MAX_DIGITS*2, w);
+  num_clear_digits(NUM_MAX_DIGITS*2, res);
+
+  int done = 0;
+  int a_digit_pos = 0;
+  int divides_by = 0;
+  	    
+  num_db_digits("\nw:",   NUM_MAX_DIGITS*2, w);
+  num_db_digits("\nres:", NUM_MAX_DIGITS*2, res);
+
+  num_build_times_table(NUM_MAX_DIGITS*2, ttable, lb);
+  
+  while(!done)
+    {
+      if( a_digit_pos >= NUM_MAX_DIGITS*2 )
+	{
+	  done = 1;
+	  continue;
+	}
+      
+      // Bring digit down into the w register, add to the end of any number in w
+      num_cat_digit(NUM_MAX_DIGITS*2, w, la[a_digit_pos]);
+
+      // Is it possible to divide b into w?
+      if( divides_by = num_divides_into(NUM_MAX_DIGITS*2, w, lb, ttable) )
+	{
+	  // We have another digit of the result
+	  res[a_digit_pos] = divides_by;
+
+	  // Leave remainder in w
+	  num_sub_digits(NUM_MAX_DIGITS*2, w, &(ttable[(NUM_MAX_DIGITS*2*divides_by)]), w);
+
+	  // Remove overflow
+	  if( w[0] > 10 )
+	    {
+	      w[0] -= 10;
+	    }
+	}
+      else
+	{
+	  // Result digit is zero
+	  res[a_digit_pos] = 0;
+	}
+
+      dbq("divides_by: %d", divides_by);
+      num_db_digits("\nres:", NUM_MAX_DIGITS*2, res);
+      num_db_digits("\nw:  ", NUM_MAX_DIGITS*2, w);
+      a_digit_pos++;
+    }
+
+  for(int i=0; i<NUM_MAX_DIGITS; i++)
+    {
+      r->digits[i] = res[i];
+    }
+  
   dbq_num_exploded("%s result", r);
 }
 
