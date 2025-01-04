@@ -152,7 +152,10 @@ void num_sub_digits(int n, int8_t *a, int8_t *b, int8_t *r)
       r[i] = a[i] + b[i];
     }
 
+  num_db_digits("\nnum_sub_digits  r:", n, r);
+
   num_propagate_carry_digits(r, n);
+  num_db_digits("\nnum_sub_digits  r:", n, r);
 }
 
 //------------------------------------------------------------------------------
@@ -823,6 +826,7 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   int8_t ttable[NUM_MAX_DIGITS*2*10];  // Times table
   int8_t  la[NUM_MAX_DIGITS*2];        // long version of a
   int8_t  lb[NUM_MAX_DIGITS*2];        // long version of b
+  int8_t  te[NUM_MAX_DIGITS*2];        // copy of table entry
 
   // Make a longer version of b
   num_clear_digits(NUM_MAX_DIGITS*2, lb);
@@ -869,7 +873,7 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 
       w[NUM_MAX_DIGITS-1] = la[a_digit_pos];
 
-      num_db_digits("\nw:",   NUM_MAX_DIGITS*2, w);
+      num_db_digits("\ntest w:",   NUM_MAX_DIGITS*2, w);
       
       // Is it possible to divide b into w?
       if( divides_by = num_divides_into(NUM_MAX_DIGITS*2, w, lb, ttable) )
@@ -878,8 +882,14 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 	  res[a_digit_pos] = divides_by;
 
 	  // Leave remainder in w
-	  num_sub_digits(NUM_MAX_DIGITS*2, w, &(ttable[(NUM_MAX_DIGITS*2*divides_by)]), w);
-
+	  // Use a copy of table entry as tens complement writes into that array
+	  for(int i=0; i<NUM_MAX_DIGITS*2; i++)
+	    {
+	      te[i] = ttable[(NUM_MAX_DIGITS*2*divides_by)+i];
+	    }
+		
+	  //	  num_sub_digits(NUM_MAX_DIGITS*2, w, &(ttable[(NUM_MAX_DIGITS*2*divides_by)]), w);
+	  num_sub_digits(NUM_MAX_DIGITS*2, w, &(te[0]), w);
 	  // Remove overflow
 	  if( w[0] > 10 )
 	    {
