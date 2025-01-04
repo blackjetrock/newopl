@@ -11,7 +11,6 @@ typedef struct _NOPL_FLOAT
   int8_t digits[NUM_MAX_DIGITS];
 } NOPL_FLOAT;
 
-
 #define NUM_SIGN_NEGATIVE 0x80
 #define NUM_SIGN_POSITIVE 0x00
 

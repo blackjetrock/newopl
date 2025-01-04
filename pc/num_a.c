@@ -225,12 +225,21 @@ void num_add_n_digits(int n, int8_t *a, int8_t *b, int8_t *r)
 //------------------------------------------------------------------------------
 
 // Add a digit to the end of a number
-//
+// digits are right justified, n digits in total
 
-int num_cat_digit(int n, int8_t *d, int digit)
+void num_cat_digit(int n, int8_t *d, int digit)
 {
+  // Shift digits left and put new one on end.
+  for(int i=0; i<n-1; i++)
+    {
+      d[i] = d[i+1];
+    }
+
+  d[0] = digit;
+
+#if 0
   // Find the first zero digit from left and put digit there.
-  for(int i=0; i<n; i++)
+  for(int i=0; i<n-1; i--)
     {
       if( d[i] == 0 )
 	{
@@ -238,8 +247,10 @@ int num_cat_digit(int n, int8_t *d, int digit)
 	  return(1);
 	}
     }
+
   
   return(0);
+#endif
 }
 
 //------------------------------------------------------------------------------
@@ -260,7 +271,7 @@ void num_normalise_digits(int n, int8_t *digits, int8_t *exponent)
       num_shift_digits_right_n(n, digits, exponent);
 
       // Split the first digit into two
-      digits[0] = 1;
+      digits[0] = digits[1] / 10;
       digits[1] %= 10;
     }
   
@@ -288,18 +299,22 @@ void num_normalise(NOPL_FLOAT *n)
 void num_build_times_table(int n, int8_t *ttable, int8_t *num)
 {
   char txt[20];
+  int8_t exponent = 0;
 
+  num_db_digits("num:", n, num);
+	
   // Clear the first entry
-  
   num_clear_digits(n, ttable);
 
   // Add entries to each other to build up the table
   
   for(int i=1; i<10; i++)
     {
-      sprintf(txt, "%d:", i);
+      sprintf(txt, "%3d:", i);
       
       num_add_n_digits(n, &(ttable[((i-1)*n)]), num, &(ttable[i*n]));
+      num_propagate_carry_digits(&(ttable[i*n]), n);
+      //num_normalise_digits(n, &(ttable[i*n]), &exponent);
       num_db_digits(txt, n, &(ttable[i*n]));
     }
   
@@ -307,11 +322,33 @@ void num_build_times_table(int n, int8_t *ttable, int8_t *num)
 
 int num_digits_gte(int n, int8_t *a, int8_t *b)
 {
+  int eq = 1;
+  
   for(int i=0; i<n; i++)
     {
-      if( a[i] >= b[i] )
+      if( a[i] != b[i] )
 	{
-	  return(1);
+	  eq = 0;
+	}
+    }
+
+  if( eq )
+    {
+      return(1);
+    }
+  
+  for(int i=0; i<n; i++)
+    {
+      if( a[i] != b[i] )
+	{
+	  if( a[i] > b[i] )
+	    {
+	      return(1);
+	    }
+	  else
+	    {
+	      return(0);
+	    }
 	}
     }
 
@@ -323,6 +360,8 @@ int num_digits_gte(int n, int8_t *a, int8_t *b)
 // Does b divide into a?
 // n is number of digits and times_table is
 // 1..9 times b
+// digits is an int, right justified.
+//
 
 int num_divides_into(int n, int8_t *a, int8_t *b, int8_t *times_table)
 {
@@ -330,12 +369,13 @@ int num_divides_into(int n, int8_t *a, int8_t *b, int8_t *times_table)
   // the b does divide into a.
   for(int i=9; i>0; i--)
     {
-      dbq("%d", i);
+      dbq("Testing %d", i);
       num_db_digits("\na:", n, a);
       num_db_digits("b:", n, &(times_table[i*n]));
 
       if( num_digits_gte(n, a, &(times_table[i*n])) )
 	{
+	  dbq("Does divide");
 	  return(i);
 	}
     }
@@ -767,7 +807,7 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
     }
 
   // Sort out exponent
-  r->exponent = a->exponent + b->exponent;
+  r->exponent = a->exponent - b->exponent;
 
   //------------------------------------------------------------------------------
   //
@@ -788,7 +828,7 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   num_clear_digits(NUM_MAX_DIGITS*2, lb);
   for(int i=0; i<NUM_MAX_DIGITS; i++)
     {
-      lb[i] = b->digits[i];
+      lb[i+NUM_MAX_DIGITS-1] = b->digits[i];
     }
 
   // Make a longer version of a
@@ -819,8 +859,18 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 	}
       
       // Bring digit down into the w register, add to the end of any number in w
-      num_cat_digit(NUM_MAX_DIGITS*2, w, la[a_digit_pos]);
+      //num_cat_digit(NUM_MAX_DIGITS*2, w, la[a_digit_pos]);
 
+      // Shift top half left and put digit in the last position of the top half
+      for(int i=0; i<NUM_MAX_DIGITS+1; i++)
+	{
+	  w[i] = w[i+1];
+	}
+
+      w[NUM_MAX_DIGITS-1] = la[a_digit_pos];
+
+      num_db_digits("\nw:",   NUM_MAX_DIGITS*2, w);
+      
       // Is it possible to divide b into w?
       if( divides_by = num_divides_into(NUM_MAX_DIGITS*2, w, lb, ttable) )
 	{
@@ -842,7 +892,7 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 	  res[a_digit_pos] = 0;
 	}
 
-      dbq("divides_by: %d", divides_by);
+      dbq(" ***** Divides_by: %d", divides_by);
       num_db_digits("\nres:", NUM_MAX_DIGITS*2, res);
       num_db_digits("\nw:  ", NUM_MAX_DIGITS*2, w);
       a_digit_pos++;
