@@ -762,6 +762,22 @@ void num_mul(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+int all_lower_zero(int n, int8_t *lb)
+{
+  int all_zero = 1;
+  
+  for(int i=n/2; i<n-1; i++)
+    {
+      if( lb[i] != 0 )
+	{
+	  return(0);
+	}
+    }
+  return(1);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //
 // Divide two floats
 //
@@ -832,14 +848,22 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   int8_t  la[NUM_MAX_DIGITS*2];        // long version of a
   int8_t  lb[NUM_MAX_DIGITS*2];        // long version of b
   int8_t  te[NUM_MAX_DIGITS*2];        // copy of table entry
-
+  int8_t  exponent = 0;
+  
   // Make a longer version of b
   num_clear_digits(NUM_MAX_DIGITS*2, lb);
+  
   for(int i=0; i<NUM_MAX_DIGITS; i++)
     {
       lb[i+NUM_MAX_DIGITS-1] = b->digits[i];
     }
 
+  // Put significant digits in top half
+  while( !all_lower_zero(NUM_MAX_DIGITS*2, lb) )
+    {
+      num_shift_digits_left_n(NUM_MAX_DIGITS*2, lb, &exponent);
+    }
+  
   // Make a longer version of a
   num_clear_digits(NUM_MAX_DIGITS*2, la);
   for(int i=0; i<NUM_MAX_DIGITS; i++)
@@ -895,6 +919,7 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 		
 	  //	  num_sub_digits(NUM_MAX_DIGITS*2, w, &(ttable[(NUM_MAX_DIGITS*2*divides_by)]), w);
 	  num_sub_digits(NUM_MAX_DIGITS*2, w, &(te[0]), w);
+	  
 	  // Remove overflow
 	  if( w[0] > 10 )
 	    {
