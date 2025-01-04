@@ -202,6 +202,10 @@ void num_db_digits(char *text, int n, int8_t *d)
   for(int k=0; k<n; k++)
     {
       fprintf(exdbfp, "% d", d[k]);
+      if( k == 11 )
+	{
+	  fprintf(exdbfp, "_");
+	}
     }
   
   fprintf(exdbfp, "\n");
@@ -316,6 +320,7 @@ void num_build_times_table(int n, int8_t *ttable, int8_t *num)
       sprintf(txt, "%3d:", i);
       
       num_add_n_digits(n, &(ttable[((i-1)*n)]), num, &(ttable[i*n]));
+      num_db_digits(txt, n, &(ttable[i*n]));
       num_propagate_carry_digits(&(ttable[i*n]), n);
       //num_normalise_digits(n, &(ttable[i*n]), &exponent);
       num_db_digits(txt, n, &(ttable[i*n]));
@@ -913,6 +918,7 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
       r->digits[i] = res[i];
     }
   
+  num_normalise(r);
   dbq_num_exploded("%s result", r);
 }
 
