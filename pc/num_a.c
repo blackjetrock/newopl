@@ -195,16 +195,24 @@ void num_clear_digits(int n, int8_t *d)
 
 //------------------------------------------------------------------------------
 
+#define EXPANDED 0
+
 void num_db_digits(char *text, int n, int8_t *d)
 {
   fprintf(exdbfp, "%s", text);
   
   for(int k=0; k<n; k++)
     {
+#if EXPANDED
       fprintf(exdbfp, "% d", d[k]);
+#else
+      fprintf(exdbfp, "%d", d[k]);
+#endif
       if( k == 11 )
 	{
+#if EXPANDED	  
 	  fprintf(exdbfp, "_");
+#endif
 	}
     }
   
@@ -705,7 +713,7 @@ void num_mul(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
     }
   else
     {
-      r->sign = NUM_SIGN_POSITIVE;
+      r->sign = NUM_SIGN_NEGATIVE;
     }
 
   // Sort out exponent
@@ -1233,6 +1241,8 @@ long double num_to_double(NOPL_FLOAT *a)
   dbq("Out:%Lf", res);
   return(res);
 }
+
+//------------------------------------------------------------------------------
 
 void num_from_double(NOPL_FLOAT *a, long double d)
 {
