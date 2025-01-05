@@ -1068,35 +1068,18 @@ void qca_int_to_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Convert int to float form
 
-  // Check float isn't too big
-  
+  // This always succeeds
   NOPL_INT res;
-  NOPL_FLOAT *n = &(s->num);
-  
-  if( s->num.exponent > 4 )
-    {
-      runtime_error("Float too big");
-    }
-  
-  if( NUM_IS_POSITIVE(n) )
-    {
-      
-    }
-  else
-    {
-    }
-  
+
+
 }
 
 void qca_num_to_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Convert float to int.
-  // This always succeeds
-  NOPL_INT res;
 
-  
-  
-}
+  num_num_to_int(NUM_MAX_DIGITS, &(s->num), &(s->result));  
+  }
 
 //------------------------------------------------------------------------------
 

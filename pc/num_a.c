@@ -456,6 +456,105 @@ void num_mantissa_tens_compl(NOPL_FLOAT *n)
   dbq_num_exploded("%s after 10's compl", n);
 }
 
+//------------------------------------------------------------------------------
+
+void num_num_to_int(int n, NOPL_FLOAT *num,  NOBJ_INT *i)
+{
+  // Check float isn't too big
+  
+  if( num->exponent > 4 )
+    {
+      runtime_error("Float too big");
+      *i = 0;
+      return;
+    }
+
+  if( num->exponent < 0 )
+    {
+      *i = 0;
+      return;
+    }
+
+  //------------------------------------------------------------------------------
+  // Check that the num isn't out of range
+  // Maximum is slightly different between positive and negative
+  // integers
+  
+  if( num->exponent == 4 )
+    {
+      int8_t thr[NUM_MAX_DIGITS];
+
+      num_clear_digits(n, thr);
+
+      // Set up the first positive invalid number
+      thr[0] = 3;
+      thr[1] = 2;
+      thr[2] = 7;
+      thr[3] = 6;
+      thr[4] = 8;
+
+      num_db_digits("\nthr:", n, thr);
+  
+      if( NUM_IS_POSITIVE(num) )
+	{
+	  // Nothing to do
+	  if( num_digits_gte(NUM_MAX_DIGITS, &(num->digits[0]), thr) )
+	    {
+	      // Too big
+	      runtime_error("Float too big");
+	      *i = 0;
+	      return;
+	    }
+	}
+      else
+	{
+	  thr[4] = 7;
+
+	  if( num_digits_gte(NUM_MAX_DIGITS, &(num->digits[0]), thr) )
+	    {
+	      // Too big
+	      runtime_error("Float too big");
+	      *i = 0;
+	      return;
+	    }
+	}
+    }
+
+  // Calculate the integer
+  switch(num->exponent)
+    {
+    case 0:
+      *i = num->digits[0];
+      break;
+    case 1:
+      *i = num->digits[0]*10 + num->digits[1];
+      break;
+    case 2:
+      *i = num->digits[0]*100 + num->digits[1]*10 + num->digits[2];
+      break;
+    case 3:
+      *i = num->digits[0]*1000 + num->digits[1]*100 + num->digits[2]*10 + num->digits[3];
+      break;
+    case 4:
+      *i = num->digits[0]*10000 + num->digits[1]*1000 + num->digits[2]*100 + num->digits[3]*10 + num->digits[4];
+      break;
+
+    }
+  
+  // Work out sign
+  if( NUM_IS_POSITIVE(num) )
+    {
+      // Nothing to do
+    }
+  else
+    {
+      // Negative, invert
+      *i = -*i;
+    }
+
+  dbq("i:%d (%04X)", *i, *i);
+  
+}
 
 //------------------------------------------------------------------------------
 //

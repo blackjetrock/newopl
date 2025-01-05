@@ -52,6 +52,7 @@ void num_mantissa_tens_compl_digits(int n, int8_t *digits);
 void num_propagate_carry_digits(int8_t *digits, int num_digits);
 void num_propagate_carry(NOPL_FLOAT *n, int num_digits);
 void num_db_digits(char *text, int n, int8_t *d);
+void num_num_to_int(int n, NOPL_FLOAT *num,  NOBJ_INT *i);
 
 
 
