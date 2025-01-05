@@ -827,7 +827,7 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
     }
   else
     {
-      r->sign = NUM_SIGN_POSITIVE;
+      r->sign = NUM_SIGN_NEGATIVE;
     }
 
   // Sort out exponent
@@ -863,6 +863,8 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
     {
       num_shift_digits_left_n(NUM_MAX_DIGITS*2, lb, &exponent);
     }
+
+  r->exponent -= exponent;
   
   // Make a longer version of a
   num_clear_digits(NUM_MAX_DIGITS*2, la);
@@ -938,11 +940,31 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
       a_digit_pos++;
     }
 
+  // Shift so first significant digit is in res[0], so we get
+  // full resolutio of significant digits in result.
+
+  exponent = 0;
+  
+  while( res[0] == 0 )
+    {
+      num_shift_digits_left_n(NUM_MAX_DIGITS*2, res, &(r->exponent));
+    }
+
+  num_db_digits("\nres after shift:", NUM_MAX_DIGITS*2, res);
+
+  // Round the last digit up
+  if( res[NUM_MAX_DIGITS] >=5 )
+    {
+      res[NUM_MAX_DIGITS-1]++;
+    }
+  
+  num_db_digits("\nres after round:", NUM_MAX_DIGITS*2, res);
+
   for(int i=0; i<NUM_MAX_DIGITS; i++)
     {
       r->digits[i] = res[i];
     }
-  
+
   num_normalise(r);
   dbq_num_exploded("%s result", r);
 }
