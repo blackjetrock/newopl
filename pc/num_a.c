@@ -965,7 +965,10 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
     {
       res[NUM_MAX_DIGITS-1]++;
     }
-  
+
+  // Now propagate any carry
+  num_propagate_carry_digits(res, NUM_MAX_DIGITS*2);
+
   num_db_digits("\nres after round:", NUM_MAX_DIGITS*2, res);
 
   for(int i=0; i<NUM_MAX_DIGITS; i++)
