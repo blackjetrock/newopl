@@ -508,7 +508,7 @@ void num_num_to_int(int n, NOPL_FLOAT *num,  NOBJ_INT *i)
 	}
       else
 	{
-	  thr[4] = 7;
+	  thr[4] = 8;
 
 	  if( num_digits_gte(NUM_MAX_DIGITS, &(num->digits[0]), thr) )
 	    {
@@ -555,6 +555,55 @@ void num_num_to_int(int n, NOPL_FLOAT *num,  NOBJ_INT *i)
   dbq("i:%d (%04X)", *i, *i);
   
 }
+
+//------------------------------------------------------------------------------
+
+// Convert int to float
+
+
+void num_int_to_num(int n, NOBJ_INT *i, NOPL_FLOAT *num)
+{
+
+  // Set sign up
+  if( *i < 0 )
+    {
+      num->sign = NUM_SIGN_NEGATIVE;
+      *i = - *i;
+    }
+  else
+    {
+      num->sign = NUM_SIGN_POSITIVE;
+    }
+  
+  for(int i=4; i>=0; i--)
+    {
+    }
+  
+  if( *i >= 10000 )
+    {
+      num->digits[4] = (*i / 10000) % 10;
+    }
+  else if( *i >= 1000 )
+    {
+      num->digits[3] = (*i / 1000) % 10;
+    }
+
+  if( *i >= 100 )
+    {
+      num->digits[2] = (*i / 100) % 10;
+    }
+
+  if( *i >= 10 )
+    {
+      num->digits[1] = (*i / 10) % 10;
+    }
+
+  if( *i >= 0 )
+    {
+      num->digits[0] = *i % 10;
+    }
+}
+
 
 //------------------------------------------------------------------------------
 //
