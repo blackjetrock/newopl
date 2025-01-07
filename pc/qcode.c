@@ -1582,6 +1582,10 @@ int execute_qcode(NOBJ_MACHINE *m, int single_step)
   
   while(!s.done)
     {
+#ifdef TUI
+      tui_step(m);
+#endif
+      
       // Get the qcode using the PC from the stack
       
       s.qcode = m->stack[m->rta_pc];
