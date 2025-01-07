@@ -3,8 +3,21 @@
 #include <ncurses.h>
 #include <termio.h>
 #include <unistd.h>
+#include "nopl.h"
 
 ////////////////////////////////////////////////////////////////////////////////
+
+WINDOW *variable_win;
+
+WINDOW *create_win(int h, int w, int y, int x)
+{
+  WINDOW *win;
+  
+  win = newwin(h, w, y, x);
+  box(win, 0 , 0);
+  wrefresh(win);
+  return(win);
+}
 
 void tui_init(void)
 {
@@ -19,13 +32,18 @@ void tui_init(void)
 
   clear();
 
-  int c = wgetch(stdscr);
+  variable_win = create_win(20, 40, 0, 40);
+  box(variable_win, 0 , 0);
+  
+
+  
     //scrollok(stdscr, TRUE);
 }
 
 void tui_end(void)
 {
   endwin();
+  delwin(local_win);
 }
 #if 0
 bool kbhit(void)
@@ -117,3 +135,16 @@ struct
    {'>', 1, 6},
 
   };
+
+////////////////////////////////////////////////////////////////////////////////
+
+void tui_step(NOBJ_MACHINE *m)
+{
+  
+  int c = wgetch(stdscr);
+
+  // Display variables
+  
+}
+
+////////////////////////////////////////////////////////////////////////////////
