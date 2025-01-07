@@ -86,6 +86,7 @@
 
 #include "nopl.h"
 
+
 ////////////////////////////////////////////////////////////////////////////////
 
 NOBJ_MACHINE machine;
@@ -832,6 +833,12 @@ int main(int argc, char *argv[])
 	  break;
 	}
     }
+
+
+#ifdef TUI
+  printf("tui int");
+  tui_init();
+#endif
   
   // Discard header
   read_ob3_header(fp);
@@ -855,4 +862,10 @@ int main(int argc, char *argv[])
   debug("\n");
 
   fclose(exdbfp);
+
+#ifdef TUI
+  tui_end();
+#endif
+
+
 }
