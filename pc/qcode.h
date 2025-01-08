@@ -257,6 +257,7 @@ typedef struct _NOBJ_QCS
   NOPL_FLOAT num_result;
   NOPL_FLOAT num;
   NOPL_FLOAT num2;
+  uint16_t   arr_idx;
   uint16_t   ind_ptr;
   uint8_t    len;
   uint8_t    len2;

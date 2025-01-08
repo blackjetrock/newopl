@@ -118,6 +118,17 @@ void qca_num_ind_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
     }
 }
 
+void qca_num_arr_ind_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int dp = s->ind_ptr+s->arr_idx*SIZEOF_NUM+NUM_BYTE_LENGTH-1;
+
+  // Now stack the float
+  for(int i=0; i<NUM_BYTE_LENGTH; i++)
+    {
+      push_machine_8(m, stack_entry_8(m, dp--));
+    }
+}
+
 void qca_int_qc_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   int h, l;
@@ -254,11 +265,38 @@ void qca_push_ind_addr(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_8(m, 0);
 }
 
+void qca_push_int_arr_addr(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Push address of integer
+  push_machine_16(m, s->ind_ptr+s->arr_idx*SIZEOF_INT);
+  
+  // Push field flag
+  push_machine_8(m, 0);
+}
+
+void qca_push_num_arr_addr(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Push address of integer
+  push_machine_16(m, s->ind_ptr+s->arr_idx*SIZEOF_NUM);
+  
+  // Push field flag
+  push_machine_8(m, 0);
+}
+
 void qca_push_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Push address we calculated
   push_machine_16(m, s->ind_ptr);
 }
+
+// Pop array index
+void qca_pop_idx(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Pop the array index
+  s->arr_idx = pop_machine_16(m);
+}
+
+//------------------------------------------------------------------------------
 
 void qca_push_int_at_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -269,6 +307,26 @@ void qca_push_int_at_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
   // Push integer at the address we calculated
   push_machine_16(m,  val);
 }
+
+void qca_push_int_arr_at_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int val = stack_entry_16(m, s->ind_ptr+s->arr_idx*SIZEOF_INT);
+
+  dbq("val=%d (%04X)", val, val);
+  
+  // Push integer at the address we calculated
+  push_machine_16(m,  val);
+}
+
+void qca_push_num_arr_at_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int val = stack_entry_16(m, s->ind_ptr+s->arr_idx*SIZEOF_NUM);
+
+  // Push integer at the address we calculated
+  push_machine_16(m,  val);
+}
+
+//------------------------------------------------------------------------------
 
 void qca_push_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -1207,8 +1265,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_INT_SIM_FP,     "QI_INT_SIM_FP",     {qca_fp,           qca_null,        qca_push_int_at_ind}},
     { QI_NUM_SIM_FP,     "QI_NUM_SIM_FP",     {qca_fp,           qca_null,        qca_num_ind_con}},
     { QI_STR_SIM_FP,     "QI_STR_SIM_FP",     {qca_fp,           qca_null,        qca_str_ind_con}},
-    // QI_INT_ARR_FP           0x03    
-    // QI_NUM_ARR_FP           0x04    
+    { QI_INT_ARR_FP,     "QI_INT_ARR_FP",     {qca_fp,           qca_pop_idx,     qca_push_int_arr_at_ind}},
+    { QI_NUM_ARR_FP,     "QI_NUM_ARR_FP",     {qca_fp,           qca_pop_idx,     qca_push_num_arr_at_ind}},
     // QI_STR_ARR_FP           0x05    
     // QI_NUM_SIM_ABS          0x06    
     // QI_INT_SIM_IND          0x07    
@@ -1217,11 +1275,11 @@ NOBJ_QCODE_INFO qcode_info[] =
     // QI_INT_ARR_IND          0x0A    
     // QI_NUM_ARR_IND          0x0B    
     // QI_STR_ARR_IND          0x0C    
-    { QI_LS_INT_SIM_FP,  "QI_LS_INT_SIM_FP",  {qca_fp,           qca_null,        qca_push_ind_addr }},
-    { QI_LS_STR_SIM_FP,  "QI_LS_STR_SIM_FP",  {qca_fp,           qca_null,        qca_str }},
-    { QI_LS_NUM_SIM_FP,  "QI_LS_NUM_SIM_FP",  {qca_fp,           qca_null,        qca_push_ind_addr}},
-    // QI_LS_INT_ARR_FP        0x10    
-    // QI_LS_NUM_ARR_FP        0x11    
+    { QI_LS_INT_SIM_FP,     "QI_LS_INT_SIM_FP", {qca_fp,           qca_null,        qca_push_ind_addr }},
+    { QI_LS_STR_SIM_FP,     "QI_LS_STR_SIM_FP", {qca_fp,           qca_null,        qca_str }},
+    { QI_LS_NUM_SIM_FP,     "QI_LS_NUM_SIM_FP", {qca_fp,           qca_null,        qca_push_ind_addr}},
+    { QI_LS_INT_ARR_FP,   "QI_LS_INT_ARR_FP",   {qca_fp,           qca_pop_idx,     qca_push_int_arr_addr }},
+    { QI_LS_NUM_ARR_FP,   "QI_LS_NUM_ARR_FP",   {qca_fp,           qca_pop_idx,     qca_push_num_arr_addr }},
     // QI_LS_STR_ARR_FP        0x12    
     // QI_LS_NUM_SIM_ABS       0x13    
     // QI_LS_INT_SIM_IND       0x14    

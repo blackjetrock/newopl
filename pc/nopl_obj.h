@@ -14,6 +14,8 @@
 #define NOBJ_TRUE                0xFFFF
 #define NOBJ_FALSE               0x0000
 
+#define SIZEOF_INT 2
+#define SIZEOF_NUM 8
 
 typedef uint8_t NOBJ_PARAMETER_TYPE;
 typedef int16_t NOBJ_INT;
