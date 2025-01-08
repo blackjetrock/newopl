@@ -3,5 +3,5 @@
 
 void tui_end(void);
 void tui_init(void);
-void tui_step(NOBJ_MACHINE *m);
+void tui_step(NOBJ_MACHINE *m, int *done);
 

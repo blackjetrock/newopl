@@ -8,13 +8,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 WINDOW *variable_win;
+WINDOW *memory_win;
 
 WINDOW *create_win(int h, int w, int y, int x)
 {
   WINDOW *win;
   
   win = newwin(h, w, y, x);
-  box(win, 0 , 0);
+  //box(win, '*' , '*');
+  wborder(win, 0,0,0,0,0,0,0,0);
+
   wrefresh(win);
   return(win);
 }
@@ -23,27 +26,40 @@ void tui_init(void)
 {
   //initscr();  
   //timeout(1);
-  printf("\nINIT TUI");
+  printf("\n%s", __FUNCTION__);
+  
   initscr();
 
-  cbreak();
-  noecho();
+  //cbreak();
+  //noecho();
   //nodelay(stdscr, TRUE);
 
   clear();
 
-  variable_win = create_win(20, 40, 0, 40);
-  box(variable_win, 0 , 0);
-  
+  printw("main");
 
+  refresh();
+  
+  variable_win = create_win(10, 20, 0, 40);
+  memory_win = create_win(10, 20, 0, 0);
+
+  wprintw(variable_win, "variables");
+  wrefresh(variable_win);
+  wprintw(memory_win,"memory");
+  wrefresh(memory_win);
+  printf("\n%s", __FUNCTION__);
   
     //scrollok(stdscr, TRUE);
 }
 
 void tui_end(void)
 {
+  printf("\n%s", __FUNCTION__);
+  
+  delwin(variable_win);
+  delwin(memory_win);
   endwin();
-  delwin(local_win);
+  printf("\n%s", __FUNCTION__);
 }
 #if 0
 bool kbhit(void)
@@ -138,13 +154,28 @@ struct
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void tui_step(NOBJ_MACHINE *m)
+void tui_step(NOBJ_MACHINE *m, int *done)
 {
   
   int c = wgetch(stdscr);
 
   // Display variables
+  switch(c)
+    {
+    case 'q':
+      *done = 1;
+      break;
+
+    case 'm':
+      wprintw(memory_win, "\n%04X ", m->rta_sp);
+      for(int i=0; i<8; i++)
+	{
+	  wprintw(memory_win, "%04X ", m->stack[m->rta_sp+i]);
+	}
+      break;
+    }
   
+  wrefresh(memory_win);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

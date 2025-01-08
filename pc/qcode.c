@@ -1629,7 +1629,7 @@ void display_variables(NOBJ_MACHINE *m)
 // before execution of next instruction
 //
 
-int execute_qcode(NOBJ_MACHINE *m, int single_step)
+void execute_qcode(NOBJ_MACHINE *m, int single_step)
 {
   uint8_t    field_flag;
   NOBJ_QCS   s;
@@ -1641,7 +1641,7 @@ int execute_qcode(NOBJ_MACHINE *m, int single_step)
   while(!s.done)
     {
 #ifdef TUI
-      tui_step(m);
+      tui_step(m, &(s.done));
 #endif
       
       // Get the qcode using the PC from the stack
@@ -1786,7 +1786,8 @@ int execute_qcode(NOBJ_MACHINE *m, int single_step)
 	{
 	  dbq("===  Exit ====");
 	  display_machine(m);
-	  exit(0);
+	  //exit(0);
+	  return;
 	  // Exit?
 	}
     }

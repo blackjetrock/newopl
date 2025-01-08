@@ -836,7 +836,7 @@ int main(int argc, char *argv[])
 
 
 #ifdef TUI
-  printf("tui int");
+  printf("tui init");
   tui_init();
 #endif
   
