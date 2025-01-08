@@ -22,6 +22,8 @@ WINDOW *create_win(int h, int w, int y, int x)
   return(win);
 }
 
+int scr_maxx, scr_maxy;
+
 void tui_init(void)
 {
   //initscr();  
@@ -38,18 +40,24 @@ void tui_init(void)
 
   printw("main");
 
+  getmaxyx(stdscr, scr_maxy, scr_maxx);
+  
   refresh();
   
-  variable_win = create_win(10, 20, 0, 40);
-  memory_win = create_win(10, 20, 0, 0);
-
+  variable_win = create_win(scr_maxy/2-5, scr_maxx/2-5, 0, scr_maxx/2);
+  memory_win   = create_win(scr_maxy/2-5, scr_maxx/2-5, 0, 0);
+  scrollok(memory_win, TRUE);
+  
   wprintw(variable_win, "variables");
+
   wrefresh(variable_win);
+
+	  
   wprintw(memory_win,"memory");
   wrefresh(memory_win);
   printf("\n%s", __FUNCTION__);
   
-    //scrollok(stdscr, TRUE);
+
 }
 
 void tui_end(void)
@@ -59,7 +67,7 @@ void tui_end(void)
   delwin(variable_win);
   delwin(memory_win);
   endwin();
-  printf("\n%s", __FUNCTION__);
+  printf("\n%s, (cols:%d,rows:%d)", __FUNCTION__, scr_maxx, scr_maxy);
 }
 #if 0
 bool kbhit(void)
@@ -154,28 +162,81 @@ struct
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void display_stack(NOBJ_MACHINE *m)
+{
+  wprintw(memory_win, "\n%04X ", m->rta_sp);
+  for(int i=0; i<8; i++)
+    {
+      wprintw(memory_win, "%04X ", m->stack[m->rta_sp+i]);
+    }
+  wrefresh(memory_win);
+}
+
+//------------------------------------------------------------------------------
+
+void tui_display_variables(NOBJ_MACHINE *m)
+{
+  FILE *fp;
+  char line[300];
+
+  int i;
+  char varname[50];
+  
+  fp = fopen("vars.txt", "r");
+
+  if( fp == NULL )
+    {
+      return;
+    }
+
+  while(!feof(fp) )
+    {
+      fgets(line, sizeof(line), fp);
+
+      if( sscanf(line, "%d: VAR: ' %[^']'", &i, varname) == 2 )
+	{
+	  wprintw(variable_win, "\n%s ", varname);
+	}
+    }
+
+  fclose(fp);
+
+  wrefresh(variable_win);
+}
+
+//------------------------------------------------------------------------------
+
 void tui_step(NOBJ_MACHINE *m, int *done)
 {
+  int donek = 0;
   
-  int c = wgetch(stdscr);
-
-  // Display variables
-  switch(c)
+  while(!donek)
     {
-    case 'q':
-      *done = 1;
-      break;
-
-    case 'm':
-      wprintw(memory_win, "\n%04X ", m->rta_sp);
-      for(int i=0; i<8; i++)
+      int c = wgetch(stdscr);
+      
+      // Display variables
+      switch(c)
 	{
-	  wprintw(memory_win, "%04X ", m->stack[m->rta_sp+i]);
+	case 'q':
+	  *done = 1;
+	  donek = 1;
+	  break;
+
+	case '\n':
+	  donek = 1;
+	  break;
+	  
+	case 'm':
+	  display_stack(m);
+	  break;
+	  
+	case 'v':
+	  tui_display_variables(m);
+	  break;
 	}
-      break;
+      
+
     }
-  
-  wrefresh(memory_win);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
