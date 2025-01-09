@@ -9,6 +9,7 @@ extern NOBJ_VARTYPE expression_type;
 
 #define MAX_EXP_TYPE_STACK  100
 
+extern char last_line[MAX_NOPL_LINE];
 extern char cline[MAX_NOPL_LINE];
 extern int cline_i;
 extern FILE *ofp;

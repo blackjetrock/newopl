@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include <ncurses.h>
@@ -10,17 +11,23 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+int16_t val = 0;
+
 WINDOW *variable_win;
 WINDOW *memory_win;
 WINDOW *machine_win;
+WINDOW *qcode_win;
 
-WINDOW *create_win(int h, int w, int y, int x)
+WINDOW **tui_focus = &memory_win;
+
+WINDOW *create_win(char *title, int h, int w, int y, int x)
 {
   WINDOW *win;
   
   win = newwin(h, w, y, x);
-  //box(win, '*' , '*');
+
   wborder(win, 0,0,0,0,0,0,0,0);
+  wprintw(win, title);
   wrefresh(win);
 
   delwin(win);
@@ -40,7 +47,7 @@ void tui_init(void)
   initscr();
 
   //cbreak();
-  //noecho();
+  noecho();
   //nodelay(stdscr, TRUE);
 
   clear();
@@ -51,20 +58,18 @@ void tui_init(void)
   
   refresh();
   
-  variable_win = create_win(scr_maxy/2-1, scr_maxx/2-1, 0, scr_maxx/2);
-  memory_win   = create_win(scr_maxy/3-1, scr_maxx/2-1, 0, 0);
-  machine_win  = create_win(scr_maxy/4-1, scr_maxx/2-1, scr_maxy/2, 0);
+  variable_win = create_win("Variables", scr_maxy/2-1, scr_maxx/2-1,          0, scr_maxx/2);
+  memory_win   = create_win("Memory",    scr_maxy/4-1, scr_maxx/4-1,          0,          0);
+  machine_win  = create_win("Machine",   scr_maxy/4-1, scr_maxx/2-1, scr_maxy/4,          0);
+  qcode_win    = create_win("QCode",     scr_maxy/4-1, scr_maxx/4-1,          0, scr_maxx/4);
+
   scrollok(memory_win, TRUE);
   scrollok(variable_win, TRUE);
-    
-  wprintw(variable_win, "variables");
-  wrefresh(variable_win);
 
-  wprintw(machine_win, "Machine");
+  wrefresh(variable_win);
   wrefresh(machine_win);
-	  
-  wprintw(memory_win,"memory");
   wrefresh(memory_win);
+
   printf("\n%s", __FUNCTION__);
   
 
@@ -172,12 +177,41 @@ struct
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void display_stack(NOBJ_MACHINE *m)
+int16_t tui_memptr = 0x3f00;
+#define TUI_STACK_MEM(XX) (m->stack[XX])
+
+uint8_t tui_stack_byte(NOBJ_MACHINE *m, uint16_t idx)
 {
-  wprintw(memory_win, "\n%04X ", m->rta_sp);
+  if( idx < 0 )
+    {
+      return(0);
+    }
+
+  if( idx > NOBJ_MACHINE_STACK_SIZE )
+    {
+      return(0);
+    }
+
+  return(TUI_STACK_MEM(idx));
+}
+
+void display_memory(NOBJ_MACHINE *m)
+{
+  tui_memptr = val;
+  wclear(memory_win);
+  wprintw(memory_win, "\n%04X ", tui_memptr);
+
   for(int i=0; i<8; i++)
     {
-      wprintw(memory_win, "%04X ", m->stack[m->rta_sp+i]);
+      wprintw(memory_win, "%02X ", tui_stack_byte(m, tui_memptr+i));
+    }
+
+  wprintw(memory_win, "\n     ", tui_memptr);
+  
+  for(int i=0; i<8; i++)
+    {
+      uint8_t byte = tui_stack_byte(m, tui_memptr+i);
+      wprintw(memory_win, "%c  ", isprint(byte)?byte: '.');
     }
   wrefresh(memory_win);
 }
@@ -187,8 +221,60 @@ void tui_display_machine(NOBJ_MACHINE *m)
   wclear(machine_win);
   wprintw(machine_win, "\nrta_fp:%04X ", m->rta_fp);
   wprintw(machine_win, "\nrta_sp:%04X ", m->rta_sp);
+  wprintw(machine_win, "\nrta_pc:%04X ", m->rta_pc);
 
   wrefresh(machine_win);
+}
+
+char tui_srcline[MAX_NOPL_LINE];
+
+char *tui_get_src_line_at(int a)
+{
+  FILE *fp;
+  int idx;
+  char line[MAX_NOPL_LINE];
+  
+  fp = fopen("intcode.txt", "r");
+
+  if( fp == NULL )
+    {
+      return(NULL);
+    }
+
+    while(!feof(fp) )
+    {
+      int16_t mp;
+
+      if( fgets(line, sizeof(line), fp)== NULL )
+	{
+	  continue;
+	}
+      
+      if( sscanf(line, "QCode idx:%X --++ %s --++", &idx, tui_srcline) )
+	{
+	  return(tui_srcline);
+	}
+    }
+    
+    fclose(fp);
+    return(NULL);
+}
+
+void tui_display_qcode(NOBJ_MACHINE *m)
+{
+  char *src;
+  
+  wclear(qcode_win);
+  wprintw(qcode_win, "\nrta_pc:%04X ", m->rta_pc);
+  wprintw(qcode_win, "\n%s", qcode_name(m->stack[m->rta_pc]));
+  wprintw(qcode_win, "\n%04X: %02X ", m->stack[m->rta_pc]);
+  
+  if( (src = tui_get_src_line_at(m->rta_pc)) != NULL )
+    {
+      wprintw(qcode_win, "\n\n%s", src);
+    }
+  
+  wrefresh(qcode_win);
 }
 
 NOPL_FLOAT tui_num_from_mem(uint8_t *mp)
@@ -210,8 +296,6 @@ NOPL_FLOAT tui_num_from_mem(uint8_t *mp)
   return(n);
 }
 
-
-
 //------------------------------------------------------------------------------
 
 void tui_display_variables(NOBJ_MACHINE *m)
@@ -229,6 +313,8 @@ void tui_display_variables(NOBJ_MACHINE *m)
   
   int i;
   char varname[50];
+
+  wclear(variable_win);
   
   fp = fopen("vars.txt", "r");
 
@@ -241,7 +327,10 @@ void tui_display_variables(NOBJ_MACHINE *m)
     {
       int16_t mp;
       
-      fgets(line, sizeof(line), fp);
+      if( fgets(line, sizeof(line), fp)== NULL )
+	{
+	  continue;
+	}
 
       if( sscanf(line, "%d: VAR: ' %[^']' %s %s %s max_str: %d max_ary: %d num_ind: %d offset:%X", &i, varname, class, type, ref, &max_string, &max_array, &num_indices, &offset) == 9 )
 	{
@@ -255,41 +344,13 @@ void tui_display_variables(NOBJ_MACHINE *m)
 	    {
 	      NOPL_FLOAT num;
 
-	      num = tui_num_from_mem(&(m->stack[mp]));
-#if 0
-	      wprintw(variable_win, "\n%s %s", varname, num_as_text(&num, ""));
-#else
-	      wprintw(variable_win, "\n%s (Addr:%04X) ", varname, mp);
-						    
 	      for(int i=0; i<8; i++)
 		{
-		  wprintw(variable_win, " %02X", m->stack[mp++]);
+		  dbq(" %02X", m->stack[mp+i]);
 		}
-#endif
-	      
-#if 0
-	      wprintw(variable_win, "\n%s", varname);
-	      
-	      if(m->stack[mp++])
-		{
-		  wprintw(variable_win, "-");
-		}
-	      else
-		{
-		  wprintw(variable_win, " ");
-		}
-	      
-	      int exponent = m->stack[mp++];
-	      
-	      wprintw(variable_win, "%d.", m->stack[mp++]);
-	      
-	      for(int i=1; i<NUM_MAX_DIGITS; i++)
-		{
-		  wprintw(variable_win, "%d", m->stack[mp++]);
-		}
-	      
-	      wprintw(variable_win, " E%d", exponent);
-#endif
+	      num = tui_num_from_mem(&(m->stack[mp]));
+
+	      wprintw(variable_win, "\n%s (Addr:%04X) %s", varname, mp, num_as_text(&num, ""));
 	    }
 	}
     }
@@ -309,15 +370,42 @@ void tui_step(NOBJ_MACHINE *m, int *done)
     {
       int c;
       
-      display_stack(m);
+      display_memory(m);
       tui_display_machine(m);
       tui_display_variables(m);
+      tui_display_qcode(m);
       
       c = wgetch(stdscr);
       
       // Display variables
       switch(c)
 	{
+	case '0':
+	case '1':
+	case '2':
+	case '3':
+	case '4':
+	case '5':
+	case '6':
+	case '7':
+	case '8':
+	case '9':
+	  val *= 16;
+	  val += (c-'0');
+	  display_memory(m);
+	  break;
+
+	case 'a':
+	case 'b':
+	case 'c':	
+	case 'd': 
+	case 'e':
+	case 'f':
+	  val *= 16;
+	  val += (c-'a'+10);
+	  display_memory(m);
+	  break;
+	  
 	case 'q':
 	  *done = 1;
 	  donek = 1;
@@ -328,14 +416,17 @@ void tui_step(NOBJ_MACHINE *m, int *done)
 	  break;
 	  
 	case 'm':
-	  display_stack(m);
+	  tui_focus = &memory_win;
+	  display_memory(m);
 	  break;
 
 	case 'M':
+	  tui_focus = &machine_win;
 	  tui_display_machine(m);
 	  break;
 	  
 	case 'v':
+	  tui_focus = &variable_win;
 	  tui_display_variables(m);
 	  break;
 	}

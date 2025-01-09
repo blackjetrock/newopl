@@ -295,6 +295,7 @@ void execute_qcode(NOBJ_MACHINE *m, int single_step);
 uint8_t qcode_next_8(NOBJ_MACHINE *m);
 uint16_t qcode_next_16(NOBJ_MACHINE *m);
 void db_qcode(char *s, ...);
+char *qcode_name(NOBJ_QCODE qcode);
 
 
 extern FILE *exdbfp;
