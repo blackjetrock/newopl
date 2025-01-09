@@ -179,11 +179,16 @@ void tui_display_variables(NOBJ_MACHINE *m)
   FILE *fp;
   char line[300];
   char localglobal[20];
+  char class[50];
   char type[50];
+  char ref[50];
+  int  max_string;
+  int  max_array;
+  int  num_indices;
+  int  offset;
   
   int i;
   char varname[50];
-  return;
   
   fp = fopen("vars.txt", "r");
 
@@ -196,9 +201,9 @@ void tui_display_variables(NOBJ_MACHINE *m)
     {
       fgets(line, sizeof(line), fp);
 
-      if( sscanf(line, "%d: VAR: ' %[^']'", &i, varname) == 2 )
+      if( sscanf(line, "%d: VAR: ' %[^']' %s %s %s max_str: %d max_ary: %d num_ind: %d offset:%X", &i, varname, class, type, ref, &max_string, &max_array, &num_indices, &offset) == 9 )
 	{
-	  wprintw(variable_win, "\n%s ", varname);
+	  wprintw(variable_win, "\n%s %d", varname, m->stack[offset+m->rta_fp]);
 	}
     }
 

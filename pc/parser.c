@@ -559,7 +559,7 @@ char *var_class_to_str(NOPL_VAR_CLASS vc)
       break;
 
     case NOPL_VAR_CLASS_CALC_MEMORY:
-      return("Calc Memory");
+      return("CalcMemory");
       break;
 
     case NOPL_VAR_CLASS_CREATE:
@@ -571,7 +571,7 @@ char *var_class_to_str(NOPL_VAR_CLASS vc)
       break;
       
     case NOPL_VAR_CLASS_FIELDVAR:
-      return("Field Var");
+      return("FieldVar");
       break;
       
     }
@@ -606,15 +606,15 @@ char *var_access_to_str(NOPL_OP_ACCESS va)
       break;
       
     case NOPL_OP_ACCESS_NO_EXP:
-      return("No exp");
+      return("Noexp");
       break;
       
     case NOPL_OP_ACCESS_WRITE_ARRAY_STK_IDX:
-      return("wr ary stk id");
+      return("wrarystkid");
       break;
       
     case NOPL_OP_ACCESS_FIELDVAR:
-      return("Field var");
+      return("Fieldvar");
       break;
     }
 
@@ -1704,15 +1704,15 @@ char *type_to_str(NOBJ_VARTYPE t)
       break;
 
     case NOBJ_VARTYPE_INTARY:
-      c = "Integer array";
+      c = "IntegerArray";
       break;
 
     case NOBJ_VARTYPE_FLTARY:
-      c = "Float   array";
+      c = "FloatArray";
       break;
 
     case NOBJ_VARTYPE_STRARY:
-      c = "String  array";
+      c = "StringArray";
       break;
 
     case NOBJ_VARTYPE_UNKNOWN:

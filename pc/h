@@ -1,0 +1,1002 @@
+ 1143  up
+ 1144  git checkout main
+ 1145  git branch
+ 1146  git merge float
+ 1147  git status
+ 1148  git push
+ 1149  git checkout float
+ 1150  ls
+ 1151  git status
+ 1152  git checkout main
+ 1153  ./m
+ 1154  ./ex_test.tcl 
+ 1155  ./ef add
+ 1156  cp add.opl extst_float1.opl
+ 1157  ./ex_test.tcl 
+ 1158  ./tr_test.tcl 
+ 1159  git status
+ 1160  git add *
+ 1161  git status
+ 1162  git commit -a
+ 1163  git status
+ 1164  up
+ 1165  git status
+ 1166  ./ef add1
+ 1167  ./ef add
+ 1168  ./ex_test.tcl 
+ 1169  ./m
+ 1170  ./ex_test.tcl 
+ 1171  ./ef add
+ 1172  ./ef add1
+ 1173  ./m
+ 1174  ./ef add1
+ 1175  fgrep fprintf *.c
+ 1176  fgrep dbfpq *.c
+ 1177  fgrep dbfpq *
+ 1178  fgrep db *.c
+ 1179  fgrep dbf *.c
+ 1180  ./ef add1
+ 1181  ./m
+ 1182  ./ef add1
+ 1183  ./m
+ 1184  ./ef add1
+ 1185  edit float2.opl
+ 1186  ./ef float2
+ 1187  git status
+ 1188  git add float2.opl 
+ 1189  up
+ 1190  ./tr_test.tcl 
+ 1191  ./ex_test.tcl 
+ 1192  ./ef float2
+ 1193  git status
+ 1194  up
+ 1195  git branch
+ 1196  git checkout float 
+ 1197  git status
+ 1198  git branch 
+ 1199  git status
+ 1200  edit extst_fl
+ 1201  edit float1.opl 
+ 1202  ls extst*
+ 1203  edit extst_float2.opl
+ 1204  ./ex_test.tcl 
+ 1205  edit add1.opl
+ 1206  ./ex_test.tcl 
+ 1207  ./ef extst_float2.opl
+ 1208  ./ef extst_float2
+ 1209  ./newopl_tran extst_float2.opl
+ 1210  ./ef extst_float2
+ 1211  fgrep NOPL_INT *.c
+ 1212  fgrep NOPL_INT *.h
+ 1213  fgrep -i num_is *.h
+ 1214  ./ex_test.tcl 
+ 1215  ./ef extst_float2
+ 1216  fgrep -i pass% *.opl
+ 1217  ./ef add1
+ 1218  ./newopl_tran add1.opl
+ 1219  ./ef add
+ 1220  ./ef extst_float2.opl
+ 1221  meld add.opl extst_float2.opl
+ 1222  ./ef extst_float2.opl
+ 1223  ./ef extst_float2
+ 1224  mv add.opl extst_float3.opl
+ 1225  ./ex_test.tcl 
+ 1226  ./ef extst_float2
+ 1227  edit extst_float3.opl 
+ 1228  ./ef extst_float3
+ 1229  ./ef extst_float2
+ 1230  fgrep -i nobj_filen *.h
+ 1231  edit newopl.h
+ 1232  fgrep data8 *.c
+ 1233  fgrep len *.c
+ 1234  fgrep machine_string *.c
+ 1235  ./ef extst_float2
+ 1236  ./ex_test.tcl 
+ 1237  git status
+ 1238  git add *
+ 1239  git status
+ 1240  git rm add.opl
+ 1241  git status
+ 1242  up
+ 1243  ./ex_test.tcl 
+ 1244  ./ef extst_float2
+ 1245  edit add.opl
+ 1246  ./ef extst_float2
+ 1247  ./ef add
+ 1248  ./ef extst_float2
+ 1249  ./ef add
+ 1250  ./ef extst_float2
+ 1251  git status
+ 1252  git add add.opl 
+ 1253  ./ef extst_float2
+ 1254  ./tr_test.tcl 
+ 1255  ls ~/Downloads/*.opl
+ 1256  cp ~/Downloads/*.opl .
+ 1257  ls -ltr
+ 1258  ./ef Owl2.opl 
+ 1259  ./ef Owl2
+ 1260  ./ef Feet3
+ 1261  ./ef Waves2
+ 1262  ls -ltr
+ 1263  ls ~/Downloads/*.OB3
+ 1264  mv ~/Downloads/FEET3.OB3 ./Feet3.OB3
+ 1265  mv ~/Downloads/FEET3.OB3 ./Owl2.OB3
+ 1266  mv ~/Downloads/FEET3.OB3 ./Feet3.OB3
+ 1267  mv ~/Downloads/OWL2.OB3 ./Owl2.OB3
+ 1268  mv ~/Downloads/WAVES2..OB3 ./Waves2.OB3
+ 1269  mv ~/Downloads/WAVES2.OB3 ./Waves2.OB3
+ 1270  mv ~/Downloads/FEET3.OB3 ./Feet3.OB3
+ 1271  ./newopl_objdump Feet3.OB3 >Feet3_psion.tr.test
+ 1272  ./newopl_objdump Wave2.OB3 >Wave2_psion.tr.test
+ 1273  ./newopl_objdump Owl2.OB3 >Owl2_psion.tr.test
+ 1274  ./tr_test.tcl 
+ 1275  ls -ltr
+ 1276  ls Wave*
+ 1277  mv Wave2_psion.tr.test Waves2_psion.tr.test
+ 1278  ./tr_test.tcl 
+ 1279  ./domeld Waves2
+ 1280  ls -ltr
+ 1281  ls Waves2*
+ 1282  cat Waves2_psion.tr.test 
+ 1283  ./newopl_objdump Waves2.OB3 >Waves2_psion.tr.test
+ 1284  cat Waves2_psion.tr.test 
+ 1285  ./tr_test.tcl 
+ 1286  git status
+ 1287  git add *
+ 1288  git status
+ 1289  up
+ 1290  git branch
+ 1291  ./ex_test.tcl 
+ 1292  git status
+ 1293  ./ef Owl2
+ 1294  git status
+ 1295  edit screen_a.c
+ 1296  ./ef Feet3
+ 1297  ./ef Waves2
+ 1298  ls Wave*
+ 1299  rm Wave2_nopl.out.test
+ 1300  git rm Wave2_nopl.out.test
+ 1301  ./ef Waves2
+ 1302  edit Waves2.opl 
+ 1303  ./ef Waves2
+ 1304  cp Waves2.opl waves2.opl
+ 1305  edit waves2.opl 
+ 1306  ./ef waves2
+ 1307  git status
+ 1308  git add *
+ 1309  git status
+ 1310  up
+ 1311  ./ex_test.tcl 
+ 1312  ./tr_test.tcl 
+ 1313  git status
+ 1314  up
+ 1315  git status
+ 1316  git checkopuit main
+ 1317  git checkout main
+ 1318  git branch 
+ 1319  git merge float
+ 1320  git git status
+ 1321  git status
+ 1322  git add check.txt expressions.txt newopl_exec ob3_nopl.bin obj.txt parse_text.txt qcode_data.txt shunting.txt translated.opl
+ 1323  git status
+ 1324  edit .gitignore
+ 1325  rm check.txt expressions.txt newopl_exec ob3_nopl.bin obj.txt parse_text.txt qcode_data.txt shunting.txt translated.opl
+ 1326  git status
+ 1327  up
+ 1328  git status
+ 1329  ./ex_test.tcl 
+ 1330  ./m
+ 1331  ./ex_test.tcl 
+ 1332  git status
+ 1333  ./tr_test.tcl 
+ 1334  git status
+ 1335  git branch
+ 1336  git branch float2
+ 1337  git checkout float2
+ 1338  git push
+ 1339  git push --set-upstream origin float2
+ 1340  ./tr_test.tcl 
+ 1341  ./ex_test.tcl 
+ 1342  ./ef Owl2
+ 1343  ./ef Feet3
+ 1344  edit Feet3.opl 
+ 1345  ./ef Feet3
+ 1346  git status
+ 1347  up
+ 1348  git status
+ 1349  git checkout main
+ 1350  git status
+ 1351  git merge float2
+ 1352  up
+ 1353  ./ex_test.tcl 
+ 1354  ./ef Feet3
+ 1355  ./ef Owl2
+ 1356  ./newopl_tran Owl2.opl 
+ 1357  ./newopl_exec ob3_nopl.bin 
+ 1358  git branch float3
+ 1359  git checkout float3
+ 1360  up
+ 1361  git status
+ 1362  ./ex_test.tcl 
+ 1363  edit num_a.c
+ 1364  ./m
+ 1365  edit qcode.c
+ 1366  ./m
+ 1367  edit num_a.h
+ 1368  ./m
+ 1369  ./ex_test.tcl 
+ 1370  ./tr_test.tcl 
+ 1371  edit extst_float3.opl 
+ 1372  edit extst_float2.opl 
+ 1373  edit add.opl 
+ 1374  ./ef add
+ 1375  edit exec_db.txt 
+ 1376  edit qcode.h
+ 1377  ./ef add
+ 1378  git branch
+ 1379  git status
+ 1380  ./m
+ 1381  ./ef add
+ 1382  gdb ./newopl_exec 
+ 1383  ./ef add
+ 1384  ./ex_test.tcl 
+ 1385  ./tr_test.tcl 
+ 1386  ./ef add
+ 1387  ./ex_test.tcl 
+ 1388  edit extst_comp.opl 
+ 1389  ./ex_test.tcl 
+ 1390  edit extst_float1.opl 
+ 1391  edit add.opl 
+ 1392  ./ef add
+ 1393  ./m
+ 1394  ./ef add
+ 1395  ./ex_test.tcl 
+ 1396  ./ef add
+ 1397  ./ef extst_float2
+ 1398  git diff num_a.c
+ 1399  ./ef extst_float2
+ 1400  ./ex_test.tcl 
+ 1401  ./ef extst_float1
+ 1402  ./ex_test.tcl 
+ 1403  ./ef extst_float2
+ 1404  ./ex_test.tcl 
+ 1405  git status
+ 1406  up
+ 1407  ./ef add
+ 1408  fgrep ">=" *.opl
+ 1409  fgrep ">=" ext*.opl
+ 1410  fgrep ">" ext*.opl
+ 1411  edit extst_float3.opl 
+ 1412  edit extst_float2.opl
+ 1413  ./ef extst_float2
+ 1414  ./m
+ 1415  ./ef extst_float2
+ 1416  ./newopl_tran extst_float2.opl
+ 1417  ./newopl_exec ob3_nopl.bin 
+ 1418  ./ef extst_float2
+ 1419  ./newopl_tran extst_float2.opl
+ 1420  ./newopl_exec ob3_nopl.bin 
+ 1421  ./ef extst_float2
+ 1422  edit intcode.txt 
+ 1423  ./ef extst_float2
+ 1424  ./ex_test.tcl 
+ 1425  ./ef ADD
+ 1426  ./ef add
+ 1427  ./ex_test.tcl 
+ 1428  ./ef extst_float2
+ 1429  ./m
+ 1430  ./ef extst_float2
+ 1431  ./ef add
+ 1432  ./ef extst_float2
+ 1433  ./ex_test.tcl 
+ 1434  git status
+ 1435  up
+ 1436  ./ef add
+ 1437  ./m
+ 1438  ./ef add
+ 1439  git branch
+ 1440  git status
+ 1441  ./m
+ 1442  openscad
+ 1443  ./m
+ 1444  ./ex_test.tcl 
+ 1445  ./m
+ 1446  ./ex_test.tcl 
+ 1447  ./m
+ 1448  ./ex_test.tcl 
+ 1449  ./ef add
+ 1450  ./m
+ 1451  ./ef add
+ 1452  up
+ 1453  git status
+ 1454  ./ef add
+ 1455  ./m
+ 1456  ./ef add
+ 1457  git status
+ 1458  up
+ 1459  git status
+ 1460  ./ex_test.tcl 
+ 1461  ./ef add
+ 1462  cp add.opl div.opl
+ 1463  edit div.opl 
+ 1464  ./ef div.opl
+ 1465  ./ef div
+ 1466  git status
+ 1467  git add *
+ 1468  git status
+ 1469  up
+ 1470  ./ef div
+ 1471  ./ef add
+ 1472  git status
+ 1473  up
+ 1474  ./ef add
+ 1475  ./ef div
+ 1476  up
+ 1477  ./ef add
+ 1478  ls *float*
+ 1479  cp extst_float2.opl extst_float4.opl
+ 1480  ./ex_test.tcl 
+ 1481  ./tr_test.tcl 
+ 1482  edit extst_float4.opl 
+ 1483  ./ex_test.tcl 
+ 1484  ./ef extst_float4.opl
+ 1485  ./newopl_tran extst_float4.opl
+ 1486  ./newopl_exec ob3_nopl.bin 
+ 1487  ./ef extst_float4.opl
+ 1488  ./ef extst_float4
+ 1489  ./newopl_tran extst_float4.opl
+ 1490  ./newopl_exec ob3_nopl.bin 
+ 1491  ./ef extst_float4
+ 1492  ./ex_test.tcl 
+ 1493  git status
+ 1494  git add *
+ 1495  git status
+ 1496  up
+ 1497  git branch
+ 1498  git checkout main
+ 1499  git status
+ 1500  git merge float3
+ 1501  git status
+ 1502  up
+ 1503  ./tr_test.tcl 
+ 1504  ..
+ 1505  ./ex_test.tcl 
+ 1506  edit extest_quad.opl
+ 1507  ./ef extst_quad
+ 1508  mv extest_quad.opl extst_quad.opl 
+ 1509  ./ex_test.tcl 
+ 1510  ./ef extst_quad
+ 1511  cp extst_float4.opl extst_quad.opl
+ 1512  git status
+ 1513  git restore extst_float4.opl
+ 1514  git branch
+ 1515  ./ef extst_quad
+ 1516  edit extst_quad.opl 
+ 1517  ./ef extst_quad
+ 1518  ./newopl_exec ob3_nopl.bin 
+ 1519  ./newopl_tran extst_quad.opl
+ 1520  ./newopl_exec ob3_nopl.bin 
+ 1521  ./ef extst_quad
+ 1522  ./newopl_tran extst_quad.opl
+ 1523  ./newopl_exec ob3_nopl.bin 
+ 1524  ./ef extst_quad
+ 1525  git status
+ 1526  git add *
+ 1527  git status
+ 1528  up
+ 1529  ./ex_test.tcl 
+ 1530  ./ef extst_quad
+ 1531  git status
+ 1532  up
+ 1533  ls
+ 1534  git status
+ 1535  git pull
+ 1536  git status
+ 1537  git branch
+ 1538  git branch autoconv
+ 1539  git checkout autoconv 
+ 1540  git pull
+ 1541  git branch --set-upstream-to=origin/<branch> autoconv
+ 1542  git branch --set-upstream-to=origin/autoconv
+ 1543  git status
+ 1544  git pull
+ 1545  ./m
+ 1546  ./ex_test.tcl 
+ 1547  git branch
+ 1548  ls
+ 1549  ./ex_test.tcl 
+ 1550  edit num_a.c
+ 1551  edit newopl_exec.c
+ 1552  edit qcode.c
+ 1553  fgrep -i autocon *.c
+ 1554  git branch
+ 1555  edit extst_autocon.opl
+ 1556  ./ef extst_autocon
+ 1557  edit num_a.h
+ 1558  ./ef extst_autocon
+ 1559  ./m
+ 1560  edit qcode.h
+ 1561  ./m
+ 1562  ./ef extst_autocon
+ 1563  ls e*txt
+ 1564  edit exec_db.txt 
+ 1565  ./ef extst_autocon
+ 1566  edit extst_float4.opl
+ 1567  edit extst_float3.opl
+ 1568  edit extst_float2.opl
+ 1569  ./ex_test.tcl 
+ 1570  ./ef extst_float4
+ 1571  up
+ 1572  git push --set-upstream origin autoconv
+ 1573  up
+ 1574  git add *
+ 1575  up
+ 1576  git status
+ 1577  git branch
+ 1578  ./ex_test.tcl 
+ 1579  ./tr_test.tcl 
+ 1580  ./ef extst_float4
+ 1581  ./newopl_tran extst_float4.opl
+ 1582  edit output.txt 
+ 1583  edit intcode.txt 
+ 1584  ./newopl_objdump ob3_nopl.bin 
+ 1585  ./ef extst_float4
+ 1586  ./ex_test.tcl 
+ 1587  ./ef extst_float4
+ 1588  ./ef extst_float2
+ 1589  ./ex_test.tcl 
+ 1590  ./m
+ 1591  ./ex_test.tcl 
+ 1592  cat ex_test.tcl 
+ 1593  cat tr_test.tcl 
+ 1594  ./m 
+ 1595  ./tr_test.tcl 
+ 1596  ./ex_test.tcl 
+ 1597  git status
+ 1598  up
+ 1599  git status
+ 1600  git checkout main 
+ 1601  git merge autoconv 
+ 1602  git status
+ 1603  ./m
+ 1604  ./ex_test.tcl 
+ 1605  ./tr_test.tcl 
+ 1606  up
+ 1607  ./ex_test.tcl 
+ 1608  git branch input
+ 1609  git checkout input
+ 1610  git branch 
+ 1611  edit extst_input.opl
+ 1612  ./ef extst_input
+ 1613  edit extst_quad.opl
+ 1614  ./ex_test.tcl 
+ 1615  ./ef quad
+ 1616  ./ef extst_quad
+ 1617  git status
+ 1618  up
+ 1619  git status
+ 1620  ./ef extst_input
+ 1621  ./m
+ 1622  ./ef extst_input
+ 1623  ./m
+ 1624  ./ef extst_input
+ 1625  ./m
+ 1626  ./ef extst_input
+ 1627  git branch
+ 1628  ./ex_test.tcl 
+ 1629  edit qcode.c
+ 1630  git status
+ 1631  git add *
+ 1632  up
+ 1633  git push --set-upstream origin input
+ 1634  git status
+ 1635  up
+ 1636  git status
+ 1637  git checkout main
+ 1638  git branch 
+ 1639  git branch intarray
+ 1640  git checkout intarray 
+ 1641  git checkout main
+ 1642  git branch tui
+ 1643  edit m
+ 1644  git branch
+ 1645  ./m
+ 1646  git checkout tui
+ 1647  cp m mtui
+ 1648  git checkout main 
+ 1649  git status
+ 1650  git restore m
+ 1651  git status
+ 1652  up
+ 1653  git checkout tui 
+ 1654  edit m
+ 1655  ./m
+ 1656  edit mtui 
+ 1657  cp m mtui 
+ 1658  edit newopl.h
+ 1659  ./m
+ 1660  ./mtui 
+ 1661  edit tui.c
+ 1662  edit mgui#
+ 1663  edit mgui
+ 1664  edit mtui
+ 1665  ./mtui
+ 1666  sudo apt install curses-dev
+ 1667  sudo apt install curses-devel
+ 1668  sudo apt install ncurses-devel
+ 1669  sudo apt install ncurses-dev
+ 1670  sudo apt install ncurses
+ 1671  ./mtui
+ 1672  edit newopl_exec.c
+ 1673  edit nopl.h
+ 1674  edit .mall
+ 1675  edit mall
+ 1676  chmod a+x mall
+ 1677  ./mall
+ 1678  edit tui.h
+ 1679  ./mall
+ 1680  ./mtui
+ 1681  ./m
+ 1682  cat m
+ 1683  ./mall
+ 1684  ./ef add
+ 1685  ./mtui
+ 1686  ./ef add
+ 1687  ./mtui
+ 1688  ./ef add
+ 1689  ./mtui
+ 1690  ./ef add
+ 1691  ./mtui
+ 1692  ./ef add
+ 1693  ./mtui
+ 1694  ./ef add
+ 1695  ./mtui
+ 1696  ./ef add
+ 1697  ./mtui
+ 1698  ./ef add
+ 1699  ./mtui
+ 1700  ./ef add
+ 1701  ./mtui
+ 1702  ./ef add
+ 1703  ./mtui
+ 1704  ./ef add
+ 1705  ./mtui
+ 1706  ./ef add
+ 1707  ./mtui
+ 1708  ./ef add
+ 1709  ./mtui
+ 1710  ./ef add
+ 1711  ./mtui
+ 1712  ./ef add
+ 1713  ./mtui
+ 1714  ./ef add
+ 1715  fgrep TUI *.c
+ 1716  fgrep TUI *.h
+ 1717  edit nopl.h
+ 1718  ./mtui
+ 1719  ./ef add
+ 1720  ./mtui
+ 1721  ./ef add
+ 1722  cat ef
+ 1723  ./m
+ 1724  fgrep TUI *
+ 1725  ./mtui
+ 1726  ./ef add
+ 1727  ls -ltr
+ 1728  cp ef eft
+ 1729  edit eft
+ 1730  ./eft add
+ 1731  ./ef add
+ 1732  styy sane
+ 1733  stty sane
+ 1734  ./ex_test.tcl 
+ 1735  ./tr_test.tcl 
+ 1736  git status
+ 1737  git add *
+ 1738  git branch 
+ 1739  up
+ 1740  git push --set-upstream origin tui
+ 1741  up
+ 1742  git branch
+ 1743  ./ef add
+ 1744  ./eft add
+ 1745  stty sane
+ 1746  ./eft add
+ 1747  stty sane
+ 1748  edit qcode.c
+ 1749  ./eft add
+ 1750  stty sane
+ 1751  edit vars.c
+ 1752  ls var*
+ 1753  ls *.c
+ 1754  ./ex_test.tcl 
+ 1755  ./ef add
+ 1756  ./ex_test.tcl 
+ 1757  ./tr_test.tcl 
+ 1758  git status
+ 1759  up
+ 1760  git branch 
+ 1761  git checkout input 
+ 1762  ./m
+ 1763  ls
+ 1764  ls *.c
+ 1765  git branch 
+ 1766  git checkout intarray 
+ 1767  git status
+ 1768  ./ex_test.tcl 
+ 1769  edit extst_intarr.opl
+ 1770  ./ex_test.tcl 
+ 1771  ./ef extst_intarr
+ 1772  ls *.h
+ 1773  edit newopl_types.h
+ 1774  fgrep -i nopl_float *.h
+ 1775  edit num_a.h
+ 1776  fgrep INT *.h
+ 1777  edit nopl_obj.h
+ 1778  ./m
+ 1779  edit qcode.h
+ 1780  ./m
+ 1781  ./ef extst_intarr
+ 1782  ls -ltr
+ 1783  cat obj.txt 
+ 1784  ./m
+ 1785  ./ef extst_intarr
+ 1786  edit exec_db.txt 
+ 1787  edit qcode.c
+ 1788  edit extst_intarr.opl 
+ 1789  edit intcode.txt 
+ 1790  cat ef
+ 1791  ./newopl_tran extst_intarr.opl 
+ 1792  edit output.txt 
+ 1793  ./ef extst_intarr
+ 1794  git status
+ 1795  git add *
+ 1796  git status
+ 1797  up
+ 1798  git push --set-upstream origin intarray
+ 1799  up
+ 1800  ./ex_test.tcl 
+ 1801  edit extst_str1.opl 
+ 1802  edit tui.c
+ 1803  git status
+ 1804  up
+ 1805  git status
+ 1806  edit extst_addr.opl 
+ 1807  ./ef extst_addr
+ 1808  edit newopl_exec.c
+ 1809  fgrep init_machine *.c
+ 1810  edit newopl_lib.c
+ 1811  git status
+ 1812  git checkout main
+ 1813  git merge intarray 
+ 1814  git status
+ 1815  up
+ 1816  ./ex_test.tcl 
+ 1817  ./tr_test.tcl 
+ 1818  git checkout tui
+ 1819  ls
+ 1820  ls *.c
+ 1821  ./ex_test.tcl 
+ 1822  git merge main
+ 1823  ./ex_test.tcl 
+ 1824  git status
+ 1825  up
+ 1826  ./eft extst_intarr
+ 1827  edit tui.c
+ 1828  ./eft extst_intarr
+ 1829  stty sane
+ 1830  ./eft extst_intarr
+ 1831  stty sane
+ 1832  ls
+ 1833  ./eft extst_intarr
+ 1834  stty sane
+ 1835  ./eft extst_intarr
+ 1836  ./m
+ 1837  cat eft
+ 1838  ./mtui
+ 1839  ./eft extst_intarr
+ 1840  stty sane
+ 1841  ./eft extst_intarr
+ 1842  stty sane
+ 1843  ./eft extst_intarr
+ 1844  fgrep "tui int" *.c
+ 1845  ./eft extst_intarr
+ 1846  edit qcode.h
+ 1847  ./eft extst_intarr
+ 1848  ./mtui
+ 1849  ./eft extst_intarr
+ 1850  edit t.c
+ 1851  cc t.c 
+ 1852  cc t.c
+ 1853  cat t.c
+ 1854  cc t.c
+ 1855  ./eft extst_intarr
+ 1856  edit tui.h
+ 1857  fgrpe _sp *.h
+ 1858  fgrep _sp *.h
+ 1859  fgrep stack *.h
+ 1860  edit nopl_obj.h
+ 1861  ./eft extst_intarr
+ 1862  m
+ 1863  ./eft extst_intarr
+ 1864  m
+ 1865  ./eft extst_intarr
+ 1866  mm
+ 1867  up
+ 1868  git status
+ 1869  rm t.c
+ 1870  git status
+ 1871  ./eft extst_intarr
+ 1872  ./mtui
+ 1873  ./eft extst_intarr
+ 1874  ./mtui
+ 1875  ./eft extst_intarr
+ 1876  m
+ 1877  cat vars.txt 
+ 1878  man fgets
+ 1879  ./eft extst_intarr
+ 1880  ./mtui
+ 1881  ./eft extst_intarr
+ 1882  git status
+ 1883  up
+ 1884  ./newopl_tran add1.opl
+ 1885  cat vars.txt 
+ 1886  ./newopl_tran add.opl 
+ 1887  cat vars.txt
+ 1888  ls *.opl
+ 1889  ./newopl_tran BAGINS.opl 
+ 1890  cat vars.txt 
+ 1891  ./eft extst_intarr
+ 1892  ./newopl_tran BAGINS.opl 
+ 1893  ./eft BAGINS
+ 1894  ls *.opl
+ 1895  ./eft ANNBD
+ 1896  stty sane
+ 1897  cat vars.txt 
+ 1898  ./eft ANNBD
+ 1899  stty sane
+ 1900  ls
+ 1901  cat eft
+ 1902  gdb ./newopl_exec
+ 1903  ls -ltr /var
+ 1904  ulimit
+ 1905  ls /var/crash
+ 1906  cat /proc/sys/kernel/core_pattern
+ 1907  ls /var/lib/apport/
+ 1908  ls -l /var/lib/apport/
+ 1909  ls -l /var/lib/apport/coredump/
+ 1910  ulimit
+ 1911  ./eft ANNBD
+ 1912  ####stty sane
+ 1913  stty sane
+ 1914  ls -ltr
+ 1915  sudo systemctl disable apport
+ 1916  ./eft ANNBD
+ 1917  stty sane
+ 1918  ls -ltr
+ 1919  sudo bash -c "echo 'core.%p.%e.%t.%h' >  /proc/sys/kernel/core_pattern"
+ 1920  ./eft ANNBD
+ 1921  stty sane
+ 1922  ls -ltr
+ 1923  ls -l /var/lib/apport/coredump/
+ 1924  sysctl kernel.core_pattern
+ 1925  ls core*
+ 1926  sleep 10 &
+ 1927  killall -SIGSEGV sleep
+ 1928  ls -ltr
+ 1929  dmesg
+ 1930  ]sudo dmesg
+ 1931  sudo dmesg
+ 1932  edit crash.c
+ 1933  cc crash.c 
+ 1934  ls -ltr
+ 1935  mv a.out crash
+ 1936  ls -ltr
+ 1937  ./crash 
+ 1938  ./eft ANNBD
+ 1939  stty sane
+ 1940  generate-core-file
+ 1941  ulimit -H -c
+ 1942  ulimit -S -c
+ 1943  ulimit -S unlimited
+ 1944  ulimit -S -c
+ 1945  ulimit -c unlimited
+ 1946  sudo systemctl enable apport
+ 1947  sudo service apport start
+ 1948  ./crash
+ 1949  sudo dmesg
+ 1950  ls /var/crash
+ 1951  coredumpctl list
+ 1952  ls  /var/lib/apport/coredump/
+ 1953  ls  /var/lib/apport
+ 1954  ls  /var/lib/apport/coredump/
+ 1955  find / | fgrep -i core > abc
+ 1956  cat abc
+ 1957  edit abc
+ 1958  ls -ltr
+ 1959  `./crash
+ 1960  ./crash 
+ 1961  ls -ltr
+ 1962  gdb crash core.18453.crash.1736368358.project2 
+ 1963  ./eft ANNBD
+ 1964  stty sane
+ 1965  ls -ltr
+ 1966  gdb ./newopl_exec core.18645.newopl_exec.1736368453.project2 
+ 1967  ./newopl_exec ob3_nopl.bin 
+ 1968  ls -ltr
+ 1969  gdb newopl_exec core.18683.newopl_exec.1736368547.project2 
+ 1970  ./ex_test.tcl 
+ 1971  ./m
+ 1972  ./ex_test.tcl 
+ 1973  git diff
+ 1974  git diff newopl_exec
+ 1975  git diff newopl_exec.c
+ 1976  git diff
+ 1977  rm abc
+ 1978  git rm abc
+ 1979  git diff
+ 1980  git status
+ 1981  git log
+ 1982  git diff 3037717ec1e51676b5d312aeb7ca7a33f1b9ccc4
+ 1983  git log
+ 1984  git diff b458425e22fde9768f47ae778417c5af0b645d38
+ 1985  ./m
+ 1986  ls
+ 1987  ./ef ANNBD
+ 1988  ls -ltr
+ 1989  git status
+ 1990  edit .gitignore 
+ 1991  git status
+ 1992  git branch
+ 1993  ./ef ANNBD
+ 1994  cp tui.c oldtui.c
+ 1995  ./m
+ 1996  ./ef ANNBD
+ 1997  ls -ltr
+ 1998  mkdir /tree/nopldiff
+ 1999  mkdir ~/tree/nopldiff
+ 2000  cp *.c ~/tree/nopldiff/
+ 2001  git status
+ 2002  git add *
+ 2003  git status
+ 2004  git add .gitignore 
+ 2005  git status
+ 2006  up
+ 2007  git checkout main
+ 2008  mkdir ~/tree/nopldiff_main
+ 2009  cp *.c ~/tree/nopldiff_main
+ 2010  cp *.h ~/tree/nopldiff_main
+ 2011  git branch 
+ 2012  git checkout tui 
+ 2013  cp *.h ~/tree/nopldiff
+ 2014  ./m
+ 2015  ./ef add
+ 2016  ./ef ANNBD
+ 2017  edit output.txt 
+ 2018  edit exec_db.txt 
+ 2019  ./tr_test.tcl 
+ 2020  git branch
+ 2021  ./ex_test.tcl 
+ 2022  ./ef extst_arith
+ 2023  ./ex_test.tcl 
+ 2024  ./mtui
+ 2025  ./ex_test.tcl 
+ 2026  ls -ltr
+ 2027  cat db.txt 
+ 2028  ./m
+ 2029  ./ex_test.tcl 
+ 2030  ./mtui
+ 2031  cat ef
+ 2032  ./eft add
+ 2033  ./ex_test.tcl 
+ 2034  ./eft add
+ 2035  cat add.opl
+ 2036  ./eft add
+ 2037  ./ef add
+ 2038  ./eft add
+ 2039  ./mtui
+ 2040  ./eft add
+ 2041  ./ex_test.tcl 
+ 2042  ./eft add
+ 2043  ./ex_test.tcl 
+ 2044  ./eft add
+ 2045  ./eft ANNBD
+ 2046  stty sane
+ 2047  ./eft ANNBD
+ 2048  ./mtui
+ 2049  stty sane
+ 2050  ./mtui
+ 2051  ./eft ANNBD
+ 2052  stty sane
+ 2053  ./mtui
+ 2054  ./eft ANNBD
+ 2055  ls -ltr
+ 2056  cat db.txt 
+ 2057  cat vars.txt 
+ 2058  ./tr_test.tcl 
+ 2059  ./m
+ 2060  .ef ANNBD
+ 2061  ./ef ANNBD
+ 2062  ./m
+ 2063  ./ef ANNBD
+ 2064  git status
+ 2065  git stash
+ 2066  git checkout main
+ 2067  ./m
+ 2068  ./mtui
+ 2069  ./ex_test.tcl 
+ 2070  ls
+ 2071  ./eft ANNBD
+ 2072  git checkout tui
+ 2073  ./eft ANNBD
+ 2074  stty sane
+ 2075  ./tf ANNBD
+ 2076  ls t*
+ 2077  cat tr_test.tcl 
+ 2078  ./tr
+ 2079  fgrep tran *
+ 2080  fgrep newopl_tran *
+ 2081  ./tr add
+ 2082  ./tex add
+ 2083  ./t
+ 2084  fgrep ./m *
+ 2085  ./mf add
+ 2086  ./mf ANNBD
+ 2087  ./tr_test.tcl 
+ 2088  ./ef ANNBD
+ 2089  ./m
+ 2090  ./ef ANNBD
+ 2091  ls -ltr
+ 2092  edit db.txt
+ 2093  fgrep -i machine_stack_size *.h
+ 2094  ./ef ANNBD
+ 2095  ./mtui
+ 2096  ./ef ANNBD
+ 2097  ls -ltrh
+ 2098  edit cond_fixup.txt 
+ 2099  edit obj.txt 
+ 2100  ./ef ANNBD
+ 2101  edit ob3_nopl.bin 
+ 2102  ./tr_test.tcl 
+ 2103  ./ex_test.tcl 
+ 2104  ./ef ANNBD
+ 2105  ./eft ANNBD
+ 2106  ./eft add
+ 2107  git branch 
+ 2108  ./m
+ 2109  edit tui.c
+ 2110  ./eft add
+ 2111  ./eft ANNBD
+ 2112  cat vars.txt 
+ 2113  edit newopl_tran.c
+ 2114  ls *.c
+ 2115  edit parser.c
+ 2116  ./tr_test.tcl 
+ 2117  ./ex_test.tcl 
+ 2118  q
+ 2119  ./m
+ 2120  ./ex_test.tcl 
+ 2121  ./eft ANNBD
+ 2122  cat vars.txt 
+ 2123  ./eft ANNBD
+ 2124  ./m
+ 2125  ./mtui
+ 2126* ./eft ANNBD
+menadue@project2:~/tree/github/newopl/pc$ 
+
+ 2127  ./mtui
+ 2128  ./eft ANNBD
+ 2129  stty sane
+ 2130  ls -=ltr
+ 2131  ls -ltr
+ 2132  ls core*
+ 2133  ls -ltr core*
+ 2134  ls -ltr
+ 2135  ls
+ 2136  ls -ltr
+ 2137  ./ef ANNBD
+ 2138  ./eft ANNBD
+ 2139  stty sane
+ 2140  ls -ltr
+ 2141  history
+ 2142  history >h
