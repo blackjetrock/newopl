@@ -1,0 +1,6 @@
+sudo bash -c "echo 'core.%p.%e.%t.%h' >  /proc/sys/kernel/core_pattern"
+sysctl kernel.core_pattern
+
+ulimit -c unlimited
+sudo systemctl enable apport
+sudo service apport start

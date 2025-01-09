@@ -627,6 +627,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       // Error
     }
 
+  debug("\nNumber of string fixups:%04X, %d", num_fixups/3, num_fixups/3);
   
   for(int j=0; j < num_fixups/3; j++)
     {
@@ -646,7 +647,14 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 
       debug("\nFixup at %04X, data %02X, add:%04X", addr, fixdata, m->rta_fp+addr);
 
-      m->stack[(uint16_t)(m->rta_fp+addr)] = fixdata;
+      if( ((uint16_t)(m->rta_fp+addr) < NOBJ_MACHINE_STACK_SIZE) || ((uint16_t)(m->rta_fp+addr) < 0) )
+	{
+	  m->stack[(uint16_t)(m->rta_fp+addr)] = fixdata;
+	}
+      else
+	{
+	  debug("\n*** Bad fixup at %04X", (uint16_t)(m->rta_fp+addr));
+	}
     }
 
   // Array fixups
@@ -656,8 +664,9 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       // Error
     }
 
+  debug("\nNumber of array fixups:%04X, %d", num_fixups/4, num_fixups/4);
   
-  for(int j=0; j < num_fixups/3; j++)
+  for(int j=0; j < num_fixups/4; j++)
     {
       // Address (offset from FP)
       uint16_t addr;

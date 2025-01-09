@@ -15,7 +15,8 @@ void dbpfq(const char *caller, char *fmt, ...)
 
   va_start(valist, fmt);
   fprintf(exdbfp, "\n(%s)", caller);
-  
+  fflush(exdbfp);
+    
   vfprintf(exdbfp, fmt, valist);
   va_end(valist);
   fflush(exdbfp);
