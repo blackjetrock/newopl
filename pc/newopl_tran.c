@@ -1470,6 +1470,10 @@ void output_qcode_for_line(void)
     {
       return;
     }
+
+  // We have to take the header off to get back to the start of the line
+  fprintf(icfp, "\nQCode idx:%04X", qcode_idx-13);
+  fprintf(icfp, "  --++  %s  --++", last_line);
   
   dump_exp_buffer(icfp, 2);
 

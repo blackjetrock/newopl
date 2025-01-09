@@ -8,6 +8,8 @@
 
 #include "nopl.h"
 
+char last_line[MAX_NOPL_LINE];
+
 void check_array_index(int idx, int max_idx, char *name)
 {
   if( idx >= (max_idx -1) )
@@ -7862,6 +7864,9 @@ int pull_next_line(void)
   while(all_spaces);
   
   dbprintf("Got a line: '%s'", cline);
+
+  // Save the line for insertion in the intcode.txt file later
+  strcpy(last_line, cline);
   
   fprintf(ofp, "\n");
   for(int i=0; i<strlen(cline)+4; i++)
