@@ -254,9 +254,19 @@ void tui_display_variables(NOBJ_MACHINE *m)
 	  if( strcmp(type, "Float")==0 )
 	    {
 	      NOPL_FLOAT num;
-	      mp = offset+m->rta_fp;
+
 	      num = tui_num_from_mem(&(m->stack[mp]));
+#if 0
 	      wprintw(variable_win, "\n%s %s", varname, num_as_text(&num, ""));
+#else
+	      wprintw(variable_win, "\n%s (Addr:%04X) ", varname, mp);
+						    
+	      for(int i=0; i<8; i++)
+		{
+		  wprintw(variable_win, " %02X", m->stack[mp++]);
+		}
+#endif
+	      
 #if 0
 	      wprintw(variable_win, "\n%s", varname);
 	      
