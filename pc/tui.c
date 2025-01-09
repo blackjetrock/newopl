@@ -1,14 +1,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <stdio.h>
+#include <string.h>
 #include <ncurses.h>
 #include <termio.h>
 #include <unistd.h>
+
 #include "nopl.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
 WINDOW *variable_win;
 WINDOW *memory_win;
+WINDOW *machine_win;
 
 WINDOW *create_win(int h, int w, int y, int x)
 {
@@ -17,8 +21,11 @@ WINDOW *create_win(int h, int w, int y, int x)
   win = newwin(h, w, y, x);
   //box(win, '*' , '*');
   wborder(win, 0,0,0,0,0,0,0,0);
-
   wrefresh(win);
+
+  delwin(win);
+  win = newwin(h-2, w-2, y+1, x+1);
+  
   return(win);
 }
 
@@ -44,14 +51,17 @@ void tui_init(void)
   
   refresh();
   
-  variable_win = create_win(scr_maxy/2-5, scr_maxx/2-5, 0, scr_maxx/2);
-  memory_win   = create_win(scr_maxy/2-5, scr_maxx/2-5, 0, 0);
+  variable_win = create_win(scr_maxy/2-1, scr_maxx/2-1, 0, scr_maxx/2);
+  memory_win   = create_win(scr_maxy/3-1, scr_maxx/2-1, 0, 0);
+  machine_win  = create_win(scr_maxy/4-1, scr_maxx/2-1, scr_maxy/2, 0);
   scrollok(memory_win, TRUE);
-  
+  scrollok(variable_win, TRUE);
+    
   wprintw(variable_win, "variables");
-
   wrefresh(variable_win);
 
+  wprintw(machine_win, "Machine");
+  wrefresh(machine_win);
 	  
   wprintw(memory_win,"memory");
   wrefresh(memory_win);
@@ -172,6 +182,36 @@ void display_stack(NOBJ_MACHINE *m)
   wrefresh(memory_win);
 }
 
+void tui_display_machine(NOBJ_MACHINE *m)
+{
+  wclear(machine_win);
+  wprintw(machine_win, "\nrta_fp:%04X ", m->rta_fp);
+  wprintw(machine_win, "\nrta_sp:%04X ", m->rta_sp);
+
+  wrefresh(machine_win);
+}
+
+NOPL_FLOAT tui_num_from_mem(uint8_t *mp)
+{
+  NOPL_FLOAT n;
+  int b;
+
+  n.sign = *(mp++);
+  n.exponent = *(mp++);
+  
+  // Pop digits
+  for(int i = (NUM_MAX_DIGITS/2)-1; i>=0; i--)
+    {
+      b = *(mp++);
+      n.digits[i*2] = b >> 4;
+      n.digits[i*2+1] = b & 0xF;
+    }
+
+  return(n);
+}
+
+
+
 //------------------------------------------------------------------------------
 
 void tui_display_variables(NOBJ_MACHINE *m)
@@ -199,11 +239,48 @@ void tui_display_variables(NOBJ_MACHINE *m)
 
   while(!feof(fp) )
     {
+      int16_t mp;
+      
       fgets(line, sizeof(line), fp);
 
       if( sscanf(line, "%d: VAR: ' %[^']' %s %s %s max_str: %d max_ary: %d num_ind: %d offset:%X", &i, varname, class, type, ref, &max_string, &max_array, &num_indices, &offset) == 9 )
 	{
-	  wprintw(variable_win, "\n%s %d", varname, m->stack[offset+m->rta_fp]);
+	  mp = offset+m->rta_fp;
+	  if( strcmp(type, "Integer")==0 )
+	    {
+	      wprintw(variable_win, "\n%s (Addr:%04X) %04X", varname, mp, (m->stack[mp])*256+(m->stack[mp+1]));
+	    }
+	  
+	  if( strcmp(type, "Float")==0 )
+	    {
+	      NOPL_FLOAT num;
+	      mp = offset+m->rta_fp;
+	      num = tui_num_from_mem(&(m->stack[mp]));
+	      wprintw(variable_win, "\n%s %s", varname, num_as_text(&num, ""));
+#if 0
+	      wprintw(variable_win, "\n%s", varname);
+	      
+	      if(m->stack[mp++])
+		{
+		  wprintw(variable_win, "-");
+		}
+	      else
+		{
+		  wprintw(variable_win, " ");
+		}
+	      
+	      int exponent = m->stack[mp++];
+	      
+	      wprintw(variable_win, "%d.", m->stack[mp++]);
+	      
+	      for(int i=1; i<NUM_MAX_DIGITS; i++)
+		{
+		  wprintw(variable_win, "%d", m->stack[mp++]);
+		}
+	      
+	      wprintw(variable_win, " E%d", exponent);
+#endif
+	    }
 	}
     }
 
@@ -220,7 +297,13 @@ void tui_step(NOBJ_MACHINE *m, int *done)
   
   while(!donek)
     {
-      int c = wgetch(stdscr);
+      int c;
+      
+      display_stack(m);
+      tui_display_machine(m);
+      tui_display_variables(m);
+      
+      c = wgetch(stdscr);
       
       // Display variables
       switch(c)
@@ -237,13 +320,15 @@ void tui_step(NOBJ_MACHINE *m, int *done)
 	case 'm':
 	  display_stack(m);
 	  break;
+
+	case 'M':
+	  tui_display_machine(m);
+	  break;
 	  
 	case 'v':
 	  tui_display_variables(m);
 	  break;
 	}
-      
-
     }
 }
 
