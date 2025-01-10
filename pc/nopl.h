@@ -4,6 +4,8 @@
 #define NOPL_MAX_SUFFIX_BYTES   8
 #define MAX_COND_FIXUP        400
 
+#include <stdarg.h>
+
 #include "newopl.h"
 
 #include "nopl_obj.h"

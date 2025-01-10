@@ -243,6 +243,9 @@
 
 //------------------------------------------------------------------------------
 
+#define QCO_OPEN     0x65
+#define QCO_CREATE   0x5E
+
 ////////////////////////////////////////////////////////////////////////////////
 
 // QCode state
@@ -287,8 +290,30 @@ typedef struct
 
 ////////////////////////////////////////////////////////////////////////////////
 
+typedef int    (*QC_BYTE_LEN_FN)(int i, NOBJ_QCODE *qc);
+typedef char * (*QC_BYTE_PRT_FN)(int i, NOBJ_QCODE *qc);
 
+typedef struct
+{
+  char *code;
+  QC_BYTE_LEN_FN len_fn;
+  QC_BYTE_PRT_FN prt_fn;
+} QC_BYTE_CODE;
 
+////////////////////////////////////////////////////////////////////////////////
+
+typedef struct _QCODE_DESC
+{
+  uint8_t qcode;
+  char *bytes;
+  char *pops;
+  char *pushes;
+  char *desc;  
+} QCODE_DESC;
+
+extern QCODE_DESC qcode_decode[];
+
+////////////////////////////////////////////////////////////////////////////////
 
 void qcode_get_string_push_stack(NOBJ_MACHINE *m);
 void execute_qcode(NOBJ_MACHINE *m, int single_step);
@@ -305,3 +330,32 @@ extern FILE *exdbfp;
 #define dbq_num_exploded(text, num) dbq_num_exploded_f(__FUNCTION__, text, num)
 
 void dbpfq(const char *caller, char *fmt, ...);
+char *decode_qc_txt(int *i,  NOBJ_QCODE **qc);
+extern int qcode_sizeof_qcode_decode;
+extern int qcode_sizeof_qc_byte_code;
+
+int null_qc_byte_len_fn_2(int i, NOBJ_QCODE *qc);
+int null_qc_byte_len_fn_1(int i, NOBJ_QCODE *qc);
+char *qc_byte_prt_fn_v(int i, NOBJ_QCODE *qc);
+char *qc_byte_prt_fn_V(int i, NOBJ_QCODE *qc);
+char *qc_byte_prt_fn_B(int i, NOBJ_QCODE *qc);
+char *qc_byte_prt_fn_O(int i, NOBJ_QCODE *qc);
+char *qc_byte_prt_fn_f(int i, NOBJ_QCODE *qc);
+char *qc_byte_prt_fn_m(int i, NOBJ_QCODE *qc);
+char *qc_byte_prt_fn_I(int i, NOBJ_QCODE *qc);
+char *qc_byte_prt_fn_D(int i, NOBJ_QCODE *qc);
+char *qc_byte_prt_fn_S(int i, NOBJ_QCODE *qc);
+int qc_byte_len_fn_S(int i, NOBJ_QCODE *qc);
+char *qc_byte_prt_fn_F(int i, NOBJ_QCODE *qc);
+int qc_byte_len_fn_F(int i, NOBJ_QCODE *qc);
+char *null_qc_byte_prt_fn(int i, NOBJ_QCODE *qc);
+int null_qc_byte_fn(int i, NOBJ_QCODE *qc);
+void pr_uint8(uint8_t n);
+void pr_var_space_size(NOBJ_VAR_SPACE_SIZE *x);
+void pr_qcode_space_size(NOBJ_QCODE_SPACE_SIZE *x);
+void pr_global_varname_size(NOBJ_GLOBAL_VARNAME_SIZE *x);
+void pr_external_varname_size(NOBJ_EXTERNAL_VARNAME_SIZE *x);
+void pr_num_parameters(NOBJ_NUM_PARAMETERS *x);
+void pr_parameter_types(NOBJ_PROC *p);
+void decode_qc(int *i,  NOBJ_QCODE **qc);
+void qca_push_proc(NOBJ_MACHINE *m, NOBJ_QCS *s);
