@@ -327,6 +327,11 @@ NOPL_FLOAT tui_num_from_mem(uint8_t *mp)
   return(n);
 }
 
+char *tui_string_at(uint8_t *mp)
+{
+  return("...");
+}
+
 //------------------------------------------------------------------------------
 
 void tui_display_variables(NOBJ_MACHINE *m)
@@ -369,6 +374,11 @@ void tui_display_variables(NOBJ_MACHINE *m)
 	  if( strcmp(type, "Integer")==0 )
 	    {
 	      wprintw(variable_win, "\n(Addr:%04X) %s:%04X", mp, varname, (m->stack[mp])*256+(m->stack[mp+1]));
+	    }
+
+	  if( strcmp(type, "String")==0 )
+	    {
+	      wprintw(variable_win, "\n(Addr:%04X) %s:%s", mp, varname, tui_string_at(&(m->stack[mp])));
 	    }
 	  
 	  if( strcmp(type, "Float")==0 )

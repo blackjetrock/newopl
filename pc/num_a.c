@@ -563,7 +563,8 @@ void num_num_to_int(int n, NOPL_FLOAT *num,  NOBJ_INT *i)
 
 void num_int_to_num(int n, NOBJ_INT *i, NOPL_FLOAT *num)
 {
-
+  num_clear_digits(n, num->digits);
+  
   // Set sign up
   if( *i < 0 )
     {
@@ -574,34 +575,17 @@ void num_int_to_num(int n, NOBJ_INT *i, NOPL_FLOAT *num)
     {
       num->sign = NUM_SIGN_POSITIVE;
     }
+
+  num->exponent = 4;
+  num->digits[0] = (*i / 10000);
+  num->digits[1] = (*i / 1000) % 10;
+  num->digits[2] = (*i / 100)  % 10;
+  num->digits[3] = (*i / 10)   % 10;
+  num->digits[4] =  *i         % 10;
   
-  for(int i=4; i>=0; i--)
-    {
-    }
+  num_normalise_digits(n, num->digits, &(num->exponent));
   
-  if( *i >= 10000 )
-    {
-      num->digits[4] = (*i / 10000) % 10;
-    }
-  else if( *i >= 1000 )
-    {
-      num->digits[3] = (*i / 1000) % 10;
-    }
-
-  if( *i >= 100 )
-    {
-      num->digits[2] = (*i / 100) % 10;
-    }
-
-  if( *i >= 10 )
-    {
-      num->digits[1] = (*i / 10) % 10;
-    }
-
-  if( *i >= 0 )
-    {
-      num->digits[0] = *i % 10;
-    }
+  num_normalise(num);
 }
 
 
