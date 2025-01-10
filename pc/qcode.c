@@ -1216,7 +1216,8 @@ void qca_int_to_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
   // This always succeeds
   NOPL_INT res;
-
+  
+  num_int_to_num(NUM_MAX_DIGITS, &(s->integer), &(s->num_result));
 
 }
 
