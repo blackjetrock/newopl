@@ -60,8 +60,8 @@ void tui_init(void)
   
   variable_win = create_win("Variables", scr_maxy/2-1, scr_maxx/2-1,          0, scr_maxx/2);
   memory_win   = create_win("Memory",    scr_maxy/4-1, scr_maxx/4-1,          0,          0);
-  machine_win  = create_win("Machine",   scr_maxy/4-1, scr_maxx/2-1, scr_maxy/4,          0);
-  qcode_win    = create_win("QCode",     scr_maxy/4-1, scr_maxx/4-1,          0, scr_maxx/4);
+  qcode_win    = create_win("QCode",     scr_maxy/4-1, scr_maxx/2-1, scr_maxy/4,          0);
+  machine_win  = create_win("Machine",   scr_maxy/4-1, scr_maxx/4-1,          0, scr_maxx/4);
 
   scrollok(memory_win, TRUE);
   scrollok(variable_win, TRUE);
@@ -195,24 +195,53 @@ uint8_t tui_stack_byte(NOBJ_MACHINE *m, uint16_t idx)
   return(TUI_STACK_MEM(idx));
 }
 
+#define MEM_LEN 64
+#define MEM_LINE_LEN 8
+
 void display_memory(NOBJ_MACHINE *m)
 {
+  char ascii[MEM_LINE_LEN+5];
+  char f[2];
+  f[1] = '\0';
+    
   tui_memptr = val;
   wclear(memory_win);
-  wprintw(memory_win, "\n%04X ", tui_memptr);
 
-  for(int i=0; i<8; i++)
-    {
-      wprintw(memory_win, "%02X ", tui_stack_byte(m, tui_memptr+i));
-    }
-
-  wprintw(memory_win, "\n     ", tui_memptr);
+  ascii[0] = '\0';
   
-  for(int i=0; i<8; i++)
+  for(int i=0; i<MEM_LEN; i++)
+    {
+      uint8_t byte = tui_stack_byte(m, tui_memptr);
+      
+      if( (i% MEM_LINE_LEN) == 0 )
+	{
+	  wprintw(memory_win, "%s\n%04X ", ascii, tui_memptr);
+	  strcpy(ascii, "  ");
+	}
+      
+      wprintw(memory_win, "%02X ", byte);
+      f[0] = isprint(byte)?byte: '.';
+      strcat(ascii, f);
+
+      tui_memptr++;
+    }
+  
+  wprintw(memory_win, "%s", ascii);
+
+#if 0  
+  for(int i=0; i<MEM_LEN; i++)
     {
       uint8_t byte = tui_stack_byte(m, tui_memptr+i);
+      if( (i% MEM_LINE_LEN) == 0 )
+	{
+	  wprintw(memory_win, "\n     ", tui_memptr);
+	}
+
       wprintw(memory_win, "%c  ", isprint(byte)?byte: '.');
     }
+
+#endif
+  
   wrefresh(memory_win);
 }
 
@@ -263,9 +292,10 @@ char *tui_get_src_line_at(int a)
 void tui_display_qcode(NOBJ_MACHINE *m)
 {
   char *src;
+  int i = m->rta_pc;
+  NOBJ_QCODE *qc = &(m->stack[m->rta_pc]);
   
   wclear(qcode_win);
-  wprintw(qcode_win, "\nrta_pc:%04X ", m->rta_pc);
   wprintw(qcode_win, "\n%s", qcode_name(m->stack[m->rta_pc]));
   wprintw(qcode_win, "\n%04X: %02X ", m->stack[m->rta_pc]);
   
@@ -274,6 +304,7 @@ void tui_display_qcode(NOBJ_MACHINE *m)
       wprintw(qcode_win, "\n\n%s", src);
     }
   
+  wprintw(qcode_win, "\n%s", decode_qc_txt(&i, &qc));
   wrefresh(qcode_win);
 }
 
@@ -337,7 +368,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
 	  mp = offset+m->rta_fp;
 	  if( strcmp(type, "Integer")==0 )
 	    {
-	      wprintw(variable_win, "\n%s (Addr:%04X) %04X", varname, mp, (m->stack[mp])*256+(m->stack[mp+1]));
+	      wprintw(variable_win, "\n(Addr:%04X) %s:%04X", mp, varname, (m->stack[mp])*256+(m->stack[mp+1]));
 	    }
 	  
 	  if( strcmp(type, "Float")==0 )
@@ -350,7 +381,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		}
 	      num = tui_num_from_mem(&(m->stack[mp]));
 
-	      wprintw(variable_win, "\n%s (Addr:%04X) %s", varname, mp, num_as_text(&num, ""));
+	      wprintw(variable_win, "\n(Addr:%04X) %s:%s", mp, varname, num_as_text(&num, ""));
 	    }
 	}
     }
