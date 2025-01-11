@@ -18,7 +18,36 @@ WINDOW *memory_win;
 WINDOW *machine_win;
 WINDOW *qcode_win;
 
-WINDOW **tui_focus = &memory_win;
+////////////////////////////////////////////////////////////////////////////////
+
+int tui_focus = 0;
+
+void variable_win_keyfn(void);
+void memory_win_keyfn(void);
+void machine_win_keyfn(void);
+void qcode_win_keyfn(void);
+
+typedef void (*WIN_FN)(void);
+
+struct TUI_LIST_ENTRY
+{
+  WINDOW **win;
+  WIN_FN key_fn;
+}
+  tui_list[] =
+  {
+    {&variable_win, variable_win_keyfn},
+    {&memory_win,   memory_win_keyfn},
+    {&machine_win,  machine_win_keyfn},
+    {&qcode_win,    qcode_win_keyfn},
+  };
+
+#define VARIABLE_FOCUS 0
+#define MEMORY_FOCUS 1
+#define MACHINE_FOCUS 2
+#define QCODE_FOCUS 3
+
+//------------------------------------------------------------------------------
 
 WINDOW *create_win(char *title, int h, int w, int y, int x)
 {
@@ -49,7 +78,7 @@ void tui_init(void)
   //cbreak();
   noecho();
   //nodelay(stdscr, TRUE);
-
+  curs_set(2);
   clear();
 
   printw("main");
@@ -245,6 +274,16 @@ void display_memory(NOBJ_MACHINE *m)
   wrefresh(memory_win);
 }
 
+
+//------------------------------------------------------------------------------
+
+void memory_win_keyfn(void)
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+
 void tui_display_machine(NOBJ_MACHINE *m)
 {
   wclear(machine_win);
@@ -254,6 +293,15 @@ void tui_display_machine(NOBJ_MACHINE *m)
 
   wrefresh(machine_win);
 }
+
+//------------------------------------------------------------------------------
+
+void machine_win_keyfn(void)
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 
 char tui_srcline[MAX_NOPL_LINE];
 
@@ -308,6 +356,10 @@ void tui_display_qcode(NOBJ_MACHINE *m)
   wrefresh(qcode_win);
 }
 
+void qcode_win_keyfn(void)
+{
+}
+
 NOPL_FLOAT tui_num_from_mem(uint8_t *mp)
 {
   NOPL_FLOAT n;
@@ -327,9 +379,23 @@ NOPL_FLOAT tui_num_from_mem(uint8_t *mp)
   return(n);
 }
 
+char tui_string[NOBJ_STRING_MAXLEN+1];
+
 char *tui_string_at(uint8_t *mp)
 {
-  return("...");
+  int len = *(mp++);
+  char f[2];
+  f[1] = '\0';
+  
+  tui_string[0] = '\0';
+  
+  for(int i=0; i<len; i++)
+    {
+      f[0] = *(mp++);
+      strcat(tui_string, f);
+    }
+  
+  return(tui_string);
 }
 
 //------------------------------------------------------------------------------
@@ -400,6 +466,10 @@ void tui_display_variables(NOBJ_MACHINE *m)
   wrefresh(variable_win);
 }
 
+void variable_win_keyfn(void)
+{
+}
+
 //------------------------------------------------------------------------------
 
 void tui_step(NOBJ_MACHINE *m, int *done)
@@ -445,6 +515,10 @@ void tui_step(NOBJ_MACHINE *m, int *done)
 	  val += (c-'a'+10);
 	  display_memory(m);
 	  break;
+
+	case 's':
+	  val = m->rta_sp;
+	  break;
 	  
 	case 'q':
 	  *done = 1;
@@ -456,17 +530,19 @@ void tui_step(NOBJ_MACHINE *m, int *done)
 	  break;
 	  
 	case 'm':
-	  tui_focus = &memory_win;
+	  tui_focus = MEMORY_FOCUS;
 	  display_memory(m);
 	  break;
 
 	case 'M':
-	  tui_focus = &machine_win;
+	  tui_focus = MACHINE_FOCUS;
+	  mvcur(1,1,0,0);
 	  tui_display_machine(m);
+
 	  break;
 	  
 	case 'v':
-	  tui_focus = &variable_win;
+	  tui_focus = VARIABLE_FOCUS;
 	  tui_display_variables(m);
 	  break;
 	}

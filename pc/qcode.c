@@ -172,7 +172,7 @@ void qca_null(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_str_ind_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  int dp = s->ind_ptr-1;
+  int dp = s->ind_ptr;
 
   // Now stack the string
   s->len = stack_entry_8(m, dp++ );
@@ -330,6 +330,8 @@ void qca_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 }
 
+//------------------------------------------------------------------------------
+
 void qca_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Get the maximum size
@@ -344,6 +346,8 @@ void qca_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   // Push field flag
   push_machine_8(m, 0);
 }
+
+//------------------------------------------------------------------------------
 
 void qca_push_ind_addr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -577,10 +581,10 @@ void qca_ass_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
     }
 }
 
+//------------------------------------------------------------------------------
+
 void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-
-
   // Drop string
   pop_machine_string(m, &(s->len), s->str);
   
@@ -589,6 +593,7 @@ void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   
   // Drop string reference
   s->str_addr = pop_machine_16(m);
+
   //  s->len      = pop_machine_8(m);
 	  
   // Assign string to variable
@@ -598,11 +603,12 @@ void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   // Copy data
   
   // We copy the length with the data
-  m->stack[s->str_addr-1] = s->len;
+  // Address points to the length byte, after the max len
+  m->stack[s->str_addr] = s->len;
   
   for(int i=0; i<s->len; i++)
     {
-      m->stack[s->str_addr+i] = s->str[i];
+      m->stack[s->str_addr+i+1] = s->str[i];
     }
   
   // No need to zero the remaining space
