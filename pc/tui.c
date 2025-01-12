@@ -12,7 +12,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 int16_t  val = 0;
-int     page = 1;
+int     page = 0;
 int max_page = 0;
 
 WINDOW *variable_win;
@@ -71,8 +71,6 @@ int scr_maxx, scr_maxy;
 
 void tui_init(void)
 {
-  
-  //initscr();  
   //timeout(1);
   printf("\n%s", __FUNCTION__);
   
@@ -91,10 +89,10 @@ void tui_init(void)
   
   refresh();
   
-  variable_win = create_win("Variables", scr_maxy/2-1, scr_maxx/2-1,          0, scr_maxx/2);
-  memory_win   = create_win("Memory",    scr_maxy/4-1, scr_maxx/4-1,          0,          0);
-  qcode_win    = create_win("QCode",     scr_maxy/4-1, scr_maxx/2-1, scr_maxy/4,          0);
-  machine_win  = create_win("Machine",   scr_maxy/4-1, scr_maxx/4-1,          0, scr_maxx/4);
+  variable_win = create_win("Variables", scr_maxy/4*3,   scr_maxx/2-1,          0, scr_maxx/2);
+  memory_win   = create_win("Memory",    scr_maxy/4,     scr_maxx/4-1,          0,          0);
+  qcode_win    = create_win("QCode",     scr_maxy/2,     scr_maxx/2-1, scr_maxy/4,          0);
+  machine_win  = create_win("Machine",   scr_maxy/4,     scr_maxx/4-1,          0, scr_maxx/4);
 
   scrollok(memory_win, TRUE);
   scrollok(variable_win, TRUE);
@@ -103,9 +101,8 @@ void tui_init(void)
   wrefresh(machine_win);
   wrefresh(memory_win);
 
+  mvprintw(scr_maxy-1, 1, "s:Stack memory  PgUp,PgDown:variable pages  q:quit ENTER:Step QCode");
   printf("\n%s", __FUNCTION__);
-  
-
 }
 
 void tui_end(void)
