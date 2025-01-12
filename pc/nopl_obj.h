@@ -155,6 +155,7 @@ typedef struct _NOBJ_MACHINE
 #define VAR_REF         1
 #define VAR_PARAMETER   2
 #define VAR_FIELD       3
+#define NUM_CALC_MEMORY 10
 
 typedef enum _NOPL_VAR_CLASS
   {

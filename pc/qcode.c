@@ -2027,6 +2027,7 @@ void execute_qcode(NOBJ_MACHINE *m, int single_step)
 
       if( !found )
 	{
+	  printf("\n\nNot found so exit: %02X\n", s.qcode);
 	  dbq("Not found so exit: %02X\n", s.qcode);
 	  s.done = 1;
 	  continue;

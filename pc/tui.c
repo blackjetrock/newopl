@@ -11,7 +11,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int16_t val = 0;
+int16_t  val = 0;
+int     page = 1;
+int max_page = 0;
 
 WINDOW *variable_win;
 WINDOW *memory_win;
@@ -69,6 +71,7 @@ int scr_maxx, scr_maxy;
 
 void tui_init(void)
 {
+  
   //initscr();  
   //timeout(1);
   printf("\n%s", __FUNCTION__);
@@ -80,7 +83,8 @@ void tui_init(void)
   //nodelay(stdscr, TRUE);
   curs_set(2);
   clear();
-
+  keypad(stdscr, TRUE);
+  
   printw("main");
 
   getmaxyx(stdscr, scr_maxy, scr_maxx);
@@ -116,41 +120,41 @@ void tui_end(void)
 #if 0
 bool kbhit(void)
 {
-    struct termios original;
-    tcgetattr(STDIN_FILENO, &original);
+  struct termios original;
+  tcgetattr(STDIN_FILENO, &original);
 
-    struct termios term;
-    memcpy(&term, &original, sizeof(term));
+  struct termios term;
+  memcpy(&term, &original, sizeof(term));
 
-    term.c_lflag &= ~ICANON;
-    tcsetattr(STDIN_FILENO, TCSANOW, &term);
+  term.c_lflag &= ~ICANON;
+  tcsetattr(STDIN_FILENO, TCSANOW, &term);
 
-    int characters_buffered = 0;
-    ioctl(STDIN_FILENO, FIONREAD, &characters_buffered);
+  int characters_buffered = 0;
+  ioctl(STDIN_FILENO, FIONREAD, &characters_buffered);
 
-    tcsetattr(STDIN_FILENO, TCSANOW, &original);
+  tcsetattr(STDIN_FILENO, TCSANOW, &original);
 
-    bool pressed = (characters_buffered != 0);
+  bool pressed = (characters_buffered != 0);
 
-    return pressed;
+  return pressed;
 }
 #endif
 void echoOff(void)
 {
-    struct termios term;
-    tcgetattr(STDIN_FILENO, &term);
+  struct termios term;
+  tcgetattr(STDIN_FILENO, &term);
 
-    term.c_lflag &= ~ECHO;
-    tcsetattr(STDIN_FILENO, TCSANOW, &term);
+  term.c_lflag &= ~ECHO;
+  tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
 void echoOn(void)
 {
-    struct termios term;
-    tcgetattr(STDIN_FILENO, &term);
+  struct termios term;
+  tcgetattr(STDIN_FILENO, &term);
 
-    term.c_lflag |= ECHO;
-    tcsetattr(STDIN_FILENO, TCSANOW, &term);
+  term.c_lflag |= ECHO;
+  tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -166,41 +170,41 @@ struct
   int p5;
 } keys[NUM_KEYS] =
   {
-   {'a', 2, 6},
-   {'b', 3, 6},
-   {'c', 4, 6},
-   {'d', 7, 6},
-   {'e', 5, 6},
-   {'f', 6, 6},
-   {'g', 2, 5},
-   {'h', 3, 5},
-   {'i', 4, 5},
-   {'j', 7, 5},
-   {'k', 5, 5},
-   {'l', 6, 5},
-   {'m', 2, 4},
-   {'n', 3, 4},
-   {'o', 4, 4},
-   {'p', 7, 4},
-   {'q', 5, 4},
-   {'r', 6, 4},
-   {'s', 2, 3},
-   {'t', 3, 3},
-   {'u', 4, 3},
-   {'v', 7, 3},
-   {'w', 5, 3},
-   {'x', 6, 3},
-   {'y', 4, 2},
-   {'z', 7, 2},
-   {' ', 5, 2},
-   { 10, 6, 2},  // EXE
-   {'^', 2, 2},  // SHIFT
-   {'[', 3, 2},  // DEL
-   {'!', 1, 2},  // Mode
-   {'+', 1, 3},  // UP
-   {'-', 1, 4},  // DOWN
-   {'<', 1, 5},
-   {'>', 1, 6},
+    {'a', 2, 6},
+    {'b', 3, 6},
+    {'c', 4, 6},
+    {'d', 7, 6},
+    {'e', 5, 6},
+    {'f', 6, 6},
+    {'g', 2, 5},
+    {'h', 3, 5},
+    {'i', 4, 5},
+    {'j', 7, 5},
+    {'k', 5, 5},
+    {'l', 6, 5},
+    {'m', 2, 4},
+    {'n', 3, 4},
+    {'o', 4, 4},
+    {'p', 7, 4},
+    {'q', 5, 4},
+    {'r', 6, 4},
+    {'s', 2, 3},
+    {'t', 3, 3},
+    {'u', 4, 3},
+    {'v', 7, 3},
+    {'w', 5, 3},
+    {'x', 6, 3},
+    {'y', 4, 2},
+    {'z', 7, 2},
+    {' ', 5, 2},
+    { 10, 6, 2},  // EXE
+    {'^', 2, 2},  // SHIFT
+    {'[', 3, 2},  // DEL
+    {'!', 1, 2},  // Mode
+    {'+', 1, 3},  // UP
+    {'-', 1, 4},  // DOWN
+    {'<', 1, 5},
+    {'>', 1, 6},
 
   };
 
@@ -318,7 +322,7 @@ char *tui_get_src_line_at(int a)
       return(NULL);
     }
 
-    while(!feof(fp) )
+  while(!feof(fp) )
     {
       int16_t mp;
 
@@ -333,8 +337,8 @@ char *tui_get_src_line_at(int a)
 	}
     }
     
-    fclose(fp);
-    return(NULL);
+  fclose(fp);
+  return(NULL);
 }
 
 void tui_display_qcode(NOBJ_MACHINE *m)
@@ -400,6 +404,19 @@ char *tui_string_at(uint8_t *mp)
 
 //------------------------------------------------------------------------------
 
+int16_t indirect_mp(NOBJ_MACHINE *m, int16_t mp)
+{
+  return( (m->stack[mp]*256) + m->stack[mp+1] );
+}
+
+
+//------------------------------------------------------------------------------
+//
+// Displays variables and calculator memories
+//
+
+#define TUI_PAGE_LEN  15
+
 void tui_display_variables(NOBJ_MACHINE *m)
 {
   FILE *fp;
@@ -412,11 +429,15 @@ void tui_display_variables(NOBJ_MACHINE *m)
   int  max_array;
   int  num_indices;
   int  offset;
+  int ext_or_par = 0;
   
   int i;
   char varname[50];
-
+  int lines = -1;
+  int this_page = 0;
+  
   wclear(variable_win);
+  mvwprintw(variable_win, 1, 1, "%d/%d", page, max_page);
   
   fp = fopen("vars.txt", "r");
 
@@ -437,32 +458,165 @@ void tui_display_variables(NOBJ_MACHINE *m)
       if( sscanf(line, "%d: VAR: ' %[^']' %s %s %s max_str: %d max_ary: %d num_ind: %d offset:%X", &i, varname, class, type, ref, &max_string, &max_array, &num_indices, &offset) == 9 )
 	{
 	  mp = offset+m->rta_fp;
-	  if( strcmp(type, "Integer")==0 )
+	  
+	  lines++;
+	  this_page = lines/TUI_PAGE_LEN;
+	  if( this_page > max_page)
 	    {
-	      wprintw(variable_win, "\n(Addr:%04X) %s:%04X", mp, varname, (m->stack[mp])*256+(m->stack[mp+1]));
+	      max_page = this_page;
 	    }
-	  if( strcmp(type, "String")==0 )
+
+	  if( (strcmp(class, "External") == 0) || (strcmp(class, "Parameter")==0) )
 	    {
-	      wprintw(variable_win, "\n(Addr:%04X) %s:%s", mp, varname, tui_string_at(&(m->stack[mp])));
+	      ext_or_par = 1;
+	    }
+	  else
+	    {
+	      ext_or_par = 0;
 	    }
 	  
-	  if( strcmp(type, "Float")==0 )
+	  if( this_page == page )
 	    {
-	      NOPL_FLOAT num;
-
-	      for(int i=0; i<8; i++)
+	      if( ext_or_par )
 		{
-		  dbq(" %02X", m->stack[mp+i]);
-		}
-	      num = tui_num_from_mem(&(m->stack[mp]));
+		  // Externals or parameters
+		  // We have to hunt through the indirection table to find these variables
+		  if( strcmp(type, "Integer")==0 )
+		    {
+		      wprintw(variable_win, "\n(Addr:%04X)* %s:%04X",
+			      mp,
+			      varname,
+			      (m->stack[indirect_mp(m, mp)])*256+(m->stack[indirect_mp(m, mp)+1]));
+		    }
+		  
+		  if( strcmp(type, "IntegerArray")==0 )
+		    {
+		      wprintw(variable_win, "\n(Addr:%04X)* %s(%d):%04X",
+			      mp,
+			      varname,
+			      max_array,
+			      (m->stack[indirect_mp(m, mp)])*256+(m->stack[indirect_mp(m, mp)+1]));
+		    }
 
-	      wprintw(variable_win, "\n(Addr:%04X) %s:%s", mp, varname, num_as_text(&num, ""));
+		  if( strcmp(type, "String")==0 )
+		    {
+		      wprintw(variable_win, "\n(Addr:%04X)* %s:%s",
+			      mp,
+			      varname,
+			      tui_string_at(&(m->stack[indirect_mp(m, mp)])));
+		    }
+		  
+		  if( strcmp(type, "StringArray")==0 )
+		    {
+		      wprintw(variable_win, "\n(Addr:%04X)* %s(%d,%d):%s",
+			      mp,
+			      varname,
+			      max_array,
+			      max_string,
+			      tui_string_at(&(m->stack[indirect_mp(m, mp)])));
+		    }
+	      
+		  if( strcmp(type, "Float")==0 )
+		    {
+		      NOPL_FLOAT num;
+		  
+		      num = tui_num_from_mem(&(m->stack[indirect_mp(m, mp)]));
+		  
+		      wprintw(variable_win, "\n(Addr:%04X)* %s:%s", mp, varname, num_as_text(&num, ""));
+		    }
+
+		  if( strcmp(type, "FloatArray")==0 )
+		    {
+		      NOPL_FLOAT num;
+		  
+		      num = tui_num_from_mem(&(m->stack[indirect_mp(m, mp)]));
+		      
+		      wprintw(variable_win, "\n(Addr:%04X)* %s(%d):%s", mp, varname, max_array, num_as_text(&num, ""));
+		    }
+		  wprintw(variable_win, "  (L:%d t:%d m:%d", lines, this_page, max_page);
+		  
+		}
+	      else
+		{
+		  //////
+		  // Locals or globals
+		  //////
+		  
+		  if( strcmp(type, "Integer")==0 )
+		    {
+		      wprintw(variable_win, "\n(Addr:%04X)  %s:%04X", mp, varname, (m->stack[mp])*256+(m->stack[mp+1]));
+		    }
+		  
+		  if( strcmp(type, "IntegerArray")==0 )
+		    {
+		      wprintw(variable_win, "\n(Addr:%04X) %s(%d):%04X",
+			      mp,
+			      varname,
+			      max_array,
+			      (m->stack[mp])*256+(m->stack[mp+1]));
+		    }
+		  if( strcmp(type, "String")==0 )
+		    {
+		      wprintw(variable_win, "\n(Addr:%04X)  %s:%s", mp, varname, tui_string_at(&(m->stack[mp])));
+		    }
+		  
+		  if( strcmp(type, "StringArray")==0 )
+		    {
+		      wprintw(variable_win, "\n(Addr:%04X)  %s(%d,%d):%s",
+			      mp,
+			      varname,
+			      max_array,
+			      max_string,
+			      tui_string_at(&(m->stack[mp])));
+		    }
+	      
+		  if( strcmp(type, "Float")==0 )
+		    {
+		      NOPL_FLOAT num;
+		  
+		      num = tui_num_from_mem(&(m->stack[mp]));
+		  
+		      wprintw(variable_win, "\n(Addr:%04X)  %s:%s", mp, varname, num_as_text(&num, ""));
+		    }
+
+		  if( strcmp(type, "FloatArray")==0 )
+		    {
+		      NOPL_FLOAT num;
+		  
+		      num = tui_num_from_mem(&(m->stack[mp]));
+		  
+		      wprintw(variable_win, "\n(Addr:%04X)  %s(%d):%s", mp, varname, max_array, num_as_text(&num, ""));
+		    }
+		  wprintw(variable_win, "  (L:%d t:%d m:%d", lines, this_page, max_page);
+		}
 	    }
 	}
     }
-
+  
   fclose(fp);
 
+  // Page for calculator memories
+  lines += TUI_PAGE_LEN-(lines%TUI_PAGE_LEN);
+  
+  for(int m=0; m<NUM_CALC_MEMORY; m++)
+    {
+      lines++;
+      this_page = lines/TUI_PAGE_LEN;
+      if( this_page > max_page)
+	{
+	  max_page = this_page+1;
+	}
+      
+      if( this_page == page )
+	{
+	  NOPL_FLOAT num;
+	  
+	  wprintw(variable_win, "\nM%d: %s", m, num_as_text(&num, ""));
+	  wprintw(variable_win, "  (L:%d t:%d m:%d", lines, this_page, max_page);
+	}
+    }
+  
+  mvwprintw(variable_win, 1, 1, "%d/%d", page+1, max_page);
   wrefresh(variable_win);
 }
 
@@ -531,18 +685,34 @@ void tui_step(NOBJ_MACHINE *m, int *done)
 	  
 	case 'm':
 	  tui_focus = MEMORY_FOCUS;
+	  wmove(memory_win, 1,1);
 	  display_memory(m);
 	  break;
 
 	case 'M':
 	  tui_focus = MACHINE_FOCUS;
-	  mvcur(1,1,0,0);
+	  wmove(machine_win, 1,1);
 	  tui_display_machine(m);
-
 	  break;
 	  
 	case 'v':
 	  tui_focus = VARIABLE_FOCUS;
+	  tui_display_variables(m);
+	  break;
+
+	case KEY_PPAGE:
+	  if( page > 0)
+	    {
+	      page--;
+	    }
+	  tui_display_variables(m);
+	  break;
+
+	case KEY_NPAGE:
+	  if( page < max_page-1 )
+	    {
+	      page++;
+	    }
 	  tui_display_variables(m);
 	  break;
 	}
