@@ -338,7 +338,7 @@ void qca_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->max_sz = m->stack[s->ind_ptr-1];
   
   // Push string max length
-  push_machine_8(m, s->max_sz);
+  //push_machine_8(m, s->max_sz);
   
   // Push address of string
   push_machine_16(m, s->ind_ptr);
@@ -597,7 +597,15 @@ void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   //  s->len      = pop_machine_8(m);
 	  
   // Assign string to variable
-  // We are pointing at first byte of string
+  // We are pointing at length byte. get the max length and check we won't
+  // exceed that
+  int max_len = m->stack[(s->str_addr)-1];
+
+  if( s->len > max_len )
+    {
+      runtime_error("String too big");
+      return;
+    }
   
   // All OK
   // Copy data
@@ -1349,6 +1357,18 @@ void qca_push_string(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_string(m, s->len, s->str);
 }
 
+void qca_add_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  if( (s->len + s->len2) > NOBJ_FILENAME_MAXLEN )
+    {
+      runtime_error("String too long");
+    }
+
+  s->len = s->len + s->len2;
+  strcat(s->str2, s->str);
+  strcpy(s->str, s->str2);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -1371,8 +1391,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     // QI_NUM_ARR_IND          0x0B    
     // QI_STR_ARR_IND          0x0C    
     { QI_LS_INT_SIM_FP,     "QI_LS_INT_SIM_FP", {qca_fp,           qca_null,        qca_push_ind_addr }},
-    { QI_LS_STR_SIM_FP,     "QI_LS_STR_SIM_FP", {qca_fp,           qca_null,        qca_str }},
     { QI_LS_NUM_SIM_FP,     "QI_LS_NUM_SIM_FP", {qca_fp,           qca_null,        qca_push_ind_addr}},
+    { QI_LS_STR_SIM_FP,     "QI_LS_STR_SIM_FP", {qca_fp,           qca_null,        qca_str }},
     { QI_LS_INT_ARR_FP,   "QI_LS_INT_ARR_FP",   {qca_fp,           qca_pop_idx,     qca_push_int_arr_addr }},
     { QI_LS_NUM_ARR_FP,   "QI_LS_NUM_ARR_FP",   {qca_fp,           qca_pop_idx,     qca_push_num_arr_addr }},
     // QI_LS_STR_ARR_FP        0x12    
@@ -1433,7 +1453,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // QCO_GTE_STR             0x48    
     // QCO_NE_STR              0x49    
     { QCO_EQ_STR,        "QI_EQ_STR",         {qca_pop_2str,     qca_eq_str,      qca_null}},
-    // QCO_ADD_STR             0x4B    
+    { QCO_ADD_STR,       "QI_ADD_STR",        {qca_pop_2str,     qca_add_str,     qca_push_string}},
     { QCO_AT,            "QI_AT",             {qca_pop_2int,     qca_null,        qca_null}},
     { QCO_BEEP,          "QCO_BEEP",          {qca_pop_2int,     qca_null,        qca_null}},
     // QCO_CLS                 0x4E    

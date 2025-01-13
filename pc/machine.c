@@ -125,9 +125,11 @@ void pop_machine_string(NOBJ_MACHINE *m, uint8_t *len, char *str)
 {
   uint16_t   orig_sp = m->rta_sp;
   int i;
-  
+
+  // Pop length
   *len = pop_machine_8(m);
 
+  // Pop characters of string
   for(i=0; i<*len; i++)
     {
       str[i] = pop_machine_8(m);
