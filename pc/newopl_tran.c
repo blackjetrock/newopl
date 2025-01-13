@@ -6327,6 +6327,19 @@ void dump_vars(FILE *fp)
 ////////////////////////////////////////////////////////////////////////////////
 
 
+void dbpfq(const char *caller, char *fmt, ...)
+{
+  va_list valist;
+
+  va_start(valist, fmt);
+  fprintf(ofp, "\n(%s)", caller);
+  fflush(ofp);
+    
+  vfprintf(ofp, fmt, valist);
+  va_end(valist);
+  fflush(ofp);
+}
+
 int main(int argc, char *argv[])
 {
   FILE *fp;

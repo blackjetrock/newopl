@@ -464,7 +464,7 @@ void num_num_to_int(int n, NOPL_FLOAT *num,  NOBJ_INT *i)
   
   if( num->exponent > 4 )
     {
-      runtime_error("Float too big");
+      runtime_error(ER_RT_IO, "Float too big");
       *i = 0;
       return;
     }
@@ -501,7 +501,7 @@ void num_num_to_int(int n, NOPL_FLOAT *num,  NOBJ_INT *i)
 	  if( num_digits_gte(NUM_MAX_DIGITS, &(num->digits[0]), thr) )
 	    {
 	      // Too big
-	      runtime_error("Float too big");
+	      runtime_error(ER_RT_IO, "Float too big");
 	      *i = 0;
 	      return;
 	    }
@@ -513,7 +513,7 @@ void num_num_to_int(int n, NOPL_FLOAT *num,  NOBJ_INT *i)
 	  if( num_digits_gte(NUM_MAX_DIGITS, &(num->digits[0]), thr) )
 	    {
 	      // Too big
-	      runtime_error("Float too big");
+	      runtime_error(ER_RT_IO, "Float too big");
 	      *i = 0;
 	      return;
 	    }
@@ -941,7 +941,7 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 
   if( is_zero )
     {
-      runtime_error("Divide by zero");
+      runtime_error(ER_MT_DI, "Divide by zero");
       return;
     }
 

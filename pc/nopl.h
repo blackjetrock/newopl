@@ -10,10 +10,14 @@
 
 #include "nopl_obj.h"
 #include "newopl_types.h"
+
+
+
 #include "newopl_exec.h"
 #include "newopl_lib.h"
 
 #include "qcode.h"
+#include "errors.h"
 #include "qcode_clock.h"
 #include "parser.h"
 

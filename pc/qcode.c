@@ -459,7 +459,7 @@ void qca_push_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
 	  
   if( fp == NULL )
     {
-      runtime_error("Cannot open '%s'", s->str);
+      runtime_error(ER_RT_PN, "Cannot open '%s'", s->str);
       dbq("Cannot open '%s'", s->str);
       exit(-1);
     }
@@ -603,7 +603,7 @@ void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
   if( s->len > max_len )
     {
-      runtime_error("String too big");
+      runtime_error(ER_LX_ST, "String too big");
       return;
     }
   
@@ -1361,7 +1361,7 @@ void qca_add_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   if( (s->len + s->len2) > NOBJ_FILENAME_MAXLEN )
     {
-      runtime_error("String too long");
+      runtime_error(ER_LX_ST, "String too long");
     }
 
   s->len = s->len + s->len2;

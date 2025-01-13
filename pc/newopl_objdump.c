@@ -261,23 +261,6 @@ int main(int argc, char *argv[])
  
 }
 
-void runtime_error(char *fmt, ...)
-{
-  va_list valist;
-  char line[80];
-  
-  va_start(valist, fmt);
-
-  vsprintf(line, fmt, valist);
-  va_end(valist);
-
-  dbq("Internal compiler error ***");
-  dbq("\n\n\n*** Internal compiler error ***\n");
-
-  printf("\n%s\n", line);
-
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Dummy functions so that qcode.c can be linked in

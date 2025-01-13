@@ -1,4 +1,4 @@
-cc -g         -Wno-format-truncation -Wno-format-overflow newopl_tran.c       newopl_lib.c newopl_types.c         parser.c                     machine.c             -o newopl_tran -lm
-cc -g -DTUI   -Wno-format-truncation -Wno-format-overflow newopl_exec.c       newopl_lib.c newopl_types.c qcode.c          clock_pc.c  num_a.c machine.c   tui.c     -o newopl_exec -lcurses -lm
-cc -g         -Wno-format-truncation -Wno-format-overflow newopl_objdump.c    newopl_lib.c newopl_types.c qcode.c          clock_pc.c  num_a.c machine.c             -o newopl_objdump -lm
+cc -g       -Wno-format-truncation -Wno-format-overflow newopl_tran.c    newopl_lib.c newopl_types.c         parser.c                    machine.c       errors.c -o newopl_tran -lm
+cc -g -DTUI -Wno-format-truncation -Wno-format-overflow newopl_exec.c    newopl_lib.c newopl_types.c qcode.c          clock_pc.c num_a.c machine.c tui.c errors.c -o newopl_exec -lcurses -lm
+cc -g       -Wno-format-truncation -Wno-format-overflow newopl_objdump.c newopl_lib.c newopl_types.c qcode.c          clock_pc.c num_a.c machine.c       errors.c -o newopl_objdump -lm
 

@@ -96,25 +96,6 @@ NOBJ_PROC proc;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void runtime_error(char *fmt, ...)
-{
-  va_list valist;
-  char line[80];
-  
-  va_start(valist, fmt);
-
-  vsprintf(line, fmt, valist);
-  va_end(valist);
-
-  dbq("Internal compiler error ***");
-  dbq("\n\n\n*** Internal compiler error ***\n");
-
-  printf("\n%s\n", line);
-
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void push_parameters(NOBJ_MACHINE *m)
 {
   debug("\nPush parameters...");
