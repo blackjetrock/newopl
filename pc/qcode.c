@@ -377,6 +377,22 @@ void qca_push_num_arr_addr(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_8(m, 0);
 }
 
+void qca_push_str_arr_addr(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int max_str;
+  
+  // Max string size is just before the array
+  max_str = stack_entry_8(m, s->ind_ptr-1);
+
+  dbq("Max str:%d idx:%d ind_ptr:%04X", max_str, s->arr_idx, s->ind_ptr);
+
+  // Push address of string
+  push_machine_16(m, s->ind_ptr+s->arr_idx*(max_str+1)+2);
+  
+  // Push field flag
+  push_machine_8(m, 0);
+}
+
 void qca_push_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Push address we calculated
@@ -412,12 +428,29 @@ void qca_push_int_arr_at_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_16(m,  val);
 }
 
+//------------------------------------------------------------------------------
+
 void qca_push_num_arr_at_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   int val = stack_entry_16(m, s->ind_ptr+s->arr_idx*SIZEOF_NUM);
 
   // Push integer at the address we calculated
   push_machine_16(m,  val);
+}
+
+//------------------------------------------------------------------------------
+
+void qca_push_str_arr_at_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int max_str;
+  uint8_t *val;
+
+  // Max string size is just before the array
+  max_str = stack_entry_8(m, s->ind_ptr-1);
+  val     = &(m->stack[s->ind_ptr+s->arr_idx*(max_str+1)+2]);
+
+  // Push string at the address we calculated
+  push_machine_string(m,  *val, val+1);
 }
 
 //------------------------------------------------------------------------------
@@ -591,10 +624,14 @@ void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   
   // Check for field
   s->field_flag = pop_machine_8(m);
+
+  dbq("field flg:%d", s->field_flag);
   
   // Drop string reference
   s->str_addr = pop_machine_16(m);
 
+  dbq("Str addr:%04X", s->str_addr);
+  
   //  s->len      = pop_machine_8(m);
 	  
   // Assign string to variable
@@ -602,6 +639,8 @@ void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   // exceed that
   int max_len = m->stack[(s->str_addr)-1];
 
+  dbq("Max len:%d", max_len);
+  
   if( s->len > max_len )
     {
       runtime_error(ER_LX_ST, "String too big");
@@ -1383,7 +1422,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_STR_SIM_FP,     "QI_STR_SIM_FP",     {qca_fp,           qca_null,        qca_str_ind_con}},
     { QI_INT_ARR_FP,     "QI_INT_ARR_FP",     {qca_fp,           qca_pop_idx,     qca_push_int_arr_at_ind}},
     { QI_NUM_ARR_FP,     "QI_NUM_ARR_FP",     {qca_fp,           qca_pop_idx,     qca_push_num_arr_at_ind}},
-    // QI_STR_ARR_FP           0x05    
+    { QI_STR_ARR_FP,     "QI_STR_ARR_FP",     {qca_fp,           qca_pop_idx,     qca_push_str_arr_at_ind}},
     // QI_NUM_SIM_ABS          0x06    
     // QI_INT_SIM_IND          0x07    
     // QI_NUM_SIM_IND          0x08    
@@ -1396,7 +1435,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_LS_STR_SIM_FP,     "QI_LS_STR_SIM_FP", {qca_fp,           qca_null,        qca_str }},
     { QI_LS_INT_ARR_FP,   "QI_LS_INT_ARR_FP",   {qca_fp,           qca_pop_idx,     qca_push_int_arr_addr }},
     { QI_LS_NUM_ARR_FP,   "QI_LS_NUM_ARR_FP",   {qca_fp,           qca_pop_idx,     qca_push_num_arr_addr }},
-    // QI_LS_STR_ARR_FP        0x12    
+    { QI_LS_STR_ARR_FP,   "QI_LS_STR_ARR_FP",   {qca_fp,           qca_pop_idx,     qca_push_str_arr_addr }},
     // QI_LS_NUM_SIM_ABS       0x13    
     // QI_LS_INT_SIM_IND       0x14    
     // QI_LS_NUM_SIM_IND       0x15    
