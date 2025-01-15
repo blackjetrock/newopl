@@ -270,15 +270,37 @@ void num_cat_digit(int n, int8_t *d, int digit)
 
 //------------------------------------------------------------------------------
 
+int num_digits_zero(int n, int8_t *digits)
+{
+  for(int i=0; i<n; i++)
+    {
+      if( (*(digits++)) != 0 )
+	{
+	  return(0);
+	}
+    }
+
+  return(1);
+}
+
+//------------------------------------------------------------------------------
+
 void num_normalise_digits(int n, int8_t *digits, int8_t *exponent)
 {
+  // Check for zero and exit
+  if( num_digits_zero(n, digits) )
+    {
+      *exponent = 0;
+      return;
+    }
+
   // If digits[0] is 0 then we need to shift left until it is non zero
   while( digits[0] == 0 )
     {
       num_shift_digits_left_n(n, digits, exponent);
     }
 
-  //  dbq_num_exploded("%s After shift", n);
+  //    dbq_num_exploded("%s After shift", n);
   
   // If we have a carry in the LH digit then shift right until it has gone
   while( digits[0] >= 10 )
@@ -290,7 +312,7 @@ void num_normalise_digits(int n, int8_t *digits, int8_t *exponent)
       digits[1] %= 10;
     }
   
-  //    dbq_num_exploded("%s After first dig split:", n);
+  //dbq_num_exploded("%s After first dig split:", n);
 }
 
 void num_normalise(NOPL_FLOAT *n)
