@@ -334,6 +334,24 @@ void qca_abs(NOBJ_MACHINE *m, NOBJ_QCS *s)
   dbq("ind_ptr: %04X", s->ind_ptr);
 }
 
+// Combination of qca_fp and qca_ind
+// Done so we don't have to add another column to table
+void qca_fp_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Get pointer to string
+  s->ind_ptr = qcode_next_16(m);
+  
+  dbq("ind ptr:%04X", s->ind_ptr);
+  
+  // Add to FP
+  s->ind_ptr += m->rta_fp;
+
+  // Then that address has the address
+  s->ind_ptr = stack_entry_16(m, s->ind_ptr);
+  
+  dbq("ind_ptr: %04X", s->ind_ptr);
+}
+
 //------------------------------------------------------------------------------
 
 void qca_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -1436,26 +1454,27 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_NUM_ARR_FP,     "QI_NUM_ARR_FP",     {qca_fp,           qca_pop_idx,     qca_push_num_arr_at_ind}},
     { QI_STR_ARR_FP,     "QI_STR_ARR_FP",     {qca_fp,           qca_pop_idx,     qca_push_str_arr_at_ind}},
     { QI_NUM_SIM_ABS,    "QI_NUM_SIM_ABS",    {qca_abs,          qca_null,        qca_num_ind_con}},
-    // QI_INT_SIM_IND          0x07    
-    // QI_NUM_SIM_IND          0x08    
+    { QI_INT_SIM_IND,    "QI_INT_SIM_IND",    {qca_fp,           qca_ind,         qca_push_int_at_ind}},
+    { QI_NUM_SIM_IND,    "QI_NUM_SIM_IND",    {qca_fp,           qca_ind,         qca_num_ind_con}},
     { QI_STR_SIM_IND,    "QI_STR_SIM_IND",    {qca_fp,           qca_ind,         qca_str_ind_con}},
-    // QI_INT_ARR_IND          0x0A    
-    // QI_NUM_ARR_IND          0x0B    
-    // QI_STR_ARR_IND          0x0C    
-    { QI_LS_INT_SIM_FP,     "QI_LS_INT_SIM_FP", {qca_fp,           qca_null,        qca_push_ind_addr }},
-    { QI_LS_NUM_SIM_FP,     "QI_LS_NUM_SIM_FP", {qca_fp,           qca_null,        qca_push_ind_addr}},
-    { QI_LS_STR_SIM_FP,     "QI_LS_STR_SIM_FP", {qca_fp,           qca_null,        qca_str }},
-    { QI_LS_INT_ARR_FP,   "QI_LS_INT_ARR_FP",   {qca_fp,           qca_pop_idx,     qca_push_int_arr_addr }},
-    { QI_LS_NUM_ARR_FP,   "QI_LS_NUM_ARR_FP",   {qca_fp,           qca_pop_idx,     qca_push_num_arr_addr }},
-    { QI_LS_STR_ARR_FP,   "QI_LS_STR_ARR_FP",   {qca_fp,           qca_pop_idx,     qca_push_str_arr_addr }},
-    { QI_LS_NUM_ARR_FP,   "QI_LS_NUM_ARR_FP",   {qca_fp,           qca_pop_idx,     qca_push_num_arr_addr }},
-    { QI_LS_NUM_SIM_ABS,  "QI_LS_NUM_SIM_ABS",   {qca_abs,         qca_null,        qca_push_ind_addr }},
-    // QI_LS_INT_SIM_IND       0x14    
-    // QI_LS_NUM_SIM_IND       0x15    
+    { QI_INT_SIM_IND,    "QI_INT_SIM_IND",    {qca_fp_ind,       qca_pop_idx,     qca_push_int_arr_at_ind}},
+    { QI_NUM_SIM_IND,    "QI_NUM_SIM_IND",    {qca_fp_ind,       qca_pop_idx,     qca_push_num_arr_at_ind}},
+    { QI_STR_SIM_IND,    "QI_STR_SIM_IND",    {qca_fp_ind,       qca_pop_idx,     qca_push_str_arr_at_ind}},
+    { QI_LS_INT_SIM_FP,  "QI_LS_INT_SIM_FP",  {qca_fp,           qca_null,        qca_push_ind_addr }},
+    { QI_LS_NUM_SIM_FP,  "QI_LS_NUM_SIM_FP",  {qca_fp,           qca_null,        qca_push_ind_addr}},
+    { QI_LS_STR_SIM_FP,  "QI_LS_STR_SIM_FP",  {qca_fp,           qca_null,        qca_str }},
+    { QI_LS_INT_ARR_FP,  "QI_LS_INT_ARR_FP",  {qca_fp,           qca_pop_idx,     qca_push_int_arr_addr }},
+    { QI_LS_NUM_ARR_FP,  "QI_LS_NUM_ARR_FP",  {qca_fp,           qca_pop_idx,     qca_push_num_arr_addr }},
+    { QI_LS_STR_ARR_FP,  "QI_LS_STR_ARR_FP",  {qca_fp,           qca_pop_idx,     qca_push_str_arr_addr }},
+    { QI_LS_NUM_ARR_FP,  "QI_LS_NUM_ARR_FP",  {qca_fp,           qca_pop_idx,     qca_push_num_arr_addr }},
+    { QI_LS_NUM_SIM_ABS, "QI_LS_NUM_SIM_ABS", {qca_abs,          qca_null,        qca_push_ind_addr }},
+    { QI_LS_INT_SIM_IND, "QI_LS_INT_SIM_FP",  {qca_fp,           qca_ind,         qca_push_ind_addr }},
+    { QI_LS_NUM_SIM_IND, "QI_LS_NUM_SIM_FP",  {qca_fp,           qca_ind,         qca_push_ind_addr}},
     { QI_LS_STR_SIM_IND, "QI_LS_STR_SIM_IND", {qca_fp,           qca_ind,         qca_str }},
-    // QI_LS_INT_ARR_IND       0x17    
-    // QI_LS_NUM_ARR_IND       0x18    
-    // QI_LS_STR_ARR_IND       0x19
+    { QI_LS_INT_ARR_IND, "QI_LS_INT_ARR_IND", {qca_fp_ind,       qca_pop_idx,     qca_push_int_arr_addr }},
+    { QI_LS_NUM_ARR_IND, "QI_LS_NUM_ARR_IND", {qca_fp_ind,       qca_pop_idx,     qca_push_num_arr_addr }},
+    { QI_LS_STR_ARR_IND, "QI_LS_STR_ARR_IND", {qca_fp_ind,       qca_pop_idx,     qca_push_str_arr_addr }},
+
     // QI_INT_FLD              0x1A    
     // QI_NUM_FLD              0x1B    
     // QI_STR_FLD              0x1C    
