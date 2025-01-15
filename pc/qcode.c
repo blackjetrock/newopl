@@ -463,10 +463,13 @@ void qca_push_int_arr_at_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_push_num_arr_at_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  int val = stack_entry_16(m, s->ind_ptr+s->arr_idx*SIZEOF_NUM);
-
-  // Push integer at the address we calculated
-  push_machine_16(m,  val);
+  int np = s->ind_ptr+s->arr_idx*SIZEOF_NUM+2;
+  NOPL_FLOAT num = num_from_mem(&(m->stack[np]));
+				
+  dbq_num("Push array num: ", &num );
+  //printf("\narr_idx:%d", s->arr_idx);
+  //  printf("\nind_ptr:%04X %s\n", np, num_as_text(&num, ""));
+  push_machine_num(m, &num);
 }
 
 //------------------------------------------------------------------------------

@@ -11,6 +11,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#define TUI_PAGE_LEN  15
+
+//------------------------------------------------------------------------------
+
 int16_t  val = 0;
 int     page = 0;
 int max_page = 0;
@@ -361,7 +365,8 @@ void qcode_win_keyfn(void)
 {
 }
 
-NOPL_FLOAT tui_num_from_mem(uint8_t *mp)
+#if 0
+NOPL_FLOAT num_from_mem(uint8_t *mp)
 {
   NOPL_FLOAT n;
   int b;
@@ -379,6 +384,7 @@ NOPL_FLOAT tui_num_from_mem(uint8_t *mp)
 
   return(n);
 }
+#endif
 
 char tui_string[NOBJ_STRING_MAXLEN+1];
 
@@ -406,13 +412,24 @@ int16_t indirect_mp(NOBJ_MACHINE *m, int16_t mp)
   return( (m->stack[mp]*256) + m->stack[mp+1] );
 }
 
+//------------------------------------------------------------------------------
+
+void tui_another_line(int *lines, int *this_page, int *max_page)
+{
+  (*lines)++;
+  *this_page = *lines/TUI_PAGE_LEN;
+  if( *this_page > *max_page)
+    {
+      *max_page = *this_page;
+    }
+}
 
 //------------------------------------------------------------------------------
 //
 // Displays variables and calculator memories
 //
 
-#define TUI_PAGE_LEN  15
+
 
 void tui_display_variables(NOBJ_MACHINE *m)
 {
@@ -455,14 +472,16 @@ void tui_display_variables(NOBJ_MACHINE *m)
       if( sscanf(line, "%d: VAR: ' %[^']' %s %s %s max_str: %d max_ary: %d num_ind: %d offset:%X", &i, varname, class, type, ref, &max_string, &max_array, &num_indices, &offset) == 9 )
 	{
 	  mp = offset+m->rta_fp;
-	  
+
+	  tui_another_line(&lines, &this_page, &max_page);
+#if 0
 	  lines++;
 	  this_page = lines/TUI_PAGE_LEN;
 	  if( this_page > max_page)
 	    {
 	      max_page = this_page;
 	    }
-
+#endif
 	  // Calculator memories are processed later, skip themm here
 	  if( strcmp(class, "CalcMemory") == 0 )
 	    {
@@ -523,7 +542,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		    {
 		      NOPL_FLOAT num;
 		  
-		      num = tui_num_from_mem(&(m->stack[indirect_mp(m, mp)]));
+		      num = num_from_mem(&(m->stack[indirect_mp(m, mp)]));
 		  
 		      wprintw(variable_win, "\n(Addr:%04X)* %10s:%s", mp, varname, num_as_text(&num, ""));
 		    }
@@ -532,7 +551,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		    {
 		      NOPL_FLOAT num;
 		  
-		      num = tui_num_from_mem(&(m->stack[indirect_mp(m, mp)]));
+		      num = num_from_mem(&(m->stack[indirect_mp(m, mp)]));
 		      
 		      wprintw(variable_win, "\n(Addr:%04X)* %10s(%d):%s", mp, varname, max_array, num_as_text(&num, ""));
 		    }
@@ -578,7 +597,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		    {
 		      NOPL_FLOAT num;
 		  
-		      num = tui_num_from_mem(&(m->stack[mp]));
+		      num = num_from_mem(&(m->stack[mp]));
 		  
 		      wprintw(variable_win, "\n(Addr:%04X)  %10s:%s", mp, varname, num_as_text(&num, ""));
 		    }
@@ -586,10 +605,17 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		  if( strcmp(type, "FloatArray")==0 )
 		    {
 		      NOPL_FLOAT num;
-		  
-		      num = tui_num_from_mem(&(m->stack[mp]));
-		  
-		      wprintw(variable_win, "\n(Addr:%04X)  %10s(%d):%s", mp, varname, max_array, num_as_text(&num, ""));
+
+		      wprintw(variable_win, "\n(Addr:%04X)  %10s(%d)", mp, varname, max_array);
+
+		      for(int na=0; na<max_array; na++)
+			{
+			  tui_another_line(&lines, &this_page, &max_page);
+			  int np = mp+na*SIZEOF_NUM+2;
+			  num = num_from_mem(&(m->stack[np]));
+			  wprintw(variable_win, "\n(Addr:%04X)  %10s(%d):%s", np, varname, na, num_as_text(&num, ""));
+			}
+
 		    }
 		  //wprintw(variable_win, "  (L:%d t:%d m:%d", lines, this_page, max_page);
 		}
@@ -614,7 +640,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
       if( this_page == page )
 	{
 	  NOPL_FLOAT num;
-	  num = tui_num_from_mem(&(m->stack[mem*SIZEOF_NUM+CALC_MEM_START]));	  
+	  num = num_from_mem(&(m->stack[mem*SIZEOF_NUM+CALC_MEM_START]));	  
 	  wprintw(variable_win, "\nM%d: %s", mem, num_as_text(&num, ""));
 	  //wprintw(variable_win, "  (L:%d t:%d m:%d", lines, this_page, max_page);
 	}

@@ -56,6 +56,7 @@ void num_num_to_int(int n, NOPL_FLOAT *num,  NOBJ_INT *i);
 char *num_as_text(NOPL_FLOAT *n, char *text);
 void num_int_to_num(int n, NOBJ_INT *i, NOPL_FLOAT *num);
 int num_digits_zero(int n, int8_t *digits);
+NOPL_FLOAT num_from_mem(uint8_t *mp);
 
 
 

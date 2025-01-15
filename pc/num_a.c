@@ -49,6 +49,25 @@ char *num_as_text(NOPL_FLOAT *n, char *text)
   return(line);
 }
 
+NOPL_FLOAT num_from_mem(uint8_t *mp)
+{
+  NOPL_FLOAT n;
+  int b;
+
+  n.sign = *(mp++);
+  n.exponent = *(mp++);
+  
+  // Pop digits
+  for(int i = (NUM_MAX_DIGITS/2)-1; i>=0; i--)
+    {
+      b = *(mp++);
+      n.digits[i*2] = b >> 4;
+      n.digits[i*2+1] = b & 0xF;
+    }
+
+  return(n);
+}
+
 //------------------------------------------------------------------------------
        
 void dbq_num_exploded_f(const char *caller, char *text, NOPL_FLOAT *n)
