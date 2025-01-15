@@ -463,6 +463,12 @@ void tui_display_variables(NOBJ_MACHINE *m)
 	      max_page = this_page;
 	    }
 
+	  // Calculator memories are processed later, skip themm here
+	  if( strcmp(class, "CalcMemory") == 0 )
+	    {
+	      continue;
+	    }
+	  
 	  if( (strcmp(class, "External") == 0) || (strcmp(class, "Parameter")==0) )
 	    {
 	      ext_or_par = 1;
@@ -480,7 +486,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		  // We have to hunt through the indirection table to find these variables
 		  if( strcmp(type, "Integer")==0 )
 		    {
-		      wprintw(variable_win, "\n(Addr:%04X)* %s:%04X",
+		      wprintw(variable_win, "\n(Addr:%04X)* %10s:%04X",
 			      mp,
 			      varname,
 			      (m->stack[indirect_mp(m, mp)])*256+(m->stack[indirect_mp(m, mp)+1]));
@@ -488,7 +494,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		  
 		  if( strcmp(type, "IntegerArray")==0 )
 		    {
-		      wprintw(variable_win, "\n(Addr:%04X)* %s(%d):%04X",
+		      wprintw(variable_win, "\n(Addr:%04X)* %10s(%d):%04X",
 			      mp,
 			      varname,
 			      max_array,
@@ -497,7 +503,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
 
 		  if( strcmp(type, "String")==0 )
 		    {
-		      wprintw(variable_win, "\n(Addr:%04X)* %s:%s",
+		      wprintw(variable_win, "\n(Addr:%04X)* %10s:%s",
 			      mp,
 			      varname,
 			      tui_string_at(&(m->stack[indirect_mp(m, mp)])));
@@ -505,7 +511,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		  
 		  if( strcmp(type, "StringArray")==0 )
 		    {
-		      wprintw(variable_win, "\n(Addr:%04X)* %s(%d,%d):%s",
+		      wprintw(variable_win, "\n(Addr:%04X)* %10s(%d,%d):%s",
 			      mp,
 			      varname,
 			      max_array,
@@ -519,7 +525,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		  
 		      num = tui_num_from_mem(&(m->stack[indirect_mp(m, mp)]));
 		  
-		      wprintw(variable_win, "\n(Addr:%04X)* %s:%s", mp, varname, num_as_text(&num, ""));
+		      wprintw(variable_win, "\n(Addr:%04X)* %10s:%s", mp, varname, num_as_text(&num, ""));
 		    }
 
 		  if( strcmp(type, "FloatArray")==0 )
@@ -528,9 +534,10 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		  
 		      num = tui_num_from_mem(&(m->stack[indirect_mp(m, mp)]));
 		      
-		      wprintw(variable_win, "\n(Addr:%04X)* %s(%d):%s", mp, varname, max_array, num_as_text(&num, ""));
+		      wprintw(variable_win, "\n(Addr:%04X)* %10s(%d):%s", mp, varname, max_array, num_as_text(&num, ""));
 		    }
-		  wprintw(variable_win, "  (L:%d t:%d m:%d", lines, this_page, max_page);
+
+		  //wprintw(variable_win, "  (L:%d t:%d m:%d", lines, this_page, max_page);
 		  
 		}
 	      else
@@ -541,12 +548,12 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		  
 		  if( strcmp(type, "Integer")==0 )
 		    {
-		      wprintw(variable_win, "\n(Addr:%04X)  %s:%04X", mp, varname, (m->stack[mp])*256+(m->stack[mp+1]));
+		      wprintw(variable_win, "\n(Addr:%04X)  %10s:%04X", mp, varname, (m->stack[mp])*256+(m->stack[mp+1]));
 		    }
 		  
 		  if( strcmp(type, "IntegerArray")==0 )
 		    {
-		      wprintw(variable_win, "\n(Addr:%04X) %s(%d):%04X",
+		      wprintw(variable_win, "\n(Addr:%04X) %10s(%d):%04X",
 			      mp,
 			      varname,
 			      max_array,
@@ -554,12 +561,12 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		    }
 		  if( strcmp(type, "String")==0 )
 		    {
-		      wprintw(variable_win, "\n(Addr:%04X)  %s:%s", mp, varname, tui_string_at(&(m->stack[mp])));
+		      wprintw(variable_win, "\n(Addr:%04X)  %10s:%s", mp, varname, tui_string_at(&(m->stack[mp])));
 		    }
 		  
 		  if( strcmp(type, "StringArray")==0 )
 		    {
-		      wprintw(variable_win, "\n(Addr:%04X)  %s(%d,%d):%s",
+		      wprintw(variable_win, "\n(Addr:%04X)  %10s(%d,%d):%s",
 			      mp,
 			      varname,
 			      max_array,
@@ -573,7 +580,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		  
 		      num = tui_num_from_mem(&(m->stack[mp]));
 		  
-		      wprintw(variable_win, "\n(Addr:%04X)  %s:%s", mp, varname, num_as_text(&num, ""));
+		      wprintw(variable_win, "\n(Addr:%04X)  %10s:%s", mp, varname, num_as_text(&num, ""));
 		    }
 
 		  if( strcmp(type, "FloatArray")==0 )
@@ -582,9 +589,9 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		  
 		      num = tui_num_from_mem(&(m->stack[mp]));
 		  
-		      wprintw(variable_win, "\n(Addr:%04X)  %s(%d):%s", mp, varname, max_array, num_as_text(&num, ""));
+		      wprintw(variable_win, "\n(Addr:%04X)  %10s(%d):%s", mp, varname, max_array, num_as_text(&num, ""));
 		    }
-		  wprintw(variable_win, "  (L:%d t:%d m:%d", lines, this_page, max_page);
+		  //wprintw(variable_win, "  (L:%d t:%d m:%d", lines, this_page, max_page);
 		}
 	    }
 	}
@@ -595,7 +602,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
   // Page for calculator memories
   lines += TUI_PAGE_LEN-(lines%TUI_PAGE_LEN);
   
-  for(int m=0; m<NUM_CALC_MEMORY; m++)
+  for(int mem=0; mem<NUM_CALC_MEMORY; mem++)
     {
       lines++;
       this_page = lines/TUI_PAGE_LEN;
@@ -607,9 +614,9 @@ void tui_display_variables(NOBJ_MACHINE *m)
       if( this_page == page )
 	{
 	  NOPL_FLOAT num;
-	  
-	  wprintw(variable_win, "\nM%d: %s", m, num_as_text(&num, ""));
-	  wprintw(variable_win, "  (L:%d t:%d m:%d", lines, this_page, max_page);
+	  num = tui_num_from_mem(&(m->stack[mem*SIZEOF_NUM+CALC_MEM_START]));	  
+	  wprintw(variable_win, "\nM%d: %s", mem, num_as_text(&num, ""));
+	  //wprintw(variable_win, "  (L:%d t:%d m:%d", lines, this_page, max_page);
 	}
     }
   

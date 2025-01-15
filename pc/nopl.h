@@ -23,6 +23,8 @@
 
 #include "machine.h"
 
+#include "calc.h"
+
 #ifdef TUI
 #include "tui.h"
 #endif

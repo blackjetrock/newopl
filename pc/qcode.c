@@ -322,6 +322,18 @@ void qca_fp(NOBJ_MACHINE *m, NOBJ_QCS *s)
   dbq("ind_ptr: %04X", s->ind_ptr);
 }
 
+// Calculator memory
+// These are positioned at the start of the stack. The original QCode has the absolute
+// address of the float after the qcode
+
+void qca_abs(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Get pointer to float
+  s->ind_ptr = qcode_next_16(m);
+  
+  dbq("ind_ptr: %04X", s->ind_ptr);
+}
+
 //------------------------------------------------------------------------------
 
 void qca_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -1423,7 +1435,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_INT_ARR_FP,     "QI_INT_ARR_FP",     {qca_fp,           qca_pop_idx,     qca_push_int_arr_at_ind}},
     { QI_NUM_ARR_FP,     "QI_NUM_ARR_FP",     {qca_fp,           qca_pop_idx,     qca_push_num_arr_at_ind}},
     { QI_STR_ARR_FP,     "QI_STR_ARR_FP",     {qca_fp,           qca_pop_idx,     qca_push_str_arr_at_ind}},
-    // QI_NUM_SIM_ABS          0x06    
+    { QI_NUM_SIM_ABS,    "QI_NUM_SIM_ABS",    {qca_abs,          qca_null,        qca_num_ind_con}},
     // QI_INT_SIM_IND          0x07    
     // QI_NUM_SIM_IND          0x08    
     { QI_STR_SIM_IND,    "QI_STR_SIM_IND",    {qca_fp,           qca_ind,         qca_str_ind_con}},
@@ -1436,7 +1448,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_LS_INT_ARR_FP,   "QI_LS_INT_ARR_FP",   {qca_fp,           qca_pop_idx,     qca_push_int_arr_addr }},
     { QI_LS_NUM_ARR_FP,   "QI_LS_NUM_ARR_FP",   {qca_fp,           qca_pop_idx,     qca_push_num_arr_addr }},
     { QI_LS_STR_ARR_FP,   "QI_LS_STR_ARR_FP",   {qca_fp,           qca_pop_idx,     qca_push_str_arr_addr }},
-    // QI_LS_NUM_SIM_ABS       0x13    
+    { QI_LS_NUM_ARR_FP,   "QI_LS_NUM_ARR_FP",   {qca_fp,           qca_pop_idx,     qca_push_num_arr_addr }},
+    { QI_LS_NUM_SIM_ABS,  "QI_LS_NUM_SIM_ABS",   {qca_abs,         qca_null,        qca_push_ind_addr }},
     // QI_LS_INT_SIM_IND       0x14    
     // QI_LS_NUM_SIM_IND       0x15    
     { QI_LS_STR_SIM_IND, "QI_LS_STR_SIM_IND", {qca_fp,           qca_ind,         qca_str }},
