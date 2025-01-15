@@ -1,0 +1,14 @@
+INTHEX%:(HX$)
+LOCAL IN%(4),I%,M%,H$(1)
+I%=1
+DO
+ H$=MID$(HX$,I%,1)
+ IF ASC(H$) > 64 AND ASC(H$) < 71
+  M%=ASC(H$) - 55
+ ELSE
+  M%=ASC(H$) - 48
+ ENDIF
+ IN%(I%)=M%
+ I%=I%+1
+UNTIL I%=5
+RETURN (IN%(1)*4096)+(IN%(2)*256)+(IN%(3)*16)+IN%(4)
