@@ -1279,6 +1279,14 @@ void num_tan(NOPL_FLOAT *a, NOPL_FLOAT *r)
   num_from_double(r, d);
 }
 
+void num_abs(NOPL_FLOAT *a, NOPL_FLOAT *r)
+{
+  long double d;
+
+  *r = *a;
+  r->sign = 0;
+}
+
 void num_asin(NOPL_FLOAT *a, NOPL_FLOAT *r)
 {
   long double d;

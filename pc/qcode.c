@@ -1245,6 +1245,16 @@ void qca_cos_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
   dbq_num("res: ", &(s->num_result));
 }
 
+void qca_abs_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  num_abs(&(s->num), &(s->num_result));
+  
+  dbq_num("num: ", &(s->num));
+  dbq_num("res: ", &(s->num_result));
+}
+
 void qca_tan_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOBJ_INT res = 0;
@@ -1620,8 +1630,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_COUNT               0xA2    
     // RTF_EOF                 0xA3    
     // RTF_EXIST               0xA4    
-    // RTF_POS                 0xA5    
-    // RTF_ABS                 0xA6    
+    // RTF_POS                 0xA5
+    { RTF_ABS,           "RTF_ABS",           {qca_pop_num,      qca_abs_num,     qca_push_num_result}},
     { RTF_ATAN,          "RTF_ATAN",          {qca_pop_num,      qca_atan_num,    qca_push_num_result}},
     { RTF_COS,           "RTF_COS",           {qca_pop_num,      qca_cos_num,     qca_push_num_result}},
     // RTF_DEG                 0xA9    

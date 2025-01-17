@@ -167,6 +167,12 @@ PASS2% = 0
 E = 1.2 + 3.4
 print "A(4.6):";e,(e=4.6) : PASS2%=PASS2%+(e=4.6)
 
+E = abs(1.2)
+print "A(1.2):";e,(e=1.2) : PASS2%=PASS2%+(e=1.2)
+
+E = abs(-1.2)
+print "A(1.2):";e,(e=1.2) : PASS2%=PASS2%+(e=1.2)
+
 E = -1.2 + 3.4
 print "B(2.2):";e,(e=2.2) : PASS2%=PASS2%+(e=2.2)
 
@@ -200,7 +206,7 @@ print "K(2.2):";e,(e=2.2) : PASS2%=PASS2%+(e=2.2)
 E = 3.4 - -1.2
 print "L(4.6):";e,(e=4.6) : PASS2%=PASS2%+(e=4.6)
 
-if pass2% <> -12
+if pass2% <> -14
 pass%=0
 endif
 
