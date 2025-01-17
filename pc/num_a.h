@@ -39,6 +39,8 @@ int num_not(NOPL_FLOAT *a);
 int num_and(NOPL_FLOAT *a, NOPL_FLOAT *b);
 long double num_to_double(NOPL_FLOAT *a);
 void num_from_double(NOPL_FLOAT *a, long double d);
+void num_log(NOPL_FLOAT *a, NOPL_FLOAT *r);
+void num_log10(NOPL_FLOAT *a, NOPL_FLOAT *r);
 void num_sin(NOPL_FLOAT *a, NOPL_FLOAT *r);
 void num_cos(NOPL_FLOAT *a, NOPL_FLOAT *r);
 void num_tan(NOPL_FLOAT *a, NOPL_FLOAT *r);

@@ -164,6 +164,12 @@ print atan(tan(0.7))
 
 PASS2% = 0
 
+E = ln(1.2)
+print "A(1.823216E-1):";e,(e=1.823216E-1) : PASS2%=PASS2%+(e=1.823216E-1)
+
+E = log(1.2)
+print "A(7.918125E-2):";e,(e=7.918125E-2) : PASS2%=PASS2%+(e=7.918125E-2)
+
 E = 1.2 + 3.4
 print "A(4.6):";e,(e=4.6) : PASS2%=PASS2%+(e=4.6)
 
@@ -206,7 +212,7 @@ print "K(2.2):";e,(e=2.2) : PASS2%=PASS2%+(e=2.2)
 E = 3.4 - -1.2
 print "L(4.6):";e,(e=4.6) : PASS2%=PASS2%+(e=4.6)
 
-if pass2% <> -14
+if pass2% <> -16
 pass%=0
 endif
 

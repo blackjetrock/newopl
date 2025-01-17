@@ -1252,6 +1252,24 @@ void num_sqr(NOPL_FLOAT *a, NOPL_FLOAT *r)
   num_from_double(r, d);
 }
 
+void num_log(NOPL_FLOAT *a, NOPL_FLOAT *r)
+{
+  long double d;
+
+  d = num_to_double(a);
+  d = logl(d);
+  num_from_double(r, d);
+}
+
+void num_log10(NOPL_FLOAT *a, NOPL_FLOAT *r)
+{
+  long double d;
+
+  d = num_to_double(a);
+  d = log10l(d);
+  num_from_double(r, d);
+}
+
 void num_sin(NOPL_FLOAT *a, NOPL_FLOAT *r)
 {
   long double d;
