@@ -24,6 +24,7 @@
 #include "machine.h"
 
 #include "calc.h"
+#include "files.h"
 
 #ifdef TUI
 #include "tui.h"

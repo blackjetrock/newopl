@@ -1473,6 +1473,19 @@ void qca_add_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   strcpy(s->str, s->str2);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// Files
+//
+
+void qca_create(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Get the filename etc
+
+  pop_machine_string(m, &(s->len), s->str);
+    
+  files_create(s->str, ""); 
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -1579,7 +1592,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // QCO_APPEND              0x5B    
     // QCO_CLOSE               0x5C    
     // QCO_COPY                0x5D    
-    // QCO_CREATE              0x5E    
+    { QCO_CREATE,         "QCO_CREATE",         {qca_create,      qca_null,       qca_null}},
     // QCO_DELETE              0x5F    
     // QCO_ERASE               0x60    
     // QCO_FIRST               0x61    
