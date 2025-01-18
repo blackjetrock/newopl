@@ -1480,11 +1480,15 @@ void qca_add_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_create(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+  int logfile;
+  
   // Get the filename etc
 
   pop_machine_string(m, &(s->len), s->str);
-    
-  files_create(s->str, ""); 
+
+  logfile = qcode_next_8(m);
+   
+  files_create(s->str, logfile, ""); 
 }
 
 ////////////////////////////////////////////////////////////////////////////////
