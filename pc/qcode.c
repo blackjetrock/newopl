@@ -151,6 +151,34 @@ uint16_t qcode_next_16(NOBJ_MACHINE *m)
 }
 
 //------------------------------------------------------------------------------
+//
+// returns a pointer to the open/create field list, and also skips over it
+
+uint8_t *qcode_field_list(NOBJ_MACHINE *m)
+{
+  uint8_t *addr_fields = &(m->stack[m->rta_pc]);
+  uint8_t b;
+  
+  // Skip the data
+  
+  b = qcode_next_8(m);
+
+  while(b !=  QCO_END_FIELDS )
+    {
+      // Drop the name
+      int len = qcode_next_8(m);
+      for(int i=0; i<len; i++)
+	{
+	  qcode_next_8(m);
+	}
+      
+      b = qcode_next_8(m);
+    }
+  
+  return(addr_fields);
+}
+
+//------------------------------------------------------------------------------
 
 uint8_t qcode_next_8(NOBJ_MACHINE *m)
 {
@@ -1480,15 +1508,17 @@ void qca_add_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_create(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  int logfile;
+  int     logfile;
+  uint8_t *flist;
   
   // Get the filename etc
 
   pop_machine_string(m, &(s->len), s->str);
 
   logfile = qcode_next_8(m);
-   
-  files_create(s->str, logfile, ""); 
+  flist = qcode_field_list(m);
+  
+  files_create(s->str, logfile, flist); 
 }
 
 ////////////////////////////////////////////////////////////////////////////////
