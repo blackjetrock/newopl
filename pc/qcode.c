@@ -629,17 +629,22 @@ void qca_ass_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
   // Check for field
   s->field_flag = pop_machine_8(m);
-  
-  // Drop int address
-  s->addr = pop_machine_16(m);
 
   dbq("Int:%d (%04X) Addr:%04X", s->integer, s->integer, s->addr);
 
   if( s->field_flag )
     {
+      // Drop field name
+      pop_machine_string(m, &(s->len), s->str);
+
+      // Assign field
+      qca_assign_int_field(s->str, s->integer);
     }
   else
     {
+      // Drop int address
+      s->addr = pop_machine_16(m);
+
       // Assign integer to variable
       m->stack[s->addr+0] = s->integer >> 8;
       m->stack[s->addr+1] = s->integer  & 0xFF;
@@ -821,6 +826,21 @@ void qca_pop_2num(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->num   = pop_machine_num(m);
   s->num2  = pop_machine_num(m);
 }
+
+//------------------------------------------------------------------------------
+
+void qca_assign_int_field(char *string, int val)
+{
+}
+
+//------------------------------------------------------------------------------
+
+// LS int field reference
+void qca_ls_int_fld(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+}
+
+//------------------------------------------------------------------------------
 
 void qca_add(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -1591,8 +1611,8 @@ NOBJ_QCODE_INFO qcode_info[] =
 
     // QI_INT_FLD              0x1A    
     // QI_NUM_FLD              0x1B    
-    // QI_STR_FLD              0x1C    
-    // QI_LS_INT_FLD           0x1D    
+    // QI_STR_FLD              0x1C
+    { QI_LS_INT_FLD,     "QI_LS_INT_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},
     // QI_LS_NUM_FLD           0x1E    
     // QI_LS_STR_FLD           0x1F    
     // QI_STK_LIT_BYTE         0x20    

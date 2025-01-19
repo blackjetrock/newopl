@@ -430,3 +430,4 @@ void pr_parameter_types(NOBJ_PROC *p);
 void decode_qc(int *i,  NOBJ_QCODE **qc);
 void qca_push_proc(NOBJ_MACHINE *m, NOBJ_QCS *s);
 void dbpfq(const char *caller, char *fmt, ...);
+void qca_assign_int_field(char *string, int val);
