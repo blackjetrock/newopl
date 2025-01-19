@@ -835,7 +835,8 @@ int main(int argc, char *argv[])
   
   // Initialise the machine
   init_machine(&machine);
-
+  init_logical_files();
+  
   // Put some parameters on the stack for our test code
   push_parameters(&machine);
 

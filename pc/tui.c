@@ -426,10 +426,13 @@ void tui_another_line(int *lines, int *this_page, int *max_page)
 
 //------------------------------------------------------------------------------
 //
-// Displays variables and calculator memories
+// Displays variables 
 //
-
-
+// Also displays:
+// Calculator memories
+// Logical file information
+// Logical file fields
+//
 
 void tui_display_variables(NOBJ_MACHINE *m)
 {
@@ -469,7 +472,16 @@ void tui_display_variables(NOBJ_MACHINE *m)
 	  continue;
 	}
 
-      if( sscanf(line, "%d: VAR: ' %[^']' %s %s %s max_str: %d max_ary: %d num_ind: %d offset:%X", &i, varname, class, type, ref, &max_string, &max_array, &num_indices, &offset) == 9 )
+      if( sscanf(line, "%d: VAR: ' %[^']' %s %s %s max_str: %d max_ary: %d num_ind: %d offset:%X",
+		 &i,
+		 varname,
+		 class,
+		 type,
+		 ref,
+		 &max_string,
+		 &max_array,
+		 &num_indices,
+		 &offset) == 9 )
 	{
 	  mp = offset+m->rta_fp;
 
@@ -482,7 +494,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
 	      max_page = this_page;
 	    }
 #endif
-	  // Calculator memories are processed later, skip themm here
+	  // Calculator memories are processed later, skip them here
 	  if( strcmp(class, "CalcMemory") == 0 )
 	    {
 	      continue;
@@ -625,8 +637,11 @@ void tui_display_variables(NOBJ_MACHINE *m)
   
   fclose(fp);
 
+  //
   // Page for calculator memories
-  lines += TUI_PAGE_LEN-(lines%TUI_PAGE_LEN);
+  //
+  
+  lines += TUI_PAGE_LEN - (lines % TUI_PAGE_LEN);
   
   for(int mem=0; mem<NUM_CALC_MEMORY; mem++)
     {
@@ -643,6 +658,29 @@ void tui_display_variables(NOBJ_MACHINE *m)
 	  num = num_from_mem(&(m->stack[mem*SIZEOF_NUM+CALC_MEM_START]));	  
 	  wprintw(variable_win, "\nM%d: %s", mem, num_as_text(&num, ""));
 	  //wprintw(variable_win, "  (L:%d t:%d m:%d", lines, this_page, max_page);
+	}
+    }
+
+  //
+  // Page for logical file information
+  // (one per file)
+  
+  for(int logfile=0; logfile<NOPL_NUM_LOGICAL_FILES; logfile++)
+    {
+      lines += TUI_PAGE_LEN - (lines % TUI_PAGE_LEN);
+      
+      this_page = lines/TUI_PAGE_LEN;
+
+      if( this_page > max_page)
+	{
+	  max_page = this_page+1;
+	}
+      
+      if( this_page == page )
+	{
+
+	  wprintw(variable_win, "\nFILE %c: %s", 'A'+logfile, logical_file_info[logfile].name);
+	  lines++;
 	}
     }
   

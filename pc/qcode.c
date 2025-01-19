@@ -1506,19 +1506,52 @@ void qca_add_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 // Files
 //
 
-void qca_create(NOBJ_MACHINE *m, NOBJ_QCS *s)
+#define OPEN   (create_nopen == 0 )
+#define CREATE (create_nopen == 1 )
+
+void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  int     logfile;
-  uint8_t *flist;
+  uint8_t  logfile;
+  uint8_t  *flist;
   
   // Get the filename etc
 
   pop_machine_string(m, &(s->len), s->str);
 
   logfile = qcode_next_8(m);
-  flist = qcode_field_list(m);
+
+  if( logfile >= NOPL_NUM_LOGICAL_FILES )
+    {
+      runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
+      return;
+    }
   
+  flist = qcode_field_list(m);
+
+  if( OPEN )
+    {
+      if( logical_file_info[logfile].open )
+	{
+	  runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
+	}
+    }
+
+  strcpy(logical_file_info[logfile].name, s->str);
   files_create(s->str, logfile, flist); 
+}
+
+//------------------------------------------------------------------------------
+
+void qca_create(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  qca_create_open(1, m, s);
+}
+
+//------------------------------------------------------------------------------
+
+void qca_open(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  qca_create_open(0, m, s);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1632,7 +1665,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     // QCO_FIRST               0x61    
     // QCO_LAST                0x62    
     // QCO_NEXT                0x63    
-    // QCO_BACK                0x64    
+    // QCO_BACK                0x64
+    { QCO_OPEN,           "QCO_OPEN",           {qca_open,        qca_null,       qca_null}},
     // QCO_OPEN                0x65    
     // QCO_POSITION            0x66    
     // QCO_RENAME              0x67    

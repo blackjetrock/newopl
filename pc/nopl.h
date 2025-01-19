@@ -26,6 +26,8 @@
 #include "calc.h"
 #include "files.h"
 
+#include "logical_files.h"
+
 #ifdef TUI
 #include "tui.h"
 #endif
