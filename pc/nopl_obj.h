@@ -10,6 +10,8 @@
 #define NOPL_MAX_LOCAL           128
 #define NOPL_MAX_GLOBAL          128
 
+#define NOPL_MAX_FIELDS          16
+
 #define MAX_QCODE_HEADER         60000
 #define NOBJ_TRUE                0xFFFF
 #define NOBJ_FALSE               0x0000
@@ -129,10 +131,10 @@ typedef struct _NOBJ_MACHINE
   uint8_t stack[NOBJ_MACHINE_STACK_SIZE];
   
   // Stack pointer (where next byte will be loaded
-
     NOBJ_SP rta_sp;
     int rta_pc;
     int rta_fp;
+
 } NOBJ_MACHINE;
 
 

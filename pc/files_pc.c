@@ -15,6 +15,13 @@
 
 #include "nopl.h"
 
-void files_create(char *filename, int logfile, char *field_names)
+//------------------------------------------------------------------------------
+
+void files_create(char *filename, int logfile)
 {
+}
+
+void files_open(char *filename, int logfile)
+{
+  logical_file_info[logfile].open = 1;
 }

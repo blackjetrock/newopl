@@ -679,8 +679,18 @@ void tui_display_variables(NOBJ_MACHINE *m)
       if( this_page == page )
 	{
 
-	  wprintw(variable_win, "\nFILE %c: %s", 'A'+logfile, logical_file_info[logfile].name);
+	  wprintw(variable_win, "\nFILE %c: %s %s NumFlds:%d",
+		  'A'+logfile,
+		  logical_file_info[logfile].name,
+		  logical_file_info[logfile].open?"OPEN":"CLOSED",
+		  logical_file_info[logfile].num_field_names);
 	  lines++;
+	  for(int i=0; i<logical_file_info[logfile].num_field_names; i++)
+	    {
+	      wprintw(variable_win, "\n%s: %s",
+		      logical_file_info[logfile].field_name[i], "??");
+	      lines++;
+	    }
 	}
     }
   

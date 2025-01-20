@@ -28,3 +28,49 @@ void init_logical_files(void)
       strcpy(logical_file_info[logfile].name, "");
     }
 }
+
+//------------------------------------------------------------------------------
+//
+// We build a list of field names, as pointers to chars.
+// The strings themselves are stored in a pool of characters (char array)
+
+#define LFI logical_file_info[logfile]
+
+void logfile_store_field_names(NOBJ_MACHINE *m, int logfile, uint8_t *flist)
+{
+  uint8_t b;
+  
+  LFI.num_field_names = 0;
+  LFI.fname_pool_i = 0;
+
+  // Scan the QCode list and build the field names
+  b = *(flist++);
+
+  printf("\nlfs: b:%d", b);
+  
+  while(b !=  QCO_END_FIELDS )
+    {
+      int len;
+
+      // We have a start for the string
+      LFI.field_name[LFI.num_field_names] = &(LFI.field_name_charpool[LFI.fname_pool_i]);
+
+      // Type
+      LFI.field_type[LFI.num_field_names] = b;
+
+      len = *(flist++);
+
+      printf("\nlfs: len:%d", len);
+	
+      for(int i=0; i<len; i++)
+	{
+	  LFI.field_name_charpool[(LFI.fname_pool_i)++] = *(flist++);
+	  printf("\nlfs: ch:%c", LFI.field_name_charpool[(LFI.fname_pool_i-1)]);
+	}
+
+      LFI.field_name_charpool[(LFI.fname_pool_i)++] = '\0';
+      (LFI.num_field_names)++;
+
+      b = *(flist++);
+    }
+}

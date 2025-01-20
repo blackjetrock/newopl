@@ -152,7 +152,10 @@ uint16_t qcode_next_16(NOBJ_MACHINE *m)
 
 //------------------------------------------------------------------------------
 //
-// returns a pointer to the open/create field list, and also skips over it
+// Skips over the fild list and also returns a pointer for it.
+// The QCode list must be copied elsewhere as the QCode could be replaced on the
+// stack by another procedure.
+//
 
 uint8_t *qcode_field_list(NOBJ_MACHINE *m)
 {
@@ -161,7 +164,7 @@ uint8_t *qcode_field_list(NOBJ_MACHINE *m)
   
   // Skip the data
   
-  b = qcode_next_8(m);
+  b = qcode_next_8(m);  // Get type
 
   while(b !=  QCO_END_FIELDS )
     {
@@ -171,10 +174,11 @@ uint8_t *qcode_field_list(NOBJ_MACHINE *m)
 	{
 	  qcode_next_8(m);
 	}
-      
+
+      // Type of next field
       b = qcode_next_8(m);
     }
-  
+
   return(addr_fields);
 }
 
@@ -838,6 +842,14 @@ void qca_assign_int_field(char *string, int val)
 // LS int field reference
 void qca_ls_int_fld(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+  int logfile;
+  logfile = qcode_next_8(m);
+
+  // Push logical file
+  push_machine_8(m, logfile);
+
+  // ...and the field flag
+  push_machine_8(m, 1);
 }
 
 //------------------------------------------------------------------------------
@@ -1529,6 +1541,9 @@ void qca_add_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 #define OPEN   (create_nopen == 0 )
 #define CREATE (create_nopen == 1 )
 
+
+//------------------------------------------------------------------------------
+
 void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   uint8_t  logfile;
@@ -1547,17 +1562,31 @@ void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
     }
   
   flist = qcode_field_list(m);
-
+  
+  // Store the field names and file name for later
+  logfile_store_field_names(m, logfile, flist);
+  
+  strcpy(logical_file_info[logfile].name, s->str);
+  
   if( OPEN )
     {
       if( logical_file_info[logfile].open )
 	{
 	  runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
 	}
+      
+      files_open(s->str, logfile);
     }
+  
+  if( CREATE )
+    {
+      if( logical_file_info[logfile].open )
+	{
+	  runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
+	}
 
-  strcpy(logical_file_info[logfile].name, s->str);
-  files_create(s->str, logfile, flist); 
+      files_create(s->str, logfile);
+    }
 }
 
 //------------------------------------------------------------------------------
