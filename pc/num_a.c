@@ -1518,6 +1518,59 @@ void num_from_double(NOPL_FLOAT *a, long double d)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// Convert a NOPL_FLOAT to a string
+// Used for field variables
+//
+
+#if 0
+char nopl_string[80];
+
+char *num_float_to_str(NOPL_FLOAT *nf)
+{
+  if( nf->e <=12 )
+    {
+      sprintf(nopl_string, "%s%ldE%d", (nf->s)?"-":" ", nf->m, nf->e);
+    }
+  
+  return(nopl_string);
+}
+#endif
+//------------------------------------------------------------------------------
+
+NOPL_FLOAT num_float_from_str(char *str)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
+// Size of this array is number of digits plus extyra for signs and exponent.
+
+char num_text[NUM_MAX_DIGITS+3+1+1+10];
+
+char *num_to_text(NOPL_FLOAT *n)
+{
+  num_text[0] = '\0';
+  
+  if(n->sign)
+    {
+      strcat(num_text, "-");
+    }
+
+  sprintf(num_text, "%d.", n->digits[0]);
+
+  for(int i=1; i<NUM_MAX_DIGITS; i++)
+    {
+      sprintf(num_text, "%d", n->digits[i]);
+    }
+
+  sprintf(num_text, " E%d", (int)n->exponent);
+
+  return(num_text);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
 #if 0
@@ -1606,20 +1659,4 @@ double nopl_float_to_double(NOPL_FLOAT *nf)
   return(r);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//
-// Convert a NOPL_FLOAT to a string
-//
-
-char nopl_string[80];
-
-char *nopl_float_str(NOPL_FLOAT *nf)
-{
-  if( nf->e <=12 )
-    {
-      sprintf(nopl_string, "%s%ldE%d", (nf->s)?"-":" ", nf->m, nf->e);
-    }
-  
-  return(nopl_string);
-}
 #endif

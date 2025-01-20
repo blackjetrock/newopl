@@ -13,8 +13,11 @@
 
 #include "nopl.h"
 
+////////////////////////////////////////////////////////////////////////////////
+//
 // Logical files
 //
+////////////////////////////////////////////////////////////////////////////////
 
 NOPL_LOGICAL_FILE logical_file_info[NOPL_NUM_LOGICAL_FILES];
 
@@ -83,10 +86,27 @@ int logfile_get_field_index(NOBJ_MACHINE *m, int logfile, char *field_name)
     {
       if( strcmp(LFI.field_name[i], field_name) )
 	{
-	  return(logfile);
+	  return(i);
 	}
     }
   return(-1);
 }
 
 //------------------------------------------------------------------------------
+
+char *logfile_get_field_as_str(NOBJ_MACHINE *m, int logfile, char *field_name)
+{
+  int field_num;
+  
+  if( (field_num = logfile_get_field_index(m, logfile, field_name)) != -1 )
+    {
+      // Get field value
+      // Find nth field delimited by FIELD_DELIMITER character
+      
+    }
+
+  return("");
+}
+
+//------------------------------------------------------------------------------
+

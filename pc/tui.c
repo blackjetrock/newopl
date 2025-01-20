@@ -691,6 +691,30 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		      logical_file_info[logfile].field_name[i], "??");
 	      lines++;
 	    }
+
+	  char ascii[MEM_LINE_LEN+1];
+	  
+	  //	  for(int i=0; i<logical_file_info[logfile].buffer_size,80; i++)
+	  for(int i=0; i<60; i++)
+	    {
+	      char f[2] = " ";
+	      uint8_t byte = logical_file_info[logfile].buffer[i];
+	      
+	      if( (i % MEM_LINE_LEN) == 0 )
+		{
+		  wprintw(variable_win, "%s\n%04X ", ascii, i);
+		  lines++;
+		  strcpy(ascii, "  ");
+		}
+	      
+	      wprintw(variable_win, "%02X ", byte);
+	      lines++;
+	      
+	      f[0] = isprint(byte)?byte: '.';
+	      strcat(ascii, f);
+	    }
+	  
+	  wprintw(variable_win, "%s", ascii);
 	}
     }
   

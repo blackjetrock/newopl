@@ -939,19 +939,7 @@ void qca_print_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOPL_FLOAT n = s->num;
 
-  if(n.sign)
-    {
-      printf("-");
-    }
-
-  printf("%d.", n.digits[0]);
-
-  for(int i=1; i<NUM_MAX_DIGITS; i++)
-    {
-      printf("%d", n.digits[i]);
-    }
-
-  printf(" E%d", (int)n.exponent);
+  printf("%s", num_to_text(&n));
 }
 
 void qca_print_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
