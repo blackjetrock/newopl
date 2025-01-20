@@ -74,3 +74,19 @@ void logfile_store_field_names(NOBJ_MACHINE *m, int logfile, uint8_t *flist)
       b = *(flist++);
     }
 }
+
+//------------------------------------------------------------------------------
+
+int logfile_get_field_index(NOBJ_MACHINE *m, int logfile, char *field_name)
+{
+  for(int i=0; i<LFI.num_field_names; i++)
+    {
+      if( strcmp(LFI.field_name[i], field_name) )
+	{
+	  return(logfile);
+	}
+    }
+  return(-1);
+}
+
+//------------------------------------------------------------------------------

@@ -33,3 +33,4 @@ typedef struct _NOPL_LOGICAL_FILE
 extern NOPL_LOGICAL_FILE logical_file_info[NOPL_NUM_LOGICAL_FILES];
 void init_logical_files(void);
 void logfile_store_field_names(NOBJ_MACHINE *m, int logfile, uint8_t *flist);
+int logfile_get_field_index(NOBJ_MACHINE *m, int logfile, char *field_name);
