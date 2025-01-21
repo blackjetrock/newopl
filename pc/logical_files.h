@@ -35,3 +35,5 @@ extern NOPL_LOGICAL_FILE logical_file_info[NOPL_NUM_LOGICAL_FILES];
 void init_logical_files(void);
 void logfile_store_field_names(NOBJ_MACHINE *m, int logfile, uint8_t *flist);
 int logfile_get_field_index(NOBJ_MACHINE *m, int logfile, char *field_name);
+void logfile_put_field_as_str(NOBJ_MACHINE *m, int logfile, char *field_name, char *field_val);
+char *logfile_get_field_as_str(NOBJ_MACHINE *m, int logfile, char *field_name);

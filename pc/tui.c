@@ -688,7 +688,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
 	  for(int i=0; i<logical_file_info[logfile].num_field_names; i++)
 	    {
 	      wprintw(variable_win, "\n%s: %s",
-		      logical_file_info[logfile].field_name[i], "??");
+		      logical_file_info[logfile].field_name[i], logfile_get_field_as_str(m, logfile, logical_file_info[logfile].field_name[i]));
 	      lines++;
 	    }
 

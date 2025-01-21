@@ -853,6 +853,37 @@ void qca_ls_int_fld(NOBJ_MACHINE *m, NOBJ_QCS *s)
 }
 
 //------------------------------------------------------------------------------
+//
+// Get field and push on to stack as float
+void qca_num_fld(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int logfile;
+  int fld_n;
+  
+  logfile = qcode_next_8(m);
+
+  // We have field flag and field name on stack
+  pop_machine_string(m, &(s->len), s->str);
+
+  // Get index of field
+  fld_n = logfile_get_field_index(m, logfile, s->str);
+  
+  if( fld_n != -1 )
+    {
+      // Get value
+      char *fld_val_str = logfile_get_field_as_str(m, logfile, s->str);
+
+      // Convert to float and push
+      NOPL_FLOAT f = num_from_text(fld_val_str);
+
+      push_machine_num(m, &f);
+    }
+  else
+    {
+    }
+}
+
+//------------------------------------------------------------------------------
 
 void qca_add(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -1635,11 +1666,11 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_LS_NUM_ARR_IND, "QI_LS_NUM_ARR_IND", {qca_fp_ind,       qca_pop_idx,     qca_push_num_arr_addr }}, // test
     { QI_LS_STR_ARR_IND, "QI_LS_STR_ARR_IND", {qca_fp_ind,       qca_pop_idx,     qca_push_str_arr_addr }}, // test
 
-    // QI_INT_FLD              0x1A    
-    // QI_NUM_FLD              0x1B    
+    // QI_INT_FLD              0x1A
+    { QI_NUM_FLD,        "QI_NUM_FLD",        {qca_num_fld,   qca_null,        qca_null }},
     // QI_STR_FLD              0x1C
     { QI_LS_INT_FLD,     "QI_LS_INT_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},
-    // QI_LS_NUM_FLD           0x1E    
+    { QI_LS_NUM_FLD,     "QI_LS_NUM_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},
     // QI_LS_STR_FLD           0x1F    
     // QI_STK_LIT_BYTE         0x20    
     { QI_STK_LIT_BYTE,   "QI_STK_LIT_BYTE",   {qca_null,         qca_null,        qca_push_qc_byte}},
