@@ -6,6 +6,7 @@
 #define NOPL_NUM_LOGICAL_FILES          4
 #define NOPL_MAX_FILE_NAME             32
 #define NOPL_MAX_FIELD_NAME            NOBJ_VARNAME_MAXLEN
+#define NOPL_FIELD_DELIMITER            9
 
 //------------------------------------------------------------------------------
 

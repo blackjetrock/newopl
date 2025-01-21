@@ -94,18 +94,66 @@ int logfile_get_field_index(NOBJ_MACHINE *m, int logfile, char *field_name)
 
 //------------------------------------------------------------------------------
 
+char *address_tab_n(int n, int logfile)
+{
+  char *p = &(logical_file_info[logfile].buffer[0]);
+  int n_found = 0;
+
+  if( n == 0 )
+    {
+      return(p);
+    }
+  
+  for(int i=0; (i<n) && (i<logical_file_info[logfile].buffer_size); i++)
+    {
+      if( *p == NOPL_FIELD_DELIMITER )
+	{
+	  n_found++;
+
+	  if(n_found == n )
+	    {
+	      return(p);
+	    }
+	}
+    }
+
+  return(p);
+}
+
+char field_val[256];
+
 char *logfile_get_field_as_str(NOBJ_MACHINE *m, int logfile, char *field_name)
 {
   int field_num;
+  char *start, *end;
   
   if( (field_num = logfile_get_field_index(m, logfile, field_name)) != -1 )
     {
       // Get field value
       // Find nth field delimited by FIELD_DELIMITER character
-      
+
+      if( field_num == 0 )
+	{
+	  start = &(logical_file_info[logfile].buffer[0]);
+	}
+      else
+	{
+	  start = address_tab_n(field_num, logfile)+1;
+	}
+
+      end = address_tab_n(field_num+1, logfile)-1;
+
+      // Copy field value
+      int i;
+      for(i = 0; i<end-start+1; i++)
+	{
+	  field_val[i] = *(start+i);
+	}
+
+      field_val[i] = '\0';
     }
 
-  return("");
+  return(field_val);
 }
 
 //------------------------------------------------------------------------------
