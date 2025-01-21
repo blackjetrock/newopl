@@ -3,6 +3,7 @@
 #define NUM_MAX_DIGITS   12
 #define NUM_MAX_DIGITS_POWER10 1e12
 #define NUM_BYTE_LENGTH  8
+#define NUM_AS_TEXT_LEN       (NUM_MAX_DIGITS+1+1+2+1+1)
 
 typedef struct _NOPL_FLOAT
 {

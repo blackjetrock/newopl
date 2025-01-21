@@ -669,15 +669,24 @@ void qca_ass_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
   
   // Check for field
   s->field_flag = pop_machine_8(m);
-  
-  // Drop int address
-  s->addr = pop_machine_16(m);
 
   if( s->field_flag )
     {
+      int logfile = pop_machine_8(m);
+      
+      // Drop field name string
+      pop_machine_string(m, &(s->len), s->str);
+
+      // Field variable
+      NOPL_FLOAT f = num_from_mem(num_bytes);
+
+      logfile_put_field_as_str(m, m->current_logfile, s->str, num_to_text(&f));
     }
   else
     {
+      // Drop int address
+      s->addr = pop_machine_16(m);
+      
       // Copy bytes from stack to memory
       for(int i=0; i<NUM_BYTE_LENGTH; i++)
 	{
@@ -861,9 +870,12 @@ void qca_num_fld(NOBJ_MACHINE *m, NOBJ_QCS *s)
   int fld_n;
   
   logfile = qcode_next_8(m);
+  printf("\nlogfile=%d", logfile);
 
   // We have field flag and field name on stack
   pop_machine_string(m, &(s->len), s->str);
+
+  printf("\nfldname:%^s", s->str);
 
   // Get index of field
   fld_n = logfile_get_field_index(m, logfile, s->str);
@@ -1582,7 +1594,8 @@ void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
   pop_machine_string(m, &(s->len), s->str);
 
   logfile = qcode_next_8(m);
-
+  m->current_logfile = logfile;
+    
   if( logfile >= NOPL_NUM_LOGICAL_FILES )
     {
       runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
@@ -1629,6 +1642,8 @@ void qca_create(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_open(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   qca_create_open(0, m, s);
+
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////

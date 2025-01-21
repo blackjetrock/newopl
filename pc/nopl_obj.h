@@ -131,10 +131,11 @@ typedef struct _NOBJ_MACHINE
   uint8_t stack[NOBJ_MACHINE_STACK_SIZE];
   
   // Stack pointer (where next byte will be loaded
-    NOBJ_SP rta_sp;
-    int rta_pc;
-    int rta_fp;
+  NOBJ_SP rta_sp;
+  int rta_pc;
+  int rta_fp;
 
+  int current_logfile;
 } NOBJ_MACHINE;
 
 

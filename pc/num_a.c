@@ -25,7 +25,7 @@
 
 char *num_as_text(NOPL_FLOAT *n, char *text)
 {
-  static char line[40];
+  static char line[NUM_AS_TEXT_LEN];
   static char part[20];
   
   if(n->sign)

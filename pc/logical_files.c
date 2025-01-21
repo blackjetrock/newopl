@@ -168,7 +168,6 @@ void logfile_put_field_as_str(NOBJ_MACHINE *m, int logfile, char *field_name, ch
   if( (field_num = logfile_get_field_index(m, logfile, field_name)) != -1 )
     {
       // Find nth field delimited by FIELD_DELIMITER character
-      
       if( field_num == 0 )
 	{
 	  start = &(logical_file_info[logfile].buffer[0]);
