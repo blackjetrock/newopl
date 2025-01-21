@@ -19,6 +19,9 @@
 #include "nopl.h"
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+// Return text version of a float
+//
 
 char *num_as_text(NOPL_FLOAT *n, char *text)
 {
@@ -48,6 +51,232 @@ char *num_as_text(NOPL_FLOAT *n, char *text)
 
   return(line);
 }
+//------------------------------------------------------------------------------
+//
+
+void num_clear(NOPL_FLOAT *n)
+{
+  n->sign = NUM_SIGN_POSITIVE;
+  n->exponent = 0;
+  num_clear_digits(NUM_MAX_DIGITS, &(n->digits[0]));
+}
+
+//------------------------------------------------------------------------------
+//
+// Turn a text representation of a float into a float
+//
+// Form of float:
+//
+// <sign>*<digit|dot>+
+// <sign>*<digit|dot>+E<sign>*<digit|dot>+
+//
+// No spaces allowed in number between digits and E
+//
+
+int check_digit_or_dot(char *p)
+{
+  switch(*p)
+    {
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+    case '.':
+      return(1);
+      break;
+    }
+
+  return(0);
+}
+
+int check_sign(char *p)
+{
+  if( *p == '-' )
+    {
+      return(1);
+    }
+  return(0);
+}
+
+int check_exp(char *p)
+{
+  switch(*p)
+    {
+    case 'e':
+    case 'E':
+      return(1);
+      break;
+    }
+  return(0);
+}
+
+
+int scan_digit_or_dot(char **p, char *digdot)
+{
+  switch(**p)
+    {
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+    case '.':
+      *digdot = **p;
+      (*p)++;
+      return(1);
+      break;
+    }
+
+  return(0);
+}
+
+int scan_sign(char **p)
+{
+  if( **p == '-' )
+    {
+      (*p)++;
+      return(1);
+    }
+  return(0);
+}
+
+int scan_exp(char **p)
+{
+  switch(**p)
+    {
+    case 'e':
+    case 'E':
+      (*p)++;
+      return(1);
+      break;
+    }
+  
+  return(0);
+}
+
+//------------------------------------------------------------------------------
+
+NOPL_FLOAT num_from_text(char *p)
+{
+  NOPL_FLOAT f;
+  int dig_i = 0;
+  int dotpos = 0;
+  int dot_seen = 0;  // Only one dot allowed
+  int num_digits = 0;
+  
+  num_clear(&f);
+  
+  if( check_sign(p) )
+    {
+      scan_sign(&p);
+      f.sign = NUM_SIGN_NEGATIVE;
+    }
+
+  while(check_digit_or_dot(p) )
+    {
+      char digdot;
+
+      num_digits++;
+
+      if( num_digits > NUM_MAX_DIGITS )
+	{
+	  runtime_error(ER_MT_IS, "Too many digits in mantissa");
+	  num_clear(&f);
+	  return(f);
+	}
+      
+      scan_digit_or_dot(&p, &digdot);
+      if( digdot == '.' )
+	{
+	  // Only one dot llowed
+	  if( dot_seen )
+	    {
+	      runtime_error(ER_MT_IS, "Only one dot allowed");
+	      num_clear(&f);
+	      return(f);
+	    }
+
+	  // The number of digits before the dot is counted
+	  dotpos = dig_i;
+	  dot_seen = 1;
+	}
+      else
+	{
+	  f.digits[dig_i++] = digdot-'0';
+	}
+    }
+
+  // Check for exponent
+  num_digits = 0;
+  
+  if( check_exp(p) )
+    {
+      int exp_sign = 1;
+      scan_exp(&p);
+
+      if( check_sign(p) )
+	{
+	  scan_sign(&p);
+	  exp_sign = -1;
+	}
+
+      int exp_val = 0;
+      
+      while(check_digit_or_dot(p) )
+	{
+	  char digdot;
+
+	  num_digits++;
+
+	  if( num_digits > 2 )
+	    {
+	      runtime_error(ER_MT_IS, "Too many digits in exponent");
+	      num_clear(&f);
+	      return(f);
+	    }
+
+	  scan_digit_or_dot(&p, &digdot);
+	  if( digdot == '.' )
+	    {
+	      // No dots allowed
+	      runtime_error(ER_MT_IS, "Only one dot allowed");
+	      num_clear(&f);
+	      return(f);
+	    }
+	  else
+	    {
+	      f.exponent *= 10;
+	      f.exponent += digdot-'0';
+	    }
+	}
+      
+      f.exponent *= exp_sign;
+    }
+
+  f.exponent += dotpos-1;
+
+  num_normalise(&f);
+  
+  printf("dotpos=%d", dotpos);
+  return(f);
+}
+
+
+//------------------------------------------------------------------------------
+//
+// Build a NOPL_FLOAT from bytes formatted as a Psion float
+//
 
 NOPL_FLOAT num_from_mem(uint8_t *mp)
 {
@@ -1545,12 +1774,14 @@ NOPL_FLOAT num_float_from_str(char *str)
 
 //------------------------------------------------------------------------------
 
-// Size of this array is number of digits plus extyra for signs and exponent.
+// Size of this array is number of digits plus extra for signs and exponent.
 
 char num_text[NUM_MAX_DIGITS+3+1+1+10];
 
 char *num_to_text(NOPL_FLOAT *n)
 {
+  char temp[10];
+  
   num_text[0] = '\0';
   
   if(n->sign)
@@ -1558,15 +1789,17 @@ char *num_to_text(NOPL_FLOAT *n)
       strcat(num_text, "-");
     }
 
-  sprintf(num_text, "%d.", n->digits[0]);
-
+  sprintf(temp, "%d.", n->digits[0]);
+  strcat(num_text, temp);
+  
   for(int i=1; i<NUM_MAX_DIGITS; i++)
     {
-      sprintf(num_text, "%d", n->digits[i]);
+      sprintf(temp, "%d", n->digits[i]);
+      strcat(num_text, temp);
     }
 
-  sprintf(num_text, " E%d", (int)n->exponent);
-
+  sprintf(temp, " E%d", (int)n->exponent);
+  strcat(num_text, temp);
   return(num_text);
 }
 

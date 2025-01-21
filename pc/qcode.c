@@ -1376,6 +1376,15 @@ void qca_sqr_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 //------------------------------------------------------------------------------
 
+void qca_val(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Convert string to float
+  s->num_result = num_from_text(s->str);
+
+}
+
+//------------------------------------------------------------------------------
+
 void qca_int_to_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Convert int to float form
@@ -1786,6 +1795,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_SIN,           "RTF_SIN",           {qca_pop_num,      qca_sin_num,     qca_push_num_result}},
     { RTF_SQR,           "RTF_SQR",           {qca_pop_num,      qca_sqr_num,     qca_push_num_result}},
     { RTF_TAN,           "RTF_TAN",           {qca_pop_num,      qca_tan_num,     qca_push_num_result}},
+    { RTF_VAL,           "RTF_VAL",           {qca_pop_str,      qca_val,         qca_push_num_result}},
     // RTF_VAL                 0xB5    
     // RTF_SPACE               0xB6    
     // RTF_DIR                 0xB7    

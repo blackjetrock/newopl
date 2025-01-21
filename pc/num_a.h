@@ -61,9 +61,6 @@ void num_int_to_num(int n, NOBJ_INT *i, NOPL_FLOAT *num);
 int num_digits_zero(int n, int8_t *digits);
 NOPL_FLOAT num_from_mem(uint8_t *mp);
 char *num_to_text(NOPL_FLOAT *n);
-
-
-
-
-
-
+void num_clear_digits(int n, int8_t *d);
+NOPL_FLOAT num_from_text(char *p);
+void num_normalise(NOPL_FLOAT *n);
