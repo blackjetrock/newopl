@@ -924,7 +924,10 @@ void num_add_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   dbq_num("%s After digit asgn r:", r);
   
   dbq_num("%s Before normailse:", r);
-  
+
+  // Handle carries
+  num_propagate_carry_digits(r->digits, NUM_MAX_DIGITS);
+
   // Normalise
   num_normalise(r);
   dbq_num("%s After normailse:", r);
