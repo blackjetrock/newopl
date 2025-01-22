@@ -97,26 +97,34 @@ int check_digit_or_dot(char *p)
 
 int check_sign(char *p)
 {
+  dbq("Char:'%c'", *p);
+  
   switch(*p)
     {
     case '-':
     case'+':
+      dbq("ret(1)");
       return(1);
       break;
     }
   
+  dbq("ret(0)");
   return(0);
 }
 
 int check_exp(char *p)
 {
+
   switch(*p)
     {
     case 'e':
     case 'E':
+      dbq("ret(1)");
       return(1);
       break;
     }
+
+  dbq("ret(0)");
   return(0);
 }
 
@@ -152,15 +160,19 @@ int scan_sign(char **p, int *sign_multiplier)
     case '-':
       *sign_multiplier = -1;
       (*p)++;
+      dbq("ret(1) -ve");
+      return(1);
       break;
       
     case '+':
       (*p)++;
       *sign_multiplier = 1;
+      dbq("ret(1) +ve");
       return(1);
     }
   
   *sign_multiplier = 1;
+  dbq("ret(0)");
   return(0);
 }
 
