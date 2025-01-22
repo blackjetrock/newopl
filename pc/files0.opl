@@ -4,4 +4,6 @@ files0:
 open "B:TEST", C, test, second, third
 
 c.test = 34.2
-print c.test
+c.second = 1234.5
+c.third  = 1.333
+print c.test,c.second,c.third

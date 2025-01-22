@@ -870,12 +870,11 @@ void qca_num_fld(NOBJ_MACHINE *m, NOBJ_QCS *s)
   int fld_n;
   
   logfile = qcode_next_8(m);
-  printf("\nlogfile=%d", logfile);
 
   // We have field flag and field name on stack
   pop_machine_string(m, &(s->len), s->str);
 
-  printf("\nfldname:%^s", s->str);
+  //printf("\nfldname:%s", s->str);
 
   // Get index of field
   fld_n = logfile_get_field_index(m, logfile, s->str);
@@ -884,7 +883,8 @@ void qca_num_fld(NOBJ_MACHINE *m, NOBJ_QCS *s)
     {
       // Get value
       char *fld_val_str = logfile_get_field_as_str(m, logfile, s->str);
-
+      //printf("\nFld:'%s'", fld_val_str);
+      
       // Convert to float and push
       NOPL_FLOAT f = num_from_text(fld_val_str);
 
@@ -1606,9 +1606,19 @@ void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
   
   // Store the field names and file name for later
   logfile_store_field_names(m, logfile, flist);
+
+  // Put some delimiters in the buffer
+  int num_fields = logical_file_info[logfile].num_field_names;
+
+  for(int i=0; i<num_fields-1; i++)
+  {
+    logical_file_info[logfile].buffer[i] = NOPL_FIELD_DELIMITER;
+  }
+
+  logical_file_info[logfile].buffer_size = num_fields-1;
   
   strcpy(logical_file_info[logfile].name, s->str);
-  
+
   if( OPEN )
     {
       if( logical_file_info[logfile].open )
@@ -1682,7 +1692,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_LS_STR_ARR_IND, "QI_LS_STR_ARR_IND", {qca_fp_ind,       qca_pop_idx,     qca_push_str_arr_addr }}, // test
 
     // QI_INT_FLD              0x1A
-    { QI_NUM_FLD,        "QI_NUM_FLD",        {qca_num_fld,   qca_null,        qca_null }},
+    { QI_NUM_FLD,        "QI_NUM_FLD",        {qca_num_fld,   qca_null,        qca_null }},          // 1B
     // QI_STR_FLD              0x1C
     { QI_LS_INT_FLD,     "QI_LS_INT_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},
     { QI_LS_NUM_FLD,     "QI_LS_NUM_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},

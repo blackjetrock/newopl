@@ -189,9 +189,10 @@ NOPL_FLOAT num_from_text(char *p)
 
       num_digits++;
 
-      if( num_digits > NUM_MAX_DIGITS )
+      // Max digits plus one dot
+      if( num_digits > NUM_MAX_DIGITS+1 )
 	{
-	  runtime_error(ER_MT_IS, "Too many digits in mantissa");
+	  runtime_error(ER_MT_IS, "Too many digits in mantissa (%d)", num_digits);
 	  num_clear(&f);
 	  return(f);
 	}
@@ -268,7 +269,7 @@ NOPL_FLOAT num_from_text(char *p)
 
   num_normalise(&f);
   
-  printf("dotpos=%d", dotpos);
+  //  printf("dotpos=%d", dotpos);
   return(f);
 }
 
