@@ -693,7 +693,8 @@ void tui_display_variables(NOBJ_MACHINE *m)
 	    }
 
 	  char ascii[MEM_LINE_LEN+1];
-
+	  ascii[0] = '\0';
+	  
 	  lines++;
 	  wprintw(variable_win, "\nBuffer len:%d", logical_file_info[logfile].buffer_size);
 

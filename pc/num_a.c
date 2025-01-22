@@ -97,10 +97,14 @@ int check_digit_or_dot(char *p)
 
 int check_sign(char *p)
 {
-  if( *p == '-' )
+  switch(*p)
     {
+    case '-':
+    case'+':
       return(1);
+      break;
     }
+  
   return(0);
 }
 
@@ -141,13 +145,22 @@ int scan_digit_or_dot(char **p, char *digdot)
   return(0);
 }
 
-int scan_sign(char **p)
+int scan_sign(char **p, int *sign_multiplier)
 {
-  if( **p == '-' )
+  switch(**p)
     {
+    case '-':
+      *sign_multiplier = -1;
       (*p)++;
+      break;
+      
+    case '+':
+      (*p)++;
+      *sign_multiplier = 1;
       return(1);
     }
+  
+  *sign_multiplier = 1;
   return(0);
 }
 
@@ -174,13 +187,25 @@ NOPL_FLOAT num_from_text(char *p)
   int dotpos = 0;
   int dot_seen = 0;  // Only one dot allowed
   int num_digits = 0;
+  int sign_mul = 1;
   
   num_clear(&f);
+  f.sign = NUM_SIGN_POSITIVE;
   
   if( check_sign(p) )
     {
-      scan_sign(&p);
-      f.sign = NUM_SIGN_NEGATIVE;
+      scan_sign(&p, &sign_mul);
+
+      switch(sign_mul)
+	{
+	case 1:
+	  f.sign = NUM_SIGN_POSITIVE;
+	  break;
+
+	case -1:
+	  f.sign = NUM_SIGN_NEGATIVE;
+	  break;
+	}
     }
 
   while(check_digit_or_dot(p) )
@@ -224,12 +249,12 @@ NOPL_FLOAT num_from_text(char *p)
   if( check_exp(p) )
     {
       int exp_sign = 1;
+
       scan_exp(&p);
 
       if( check_sign(p) )
 	{
-	  scan_sign(&p);
-	  exp_sign = -1;
+	  scan_sign(&p, &exp_sign);
 	}
 
       int exp_val = 0;
@@ -1799,7 +1824,7 @@ char *num_to_text(NOPL_FLOAT *n)
       strcat(num_text, temp);
     }
 
-  sprintf(temp, " E%d", (int)n->exponent);
+  sprintf(temp, "E%+d", (int)n->exponent);
   strcat(num_text, temp);
   return(num_text);
 }
