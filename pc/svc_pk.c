@@ -26,7 +26,7 @@ PK_DRIVER_SET pk_drivers[] =
    {pk_rbyt_pico_flash,     pk_save_pico_flash,      pk_format_pico_flash},
    {pk_rbyt_serial_eeprom,  pk_save_serial_eeprom,   pk_format_serial_eeprom},
 #else
-   {pk_rbyt_linux,          pk_save_linux,           pk_format_linux},
+   {pk_open_linux,    pk_close_linux, pk_rbyt_linux,          pk_save_linux,           pk_format_linux},
 #endif
   };
 
@@ -148,23 +148,49 @@ void pk_skip(int len)
   pkw_cpad += len;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 int pk_qadd(void)
 {
   return(pkw_cpad); 
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 void pk_sadd(int addr)
 {
   pkw_cpad = addr;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 void pk_pkof(void)
 {
   // Do nothing for now
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void pk_open(int logfile, char *filename)
+{
+  // Branch to the pak drivers
+  return( (*pk_drivers[pkb_curp].open)(logfile, filename+2));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void pk_close(int logfile, char *filename)
+{
+  // Branch to the pak drivers
+  return( (*pk_drivers[pkb_curp].open)(logfile, filename+2));
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 void      pk_fmat(void)
 {
   // Branch to the pak drivers
   return( (*pk_drivers[pkb_curp].format)());
 }
+
+////////////////////////////////////////////////////////////////////////////////

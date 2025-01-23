@@ -5,9 +5,12 @@
 
 // Read and write byte driver function pointers.
 // Each different type of hardware has one of these sets of drivers.
+typedef void    (*PK_OPEN_FNPTR)(int logfile, char *filename);
+typedef void    (*PK_CLOSE_FNPTR)(int logfile, char *filename);
 typedef uint8_t (*PK_RBYT_FNPTR)(PAK_ADDR pak_addr);
 typedef void    (*PK_SAVE_FNPTR)(PAK_ADDR pak_addr, int len, uint8_t *src);
 typedef void    (*PK_FMAT_FNPTR)(void); 
+
 
 void pk_build_id_string(uint8_t *id,
 			int size_in_bytes,
@@ -27,16 +30,20 @@ void      pk_sadd(int addr);
 void      pk_pkof(void);
 void      pk_fmat(void);
 void      pk_save(int len, uint8_t *src);
+void      pk_open(int logfile, char *filename);
+void      pk_close(int logfile, char *filename);
 
 // The table of device ID to driver functions
 
 typedef struct _PK_DRIVER_SET
 {
-  PK_RBYT_FNPTR rbyt;
-  PK_SAVE_FNPTR save;
-  PK_FMAT_FNPTR format;
+  PK_OPEN_FNPTR  open;
+  PK_CLOSE_FNPTR close;
+  PK_RBYT_FNPTR  rbyt;
+  PK_SAVE_FNPTR  save;
+  PK_FMAT_FNPTR  format;
 } PK_DRIVER_SET;
 
-extern PAK      pkb_curp;
-extern PAK_ADDR pkw_cpad;
+extern PAK      pkb_curp;     // Current pack
+extern PAK_ADDR pkw_cpad;     // Current pack address
 

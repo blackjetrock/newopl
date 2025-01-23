@@ -36,7 +36,7 @@ void fl_ffnd(void);
 int fl_find(char *srch, char *dest, int *len);
 int fl_frec(int n, PAK_ADDR *pak_addr, FL_REC_TYPE *rectype, int *reclen);
 void fl_next(void);
-void fl_open(void);
+void fl_open(char *filename);
 int fl_rpos(void);
 void fl_pars(void);
 int fl_read(uint8_t *dest);

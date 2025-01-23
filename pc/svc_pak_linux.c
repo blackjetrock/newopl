@@ -15,6 +15,16 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+
+
+// Info for each logical drive
+
+LINUX_FILE_INFO linux_file_info[NOPL_NUM_LOGICAL_FILES];
+
+#define LINFI linux_file_info[logfile]
+
+////////////////////////////////////////////////////////////////////////////////
+//
 // Pack is in a file and uses the Psion file system
 //
 //------------------------------------------------------------------------------
@@ -25,6 +35,20 @@
 
 #define PACK_FN "datapack.bin"
 #define FLASH_PAK_SIZE    ((uint32_t)(1024*1024*4))
+
+void pk_open_linux(int logfile, char *filename)
+{
+  LINFI.fp = fopen(filename, "r+");
+}
+
+void pk_close_linux(int logfile, char *filename)
+{
+  if( LINFI.fp != NULL )
+    {
+      fclose(LINFI.fp);
+    }
+}
+
 
 uint8_t pk_rbyt_linux(PAK_ADDR pak_addr)
 {

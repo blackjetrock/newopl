@@ -1583,6 +1583,12 @@ void qca_add_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 
 //------------------------------------------------------------------------------
+//
+// Open and create are similar so we use the same functin here.
+//
+// The datapack to use is in the filename before the colon
+// the filename on the pack is after the colon.
+//
 
 void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -1594,6 +1600,7 @@ void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
   pop_machine_string(m, &(s->len), s->str);
 
   logfile = qcode_next_8(m);
+  
   m->current_logfile = logfile;
     
   if( logfile >= NOPL_NUM_LOGICAL_FILES )
@@ -1625,8 +1632,9 @@ void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
 	{
 	  runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
 	}
-      
-      files_open(s->str, logfile);
+
+      // Open the file
+      logical_file_info[logfile].open = 1;
     }
   
   if( CREATE )
