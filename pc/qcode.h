@@ -311,6 +311,9 @@
 #define ER_GN_RF  193   // DEVICE READ FAIL
 #define ER_GN_WF  192   // DEVICE WRITE FAIL
 
+#define ER_FL_NP  300
+
+
 //------------------------------------------------------------------------------
 
 #define QCO_OPEN     0x65

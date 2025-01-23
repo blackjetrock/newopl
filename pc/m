@@ -16,6 +16,10 @@ cc -g  -Wno-format-truncation -Wno-format-overflow newopl_exec.c \
    machine.c \
    logical_files.c \
    errors.c \
+   svc_pak_linux.c \
+   svc_pk.c \
+   svc_fl.c \
+   sysvar.c \
    -o newopl_exec -lm
 cc -g  -Wno-format-truncation -Wno-format-overflow newopl_objdump.c \
    newopl_lib.c \
@@ -28,5 +32,9 @@ cc -g  -Wno-format-truncation -Wno-format-overflow newopl_objdump.c \
    machine.c \
    logical_files.c \
    errors.c \
+   svc_pak_linux.c \
+   svc_pk.c \
+   svc_fl.c \
+   sysvar.c \
    -o newopl_objdump -lm
 

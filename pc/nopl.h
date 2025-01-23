@@ -5,6 +5,7 @@
 #define MAX_COND_FIXUP        400
 
 #include <stdarg.h>
+#include <stdint.h>
 
 #include "newopl.h"
 
@@ -27,6 +28,13 @@
 #include "files.h"
 
 #include "logical_files.h"
+
+#include "svc_pk_base.h"
+#include "svc_pk.h"
+#include "svc_fl.h"
+#include "svc_pak_linux.h"
+
+#include "sysvar.h"
 
 #ifdef TUI
 #include "tui.h"

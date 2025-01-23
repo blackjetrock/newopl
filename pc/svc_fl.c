@@ -5,10 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "pico/stdlib.h"
-#include "hardware/gpio.h"
-
-#include "psion_recreate_all.h"
+#include "nopl.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -863,7 +860,7 @@ void fl_rset(int recno)
 {
   if( recno == 0 )
     {
-      er_error("Bad recno (0)");
+      runtime_error(ER_FL_BR, "Bad recno (0)");
     }
   
   flw_crec = recno;
