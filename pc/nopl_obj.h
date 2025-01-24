@@ -135,7 +135,7 @@ typedef struct _NOBJ_MACHINE
   int rta_pc;
   int rta_fp;
 
-  int current_logfile;
+
 } NOBJ_MACHINE;
 
 

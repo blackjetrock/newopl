@@ -7,6 +7,8 @@
 
 #include "nopl.h"
 
+#define DB_FL_SCAN_PAK 1
+
 ////////////////////////////////////////////////////////////////////////////////
 
 int fl_check_op(int op)
@@ -371,11 +373,12 @@ void fl_copy(void)
 // If type is 0 then find next available
 
 
-FL_REC_TYPE fl_cret(char *filename, FL_REC_TYPE type)
+FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
 {
-  int rc = 0;
+  int     rc = 0;
   uint8_t record[11];
-  int new_rectype;
+  int     new_rectype;
+  char    *filename = logical_file_info[logfile].name;
   
 #define NUM_RECTYPES (0xfe - 0x90 + 1)
   
@@ -399,7 +402,17 @@ FL_REC_TYPE fl_cret(char *filename, FL_REC_TYPE type)
   printf("\nGetting record types");
 
   pk_setp(pkb_curp);
+  
+  // Open file as create
+  pk_open(logfile);
 
+  printf("\nOpened");
+  
+  // Format pak (temporary call)
+  pk_fmat(logfile);
+
+  printf("\nFormatted");
+    
   rc = fl_catl(1, pkb_curp, fn, &rectype);
 
   while(rc == 1)
@@ -461,7 +474,9 @@ FL_REC_TYPE fl_cret(char *filename, FL_REC_TYPE type)
   int reclen;
   int bytes_free;
   int num_recs;
+  
 
+  
   // Append record
   fl_size(&bytes_free, &num_recs, &pak_addr);
   pk_sadd(pak_addr);
@@ -801,7 +816,8 @@ int fl_rpos(void)
 
 void fl_open(char *name)
 {
-  // 
+  // Open current file
+  pk_open(current_logfile);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

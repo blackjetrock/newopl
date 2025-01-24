@@ -1,0 +1,12 @@
+files2:
+
+create "A:TESTFILE", A, A, B, C
+use a
+
+A.A = 123.33
+A.B = 123.44
+A.C = 123.55
+
+append
+
+close 

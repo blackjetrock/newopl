@@ -9,7 +9,7 @@ typedef void    (*PK_OPEN_FNPTR)(int logfile, char *filename);
 typedef void    (*PK_CLOSE_FNPTR)(int logfile, char *filename);
 typedef uint8_t (*PK_RBYT_FNPTR)(PAK_ADDR pak_addr);
 typedef void    (*PK_SAVE_FNPTR)(PAK_ADDR pak_addr, int len, uint8_t *src);
-typedef void    (*PK_FMAT_FNPTR)(void); 
+typedef void    (*PK_FMAT_FNPTR)(int logfile); 
 
 
 void pk_build_id_string(uint8_t *id,
@@ -28,10 +28,10 @@ void      pk_skip(int len);
 int       pk_qadd(void);
 void      pk_sadd(int addr);
 void      pk_pkof(void);
-void      pk_fmat(void);
+void      pk_fmat(int logfile);
 void      pk_save(int len, uint8_t *src);
-void      pk_open(int logfile, char *filename);
-void      pk_close(int logfile, char *filename);
+void      pk_open(int logfile);
+void      pk_close(int logfile);
 
 // The table of device ID to driver functions
 

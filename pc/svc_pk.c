@@ -27,6 +27,9 @@ PK_DRIVER_SET pk_drivers[] =
    {pk_rbyt_serial_eeprom,  pk_save_serial_eeprom,   pk_format_serial_eeprom},
 #else
    {pk_open_linux,    pk_close_linux, pk_rbyt_linux,          pk_save_linux,           pk_format_linux},
+   {pk_open_linux,    pk_close_linux, pk_rbyt_linux,          pk_save_linux,           pk_format_linux},
+   {pk_open_linux,    pk_close_linux, pk_rbyt_linux,          pk_save_linux,           pk_format_linux},
+   {pk_open_linux,    pk_close_linux, pk_rbyt_linux,          pk_save_linux,           pk_format_linux},
 #endif
   };
 
@@ -171,26 +174,32 @@ void pk_pkof(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void pk_open(int logfile, char *filename)
+void pk_open(int logfile)
 {
+  char *filename = logical_file_info[logfile].name;
+
+  printf("\nOpening '%s'", filename);
+
   // Branch to the pak drivers
   return( (*pk_drivers[pkb_curp].open)(logfile, filename+2));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void pk_close(int logfile, char *filename)
+void pk_close(int logfile)
 {
+  char *filename = logical_file_info[logfile].name;
+  
   // Branch to the pak drivers
   return( (*pk_drivers[pkb_curp].open)(logfile, filename+2));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void      pk_fmat(void)
+void pk_fmat(int logfile)
 {
   // Branch to the pak drivers
-  return( (*pk_drivers[pkb_curp].format)());
+  return( (*pk_drivers[pkb_curp].format)(logfile));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

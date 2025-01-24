@@ -680,7 +680,7 @@ void qca_ass_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
       // Field variable
       NOPL_FLOAT f = num_from_mem(num_bytes);
 
-      logfile_put_field_as_str(m, m->current_logfile, s->str, num_to_text(&f));
+      logfile_put_field_as_str(m, current_logfile, s->str, num_to_text(&f));
     }
   else
     {
@@ -1601,7 +1601,7 @@ void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
 
   logfile = qcode_next_8(m);
   
-  m->current_logfile = logfile;
+  current_logfile = logfile;
     
   if( logfile >= NOPL_NUM_LOGICAL_FILES )
     {
@@ -1623,9 +1623,17 @@ void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
   }
 
   logical_file_info[logfile].buffer_size = num_fields-1;
-  
-  strcpy(logical_file_info[logfile].name, s->str);
 
+#if 0
+  // Device id
+  logical_file_info[logfile].device_id = *(s->str)-'A';
+  
+  // Name part
+  strcpy(logical_file_info[logfile].name, (s->str)+2);
+#else
+  strcpy(logical_file_info[logfile].name, (s->str)+0);
+#endif
+  
   if( OPEN )
     {
       if( logical_file_info[logfile].open )
@@ -1634,6 +1642,7 @@ void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
 	}
 
       // Open the file
+      
       logical_file_info[logfile].open = 1;
     }
   
@@ -1643,9 +1652,9 @@ void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
 	{
 	  runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
 	}
-
-      files_create(s->str, logfile);
     }
+
+  logical_file_info[logfile].rec_type =  fl_cret(logfile, 0);
 }
 
 //------------------------------------------------------------------------------
@@ -1660,8 +1669,35 @@ void qca_create(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_open(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   qca_create_open(0, m, s);
+}
 
+//------------------------------------------------------------------------------
 
+void qca_use(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  uint8_t  logfile;
+  
+  // set logical file
+  logfile = qcode_next_8(m);
+  
+  current_logfile = logfile;
+    
+  if( logfile >= NOPL_NUM_LOGICAL_FILES )
+    {
+      runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
+      return;
+    }
+}  
+
+void qca_append(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Save data in file 0x90 (MAIN)
+  fl_rect(logical_file_info[current_logfile].rec_type);
+  fl_writ(logical_file_info[current_logfile].buffer, logical_file_info[current_logfile].buffer_size);
+}
+
+void qca_close(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1766,8 +1802,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     // QCO_RANDOMIZE           0x58    
     // QCO_STOP                0x59    
     // QCO_TRAP                0x5A    
-    // QCO_APPEND              0x5B    
-    // QCO_CLOSE               0x5C    
+    { QCO_APPEND,         "QCO_APPEND",         {qca_append,        qca_null,       qca_null}},    // QCO_APPEND              0x5B    
+    { QCO_CLOSE,          "QCO_CLOSE",          {qca_close,        qca_null,       qca_null}},     // QCO_CLOSE               0x5C    
     // QCO_COPY                0x5D    
     { QCO_CREATE,         "QCO_CREATE",         {qca_create,      qca_null,       qca_null}},
     // QCO_DELETE              0x5F    
@@ -1780,8 +1816,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     // QCO_OPEN                0x65    
     // QCO_POSITION            0x66    
     // QCO_RENAME              0x67    
-    // QCO_UPDATE              0x68    
-    // QCO_USE                 0x69    
+    // QCO_UPDATE              0x68
+    { QCO_USE,            "QCO_USE",            {qca_use,        qca_null,       qca_null}},  // QCO_USE                 0x69    
     // QCO_KSTAT               0x6A    
     // QCO_EDIT                0x6B    
     // QCO_INPUT_INT           0x6C    
