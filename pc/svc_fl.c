@@ -259,7 +259,7 @@ void fl_back(void)
 	}
       else
 	{
-	  // If off endof file, leaves pointer there so other code
+	  // If off end of file, leaves pointer there so other code
 	  // can see that
 	  
 	  fl_rset(recno);
@@ -831,7 +831,7 @@ void fl_pars(void)
 // Reads a record
 //
 // Current record is set before call
-// Cuurent record type is set before call
+// Current record type is set before call
 //
 // Only reads the data, not the record header
 //

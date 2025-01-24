@@ -499,6 +499,12 @@ void tui_display_variables(NOBJ_MACHINE *m)
 	    {
 	      continue;
 	    }
+
+	  // Fields displayed with file buffers
+	  if( (strcmp(class, "Create") == 0) || (strcmp(class, "Open") == 0) )
+	    {
+	      continue;
+	    }
 	  
 	  if( (strcmp(class, "External") == 0) || (strcmp(class, "Parameter")==0) )
 	    {
