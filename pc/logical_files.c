@@ -13,7 +13,7 @@
 
 #include "nopl.h"
 
-#define DEBUG 0
+#define DEBUG 1
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -135,7 +135,7 @@ char *address_tab_n(int n, int logfile, int before)
 	    {
 	      if( before )
 		{
-		  p--;
+		  //		  p--;
 		  if( p < buf_start )
 		    {
 		      p = buf_start;
@@ -147,7 +147,7 @@ char *address_tab_n(int n, int logfile, int before)
 		}
 	      else
 		{
-		  p++;
+		  //p++;
 		  if( p > buf_end )
 		    {
 		      // We allow the code to move the null at the end of the buffer so we can insert data
@@ -173,6 +173,23 @@ char *address_tab_n(int n, int logfile, int before)
   printf("\nret(%p) end", p);
 #endif
   return(p);
+}
+
+//------------------------------------------------------------------------------
+
+char *logfile_field_start(int n, int logfile)
+{
+  if( n == 0 )
+    {
+      return( &(logical_file_info[logfile].buffer[0]));
+    }
+  
+  if( n == LFI.num_field_names - 1 )
+    {
+      return( &(logical_file_info[logfile].buffer[logical_file_info[logfile].buffer_size-1]));
+    }
+
+  
 }
 
 //------------------------------------------------------------------------------
@@ -218,13 +235,37 @@ char *logfile_get_field_as_str(NOBJ_MACHINE *m, int logfile, char *field_name)
 
 //------------------------------------------------------------------------------
 
-void logfile_put_field_as_str(NOBJ_MACHINE *m, int logfile, char *field_name, char *field_val)
+void logfile_put_field_as_str2(NOBJ_MACHINE *m, int logfile, char *field_name, char *field_val)
+{
+
+#if DEBUG
+  printf("\n----------------------------------\n%s: buf:%p ", __FUNCTION__, &(logical_file_info[logfile].buffer[0]));
+#endif
+
+#if DEBUG
+  for(int i=0; i< logical_file_info[logfile].buffer_size; i++)
+    {
+      printf(" %02X", logical_file_info[logfile].buffer[i]);
+    }
+  printf("\n");
+#endif
+  
+  if( (field_num = logfile_get_field_index(m, logfile, field_name)) == -1 )
+    {
+      // unknown field, exit
+      return;
+    }
+
+  // Find current field and delete contents
+}
+
+void logfile_put_field_as_str2(NOBJ_MACHINE *m, int logfile, char *field_name, char *field_val)
 {
   int field_num;
   char *start, *end;
 
 #if DEBUG
-  printf("\n\n%s: buf:%p ", __FUNCTION__, &(logical_file_info[logfile].buffer[0]));
+  printf("\n----------------------------------\n%s: buf:%p ", __FUNCTION__, &(logical_file_info[logfile].buffer[0]));
 #endif
 
 #if DEBUG
@@ -256,12 +297,14 @@ void logfile_put_field_as_str(NOBJ_MACHINE *m, int logfile, char *field_name, ch
 #if DEBUG
       printf("\nStart:%p End:%p", start, end);
 #endif
-      
+      // If the area for the field is big enough then we don't increase its size, if it's too big we reduce
+      // it's size. If it's too small we make it bigger.#
       // We need to insert the field data at the address we have worked out, pushing the other data up
       // by the length of the field
 
       char *new_end = start + strlen(field_val)-1;
-      int delta = strlen(field_val);
+      //      int delta = strlen(field_val);
+      int delta =  strlen(field_val)- (end - start);
       char *buf_end = &(logical_file_info[logfile].buffer[0]) + logical_file_info[logfile].buffer_size;
       
       // Shift data as long as new end is in buffer
@@ -274,13 +317,17 @@ void logfile_put_field_as_str(NOBJ_MACHINE *m, int logfile, char *field_name, ch
       // Move the data
       // No move if delta is zero
       char *from, *to;
-      
+
+#if DEBUG
+      printf("\nnew_end:%p buf_end:%p delta:%d", new_end, buf_end, delta);
+#endif
+
       if( delta != 0 )
 	{
 	  // Move data
-	  from = start;
-	  to   = start+delta;
-	  memmove(to, from, buf_end - from );
+	  from = end;
+	  to   = end+delta;
+	  memmove(to, from, buf_end - from+1 );
 #if DEBUG
 	  printf("\nmemmove(%p, %p, %d)", to, from, buf_end-from);
 #endif
@@ -291,7 +338,8 @@ void logfile_put_field_as_str(NOBJ_MACHINE *m, int logfile, char *field_name, ch
 	  *(start+i) = *(field_val+i);
 	}
 
-      logical_file_info[logfile].buffer_size += strlen(field_val);
+      //      logical_file_info[logfile].buffer_size += strlen(field_val);
+      logical_file_info[logfile].buffer_size += delta;
     }
 
 #if DEBUG

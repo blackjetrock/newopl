@@ -93,10 +93,10 @@ void tui_init(void)
   
   refresh();
   
-  variable_win = create_win("Variables", scr_maxy/4*3,   scr_maxx/2-1,          0, scr_maxx/2);
-  memory_win   = create_win("Memory",    scr_maxy/4,     scr_maxx/4-1,          0,          0);
-  qcode_win    = create_win("QCode",     scr_maxy/2,     scr_maxx/2-1, scr_maxy/4,          0);
-  machine_win  = create_win("Machine",   scr_maxy/4,     scr_maxx/4-1,          0, scr_maxx/4);
+  variable_win = create_win("Variables", scr_maxy/4*3,   scr_maxx/2-1,                 0, scr_maxx/2);
+  memory_win   = create_win("Memory",    scr_maxy/4,     scr_maxx/16*6-1,              0,          0);
+  qcode_win    = create_win("QCode",     scr_maxy/2,     scr_maxx/2-1,        scr_maxy/4,          0);
+  machine_win  = create_win("Machine",   scr_maxy/4,     scr_maxx/16*2-1,              0, scr_maxx/16*6);
 
   scrollok(memory_win, TRUE);
   scrollok(variable_win, TRUE);
@@ -230,7 +230,7 @@ uint8_t tui_stack_byte(NOBJ_MACHINE *m, uint16_t idx)
 }
 
 #define MEM_LEN 64
-#define MEM_LINE_LEN 8
+#define MEM_LINE_LEN 16
 
 void display_memory(NOBJ_MACHINE *m)
 {
@@ -705,7 +705,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
 	  wprintw(variable_win, "\nBuffer len:%d", logical_file_info[logfile].buffer_size);
 
 	  //	  for(int i=0; i<logical_file_info[logfile].buffer_size,80; i++)
-	  for(int i=0; i<60; i++)
+	  for(int i=0; i<128; i++)
 	    {
 	      char f[2] = " ";
 	      uint8_t byte = logical_file_info[logfile].buffer[i];
@@ -716,8 +716,20 @@ void tui_display_variables(NOBJ_MACHINE *m)
 		  lines++;
 		  strcpy(ascii, "  ");
 		}
+
+	      char marker = ' ';
+
+	      if( logical_file_info[logfile].buffer[i] == 9 )
+		{
+		  marker = '+';
+		}
 	      
-	      wprintw(variable_win, "%02X ", byte);
+	      if( i==(logical_file_info[logfile].buffer_size-1) )
+		{
+		  marker = '<';
+		}
+
+	      wprintw(variable_win, "%02X%c", byte, marker);
 	      lines++;
 	      
 	      f[0] = isprint(byte)?byte: '.';

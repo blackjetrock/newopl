@@ -35,7 +35,8 @@ LINUX_FILE_INFO linux_file_info[NOPL_NUM_LOGICAL_FILES];
 
 
 #define PACK_FN "datapack.bin"
-#define FLASH_PAK_SIZE    ((uint32_t)(1024*1024*4))
+//#define FLASH_PAK_SIZE    ((uint32_t)(1024*1024*1))
+#define FLASH_PAK_SIZE    ((uint32_t)(1024*64))
 
 void pk_open_linux(int logfile, char *filename)
 {
