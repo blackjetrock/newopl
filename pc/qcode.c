@@ -706,41 +706,55 @@ void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->field_flag = pop_machine_8(m);
 
   dbq("field flg:%d", s->field_flag);
-  
-  // Drop string reference
-  s->str_addr = pop_machine_16(m);
 
-  dbq("Str addr:%04X", s->str_addr);
-  
-  //  s->len      = pop_machine_8(m);
-	  
-  // Assign string to variable
-  // We are pointing at length byte. get the max length and check we won't
-  // exceed that
-  int max_len = m->stack[(s->str_addr)-1];
-
-  dbq("Max len:%d", max_len);
-  
-  if( s->len > max_len )
+  if( s->field_flag )
     {
-      runtime_error(ER_LX_ST, "String too big");
-      return;
+      int logfile = pop_machine_8(m);
+      
+      // Drop field name string
+      pop_machine_string(m, &(s->len2), s->str2);
+
+      // Field variable
+      //NOPL_FLOAT f = num_from_mem(num_bytes);
+
+      logfile_put_field_as_str(m, current_logfile, s->str2, s->str);
     }
-  
-  // All OK
-  // Copy data
-  
-  // We copy the length with the data
-  // Address points to the length byte, after the max len
-  m->stack[s->str_addr] = s->len;
-  
-  for(int i=0; i<s->len; i++)
+  else
     {
-      m->stack[s->str_addr+i+1] = s->str[i];
+      // Drop string reference
+      s->str_addr = pop_machine_16(m);
+      
+      dbq("Str addr:%04X", s->str_addr);
+      
+      //  s->len      = pop_machine_8(m);
+      
+      // Assign string to variable
+      // We are pointing at length byte. get the max length and check we won't
+      // exceed that
+      int max_len = m->stack[(s->str_addr)-1];
+      
+      dbq("Max len:%d", max_len);
+      
+      if( s->len > max_len )
+	{
+	  runtime_error(ER_LX_ST, "String too big");
+	  return;
+	}
+      
+      // All OK
+      // Copy data
+      
+      // We copy the length with the data
+      // Address points to the length byte, after the max len
+      m->stack[s->str_addr] = s->len;
+      
+      for(int i=0; i<s->len; i++)
+	{
+	  m->stack[s->str_addr+i+1] = s->str[i];
+	}
     }
   
   // No need to zero the remaining space
-  
 }
 
 //------------------------------------------------------------------------------
@@ -861,6 +875,19 @@ void qca_ls_int_fld(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_8(m, 1);
 }
 
+// LS str field reference
+void qca_ls_str_fld(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int logfile;
+  logfile = qcode_next_8(m);
+
+  // Push logical file
+  push_machine_8(m, logfile);
+
+  // ...and the field flag
+  push_machine_8(m, 1);
+}
+
 //------------------------------------------------------------------------------
 //
 // Get field and push on to stack as float
@@ -889,6 +916,44 @@ void qca_num_fld(NOBJ_MACHINE *m, NOBJ_QCS *s)
       NOPL_FLOAT f = num_from_text(fld_val_str);
 
       push_machine_num(m, &f);
+    }
+  else
+    {
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+// Get field and push on to stack as float
+
+void qca_str_fld(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int logfile;
+  int fld_n;
+  
+  logfile = qcode_next_8(m);
+
+  // We have field flag and field name on stack
+  pop_machine_string(m, &(s->len), s->str);
+
+  //printf("\nfldname:%s", s->str);
+
+  // Get index of field
+  fld_n = logfile_get_field_index(m, logfile, s->str);
+  
+  if( fld_n != -1 )
+    {
+      // Get value
+      char *fld_val_str = logfile_get_field_as_str(m, logfile, s->str);
+
+      //printf("\nFld:'%s'", fld_val_str);
+      
+      // Push string
+      push_machine_string(m, strlen(fld_val_str), fld_val_str);
+
+      //NOPL_FLOAT f = num_from_text(fld_val_str);
+
+      //push_machine_num(m, &f);
     }
   else
     {
@@ -1783,10 +1848,10 @@ NOBJ_QCODE_INFO qcode_info[] =
 
     // QI_INT_FLD              0x1A
     { QI_NUM_FLD,        "QI_NUM_FLD",        {qca_num_fld,   qca_null,        qca_null }},          // 1B
-    // QI_STR_FLD              0x1C
+    { QI_STR_FLD,        "QI_STR_FLD",        {qca_str_fld,   qca_null,        qca_null }},          // QI_STR_FLD              0x1C
     { QI_LS_INT_FLD,     "QI_LS_INT_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},
     { QI_LS_NUM_FLD,     "QI_LS_NUM_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},
-    // QI_LS_STR_FLD           0x1F    
+    { QI_LS_STR_FLD,     "QI_LS_STR_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},    // QI_LS_STR_FLD           0x1F    
     // QI_STK_LIT_BYTE         0x20    
     { QI_STK_LIT_BYTE,   "QI_STK_LIT_BYTE",   {qca_null,         qca_null,        qca_push_qc_byte}},
     // QI_STK_LIT_WORD         0x21
