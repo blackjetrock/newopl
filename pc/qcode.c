@@ -1704,10 +1704,19 @@ void qca_first(NOBJ_MACHINE *m, NOBJ_QCS *s)
   int         reclen;
 
   // Position at first record
-  fl_frec(1, &pak_addr, &rectype, &reclen);
+  //fl_frec(1, &pak_addr, &rectype, &reclen);
+  flw_crec = 1;
+  
+  // read record into buffer
+  fl_read(logical_file_info[current_logfile].buffer);
+}
 
-    // read record into buffer
-    fl_read(logical_file_info[current_logfile].buffer);
+void qca_next(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  fl_next();
+
+  // read record into buffer
+  fl_read(logical_file_info[current_logfile].buffer);
 }
 
 
@@ -1825,7 +1834,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // QCO_ERASE               0x60
     { QCO_FIRST,          "QCO_FIRST",          {qca_first,       qca_null,       qca_null}},    // QCO_FIRST               0x61    
     // QCO_LAST                0x62    
-    // QCO_NEXT                0x63    
+    { QCO_NEXT,           "QCO_NEXT",           {qca_next,       qca_null,       qca_null}},    // QCO_NEXT                0x63    
     // QCO_BACK                0x64
     { QCO_OPEN,           "QCO_OPEN",           {qca_open,        qca_null,       qca_null}},
     // QCO_OPEN                0x65    
