@@ -18,6 +18,11 @@
 
 #include "nopl.h"
 
+#define DEBUG 0
+#define DB_PK_SETP 0
+
+////////////////////////////////////////////////////////////////////////////////
+
 PAK_ID pkt_id = {0,0,0,0,0,0,0,0,0,0};
 
 PK_DRIVER_SET pk_drivers[] =
@@ -109,8 +114,10 @@ void pk_setp(PAK pak)
 
 void pk_save(int len, uint8_t *src)
 {
+#if DEBUG
   printf("\n%s:%08X %d", __FUNCTION__, pkw_cpad, len);
-
+#endif
+  
   (*pk_drivers[pkb_curp].save)(pkw_cpad, len, src);
 
   // Update the current address
@@ -178,8 +185,10 @@ void pk_open(int logfile)
 {
   char *filename = logical_file_info[logfile].name;
 
+#if DEBUG
   printf("\nOpening '%s'", filename);
-
+#endif
+  
   // Branch to the pak drivers
   return( (*pk_drivers[pkb_curp].open)(logfile, filename+2));
 }

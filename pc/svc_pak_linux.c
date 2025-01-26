@@ -13,6 +13,8 @@
 
 #include "nopl.h"
 
+#define DEBUG 0
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 
@@ -42,13 +44,16 @@ void pk_open_linux(int logfile, char *filename)
 {
   LINFI.fp = fopen(filename, "wb+");
 
+#if DEBUG
   printf("\n%s:fp=%X name:'%s' logfile=%d", __FUNCTION__, LINFI.fp, filename, logfile);
+#endif
 }
 
 void pk_close_linux(int logfile, char *filename)
 {
+#if DEBUG
   printf("\n%s:", __FUNCTION__);
-  
+#endif
   if( LINFI.fp != NULL )
     {
       fclose(LINFI.fp);
@@ -93,10 +98,13 @@ uint8_t pk_rbyt_linux(PAK_ADDR pak_addr)
   fread(&byte, 1, 1, fp);
   fclose(fp);
 #endif
-  
+
+#if DEBUG
   printf("\nrbyte %02X @ %06X fp=%x curlogfile:%d fn:'%s'", (int)byte, (int)pak_addr,
-	 LINCURFI.fp, current_logfile, logical_file_info[current_logfile].name);
-  
+	 LINCURFI.fp,
+	 current_logfile,
+	 logical_file_info[current_logfile].name);
+#endif  
   return(byte);
 }
 
@@ -123,8 +131,10 @@ void pk_format_linux(int logfile)
   PAK_ID  pak_id;
   uint8_t byte = 0xFF;
 
+#if DEBUG
   printf("\n%s:Formatting PAK_SIZE:%X\n", __FUNCTION__, FLASH_PAK_SIZE);
-
+#endif
+  
   // Write 0xff to the entire pack
   for(int i=0; i< FLASH_PAK_SIZE;i++)
     {
@@ -136,8 +146,9 @@ void pk_format_linux(int logfile)
   
   pk_save_linux(0, 10, pak_id);
 
+#if DEBUG
   printf("\nDone");
-
+#endif
 }
 
 

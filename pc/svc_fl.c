@@ -7,7 +7,8 @@
 
 #include "nopl.h"
 
-#define DB_FL_SCAN_PAK 1
+#define DEBUG 0
+#define DB_FL_SCAN_PAK 0
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -388,8 +389,10 @@ FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
     {
       used_rectypes[i-0x90] = 0;
     }
-  
+
+#if DEBUG  
   printf("\n%s:", __FUNCTION__);
+#endif
   
   // Scan the pak and work out the record types that are used
   // We have to do this to find the end of the pack data
@@ -399,35 +402,46 @@ FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
   
   char fn[256];
 
+#if DEBUG
   printf("\nGetting record types");
-
+#endif
+  
   pk_setp(pkb_curp);
   
   // Open file as create
   pk_open(logfile);
 
+#if DEBUG
   printf("\nOpened");
+#endif
   
   // Format pak (temporary call)
   pk_fmat(logfile);
 
+#if DEBUG
   printf("\nFormatted");
-    
+#endif
+  
   rc = fl_catl(1, pkb_curp, fn, &rectype);
 
   while(rc == 1)
     {
+#if DEBUG
       printf("\n%s ($%02X) found", fn, rectype);
+#endif
+      
       used_rectypes[rectype - 0x90] = 1;
       rc = fl_catl(0, pkb_curp, fn, &rectype);
     }
-  
+
+#if DEBUG
   for(int i=0x90; i<=0xfe; i++)
     {
       printf("\n%02X:%d", i, used_rectypes[i-0x90]);
     }
 
   printf("\nDone...");
+#endif
   
   // Now find a record type that isn't used
   new_rectype = 0;
@@ -442,11 +456,15 @@ FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
 
   if( new_rectype == 0 )
     {
+#if DEBUG
       printf("\nNo new rec type available");
+#endif
     }
   else
     {
+#if DEBUG
       printf("\nNew rectype of %02X available", new_rectype);
+#endif
     }
 
   if( type != 0 )
@@ -454,9 +472,11 @@ FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
       new_rectype = type;
     }
 
+#if DEBUG
   printf("\nFile record type:%02X", new_rectype);
   printf("\n");
-
+#endif
+  
   // Create a file record entry at the end of the file
   
   // Write the record
@@ -475,17 +495,15 @@ FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
   int bytes_free;
   int num_recs;
   
-
-  
   // Append record
   fl_size(&bytes_free, &num_recs, &pak_addr);
   pk_sadd(pak_addr);
   
   pk_save(11, record);
+#if DEBUG
   printf("\nFile record type:%02X", new_rectype);
   printf("\n");
-  
-
+#endif
 }
 
 void fl_deln(void)

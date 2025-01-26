@@ -13,7 +13,7 @@
 
 #include "nopl.h"
 
-#define DEBUG 1
+#define DEBUG 0
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -103,22 +103,19 @@ int logfile_get_field_index(NOBJ_MACHINE *m, int logfile, char *field_name)
 
 //------------------------------------------------------------------------------
 
-char *address_tab_n(int n, int logfile, int before)
+char *address_tab_n(int n, int logfile)
 {
   char *p = &(logical_file_info[logfile].buffer[0]);
   char *buf_start = p;
   char *buf_end = buf_start + logical_file_info[logfile].buffer_size - 1; 
   int n_found = 0;
 
-#if DEBUG
+#if 0
   printf("\n\n%s n:%d buf_start:%p buf_end:%p", __FUNCTION__, n, buf_start, buf_end);
 #endif
   
   if( n == 0 )
     {
-#if DEBUG
-      printf("\nret(%p) zero", p);
-#endif
       return(p);
     }
 
@@ -126,40 +123,11 @@ char *address_tab_n(int n, int logfile, int before)
     {
       if( *p == NOPL_FIELD_DELIMITER )
 	{
-#if DEBUG
-	  printf("\nFound");
-#endif
 	  n_found++;
 
 	  if(n_found == n )
 	    {
-	      if( before )
-		{
-		  //		  p--;
-		  if( p < buf_start )
-		    {
-		      p = buf_start;
-		    }
-#if DEBUG
-		  printf("\nret(%p) before", p);
-#endif
-		  return(p);
-		}
-	      else
-		{
-		  //p++;
-		  if( p > buf_end )
-		    {
-		      // We allow the code to move the null at the end of the buffer so we can insert data
-		      // after the last delimiter
-		      p = buf_end+1;
-		    }
-#if DEBUG
-		  printf("\nret(%p) after", p);
-#endif
-		  return(p);
-		}
-
+	      return(p);
 	    }
 	}
     }
@@ -169,9 +137,6 @@ char *address_tab_n(int n, int logfile, int before)
       p = buf_end;
     }
 
-#if DEBUG
-  printf("\nret(%p) end", p);
-#endif
   return(p);
 }
 
@@ -194,32 +159,72 @@ char *logfile_field_start(int n, int logfile)
 
 //------------------------------------------------------------------------------
 
-char field_val[256];
+void dump_buffer(int logfile)
+{
+#if DEBUG
+  printf("\nBuffer size:%d\n", logical_file_info[logfile].buffer_size);
+  for(int i=0; i< logical_file_info[logfile].buffer_size; i++)
+    {
+      printf("%c%02X", logical_file_info[logfile].buffer[i]==9?'*':' ', i);
+    }
+  printf("\n");
 
-#define BEFORE 1
-#define AFTER  0
+  for(int i=0; i< logical_file_info[logfile].buffer_size; i++)
+    {
+      printf(" %02X", ((long int)&(logical_file_info[logfile].buffer[i])) & 0xFF);
+    }
+  printf("\n");
+
+  for(int i=0; i< logical_file_info[logfile].buffer_size; i++)
+    {
+      printf(" %02X", logical_file_info[logfile].buffer[i]);
+    }
+  printf("\n");
+
+#endif
+}
+
+//------------------------------------------------------------------------------
+
+void find_field_bounds(int logfile, int field_num, char **start, char **end)
+{
+  // Find current field and delete contents
+  if( field_num == 0 )
+    {
+      *start = &(logical_file_info[logfile].buffer[0]);
+    }
+  else
+    {
+      *start = address_tab_n(field_num, logfile)+1;
+    }
+
+  if( field_num ==  (logical_file_info[logfile].num_field_names)-1)
+    {
+      *end = &(logical_file_info[logfile].buffer[(logical_file_info[logfile].buffer_size -1)]);
+    }
+  else
+    {
+      *end = address_tab_n(field_num+1, logfile)-1;
+    }
+}
+
+//------------------------------------------------------------------------------
+
+char field_val[256];
 
 char *logfile_get_field_as_str(NOBJ_MACHINE *m, int logfile, char *field_name)
 {
   int field_num;
   char *start, *end;
+
   
   if( (field_num = logfile_get_field_index(m, logfile, field_name)) != -1 )
     {
       // Get field value
       // Find nth field delimited by FIELD_DELIMITER character
 
-      if( field_num == 0 )
-	{
-	  start = &(logical_file_info[logfile].buffer[0]);
-	}
-      else
-	{
-	  start = address_tab_n(field_num, logfile, AFTER);
-	}
-
-      end = address_tab_n(field_num+1, logfile, BEFORE);
-
+      find_field_bounds(logfile, field_num, &start, &end);
+      
       // Copy field value
       int i;
       for(i = 0; i<end-start+1; i++)
@@ -235,20 +240,11 @@ char *logfile_get_field_as_str(NOBJ_MACHINE *m, int logfile, char *field_name)
 
 //------------------------------------------------------------------------------
 
-void logfile_put_field_as_str2(NOBJ_MACHINE *m, int logfile, char *field_name, char *field_val)
+void logfile_put_field_as_str(NOBJ_MACHINE *m, int logfile, char *field_name, char *field_val)
 {
-
-#if DEBUG
-  printf("\n----------------------------------\n%s: buf:%p ", __FUNCTION__, &(logical_file_info[logfile].buffer[0]));
-#endif
-
-#if DEBUG
-  for(int i=0; i< logical_file_info[logfile].buffer_size; i++)
-    {
-      printf(" %02X", logical_file_info[logfile].buffer[i]);
-    }
-  printf("\n");
-#endif
+  int field_num;
+  char *start, *end;
+  int new_field_len = strlen(field_val);
   
   if( (field_num = logfile_get_field_index(m, logfile, field_name)) == -1 )
     {
@@ -256,104 +252,47 @@ void logfile_put_field_as_str2(NOBJ_MACHINE *m, int logfile, char *field_name, c
       return;
     }
 
-  // Find current field and delete contents
-}
-
-void logfile_put_field_as_str2(NOBJ_MACHINE *m, int logfile, char *field_name, char *field_val)
-{
-  int field_num;
-  char *start, *end;
-
 #if DEBUG
-  printf("\n----------------------------------\n%s: buf:%p ", __FUNCTION__, &(logical_file_info[logfile].buffer[0]));
+  printf("\n----------------------------------\n%s: buf:%p field: num:%d name:'%s', len:%d",
+	 __FUNCTION__,
+	 &(logical_file_info[logfile].buffer[0]),
+	 field_num,
+	 field_name,
+	 new_field_len
+	 );
 #endif
+  dump_buffer(logfile);
 
-#if DEBUG
-  for(int i=0; i< logical_file_info[logfile].buffer_size; i++)
-    {
-      printf(" %02X", logical_file_info[logfile].buffer[i]);
-    }
-  printf("\n");
-#endif
+  find_field_bounds(logfile, field_num, &start, &end);
+
+  // Remove this fields contents, if there are any
+  int field_len = end - start + 1;
   
-  if( (field_num = logfile_get_field_index(m, logfile, field_name)) != -1 )
+#if DEBUG
+  printf("\nStart:%p End:%p Field_len:%d New_field_len:%d", start, end, field_len, new_field_len);
+#endif
+   
+  if( field_len > 0 )
     {
-#if DEBUG
-      printf("Field num:%d Name:%s", field_num, field_name);
-#endif
-      
-      // Find nth field delimited by FIELD_DELIMITER character
-      if( field_num == 0 )
-	{
-	  start = &(logical_file_info[logfile].buffer[0]);
-	}
-      else
-	{
-	  start = address_tab_n(field_num, logfile, AFTER);
-	}
-
-      end = address_tab_n(field_num+1, logfile, BEFORE);
-
-#if DEBUG
-      printf("\nStart:%p End:%p", start, end);
-#endif
-      // If the area for the field is big enough then we don't increase its size, if it's too big we reduce
-      // it's size. If it's too small we make it bigger.#
-      // We need to insert the field data at the address we have worked out, pushing the other data up
-      // by the length of the field
-
-      char *new_end = start + strlen(field_val)-1;
-      //      int delta = strlen(field_val);
-      int delta =  strlen(field_val)- (end - start);
-      char *buf_end = &(logical_file_info[logfile].buffer[0]) + logical_file_info[logfile].buffer_size;
-      
-      // Shift data as long as new end is in buffer
-      if( new_end - start + 1 > NOPL_LOGICAL_FILE_BUFFER_LEN )
-	{
-	  runtime_error(ER_RT_RB, "Field won't fit in buffer");
-	  return;
-	}
-
-      // Move the data
-      // No move if delta is zero
-      char *from, *to;
-
-#if DEBUG
-      printf("\nnew_end:%p buf_end:%p delta:%d", new_end, buf_end, delta);
-#endif
-
-      if( delta != 0 )
-	{
-	  // Move data
-	  from = end;
-	  to   = end+delta;
-	  memmove(to, from, buf_end - from+1 );
-#if DEBUG
-	  printf("\nmemmove(%p, %p, %d)", to, from, buf_end-from);
-#endif
-	}
-
-      for(int i=0; i<strlen(field_val); i++)
-	{
-	  *(start+i) = *(field_val+i);
-	}
-
-      //      logical_file_info[logfile].buffer_size += strlen(field_val);
-      logical_file_info[logfile].buffer_size += delta;
+      // Move everything down
+      memmove(start, end+1, field_len);
     }
 
-#if DEBUG
-  printf("\n\n%s: buf:%p ", __FUNCTION__, &(logical_file_info[logfile].buffer[0]));
-#endif
+  logical_file_info[logfile].buffer_size -= field_len;
+  dump_buffer(logfile);
 
-#if DEBUG
-  for(int i=0; i< logical_file_info[logfile].buffer_size; i++)
+  // Now make space for the new data
+  memmove(start+new_field_len, start, new_field_len);
+  logical_file_info[logfile].buffer_size += new_field_len;
+  dump_buffer(logfile);
+	  
+  // Now put the new contents into the field
+  for(int i=0; i<strlen(field_val); i++)
     {
-      printf(" %02X", logical_file_info[logfile].buffer[i]);
+      *(start+i) = *(field_val+i);
     }
-  printf("\n");
-#endif
-
+  
+  dump_buffer(logfile);
 
 }
 
