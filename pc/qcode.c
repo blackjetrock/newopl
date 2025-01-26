@@ -638,11 +638,17 @@ void qca_ass_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
   if( s->field_flag )
     {
-      // Drop field name
+      int logfile = pop_machine_8(m);
+      char int_str[20];
+      
+      // Drop field name string
       pop_machine_string(m, &(s->len), s->str);
-
-      // Assign field
-      qca_assign_int_field(s->str, s->integer);
+      
+      // Field variable
+      sprintf(int_str, "%d", s->integer);
+      
+      logfile_put_field_as_str(m, current_logfile, s->str, int_str);
+      
     }
   else
     {
@@ -856,12 +862,6 @@ void qca_pop_2num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 //------------------------------------------------------------------------------
 
-void qca_assign_int_field(char *string, int val)
-{
-}
-
-//------------------------------------------------------------------------------
-
 // LS int field reference
 void qca_ls_int_fld(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -916,6 +916,42 @@ void qca_num_fld(NOBJ_MACHINE *m, NOBJ_QCS *s)
       NOPL_FLOAT f = num_from_text(fld_val_str);
 
       push_machine_num(m, &f);
+    }
+  else
+    {
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+// Get field and push on to stack as float
+
+void qca_int_fld(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int logfile;
+  int fld_n;
+  
+  logfile = qcode_next_8(m);
+
+  // We have field flag and field name on stack
+  pop_machine_string(m, &(s->len), s->str);
+
+  //printf("\nfldname:%s", s->str);
+
+  // Get index of field
+  fld_n = logfile_get_field_index(m, logfile, s->str);
+  
+  if( fld_n != -1 )
+    {
+      // Get value
+      char *fld_val_str = logfile_get_field_as_str(m, logfile, s->str);
+      //printf("\nFld:'%s'", fld_val_str);
+      
+      // Convert to floatint and push
+      int intval;
+      sscanf(fld_val_str, "%d", &intval);
+
+      push_machine_16(m, intval);
     }
   else
     {
@@ -1846,7 +1882,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_LS_NUM_ARR_IND, "QI_LS_NUM_ARR_IND", {qca_fp_ind,       qca_pop_idx,     qca_push_num_arr_addr }}, // test
     { QI_LS_STR_ARR_IND, "QI_LS_STR_ARR_IND", {qca_fp_ind,       qca_pop_idx,     qca_push_str_arr_addr }}, // test
 
-    // QI_INT_FLD              0x1A
+    { QI_INT_FLD,        "QI_INT_FLD",        {qca_int_fld,   qca_null,        qca_null }},          // QI_INT_FLD              0x1A
     { QI_NUM_FLD,        "QI_NUM_FLD",        {qca_num_fld,   qca_null,        qca_null }},          // 1B
     { QI_STR_FLD,        "QI_STR_FLD",        {qca_str_fld,   qca_null,        qca_null }},          // QI_STR_FLD              0x1C
     { QI_LS_INT_FLD,     "QI_LS_INT_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},
