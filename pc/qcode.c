@@ -1840,6 +1840,21 @@ void qca_first(NOBJ_MACHINE *m, NOBJ_QCS *s)
   fl_read(logical_file_info[current_logfile].buffer);
 }
 
+// Position at record 1 then read the record
+void qca_position(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  PAK_ADDR    pak_addr;
+  FL_REC_TYPE rectype;
+  int         reclen;
+
+  // Position at popped position
+  
+  flw_crec =  pop_machine_int(m);
+  
+  // read record into buffer
+  fl_read(logical_file_info[current_logfile].buffer);
+}
+
 // Position at last record then read the record
 void qca_last(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -1977,18 +1992,18 @@ NOBJ_QCODE_INFO qcode_info[] =
     // QCO_RANDOMIZE           0x58    
     // QCO_STOP                0x59    
     // QCO_TRAP                0x5A    
-    { QCO_APPEND,         "QCO_APPEND",         {qca_append,        qca_null,       qca_null}},    // QCO_APPEND              0x5B    
-    { QCO_CLOSE,          "QCO_CLOSE",          {qca_close,        qca_null,       qca_null}},     // QCO_CLOSE               0x5C    
+    { QCO_APPEND,         "QCO_APPEND",         {qca_append,      qca_null,       qca_null}},    // QCO_APPEND              0x5B    
+    { QCO_CLOSE,          "QCO_CLOSE",          {qca_close,       qca_null,       qca_null}},     // QCO_CLOSE               0x5C    
     // QCO_COPY                0x5D    
     { QCO_CREATE,         "QCO_CREATE",         {qca_create,      qca_null,       qca_null}},
     // QCO_DELETE              0x5F    
     // QCO_ERASE               0x60
     { QCO_FIRST,          "QCO_FIRST",          {qca_first,       qca_null,       qca_null}},    // QCO_FIRST               0x61    
-    { QCO_LAST,           "QCO_LAST",           {qca_last,       qca_null,       qca_null}},    // QCO_LAST                0x62    
-    { QCO_NEXT,           "QCO_NEXT",           {qca_next,       qca_null,       qca_null}},    // QCO_NEXT                0x63    
-    { QCO_BACK,           "QCO_BACK",           {qca_back,       qca_null,       qca_null}},    // QCO_BACK                0x64
+    { QCO_LAST,           "QCO_LAST",           {qca_last,        qca_null,       qca_null}},    // QCO_LAST                0x62    
+    { QCO_NEXT,           "QCO_NEXT",           {qca_next,        qca_null,       qca_null}},    // QCO_NEXT                0x63    
+    { QCO_BACK,           "QCO_BACK",           {qca_back,        qca_null,       qca_null}},    // QCO_BACK                0x64
     { QCO_OPEN,           "QCO_OPEN",           {qca_open,        qca_null,       qca_null}},    // QCO_OPEN                0x65    
-    // QCO_POSITION            0x66    
+    { QCO_POSITION,       "QCO_POSITION",       {qca_position,    qca_null,       qca_null}},    // QCO_POSITION            0x66    
     // QCO_RENAME              0x67    
     // QCO_UPDATE              0x68
     { QCO_USE,            "QCO_USE",            {qca_use,        qca_null,       qca_null}},  // QCO_USE                 0x69    
