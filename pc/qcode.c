@@ -1108,25 +1108,53 @@ void qca_print_sp(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_eq_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  NOBJ_INT res = 0;
-  
-  dbq("Int:%d (%04X) Int2:%d (%04X)", s->integer, s->integer, s->integer2, s->integer2);
-
   // Terminate for C
   s->str[s->len]   = '\0';
   s->str2[s->len2] = '\0';
   
-  if( strcmp(s->str, s->str2) == 0 )
+  s->integer = strcmp(s->str, s->str2) == 0;
+}
+
+void qca_lt_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Terminate for C
+  s->str[s->len]   = '\0';
+  s->str2[s->len2] = '\0';
+  
+  s->integer = strcmp(s->str2, s->str) < 0;
+}
+
+void qca_gt_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Terminate for C
+  s->str[s->len]   = '\0';
+  s->str2[s->len2] = '\0';
+  
+  s-> integer = strcmp(s->str2, s->str) > 0;
+}
+
+void qca_push_int_result(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  if( s->integer )
     {
-      res = NOBJ_TRUE;    
+      push_machine_16(m, NOBJ_TRUE);
     }
   else
     {
-      res = NOBJ_FALSE;
+      push_machine_16(m, NOBJ_FALSE);
     }
+}
 
-  // Push result
-  push_machine_16(m, res);
+void qca_push_not_int_result(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  if( s->integer )
+    {
+      push_machine_16(m, NOBJ_FALSE);
+    }
+  else
+    {
+      push_machine_16(m, NOBJ_TRUE);
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -1926,12 +1954,12 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_NOT_NUM,       "QCO_NOT_NUM",       {qca_pop_num,      qca_not_num,     qca_push_result}},
     { QCO_AND_NUM,       "QCO_AND_NUM",       {qca_pop_2num,     qca_and_num,     qca_push_result}},
     { QCO_OR_NUM,        "QCO_OR_NUM",        {qca_pop_2num,     qca_or_num,      qca_push_result}},
-    // QCO_LT_STR              0x45    
-    // QCO_LTE_STR             0x46    
-    // QCO_GT_STR              0x47    
-    // QCO_GTE_STR             0x48    
-    // QCO_NE_STR              0x49    
-    { QCO_EQ_STR,        "QI_EQ_STR",         {qca_pop_2str,     qca_eq_str,      qca_null}},
+    { QCO_LT_STR,        "QI_LT_STR",         {qca_pop_2str,     qca_lt_str,      qca_push_int_result}},        // QCO_LT_STR              0x45    
+    { QCO_LTE_STR,       "QI_LTE_STR",        {qca_pop_2str,     qca_gt_str,      qca_push_not_int_result}},    // QCO_LTE_STR             0x46    
+    { QCO_GT_STR,        "QI_GT_STR",         {qca_pop_2str,     qca_gt_str,      qca_push_int_result}},        // QCO_GT_STR              0x47    
+    { QCO_GTE_STR,       "QI_GTE_STR",        {qca_pop_2str,     qca_lt_str,      qca_push_not_int_result}},    // QCO_GTE_STR             0x48    
+    { QCO_NE_STR,        "QI_NE_STR",         {qca_pop_2str,     qca_eq_str,      qca_push_not_int_result}},    // QCO_NE_STR              0x49    
+    { QCO_EQ_STR,        "QI_EQ_STR",         {qca_pop_2str,     qca_eq_str,      qca_push_int_result}},
     { QCO_ADD_STR,       "QI_ADD_STR",        {qca_pop_2str,     qca_add_str,     qca_push_string}},
     { QCO_AT,            "QI_AT",             {qca_pop_2int,     qca_null,        qca_null}},
     { QCO_BEEP,          "QCO_BEEP",          {qca_pop_2int,     qca_null,        qca_null}},
@@ -1959,8 +1987,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_LAST,           "QCO_LAST",           {qca_last,       qca_null,       qca_null}},    // QCO_LAST                0x62    
     { QCO_NEXT,           "QCO_NEXT",           {qca_next,       qca_null,       qca_null}},    // QCO_NEXT                0x63    
     { QCO_BACK,           "QCO_BACK",           {qca_back,       qca_null,       qca_null}},    // QCO_BACK                0x64
-    { QCO_OPEN,           "QCO_OPEN",           {qca_open,        qca_null,       qca_null}},
-    // QCO_OPEN                0x65    
+    { QCO_OPEN,           "QCO_OPEN",           {qca_open,        qca_null,       qca_null}},    // QCO_OPEN                0x65    
     // QCO_POSITION            0x66    
     // QCO_RENAME              0x67    
     // QCO_UPDATE              0x68
@@ -2032,18 +2059,16 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_EXP                 0xAA    
     // RTF_FLT                 0xAB    
     // RTF_INTF                0xAC
-    { RTF_LN,            "RTF_LN",            {qca_pop_num,      qca_log_num,     qca_push_num_result}},
-    { RTF_LOG,           "RTF_LOG",           {qca_pop_num,      qca_log10_num,   qca_push_num_result}},
-    // RTF_LN                  0xAD    
-    // RTF_LOG                 0xAE    
+    { RTF_LN,            "RTF_LN",            {qca_pop_num,      qca_log_num,     qca_push_num_result}},    // RTF_LN                  0xAD 
+    { RTF_LOG,           "RTF_LOG",           {qca_pop_num,      qca_log10_num,   qca_push_num_result}},    // RTF_LOG                 0xAE
     // RTF_PI                  0xAF    
     // RTF_RAD                 0xB0    
     // RTF_RND                 0xB1    
     { RTF_SIN,           "RTF_SIN",           {qca_pop_num,      qca_sin_num,     qca_push_num_result}},
     { RTF_SQR,           "RTF_SQR",           {qca_pop_num,      qca_sqr_num,     qca_push_num_result}},
     { RTF_TAN,           "RTF_TAN",           {qca_pop_num,      qca_tan_num,     qca_push_num_result}},
-    { RTF_VAL,           "RTF_VAL",           {qca_pop_str,      qca_val,         qca_push_num_result}},
-    // RTF_VAL                 0xB5    
+    { RTF_VAL,           "RTF_VAL",           {qca_pop_str,      qca_val,         qca_push_num_result}},    // RTF_VAL                 0xB5
+    
     // RTF_SPACE               0xB6    
     // RTF_DIR                 0xB7    
     // RTF_CHR                 0xB8
@@ -2065,8 +2090,9 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_UPPER               0xC7    
     // RTF_SUSR                0xC8    
     // RTF_SADDR               0xC9    
-
-    // LZ QCode
+    //
+    //////////////////////////////// LZ QCode //////////////////////////////
+    //
     // RTF_DOW                 0xD7
     // RTF_LTPERCENT           0xCC
     // RTF_GTPERCENT           0xCD
@@ -2077,8 +2103,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_OFFX                0xD2
     // RTF_COPYW               0xD3
     // RTF_DELETEW             0xD4
-    // RTF_UDG                 0xD5
-    { RTF_UDG,           "RTF_UDG",           {qca_pop_9int,     qca_null,        qca_null}},
+    { RTF_UDG,           "RTF_UDG",           {qca_pop_9int,     qca_null,        qca_null}},    // RTF_UDG                 0xD5
+
     // RTF_CLOCK               0xD6
     // RTF_DOW                 0xD7
     // RTF_FINDW               0xD8
