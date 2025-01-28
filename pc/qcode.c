@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 #include <string.h>
+#include <math.h>
 
 #include "nopl.h"
 
@@ -1021,6 +1022,28 @@ void qca_div(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->result = s->integer2 / s->integer;
 }
 
+void qca_powint(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  if( s->integer2 == 1 )
+    {
+      s->result = 1;
+      return;
+    }
+
+  if( s->integer == 1 )
+    {
+      s->result = s->integer2;
+      return;
+    }
+
+  if( s->integer2 == 0 )
+    {
+      s->result = 1;
+    }
+
+  s->result = powl(s->integer2, s->integer);
+}
+
 void qca_push_result(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   dbq("res:%d (%04X)", s->result, s->result);
@@ -1610,6 +1633,14 @@ void qca_div_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
   dbq_num("res: ", &(s->num_result));
 }
 
+void qca_pow_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  num_pow(&(s->num2), &(s->num), &(s->num_result));
+  dbq_num("num: ", &(s->num));
+  dbq_num("num2:", &(s->num2));
+  dbq_num("res: ", &(s->num_result));
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 void qca_asc(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -1949,7 +1980,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_SUB_INT,       "QCO_SUB_INT",       {qca_pop_2int,     qca_sub,         qca_push_result}},
     { QCO_MUL_INT,       "QCO_MUL_INT",       {qca_pop_2int,     qca_mul,         qca_push_result}},
     { QCO_DIV_INT,       "QCO_DIV_INT",       {qca_pop_2int,     qca_div,         qca_push_result}},
-    // QCO_POW_INT             0x31    
+    { QCO_POW_INT,       "QCO_POW_INT",       {qca_pop_2int,     qca_powint,      qca_push_result}},   // QCO_POW_INT             0x31    
     { QCO_UMIN_INT,      "QCO_UMIN_INT",      {qca_pop_int,      qca_umin_int,    qca_push_result}},
     { QCO_NOT_INT,       "QCO_NOT_INT",       {qca_pop_int,      qca_not_int,     qca_push_result}},
     { QCO_AND_INT,       "QCO_AND_INT",       {qca_pop_2int,     qca_and_int,     qca_push_result}},
@@ -1964,7 +1995,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_SUB_NUM,       "QCO_SUB_NUM",       {qca_pop_2num,     qca_sub_num,     qca_push_num_result}},
     { QCO_MUL_NUM,       "QCO_MUL_NUM",       {qca_pop_2num,     qca_mul_num,     qca_push_num_result}},
     { QCO_DIV_NUM,       "QCO_DIV_NUM",       {qca_pop_2num,     qca_div_num,     qca_push_num_result}},
-    // QCO_POW_NUM             0x40    
+    { QCO_POW_NUM,       "QCO_POW_NUM",       {qca_pop_2num,     qca_pow_num,     qca_push_num_result}},  // QCO_POW_NUM             0x40    
     { QCO_UMIN_NUM,      "QCO_UMIN_NUM",      {qca_pop_num,      qca_umin_num,    qca_push_num}},
     { QCO_NOT_NUM,       "QCO_NOT_NUM",       {qca_pop_num,      qca_not_num,     qca_push_result}},
     { QCO_AND_NUM,       "QCO_AND_NUM",       {qca_pop_2num,     qca_and_num,     qca_push_result}},

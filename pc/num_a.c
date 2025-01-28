@@ -1549,6 +1549,17 @@ void num_sin(NOPL_FLOAT *a, NOPL_FLOAT *r)
   num_from_double(r, d);
 }
 
+void num_pow(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
+{
+  long double da;
+  long double db;
+
+  da = num_to_double(a);
+  db = num_to_double(b);
+  da = powl(da, db);
+  num_from_double(r, da);
+}
+
 void num_cos(NOPL_FLOAT *a, NOPL_FLOAT *r)
 {
   long double d;

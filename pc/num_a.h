@@ -25,6 +25,7 @@ void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);
 void num_sub(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);
 void num_mul(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);
 void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);
+void num_pow(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r);
 
 void dbq_num_f(const char *caller, char *text, NOPL_FLOAT *n);
 void dbq_num_exploded_f(const char *caller, char *text, NOPL_FLOAT *n);
