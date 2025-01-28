@@ -594,6 +594,11 @@ void qca_push_qc_word(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_16(m, s->integer);
 }
 
+void qca_raise(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  runtime_error( pop_machine_int(m), "Error");
+}
+
 void qca_unwind_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Dump stack for dbq
@@ -2033,7 +2038,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_PAUSE,         "QCO_PAUSE",         {qca_pop_int,      qca_pause,       qca_null}},
     // QCO_POKEB               0x55    
     // QCO_POKEW               0x56    
-    // QCO_RAISE               0x57    
+    { QCO_RAISE,         "QCO_RAISE",         {qca_raise,        qca_null,        qca_null}},    // QCO_RAISE               0x57    
     // QCO_RANDOMIZE           0x58    
     // QCO_STOP                0x59    
     // QCO_TRAP                0x5A    

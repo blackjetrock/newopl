@@ -81,6 +81,7 @@ ERROR_INFO error_info[] =
     {ER_GN_BL, "BATTERY TOO LOW"},
     {ER_GN_RF, "DEVICE READ FAIL"},
     {ER_GN_WF, "DEVICE WRITE FAIL"},
+    {ER_FL_NP, "ABC"}
   };
 
 #define NUM_ERROR_INFO (sizeof(error_info)/sizeof(ERROR_INFO))
@@ -119,9 +120,9 @@ void runtime_error(int error_code, char *fmt, ...)
   dbq("\n%s\n", error_text(error_code));
   dbq("\n%s\n", line);
   
-  printf("Runtime error: error code: %d ***", error_code);
-  printf("\n*** Internal compiler error ***\n");
-  printf("\n%s\n", error_text(error_code));
+  printf("\nRuntime error: error code: %d ***", error_code);
+  printf("\n*** Internal compiler error ***");
+  printf("\n%s", error_text(error_code));
   printf("\n%s\n", line);
 }
 #endif
