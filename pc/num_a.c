@@ -1560,6 +1560,25 @@ void num_pow(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   num_from_double(r, da);
 }
 
+void num_pi(NOPL_FLOAT *r)
+{
+  r->exponent = 0;
+  r->sign = NUM_SIGN_POSITIVE;
+  r->digits[0]  = 3;
+  r->digits[1]  = 1;
+  r->digits[2]  = 4;
+  r->digits[3]  = 1;
+  r->digits[4]  = 5;
+  r->digits[5]  = 9;
+  r->digits[6]  = 2;
+  r->digits[7]  = 6;
+  r->digits[8]  = 5;
+  r->digits[9]  = 3;
+  r->digits[10] = 5;
+  r->digits[11] = 9;
+  
+}
+
 void num_cos(NOPL_FLOAT *a, NOPL_FLOAT *r)
 {
   long double d;
