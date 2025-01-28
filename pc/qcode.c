@@ -203,6 +203,20 @@ void qca_null(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 //------------------------------------------------------------------------------
 
+void zero_num(NOPL_FLOAT *f)
+{
+  f->exponent = 0;
+  f->sign = NUM_SIGN_POSITIVE;
+  
+  // Clear float
+  for(int i=0; i<NUM_MAX_DIGITS; i++)
+    {
+      f->digits[i] = 0;
+    }
+}
+
+//------------------------------------------------------------------------------
+
 
 void qca_str_ind_con(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -435,7 +449,7 @@ void qca_push_num_arr_addr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Push address of num. Address points to first byte of num.
   // ind_ptr points to first byte of array size word.
-  push_machine_16(m, s->ind_ptr+s->arr_idx*SIZEOF_NUM+2);
+  push_machine_16(m, s->ind_ptr+(s->arr_idx)*SIZEOF_NUM+2);
   
   // Push field flag
   push_machine_8(m, 0);
@@ -1941,6 +1955,52 @@ void qca_close(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
 }
 
+void qca_rtf_max(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int flist_flag;
+  int count;
+  
+  flist_flag = pop_machine_8(m);
+
+  printf("\nflist_flg:%d", flist_flag);
+  
+  switch(flist_flag)
+    {
+    case 0:
+      NOPL_FLOAT max;
+      uint16_t num_i;
+      
+      zero_num(&max);
+      
+      count = pop_machine_16(m);
+      
+      // Lose the field flag, we can't take the max of field variables.
+      pop_machine_8(m);
+      
+      // Ary reference points to array size word, skip over that
+      num_i = pop_machine_16(m);
+
+      printf("\nCount = %d\n", count);
+      
+      // Read all the floats and find the maximum value
+      for(int i=0; i<count; i++, num_i+=8)
+	{
+	  printf("\nN%i:%s %02X", i, num_to_text((NOPL_FLOAT *)&(m->stack[num_i])), num_i);
+	  printf("\nMAX:%s", num_to_text(&max));
+	  if( num_gt((NOPL_FLOAT *)&(m->stack[num_i]), &max) )
+	    {
+	      max = *((NOPL_FLOAT *)&(m->stack[num_i]));
+	    }
+	}
+      
+      s->num_result = max;
+      break;
+      
+    case 1:
+      break;
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -2177,7 +2237,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_ACOS,          "RTF_ACOS",          {qca_pop_num,      qca_acos_num,    qca_push_num_result}},
     { RTF_ASIN,          "RTF_ASIN",          {qca_pop_num,      qca_asin_num,    qca_push_num_result}},
     // RTF_DAYS                0xDD
-    // RTF_MAX                 0xDE
+    { RTF_MAX,           "RTF_MAX",           {qca_rtf_max,      qca_null,        qca_push_num_result}},    // RTF_MAX                 0xDE
     // RTF_MEAN                0xDF
     // RTF_MIN                 0xE0
     // RTF_STD                 0xE1
