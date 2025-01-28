@@ -588,6 +588,12 @@ void qca_push_qc_byte(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_8(m, s->data8);
 }
 
+void qca_push_qc_word(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  s->integer = qcode_next_16(m);
+  push_machine_16(m, s->integer);
+}
+
 void qca_unwind_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Dump stack for dbq
@@ -1971,9 +1977,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_LS_INT_FLD,     "QI_LS_INT_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},
     { QI_LS_NUM_FLD,     "QI_LS_NUM_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},
     { QI_LS_STR_FLD,     "QI_LS_STR_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},    // QI_LS_STR_FLD           0x1F    
-    // QI_STK_LIT_BYTE         0x20    
-    { QI_STK_LIT_BYTE,   "QI_STK_LIT_BYTE",   {qca_null,         qca_null,        qca_push_qc_byte}},
-    // QI_STK_LIT_WORD         0x21
+    { QI_STK_LIT_BYTE,   "QI_STK_LIT_BYTE",   {qca_null,         qca_null,        qca_push_qc_byte}},    // QI_STK_LIT_BYTE         0x20
+    { QI_STK_LIT_WORD,   "QI_STK_LIT_WORD",   {qca_null,         qca_null,        qca_push_qc_word}},    // QI_STK_LIT_WORD         0x21
     { QI_INT_CON,        "QI_INT_CON",        {qca_null,         qca_null,        qca_int_qc_con}},
     { QI_NUM_CON,        "QI_NUM_CON",        {qca_null,         qca_null,        qca_num_qc_con}},
     { QI_STR_CON,        "QI_STR_CON",        {qca_null,         qca_null,        qca_str_qc_con}},
