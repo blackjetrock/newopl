@@ -1,0 +1,60 @@
+        bc24 7d 23 ae        TST        fnt_seed
+        bc27 26 03           BNE        LAB_bc2c
+        bc29 7c 23 ae        INC        fnt_seed
+
+	;; Seed always non zero
+
+	LAB_bc2c                                        XREF[1]:     bc27(j)  
+
+	;; repeat loop for 48 bits?
+	;; Seed is 7 bytes long according to Jaap.
+	
+	bc2c c6 30           LDB        #0x30
+
+        LAB_bc2e                                        XREF[1]:     bc53(j)  
+
+	bc2e ce 23 ae        LDX        #0x23ae                                          ;fnt_seed address
+        bc31 a6 02           LDA        0x2,X=>DAT_23b0
+        bc33 44              LSRA
+        bc34 44              LSRA
+        bc35 44              LSRA
+        bc36 a8 06           EORA       0x6,X=>DAT_23b4
+        bc38 84 01           ANDA       #0x1
+        bc3a ab 00           ADDA       0x0,X=>fnt_seed
+        bc3c 19              DAA
+        bc3d a9 00           ADCA       0x0,X=>fnt_seed
+        bc3f 19              DAA
+        bc40 a7 00           STA        0x0,X=>fnt_seed
+        bc42 07              TPA
+        LAB_bc43                                        XREF[1]:     bc50(j)  
+        bc43 06              TAP
+        bc44 a6 01           LDA        0x1,X=>DAT_23af
+        bc46 a9 01           ADCA       0x1,X=>DAT_23af
+        bc48 19              DAA
+        bc49 a7 01           STA        0x1,X=>DAT_23af
+        bc4b 07              TPA
+        bc4c 08              INX
+        bc4d 8c 23 b3        CMPX       #0x23b3
+        bc50 23 f1           BLS        LAB_bc43
+
+	loop back
+	
+	bc52 5a 	             DECB
+	
+	bc53 26 	d9           BNE        LAB_bc2e
+
+
+        bc55 ce 23 ad        LDX        #0x23ad	; saved sign
+	
+        bc58 bd d5 80        JSR        FUN_d580                                         undefined FUN_d580()
+
+	;;  Limit result to 0.0 .. 1.0
+	
+	bc5b 5f              CLRB
+        bc5c d7 c5           STB        <DAT_00c5         accumulator guard byte
+
+	bc5e 86 ff           LDA        #0xff             accumulator exponent
+        bc60 dd cc           STD        <DAT_00cc
+
+	bc62 7e d6 59        JMP        FUN_d659                                         undefined FUN_d659()
+        -- Flow Override: CALL_RETURN (CALL_TERMINATOR)
