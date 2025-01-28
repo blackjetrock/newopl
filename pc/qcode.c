@@ -2117,8 +2117,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     
     // RTF_SPACE               0xB6    
     // RTF_DIR                 0xB7    
-    // RTF_CHR                 0xB8
-    { RTF_CHR,           "RTF_CHR",           {qca_pop_int,      qca_chr,         qca_push_string}},
+    { RTF_CHR,           "RTF_CHR",           {qca_pop_int,      qca_chr,         qca_push_string}},    // RTF_CHR                 0xB8
     // RTF_DATIM               0xB9    
     // RTF_SERR                0xBA    
     // RTF_FIX                 0xBB    
