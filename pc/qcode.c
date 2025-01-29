@@ -2214,7 +2214,7 @@ void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
   
   zero_num(&sum);
   
-  s->flist_flag = pop_machine_8(m);
+  //  s->flist_flag = pop_machine_8(m);
 
   dbq("flist_flg:%d", s->flist_flag);
   
@@ -2222,10 +2222,10 @@ void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
     {
     case 0:
       // Array address and count
-      s->count = pop_machine_16(m);
+      //      s->count = pop_machine_16(m);
       
       // Lose the field flag, we can't take the sum of field variables.
-      pop_machine_8(m);
+      //     pop_machine_8(m);
       
       // Ary reference points to array size word, skip over that
       num_i = s->num_i;
@@ -2260,7 +2260,7 @@ void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
       // List of numbers on stack
 
       // Get count
-      s->count = pop_machine_8(m);
+      //      s->count = pop_machine_8(m);
       
       dbq("Count = %d\n", s->count);
       
