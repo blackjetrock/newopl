@@ -2104,6 +2104,11 @@ void qca_rtf_min(NOBJ_MACHINE *m, NOBJ_QCS *s)
 }
 
 //------------------------------------------------------------------------------
+//
+// Calculates sum of a list of values.
+//
+// Used by RTF_MEAN and RTF_VAR
+//
 
 void qca_rtf_sum(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -2131,6 +2136,9 @@ void qca_rtf_sum(NOBJ_MACHINE *m, NOBJ_QCS *s)
       // Ary reference points to array size word, skip over that
       num_i = pop_machine_16(m);
 
+      // Save for use by other RTF codes
+      s->num_i = num_i;
+      
       dbq("Count = %d\n", count);
       
       // Read all the floats and find the sumimum value
@@ -2172,7 +2180,10 @@ void qca_rtf_sum(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
       break;
     }
+
+  s->count = count;
 }
+
 
 void qca_mean(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -2185,10 +2196,120 @@ void qca_mean(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->num_result = f_r;
 }
 
+//------------------------------------------------------------------------------
+//
+// Calculates the variance, using a previous call to rtf_sum
+// from which the mean is clculated
+
+void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT sum;
+  uint16_t num_i;
+  NOPL_FLOAT x, d;
+
+  // We ust have calculates the sum previously, so calculate the mean
+  qca_mean(m, s);
+
+  // Mean is now in num_result
+  
+  zero_num(&sum);
+  
+  s->flist_flag = pop_machine_8(m);
+
+  dbq("flist_flg:%d", s->flist_flag);
+  
+  switch(s->flist_flag)
+    {
+    case 0:
+      // Array address and count
+      s->count = pop_machine_16(m);
+      
+      // Lose the field flag, we can't take the sum of field variables.
+      pop_machine_8(m);
+      
+      // Ary reference points to array size word, skip over that
+      num_i = s->num_i;
+
+      dbq("Count = %d\n", s->count);
+      
+      // Read all the floats and find the variance
+      for(int i=0; i<s->count; i++, num_i+=8)
+	{
+	  x = num_from_mem(&(m->stack[num_i]));
+	  
+	  dbq_num("x:   %s", &x);
+	  dbq_num("SUM: %s", &sum);
+
+	  // Subtract mean from sample
+	  num_sub(&x, &(s->num_result), &d);
+
+	  // Square
+	  num_mul(&d, &d, &x);
+
+	  // Accumulate
+	  num_add(&x, &sum, &d);
+	  sum = d;
+	}
+
+      dbq_num("Result SUM:%s", &sum);
+      s->integer = s->count;
+      s->num_result = sum;
+      break;
+      
+    case 1:
+      // List of numbers on stack
+
+      // Get count
+      s->count = pop_machine_8(m);
+      
+      dbq("Count = %d\n", s->count);
+      
+      // Read all the floats and find the sumimum value
+      for(int i=0; i<s->count; i++, num_i+=8)
+	{
+	  x = pop_machine_num(m);
+	  
+	  dbq_num("x:   %s", &x);
+	  dbq_num("SUM: %s", &sum);
+
+	  // Subtract mean from sample
+	  num_sub(&x, &(s->num_result), &d);
+
+	  // Square
+	  num_mul(&d, &d, &x);
+
+	  // Accumulate
+	  num_add(&x, &sum, &d);
+	  sum = d;
+	}
+
+      dbq_num("Result SUM:%s", &sum);
+      s->integer = s->count;
+      s->num_result = sum;
+
+      break;
+    }
+
+  // Now calculate the variance by dividing by (N-1)
+  NOPL_FLOAT f_count;
+  NOPL_FLOAT f_one = {0, 0, {1,0,0,0,0,0,0,0,0,0,0,0}};
+  NOPL_INT icnt;
+
+  icnt = (NOPL_INT)s->count;
+  num_int_to_num(NUM_MAX_DIGITS, &icnt, &f_count);
+
+  num_sub(&f_count, &f_one, &f_count);
+  dbq_num("N-1:%s", &f_count);
+
+  num_div(&sum, &f_count, &x);
+  dbq_num("Variance:%s", &x);
+
+  s->num_result = x;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
-
 
 NOBJ_QCODE_INFO qcode_info[] =
   {
@@ -2426,7 +2547,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_MIN,           "RTF_MIN",           {qca_rtf_min,      qca_null,        qca_push_num_result}},    // RTF_MIN                 0xE0
     // RTF_STD                 0xE1
     { RTF_SUM,           "RTF_SUM",           {qca_rtf_sum,      qca_null,        qca_push_num_result}},        // RTF_SUM                 0xE2
-    // RTF_VAR                 0xE3
+    { RTF_VAR,           "RTF_VAR",           {qca_rtf_sum,      qca_rtf_var,     qca_push_num_result}},    // RTF_VAR                 0xE3
     // RTF_DAYNAME             0xE4
     // RTF_DIRW                0xE5
     // RTF_MONTHSTR            0xE6

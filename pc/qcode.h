@@ -347,6 +347,10 @@ typedef struct _NOBJ_QCS
   int        i;
   uint8_t    field_flag;
   int        done;
+  // Foloowing values are for the list processing
+  int        flist_flag;
+  int        count;
+  int        num_i;
 } NOBJ_QCS;
 
 typedef void (*NOBJ_QC_ACTION)(NOBJ_MACHINE *m, NOBJ_QCS *s);
