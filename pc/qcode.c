@@ -2163,6 +2163,12 @@ void qca_rtf_sum(NOBJ_MACHINE *m, NOBJ_QCS *s)
       count = pop_machine_8(m);
       
       dbq("Count = %d\n", count);
+
+      // We store the stack pointer here so that in a subsequent qcode
+      // we can re-pop the vlues. This is used in the variance QCode for example
+      // which calculates over two passes.
+
+      mark_aux_stack(m);
       
       // Read all the floats and find the sumimum value
       for(int i=0; i<count; i++, num_i+=8)
@@ -2263,11 +2269,16 @@ void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
       //      s->count = pop_machine_8(m);
       
       dbq("Count = %d\n", s->count);
+
+      // Reset the stack so we can pop the floats off the stack again. This only works if
+      // nothing is pushed on to the stack from the mark to this point.
+
+      reset_aux_stack(m);
       
       // Read all the floats and find the sumimum value
       for(int i=0; i<s->count; i++, num_i+=8)
 	{
-	  x = pop_machine_num(m);
+	  x = pop_aux_num(m);
 	  
 	  dbq_num("x:   %s", &x);
 	  dbq_num("SUM: %s", &sum);
