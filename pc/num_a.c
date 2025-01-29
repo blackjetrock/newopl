@@ -1238,6 +1238,10 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 {
   uint8_t d_digits[NUM_MAX_DIGITS*2];
 
+  dbq("DIV");
+  dbq_num("%s a:", a);
+  dbq_num("%s b:", b);
+
   // Don't divide by zero
   int is_zero = 1;
   
@@ -1253,6 +1257,27 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   if( is_zero )
     {
       runtime_error(ER_MT_DI, "Divide by zero");
+      return;
+    }
+
+  // We know the answer when dividing zero by anything
+  is_zero = 1;
+  
+  for(int i=0; i<NUM_MAX_DIGITS; i++)
+    {
+      dbq("dig %d:%d",i, a->digits[i]);
+      
+      if( a->digits[i] != 0 )
+	{
+	  is_zero = 0;
+	  break;
+	}
+    }
+
+  if( is_zero )
+    {
+      *r = *a;
+      dbq("Dividing zero");
       return;
     }
 

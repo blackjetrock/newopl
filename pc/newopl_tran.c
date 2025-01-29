@@ -566,6 +566,7 @@ SIMPLE_QC_MAP qc_map[] =
 	    
     {EXP_BUFF_ID_FUNCTION, "MAX",               __,     __,                   __,        __,               RTF_MAX, 0},
     {EXP_BUFF_ID_FUNCTION, "MIN",               __,     __,                   __,        __,               RTF_MIN, 0},
+    {EXP_BUFF_ID_FUNCTION, "SUM",               __,     __,                   __,        __,               RTF_SUM, 0},
     {EXP_BUFF_ID_FUNCTION, "MENUN",  NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_MENUN, 0},
     {EXP_BUFF_ID_FUNCTION, "MENU",   NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_MENU, 0},
     {EXP_BUFF_ID_FUNCTION, "MINUTE", NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_MINUTE, 0},

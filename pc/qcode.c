@@ -2103,6 +2103,88 @@ void qca_rtf_min(NOBJ_MACHINE *m, NOBJ_QCS *s)
     }
 }
 
+//------------------------------------------------------------------------------
+
+void qca_rtf_sum(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int flist_flag;
+  NOPL_FLOAT sum;
+  uint16_t num_i;
+  NOPL_FLOAT x;
+  int count;
+  
+  zero_num(&sum);
+  
+  flist_flag = pop_machine_8(m);
+
+  dbq("flist_flg:%d", flist_flag);
+  
+  switch(flist_flag)
+    {
+    case 0:
+      // Array address and count
+      count = pop_machine_16(m);
+      
+      // Lose the field flag, we can't take the sum of field variables.
+      pop_machine_8(m);
+      
+      // Ary reference points to array size word, skip over that
+      num_i = pop_machine_16(m);
+
+      dbq("Count = %d\n", count);
+      
+      // Read all the floats and find the sumimum value
+      for(int i=0; i<count; i++, num_i+=8)
+	{
+	  x = num_from_mem(&(m->stack[num_i]));
+	  
+	  dbq_num("n:   %s", &x);
+	  dbq_num("SUM: %s", &sum);
+	  num_add(&x, &sum, &sum);
+	}
+
+      dbq_num("Result SUM:%s", &sum);
+      s->integer = count;
+      s->num_result = sum;
+      break;
+      
+    case 1:
+      // List of numbers on stack
+
+      // Get count
+      count = pop_machine_8(m);
+      
+      dbq("Count = %d\n", count);
+      
+      // Read all the floats and find the sumimum value
+      for(int i=0; i<count; i++, num_i+=8)
+	{
+	  x = pop_machine_num(m);
+	  
+	  dbq_num("n:  %s", &x);
+	  dbq_num("SUM:%s", &sum);
+	  num_add(&x, &sum, &sum);
+	}
+
+      dbq_num("Result SUM:%s", &sum);
+      s->integer = count;
+      s->num_result = sum;
+
+      break;
+    }
+}
+
+void qca_mean(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT f_count;
+  NOPL_FLOAT f_r;
+  
+  num_int_to_num(NUM_MAX_DIGITS, &(s->integer), &f_count);
+
+  num_div(&(s->num_result), &f_count, &f_r);
+  s->num_result = f_r;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -2340,10 +2422,10 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_ASIN,          "RTF_ASIN",          {qca_pop_num,      qca_asin_num,    qca_push_num_result}},
     // RTF_DAYS                0xDD
     { RTF_MAX,           "RTF_MAX",           {qca_rtf_max,      qca_null,        qca_push_num_result}},    // RTF_MAX                 0xDE
-    // RTF_MEAN                0xDF
+    { RTF_MEAN,          "RTF_MEAN",          {qca_rtf_sum,      qca_mean,        qca_push_num_result}},    // RTF_MEAN                0xDF
     { RTF_MIN,           "RTF_MIN",           {qca_rtf_min,      qca_null,        qca_push_num_result}},    // RTF_MIN                 0xE0
     // RTF_STD                 0xE1
-    // RTF_SUM                 0xE2
+    { RTF_SUM,           "RTF_SUM",           {qca_rtf_sum,      qca_null,        qca_push_num_result}},        // RTF_SUM                 0xE2
     // RTF_VAR                 0xE3
     // RTF_DAYNAME             0xE4
     // RTF_DIRW                0xE5
