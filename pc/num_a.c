@@ -1451,41 +1451,30 @@ int num_eq(NOPL_FLOAT *a, NOPL_FLOAT *b)
 
 //------------------------------------------------------------------------------
 //
-// a> b?
+// a > b?
 //
 
 int num_gt(NOPL_FLOAT *a, NOPL_FLOAT *b)
 {
   dbq("NUM GT");
-  dbq_num("%s a:", a);
-  dbq_num("%s b:", b);
+  dbq_num("a: %s", a);
+  dbq_num("b: %s", b);
 
-  // Check exponents
-  if( a->exponent > b->exponent )
-    {
-      return(1);
-    }
-
-  if( a->exponent < b->exponent )
-    {
-      return(0);
-    }
-
-  // Test mantissas as exponents are equal
-  
-  // Different signs then positive is greater
+    // Different signs then positive is greater
   if( a->sign != b->sign )
     {
       if( NUM_POSITIVE(a) )
 	{
+	  dbq("sign chk ret1");
 	  return(1);
 	}
       else
 	{
+	  dbq("sign chk ret0");
 	  return(0);
 	}
     }
-
+  
   // Signs the same, but negative numbers have opposite sense
   // so swap them
   if( NUM_NEGATIVE(a) )
@@ -1496,18 +1485,44 @@ int num_gt(NOPL_FLOAT *a, NOPL_FLOAT *b)
       a = b;
       b = t;
     }
-  
-  //  if( a->exponent > b->exponent )
+
+
+  // Check exponents
+  if( a->exponent > b->exponent )
     {
-      for(int i=0; i<NUM_MAX_DIGITS; i++)
+      dbq("exp chk ret1");
+      return(1);
+    }
+
+  if( a->exponent < b->exponent )
+    {
+      dbq("exp chk ret0");
+      return(0);
+    }
+
+  // Test mantissas as exponents are equal
+  
+  
+  for(int i=0; i<NUM_MAX_DIGITS; i++)
+    {
+       if( a->digits[i] == b->digits[i] )
+	 {
+	   continue;
+	 }
+       
+      if( a->digits[i] > b->digits[i] )
 	{
-	  if( a->digits[i] > b->digits[i] )
-	    {
-	      return(1);
-	    }
+	  dbq("dig chk ret1");
+	  return(1);
+	}
+     else
+	{
+	  dbq("dig chk ret0");
+	  return(0);
 	}
     }
   
+  dbq("dig chk ret0");
   return(0);
 }
 

@@ -626,7 +626,7 @@ void tui_display_variables(NOBJ_MACHINE *m)
 
 		      wprintw(variable_win, "\n(Addr:%04X)  %10s(%d)", mp, varname, max_array);
 
-		      for(int na=0; na<max_array; na++)
+		      for(int na=1; na<=max_array; na++)
 			{
 			  tui_another_line(&lines, &this_page, &max_page);
 			  int np = mp+na*SIZEOF_NUM+2;

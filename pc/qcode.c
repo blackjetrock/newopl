@@ -38,7 +38,6 @@ void dbpfq(const char *caller, char *fmt, ...)
   va_start(valist, fmt);
   fprintf(exdbfp, "\n(%s)", caller);
   fflush(exdbfp);
-  
     
   vfprintf(exdbfp, fmt, valist);
   va_end(valist);
@@ -1959,19 +1958,21 @@ void qca_rtf_max(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   int flist_flag;
   int count;
+
+  NOPL_FLOAT max;
+  uint16_t num_i;
+  NOPL_FLOAT x;
+
+  zero_num(&max);
   
   flist_flag = pop_machine_8(m);
 
-  printf("\nflist_flg:%d", flist_flag);
+  dbq("flist_flg:%d", flist_flag);
   
   switch(flist_flag)
     {
     case 0:
-      NOPL_FLOAT max;
-      uint16_t num_i;
-      
-      zero_num(&max);
-      
+      // Array address and count
       count = pop_machine_16(m);
       
       // Lose the field flag, we can't take the max of field variables.
@@ -1980,23 +1981,124 @@ void qca_rtf_max(NOBJ_MACHINE *m, NOBJ_QCS *s)
       // Ary reference points to array size word, skip over that
       num_i = pop_machine_16(m);
 
-      printf("\nCount = %d\n", count);
+      dbq("Count = %d\n", count);
       
       // Read all the floats and find the maximum value
       for(int i=0; i<count; i++, num_i+=8)
 	{
-	  printf("\nN%i:%s %02X", i, num_to_text((NOPL_FLOAT *)&(m->stack[num_i])), num_i);
-	  printf("\nMAX:%s", num_to_text(&max));
-	  if( num_gt((NOPL_FLOAT *)&(m->stack[num_i]), &max) )
+	  x = num_from_mem(&(m->stack[num_i]));
+	  
+	  dbq_num("n:   %s", &x);
+	  dbq_num("MAX: %s", &max);
+	  if( num_gt(&x, &max) || (i==0))
 	    {
-	      max = *((NOPL_FLOAT *)&(m->stack[num_i]));
+	      max = x;
 	    }
 	}
-      
+
+      dbq_num("Result MAX:%s", &max);
       s->num_result = max;
       break;
       
     case 1:
+      // List of numbers on stack
+
+      // Get count
+      count = pop_machine_8(m);
+      
+      dbq("Count = %d\n", count);
+      
+      // Read all the floats and find the maximum value
+      for(int i=0; i<count; i++, num_i+=8)
+	{
+	  x = pop_machine_num(m);
+	  
+	  dbq_num("n:  %s", &x);
+	  dbq_num("MAX:%s", &max);
+	  if( num_gt(&x, &max) || (i==0))
+	    {
+	      max = x;
+	    }
+	}
+
+      dbq_num("Result MAX:%s", &max);
+      s->num_result = max;
+
+      break;
+    }
+}
+
+
+void qca_rtf_min(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int flist_flag;
+  int count;
+
+  NOPL_FLOAT min;
+  uint16_t num_i;
+  NOPL_FLOAT x;
+
+  zero_num(&min);
+  
+  flist_flag = pop_machine_8(m);
+
+  dbq("flist_flg:%d", flist_flag);
+  
+  switch(flist_flag)
+    {
+    case 0:
+      // Array address and count
+      count = pop_machine_16(m);
+      
+      // Lose the field flag, we can't take the min of field variables.
+      pop_machine_8(m);
+      
+      // Ary reference points to array size word, skip over that
+      num_i = pop_machine_16(m);
+
+      dbq("Count = %d\n", count);
+      
+      // Read all the floats and find the minimum value
+      for(int i=0; i<count; i++, num_i+=8)
+	{
+	  x = num_from_mem(&(m->stack[num_i]));
+	  
+	  dbq_num("n:  %s", &x);
+	  dbq_num("MIN:%s", &min);
+	  if( num_lt(&x, &min) || (i==0))
+	    {
+	      min = x;
+	    }
+	}
+
+      dbq_num("Result MIN:%s", &min);
+      s->num_result = min;
+      break;
+      
+    case 1:
+      // List of numbers on stack
+
+      // Get count
+      count = pop_machine_8(m);
+      
+      dbq("Count = %d\n", count);
+      
+      // Read all the floats and find the minimum value
+      for(int i=0; i<count; i++, num_i+=8)
+	{
+	  x = pop_machine_num(m);
+	  
+	  dbq_num("n:  %s", &x);
+	  dbq_num("MIN:%s", &min);
+	  if( num_lt(&x, &min) || (i==0))
+	    {
+	      min = x;
+	    }
+	}
+
+      dbq_num("Result MIN:%s", &min);
+      s->num_result = min;
+
       break;
     }
 }
@@ -2239,7 +2341,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_DAYS                0xDD
     { RTF_MAX,           "RTF_MAX",           {qca_rtf_max,      qca_null,        qca_push_num_result}},    // RTF_MAX                 0xDE
     // RTF_MEAN                0xDF
-    // RTF_MIN                 0xE0
+    { RTF_MIN,           "RTF_MIN",           {qca_rtf_min,      qca_null,        qca_push_num_result}},    // RTF_MIN                 0xE0
     // RTF_STD                 0xE1
     // RTF_SUM                 0xE2
     // RTF_VAR                 0xE3
