@@ -1162,8 +1162,8 @@ void num_mul(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   // Sort out exponent
   r->exponent = a->exponent + b->exponent;
 
-  dbq_num_exploded("%s a:", a);
-  dbq_num_exploded("%s b:", b);
+  //dbq_num_exploded("%s a:", a);
+  //dbq_num_exploded("%s b:", b);
 
   // Now multiply mantissas, we use a double sized mantissa for the result
   
@@ -1171,7 +1171,7 @@ void num_mul(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
     {
       for(int j=NUM_MAX_DIGITS-1; j>=0; j--)
 	{
-	  dbq("%d %d, %d  %d %d", i, j, a->digits[j]*b->digits[i], a->digits[j], b->digits[i]);
+	  //	  dbq("%d %d, %d  %d %d", i, j, a->digits[j]*b->digits[i], a->digits[j], b->digits[i]);
 	  d_digits[i+j+NUM_MAX_DIGITS] += a->digits[j]*b->digits[i];
 	}
 
@@ -1206,7 +1206,7 @@ void num_mul(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 
   exponent_adjust = NUM_MAX_DIGITS - exponent_adjust;
   
-  dbq("exp adj:%d", exponent_adjust);
+  //dbq("exp adj:%d", exponent_adjust);
 
   r->exponent += exponent_adjust;
   dbq_num_exploded("%s result", r);
