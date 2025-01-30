@@ -832,6 +832,8 @@ int main(int argc, char *argv[])
   
   // Discard header
   read_ob3_header(fp);
+
+  num_init();
   
   // Initialise the machine
   init_machine(&machine);
@@ -858,5 +860,6 @@ int main(int argc, char *argv[])
   tui_end();
 #endif
 
+  num_uninit();
 
 }

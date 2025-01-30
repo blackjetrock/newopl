@@ -19,6 +19,10 @@
 #include "nopl.h"
 
 ////////////////////////////////////////////////////////////////////////////////
+
+FILE *numfp;
+
+////////////////////////////////////////////////////////////////////////////////
 //
 // Return text version of a float
 //
@@ -30,14 +34,14 @@ char *num_as_text(NOPL_FLOAT *n, char *text)
   
   if(n->sign)
     {
-      sprintf(line, " - (%02X)", (n->sign & 0xFF));
+      sprintf(line, "-", (n->sign & 0xFF));
     }
   else
     {
-      sprintf(line, " + (%02X)", n->sign);
+      sprintf(line, "+", n->sign);
     }
   
-  sprintf(part, " %d . %s", n->digits[0], text);
+  sprintf(part, "%d.%s", n->digits[0], text);
   strcat(line, part);
   
   for(int i=1; i<NUM_MAX_DIGITS; i++)
@@ -389,7 +393,7 @@ void make_exp_same(NOPL_FLOAT *n, NOPL_FLOAT *r)
 //------------------------------------------------------------------------------
 
 
-void num_shift_digits_right_n(int n, int8_t *digits, int8_t *exponent)
+void num_shift_digits_right_n(int n, NOPL_FLOAT_DIG *digits, int8_t *exponent)
 {
   // Shift mantissa digits to the 'right'
   for(int i=n-1; i>0; i--)
@@ -409,7 +413,7 @@ void num_shift_digits_right(NOPL_FLOAT *n)
 
 //------------------------------------------------------------------------------
 
-void num_shift_digits_left_n(int n, int8_t *digits, int8_t *exponent)
+void num_shift_digits_left_n(int n, NOPL_FLOAT_DIG *digits, int8_t *exponent)
 {
   // Shift mantissa digits to the 'left'
   for(int i=0; i<n;  i++)
@@ -428,7 +432,7 @@ void num_shift_digits_left(NOPL_FLOAT *n)
 
 //------------------------------------------------------------------------------
 
-void num_sub_digits(int n, int8_t *a, int8_t *b, int8_t *r)
+void num_sub_digits(int n, NOPL_FLOAT_DIG *a, NOPL_FLOAT_DIG *b, NOPL_FLOAT_DIG *r)
 {
   num_mantissa_tens_compl_digits(n, b);
   
@@ -451,7 +455,7 @@ void num_sub_digits(int n, int8_t *a, int8_t *b, int8_t *r)
 // A digit greater than 9 can be in [0], this indicates a carry/overflow
 //
 
-void num_propagate_carry_digits(int8_t *digits, int num_digits)
+void num_propagate_carry_digits(NOPL_FLOAT_DIG *digits, int num_digits)
 {
   // Propagate carry
   for(int i= num_digits-1; i>0; i--)
@@ -471,7 +475,7 @@ void num_propagate_carry(NOPL_FLOAT *n, int num_digits)
 
 //------------------------------------------------------------------------------
 
-void num_clear_digits(int n, int8_t *d)
+void num_clear_digits(int n, NOPL_FLOAT_DIG *d)
 {
   for(int i=0; i<n; i++)
     {
@@ -481,16 +485,16 @@ void num_clear_digits(int n, int8_t *d)
 
 //------------------------------------------------------------------------------
 
-#define EXPANDED 0
+#define EXPANDED 1
 
-void num_db_digits(char *text, int n, int8_t *d)
+void num_db_digits(char *text, int n, NOPL_FLOAT_DIG *d)
 {
   fprintf(exdbfp, "%s", text);
   
   for(int k=0; k<n; k++)
     {
 #if EXPANDED
-      fprintf(exdbfp, "% d", d[k]);
+      fprintf(exdbfp, " %d", d[k]);
 #else
       fprintf(exdbfp, "%d", d[k]);
 #endif
@@ -512,7 +516,7 @@ void num_db_digits(char *text, int n, int8_t *d)
 // Used for larger registers when calculating * and /
 //
 
-void num_add_n_digits(int n, int8_t *a, int8_t *b, int8_t *r)
+void num_add_n_digits(int n, NOPL_FLOAT_DIG *a, NOPL_FLOAT_DIG *b, NOPL_FLOAT_DIG *r)
 {
   for(int i=0; i<n; i++)
     {
@@ -528,7 +532,7 @@ void num_add_n_digits(int n, int8_t *a, int8_t *b, int8_t *r)
 // Add a digit to the end of a number
 // digits are right justified, n digits in total
 
-void num_cat_digit(int n, int8_t *d, int digit)
+void num_cat_digit(int n, NOPL_FLOAT_DIG *d, int digit)
 {
   // Shift digits left and put new one on end.
   for(int i=0; i<n-1; i++)
@@ -556,7 +560,7 @@ void num_cat_digit(int n, int8_t *d, int digit)
 
 //------------------------------------------------------------------------------
 
-int num_digits_zero(int n, int8_t *digits)
+int num_digits_zero(int n, NOPL_FLOAT_DIG *digits)
 {
   for(int i=0; i<n; i++)
     {
@@ -571,7 +575,7 @@ int num_digits_zero(int n, int8_t *digits)
 
 //------------------------------------------------------------------------------
 
-void num_normalise_digits(int n, int8_t *digits, int8_t *exponent)
+void num_normalise_digits(int n, NOPL_FLOAT_DIG *digits, int8_t *exponent)
 {
   // Check for zero and exit
   if( num_digits_zero(n, digits) )
@@ -619,7 +623,7 @@ void num_normalise(NOPL_FLOAT *n)
 //  8 x num
 //  9 x num
 
-void num_build_times_table(int n, int8_t *ttable, int8_t *num)
+void num_build_times_table(int n, NOPL_FLOAT_DIG *ttable, NOPL_FLOAT_DIG *num)
 {
   char txt[20];
   int8_t exponent = 0;
@@ -644,7 +648,7 @@ void num_build_times_table(int n, int8_t *ttable, int8_t *num)
   
 }
 
-int num_digits_gte(int n, int8_t *a, int8_t *b)
+int num_digits_gte(int n, NOPL_FLOAT_DIG *a, NOPL_FLOAT_DIG *b)
 {
   int eq = 1;
   
@@ -687,19 +691,19 @@ int num_digits_gte(int n, int8_t *a, int8_t *b)
 // digits is an int, right justified.
 //
 
-int num_divides_into(int n, int8_t *a, int8_t *b, int8_t *times_table)
+int num_divides_into(int n, NOPL_FLOAT_DIG *a, NOPL_FLOAT_DIG *b, NOPL_FLOAT_DIG *times_table)
 {
   // If the number is greater than one of the times table entries then
   // the b does divide into a.
   for(int i=9; i>0; i--)
     {
-      dbq("Testing %d", i);
-      num_db_digits("\na:", n, a);
-      num_db_digits("b:", n, &(times_table[i*n]));
+      //dbq("Testing %d", i);
+      //num_db_digits("\na:", n, a);
+      //num_db_digits("b:", n, &(times_table[i*n]));
 
       if( num_digits_gte(n, a, &(times_table[i*n])) )
 	{
-	  dbq("Does divide");
+	  //dbq("Does divide");
 	  return(i);
 	}
     }
@@ -740,7 +744,7 @@ void num_make_exponent(NOPL_FLOAT *n, int exp)
 //
 // Make mantissa a ten's complement
 
-void num_mantissa_tens_compl_digits(int n, int8_t *digits)
+void num_mantissa_tens_compl_digits(int n, NOPL_FLOAT_DIG *digits)
 {
   dbq("");
 
@@ -759,7 +763,8 @@ void num_mantissa_tens_compl_digits(int n, int8_t *digits)
 void num_mantissa_tens_compl(NOPL_FLOAT *n)
 {
   num_mantissa_tens_compl_digits(NUM_MAX_DIGITS, &(n->digits[0]));
-  num_normalise(n);
+  dbq_num_exploded("%s before normalise", n);
+  //num_normalise(n);
 
   dbq_num_exploded("%s after 10's compl", n);
 }
@@ -772,7 +777,7 @@ void num_num_to_int(int n, NOPL_FLOAT *num,  NOBJ_INT *i)
   
   if( num->exponent > 4 )
     {
-      runtime_error(ER_RT_IO, "Float too big");
+      runtime_error(ER_RT_IO, "Float too big (%s)", num_to_text(num));
       *i = 0;
       return;
     }
@@ -790,7 +795,7 @@ void num_num_to_int(int n, NOPL_FLOAT *num,  NOBJ_INT *i)
   
   if( num->exponent == 4 )
     {
-      int8_t thr[NUM_MAX_DIGITS];
+      NOPL_FLOAT_DIG thr[NUM_MAX_DIGITS];
 
       num_clear_digits(n, thr);
 
@@ -809,7 +814,7 @@ void num_num_to_int(int n, NOPL_FLOAT *num,  NOBJ_INT *i)
 	  if( num_digits_gte(NUM_MAX_DIGITS, &(num->digits[0]), thr) )
 	    {
 	      // Too big
-	      runtime_error(ER_RT_IO, "Float too big");
+	      runtime_error(ER_RT_IO, "Float too big (%s)", num_to_text(num));
 	      *i = 0;
 	      return;
 	    }
@@ -821,7 +826,7 @@ void num_num_to_int(int n, NOPL_FLOAT *num,  NOBJ_INT *i)
 	  if( num_digits_gte(NUM_MAX_DIGITS, &(num->digits[0]), thr) )
 	    {
 	      // Too big
-	      runtime_error(ER_RT_IO, "Float too big");
+	      runtime_error(ER_RT_IO, "Float too big (%s)", num_to_text(num));
 	      *i = 0;
 	      return;
 	    }
@@ -952,8 +957,14 @@ void num_add_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 // Ignores signs
 //
 
-void num_sub_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
+void num_sub_pos(NOPL_FLOAT *a1, NOPL_FLOAT *b1, NOPL_FLOAT *r)
 {
+  // Copy arguments as we don't want to alter them
+  NOPL_FLOAT af = *a1;
+  NOPL_FLOAT bf = *b1;
+  NOPL_FLOAT *a = &af;
+  NOPL_FLOAT *b = &bf;
+
   dbq("SUB POS");
   dbq_num("%s a:", a);
   dbq_num("%s b:", b);
@@ -1020,7 +1031,7 @@ void num_sub_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 // Add two floats, the sign is handled here.
 //
 
-void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
+void num_add(NOPL_FLOAT *a1, NOPL_FLOAT *b1, NOPL_FLOAT *r)
 {
   // If the signs are the same then we add the mantissas:
   //
@@ -1035,7 +1046,13 @@ void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   // These are subtractions
   //
   dbq("");
-  
+
+  // We cannot alter our parameters
+  NOPL_FLOAT af = *a1;
+  NOPL_FLOAT bf = *b1;
+  NOPL_FLOAT *a = &af;
+  NOPL_FLOAT *b = &bf;
+
   if( (a->sign) == (b->sign) )
     {
       num_add_pos(a, b, r);
@@ -1056,6 +1073,11 @@ void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 	  num_sub_pos(b, a, r);
 	}
     }
+
+  // Summarise
+  fprintf(numfp, "\n(%s): %s",  __FUNCTION__, num_as_text(a1, ""));
+  fprintf(numfp,      " + %s",                num_as_text(b1, ""));
+  fprintf(numfp,      " = %s",                num_as_text(r, ""));
 }
 
 //------------------------------------------------------------------------------
@@ -1073,9 +1095,15 @@ void num_add(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 #define SIG_N_N 3
 
 
-void num_sub(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
+void num_sub(NOPL_FLOAT *a1, NOPL_FLOAT *b1, NOPL_FLOAT *r)
 {
   int signsig = 0;
+
+  // We cannot alter our parameters
+  NOPL_FLOAT af = *a1;
+  NOPL_FLOAT bf = *b1;
+  NOPL_FLOAT *a = &af;
+  NOPL_FLOAT *b = &bf;
 
   dbq_num_exploded("%s a:", a);
   dbq_num_exploded("%s b:", b);
@@ -1127,6 +1155,11 @@ void num_sub(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
       break;
     }
 
+  // Summarise
+  fprintf(numfp, "\n(%s): %s",  __FUNCTION__, num_as_text(a1, ""));
+  fprintf(numfp,      " - %s",                num_as_text(b1, ""));
+  fprintf(numfp,      " = %s",                num_as_text(r, ""));
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1135,9 +1168,15 @@ void num_sub(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 //
 
 
-void num_mul(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
+void num_mul(NOPL_FLOAT *a1, NOPL_FLOAT *b1, NOPL_FLOAT *r)
 {
-  uint8_t d_digits[NUM_MAX_DIGITS*2];
+  // We cannot alter our parameters
+  NOPL_FLOAT af = *a1;
+  NOPL_FLOAT bf = *b1;
+  NOPL_FLOAT *a = &af;
+  NOPL_FLOAT *b = &bf;
+
+  int d_digits[NUM_MAX_DIGITS*2];
 
   for(int i=0; i<NUM_MAX_DIGITS*2; i++)
     {
@@ -1162,8 +1201,8 @@ void num_mul(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   // Sort out exponent
   r->exponent = a->exponent + b->exponent;
 
-  //dbq_num_exploded("%s a:", a);
-  //dbq_num_exploded("%s b:", b);
+  dbq_num_exploded("%s a:", a);
+  dbq_num_exploded("%s b:", b);
 
   // Now multiply mantissas, we use a double sized mantissa for the result
   
@@ -1171,15 +1210,18 @@ void num_mul(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
     {
       for(int j=NUM_MAX_DIGITS-1; j>=0; j--)
 	{
-	  //	  dbq("%d %d, %d  %d %d", i, j, a->digits[j]*b->digits[i], a->digits[j], b->digits[i]);
-	  d_digits[i+j+NUM_MAX_DIGITS] += a->digits[j]*b->digits[i];
+	  dbq("%i:d j:%d, p:%d  a:%d b:%d", i, j, a->digits[j]*b->digits[i], a->digits[j], b->digits[i]);
+	  //	  d_digits[i+j+NUM_MAX_DIGITS] += a->digits[j]*b->digits[i];
+	  d_digits[i+j] += a->digits[j]*b->digits[i];
+	  num_propagate_carry_digits(d_digits, NUM_MAX_DIGITS*2);
 	}
 
       fprintf(exdbfp, "\n");
 
       // Now propagate the carry
+      num_db_digits("d_digits before c:", NUM_MAX_DIGITS*2, d_digits);
       num_propagate_carry_digits(d_digits, NUM_MAX_DIGITS*2);
-      num_db_digits("d_digits:", NUM_MAX_DIGITS*2, d_digits);
+      num_db_digits("d_digits after  c:", NUM_MAX_DIGITS*2, d_digits);
     }
 
   // Build result
@@ -1204,17 +1246,24 @@ void num_mul(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
       r->digits[i] = d_digits[i];
     }
 
-  exponent_adjust = NUM_MAX_DIGITS - exponent_adjust;
+  exponent_adjust = 0 - exponent_adjust;
   
   //dbq("exp adj:%d", exponent_adjust);
 
   r->exponent += exponent_adjust;
+  num_normalise(r);
+
   dbq_num_exploded("%s result", r);
+
+  // Summarise
+  fprintf(numfp, "\n(%s): %s",  __FUNCTION__, num_as_text(a1, ""));
+  fprintf(numfp,      " + %s",                num_as_text(b1, ""));
+  fprintf(numfp,      " = %s",                num_as_text(r, ""));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int all_lower_zero(int n, int8_t *lb)
+int all_lower_zero(int n, NOPL_FLOAT_DIG *lb)
 {
   int all_zero = 1;
   
@@ -1234,9 +1283,15 @@ int all_lower_zero(int n, int8_t *lb)
 //
 
 
-void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
+void num_div(NOPL_FLOAT *a1, NOPL_FLOAT *b1, NOPL_FLOAT *r)
 {
-  uint8_t d_digits[NUM_MAX_DIGITS*2];
+  NOPL_FLOAT_DIG d_digits[NUM_MAX_DIGITS*2];
+
+  // We cannot alter our parameters
+  NOPL_FLOAT af = *a1;
+  NOPL_FLOAT bf = *b1;
+  NOPL_FLOAT *a = &af;
+  NOPL_FLOAT *b = &bf;
 
   dbq("DIV");
   dbq_num("%s a:", a);
@@ -1265,7 +1320,7 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   
   for(int i=0; i<NUM_MAX_DIGITS; i++)
     {
-      dbq("dig %d:%d",i, a->digits[i]);
+      //dbq("dig %d:%d",i, a->digits[i]);
       
       if( a->digits[i] != 0 )
 	{
@@ -1291,9 +1346,9 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 
   //------------------------------------------------------------------------------
   
-  dbq("DIV");
-  dbq_num("%s a:", a);
-  dbq_num("%s b:", b);
+  //dbq("DIV");
+  //dbq_num("%s a:", a);
+  //dbq_num("%s b:", b);
 
   // Sort out the signs
   //
@@ -1314,17 +1369,17 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   // Long division algorithm.
   //
   
-  dbq_num_exploded("%s a:", a);
-  dbq_num_exploded("%s b:", b);
+  //dbq_num_exploded("%s a:", a);
+  //dbq_num_exploded("%s b:", b);
 
   // Now divide mantissas
-  int8_t   w[NUM_MAX_DIGITS*2];    // working register
-  int8_t res[NUM_MAX_DIGITS*2];    // result register
-  int8_t ttable[NUM_MAX_DIGITS*2*10];  // Times table
-  int8_t  la[NUM_MAX_DIGITS*2];        // long version of a
-  int8_t  lb[NUM_MAX_DIGITS*2];        // long version of b
-  int8_t  te[NUM_MAX_DIGITS*2];        // copy of table entry
-  int8_t  exponent = 0;
+  NOPL_FLOAT_DIG  w[NUM_MAX_DIGITS*2];    // working register
+  NOPL_FLOAT_DIG  res[NUM_MAX_DIGITS*2];    // result register
+  NOPL_FLOAT_DIG  ttable[NUM_MAX_DIGITS*2*10];  // Times table
+  NOPL_FLOAT_DIG  la[NUM_MAX_DIGITS*2];        // long version of a
+  NOPL_FLOAT_DIG  lb[NUM_MAX_DIGITS*2];        // long version of b
+  NOPL_FLOAT_DIG  te[NUM_MAX_DIGITS*2];        // copy of table entry
+  int8_t          exponent = 0;
   
   // Make a longer version of b
   num_clear_digits(NUM_MAX_DIGITS*2, lb);
@@ -1356,8 +1411,8 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
   int a_digit_pos = 0;
   int divides_by = 0;
   	    
-  num_db_digits("\nw:",   NUM_MAX_DIGITS*2, w);
-  num_db_digits("\nres:", NUM_MAX_DIGITS*2, res);
+  //num_db_digits("\nw:",   NUM_MAX_DIGITS*2, w);
+  //num_db_digits("\nres:", NUM_MAX_DIGITS*2, res);
 
   num_build_times_table(NUM_MAX_DIGITS*2, ttable, lb);
   
@@ -1410,9 +1465,9 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 	  res[a_digit_pos] = 0;
 	}
 
-      dbq(" ***** Divides_by: %d", divides_by);
-      num_db_digits("\nres:", NUM_MAX_DIGITS*2, res);
-      num_db_digits("\nw:  ", NUM_MAX_DIGITS*2, w);
+      // dbq(" ***** Divides_by: %d", divides_by);
+      //num_db_digits("\nres:", NUM_MAX_DIGITS*2, res);
+      //num_db_digits("\nw:  ", NUM_MAX_DIGITS*2, w);
       a_digit_pos++;
     }
 
@@ -1426,7 +1481,7 @@ void num_div(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
       num_shift_digits_left_n(NUM_MAX_DIGITS*2, res, &(r->exponent));
     }
 
-  num_db_digits("\nres after shift:", NUM_MAX_DIGITS*2, res);
+  //num_db_digits("\nres after shift:", NUM_MAX_DIGITS*2, res);
 
   // Round the last digit up
   if( res[NUM_MAX_DIGITS] >=5 )
@@ -2004,3 +2059,24 @@ double nopl_float_to_double(NOPL_FLOAT *nf)
 }
 
 #endif
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Initialise the number handling code
+//
+////////////////////////////////////////////////////////////////////////////////
+
+
+
+void num_init(void)
+{
+  numfp = fopen("num_info.txt", "w");
+
+  fprintf(numfp, "\nSummary of numerical calculations");
+}
+
+void num_uninit(void)
+{
+  fclose(numfp);
+}
+  

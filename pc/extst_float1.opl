@@ -1,6 +1,7 @@
 add:
 
 local A%, B%, C%, E, PASS%, PASS2%
+local num%
 rem local s$(10), t$(5, 12)
 rem local AR%(11), F(4)
 
@@ -164,44 +165,65 @@ print acos(cos(0.6))
 print atan(tan(0.7))
 
 PASS2% = 0
+num% = 0
 
 E = 1.2 + 3.4
 print "A(4.6):";e,(e=4.6) : PASS2%=PASS2%+(e=4.6)
+num% = num% + 1
 
 E = -1.2 + 3.4
 print "B(2.2):";e,(e=2.2) : PASS2%=PASS2%+(e=2.2)
+num% = num% + 1
 
 E = 1.2 - 3.4
 print "C(-2.2):";e,(e=-2.2) : PASS2%=PASS2%+(e=-2.2)
+num% = num% + 1
 
 E = -1.2 - 3.4
 print "D(-4.6):";e,(e=-4.6) : PASS2%=PASS2%+(e=-4.6)
+num% = num% + 1
 
 E = 1.2 + -3.4
 print "E(-2.2):";e,(e=-2.2) : PASS2%=PASS2%+(e=-2.2)
+num% = num% + 1
 
 E = 1.2 - -3.4
 print "F(4.6):";e,(e=4.6) : PASS2%=PASS2%+(e=4.6)
+num% = num% + 1
 
 E = 3.4 + 1.2
 print "G(4.6):";e,(e=4.6) : PASS2%=PASS2%+(e=4.6)
+num% = num% + 1
 
 E = -3.4 + 1.2
 print "H(-2.2):";e,(e=-2.2) : PASS2%=PASS2%+(e=-2.2)
+num% = num% + 1
 
 E = 3.4 - 1.2
 print "I(2.2):";e,(e=2.2) : PASS2%=PASS2%+(e=2.2)
+num% = num% + 1
 
 E = -3.4 - 1.2
 print "J(-4.6):";e,(e=-4.6) : PASS2%=PASS2%+(e=-4.6)
+num% = num% + 1
 
 E = 3.4 + -1.2
 print "K(2.2):";e,(e=2.2) : PASS2%=PASS2%+(e=2.2)
+num% = num% + 1
 
 E = 3.4 - -1.2
 print "L(4.6):";e,(e=4.6) : PASS2%=PASS2%+(e=4.6)
+num% = num% + 1
 
-if pass2% <> -12
+E = 51.0 - 99.0
+print "L(-48.0):";e,(e=-48.0) : PASS2%=PASS2%+(e=-48.0)
+num% = num% + 1
+
+E = 51.7333 - 99.3
+print "L(-47.5667):";e,(e=-47.5667) : PASS2%=PASS2%+(e=-47.5667)
+num% = num% + 1
+
+if pass2% <> -num%
 pass%=0
 endif
 

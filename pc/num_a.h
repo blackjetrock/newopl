@@ -5,11 +5,13 @@
 #define NUM_BYTE_LENGTH  8
 #define NUM_AS_TEXT_LEN       (NUM_MAX_DIGITS+1+1+2+1+1)
 
+typedef int NOPL_FLOAT_DIG;
+
 typedef struct _NOPL_FLOAT
 {
   int8_t exponent;
   int8_t sign;
-  int8_t digits[NUM_MAX_DIGITS];
+  NOPL_FLOAT_DIG digits[NUM_MAX_DIGITS];
 } NOPL_FLOAT;
 
 #define NUM_SIGN_NEGATIVE 0x80
@@ -54,16 +56,19 @@ void num_atan(NOPL_FLOAT *a, NOPL_FLOAT *r);
 void num_sin(NOPL_FLOAT *a, NOPL_FLOAT *r);
 void num_sqr(NOPL_FLOAT *a, NOPL_FLOAT *r);
 void num_mantissa_tens_compl(NOPL_FLOAT *n);
-void num_mantissa_tens_compl_digits(int n, int8_t *digits);
-void num_propagate_carry_digits(int8_t *digits, int num_digits);
+void num_mantissa_tens_compl_digits(int n, NOPL_FLOAT_DIG *digits);
+void num_propagate_carry_digits(NOPL_FLOAT_DIG *digits, int num_digits);
 void num_propagate_carry(NOPL_FLOAT *n, int num_digits);
-void num_db_digits(char *text, int n, int8_t *d);
+void num_db_digits(char *text, int n, NOPL_FLOAT_DIG *d);
 void num_num_to_int(int n, NOPL_FLOAT *num,  NOBJ_INT *i);
 char *num_as_text(NOPL_FLOAT *n, char *text);
 void num_int_to_num(int n, NOBJ_INT *i, NOPL_FLOAT *num);
-int num_digits_zero(int n, int8_t *digits);
+int num_digits_zero(int n, NOPL_FLOAT_DIG *digits);
 NOPL_FLOAT num_from_mem(uint8_t *mp);
 char *num_to_text(NOPL_FLOAT *n);
-void num_clear_digits(int n, int8_t *d);
+void num_clear_digits(int n, NOPL_FLOAT_DIG *d);
 NOPL_FLOAT num_from_text(char *p);
 void num_normalise(NOPL_FLOAT *n);
+void num_init(void);
+void num_uninit(void);
+

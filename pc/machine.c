@@ -331,60 +331,59 @@ uint16_t pop_discard_sp_str(NOBJ_MACHINE *m, uint16_t sp)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Auxiliary stack
+// Auxiliary stack manipulation
 //
 // This allows a mark to be set up in the stack and the stack items to be
 // 're-popped' off the stack, after they have actually been popped off.
 // Obviously nothing can push over the data before it is re-popped.
+//
+////////////////////////////////////////////////////////////////////////////////
 
-void reset_aux_stack(NOBJ_MACHINE *m)
-{
-  // Store the current stack pointer
-  
-}
+uint16_t aux_sp;
 
 void mark_aux_stack(NOBJ_MACHINE *m)
 {
+  // Store the current stack pointer
+  aux_sp = m->rta_sp;  
 }
+
+//------------------------------------------------------------------------------
 
 uint8_t pop_aux_8(NOBJ_MACHINE *m)
 {
   uint8_t val8;
   
-  if( m->rta_sp == NOBJ_MACHINE_STACK_SIZE )
+  if( aux_sp == NOBJ_MACHINE_STACK_SIZE )
     {
       error("\nAttempting to pop from empty stack");
     }
   
-  val8 = m->stack[(m->rta_sp)++];
+  val8 = m->stack[aux_sp++];
 
 #if DEBUG_PUSH_POP
-  debug("\n%s:Popped %02X from SP:%04X", __FUNCTION__, val8, (m->rta_sp)-1);
+  debug("\n%s:Popped %02X from SP:%04X", __FUNCTION__, val8, (aux_sp)-1);
 #endif
 
   return(val8);  
 }
 
-pop_aux_num(m)
-	    {
-	    }NOPL_FLOAT pop_machine_num(NOBJ_MACHINE *m)
+//------------------------------------------------------------------------------
+
+NOPL_FLOAT pop_aux_num(NOBJ_MACHINE *m)
 {
   NOPL_FLOAT n;
   int b;
 
-  n.sign = pop_machine_8(m);
-  n.exponent = pop_machine_8(m);
+  n.sign = pop_aux_8(m);
+  n.exponent = pop_aux_8(m);
   
   // Pop digits
   for(int i = (NUM_MAX_DIGITS/2)-1; i>=0; i--)
     {
-      b = pop_machine_8(m);
+      b = pop_aux_8(m);
       n.digits[i*2] = b >> 4;
       n.digits[i*2+1] = b & 0xF;
     }
 
-
-
-  
   return(n);
-x
+}

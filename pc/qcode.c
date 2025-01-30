@@ -2213,10 +2213,12 @@ void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
   uint16_t num_i;
   NOPL_FLOAT x, d;
 
-  // We ust have calculates the sum previously, so calculate the mean
+  // We must have calculated the sum previously, so calculate the mean
   qca_mean(m, s);
 
   // Mean is now in num_result
+
+  printf("\nMean:%s", num_to_text(&(s->num_result)));
   
   zero_num(&sum);
   
@@ -2242,21 +2244,27 @@ void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
       for(int i=0; i<s->count; i++, num_i+=8)
 	{
 	  x = num_from_mem(&(m->stack[num_i]));
-	  
+
+	  printf("\nx:%s", num_to_text(&x));
 	  dbq_num("x:   %s", &x);
 	  dbq_num("SUM: %s", &sum);
 
 	  // Subtract mean from sample
 	  num_sub(&x, &(s->num_result), &d);
 
+	  printf("\ndiff:%s", num_to_text(&d));
+	  
 	  // Square
 	  num_mul(&d, &d, &x);
 
+	  printf("\nsq:%s", num_to_text(&x));
+	  
 	  // Accumulate
 	  num_add(&x, &sum, &d);
 	  sum = d;
 	}
 
+      printf("\nsumsq:%s", num_to_text(&sum));
       dbq_num("Result SUM:%s", &sum);
       s->integer = s->count;
       s->num_result = sum;
@@ -2270,11 +2278,10 @@ void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
       
       dbq("Count = %d\n", s->count);
 
-      // Reset the stack so we can pop the floats off the stack again. This only works if
-      // nothing is pushed on to the stack from the mark to this point.
+      // Aux stack has been set up so we can pop the floats off the stack again.
+      // This only works if nothing is pushed on to the stack from the mark to
+      // this point.
 
-      reset_aux_stack(m);
-      
       // Read all the floats and find the sumimum value
       for(int i=0; i<s->count; i++, num_i+=8)
 	{
@@ -2302,17 +2309,17 @@ void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
     }
 
   // Now calculate the variance by dividing by (N-1)
-  NOPL_FLOAT f_count;
+  NOPL_FLOAT f_count, f_nm1;
   NOPL_FLOAT f_one = {0, 0, {1,0,0,0,0,0,0,0,0,0,0,0}};
   NOPL_INT icnt;
 
   icnt = (NOPL_INT)s->count;
   num_int_to_num(NUM_MAX_DIGITS, &icnt, &f_count);
 
-  num_sub(&f_count, &f_one, &f_count);
-  dbq_num("N-1:%s", &f_count);
+  num_sub(&f_count, &f_one, &f_nm1);
+  dbq_num("N-1:%s", &f_nm1);
 
-  num_div(&sum, &f_count, &x);
+  num_div(&sum, &f_nm1, &x);
   dbq_num("Variance:%s", &x);
 
   s->num_result = x;
