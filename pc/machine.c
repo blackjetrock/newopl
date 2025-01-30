@@ -344,7 +344,7 @@ uint16_t aux_sp;
 void mark_aux_stack(NOBJ_MACHINE *m)
 {
   // Store the current stack pointer
-  aux_sp = m->rta_sp;  
+  aux_sp = m->rta_sp;
 }
 
 //------------------------------------------------------------------------------

@@ -2123,6 +2123,9 @@ void qca_rtf_sum(NOBJ_MACHINE *m, NOBJ_QCS *s)
   flist_flag = pop_machine_8(m);
 
   dbq("flist_flg:%d", flist_flag);
+
+  // Save flag for later codes
+    s->flist_flag = flist_flag;
   
   switch(flist_flag)
     {
@@ -2224,7 +2227,7 @@ void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
   
   //  s->flist_flag = pop_machine_8(m);
 
-  dbq("flist_flg:%d", s->flist_flag);
+  printf("flist_flg:%d", s->flist_flag);
   
   switch(s->flist_flag)
     {
@@ -2285,6 +2288,7 @@ void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
       // Read all the floats and find the sumimum value
       for(int i=0; i<s->count; i++, num_i+=8)
 	{
+	  
 	  x = pop_aux_num(m);
 	  
 	  dbq_num("x:   %s", &x);

@@ -21,6 +21,7 @@ M1 = var(f(), 3)
 print "M1:";M1
 
 if m1 <> 2047.16333333
+print "a fail",m1-2047.16333333,2047.16333333
 pass% = 0
 endif
 
@@ -33,13 +34,16 @@ print "M1:";M1
 
 if m1 <> 2047.16333333
 pass% = 0
+print "b fail"
 endif
+
 rem 8176.7292
 M1 = var(10.0, 100.0, 200.0, 10.5)
 print "M1:";M1
 
-if m1 <> 8176.7292
+if m1 <> 8176.72916667
 pass% = 0
+print "c fail"
 endif
 
 if pass% = 1
