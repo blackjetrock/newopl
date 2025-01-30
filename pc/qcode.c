@@ -2122,7 +2122,7 @@ void qca_rtf_sum(NOBJ_MACHINE *m, NOBJ_QCS *s)
   
   flist_flag = pop_machine_8(m);
 
-  dbq("flist_flg:%d", flist_flag);
+  //dbq("flist_flg:%d", flist_flag);
 
   // Save flag for later codes
     s->flist_flag = flist_flag;
@@ -2142,19 +2142,19 @@ void qca_rtf_sum(NOBJ_MACHINE *m, NOBJ_QCS *s)
       // Save for use by other RTF codes
       s->num_i = num_i;
       
-      dbq("Count = %d\n", count);
+      //dbq("Count = %d\n", count);
       
       // Read all the floats and find the sumimum value
       for(int i=0; i<count; i++, num_i+=8)
 	{
 	  x = num_from_mem(&(m->stack[num_i]));
 	  
-	  dbq_num("n:   %s", &x);
-	  dbq_num("SUM: %s", &sum);
+	  //dbq_num("n:   %s", &x);
+	  //dbq_num("SUM: %s", &sum);
 	  num_add(&x, &sum, &sum);
 	}
 
-      dbq_num("Result SUM:%s", &sum);
+      //dbq_num("Result SUM:%s", &sum);
       s->integer = count;
       s->num_result = sum;
       break;
@@ -2178,12 +2178,12 @@ void qca_rtf_sum(NOBJ_MACHINE *m, NOBJ_QCS *s)
 	{
 	  x = pop_machine_num(m);
 	  
-	  dbq_num("n:  %s", &x);
-	  dbq_num("SUM:%s", &sum);
+	  //dbq_num("n:  %s", &x);
+	  //dbq_num("SUM:%s", &sum);
 	  num_add(&x, &sum, &sum);
 	}
 
-      dbq_num("Result SUM:%s", &sum);
+      //dbq_num("Result SUM:%s", &sum);
       s->integer = count;
       s->num_result = sum;
 
@@ -2221,13 +2221,13 @@ void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
   // Mean is now in num_result
 
-  printf("\nMean:%s", num_to_text(&(s->num_result)));
+  //printf("\nMean:%s", num_to_text(&(s->num_result)));
   
   zero_num(&sum);
   
   //  s->flist_flag = pop_machine_8(m);
 
-  printf("flist_flg:%d", s->flist_flag);
+  //printf("flist_flg:%d", s->flist_flag);
   
   switch(s->flist_flag)
     {
@@ -2248,26 +2248,26 @@ void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
 	{
 	  x = num_from_mem(&(m->stack[num_i]));
 
-	  printf("\nx:%s", num_to_text(&x));
+	  //printf("\nx:%s", num_to_text(&x));
 	  dbq_num("x:   %s", &x);
 	  dbq_num("SUM: %s", &sum);
 
 	  // Subtract mean from sample
 	  num_sub(&x, &(s->num_result), &d);
 
-	  printf("\ndiff:%s", num_to_text(&d));
+	  //printf("\ndiff:%s", num_to_text(&d));
 	  
 	  // Square
 	  num_mul(&d, &d, &x);
 
-	  printf("\nsq:%s", num_to_text(&x));
+	  //printf("\nsq:%s", num_to_text(&x));
 	  
 	  // Accumulate
 	  num_add(&x, &sum, &d);
 	  sum = d;
 	}
 
-      printf("\nsumsq:%s", num_to_text(&sum));
+      //printf("\nsumsq:%s", num_to_text(&sum));
       dbq_num("Result SUM:%s", &sum);
       s->integer = s->count;
       s->num_result = sum;
@@ -2288,7 +2288,6 @@ void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
       // Read all the floats and find the sumimum value
       for(int i=0; i<s->count; i++, num_i+=8)
 	{
-	  
 	  x = pop_aux_num(m);
 	  
 	  dbq_num("x:   %s", &x);

@@ -3066,7 +3066,11 @@ int isfloatdigit(char c, int *seen_e)
       *seen_e = 1;
     }
   
-  if( isdigit(c) || (c == '.') || (c == 'E') || (*seen_e && (c == '-')) 
+  if( isdigit(c) ||
+      (c == '.') ||
+      (c == 'E') ||
+      (*seen_e && (c == '-')) ||
+      (*seen_e && (c == '+')) 
 #if FLT_INCLUDES_SIGN
       || (c == '-')
 #endif

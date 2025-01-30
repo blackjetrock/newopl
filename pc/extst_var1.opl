@@ -20,8 +20,10 @@ rem var:
 M1 = var(f(), 3)
 print "M1:";M1
 
-if m1 <> 2047.16333333
-print "a fail",m1-2047.16333333,2047.16333333
+if M1 = 2.40716333333E+3
+print "pass a"
+else
+print "a fail",m1-2407.16333333,2407.16333333
 pass% = 0
 endif
 
@@ -32,7 +34,7 @@ f(3) = -54.6
 M1 = var(f(), 3)
 print "M1:";M1
 
-if m1 <> 2047.16333333
+if m1 <> 2.40716333333E+3
 pass% = 0
 print "b fail"
 endif

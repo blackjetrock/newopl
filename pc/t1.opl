@@ -1,5 +1,12 @@
 t:
 
-print 123456789.0*111111111.0
-print 18.0*21.0
-print 5.04333333333 * 5.04333333333
+local M1
+
+M1 = var(10.0, 100.0, 200.0, 10.5)
+print "M1:";M1
+
+if m1 <> 8176.72916667
+print "c fail"
+else
+print "PASS"
+endif
