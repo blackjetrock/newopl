@@ -612,6 +612,14 @@ void qca_raise(NOBJ_MACHINE *m, NOBJ_QCS *s)
   runtime_error( pop_machine_int(m), "Error");
 }
 
+// Set a flag that will be seen in the main exec loop
+
+void qca_onerr(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  m->onerr_flag = 1;
+}
+
+
 void qca_unwind_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Dump stack for dbq
@@ -2362,9 +2370,9 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_LS_NUM_ARR_IND, "QI_LS_NUM_ARR_IND", {qca_fp_ind,       qca_pop_idx,     qca_push_num_arr_addr }}, // test
     { QI_LS_STR_ARR_IND, "QI_LS_STR_ARR_IND", {qca_fp_ind,       qca_pop_idx,     qca_push_str_arr_addr }}, // test
 
-    { QI_INT_FLD,        "QI_INT_FLD",        {qca_int_fld,   qca_null,        qca_null }},          // QI_INT_FLD              0x1A
-    { QI_NUM_FLD,        "QI_NUM_FLD",        {qca_num_fld,   qca_null,        qca_null }},          // 1B
-    { QI_STR_FLD,        "QI_STR_FLD",        {qca_str_fld,   qca_null,        qca_null }},          // QI_STR_FLD              0x1C
+    { QI_INT_FLD,        "QI_INT_FLD",        {qca_int_fld,      qca_null,        qca_null }},          // QI_INT_FLD              0x1A
+    { QI_NUM_FLD,        "QI_NUM_FLD",        {qca_num_fld,      qca_null,        qca_null }},          // 1B
+    { QI_STR_FLD,        "QI_STR_FLD",        {qca_str_fld,      qca_null,        qca_null }},          // QI_STR_FLD              0x1C
     { QI_LS_INT_FLD,     "QI_LS_INT_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},
     { QI_LS_NUM_FLD,     "QI_LS_NUM_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},
     { QI_LS_STR_FLD,     "QI_LS_STR_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},    // QI_LS_STR_FLD           0x1F    
