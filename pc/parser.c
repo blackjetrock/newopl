@@ -1566,7 +1566,7 @@ int set_qcode_header_string_at(int idx, char *str)
 //------------------------------------------------------------------------------
 
 
-void dump_qcode_data(void)
+void dump_qcode_data(char *opl_filename)
 {
   FILE *fp;
   int idx = 0;
@@ -1648,14 +1648,25 @@ void dump_qcode_data(void)
   // Binary output
   //
   ////////////////////////////////////////////////////////////////////////////////
-  
 
   FILE *objfp;
+  char basename[NOBJ_FILENAME_MAXLEN];
+  char ob3_fn[NOBJ_FILENAME_MAXLEN];
 
   printf("\nWriting binary...");
   printf("\nLength:%04X", qcode_header_len);
+
+  // Create the output filename from the OPL file name
+
+  sscanf(opl_filename, "%[^.].opl", basename);
+  printf("\nBase name:%s", basename);
+
+  strcpy(ob3_fn, basename);
+  strcat(ob3_fn, ".ob3");
   
-  objfp = fopen("ob3_nopl.bin", "wb");
+  printf("\nOutput name:%s", ob3_fn);
+
+  objfp = fopen(ob3_fn, "wb");
 
   fprintf(objfp, "ORG%c%c%c%c%c", 0x01, 0xce, 0x83, 0x01, 0xca);
   

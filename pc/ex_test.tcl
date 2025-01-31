@@ -105,7 +105,11 @@ foreach file [lsort $EX_TEST_FILES] {
     if { [regexp -- {(.*).opl} $file all basename] } {
 
 	set op [exec ./newopl_tran $basename\.opl]
-	set op [exec ./newopl_exec ob3_nopl.bin]
+	set op [exec ./newopl_exec $basename\.ob3]
+
+	# We also need am ob3 without the extst_ prefix so that we can have procs
+	# call other procs. Extst is really a prefix that enables detection of
+	# exec test files.
 
 	if { [regexp -- "PASS" $op] } {
 	    set result PASS

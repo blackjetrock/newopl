@@ -2997,7 +2997,6 @@ void execute_qcode(NOBJ_MACHINE *m, int single_step)
       
       (m->rta_pc)++;
 
-      
       found = 0;
       int qci = 0;
       
@@ -3117,6 +3116,12 @@ void execute_qcode(NOBJ_MACHINE *m, int single_step)
 	  qcode_info[qci].action[a](m, &s);
 	}
 
+      // Jump to onerr hander if the flag is set
+      if( m->onerr_flag )
+	{
+	  m->rta_pc = m->onerr_handler;
+	}
+      
       sprintf(outline, "rta_sp:%04X rta_fp:%04X rta_pc:%04X qcode:%02X %s",
 	      m->rta_sp,
 	      m->rta_fp,

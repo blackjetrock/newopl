@@ -6341,6 +6341,9 @@ void dbpfq(const char *caller, char *fmt, ...)
   fflush(ofp);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+
 int main(int argc, char *argv[])
 {
   FILE *fp;
@@ -6384,7 +6387,7 @@ int main(int argc, char *argv[])
   set_qcode_header_byte_at(size_of_qcode_idx+1, 1, qcode_len &  0xFF);
 
   dump_exp_buffer(ofp, 2);
-  dump_qcode_data();
+  dump_qcode_data(argv[1]);
   dump_cond_fixup();
   
   fclose(chkfp);

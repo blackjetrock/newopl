@@ -111,7 +111,7 @@ foreach file [lsort $TR_TEST_FILES] {
 	#puts "$basename\n"
 	
 	exec ./newopl_tran $basename\.opl > $basename\_nopl.out.test
-	exec ./newopl_objdump ob3_nopl.bin > $basename\_nopl.tr.test
+	exec ./newopl_objdump $basename\.ob3 > $basename\_nopl.tr.test
 
 	set opf [open $basename\_nopl.out.test]
 	set output [read $opf]
