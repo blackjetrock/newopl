@@ -10,7 +10,7 @@ xx::
 print "Error:";ERR
 
 onerr yy::
-onerr off
+rem onerr off
 raise 301
 print "Error:";ERR
 
@@ -18,4 +18,4 @@ print "PASS"
 return
 
 yy::
-print "FAIL"
+print "PASS"

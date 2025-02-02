@@ -1,7 +1,7 @@
 stradd:
 
-local A$(5), B$(5) , E$(10)
-local A, B, E, e%, ANS, ANS%, ANS$(10)
+local A$(5), B$(5) , E$(20)
+local A, B, E, e%, ANS, ANS%, ANS$(20)
 local pass%, pass2%, num%
 
 pass% = 1
@@ -44,7 +44,7 @@ A$ = "abc"
 B$ = "xyz"
 E$ = a$ + B$ +a$ + a$
 
-ANS$= "abcxyzabc"
+ANS$= "abcxyzabcabc"
 print CHR$(num%+asc("A"));"(";ANS$;"):";e$,(e$=ANS$) : PASS2%=PASS2%+(e$=ANS$)
 num%=num%+1
 

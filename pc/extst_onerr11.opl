@@ -9,7 +9,7 @@ rem try to invoke it from another proc
 
 onerr x10::
 
-onerr10:
+onerr10:(123)
 
 print "Back from onerr10"	
 return
