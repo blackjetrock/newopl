@@ -102,15 +102,16 @@ foreach file [lsort $EX_TEST_FILES] {
 puts "\n"
 
 foreach file [lsort $EX_TEST_FILES] {
-    if { [regexp -- {(.*).opl} $file all basename] } {
+    if { [regexp -- {extst_(.*).opl} $file all basename] } {
 
-	set op [exec ./newopl_tran $basename\.opl]
-	set op [exec ./newopl_exec $basename\.ob3]
+	set op [exec ./newopl_tran extst_$basename\.opl]
+	set op [exec ./newopl_exec extst_$basename\.ob3]
 
-	# We also need am ob3 without the extst_ prefix so that we can have procs
+	# We also need an ob3 without the extst_ prefix so that we can have procs
 	# call other procs. Extst is really a prefix that enables detection of
 	# exec test files.
-
+	file copy -force extst_$basename\.ob3 $basename\.ob3
+	
 	if { [regexp -- "PASS" $op] } {
 	    set result PASS
 	    incr ::PASS 1

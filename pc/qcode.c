@@ -541,6 +541,15 @@ void qca_push_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_16(m,  stack_entry_16(m, s->ind_ptr));
 }
 
+void to_lower_str(char *str)
+{
+  while(*str != '\0')
+    {
+      *str = tolower(*str);
+      str++;
+    }
+}
+
 void qca_push_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   dbq("QCO_PROC");
@@ -573,11 +582,20 @@ void qca_push_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
 	  
   if( fp == NULL )
     {
-      runtime_error(ER_RT_PN, "Cannot open '%s'", s->str);
-      dbq("Cannot open '%s'", s->str);
-      exit(-1);
+      // We failed to open the ob3 file, try a lower case version
+      to_lower_str(s->str);
+
+      // Load the procedure file
+      fp = fopen(s->str, "r");
+      
+      if( fp == NULL )
+	{
+	  runtime_error(ER_RT_PN, "Cannot open '%s'", s->str);
+	  dbq("Cannot open '%s'", s->str);
+	  exit(-1);
+	}
     }
-	  
+  
   dbq("Loaded '%s'", s->str);
 	  
   // Discard header
