@@ -94,6 +94,7 @@ FILE *exdbfp;
 FILE *fp;
 NOBJ_PROC proc;
 
+
 ////////////////////////////////////////////////////////////////////////////////
 
 void push_parameters(NOBJ_MACHINE *m)
@@ -846,6 +847,7 @@ int main(int argc, char *argv[])
   push_proc(fp, &machine, argv[1], 1);
 
   // Execute it
+  current_machine = &machine;
   execute_qcode(&machine, do_single_step);
   
   debug("\n\n");

@@ -608,8 +608,14 @@ void qca_push_qc_word(NOBJ_MACHINE *m, NOBJ_QCS *s)
 }
 
 void qca_raise(NOBJ_MACHINE *m, NOBJ_QCS *s)
-{
-  runtime_error(pop_machine_int(m), "Error");
+{  
+  m->error_occurred = 1;
+  m->error_code = pop_machine_int(m);
+}
+
+void qca_err(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{  
+  s->result = m->error_code;
 }
 
 // Set a flag that will be seen in the main exec loop
@@ -617,7 +623,14 @@ void qca_raise(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_onerr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   s->integer = qcode_next_16(m);
-  m->onerr_handler = s->integer+m->rta_pc - 2;
+  if( s->integer == 0 )
+    {
+      put_stack_16(m, m->rta_fp+FP_OFF_ONERR+1, 0);
+    }
+  else
+    {
+      put_stack_16(m, m->rta_fp+FP_OFF_ONERR+1, s->integer+m->rta_pc - 2);
+    }
 }
 
 void qca_unwind_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -2490,7 +2503,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_ASC,           "RTF_ASC",           {qca_pop_str,      qca_asc,         qca_push_result}},
     { RTF_DAY,           "RTF_DAY",           {qca_clock_day,    qca_null,        qca_null}},
     // RTF_DISP                0x8D    
-    // RTF_ERR                 0x8E    
+    { RTF_ERR,           "RTF_ERR",           {qca_err,          qca_null,        qca_push_result}},    // RTF_ERR    0x8E    
     // RTF_FIND                0x8F    
     // RTF_FREE                0x90    
     // RTF_GET                 0x91    
@@ -3119,12 +3132,34 @@ void execute_qcode(NOBJ_MACHINE *m, int single_step)
 	  qcode_info[qci].action[a](m, &s);
 	}
 
-      // Jump to onerr hander if non-zero and there is an error
-      if( m->onerr_handler != 0 )
-	{
-	  m->rta_pc = m->onerr_handler;
-	}
+      //------------------------------------------------------------------------------
+      // ONERR handling
+      //
+      // If there is an error and an onerr handler has been defined
+      // then jump to it
+
+      int handler_address;
       
+      if( m->error_occurred )
+	{
+	  dbq("Error occurred");
+
+	  handler_address = machine_onerr_handler(m);
+	  if( handler_address != 0 )
+	    {
+	      dbq("ONERR handler defined: %04X", handler_address);
+	      m->rta_pc = handler_address;
+	    }
+	  else
+	    {
+	      // No handler
+	      dbq("No ONERR handler defined");
+	    }
+	  
+	  // Clear this error
+	  m->error_occurred = 0;
+	}
+
       sprintf(outline, "rta_sp:%04X rta_fp:%04X rta_pc:%04X qcode:%02X %s",
 	      m->rta_sp,
 	      m->rta_fp,

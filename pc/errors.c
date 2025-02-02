@@ -16,7 +16,6 @@ typedef struct _ERROR_INFO
 
 ERROR_INFO error_info[] =
   {
-
     {ER_AL_NC, "NO MORE ALLOCATOR CELLS"},
     {ER_AL_NR, "NO MORE ROOM"},
     {ER_MT_EX, "EXPONENT OVERFLOW (OR UNDERFLOW)"},
@@ -105,11 +104,18 @@ void runtime_error(int error code, char *fmt, ...)
   printf("\n%s\n", line);
 }
 #else
+
 void runtime_error(int error_code, char *fmt, ...)
+{
+  // Signal to the QCode loop that an error has occurred
+  current_machine->error_occurred = 1;
+}
+
+void runtime_error_msg(int error_code, char *fmt, ...)
 {
   va_list valist;
   char line[80];
-  
+
   va_start(valist, fmt);
 
   vsprintf(line, fmt, valist);

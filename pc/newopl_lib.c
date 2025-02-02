@@ -531,6 +531,9 @@ void init_machine(NOBJ_MACHINE *m)
   m->rta_fp = 0;
   m->rta_pc = 0;
 
+  // No error so far
+  m->error_occurred = 0;
+  
   debug("\nInit machine done.");
 }
 

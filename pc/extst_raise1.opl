@@ -1,4 +1,21 @@
 raise1:
 
-rem raise 0
+onerr xx::
+raise 300
+
+print "FAIL A"
+return
+
+xx::
+print "Error:";ERR
+
+onerr yy::
+onerr off
+raise 301
+print "Error:";ERR
+
 print "PASS"
+return
+
+yy::
+print "FAIL"

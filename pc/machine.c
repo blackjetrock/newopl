@@ -9,6 +9,22 @@
 
 #include "nopl.h"
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// Current machine
+//
+// The code has been built with the idea of running several OPL machines at
+// or saving the state of a machine and continuing later. Having to send the
+// machine pointer to all functions is untidy in some cases, so a current
+// machine variable is used. This is useful for the runtime_error() function,
+// for instance as it avoids having to pass the current machine pointer
+// to every function in the call stack even if it isn't used.
+
+NOBJ_MACHINE *current_machine;
+
+////////////////////////////////////////////////////////////////////////////////
+
+
 void push_machine_8(NOBJ_MACHINE *m, uint8_t v)
 {
 #if DEBUG_PUSH_POP
@@ -169,10 +185,19 @@ uint8_t stack_entry_8(NOBJ_MACHINE *m, uint16_t ptr)
 
 //------------------------------------------------------------------------------
 //
-// Gets a 16 bit value from the machine stack
-// New SP returned, machine sp unchanged
+// Put 16 bit value in stack
+void put_stack_16(NOBJ_MACHINE *m, int sp, uint16_t v)
+{
+  m->stack[sp-0] = (v &  0xFF);
+  m->stack[sp-1] = (v >> 8);
+}
 
-uint16_t get_machine_16(NOBJ_MACHINE *m, uint16_t sp, uint16_t *v)
+//------------------------------------------------------------------------------
+//
+// Gets a 16 bit value from the machine stack
+
+
+uint16_t get_machine_16(NOBJ_MACHINE *m, uint16_t sp)
 {
   uint16_t value = 0;
   
@@ -181,13 +206,12 @@ uint16_t get_machine_16(NOBJ_MACHINE *m, uint16_t sp, uint16_t *v)
       error("\nAttempting to get from empty stack");
     }
 
-  //debug("\n   from %04X", sp+1);
+  //printf("\n   from %04X", sp);
   
-  value  =  m->stack[sp++];
-  value |= (m->stack[sp++]) << 8;
-  *v = value;
+  value  =  m->stack[sp+1];
+  value |= (m->stack[sp+0]) << 8;
   
-  return(sp);  
+  return(value);  
 }
 
 uint16_t get_machine_8(NOBJ_MACHINE *m, uint16_t sp, uint8_t *v)
@@ -386,4 +410,68 @@ NOPL_FLOAT pop_aux_num(NOBJ_MACHINE *m)
     }
 
   return(n);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Run a function for all frames on the stack
+// If function return true then exit
+// Return zero if function never fires, otherwise 1
+//
+// f_fp holds FP of matching frame on exit, or 0
+
+int machine_for_each_frame(NOBJ_MACHINE *m, MACHINE_CHECK_FRAME_FN fn, int *f_fp)
+{
+  int fp;
+  
+  for(fp = m->rta_fp; fp != 0; fp = get_machine_16(m, fp))
+    {
+      //printf("\nSRCH:%04X", fp);
+      
+      if( (*fn)(m, fp) )
+	{
+	  *f_fp = fp;
+	  //printf("\nret1");
+	  return(1);
+	}
+    }
+  
+  *f_fp = 0;
+  //printf("\nret0");
+  return(0);
+}
+
+//------------------------------------------------------------------------------
+//
+// Find any defined onerr handler
+//
+// The stack frames are searched for a non-zero onerr handler
+//
+//
+
+int machine_nonzero_onerr(NOBJ_MACHINE *m, int fp)
+{
+  if( get_machine_16(m, fp+FP_OFF_ONERR) != 0 )
+    {
+      //printf("\n%s:ret1  ONERR:%04X", __FUNCTION__, get_machine_16(m, fp+FP_OFF_ONERR));
+      return(1);
+    }
+  
+  //printf("\n%s:ret0", __FUNCTION__);
+  return(0);
+}
+
+int machine_onerr_handler(NOBJ_MACHINE *m)
+{
+  int f_fp;     // FP if frame found
+  
+  // Look through frames
+  if( machine_for_each_frame(m, machine_nonzero_onerr, &f_fp) )
+    {
+      //printf("\n%s: %04X", __FUNCTION__, get_machine_16(m, f_fp+FP_OFF_ONERR));
+      return(get_machine_16(m, f_fp+FP_OFF_ONERR));
+    }
+
+  // None defined
+  return(0);
 }
