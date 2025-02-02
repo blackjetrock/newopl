@@ -295,6 +295,7 @@ void tui_display_machine(NOBJ_MACHINE *m)
   wprintw(machine_win, "\nrta_fp:%04X ", m->rta_fp);
   wprintw(machine_win, "\nrta_sp:%04X ", m->rta_sp);
   wprintw(machine_win, "\nrta_pc:%04X ", m->rta_pc);
+  wprintw(machine_win, "\nproc:  %s ",   current_proc);
 
   wrefresh(machine_win);
 }

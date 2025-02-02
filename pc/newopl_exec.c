@@ -195,6 +195,34 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   uint16_t size_of_external_table     = 0;
   uint8_t  num_parameters;
 
+  // Store the proc name for debug, it can be used to find the variable info file
+  // for the proc, for instance.
+
+  // Strip out the base name of the file
+  char *first = name;
+  char *last = name + (strlen(name)-1);
+
+  printf("\nname:'%s'", name);
+  
+  for(int i=0; i<strlen(name); i++)
+    {
+      switch(*(name+i))
+	{
+	case ':':
+	  first = name+i+1;
+	  break;
+	case '.':
+	  last = name+i-1;
+	  break;
+	}
+    }
+
+  
+  strncpy(current_proc, first, last-first+1);
+  current_proc[last-first+2] = '\0';
+  
+  printf("\ncur_proc:'%s'", current_proc);
+    
   debug("\n\n");
   debug("\n===================================Proc=========================================\n\n");
   debug("\nPushing procedure '%s'", name);

@@ -36,5 +36,6 @@ int machine_for_each_frame(NOBJ_MACHINE *m, MACHINE_CHECK_FRAME_FN fn, int *f_fp
 void put_stack_16(NOBJ_MACHINE *m, int sp, uint16_t v);
 
 extern NOBJ_MACHINE *current_machine;
+extern char current_proc[NOBJ_FILENAME_MAXLEN+3];
 
 
