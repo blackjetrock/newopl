@@ -95,7 +95,7 @@ void pk_setp(PAK pak)
 {
   if ( !pk_valid_pak(pak) )
     {
-      runtime_error( ER_PK_IV, "Bad pak");
+      runtime_error(ER_PK_IV, "Bad pak");
       return;
     }
   

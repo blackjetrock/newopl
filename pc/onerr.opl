@@ -1,8 +1,11 @@
-oner:
+onerr:
 
-local A%
+rem onerr off
+onerr handler::
+
+RAISE 300
+PRINT "FAIL"
+RETURN
 
 handler::
-
-onerr off
-onerr handler::
+PRINT "PASS"

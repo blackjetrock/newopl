@@ -134,7 +134,6 @@ typedef struct _NOBJ_MACHINE
   NOBJ_SP rta_sp;
   int rta_pc;
   int rta_fp;
-  int onerr_flag;
   int onerr_handler;
 } NOBJ_MACHINE;
 

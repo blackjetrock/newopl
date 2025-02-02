@@ -609,16 +609,16 @@ void qca_push_qc_word(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_raise(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  runtime_error( pop_machine_int(m), "Error");
+  runtime_error(pop_machine_int(m), "Error");
 }
 
 // Set a flag that will be seen in the main exec loop
 
 void qca_onerr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  m->onerr_flag = 1;
+  s->integer = qcode_next_16(m);
+  m->onerr_handler = s->integer+m->rta_pc - 2;
 }
-
 
 void qca_unwind_proc(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -1734,10 +1734,13 @@ void qca_goto(NOBJ_MACHINE *m, NOBJ_QCS *s)
   int16_t offset;
 
   // Get offset
+#if 0
   offset = m->stack[m->rta_pc++];
   offset <<= 8;
   offset |= m->stack[m->rta_pc++];
-  
+#else
+  offset = qcode_next_16(m);
+#endif
   dbq("Offset %d (%04X)", offset, offset);
 
   m->rta_pc += offset -2;
@@ -2427,7 +2430,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // QCO_ESCAPE              0x50    
     { QCO_GOTO,          "QCO_GOTO",          {qca_goto,         qca_null,        qca_null}},
     // QCO_OFF                 0x52    
-    // QCO_ONERR               0x53    
+    { QCO_ONERR,         "QCO_ONERR",         {qca_onerr,        qca_null,        qca_null}},    // QCO_ONERR               0x53    
     // QCO_PAUSE               0x54
     { QCO_PAUSE,         "QCO_PAUSE",         {qca_pop_int,      qca_pause,       qca_null}},
     // QCO_POKEB               0x55    
@@ -3116,8 +3119,8 @@ void execute_qcode(NOBJ_MACHINE *m, int single_step)
 	  qcode_info[qci].action[a](m, &s);
 	}
 
-      // Jump to onerr hander if the flag is set
-      if( m->onerr_flag )
+      // Jump to onerr hander if non-zero and there is an error
+      if( m->onerr_handler != 0 )
 	{
 	  m->rta_pc = m->onerr_handler;
 	}

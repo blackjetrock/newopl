@@ -947,7 +947,7 @@ void num_add_pos(NOPL_FLOAT *a, NOPL_FLOAT *b, NOPL_FLOAT *r)
 
   // Normalise
   num_normalise(r);
-  dbq_num("%s After normailse:", r);
+  dbq_num("%s After normalise:", r);
 }
 
 //------------------------------------------------------------------------------
@@ -1912,25 +1912,6 @@ void num_from_double(NOPL_FLOAT *a, long double d)
   dbq_num("res:", a);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//
-// Convert a NOPL_FLOAT to a string
-// Used for field variables
-//
-
-#if 0
-char nopl_string[80];
-
-char *num_float_to_str(NOPL_FLOAT *nf)
-{
-  if( nf->e <=12 )
-    {
-      sprintf(nopl_string, "%s%ldE%d", (nf->s)?"-":" ", nf->m, nf->e);
-    }
-  
-  return(nopl_string);
-}
-#endif
 //------------------------------------------------------------------------------
 
 NOPL_FLOAT num_float_from_str(char *str)
