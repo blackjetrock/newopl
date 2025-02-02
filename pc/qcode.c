@@ -3172,6 +3172,9 @@ void execute_qcode(NOBJ_MACHINE *m, int single_step)
 	    {
 	      // No handler
 	      dbq("No ONERR handler defined");
+
+	      //Exit
+	      return;
 	    }
 	  
 	  // Clear this error
