@@ -1,1 +1,1 @@
-./m; ./newopl_tran $1.opl; ./newopl_objdump $1.ob3 > obj.txt; ./newopl_exec $1.ob3
+./m; ./newopl_tran extst_$1.opl; ./newopl_objdump extst_$1.ob3 > obj.txt; cp extst_$1.ob3 $1.ob3;  ./newopl_exec $1.ob3
