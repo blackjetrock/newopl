@@ -4,11 +4,11 @@ local x%, ad%
 
 ad% = addr(x%)
 
-print "Expecting:";$3eec
+print "Expecting:";$3eec+6
 print "Got:";ad%
 
 
-if ad% = $3EEC
+if ad% = $3EEC+6
 
   print "PASS"
 
