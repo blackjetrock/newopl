@@ -163,13 +163,16 @@ void push_parameters(NOBJ_MACHINE *m)
   push_machine_8(m, 0x00);
 #endif
 
+  int i;
+  NOPL_FLOAT f;
+  
   // Push parameters
   for(int p=0; p<arg_count; p++)
     {
       switch(arg_info[p].type)
 	{
 	case NOBJ_VARTYPE_INT:
-	  int i;
+
 
 	  sscanf(arg_info[p].value, "%d", &i);
 	  printf("\ni=%d '%s'", i, arg_info[p].value);
@@ -180,7 +183,7 @@ void push_parameters(NOBJ_MACHINE *m)
 	  break;
 
 	case NOBJ_VARTYPE_FLT:
-	  NOPL_FLOAT f = num_from_text(arg_info[p].value);
+	  f = num_from_text(arg_info[p].value);
 	  push_machine_num(m, &f);
 	  push_machine_8(m, arg_info[p].type);
 
