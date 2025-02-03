@@ -610,9 +610,12 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
 	  if( ext_found )
 	    {
 	      // All OK
+	      debug("\nExternal found:%s", ext_name);
 	    }
 	  else
 	    {
+	      debug("\nExternal NOT found:%s", ext_name);
+
 	      // ==========    Add a dummy entry
 	      push_machine_16(m, 0x0000);
 	    }
