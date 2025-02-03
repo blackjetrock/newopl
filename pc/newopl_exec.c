@@ -265,7 +265,6 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   debug("\nNumber of parameters :%02X %d", num_parameters, num_parameters);
   debug("\nBase SP              :%02X %d", base_sp, base_sp);
 
-#if 1
   uint8_t par_type;
   uint8_t par_types[16];
   
@@ -280,8 +279,6 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       par_types[np] = par_type;
     }
 
-#endif
-  
   // Device
   if( top )
     {
