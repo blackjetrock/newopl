@@ -94,6 +94,16 @@ FILE *exdbfp;
 FILE *fp;
 NOBJ_PROC proc;
 
+#define MAX_ARGS 16
+
+typedef struct _ARG_INFO_ENTRY
+{
+  int type;
+  char *value;
+} ARG_INFO_ENTRY;
+
+int arg_count = 0;
+ARG_INFO_ENTRY arg_info[MAX_ARGS];
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -101,6 +111,7 @@ void push_parameters(NOBJ_MACHINE *m)
 {
   debug("\nPush parameters...");
 
+  
 #if 0
   // parameters for the code in xx0.bin
   push_machine_8(m, 'C');
@@ -142,7 +153,7 @@ void push_parameters(NOBJ_MACHINE *m)
   
 #endif
 
-#if 1
+#if 0
   push_machine_8(m, 'X');
   push_machine_8(m, 'X');
   push_machine_8(m, 'X');
@@ -150,14 +161,45 @@ void push_parameters(NOBJ_MACHINE *m)
   push_machine_8(m, 'A');
   push_machine_8(m, 0x03);
   push_machine_8(m, 0x00);
-
-  
 #endif
 
-#if 0
-  push_machine_8(m, 0x00);
-  
-#endif
+  // Push parameters
+  for(int p=0; p<arg_count; p++)
+    {
+      switch(arg_info[p].type)
+	{
+	case NOBJ_VARTYPE_INT:
+	  int i;
+
+	  sscanf(arg_info[p].value, "%d", &i);
+	  printf("\ni=%d '%s'", i, arg_info[p].value);
+	  push_machine_16(m, (uint16_t)i);
+
+	  // Type
+	  push_machine_8(m, NOBJ_VARTYPE_INT);
+	  break;
+
+	case NOBJ_VARTYPE_FLT:
+	  NOPL_FLOAT f = num_from_text(arg_info[p].value);
+	  push_machine_num(m, &f);
+	  push_machine_8(m, arg_info[p].type);
+
+	  // Type
+	  push_machine_8(m, NOBJ_VARTYPE_FLT);
+	  break;
+
+	case NOBJ_VARTYPE_STR:
+	  push_machine_string(m, strlen(arg_info[p].value), arg_info[p].value);
+	  push_machine_8(m, arg_info[p].type);
+	  
+	  // Type
+	  push_machine_8(m, NOBJ_VARTYPE_STR);
+	  break;
+	}
+    }
+
+  // Push number of parameters
+  push_machine_8(m, arg_count);
   
   debug("\nPush parameters done.");
 
@@ -474,6 +516,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
       if( m->stack[par_ptr] == par_types[np] )
 	{
 	  // Type OK
+	  debug("Type %d correct. Is %d. Stack %04X", m->stack[par_ptr], par_types[np], par_ptr);
 	}
       else
 	{
@@ -816,6 +859,7 @@ int do_single_step = 0;
 
 int main(int argc, char *argv[])
 {
+  
   exdbfp = fopen("exec_db.txt", "w");
 
   if( exdbfp == NULL )
@@ -823,7 +867,7 @@ int main(int argc, char *argv[])
       printf("\nCould not open 'exec_db.txt'\n");
       exit(-1);
     }
-  
+
   debug("\nSize of NOBJ_PROC:%ld", sizeof(NOBJ_PROC));
   
   // Load the procedure file
@@ -837,23 +881,80 @@ int main(int argc, char *argv[])
 
   debug("\nLoaded '%s'", argv[1]);
 
+#if 0
   if( argc > 2 )
     {
-      printf("%c", argv[2][0]);
-      
       switch(argv[2][0])
 	{
 	case 't':
-
 	  break;
 	  
 	case 'n':
 	  do_single_step = 1;
 	  break;
+
+	case 'p':
+	  // Parameters, list ends with a '.' or end of args
+	  
+	  break;
 	}
     }
+#endif
+  
+  // File name of .ob3 to run is followed, optionally by parameter values
+  // Build parameter table
+  // Parameters are prefixed by a type character so we can have things like:
+  //
+  //  a string parameter "1.2"
+  //
+  // This is s1.2
+  //
+  // Similarly:
+  //
+  // i10
+  // f123.45
+  // f100
+  //
+      
+  printf("\nParameters");
+  
+  for(int a=2; a<argc; a++)
+    {
+      // Find type of arg
+      printf("\n<%s>", argv[a]);
 
+      switch(argv[a][0])
+	{
+	case 'i':
+	  arg_info[arg_count].type = NOBJ_VARTYPE_INT;
+	  break;
+	  
+	case 'f':
+	  arg_info[arg_count].type = NOBJ_VARTYPE_FLT;
+	  break;
 
+	case 's':
+	  arg_info[arg_count].type = NOBJ_VARTYPE_STR;
+	  break;
+	  
+	default:
+	  printf("\nUnknown parameter type. Prefix parameter vaues with type char");
+	  printf("\ne.g.   f1.2, i100, sabc, s1.2");
+	  break;
+	}
+      
+      arg_info[arg_count].value = &(argv[a][1]);
+      arg_count++;
+    }
+
+  printf("\n%d parameters loaded", arg_count);
+  for(int p=0; p<arg_count; p++)
+    {
+      printf("\n%d: %s TYPE:%d", p, arg_info[p].value, arg_info[p].type);
+    }
+
+  printf("\n");
+  
 #ifdef TUI
   printf("tui init");
   tui_init();
