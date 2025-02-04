@@ -329,6 +329,25 @@ NOPL_FLOAT num_from_mem(uint8_t *mp)
   n.exponent = *(mp++);
   
   // Pop digits
+  for(int i = (NUM_MAX_DIGITS/2)-1; i>=0; i--)
+    {
+      b = *(mp++);
+      n.digits[i*2] = b >> 4;
+      n.digits[i*2+1] = b & 0xF;
+    }
+
+  return(n);
+}
+
+NOPL_FLOAT num_from_mem2(uint8_t *mp)
+{
+  NOPL_FLOAT n;
+  int b;
+
+  n.sign = *(mp++);
+  n.exponent = *(mp++);
+  
+  // Pop digits
   for(int i = 0; i< NUM_MAX_DIGITS; i+=2)
     {
       b =  (n.digits[i]    << 4);
@@ -347,13 +366,21 @@ void num_to_mem(NOPL_FLOAT *f, uint8_t *mp)
   
   *(mp++) = f->sign;
   *(mp++) = f->exponent;
-
+  
+  for(int i = 0; i< NUM_MAX_DIGITS; i+=2)
+    {
+      b =  (f->digits[i]    << 4);
+      b |= (f->digits[i+1] & 0xF);
+      *(mp++) = b;
+    }
+#if 0
     for(int i = (NUM_MAX_DIGITS/2)-1; i>=0; i--)
     {
       b = *(mp++);
       f->digits[i*2] = b >> 4;
       f->digits[i*2+1] = b & 0xF;
     }
+#endif
 }
 
 //------------------------------------------------------------------------------
