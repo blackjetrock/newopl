@@ -351,13 +351,14 @@ void num_to_mem(NOPL_FLOAT *f, uint8_t *mp)
   *(mp++) = f->sign;
   *(mp++) = f->exponent;
   
-  for(int i = (NUM_MAX_DIGITS/2)-1; i>=0; i-=2)
+  for(int i = (NUM_MAX_DIGITS/2)-1; i>=0; i--)
     {
       b =  (f->digits[i*2+0] << 4);
       b |= (f->digits[i*2+1] &  0xF);
       *(mp++) = b;
     }
 
+#if 0
   printf("\nMemdump: ");
   for(int i=0; i<8; i++)
     {
@@ -371,6 +372,9 @@ void num_to_mem(NOPL_FLOAT *f, uint8_t *mp)
       printf("%02X ", *(((uint8_t *)f)+i));
     }
   printf("\n");
+
+  printf("\nFloat to text:'%s'\n", num_to_text(f));
+#endif
 }
 
 //------------------------------------------------------------------------------
