@@ -1712,6 +1712,24 @@ void num_pi(NOPL_FLOAT *r)
   
 }
 
+void num_180_div_pi(NOPL_FLOAT *r)
+{
+  r->exponent = 1;
+  r->sign = NUM_SIGN_POSITIVE;
+  r->digits[0]  = 5;
+  r->digits[1]  = 7;
+  r->digits[2]  = 2;
+  r->digits[3]  = 9;
+  r->digits[4]  = 5;
+  r->digits[5]  = 7;
+  r->digits[6]  = 7;
+  r->digits[7]  = 9;
+  r->digits[8]  = 5;
+  r->digits[9]  = 1;
+  r->digits[10] = 3;
+  r->digits[11] = 1;
+}
+
 void num_cos(NOPL_FLOAT *a, NOPL_FLOAT *r)
 {
   long double d;

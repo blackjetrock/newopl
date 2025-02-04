@@ -1090,6 +1090,11 @@ void qca_pop_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->integer = pop_machine_int(m);
 }
 
+void qca_pop_byte(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  s->integer = pop_machine_8(m);
+}
+
 // Pop a variable ref, then push the address
 void qca_pop_ref(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -2333,6 +2338,7 @@ void qca_rtf_max(NOBJ_MACHINE *m, NOBJ_QCS *s)
     }
 }
 
+//------------------------------------------------------------------------------
 
 void qca_rtf_min(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -2406,6 +2412,34 @@ void qca_rtf_min(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
       break;
     }
+}
+
+//------------------------------------------------------------------------------
+
+// Convert from radians to degrees
+// multiply by 57.29
+
+
+void qca_rtf_deg(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT n, a, p;
+
+  a = pop_machine_num(m);
+  num_180_div_pi(&p);
+  
+  num_mul(&a, &p, &n);
+  push_machine_num(m, &n);
+}
+
+void qca_rtf_rad(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT n, a, p;
+
+  a = pop_machine_num(m);
+  num_180_div_pi(&p);
+  
+  num_div(&a, &p, &n);
+  push_machine_num(m, &n);
 }
 
 //------------------------------------------------------------------------------
@@ -2649,9 +2683,9 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_INT_SIM_IND,    "QI_INT_SIM_IND",    {qca_fp,           qca_ind,         qca_push_int_at_ind}},
     { QI_NUM_SIM_IND,    "QI_NUM_SIM_IND",    {qca_fp,           qca_ind,         qca_num_ind_con}},
     { QI_STR_SIM_IND,    "QI_STR_SIM_IND",    {qca_fp,           qca_ind,         qca_str_ind_con}},
-    { QI_INT_SIM_IND,    "QI_INT_SIM_IND",    {qca_fp_ind,       qca_pop_idx,     qca_push_int_arr_at_ind}}, // test
-    { QI_NUM_SIM_IND,    "QI_NUM_SIM_IND",    {qca_fp_ind,       qca_pop_idx,     qca_push_num_arr_at_ind}}, // test
-    { QI_STR_SIM_IND,    "QI_STR_SIM_IND",    {qca_fp_ind,       qca_pop_idx,     qca_push_str_arr_at_ind}}, // test
+    { QI_INT_ARR_IND,    "QI_INT_ARR_IND",    {qca_fp_ind,       qca_pop_idx,     qca_push_int_arr_at_ind}}, // test
+    { QI_NUM_ARR_IND,    "QI_NUM_ARR_IND",    {qca_fp_ind,       qca_pop_idx,     qca_push_num_arr_at_ind}}, // test
+    { QI_STR_ARR_IND,    "QI_STR_ARR_IND",    {qca_fp_ind,       qca_pop_idx,     qca_push_str_arr_at_ind}}, // test
     { QI_LS_INT_SIM_FP,  "QI_LS_INT_SIM_FP",  {qca_fp,           qca_null,        qca_push_ind_addr }},
     { QI_LS_NUM_SIM_FP,  "QI_LS_NUM_SIM_FP",  {qca_fp,           qca_null,        qca_push_ind_addr}},
     { QI_LS_STR_SIM_FP,  "QI_LS_STR_SIM_FP",  {qca_fp,           qca_null,        qca_str }},
@@ -2772,7 +2806,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_ASS_INT,       "QCO_ASS_INT",       {qca_ass_int,      qca_null,        qca_null}},
     { QCO_ASS_STR,       "QCO_ASS_STR",       {qca_ass_str,      qca_null,        qca_null}},
     { QCO_ASS_NUM,       "QCO_ASS_NUM",       {qca_ass_num,      qca_null,        qca_null}},
-    // QCO_DROP_BYTE           0x82    
+    { QCO_DROP_BYTE,     "QCO_DROP_BYTE",     {qca_pop_byte,     qca_null,        qca_null}},    // QCO_DROP_BYTE           0x82    
     { QCO_DROP_WORD,     "QCO_DROP_WORD",     {qca_pop_int,      qca_null,        qca_null}},
     { QCO_DROP_NUM,      "QCO_DROP_NUM",      {qca_pop_num,      qca_null,        qca_null}},
     { QCO_DROP_STR,      "QCO_DROP_STR",      {qca_pop_str,      qca_null,        qca_null}},
@@ -2811,14 +2845,14 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_ABS,           "RTF_ABS",           {qca_pop_num,      qca_abs_num,     qca_push_num_result}},
     { RTF_ATAN,          "RTF_ATAN",          {qca_pop_num,      qca_atan_num,    qca_push_num_result}},
     { RTF_COS,           "RTF_COS",           {qca_pop_num,      qca_cos_num,     qca_push_num_result}},
-    // RTF_DEG                 0xA9    
+    { RTF_DEG,           "RTF_DEG",           {qca_null,         qca_rtf_deg,     qca_null}},               // RTF_DEG                 0xA9    
     // RTF_EXP                 0xAA    
     // RTF_FLT                 0xAB    
     // RTF_INTF                0xAC
     { RTF_LN,            "RTF_LN",            {qca_pop_num,      qca_log_num,     qca_push_num_result}},    // RTF_LN                  0xAD 
     { RTF_LOG,           "RTF_LOG",           {qca_pop_num,      qca_log10_num,   qca_push_num_result}},    // RTF_LOG                 0xAE
     { RTF_PI,            "RTF_PI",            {qca_null,         qca_pi_num,      qca_push_num_result}},    // RTF_PI                  0xAF    
-    // RTF_RAD                 0xB0    
+    { RTF_RAD,           "RTF_RAD",           {qca_null,         qca_rtf_rad,     qca_null}},               // RTF_RAD                 0xB0    
     // RTF_RND                 0xB1    
     { RTF_SIN,           "RTF_SIN",           {qca_pop_num,      qca_sin_num,     qca_push_num_result}},
     { RTF_SQR,           "RTF_SQR",           {qca_pop_num,      qca_sqr_num,     qca_push_num_result}},
