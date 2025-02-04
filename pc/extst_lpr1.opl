@@ -1,3 +1,9 @@
 lpr1:
 
 lprint "Output from LPRINT"
+
+open "A:LPRINT", A, L$
+use A
+
+first
+print A.L$

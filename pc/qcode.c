@@ -201,6 +201,8 @@ uint8_t qcode_next_8(NOBJ_MACHINE *m)
   return(r);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 
 void qca_null(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -833,10 +835,212 @@ void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   // No need to zero the remaining space
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 //------------------------------------------------------------------------------
 
 void qca_at(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+}
+
+//------------------------------------------------------------------------------
+
+void qca_cls(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  for(int i=0; i<4; i++)
+    {
+      printf("\n");
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void qca_input_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int intval;
+  int scan_ret = 0;
+  
+  // Get integer from user
+  while(scan_ret == 0 )
+    {
+      printf("?\n");
+      
+      scan_ret = scanf("%d", &intval);
+    }
+
+  fgetc(stdin);
+  
+  s->integer = intval;
+  
+  // Check for field
+  s->field_flag = pop_machine_8(m);
+
+  dbq("Int:%d (%04X) Addr:%04X", s->integer, s->integer, s->addr);
+
+  if( s->field_flag )
+    {
+      int logfile = pop_machine_8(m);
+      char int_str[20];
+      
+      // Drop field name string
+      pop_machine_string(m, &(s->len), s->str);
+      
+      // Field variable
+      sprintf(int_str, "%d", s->integer);
+      
+      logfile_put_field_as_str(m, current_logfile, s->str, int_str);
+      
+    }
+  else
+    {
+      // Drop int address
+      s->addr = pop_machine_16(m);
+
+      // Assign integer to variable
+      m->stack[s->addr+0] = s->integer >> 8;
+      m->stack[s->addr+1] = s->integer  & 0xFF;
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void qca_input_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT f;
+  char inp[20];
+  int scan_ret = 0;
+  
+  // Get float from user
+  while(scan_ret == 0 )
+    {
+      printf("?\n");
+      
+      scan_ret = scanf("%s", inp);
+      f = num_from_text(inp);
+    }
+
+  fgetc(stdin);
+  
+  // f is set up for following code
+  
+  // Check for field
+  s->field_flag = pop_machine_8(m);
+
+  if( s->field_flag )
+    {
+      int logfile = pop_machine_8(m);
+      
+      // Drop field name string
+      pop_machine_string(m, &(s->len), s->str);
+
+      // Field variable
+      //      NOPL_FLOAT f = num_from_mem(num_bytes);
+
+      logfile_put_field_as_str(m, current_logfile, s->str, num_to_text(&f));
+    }
+  else
+    {
+      // Drop int address
+      s->addr = pop_machine_16(m);
+
+      num_to_mem(&f, &(m->stack[s->addr]));
+
+#if 0	
+      // Copy bytes from stack to memory
+      for(int i=0; i<NUM_BYTE_LENGTH; i++)
+	{
+	  m->stack[s->addr+i] = num_bytes[i];
+	}
+#endif      
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void qca_input_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int scan_ret = 0;
+  char inp[256];
+  
+  // Drop string
+  //  pop_machine_string(m, &(s->len), s->str);
+  
+  // Get string from user
+  //while( fgets(&(inp[0]), 254, stdin) != NULL)
+  //   {
+  //  }
+
+  while(scan_ret == 0 )
+    {
+      printf("?\n");
+      
+      //scan_ret = scanf("%s", &(s->str));
+      if( fgets(&(inp[0]), 254, stdin) != NULL )
+	{
+	  printf("\nstr='%s'", inp);
+//gets(&(s->str));
+	  scan_ret = 1;
+
+	  // Drop trailing newline
+	  inp[strlen(inp)-1] = '\0';
+	}
+    }
+
+  s->len = strlen(inp);
+  
+  // Check for field
+  s->field_flag = pop_machine_8(m);
+
+  dbq("field flg:%d", s->field_flag);
+
+  if( s->field_flag )
+    {
+      int logfile = pop_machine_8(m);
+      
+      // Drop field name string
+      pop_machine_string(m, &(s->len2), s->str2);
+
+      // Field variable
+      //NOPL_FLOAT f = num_from_mem(num_bytes);
+
+      logfile_put_field_as_str(m, current_logfile, s->str2, inp);
+    }
+  else
+    {
+      // Drop string reference
+      s->str_addr = pop_machine_16(m);
+      
+      dbq("Str addr:%04X", s->str_addr);
+      
+      //  s->len      = pop_machine_8(m);
+      
+      // Assign string to variable
+      // We are pointing at length byte. get the max length and check we won't
+      // exceed that
+      int max_len = m->stack[(s->str_addr)-1];
+      
+      dbq("Max len:%d", max_len);
+      
+      if( s->len > max_len )
+	{
+	  runtime_error(ER_LX_ST, "String too big");
+	  return;
+	}
+      
+      // All OK
+      // Copy data
+      
+      // We copy the length with the data
+      // Address points to the length byte, after the max len
+      m->stack[s->str_addr] = s->len;
+      
+      for(int i=0; i<s->len; i++)
+	{
+	  m->stack[s->str_addr+i+1] = inp[i];
+	}
+    }
+  
+  // No need to zero the remaining space
 }
 
 
@@ -2515,7 +2719,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_ADD_STR,       "QI_ADD_STR",        {qca_pop_2str,     qca_add_str,     qca_push_string}},
     { QCO_AT,            "QI_AT",             {qca_pop_2int,     qca_null,        qca_null}},
     { QCO_BEEP,          "QCO_BEEP",          {qca_pop_2int,     qca_null,        qca_null}},
-    // QCO_CLS                 0x4E    
+    { QCO_CLS,           "QCO_CLS",           {qca_cls,          qca_null,        qca_null}},    // QCO_CLS                 0x4E    
     // QCO_CURSOR              0x4F    
     // QCO_ESCAPE              0x50    
     { QCO_GOTO,          "QCO_GOTO",          {qca_goto,         qca_null,        qca_null}},
@@ -2543,12 +2747,12 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_POSITION,       "QCO_POSITION",       {qca_position,    qca_null,       qca_null}},    // QCO_POSITION            0x66    
     // QCO_RENAME              0x67    
     // QCO_UPDATE              0x68
-    { QCO_USE,            "QCO_USE",            {qca_use,        qca_null,       qca_null}},  // QCO_USE                 0x69    
+    { QCO_USE,            "QCO_USE",            {qca_use,         qca_null,       qca_null}},  // QCO_USE                 0x69    
     // QCO_KSTAT               0x6A    
     // QCO_EDIT                0x6B    
-    // QCO_INPUT_INT           0x6C    
-    // QCO_INPUT_NUM           0x6D    
-    // QCO_INPUT_STR           0x6E
+    { QCO_INPUT_INT,      "QCO_INPUT_INT",      {qca_input_int,   qca_null,       qca_null}},    // QCO_INPUT_INT           0x6C    
+    { QCO_INPUT_NUM,      "QCO_INPUT_NUM",      {qca_input_num,   qca_null,       qca_null}},    // QCO_INPUT_NUM           0x6D    
+    { QCO_INPUT_STR,      "QCO_INPUT_STR",      {qca_input_str,   qca_null,       qca_null}},    // QCO_INPUT_STR           0x6E
     { QCO_PRINT_INT,     "QCO_PRINT_INT",     {qca_pop_int,      qca_print_int,   qca_null}},
     { QCO_PRINT_NUM,     "QCO_PRINT_NUM",     {qca_pop_num,      qca_print_num,   qca_null}},
     { QCO_PRINT_STR,     "QCO_PRINT_STR",     {qca_pop_str,      qca_print_str,   qca_null}},
