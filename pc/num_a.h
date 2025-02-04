@@ -71,4 +71,5 @@ NOPL_FLOAT num_from_text(char *p);
 void num_normalise(NOPL_FLOAT *n);
 void num_init(void);
 void num_uninit(void);
+void num_to_mem(NOPL_FLOAT *f, uint8_t *mp);
 

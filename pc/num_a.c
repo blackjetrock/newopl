@@ -329,14 +329,31 @@ NOPL_FLOAT num_from_mem(uint8_t *mp)
   n.exponent = *(mp++);
   
   // Pop digits
-  for(int i = (NUM_MAX_DIGITS/2)-1; i>=0; i--)
+  for(int i = 0; i< NUM_MAX_DIGITS; i+=2)
+    {
+      b =  (n.digits[i]    << 4);
+      b |= (n.digits[i+1] & 0xF);
+      *(mp++) = b;
+    }
+}
+
+//------------------------------------------------------------------------------
+//
+// Build a psion float from a NOPL_FLOAT
+
+void num_to_mem(NOPL_FLOAT *f, uint8_t *mp)
+{
+  int b;
+  
+  *(mp++) = f->sign;
+  *(mp++) = f->exponent;
+
+    for(int i = (NUM_MAX_DIGITS/2)-1; i>=0; i--)
     {
       b = *(mp++);
-      n.digits[i*2] = b >> 4;
-      n.digits[i*2+1] = b & 0xF;
+      f->digits[i*2] = b >> 4;
+      f->digits[i*2+1] = b & 0xF;
     }
-
-  return(n);
 }
 
 //------------------------------------------------------------------------------
