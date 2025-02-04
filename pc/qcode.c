@@ -33,6 +33,7 @@ int qcode_sizeof_qc_byte_code = (sizeof(qc_byte_code)/sizeof(QC_BYTE_CODE));
 
 void dbpfq(const char *caller, char *fmt, ...)
 {
+#if DEBUG_EXEC
   va_list valist;
 
   va_start(valist, fmt);
@@ -42,6 +43,7 @@ void dbpfq(const char *caller, char *fmt, ...)
   vfprintf(exdbfp, fmt, valist);
   va_end(valist);
   fflush(exdbfp);
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////

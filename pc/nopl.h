@@ -44,4 +44,7 @@
 #include "tui.h"
 #endif
 
+// Switches
+#define DEBUG_EXEC 0
+
 
