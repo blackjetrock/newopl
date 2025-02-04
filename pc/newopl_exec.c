@@ -964,6 +964,7 @@ int main(int argc, char *argv[])
   read_ob3_header(fp);
 
   num_init();
+  qcode_init();
   
   // Initialise the machine
   init_machine(&machine);

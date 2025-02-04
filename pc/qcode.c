@@ -8,6 +8,12 @@
 
 #include "nopl.h"
 
+////////////////////////////////////////////////////////////////////////////////
+
+#define LPRINT_FN "LPRINT"
+
+FILE *lprintfp;
+
 //------------------------------------------------------------------------------
 
 QC_BYTE_CODE qc_byte_code[] =
@@ -1159,6 +1165,10 @@ void qca_pop_2str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 }
 
 //------------------------------------------------------------------------------
+//
+// PRINT prints to the screen
+//
+//
 
 void qca_print_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -1188,6 +1198,55 @@ void qca_print_cr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_print_sp(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   printf(" ");
+}
+
+//------------------------------------------------------------------------------
+//
+// LPRINT prints to a file called 'LPRINT'
+//
+//
+
+void lprintf(char *fmt, ...)
+{
+  va_list valist;
+
+  if( lprintfp != NULL )
+    {
+      va_start(valist, fmt);
+      vfprintf(lprintfp, fmt, valist);
+      va_end(valist);
+      fflush(lprintfp);
+    }
+}
+
+void qca_lprint_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  lprintf("%d", s->integer);
+}
+
+void qca_lprint_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT n = s->num;
+
+  lprintf("%s", num_to_text(&n));
+}
+
+void qca_lprint_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  for(int i=0; i<s->len; i++)
+    {
+      lprintf("%c", s->str[i]);
+    }
+}
+
+void qca_lprint_cr(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  lprintf("\n");
+}
+
+void qca_lprint_sp(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  lprintf(" ");
 }
 
 //------------------------------------------------------------------------------
@@ -2495,11 +2554,11 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_PRINT_STR,     "QCO_PRINT_STR",     {qca_pop_str,      qca_print_str,   qca_null}},
     { QCO_PRINT_SP,      "QCO_PRINT_SP",      {qca_null,         qca_print_sp,    qca_null}},
     { QCO_PRINT_CR,      "QCO_PRINT_CR",      {qca_null,         qca_print_cr,    qca_null}},
-    // QCO_LPRINT_INT          0x74    
-    // QCO_LPRINT_NUM          0x75    
-    // QCO_LPRINT_STR          0x76    
-    // QCO_LPRINT_SP           0x77    
-    // QCO_LPRINT_CR           0x78
+    { QCO_LPRINT_INT,    "QCO_LPRINT_INT",    {qca_pop_int,      qca_lprint_int,  qca_null}},    // QCO_LPRINT_INT          0x74    
+    { QCO_LPRINT_NUM,    "QCO_LPRINT_NUM",    {qca_pop_num,      qca_lprint_num,  qca_null}},    // QCO_LPRINT_NUM          0x75    
+    { QCO_LPRINT_STR,    "QCO_LPRINT_STR",    {qca_pop_str,      qca_lprint_str,  qca_null}},    // QCO_LPRINT_STR          0x76    
+    { QCO_LPRINT_SP,     "QCO_LPRINT_SP",     {qca_null,         qca_lprint_sp,   qca_null}},    // QCO_LPRINT_SP           0x77    
+    { QCO_LPRINT_CR,     "QCO_LPRINT_CR",     {qca_null,         qca_lprint_cr,   qca_null}},    // QCO_LPRINT_CR           0x78
     { QCO_RETURN,        "QCO_RETURN",        {qca_unwind_proc,  qca_null,        qca_null}},
     { QCO_RETURN_NOUGHT, "QCO_RETURN_NOUGHT", {qca_unwind_proc,  qca_push_nought, qca_null}},
     { QCO_RETURN_ZERO,   "QCO_RETURN_ZERO",   {qca_unwind_proc,  qca_push_zero,   qca_null}},
@@ -3419,3 +3478,20 @@ void exec_loop(void)
 
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// Initialise the QCode handling
+//
+////////////////////////////////////////////////////////////////////////////////
+
+void qcode_init(void)
+{
+  lprintfp = fopen(LPRINT_FN, "w+");
+
+  if( lprintfp == NULL )
+    {
+      // Warn that we can't open the LPRINT file
+      printf("\nWarning: Can't open %s file", LPRINT_FN);
+    }
+  
+}
