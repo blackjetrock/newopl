@@ -339,23 +339,6 @@ NOPL_FLOAT num_from_mem(uint8_t *mp)
   return(n);
 }
 
-NOPL_FLOAT num_from_mem2(uint8_t *mp)
-{
-  NOPL_FLOAT n;
-  int b;
-
-  n.sign = *(mp++);
-  n.exponent = *(mp++);
-  
-  // Pop digits
-  for(int i = 0; i< NUM_MAX_DIGITS; i+=2)
-    {
-      b =  (n.digits[i]    << 4);
-      b |= (n.digits[i+1] & 0xF);
-      *(mp++) = b;
-    }
-}
-
 //------------------------------------------------------------------------------
 //
 // Build a psion float from a NOPL_FLOAT
@@ -363,24 +346,31 @@ NOPL_FLOAT num_from_mem2(uint8_t *mp)
 void num_to_mem(NOPL_FLOAT *f, uint8_t *mp)
 {
   int b;
+  uint8_t *omp = mp;
   
   *(mp++) = f->sign;
   *(mp++) = f->exponent;
   
-  for(int i = 0; i< NUM_MAX_DIGITS; i+=2)
+  for(int i = (NUM_MAX_DIGITS/2)-1; i>=0; i-=2)
     {
-      b =  (f->digits[i]    << 4);
-      b |= (f->digits[i+1] & 0xF);
+      b =  (f->digits[i*2+0] << 4);
+      b |= (f->digits[i*2+1] &  0xF);
       *(mp++) = b;
     }
-#if 0
-    for(int i = (NUM_MAX_DIGITS/2)-1; i>=0; i--)
+
+  printf("\nMemdump: ");
+  for(int i=0; i<8; i++)
     {
-      b = *(mp++);
-      f->digits[i*2] = b >> 4;
-      f->digits[i*2+1] = b & 0xF;
+      printf("%02X ", *(omp+i));
     }
-#endif
+  printf("\n");
+
+  printf("\nF dump: ");
+  for(int i=0; i<sizeof(NOPL_FLOAT); i++)
+    {
+      printf("%02X ", *(((uint8_t *)f)+i));
+    }
+  printf("\n");
 }
 
 //------------------------------------------------------------------------------

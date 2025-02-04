@@ -3129,6 +3129,18 @@ int qcode_sizeof_qcode_decode = (sizeof(qcode_decode)/sizeof(QCODE_DESC));
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+char *qcode_desc(int qc)
+{
+  for(int q=0; q<qcode_sizeof_qcode_decode; q++)
+    {
+      if( qcode_decode[q].qcode == qc )
+	{
+	  return(qcode_decode[q].desc);
+	}
+    }
+  return("???");
+}
+
 char *qcode_name(NOBJ_QCODE qcode)
 {
   for(int q=0; q<SIZEOF_QCODE_INFO; q++)
@@ -3296,8 +3308,9 @@ void execute_qcode(NOBJ_MACHINE *m, int single_step)
 
       found = 0;
       int qci = 0;
+      int q;
       
-      for(int q=0; q<SIZEOF_QCODE_INFO; q++)
+      for(q=0; q<SIZEOF_QCODE_INFO; q++)
 	{
 	  if( s.qcode == qcode_info[q].qcode )
 	    {
@@ -3310,7 +3323,7 @@ void execute_qcode(NOBJ_MACHINE *m, int single_step)
 
       if( !found )
 	{
-	  printf("\n\nNot found so exit: %02X\n", s.qcode);
+	  printf("\n\nNot found QCode: %02X (%s)\n", s.qcode, qcode_desc(s.qcode));
 	  dbq("Not found so exit: %02X\n", s.qcode);
 	  s.done = 1;
 	  continue;
