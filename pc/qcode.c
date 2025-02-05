@@ -863,8 +863,11 @@ void qca_input_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
   // Get integer from user
   while(scan_ret == 0 )
     {
+#if TUI
+      wprintw("?");
+#else
       printf("?");
-      
+#endif      
       scan_ret = scanf("%d", &intval);
     }
 
@@ -913,7 +916,11 @@ void qca_input_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
   // Get float from user
   while(scan_ret == 0 )
     {
+#if TUI
+      wprintw("?");
+#else
       printf("?");
+#endif      
       
       scan_ret = scanf("%s", inp);
       f = num_from_text(inp);
@@ -972,7 +979,11 @@ void qca_input_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
   while(scan_ret == 0 )
     {
+#if TUI
+      wprintw("?");
+#else
       printf("?");
+#endif      
       
       //scan_ret = scanf("%s", &(s->str));
       if( fgets(&(inp[0]), 254, stdin) != NULL )
