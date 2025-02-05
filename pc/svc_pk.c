@@ -31,10 +31,10 @@ PK_DRIVER_SET pk_drivers[] =
    {pk_rbyt_pico_flash,     pk_save_pico_flash,      pk_format_pico_flash},
    {pk_rbyt_serial_eeprom,  pk_save_serial_eeprom,   pk_format_serial_eeprom},
 #else
-   {pk_open_linux,    pk_close_linux, pk_rbyt_linux,          pk_save_linux,           pk_format_linux},
-   {pk_open_linux,    pk_close_linux, pk_rbyt_linux,          pk_save_linux,           pk_format_linux},
-   {pk_open_linux,    pk_close_linux, pk_rbyt_linux,          pk_save_linux,           pk_format_linux},
-   {pk_open_linux,    pk_close_linux, pk_rbyt_linux,          pk_save_linux,           pk_format_linux},
+   {pk_open_linux,    pk_close_linux, pk_exist_linux, pk_rbyt_linux,          pk_save_linux,           pk_format_linux},
+   {pk_open_linux,    pk_close_linux, pk_exist_linux, pk_rbyt_linux,          pk_save_linux,           pk_format_linux},
+   {pk_open_linux,    pk_close_linux, pk_exist_linux, pk_rbyt_linux,          pk_save_linux,           pk_format_linux},
+   {pk_open_linux,    pk_close_linux, pk_exist_linux, pk_rbyt_linux,          pk_save_linux,           pk_format_linux},
 #endif
   };
 
@@ -201,6 +201,16 @@ void pk_close(int logfile)
   
   // Branch to the pak drivers
   return( (*pk_drivers[pkb_curp].open)(logfile, filename+2));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+int pk_exist(char *filename)
+{
+  //  char *filename = logical_file_info[logfile].name;
+  
+  // Branch to the pak drivers
+  return( (*pk_drivers[pkb_curp].exist)(filename+2));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

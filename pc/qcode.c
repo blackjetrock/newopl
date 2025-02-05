@@ -1376,51 +1376,89 @@ void qca_pop_2str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_print_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+#if TUI
+  wprintw(output_win, "%d", s->integer);
+  wrefresh(output_win);
+#else
   printf("%d", s->integer);
+#endif
+
+
 }
 
 void qca_print_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOPL_FLOAT n = s->num;
-
+#if TUI
+  wprintw(output_win, "%s", num_to_text(&n));
+  wrefresh(output_win);
+#else
   printf("%s", num_to_text(&n));
+#endif
+
 }
 
 void qca_print_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   for(int i=0; i<s->len; i++)
     {
+#if TUI
+      wprintw(output_win, "%c", s->str[i]);
+      wrefresh(output_win);
+#else
       printf("%c", s->str[i]);
+#endif
     }
 }
 
 void qca_print_cr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+#if TUI
+  wprintw(output_win, "\n");
+  wrefresh(output_win);
+#else
   printf("\n");
+#endif
 }
 
 void qca_print_sp(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+#if TUI  
+  wprintw(output_win, " ");
+  wrefresh(output_win);
+#else
   printf(" ");
+#endif
 }
 
 //------------------------------------------------------------------------------
 //
 // LPRINT prints to a file called 'LPRINT'
+// and to the TUI window
 //
 //
 
 void lprintf(char *fmt, ...)
 {
   va_list valist;
-
+  
+  va_start(valist, fmt);
   if( lprintfp != NULL )
     {
-      va_start(valist, fmt);
       vfprintf(lprintfp, fmt, valist);
-      va_end(valist);
-      fflush(lprintfp);
     }
+  va_end(valist);
+
+#if TUI
+  va_start(valist, fmt);
+
+  vw_printw(printer_win, fmt, valist);
+  wrefresh(printer_win);
+  
+  va_end(valist);
+#endif
+  
+  fflush(lprintfp);
 }
 
 void qca_lprint_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -2171,6 +2209,13 @@ void qca_open(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 //------------------------------------------------------------------------------
 
+void qca_rtf_exist(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  s->result = fl_exist(s->str);
+}
+
+//------------------------------------------------------------------------------
+
 void qca_use(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   uint8_t  logfile;
@@ -2258,6 +2303,18 @@ void qca_back(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_close(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
 }
+
+//------------------------------------------------------------------------------
+
+void qca_rtf_menu(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Drop field name string
+  pop_machine_string(m, &(s->len), s->str);
+
+  push_machine_16(m, mn_menu(s->str));
+}
+
+//------------------------------------------------------------------------------
 
 void qca_rtf_max(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -2794,7 +2851,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_KEY                 0x95
     { RTF_LEN,           "RTF_LEN",           {qca_pop_str,      qca_len,         qca_push_result}},
     { RTF_LOC,           "RTF_LOC",           {qca_pop_2str,     qca_loc,         qca_push_result}},
-    // RTF_MENU                0x98
+    { RTF_MENU,          "RTF_MENU",          {qca_rtf_menu,     qca_null,        qca_null}},          // RTF_MENU                0x98
     { RTF_MINUTE,        "RTF_MINUTE",        {qca_clock_minute, qca_null,        qca_null}},
     { RTF_MONTH,         "RTF_MONTH",         {qca_clock_month,  qca_null,        qca_null}},
     // RTF_PEEKB               0x9B    
@@ -2806,7 +2863,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_YEAR,          "RTF_YEAR",          {qca_clock_year,   qca_null,        qca_null}},
     // RTF_COUNT               0xA2    
     // RTF_EOF                 0xA3    
-    // RTF_EXIST               0xA4    
+    { RTF_EXIST,         "RTF_EXIST",         {qca_pop_str,      qca_rtf_exist,   qca_push_result}},    // RTF_EXIST               0xA4    
     // RTF_POS                 0xA5
     { RTF_ABS,           "RTF_ABS",           {qca_pop_num,      qca_abs_num,     qca_push_num_result}},
     { RTF_ATAN,          "RTF_ATAN",          {qca_pop_num,      qca_atan_num,    qca_push_num_result}},
