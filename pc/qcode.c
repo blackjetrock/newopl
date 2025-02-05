@@ -864,7 +864,7 @@ void qca_input_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
   while(scan_ret == 0 )
     {
 #if TUI
-      wprintw("?");
+      wprintw(output_win, "?");
 #else
       printf("?");
 #endif      
@@ -917,7 +917,7 @@ void qca_input_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
   while(scan_ret == 0 )
     {
 #if TUI
-      wprintw("?");
+      wprintw(output_win, "?");
 #else
       printf("?");
 #endif      
@@ -980,7 +980,7 @@ void qca_input_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   while(scan_ret == 0 )
     {
 #if TUI
-      wprintw("?");
+      wprintw(output_win, "?");
 #else
       printf("?");
 #endif      
