@@ -376,6 +376,8 @@ void qca_fp(NOBJ_MACHINE *m, NOBJ_QCS *s)
   dbq("ind_ptr: %04X", s->ind_ptr);
 }
 
+//------------------------------------------------------------------------------
+//
 // Calculator memory
 // These are positioned at the start of the stack. The original QCode has the absolute
 // address of the float after the qcode
@@ -388,6 +390,19 @@ void qca_abs(NOBJ_MACHINE *m, NOBJ_QCS *s)
   dbq("ind_ptr: %04X", s->ind_ptr);
 }
 
+void qca_iabs(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  dbq("ind_ptr: %04X", s->integer);
+
+  if( s->integer < 0 )
+    {
+      s->integer = -(s->integer);
+    }
+
+  s->result = s->integer;
+}
+
+//------------------------------------------------------------------------------
 // Combination of qca_fp and qca_ind
 // Done so we don't have to add another column to table
 void qca_fp_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -2222,7 +2237,14 @@ void qca_open(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_rtf_exist(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  s->result = fl_exist(s->str);
+  if( fl_exist(s->str) )
+    {
+      s->result = NOBJ_TRUE;
+    }
+  else
+    {
+      s->result = NOBJ_FALSE;
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -2857,8 +2879,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_FREE                0x90    
     // RTF_GET                 0x91    
     { RTF_HOUR,          "RTF_HOUR",          {qca_clock_hour,   qca_null,        qca_null}},
-    // RTF_IABS                0x93    
-    // RTF_INT                 0x94    
+    { RTF_IABS,          "RTF_IABS",          {qca_pop_int,      qca_iabs,        qca_push_result}},    // RTF_IABS                0x93    
+    { RTF_INT,           "RTF_INT",           {qca_pop_num,      qca_num_to_int,  qca_push_result}},    // RTF_INT                 0x94    
     // RTF_KEY                 0x95
     { RTF_LEN,           "RTF_LEN",           {qca_pop_str,      qca_len,         qca_push_result}},
     { RTF_LOC,           "RTF_LOC",           {qca_pop_2str,     qca_loc,         qca_push_result}},
