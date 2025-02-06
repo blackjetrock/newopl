@@ -1727,7 +1727,11 @@ void num_180_div_pi(NOPL_FLOAT *r)
   r->digits[8]  = 5;
   r->digits[9]  = 1;
   r->digits[10] = 3;
+#if 0
   r->digits[11] = 1;
+#else
+  r->digits[11] = 0;
+#endif
 }
 
 void num_cos(NOPL_FLOAT *a, NOPL_FLOAT *r)

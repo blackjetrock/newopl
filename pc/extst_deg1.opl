@@ -16,3 +16,7 @@ z = y / 57.2957795131
 print ""
 print a,b,c
 print x,y,z
+
+if (a-c) < 0.0000001
+print "PASS"
+endif
