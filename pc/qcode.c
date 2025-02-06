@@ -1119,6 +1119,7 @@ void qca_pop_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_pop_byte(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   s->integer = pop_machine_8(m);
+}
 
 void qca_drop_byte(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
