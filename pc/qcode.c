@@ -1116,6 +1116,11 @@ void qca_pop_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->integer = pop_machine_int(m);
 }
 
+void qca_drop_byte(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  pop_machine_8(m);
+}
+
 // Pop a variable ref, then push the address
 void qca_pop_ref(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -2757,12 +2762,12 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_LS_NUM_ARR_IND, "QI_LS_NUM_ARR_IND", {qca_fp_ind,       qca_pop_idx,     qca_push_num_arr_addr }}, // test
     { QI_LS_STR_ARR_IND, "QI_LS_STR_ARR_IND", {qca_fp_ind,       qca_pop_idx,     qca_push_str_arr_addr }}, // test
 
-    { QI_INT_FLD,        "QI_INT_FLD",        {qca_int_fld,      qca_null,        qca_null }},          // QI_INT_FLD              0x1A
-    { QI_NUM_FLD,        "QI_NUM_FLD",        {qca_num_fld,      qca_null,        qca_null }},          // 1B
-    { QI_STR_FLD,        "QI_STR_FLD",        {qca_str_fld,      qca_null,        qca_null }},          // QI_STR_FLD              0x1C
+    { QI_INT_FLD,        "QI_INT_FLD",        {qca_int_fld,      qca_null,        qca_null }},           // QI_INT_FLD              0x1A
+    { QI_NUM_FLD,        "QI_NUM_FLD",        {qca_num_fld,      qca_null,        qca_null }},           // 1B
+    { QI_STR_FLD,        "QI_STR_FLD",        {qca_str_fld,      qca_null,        qca_null }},           // QI_STR_FLD              0x1C
     { QI_LS_INT_FLD,     "QI_LS_INT_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},
     { QI_LS_NUM_FLD,     "QI_LS_NUM_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},
-    { QI_LS_STR_FLD,     "QI_LS_STR_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},    // QI_LS_STR_FLD           0x1F    
+    { QI_LS_STR_FLD,     "QI_LS_STR_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},           // QI_LS_STR_FLD           0x1F    
     { QI_STK_LIT_BYTE,   "QI_STK_LIT_BYTE",   {qca_null,         qca_null,        qca_push_qc_byte}},    // QI_STK_LIT_BYTE         0x20
     { QI_STK_LIT_WORD,   "QI_STK_LIT_WORD",   {qca_null,         qca_null,        qca_push_qc_word}},    // QI_STK_LIT_WORD         0x21
     { QI_INT_CON,        "QI_INT_CON",        {qca_null,         qca_null,        qca_int_qc_con}},
@@ -2780,7 +2785,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_SUB_INT,       "QCO_SUB_INT",       {qca_pop_2int,     qca_sub,         qca_push_result}},
     { QCO_MUL_INT,       "QCO_MUL_INT",       {qca_pop_2int,     qca_mul,         qca_push_result}},
     { QCO_DIV_INT,       "QCO_DIV_INT",       {qca_pop_2int,     qca_div,         qca_push_result}},
-    { QCO_POW_INT,       "QCO_POW_INT",       {qca_pop_2int,     qca_powint,      qca_push_result}},   // QCO_POW_INT             0x31    
+    { QCO_POW_INT,       "QCO_POW_INT",       {qca_pop_2int,     qca_powint,      qca_push_result}},       // QCO_POW_INT             0x31    
     { QCO_UMIN_INT,      "QCO_UMIN_INT",      {qca_pop_int,      qca_umin_int,    qca_push_result}},
     { QCO_NOT_INT,       "QCO_NOT_INT",       {qca_pop_int,      qca_not_int,     qca_push_result}},
     { QCO_AND_INT,       "QCO_AND_INT",       {qca_pop_2int,     qca_and_int,     qca_push_result}},
@@ -2795,7 +2800,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_SUB_NUM,       "QCO_SUB_NUM",       {qca_pop_2num,     qca_sub_num,     qca_push_num_result}},
     { QCO_MUL_NUM,       "QCO_MUL_NUM",       {qca_pop_2num,     qca_mul_num,     qca_push_num_result}},
     { QCO_DIV_NUM,       "QCO_DIV_NUM",       {qca_pop_2num,     qca_div_num,     qca_push_num_result}},
-    { QCO_POW_NUM,       "QCO_POW_NUM",       {qca_pop_2num,     qca_pow_num,     qca_push_num_result}},  // QCO_POW_NUM             0x40    
+    { QCO_POW_NUM,       "QCO_POW_NUM",       {qca_pop_2num,     qca_pow_num,     qca_push_num_result}},     // QCO_POW_NUM             0x40    
     { QCO_UMIN_NUM,      "QCO_UMIN_NUM",      {qca_pop_num,      qca_umin_num,    qca_push_num}},
     { QCO_NOT_NUM,       "QCO_NOT_NUM",       {qca_pop_num,      qca_not_num,     qca_push_result}},
     { QCO_AND_NUM,       "QCO_AND_NUM",       {qca_pop_2num,     qca_and_num,     qca_push_result}},
@@ -2862,7 +2867,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_ASS_INT,       "QCO_ASS_INT",       {qca_ass_int,      qca_null,        qca_null}},
     { QCO_ASS_STR,       "QCO_ASS_STR",       {qca_ass_str,      qca_null,        qca_null}},
     { QCO_ASS_NUM,       "QCO_ASS_NUM",       {qca_ass_num,      qca_null,        qca_null}},
-    // QCO_DROP_BYTE           0x82    
+    { QCO_DROP_BYTE,     "QCO_DROP_BYTE",     {qca_drop_byte,    qca_null,        qca_null}},    // QCO_DROP_BYTE           0x82    
     { QCO_DROP_WORD,     "QCO_DROP_WORD",     {qca_pop_int,      qca_null,        qca_null}},
     { QCO_DROP_NUM,      "QCO_DROP_NUM",      {qca_pop_num,      qca_null,        qca_null}},
     { QCO_DROP_STR,      "QCO_DROP_STR",      {qca_pop_str,      qca_null,        qca_null}},

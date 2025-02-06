@@ -35,6 +35,7 @@ int mn_menu(char *str)
       sp++;
     }
 
+#if 0
   printf("\n%d sels\n", num_sels);
   
   for(int i=0; i<num_sels; i++)
@@ -42,6 +43,7 @@ int mn_menu(char *str)
       printf("\n%i:%c", i, sels[i]);
     }
   printf("\n");
+#endif
   
   // Wait for one of the selection letters to be pressed
   int done = 0;
