@@ -376,6 +376,8 @@ void qca_fp(NOBJ_MACHINE *m, NOBJ_QCS *s)
   dbq("ind_ptr: %04X", s->ind_ptr);
 }
 
+//------------------------------------------------------------------------------
+//
 // Calculator memory
 // These are positioned at the start of the stack. The original QCode has the absolute
 // address of the float after the qcode
@@ -388,6 +390,19 @@ void qca_abs(NOBJ_MACHINE *m, NOBJ_QCS *s)
   dbq("ind_ptr: %04X", s->ind_ptr);
 }
 
+void qca_iabs(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  dbq("ind_ptr: %04X", s->integer);
+
+  if( s->integer < 0 )
+    {
+      s->integer = -(s->integer);
+    }
+
+  s->result = s->integer;
+}
+
+//------------------------------------------------------------------------------
 // Combination of qca_fp and qca_ind
 // Done so we don't have to add another column to table
 void qca_fp_ind(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -863,8 +878,11 @@ void qca_input_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
   // Get integer from user
   while(scan_ret == 0 )
     {
+#if TUI
+      wprintw(output_win, "?");
+#else
       printf("?");
-      
+#endif      
       scan_ret = scanf("%d", &intval);
     }
 
@@ -913,7 +931,11 @@ void qca_input_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
   // Get float from user
   while(scan_ret == 0 )
     {
+#if TUI
+      wprintw(output_win, "?");
+#else
       printf("?");
+#endif      
       
       scan_ret = scanf("%s", inp);
       f = num_from_text(inp);
@@ -972,7 +994,11 @@ void qca_input_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
   while(scan_ret == 0 )
     {
+#if TUI
+      wprintw(output_win, "?");
+#else
       printf("?");
+#endif      
       
       //scan_ret = scanf("%s", &(s->str));
       if( fgets(&(inp[0]), 254, stdin) != NULL )
@@ -1093,6 +1119,10 @@ void qca_pop_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_pop_byte(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   s->integer = pop_machine_8(m);
+
+void qca_drop_byte(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  pop_machine_8(m);
 }
 
 // Pop a variable ref, then push the address
@@ -1381,51 +1411,89 @@ void qca_pop_2str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_print_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+#if TUI
+  wprintw(output_win, "%d", s->integer);
+  wrefresh(output_win);
+#else
   printf("%d", s->integer);
+#endif
+
+
 }
 
 void qca_print_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOPL_FLOAT n = s->num;
-
+#if TUI
+  wprintw(output_win, "%s", num_to_text(&n));
+  wrefresh(output_win);
+#else
   printf("%s", num_to_text(&n));
+#endif
+
 }
 
 void qca_print_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   for(int i=0; i<s->len; i++)
     {
+#if TUI
+      wprintw(output_win, "%c", s->str[i]);
+      wrefresh(output_win);
+#else
       printf("%c", s->str[i]);
+#endif
     }
 }
 
 void qca_print_cr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+#if TUI
+  wprintw(output_win, "\n");
+  wrefresh(output_win);
+#else
   printf("\n");
+#endif
 }
 
 void qca_print_sp(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+#if TUI  
+  wprintw(output_win, " ");
+  wrefresh(output_win);
+#else
   printf(" ");
+#endif
 }
 
 //------------------------------------------------------------------------------
 //
 // LPRINT prints to a file called 'LPRINT'
+// and to the TUI window
 //
 //
 
 void lprintf(char *fmt, ...)
 {
   va_list valist;
-
+  
+  va_start(valist, fmt);
   if( lprintfp != NULL )
     {
-      va_start(valist, fmt);
       vfprintf(lprintfp, fmt, valist);
-      va_end(valist);
-      fflush(lprintfp);
     }
+  va_end(valist);
+
+#if TUI
+  va_start(valist, fmt);
+
+  vw_printw(printer_win, fmt, valist);
+  wrefresh(printer_win);
+  
+  va_end(valist);
+#endif
+  
+  fflush(lprintfp);
 }
 
 void qca_lprint_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -2176,6 +2244,20 @@ void qca_open(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 //------------------------------------------------------------------------------
 
+void qca_rtf_exist(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  if( fl_exist(s->str) )
+    {
+      s->result = NOBJ_TRUE;
+    }
+  else
+    {
+      s->result = NOBJ_FALSE;
+    }
+}
+
+//------------------------------------------------------------------------------
+
 void qca_use(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   uint8_t  logfile;
@@ -2263,6 +2345,18 @@ void qca_back(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_close(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
 }
+
+//------------------------------------------------------------------------------
+
+void qca_rtf_menu(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Drop field name string
+  pop_machine_string(m, &(s->len), s->str);
+
+  push_machine_16(m, mn_menu(s->str));
+}
+
+//------------------------------------------------------------------------------
 
 void qca_rtf_max(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -2701,12 +2795,12 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_LS_NUM_ARR_IND, "QI_LS_NUM_ARR_IND", {qca_fp_ind,       qca_pop_idx,     qca_push_num_arr_addr }}, // test
     { QI_LS_STR_ARR_IND, "QI_LS_STR_ARR_IND", {qca_fp_ind,       qca_pop_idx,     qca_push_str_arr_addr }}, // test
 
-    { QI_INT_FLD,        "QI_INT_FLD",        {qca_int_fld,      qca_null,        qca_null }},          // QI_INT_FLD              0x1A
-    { QI_NUM_FLD,        "QI_NUM_FLD",        {qca_num_fld,      qca_null,        qca_null }},          // 1B
-    { QI_STR_FLD,        "QI_STR_FLD",        {qca_str_fld,      qca_null,        qca_null }},          // QI_STR_FLD              0x1C
+    { QI_INT_FLD,        "QI_INT_FLD",        {qca_int_fld,      qca_null,        qca_null }},           // QI_INT_FLD              0x1A
+    { QI_NUM_FLD,        "QI_NUM_FLD",        {qca_num_fld,      qca_null,        qca_null }},           // 1B
+    { QI_STR_FLD,        "QI_STR_FLD",        {qca_str_fld,      qca_null,        qca_null }},           // QI_STR_FLD              0x1C
     { QI_LS_INT_FLD,     "QI_LS_INT_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},
     { QI_LS_NUM_FLD,     "QI_LS_NUM_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},
-    { QI_LS_STR_FLD,     "QI_LS_STR_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},    // QI_LS_STR_FLD           0x1F    
+    { QI_LS_STR_FLD,     "QI_LS_STR_FLD",     {qca_ls_int_fld,   qca_null,        qca_null }},           // QI_LS_STR_FLD           0x1F    
     { QI_STK_LIT_BYTE,   "QI_STK_LIT_BYTE",   {qca_null,         qca_null,        qca_push_qc_byte}},    // QI_STK_LIT_BYTE         0x20
     { QI_STK_LIT_WORD,   "QI_STK_LIT_WORD",   {qca_null,         qca_null,        qca_push_qc_word}},    // QI_STK_LIT_WORD         0x21
     { QI_INT_CON,        "QI_INT_CON",        {qca_null,         qca_null,        qca_int_qc_con}},
@@ -2724,7 +2818,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_SUB_INT,       "QCO_SUB_INT",       {qca_pop_2int,     qca_sub,         qca_push_result}},
     { QCO_MUL_INT,       "QCO_MUL_INT",       {qca_pop_2int,     qca_mul,         qca_push_result}},
     { QCO_DIV_INT,       "QCO_DIV_INT",       {qca_pop_2int,     qca_div,         qca_push_result}},
-    { QCO_POW_INT,       "QCO_POW_INT",       {qca_pop_2int,     qca_powint,      qca_push_result}},   // QCO_POW_INT             0x31    
+    { QCO_POW_INT,       "QCO_POW_INT",       {qca_pop_2int,     qca_powint,      qca_push_result}},       // QCO_POW_INT             0x31    
     { QCO_UMIN_INT,      "QCO_UMIN_INT",      {qca_pop_int,      qca_umin_int,    qca_push_result}},
     { QCO_NOT_INT,       "QCO_NOT_INT",       {qca_pop_int,      qca_not_int,     qca_push_result}},
     { QCO_AND_INT,       "QCO_AND_INT",       {qca_pop_2int,     qca_and_int,     qca_push_result}},
@@ -2739,7 +2833,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_SUB_NUM,       "QCO_SUB_NUM",       {qca_pop_2num,     qca_sub_num,     qca_push_num_result}},
     { QCO_MUL_NUM,       "QCO_MUL_NUM",       {qca_pop_2num,     qca_mul_num,     qca_push_num_result}},
     { QCO_DIV_NUM,       "QCO_DIV_NUM",       {qca_pop_2num,     qca_div_num,     qca_push_num_result}},
-    { QCO_POW_NUM,       "QCO_POW_NUM",       {qca_pop_2num,     qca_pow_num,     qca_push_num_result}},  // QCO_POW_NUM             0x40    
+    { QCO_POW_NUM,       "QCO_POW_NUM",       {qca_pop_2num,     qca_pow_num,     qca_push_num_result}},     // QCO_POW_NUM             0x40    
     { QCO_UMIN_NUM,      "QCO_UMIN_NUM",      {qca_pop_num,      qca_umin_num,    qca_push_num}},
     { QCO_NOT_NUM,       "QCO_NOT_NUM",       {qca_pop_num,      qca_not_num,     qca_push_result}},
     { QCO_AND_NUM,       "QCO_AND_NUM",       {qca_pop_2num,     qca_and_num,     qca_push_result}},
@@ -2806,7 +2900,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_ASS_INT,       "QCO_ASS_INT",       {qca_ass_int,      qca_null,        qca_null}},
     { QCO_ASS_STR,       "QCO_ASS_STR",       {qca_ass_str,      qca_null,        qca_null}},
     { QCO_ASS_NUM,       "QCO_ASS_NUM",       {qca_ass_num,      qca_null,        qca_null}},
-    { QCO_DROP_BYTE,     "QCO_DROP_BYTE",     {qca_pop_byte,     qca_null,        qca_null}},    // QCO_DROP_BYTE           0x82    
+    { QCO_DROP_BYTE,     "QCO_DROP_BYTE",     {qca_drop_byte,    qca_null,        qca_null}},    // QCO_DROP_BYTE           0x82    
     { QCO_DROP_WORD,     "QCO_DROP_WORD",     {qca_pop_int,      qca_null,        qca_null}},
     { QCO_DROP_NUM,      "QCO_DROP_NUM",      {qca_pop_num,      qca_null,        qca_null}},
     { QCO_DROP_STR,      "QCO_DROP_STR",      {qca_pop_str,      qca_null,        qca_null}},
@@ -2823,12 +2917,12 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_FREE                0x90    
     // RTF_GET                 0x91    
     { RTF_HOUR,          "RTF_HOUR",          {qca_clock_hour,   qca_null,        qca_null}},
-    // RTF_IABS                0x93    
-    // RTF_INT                 0x94    
+    { RTF_IABS,          "RTF_IABS",          {qca_pop_int,      qca_iabs,        qca_push_result}},    // RTF_IABS                0x93    
+    { RTF_INT,           "RTF_INT",           {qca_pop_num,      qca_num_to_int,  qca_push_result}},    // RTF_INT                 0x94    
     // RTF_KEY                 0x95
     { RTF_LEN,           "RTF_LEN",           {qca_pop_str,      qca_len,         qca_push_result}},
     { RTF_LOC,           "RTF_LOC",           {qca_pop_2str,     qca_loc,         qca_push_result}},
-    // RTF_MENU                0x98
+    { RTF_MENU,          "RTF_MENU",          {qca_rtf_menu,     qca_null,        qca_null}},          // RTF_MENU                0x98
     { RTF_MINUTE,        "RTF_MINUTE",        {qca_clock_minute, qca_null,        qca_null}},
     { RTF_MONTH,         "RTF_MONTH",         {qca_clock_month,  qca_null,        qca_null}},
     // RTF_PEEKB               0x9B    
@@ -2840,7 +2934,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_YEAR,          "RTF_YEAR",          {qca_clock_year,   qca_null,        qca_null}},
     // RTF_COUNT               0xA2    
     // RTF_EOF                 0xA3    
-    // RTF_EXIST               0xA4    
+    { RTF_EXIST,         "RTF_EXIST",         {qca_pop_str,      qca_rtf_exist,   qca_push_result}},    // RTF_EXIST               0xA4    
     // RTF_POS                 0xA5
     { RTF_ABS,           "RTF_ABS",           {qca_pop_num,      qca_abs_num,     qca_push_num_result}},
     { RTF_ATAN,          "RTF_ATAN",          {qca_pop_num,      qca_atan_num,    qca_push_num_result}},

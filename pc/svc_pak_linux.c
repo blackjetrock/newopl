@@ -60,6 +60,20 @@ void pk_close_linux(int logfile, char *filename)
     }
 }
 
+int pk_exist_linux(char *filename)
+{
+  FILE *fp;
+
+  fp = fopen(filename, "r");
+
+  if( fp == NULL )
+    {
+      return(0);
+    }
+  return(1);
+}
+
+//------------------------------------------------------------------------------
 
 uint8_t pk_rbyt_linux(PAK_ADDR pak_addr)
 {

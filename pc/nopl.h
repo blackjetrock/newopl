@@ -3,16 +3,17 @@
 #define NOPL_MAX_LABEL         12
 #define NOPL_MAX_SUFFIX_BYTES   8
 #define MAX_COND_FIXUP        400
+#define MAX_NOPL_MENU_SELS     16
 
+#include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
+#include <curses.h>
 
 #include "newopl.h"
 
 #include "nopl_obj.h"
 #include "newopl_types.h"
-
-
 
 #include "newopl_exec.h"
 #include "newopl_lib.h"
@@ -27,18 +28,19 @@
 #include "calc.h"
 #include "files.h"
 
-
-
 #include "svc_pk_base.h"
 
 #include "svc_fl.h"
+#include "svc_kb.h"
 
 #include "logical_files.h"
 #include "svc_pak_linux.h"
 
 #include "svc_pk.h"
+#include "svc_mn.h"
 
 #include "sysvar.h"
+
 
 #ifdef TUI
 #include "tui.h"
