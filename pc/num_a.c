@@ -536,7 +536,7 @@ void num_db_digits(char *text, int n, NOPL_FLOAT_DIG *d)
 #else
       fprintf(exdbfp, "%d", d[k]);
 #endif
-      if( k == 11 )
+      if( k == (n/2)-1 )
 	{
 #if EXPANDED	  
 	  fprintf(exdbfp, "_");
@@ -667,7 +667,7 @@ void num_build_times_table(int n, NOPL_FLOAT_DIG *ttable, NOPL_FLOAT_DIG *num)
   char txt[20];
   int8_t exponent = 0;
 
-  dbq("Building times table for:");
+  dbq("Building times table for %d digits for:", n);
   num_db_digits("the number:", n, num);
 	
   // Clear the first entry
@@ -747,7 +747,7 @@ int num_divides_into(int n, NOPL_FLOAT_DIG *a, NOPL_FLOAT_DIG *b, NOPL_FLOAT_DIG
       if( num_digits_gte(n, a, &(times_table[i*n])) )
 	{
 	  dbq("Does divide (%d)", i);
-	  num_db_digits("tt:", n, times_table);
+	  num_db_digits("tt:", n, &(times_table[i*n]));
 	  return(i);
 	}
     }
@@ -1486,14 +1486,14 @@ void num_div(NOPL_FLOAT *a1, NOPL_FLOAT *b1, NOPL_FLOAT *r)
       //num_cat_digit(LONGER_DIGITS, w, la[a_digit_pos]);
 
       // Shift top half left and put digit in the last position of the top half
-      for(int i=0; i<LONGER_DIGITS/2-1; i++)
+      for(int i=0; i<LONGER_DIGITS/2+1; i++)
 	{
 	  w[i] = w[i+1];
 	}
 
-      w[LONGER_DIGITS/2-1] = la[a_digit_pos];
+      w[LONGER_DIGITS/2+1] = la[a_digit_pos];
 
-      //      num_db_digits("\test w :",   LONGER_DIGITS, w);
+      num_db_digits("test w :\n",   LONGER_DIGITS, w);
       //num_db_digits("\ntest tt:",   LONGER_DIGITS, ttable);
       
       // Is it possible to divide b into w?
@@ -1541,7 +1541,7 @@ void num_div(NOPL_FLOAT *a1, NOPL_FLOAT *b1, NOPL_FLOAT *r)
     }
 
   // Adjust exponent due to larger double length calculations
-  (r->exponent)++;
+  (r->exponent)+=3;
   
   num_db_digits("\nres after shift:", LONGER_DIGITS, res);
 
