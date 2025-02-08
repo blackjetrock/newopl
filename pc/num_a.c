@@ -480,10 +480,10 @@ void num_sub_digits(int n, NOPL_FLOAT_DIG *a, NOPL_FLOAT_DIG *b, NOPL_FLOAT_DIG 
       r[i] = a[i] + b[i];
     }
 
-  num_db_digits("\nnum_sub_digits  r:", n, r);
+  //num_db_digits("\nnum_sub_digits  r:", n, r);
 
   num_propagate_carry_digits(r, n);
-  num_db_digits("\nnum_sub_digits  r:", n, r);
+  //num_db_digits("\nnum_sub_digits  r:", n, r);
 }
 
 //------------------------------------------------------------------------------
@@ -660,13 +660,15 @@ void num_normalise(NOPL_FLOAT *n)
 //   .  .
 //  8 x num
 //  9 x num
+//
 
 void num_build_times_table(int n, NOPL_FLOAT_DIG *ttable, NOPL_FLOAT_DIG *num)
 {
   char txt[20];
   int8_t exponent = 0;
 
-  num_db_digits("num:", n, num);
+  dbq("Building times table for:");
+  num_db_digits("the number:", n, num);
 	
   // Clear the first entry
   num_clear_digits(n, ttable);
@@ -680,9 +682,12 @@ void num_build_times_table(int n, NOPL_FLOAT_DIG *ttable, NOPL_FLOAT_DIG *num)
       num_add_n_digits(n, &(ttable[((i-1)*n)]), num, &(ttable[i*n]));
       num_db_digits(txt, n, &(ttable[i*n]));
       num_propagate_carry_digits(&(ttable[i*n]), n);
-      //num_normalise_digits(n, &(ttable[i*n]), &exponent);
+
       num_db_digits(txt, n, &(ttable[i*n]));
     }
+
+  //num_normalise_digits(n, &(ttable[i*n]), &exponent);
+  dbq("Exponent:%d", exponent);
   
 }
 
@@ -731,21 +736,23 @@ int num_digits_gte(int n, NOPL_FLOAT_DIG *a, NOPL_FLOAT_DIG *b)
 
 int num_divides_into(int n, NOPL_FLOAT_DIG *a, NOPL_FLOAT_DIG *b, NOPL_FLOAT_DIG *times_table)
 {
+  //num_db_digits("a:", n, a);
+
+  
   // If the number is greater than one of the times table entries then
   // the b does divide into a.
   for(int i=9; i>0; i--)
     {
-      //dbq("Testing %d", i);
-      //num_db_digits("\na:", n, a);
-      //num_db_digits("b:", n, &(times_table[i*n]));
 
       if( num_digits_gte(n, a, &(times_table[i*n])) )
 	{
-	  //dbq("Does divide");
+	  dbq("Does divide (%d)", i);
+	  num_db_digits("tt:", n, times_table);
 	  return(i);
 	}
     }
   
+  dbq("Doesn't divide");
   return(0);
 }
 
@@ -1301,11 +1308,13 @@ void num_mul(NOPL_FLOAT *a1, NOPL_FLOAT *b1, NOPL_FLOAT *r)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+// Check all lower digits except the top one is zero
+
 int all_lower_zero(int n, NOPL_FLOAT_DIG *lb)
 {
   int all_zero = 1;
   
-  for(int i=n/2; i<n-1; i++)
+  for(int i=n/2+1; i<n-1; i++)
     {
       if( lb[i] != 0 )
 	{
@@ -1319,7 +1328,11 @@ int all_lower_zero(int n, NOPL_FLOAT_DIG *lb)
 //
 // Divide two floats
 //
-
+// Uses long division algorithm.
+//
+// Builds double length numbers for division, leaves one zero in MS position
+// to prevent times table overflow.
+//
 
 void num_div(NOPL_FLOAT *a1, NOPL_FLOAT *b1, NOPL_FLOAT *r)
 {
@@ -1384,9 +1397,9 @@ void num_div(NOPL_FLOAT *a1, NOPL_FLOAT *b1, NOPL_FLOAT *r)
 
   //------------------------------------------------------------------------------
   
-  //dbq("DIV");
-  //dbq_num("%s a:", a);
-  //dbq_num("%s b:", b);
+  dbq("DIV");
+  dbq_num("%s a:", a);
+  dbq_num("%s b:", b);
 
   // Sort out the signs
   //
@@ -1407,20 +1420,27 @@ void num_div(NOPL_FLOAT *a1, NOPL_FLOAT *b1, NOPL_FLOAT *r)
   // Long division algorithm.
   //
   
-  //dbq_num_exploded("%s a:", a);
-  //dbq_num_exploded("%s b:", b);
+  dbq_num_exploded("%s a:", a);
+  dbq_num_exploded("%s b:", b);
 
   // Now divide mantissas
-  NOPL_FLOAT_DIG  w[NUM_MAX_DIGITS*2];    // working register
-  NOPL_FLOAT_DIG  res[NUM_MAX_DIGITS*2];    // result register
-  NOPL_FLOAT_DIG  ttable[NUM_MAX_DIGITS*2*10];  // Times table
-  NOPL_FLOAT_DIG  la[NUM_MAX_DIGITS*2];        // long version of a
-  NOPL_FLOAT_DIG  lb[NUM_MAX_DIGITS*2];        // long version of b
-  NOPL_FLOAT_DIG  te[NUM_MAX_DIGITS*2];        // copy of table entry
-  int8_t          exponent = 0;
+#define LONGER_DIGITS  (NUM_MAX_DIGITS*2+2)
   
+  NOPL_FLOAT_DIG  w[LONGER_DIGITS];    // working register
+  NOPL_FLOAT_DIG  res[LONGER_DIGITS];    // result register
+  NOPL_FLOAT_DIG  ttable[LONGER_DIGITS*10];  // Times table
+  NOPL_FLOAT_DIG  la[LONGER_DIGITS];        // long version of a
+  NOPL_FLOAT_DIG  lb[LONGER_DIGITS];        // long version of b
+  NOPL_FLOAT_DIG  te[LONGER_DIGITS];        // copy of table entry
+  int8_t          exponent = 0;
+
+  //
   // Make a longer version of b
-  num_clear_digits(NUM_MAX_DIGITS*2, lb);
+  //
+  // To prevent times table overflow, we leave a zero in the MS position
+  //
+  
+  num_clear_digits(LONGER_DIGITS, lb);
   
   for(int i=0; i<NUM_MAX_DIGITS; i++)
     {
@@ -1428,68 +1448,69 @@ void num_div(NOPL_FLOAT *a1, NOPL_FLOAT *b1, NOPL_FLOAT *r)
     }
 
   // Put significant digits in top half
-  while( !all_lower_zero(NUM_MAX_DIGITS*2, lb) )
+  while( !all_lower_zero(LONGER_DIGITS, lb) )
     {
-      num_shift_digits_left_n(NUM_MAX_DIGITS*2, lb, &exponent);
+      num_shift_digits_left_n(LONGER_DIGITS, lb, &exponent);
     }
 
   r->exponent -= exponent;
   
   // Make a longer version of a
-  num_clear_digits(NUM_MAX_DIGITS*2, la);
+  num_clear_digits(LONGER_DIGITS, la);
   for(int i=0; i<NUM_MAX_DIGITS; i++)
     {
       la[i] = a->digits[i];
     }
   
-  num_clear_digits(NUM_MAX_DIGITS*2, w);
-  num_clear_digits(NUM_MAX_DIGITS*2, res);
+  num_clear_digits(LONGER_DIGITS, w);
+  num_clear_digits(LONGER_DIGITS, res);
 
   int done = 0;
   int a_digit_pos = 0;
   int divides_by = 0;
   	    
-  //num_db_digits("\nw:",   NUM_MAX_DIGITS*2, w);
-  //num_db_digits("\nres:", NUM_MAX_DIGITS*2, res);
+  num_db_digits("\nw:",   LONGER_DIGITS, w);
+  num_db_digits("\nres:", LONGER_DIGITS, res);
 
-  num_build_times_table(NUM_MAX_DIGITS*2, ttable, lb);
+  num_build_times_table(LONGER_DIGITS, ttable, lb);
   
   while(!done)
     {
-      if( a_digit_pos >= NUM_MAX_DIGITS*2 )
+      if( a_digit_pos >= LONGER_DIGITS )
 	{
 	  done = 1;
 	  continue;
 	}
       
       // Bring digit down into the w register, add to the end of any number in w
-      //num_cat_digit(NUM_MAX_DIGITS*2, w, la[a_digit_pos]);
+      //num_cat_digit(LONGER_DIGITS, w, la[a_digit_pos]);
 
       // Shift top half left and put digit in the last position of the top half
-      for(int i=0; i<NUM_MAX_DIGITS+1; i++)
+      for(int i=0; i<LONGER_DIGITS/2-1; i++)
 	{
 	  w[i] = w[i+1];
 	}
 
-      w[NUM_MAX_DIGITS-1] = la[a_digit_pos];
+      w[LONGER_DIGITS/2-1] = la[a_digit_pos];
 
-      num_db_digits("\ntest w:",   NUM_MAX_DIGITS*2, w);
+      //      num_db_digits("\test w :",   LONGER_DIGITS, w);
+      //num_db_digits("\ntest tt:",   LONGER_DIGITS, ttable);
       
       // Is it possible to divide b into w?
-      if( divides_by = num_divides_into(NUM_MAX_DIGITS*2, w, lb, ttable) )
+      if( divides_by = num_divides_into(LONGER_DIGITS, w, lb, ttable) )
 	{
 	  // We have another digit of the result
 	  res[a_digit_pos] = divides_by;
 
 	  // Leave remainder in w
 	  // Use a copy of table entry as tens complement writes into that array
-	  for(int i=0; i<NUM_MAX_DIGITS*2; i++)
+	  for(int i=0; i<LONGER_DIGITS; i++)
 	    {
-	      te[i] = ttable[(NUM_MAX_DIGITS*2*divides_by)+i];
+	      te[i] = ttable[(LONGER_DIGITS*divides_by)+i];
 	    }
 		
-	  //	  num_sub_digits(NUM_MAX_DIGITS*2, w, &(ttable[(NUM_MAX_DIGITS*2*divides_by)]), w);
-	  num_sub_digits(NUM_MAX_DIGITS*2, w, &(te[0]), w);
+	  //	  num_sub_digits(LONGER_DIGITS, w, &(ttable[(LONGER_DIGITS*divides_by)]), w);
+	  num_sub_digits(LONGER_DIGITS, w, &(te[0]), w);
 	  
 	  // Remove overflow
 	  if( w[0] > 10 )
@@ -1503,9 +1524,9 @@ void num_div(NOPL_FLOAT *a1, NOPL_FLOAT *b1, NOPL_FLOAT *r)
 	  res[a_digit_pos] = 0;
 	}
 
-      // dbq(" ***** Divides_by: %d", divides_by);
-      //num_db_digits("\nres:", NUM_MAX_DIGITS*2, res);
-      //num_db_digits("\nw:  ", NUM_MAX_DIGITS*2, w);
+      dbq(" ***** Divides_by: %d", divides_by);
+      num_db_digits("\nres:", LONGER_DIGITS, res);
+      num_db_digits("\nw:  ", LONGER_DIGITS, w);
       a_digit_pos++;
     }
 
@@ -1516,10 +1537,13 @@ void num_div(NOPL_FLOAT *a1, NOPL_FLOAT *b1, NOPL_FLOAT *r)
   
   while( res[0] == 0 )
     {
-      num_shift_digits_left_n(NUM_MAX_DIGITS*2, res, &(r->exponent));
+      num_shift_digits_left_n(LONGER_DIGITS, res, &(r->exponent));
     }
 
-  //num_db_digits("\nres after shift:", NUM_MAX_DIGITS*2, res);
+  // Adjust exponent due to larger double length calculations
+  (r->exponent)++;
+  
+  num_db_digits("\nres after shift:", LONGER_DIGITS, res);
 
   // Round the last digit up
   if( res[NUM_MAX_DIGITS] >=5 )
@@ -1528,9 +1552,9 @@ void num_div(NOPL_FLOAT *a1, NOPL_FLOAT *b1, NOPL_FLOAT *r)
     }
 
   // Now propagate any carry
-  num_propagate_carry_digits(res, NUM_MAX_DIGITS*2);
+  num_propagate_carry_digits(res, LONGER_DIGITS);
 
-  num_db_digits("\nres after round:", NUM_MAX_DIGITS*2, res);
+  num_db_digits("\nres after round:", LONGER_DIGITS, res);
 
   for(int i=0; i<NUM_MAX_DIGITS; i++)
     {
