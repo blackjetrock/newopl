@@ -680,7 +680,7 @@ void num_build_times_table(int n, NOPL_FLOAT_DIG *ttable, NOPL_FLOAT_DIG *num)
       sprintf(txt, "%3d:", i);
       
       num_add_n_digits(n, &(ttable[((i-1)*n)]), num, &(ttable[i*n]));
-      num_db_digits(txt, n, &(ttable[i*n]));
+      //      num_db_digits(txt, n, &(ttable[i*n]));
       num_propagate_carry_digits(&(ttable[i*n]), n);
 
       num_db_digits(txt, n, &(ttable[i*n]));
