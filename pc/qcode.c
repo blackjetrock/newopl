@@ -3026,7 +3026,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_FIX,           "RTF_FIX",           {qca_null,         qca_fix,         qca_push_string}},    // RTF_FIX                 0xBB    
     // RTF_GEN                 0xBC    
     // RTF_SGET                0xBD    
-    // RTF_HEX                 0xBE    lakes
+    // RTF_HEX                 0xBE    
     
     // RTF_SKEY                0xBF    
     // RTF_LEFT                0xC0    
