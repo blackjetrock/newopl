@@ -2126,6 +2126,23 @@ void qca_chr(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->len = 1;
 }
 
+void qca_lower(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  for(int i=0; i<s->len; i++)
+    {
+      s->str[i] = tolower(s->str[i]);
+    }
+}
+
+void qca_upper(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  for(int i=0; i<s->len; i++)
+    {
+      s->str[i] = toupper(s->str[i]);
+    }
+}
+
+
 //------------------------------------------------------------------------------
 
 void qca_push_string(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -2962,16 +2979,17 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_FIX                 0xBB    
     // RTF_GEN                 0xBC    
     // RTF_SGET                0xBD    
-    // RTF_HEX                 0xBE    
+    // RTF_HEX                 0xBE    lakes
+    
     // RTF_SKEY                0xBF    
     // RTF_LEFT                0xC0    
-    // RTF_LOWER               0xC1    
+    { RTF_LOWER,          "RTF_LOWER",           {qca_pop_str,      qca_lower,         qca_push_string}},    // RTF_LOWER               0xC1    
     // RTF_MID                 0xC2    
     // RTF_NUM                 0xC3    
     // RTF_RIGHT               0xC4    
     // RTF_REPT                0xC5    
     // RTF_SCI                 0xC6    
-    // RTF_UPPER               0xC7    
+    { RTF_UPPER,          "RTF_UPPER",           {qca_pop_str,      qca_upper,         qca_push_string}},    // RTF_UPPER               0xC7    
     // RTF_SUSR                0xC8    
     // RTF_SADDR               0xC9    
     //

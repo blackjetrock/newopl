@@ -562,7 +562,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "LOC",               __,     __,                   __,        __,               RTF_LOC, 0},
     {EXP_BUFF_ID_FUNCTION, "LN",                __,     __,                   __,        __,               RTF_LN, 0},
     {EXP_BUFF_ID_FUNCTION, "LOG",               __,     __,                   __,        __,               RTF_LOG, 0},
-    {EXP_BUFF_ID_FUNCTION, "LOWER",             __,     __,                   __,        __,               RTF_LOWER, 0},
+    //{EXP_BUFF_ID_FUNCTION, "LOWER",             __,     __,                   __,        __,               RTF_LOWER, 0},
 	    
     {EXP_BUFF_ID_FUNCTION, "MAX",               __,     __,                   __,        __,               RTF_MAX, 0},
     {EXP_BUFF_ID_FUNCTION, "MIN",               __,     __,                   __,        __,               RTF_MIN, 0},
