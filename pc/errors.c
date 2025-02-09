@@ -109,6 +109,30 @@ void runtime_error(int error_code, char *fmt, ...)
 {
   // Signal to the QCode loop that an error has occurred
   current_machine->error_occurred = 1;
+  current_machine->error_code = error_code;
+
+  va_list valist;
+  char line[80];
+  
+  va_start(valist, fmt);
+  
+  vsprintf(line, fmt, valist);
+  va_end(valist);
+
+  strcpy(current_machine->error_string, line);
+}
+
+void runtime_error_print(void)
+{
+  dbq("Runtime error: error code: %d ***", current_machine->error_code);
+  dbq("\n*** Internal compiler error ***\n");
+  dbq("\n%s\n", error_text(current_machine->error_code));
+  dbq("\n%s\n", current_machine->error_string);
+  
+  printf("\nRuntime error: error code: %d ***", current_machine->error_code);
+  printf("\n*** Internal compiler error ***");
+  printf("\n%s", error_text(current_machine->error_code));
+  printf("\n%s\n", current_machine->error_string);
 }
 
 void runtime_error_msg(int error_code, char *fmt, ...)

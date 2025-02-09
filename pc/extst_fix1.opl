@@ -1,9 +1,34 @@
 fix1:
 
 local F$(20)
-local F
+local F, PASS%, NUM%
+
+PASS% = 0
+NUM% = 0
 
 F = 1234.56
-F$ = fix$(f, 0, 2)
+F$ = fix$(f, 0, 16)
 
 print f$
+
+if f$="1.23456000000E+3"
+PASS% = PASS% + 1
+endif
+NUM% = NUM% + 1
+
+F = 1234.56
+F$ = fix$(f, 0, 10)
+
+print f$
+
+if f$="**********"
+PASS% = PASS% + 1
+endif
+NUM% = NUM% + 1
+
+if PASS% = NUM%
+print "PASS"
+else
+print "NUM:",NUM%,"PASS:",PASS%
+print "FAIL"
+endif

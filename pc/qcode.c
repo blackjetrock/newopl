@@ -1534,8 +1534,15 @@ void qca_eq_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   // Terminate for C
   s->str[s->len]   = '\0';
   s->str2[s->len2] = '\0';
-  
-  s->integer = strcmp(s->str, s->str2) == 0;
+
+  if( strcmp(s->str, s->str2) == 0 )
+    {
+      s->integer = NOBJ_TRUE;
+    }
+  else
+    {
+      s->integer = NOBJ_FALSE;
+    }
 }
 
 void qca_lt_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -2142,6 +2149,16 @@ void qca_fix(NOBJ_MACHINE *m, NOBJ_QCS *s)
   // Convert float to string
   strcpy(s->str, num_to_text(&(s->num)));
   s->len = strlen(s->str);
+
+  if( s->len > b )
+    {
+      s->len = b;
+
+      for(int i= 0; i< s->len; i++)
+	{
+	  s->str[i] = '*';
+	}
+    }
 }
 
 void qca_lower(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -2170,7 +2187,7 @@ void qca_push_string(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_add_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  if( (s->len + s->len2) > NOBJ_FILENAME_MAXLEN )
+  if( (s->len + s->len2) > NOBJ_STRING_MAXLEN )
     {
       runtime_error(ER_LX_ST, "String too long");
     }
@@ -2388,6 +2405,18 @@ void qca_rtf_menu(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Drop field name string
   pop_machine_string(m, &(s->len), s->str);
+
+  push_machine_16(m, mn_menu(s->str));
+}
+
+void qca_rtf_menun(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+
+  // Drop field name string
+  pop_machine_string(m, &(s->len), s->str);
+
+  // Ignore N for now
+  pop_machine_int(m);
 
   push_machine_16(m, mn_menu(s->str));
 }
@@ -3028,7 +3057,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_CLOCK               0xD6
     // RTF_DOW                 0xD7
     // RTF_FINDW               0xD8
-    // RTF_MENUN               0xD9
+    { RTF_MENUN,         "RTF_MENUN",         {qca_rtf_menun,    qca_null,        qca_null}},    // RTF_MENUN               0xD9
     // RTF_WEEK                0xDA
     { RTF_ACOS,          "RTF_ACOS",          {qca_pop_num,      qca_acos_num,    qca_push_num_result}},
     { RTF_ASIN,          "RTF_ASIN",          {qca_pop_num,      qca_asin_num,    qca_push_num_result}},
@@ -3614,6 +3643,7 @@ void execute_qcode(NOBJ_MACHINE *m, int single_step)
 	      // No handler
 	      dbq("No ONERR handler defined");
 
+	      runtime_error_print();
 	      //Exit
 	      return;
 	    }

@@ -137,6 +137,7 @@ typedef struct _NOBJ_MACHINE
   int onerr_handler;
   int error_code;
   int error_occurred;
+  char error_string[80];
 } NOBJ_MACHINE;
 
 

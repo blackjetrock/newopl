@@ -338,8 +338,8 @@ typedef struct _NOBJ_QCS
   uint8_t    len;
   uint8_t    len2;
   uint8_t    data8;
-  char       str[NOBJ_FILENAME_MAXLEN+1];
-  char       str2[NOBJ_FILENAME_MAXLEN+1];
+  char       str[NOBJ_STRING_MAXLEN+1];
+  char       str2[NOBJ_STRING_MAXLEN+1];
   uint16_t   str_addr;
   uint16_t   addr;
   char       procpath[NOBJ_FILENAME_MAXLEN];
