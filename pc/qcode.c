@@ -2126,6 +2126,24 @@ void qca_chr(NOBJ_MACHINE *m, NOBJ_QCS *s)
   s->len = 1;
 }
 
+void qca_fix(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT f;
+  int a, b;
+  
+  // Pop arguments
+  b = pop_machine_int(m);
+  a = pop_machine_int(m);
+
+  qca_pop_num(m, s);
+  
+  f = s->num;
+
+  // Convert float to string
+  strcpy(s->str, num_to_text(&(s->num)));
+  s->len = strlen(s->str);
+}
+
 void qca_lower(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   for(int i=0; i<s->len; i++)
@@ -2976,7 +2994,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_CHR,           "RTF_CHR",           {qca_pop_int,      qca_chr,         qca_push_string}},    // RTF_CHR                 0xB8
     // RTF_DATIM               0xB9    
     // RTF_SERR                0xBA    
-    // RTF_FIX                 0xBB    
+    { RTF_FIX,           "RTF_FIX",           {qca_null,         qca_fix,         qca_push_string}},    // RTF_FIX                 0xBB    
     // RTF_GEN                 0xBC    
     // RTF_SGET                0xBD    
     // RTF_HEX                 0xBE    lakes

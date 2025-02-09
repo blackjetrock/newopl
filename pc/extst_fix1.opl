@@ -1,0 +1,9 @@
+fix1:
+
+local F$(20)
+local F
+
+F = 1234.56
+F$ = fix$(f, 0, 2)
+
+print f$

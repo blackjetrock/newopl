@@ -130,9 +130,6 @@ NOPL_FLOAT pop_machine_num(NOBJ_MACHINE *m)
       n.digits[i*2] = b >> 4;
       n.digits[i*2+1] = b & 0xF;
     }
-
-
-
   
   return(n);
 }
