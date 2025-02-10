@@ -1,0 +1,280 @@
+Psion random number generator code
+
+                             **************************************************************
+                             * FN$RND                                                     *
+                             **************************************************************
+                             undefined FUN_bc24()
+             undefined         A:1            <RETURN>
+                             FUN_bc24                                        XREF[1]:     bc0a(c)  
+            bc24 7d 23 ae        TST        fnt_seed
+            bc27 26 03           BNE        LAB_bc2c
+            bc29 7c 23 ae        INC        fnt_seed
+                             LAB_bc2c                                        XREF[1]:     bc27(j)  
+            bc2c c6 30           LDB        #0x30
+                             LAB_bc2e                                        XREF[1]:     bc53(j)  
+            bc2e ce 23 ae        LDX        #0x23ae                                          ;fnt_seed address
+            bc31 a6 02           LDA        0x2,X=>DAT_23b0
+            bc33 44              LSRA
+            bc34 44              LSRA
+            bc35 44              LSRA
+            bc36 a8 06           EORA       0x6,X=>DAT_23b4
+            bc38 84 01           ANDA       #0x1
+            bc3a ab 00           ADDA       0x0,X=>fnt_seed
+            bc3c 19              DAA
+            bc3d a9 00           ADCA       0x0,X=>fnt_seed
+            bc3f 19              DAA
+            bc40 a7 00           STA        0x0,X=>fnt_seed
+            bc42 07              TPA
+                             LAB_bc43                                        XREF[1]:     bc50(j)  
+            bc43 06              TAP
+            bc44 a6 01           LDA        0x1,X=>DAT_23af
+            bc46 a9 01           ADCA       0x1,X=>DAT_23af
+            bc48 19              DAA
+            bc49 a7 01           STA        0x1,X=>DAT_23af
+            bc4b 07              TPA
+            bc4c 08              INX
+            bc4d 8c 23 b3        CMPX       #0x23b3
+            bc50 23 f1           BLS        LAB_bc43
+            bc52 5a              DECB
+            bc53 26 d9           BNE        LAB_bc2e
+            bc55 ce 23 ad        LDX        #0x23ad
+            bc58 bd d5 80        JSR        FUN_d580                                         undefined FUN_d580()
+            bc5b 5f              CLRB
+            bc5c d7 c5           STB        <DAT_00c5
+            bc5e 86 ff           LDA        #0xff
+            bc60 dd cc           STD        <DAT_00cc
+            bc62 7e d6 59        JMP        FUN_d659                                         undefined FUN_d659()
+                             -- Flow Override: CALL_RETURN (CALL_TERMINATOR)
+
+
+                             **************************************************************
+                             *                          FUNCTION                          *
+                             **************************************************************
+                             undefined FUN_d580()
+             undefined         A:1            <RETURN>
+                             FUN_d580                                        XREF[1]:     FUN_bc24:bc58(c)  
+            d580 a6 00           LDA        0x0,X
+            d582 97 c5           STA        <DAT_00c5
+            d584 ec 01           LDD        0x1,X
+            d586 dd c6           STD        <DAT_00c6
+            d588 ec 03           LDD        0x3,X
+            d58a dd c8           STD        <DAT_00c8
+            d58c ec 05           LDD        0x5,X
+            d58e dd ca           STD        <DAT_00ca
+            d590 39              RTS
+
+                             **************************************************************
+                             *                          FUNCTION                          *
+                             **************************************************************
+                             undefined FUN_d659()
+             undefined         A:1            <RETURN>
+                             FUN_d659                                        XREF[1]:     FUN_bc24:bc62(c)  
+            d659 ce 00 cb        LDX        #0xcb
+            d65c 5f              CLRB
+                             LAB_d65d                                        XREF[1]:     FUN_d663:d665(j)  
+            d65d a6 00           LDA        0x0,X=>DAT_00cb
+            d65f 26 0a           BNE        LAB_d66b
+            d661 09              DEX
+            d662 5c              INCB
+                             **************************************************************
+                             *                          FUNCTION                          *
+                             **************************************************************
+                             undefined FUN_d663()
+             undefined         A:1            <RETURN>
+                             FUN_d663                                        XREF[1]:     FUN_ce39:ce54(c)  
+            d663 c1 07           CMPB       #0x7
+            d665 26 f6           BNE        LAB_d65d
+            d667 5f              CLRB
+            d668 dd cc           STD        <00cc
+            d66a 39              RTS
+                             LAB_d66b                                        XREF[1]:     FUN_d659:d65f(j)  
+            d66b 58              ASLB
+            d66c 84 f0           ANDA       #0xf0
+            d66e 26 01           BNE        LAB_d671
+            d670 5c              INCB
+                             LAB_d671                                        XREF[1]:     d66e(j)  
+            d671 d7 47           STB        <0047
+            d673 27 05           BEQ        LAB_d67a
+            d675 ce 00 c5        LDX        #0xc5
+            d678 8d 64           BSR        FUN_d6de                                         undefined FUN_d6de()
+                             LAB_d67a                                        XREF[1]:     d673(j)  
+            d67a 71 80 cd        AIM        #0x80,0xcd
+            d67d d6 c5           LDB        <00c5
+            d67f c1 49           CMPB       #0x49
+            d681 23 07           BLS        LAB_d68a
+            d683 ce 00 c5        LDX        #0xc5
+            d686 c6 0c           LDB        #0xc
+            d688 8d 1e           BSR        FUN_d6a8                                         undefined FUN_d6a8()
+                             LAB_d68a                                        XREF[1]:     d681(j)  
+            d68a d6 cc           LDB        <00cc
+            d68c d0 47           SUBB       <0047
+            d68e 8d 08           BSR        FUN_d698                                         undefined FUN_d698()
+            d690 25 12           BCS        LAB_d6a4
+            d692 d7 cc           STB        <00cc
+            d694 4f              CLRA
+            d695 97 c5           STA        <00c5
+            d697 39              RTS
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+
+void FUN_bc24(void)
+
+{
+  byte *pbVar1;
+  undefined *puVar2;
+  bool bVar3;
+  bool bVar4;
+  byte bVar5;
+  byte bVar6;
+  ushort uVar7;
+  char cVar9;
+  byte in_CC;
+  byte bVar10;
+  byte bVar11;
+  byte bVar12;
+  undefined *puVar13;
+  undefined *puVar14;
+  short sVar8;
+  
+  if (fnt_seed == 0) {
+    fnt_seed = 1;
+  }
+  cVar9 = '0';
+  bVar12 = in_CC & 0xf1;
+  do {
+    puVar13 = &fnt_seed;
+    uVar7 = CONCAT11(DAT_23b0 >> 3 ^ DAT_23b4,cVar9) & 0x1ff;
+    bVar11 = (byte)(uVar7 >> 8);
+    cVar9 = (char)uVar7;
+    bVar5 = bVar11 + fnt_seed;
+    bVar10 = bVar12 & 0xd0 | CARRY1(bVar11,fnt_seed);
+    bVar3 = (CARRY1(bVar11,fnt_seed) == true || 9 < bVar5 >> 4) ||
+            8 < bVar5 >> 4 && 9 < (bVar5 & 0xf);
+    bVar4 = (byte)(bVar11 + (fnt_seed & 0xf)) >> 4 == 1 || 9 < (bVar5 & 0xf);
+    if (bVar3 && bVar4) {
+      bVar10 = bVar12 & 0xd0 | 0x99 < bVar5;
+      bVar5 = bVar5 + 0x66;
+    }
+    else if (bVar3) {
+      bVar10 = bVar12 & 0xd0 | 0x9f < bVar5;
+      bVar5 = bVar5 + 0x60;
+    }
+    else if (bVar4) {
+      bVar10 = bVar12 & 0xd0 | 0xf9 < bVar5;
+      bVar5 = bVar5 + 6;
+    }
+    bVar6 = bVar10 & 1;
+    bVar12 = fnt_seed & 0xf;
+    bVar3 = CARRY1(bVar5,fnt_seed) || CARRY1(bVar5 + fnt_seed,bVar6);
+    fnt_seed = bVar5 + fnt_seed + bVar6;
+    bVar11 = bVar10 & 0xd0 | bVar3;
+    bVar3 = (bVar3 || 9 < fnt_seed >> 4) || 8 < fnt_seed >> 4 && 9 < (fnt_seed & 0xf);
+    bVar4 = ((byte)((bVar5 & 0xf) + bVar12 + bVar6) >> 4 & 1) == 1 || 9 < (fnt_seed & 0xf);
+    if (bVar3 && bVar4) {
+      bVar11 = bVar10 & 0xd0 | 0x99 < fnt_seed;
+      fnt_seed = fnt_seed + 0x66;
+    }
+    else if (bVar3) {
+      bVar11 = bVar10 & 0xd0 | 0x9f < fnt_seed;
+      fnt_seed = fnt_seed + 0x60;
+    }
+    else if (bVar4) {
+      bVar11 = bVar10 & 0xd0 | 0xf9 < fnt_seed;
+      fnt_seed = fnt_seed + 6;
+    }
+    do {
+      bVar12 = puVar13[1];
+      pbVar1 = puVar13 + 1;
+      bVar6 = bVar11 & 1;
+      bVar10 = (byte)((bVar12 & 0xf) + (*pbVar1 & 0xf) + bVar6) >> 4 & 1;
+      bVar5 = bVar10 << 5;
+      bVar3 = CARRY1(bVar12,*pbVar1) || CARRY1(bVar12 + *pbVar1,bVar6);
+      bVar6 = bVar12 + *pbVar1 + bVar6;
+      sVar8 = CONCAT11(bVar6,cVar9);
+      bVar12 = bVar11 & 0xd2 | bVar5 | bVar3;
+      bVar3 = (bVar3 || 9 < bVar6 >> 4) || 8 < bVar6 >> 4 && 9 < (bVar6 & 0xf);
+      bVar4 = bVar10 == 1 || 9 < (bVar6 & 0xf);
+      if (bVar3 && bVar4) {
+        bVar12 = bVar11 & 0xd2 | bVar5 | 0x99 < bVar6;
+        sVar8 = CONCAT11(bVar6 + 0x66,cVar9);
+      }
+      else if (bVar3) {
+        bVar12 = bVar11 & 0xd2 | bVar5 | 0x9f < bVar6;
+        sVar8 = CONCAT11(bVar6 + 0x60,cVar9);
+      }
+      else if (bVar4) {
+        bVar12 = bVar11 & 0xd2 | bVar5 | 0xf9 < bVar6;
+        sVar8 = CONCAT11(bVar6 + 6,cVar9);
+      }
+      cVar9 = (char)((ushort)sVar8 >> 8);
+      puVar13[1] = cVar9;
+      bVar11 = bVar12 | (cVar9 == '\0') << 2 | (sVar8 < 0) << 3;
+      cVar9 = (char)sVar8;
+      puVar14 = puVar13 + 1;
+      puVar2 = puVar13 + -0x23b2;
+      puVar13 = puVar14;
+    } while ((bool)((puVar2 < (undefined *)0x23b3) + (puVar14 == (undefined *)0x23b3)));
+    cVar9 = cVar9 + -1;
+    bVar12 = bVar12 & 0xf0;
+  } while (cVar9 != '\0');
+  FUN_d580(bVar11,0,0x23ad);
+  DAT_00c5 = 0;
+  _DAT_00cc = 0xff00;
+  FUN_d659();
+  return;
+}
+
+
+ void FUN_d580(undefined param_1,undefined param_2,undefined *param_3)
+
+{
+  DAT_00c5 = *param_3;
+  _DAT_00c6 = *(undefined2 *)(param_3 + 1);
+  _DAT_00c8 = *(undefined2 *)(param_3 + 3);
+  _DAT_00ca = *(undefined2 *)(param_3 + 5);
+  return;
+}
+
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_d659(void)
+
+{
+  char cVar1;
+  undefined extraout_B;
+  byte bVar2;
+  byte *pbVar3;
+  
+  pbVar3 = &DAT_00cb;
+  cVar1 = '\0';
+  while( true ) {
+    if (*pbVar3 != 0) break;
+    pbVar3 = pbVar3 + -1;
+    cVar1 = cVar1 + '\x01';
+    if (cVar1 == '\a') {
+      _DAT_00cc = 0;
+      return;
+    }
+  }
+  utw_s3 = cVar1 * '\x02';
+  if ((*pbVar3 & 0xf0) == 0) {
+    utw_s3 = utw_s3 + 1;
+  }
+  if (utw_s3 != 0) {
+    FUN_d6de();
+  }
+  if (!(bool)(((byte)(DAT_00c5 + 0xb7U) < 0x49) + (DAT_00c5 == 'I'))) {
+    FUN_d6a8();
+  }
+  bVar2 = (byte)(DAT_00cc - utw_s3) < utw_s3;
+  FUN_d698();
+  if (!(bool)(bVar2 & 1)) {
+    _DAT_00cc = CONCAT11(extraout_B,DAT_00cc_1);
+    DAT_00c5 = 0;
+    return;
+  }
+  return;
+}
