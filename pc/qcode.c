@@ -1986,6 +1986,112 @@ void qca_sqr_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 }
 
 //------------------------------------------------------------------------------
+//
+// Percentage qcodes
+//
+
+NOPL_FLOAT calculate_percent_fraction(NOPL_FLOAT p)
+{
+  NOPL_FLOAT r, f100;
+
+  num_100(&f100);
+  
+  num_div(&p, &f100, &r);
+  
+  return(r);
+}
+
+void qca_plus_per(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT p, v;
+
+  //printf("\nnum:%s", num_to_text(&(s->num)));
+  //printf("\nnum2:%s", num_to_text(&(s->num2)));
+  
+  p = calculate_percent_fraction(s->num);
+  num_mul(&(s->num2), &p, &v);
+  
+  //printf("\np:%s", num_to_text(&p));
+  //printf("\n");
+    
+  num_add(&(s->num2), &v, &(s->num_result));
+}
+
+void qca_minus_per(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT p, v;
+
+  //printf("\nnum:%s", num_to_text(&(s->num)));
+  // printf("\nnum2:%s", num_to_text(&(s->num2)));
+  
+  p = calculate_percent_fraction(s->num);
+  num_mul(&(s->num2), &p, &v);
+  
+  //printf("\np:%s", num_to_text(&p));
+  //printf("\n");
+
+  num_sub(&(s->num2), &v, &(s->num_result));
+}
+
+void qca_times_per(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT p;
+
+  //printf("\nnum:%s", num_to_text(&(s->num)));
+  //printf("\nnum2:%s", num_to_text(&(s->num2)));
+  
+  p = calculate_percent_fraction(s->num);
+  
+  //printf("\np:%s", num_to_text(&p));
+  //printf("\n");
+
+  num_mul(&(s->num2), &p, &(s->num_result));
+}
+
+void qca_div_per(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT p;
+
+  //printf("\nnum:%s", num_to_text(&(s->num)));
+  //printf("\nnum2:%s", num_to_text(&(s->num2)));
+  
+  p = calculate_percent_fraction(s->num);
+  
+  //printf("\np:%s", num_to_text(&p));
+  //printf("\n");
+
+  num_div(&(s->num2), &p, &(s->num_result));
+}
+
+void qca_gt_per(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT p, v, f1;
+
+  p = calculate_percent_fraction(s->num);
+  num_1(&f1);
+
+  // Add one to get multiple
+  num_add(&f1, &p, &v);
+  num_div(&(s->num2), &v, &(s->num_result));
+
+}
+
+void qca_lt_per(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT p, v, f1;
+
+  // Calculate the amount before percentage increase
+  qca_gt_per(m, s);
+
+  // Subtract that from the amount after increase
+  v = s->num_result;
+  
+  num_sub(&(s->num2), &v, &(s->num_result));
+
+}
+
+
+//------------------------------------------------------------------------------
 
 void qca_val(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -2706,7 +2812,7 @@ void qca_mean(NOBJ_MACHINE *m, NOBJ_QCS *s)
 //------------------------------------------------------------------------------
 //
 // Calculates the variance, using a previous call to rtf_sum
-// from which the mean is clculated
+// from which the mean is calculated
 
 void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -3043,12 +3149,12 @@ NOBJ_QCODE_INFO qcode_info[] =
     //////////////////////////////// LZ QCode //////////////////////////////
     //
     // RTF_DOW                 0xD7
-    // RTF_LTPERCENT           0xCC
-    // RTF_GTPERCENT           0xCD
-    // RTF_PLUSPERCENT         0xCE
-    // RTF_MINUSPERCENT        0xCF
-    // RTF_TIMESPERCENT        0xD0
-    // RTF_DIVIDEPERCENT       0xD1
+    { RTF_LTPERCENT,          "RTF_LTPERCENT",           {qca_pop_2num,      qca_lt_per,         qca_push_num_result}},    // RTF_LTPERCENT           0xCC
+    { RTF_GTPERCENT,          "RTF_GTPERCENT",           {qca_pop_2num,      qca_gt_per,         qca_push_num_result}},    // RTF_GTPERCENT           0xCD
+    { RTF_PLUSPERCENT,        "RTF_PLUSPERCENT",         {qca_pop_2num,      qca_plus_per,       qca_push_num_result}},    // RTF_PLUSPERCENT         0xCE
+    { RTF_MINUSPERCENT,       "RTF_MINUSPERCENT",        {qca_pop_2num,      qca_minus_per,      qca_push_num_result}},    // RTF_MINUSPERCENT        0xCF
+    { RTF_TIMESPERCENT,       "RTF_TIMESPERCENT",        {qca_pop_2num,      qca_times_per,      qca_push_num_result}},    // RTF_TIMESPERCENT        0xD0
+    { RTF_DIVIDEPERCENT,      "RTF_DIVIDEPERCENT",       {qca_pop_2num,      qca_div_per,        qca_push_num_result}},    // RTF_DIVIDEPERCENT       0xD1
     // RTF_OFFX                0xD2
     // RTF_COPYW               0xD3
     // RTF_DELETEW             0xD4

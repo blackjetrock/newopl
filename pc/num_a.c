@@ -1736,6 +1736,42 @@ void num_pi(NOPL_FLOAT *r)
   
 }
 
+void num_100(NOPL_FLOAT *r)
+{
+  r->exponent = 2;
+  r->sign = NUM_SIGN_POSITIVE;
+  r->digits[0]  = 1;
+  r->digits[1]  = 0;
+  r->digits[2]  = 0;
+  r->digits[3]  = 0;
+  r->digits[4]  = 0;
+  r->digits[5]  = 0;
+  r->digits[6]  = 0;
+  r->digits[7]  = 0;
+  r->digits[8]  = 0;
+  r->digits[9]  = 0;
+  r->digits[10] = 0;
+  r->digits[11] = 0;
+}
+
+void num_1(NOPL_FLOAT *r)
+{
+  r->exponent = 0;
+  r->sign = NUM_SIGN_POSITIVE;
+  r->digits[0]  = 1;
+  r->digits[1]  = 0;
+  r->digits[2]  = 0;
+  r->digits[3]  = 0;
+  r->digits[4]  = 0;
+  r->digits[5]  = 0;
+  r->digits[6]  = 0;
+  r->digits[7]  = 0;
+  r->digits[8]  = 0;
+  r->digits[9]  = 0;
+  r->digits[10] = 0;
+  r->digits[11] = 0;
+}
+
 void num_180_div_pi(NOPL_FLOAT *r)
 {
   r->exponent = 1;
