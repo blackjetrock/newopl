@@ -1398,6 +1398,12 @@ void qca_pop_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   pop_machine_string(m, &(s->len), s->str);
 }
 
+void qca_pop_str_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  s->integer = pop_machine_int(m);
+  pop_machine_string(m, &(s->len), s->str);
+}
+
 void qca_pop_2str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   pop_machine_string(m, &(s->len), s->str);
@@ -2264,6 +2270,16 @@ void qca_fix(NOBJ_MACHINE *m, NOBJ_QCS *s)
 	{
 	  s->str[i] = '*';
 	}
+    }
+}
+
+void qca_left(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  printf("\nLen:%d n:%d\n", s->len, s->integer);
+  
+  if( s->len > s->integer )
+    {
+      s->len = s->integer;
     }
 }
 
@@ -3157,7 +3173,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_HEX                 0xBE    
     
     // RTF_SKEY                0xBF    
-    // RTF_LEFT                0xC0    
+    { RTF_LEFT,           "RTF_LEFT",            {qca_pop_str_int,  qca_left,          qca_push_string}},    // RTF_LEFT                0xC0    
     { RTF_LOWER,          "RTF_LOWER",           {qca_pop_str,      qca_lower,         qca_push_string}},    // RTF_LOWER               0xC1    
     // RTF_MID                 0xC2    
     // RTF_NUM                 0xC3    

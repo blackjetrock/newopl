@@ -1,0 +1,35 @@
+str2:
+
+local s1$(20), s2$(20)
+local pass%
+
+pass% = 0
+
+s1$="AB"
+s2$=left$("ABC", 2)
+
+if s1$ = s2$
+pass% = pass%+1
+else
+print s1$," is not ", s2$
+endif
+
+s1$="A"
+s2$=left$("ABC", 1)
+if s1$ = s2$
+pass% = pass%+1
+else
+print s1$," is not ", s2$
+endif
+
+s1$="ABC"
+s2$=left$("ABC", 5)
+if s1$ = s2$
+pass% = pass%+1
+else
+print s1$," is not ", s2$
+endif
+
+if PASS% = 3
+print "PASS"
+endif
