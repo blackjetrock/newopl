@@ -586,7 +586,7 @@ SIMPLE_QC_MAP qc_map[] =
     {EXP_BUFF_ID_FUNCTION, "RECSIZE",           __,     __,                   __,        __,               RTF_RECSIZE, 0},
     {EXP_BUFF_ID_FUNCTION, "RAISE",             __ ,    __,                   __,        __,               QCO_RAISE, 0},
 
-
+    {EXP_BUFF_ID_FUNCTION, "STD",               __,     __,                   __,        __,               RTF_STD, 0},
     {EXP_BUFF_ID_FUNCTION, "SCI$",              __,     __,                   __,        __,               RTF_SCI, 0},
     {EXP_BUFF_ID_FUNCTION, "STOP",              __,     __,                   __,        __,               QCO_STOP, 0},
     {EXP_BUFF_ID_FUNCTION, "SECOND", NOBJ_VARTYPE_INT,  __,                   __,        __,               RTF_SECOND, 0},

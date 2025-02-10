@@ -2814,7 +2814,7 @@ void qca_mean(NOBJ_MACHINE *m, NOBJ_QCS *s)
 // Calculates the variance, using a previous call to rtf_sum
 // from which the mean is calculated
 
-void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
+void qca_rtf_var_nstd(NOBJ_MACHINE *m, NOBJ_QCS *s, int var_nstd)
 {
   NOPL_FLOAT sum;
   uint16_t num_i;
@@ -2929,7 +2929,29 @@ void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
   num_div(&sum, &f_nm1, &x);
   dbq_num("Variance:%s", &x);
 
-  s->num_result = x;
+  printf("\nvar_nstd:%d", var_nstd);
+  if( !var_nstd )
+    {
+      // Calculate the standard deviation
+      s->num = x;
+      printf("\nX:%s", num_to_text(&x));
+      qca_sqr_num(m, s);
+      printf("\nX:%s", num_to_text(&(s->num_result)));
+    }
+  else
+    {
+      s->num_result = x;
+    }
+}
+
+void qca_rtf_var(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  qca_rtf_var_nstd(m, s, 1);
+}
+
+void qca_rtf_std(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  qca_rtf_var_nstd(m, s, 0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3171,8 +3193,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_MAX,           "RTF_MAX",           {qca_rtf_max,      qca_null,        qca_push_num_result}},    // RTF_MAX                 0xDE
     { RTF_MEAN,          "RTF_MEAN",          {qca_rtf_sum,      qca_mean,        qca_push_num_result}},    // RTF_MEAN                0xDF
     { RTF_MIN,           "RTF_MIN",           {qca_rtf_min,      qca_null,        qca_push_num_result}},    // RTF_MIN                 0xE0
-    // RTF_STD                 0xE1
-    { RTF_SUM,           "RTF_SUM",           {qca_rtf_sum,      qca_null,        qca_push_num_result}},        // RTF_SUM                 0xE2
+    { RTF_STD,           "RTF_STD",           {qca_rtf_sum,      qca_rtf_std,     qca_push_num_result}},    // RTF_STD                 0xE1
+    { RTF_SUM,           "RTF_SUM",           {qca_rtf_sum,      qca_null,        qca_push_num_result}},    // RTF_SUM                 0xE2
     { RTF_VAR,           "RTF_VAR",           {qca_rtf_sum,      qca_rtf_var,     qca_push_num_result}},    // RTF_VAR                 0xE3
     // RTF_DAYNAME             0xE4
     // RTF_DIRW                0xE5
