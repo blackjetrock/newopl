@@ -3,6 +3,7 @@ add:
 local A%, B%, C%, E, PASS%, PASS2%
 rem local s$(10), t$(5, 12)
 rem local AR%(11), F(4)
+local ans
 
 PASS% = 1
 
@@ -212,19 +213,27 @@ print "K(2.2):";e,(e=2.2) : PASS2%=PASS2%+(e=2.2)
 E = 3.4 - -1.2
 print "L(4.6):";e,(e=4.6) : PASS2%=PASS2%+(e=4.6)
 
-if pass2% <> -16
+E = exp(17.89)
+ANS = 5.882044E7
+print "M(";ans;"):";e,(e=ans) : PASS2%=PASS2%+(e=ans)
+
+E = sqr(2.0)
+ANS = 1.41421400000E+0
+print "N1(";ans;"):";e,(e=ans) : PASS2%=PASS2%+(e=ans)
+
+E = sqr(16.0)
+ANS = 4
+print "N2(";ans;"):";e,(e=ans) : PASS2%=PASS2%+(e=ans)
+
+E = sqr(17.89)
+ANS = 4.229657E0
+print "N3(";ans;"):";e,(e=ans) : PASS2%=PASS2%+(e=ans)
+
+if pass2% <> -20
 pass%=0
 endif
 
 rem print pass2%
-
-rem --------------------------------------------------------------------------------
-
-e = 2.0
-print sqr(e)
-
-e = 16.0
-print sqr(e)
 
 
 rem --------------------------------------------------------------------------------
