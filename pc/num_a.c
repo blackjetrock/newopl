@@ -2116,6 +2116,35 @@ int calc_num_sigdigs(NOPL_FLOAT *n)
   //  printf("\nSigdigs=%d\n", sigdigs);
   return(sigdigs);
 }
+//------------------------------------------------------------------------------
+char num_text[NUM_MAX_DIGITS+3+1+1+10];
+
+char *num_to_sci_text(NOPL_FLOAT *n)
+{
+  char temp[10];
+
+  num_text[0] = '\0';
+ 
+  if(n->sign)
+    {
+      strcat(num_text, "-");
+    }
+  
+  sprintf(temp, "%d.", n->digits[0]);
+  strcat(num_text, temp);
+  
+  for(int i=1; i<NUM_MAX_DIGITS; i++)
+    {
+      sprintf(temp, "%d", n->digits[i]);
+      strcat(num_text, temp);
+    }
+  
+  remove_trailing_zeros(num_text);
+  
+  sprintf(temp, "E%+d", (int)n->exponent);
+  strcat(num_text, temp);
+  return(num_text);
+}
 
 //------------------------------------------------------------------------------
 //
@@ -2124,7 +2153,6 @@ int calc_num_sigdigs(NOPL_FLOAT *n)
 // Scientific notation for exponents > NUM_MAX_DIGITS
 // and -exponent < -NUM_MAX_DIGITS
 
-char num_text[NUM_MAX_DIGITS+3+1+1+10];
 
 #define EXP (n->exponent)
 #define EXP_LIM 14
@@ -2140,6 +2168,7 @@ char *num_to_text(NOPL_FLOAT *n)
       ((EXP < 0) && (EXP < -EXP_LIM)) ||
       ((EXP < 0) && (-EXP+num_sigdigs > EXP_LIM)))
     {
+#if 0
       if(n->sign)
 	{
 	  strcat(num_text, "-");
@@ -2158,7 +2187,9 @@ char *num_to_text(NOPL_FLOAT *n)
       
       sprintf(temp, "E%+d", (int)n->exponent);
       strcat(num_text, temp);
-      return(num_text);
+#endif
+      
+      return(num_to_sci_text(n));
     }
   else
     {
@@ -2207,6 +2238,7 @@ char *num_to_text(NOPL_FLOAT *n)
       return(num_text);
     }
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

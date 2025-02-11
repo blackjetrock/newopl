@@ -2361,6 +2361,34 @@ void qca_gen(NOBJ_MACHINE *m, NOBJ_QCS *s)
     }
 }
 
+void qca_sci(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT f;
+  int a, b;
+  
+  // Pop arguments
+  b = pop_machine_int(m);
+  a = pop_machine_int(m);
+
+  qca_pop_num(m, s);
+  
+  f = s->num;
+
+  // Convert float to string
+  strcpy(s->str, num_to_sci_text(&(s->num)));
+  s->len = strlen(s->str);
+
+  if( s->len > b )
+    {
+      s->len = b;
+
+      for(int i= 0; i< s->len; i++)
+	{
+	  s->str[i] = '*';
+	}
+    }
+}
+
 //------------------------------------------------------------------------------
 
 void qca_left(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -3293,14 +3321,14 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_HEX,           "RTF_HEX",           {qca_pop_int,      qca_hex,         qca_push_string}},         // RTF_HEX                 0xBE    
     
     // RTF_SKEY                0xBF    
-    { RTF_LEFT,           "RTF_LEFT",            {qca_pop_str_int,  qca_left,          qca_push_string}},    // RTF_LEFT                0xC0    
-    { RTF_LOWER,          "RTF_LOWER",           {qca_pop_str,      qca_lower,         qca_push_string}},    // RTF_LOWER               0xC1    
+    { RTF_LEFT,           "RTF_LEFT",         {qca_pop_str_int,  qca_left,          qca_push_string}},    // RTF_LEFT                0xC0    
+    { RTF_LOWER,          "RTF_LOWER",        {qca_pop_str,      qca_lower,         qca_push_string}},    // RTF_LOWER               0xC1    
     // RTF_MID                 0xC2    
     // RTF_NUM                 0xC3    
-    { RTF_RIGHT,          "RTF_RIGHT",           {qca_pop_str_int,  qca_right,         qca_push_string}},    // RTF_RIGHT               0xC4    
+    { RTF_RIGHT,          "RTF_RIGHT",        {qca_pop_str_int,  qca_right,         qca_push_string}},    // RTF_RIGHT               0xC4    
     // RTF_REPT                0xC5    
-    // RTF_SCI                 0xC6    
-    { RTF_UPPER,          "RTF_UPPER",           {qca_pop_str,      qca_upper,         qca_push_string}},    // RTF_UPPER               0xC7    
+    { RTF_SCI,            "RTF_SCI",          {qca_null,      qca_sci,         qca_push_string}},    // RTF_SCI                 0xC6    
+    { RTF_UPPER,          "RTF_UPPER",        {qca_pop_str,      qca_upper,         qca_push_string}},    // RTF_UPPER               0xC7    
     // RTF_SUSR                0xC8    
     // RTF_SADDR               0xC9    
     //
