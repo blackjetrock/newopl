@@ -1669,6 +1669,27 @@ int num_gt(NOPL_FLOAT *a, NOPL_FLOAT *b)
 }
 
 //------------------------------------------------------------------------------
+//
+// Take interger part of float
+//
+
+void num_intf(NOPL_FLOAT *a, NOPL_FLOAT *r)
+{
+  // If exp>NUM_MAX_DIGITS then there's no fractional part
+  if( a->exponent >= NUM_MAX_DIGITS )
+    {
+      *r = *a;
+      return;
+    }
+
+  // Otherwise zero the last NUM_MAX_DIGITS-exponent digits-1
+  for(int i = 0; i<NUM_MAX_DIGITS-(a->exponent)-1; i++)
+    {
+      a->digits[NUM_MAX_DIGITS-1-i] = 0;
+    }
+  
+  *r = *a;
+}
 
 void num_sqr(NOPL_FLOAT *a, NOPL_FLOAT *r)
 {

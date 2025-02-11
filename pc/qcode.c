@@ -1901,6 +1901,16 @@ void qca_exp_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
   dbq_num("res: ", &(s->num_result));
 }
 
+void qca_intf_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT res = 0;
+  
+  num_intf(&(s->num), &(s->num_result));
+  
+  dbq_num("num: ", &(s->num));
+  dbq_num("res: ", &(s->num_result));
+}
+
 void qca_pi_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOBJ_INT res = 0;
@@ -3234,7 +3244,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_DEG,           "RTF_DEG",           {qca_null,         qca_rtf_deg,     qca_null}},               // RTF_DEG                 0xA9    
     { RTF_EXP,           "RTF_EXP",           {qca_pop_num,      qca_exp_num,     qca_push_num_result}},    // RTF_EXP                 0xAA    
     { RTF_FLT,           "RTF_FLT",           {qca_pop_int,      qca_int_to_num,  qca_push_num_result}},    // RTF_FLT                 0xAB    
-    // RTF_INTF                0xAC
+    { RTF_INTF,          "RTF_INTF",          {qca_pop_num,      qca_intf_num,    qca_push_num_result}},    // RTF_INTF                0xAC
     { RTF_LN,            "RTF_LN",            {qca_pop_num,      qca_log_num,     qca_push_num_result}},    // RTF_LN                  0xAD 
     { RTF_LOG,           "RTF_LOG",           {qca_pop_num,      qca_log10_num,   qca_push_num_result}},    // RTF_LOG                 0xAE
     { RTF_PI,            "RTF_PI",            {qca_null,         qca_pi_num,      qca_push_num_result}},    // RTF_PI                  0xAF    

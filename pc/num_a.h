@@ -32,6 +32,7 @@ void num_pi(NOPL_FLOAT *r);
 void num_180_div_pi(NOPL_FLOAT *r);
 void num_100(NOPL_FLOAT *r);
 void num_1(NOPL_FLOAT *r);
+void num_intf(NOPL_FLOAT *a, NOPL_FLOAT *r);
 
 void dbq_num_f(const char *caller, char *text, NOPL_FLOAT *n);
 void dbq_num_exploded_f(const char *caller, char *text, NOPL_FLOAT *n);
