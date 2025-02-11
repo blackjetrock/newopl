@@ -447,6 +447,33 @@ void qca_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_8(m, 0);
 }
 
+void qca_rept(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int count;
+  
+  // Get the repeat N  
+  count = pop_machine_int(m);
+
+  // Get the string
+  pop_machine_string(m, &(s->len2), &(s->str2[0]));
+
+  // Check result isn't too big
+  if( (count * strlen(s->str2)) > NOBJ_STRING_MAXLEN)
+    {
+      runtime_error(ER_LX_ST, "REPT result too long");
+    }
+
+  s->str[0] = '\0';
+  
+  // Build the string
+  for(int i=0; i<count; i++)
+    {
+      strcat(s->str, s->str2);
+    }
+
+  s->len = strlen(s->str);
+}
+
 //------------------------------------------------------------------------------
 
 void qca_push_ind_addr(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -1402,6 +1429,13 @@ void qca_pop_str_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   s->integer = pop_machine_int(m);
   pop_machine_string(m, &(s->len), s->str);
+}
+
+void qca_pop_str_int_int(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  s->integer = pop_machine_int(m);
+  s->integer2 = pop_machine_int(m);
+  pop_machine_string(m, &(s->len2), s->str2);
 }
 
 void qca_pop_2str(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -2431,6 +2465,27 @@ void qca_right(NOBJ_MACHINE *m, NOBJ_QCS *s)
     }
 }
 
+void qca_mid(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Pull out integer characters starting at position integer2
+
+  int from, to;
+
+  //printf("\nfrom:%d count:%d", s->integer2, s->integer);
+  //printf("\nstr2:'%s'", s->str2);
+
+  for(from=s->integer2-1, to=0; (from < (s->len2)) && (to < s->integer); from++, to++)
+    {
+      s->str[to] = s->str2[from];
+    }
+
+  s->str[to] = '\0';
+  s->len = strlen(s->str);
+  
+}
+
+//------------------------------------------------------------------------------
+
 void qca_lower(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   for(int i=0; i<s->len; i++)
@@ -3321,13 +3376,13 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_HEX,           "RTF_HEX",           {qca_pop_int,      qca_hex,         qca_push_string}},         // RTF_HEX                 0xBE    
     
     // RTF_SKEY                0xBF    
-    { RTF_LEFT,           "RTF_LEFT",         {qca_pop_str_int,  qca_left,          qca_push_string}},    // RTF_LEFT                0xC0    
-    { RTF_LOWER,          "RTF_LOWER",        {qca_pop_str,      qca_lower,         qca_push_string}},    // RTF_LOWER               0xC1    
-    // RTF_MID                 0xC2    
+    { RTF_LEFT,           "RTF_LEFT",         {qca_pop_str_int,     qca_left,          qca_push_string}},    // RTF_LEFT                0xC0    
+    { RTF_LOWER,          "RTF_LOWER",        {qca_pop_str,         qca_lower,         qca_push_string}},    // RTF_LOWER               0xC1    
+    { RTF_MID,            "RTF_MID",          {qca_pop_str_int_int, qca_mid,           qca_push_string}},    // RTF_MID                 0xC2    
     // RTF_NUM                 0xC3    
     { RTF_RIGHT,          "RTF_RIGHT",        {qca_pop_str_int,  qca_right,         qca_push_string}},    // RTF_RIGHT               0xC4    
-    // RTF_REPT                0xC5    
-    { RTF_SCI,            "RTF_SCI",          {qca_null,      qca_sci,         qca_push_string}},    // RTF_SCI                 0xC6    
+    { RTF_REPT,           "RTF_REPT",         {qca_null,         qca_rept,          qca_push_string}},    // RTF_REPT                0xC5    
+    { RTF_SCI,            "RTF_SCI",          {qca_null,         qca_sci,           qca_push_string}},    // RTF_SCI                 0xC6    
     { RTF_UPPER,          "RTF_UPPER",        {qca_pop_str,      qca_upper,         qca_push_string}},    // RTF_UPPER               0xC7    
     // RTF_SUSR                0xC8    
     // RTF_SADDR               0xC9    
