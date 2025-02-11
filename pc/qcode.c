@@ -2002,6 +2002,40 @@ void qca_sqr_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 }
 
 //------------------------------------------------------------------------------
+
+void qca_randomize(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_INT num_i;
+  
+  num_num_to_int(NUM_MAX_DIGITS, &(s->num), &num_i);  
+
+  srand(num_i);
+  
+  dbq_num("num: ", &(s->num));
+  dbq_num("res: ", &(s->num_result));
+}
+
+void qca_rnd(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOBJ_INT r, rmax = (RAND_MAX & ((1<<(sizeof(NOBJ_INT)*8))-1)/2);
+  //printf("\nrmax:%d %X\n", rmax, rmax);
+  
+  NOPL_FLOAT rf, rmaxf;
+  
+  r = rand() & rmax;
+  num_int_to_num(NUM_MAX_DIGITS, &r, &rf);
+  num_int_to_num(NUM_MAX_DIGITS, &rmax, &rmaxf);
+  //printf("\nrf:   %s", num_to_text(&rf));
+  //printf("\nrmaxf:%s", num_to_text(&rmaxf));
+  
+  // Scale to [0,1)
+  num_div(&rf, &rmaxf, &(s->num_result));
+  //printf("\nresult:%s", num_to_text(&(s->num_result)));
+  dbq_num("rmaxf: ", &rmaxf);
+  dbq_num("r:     ", &rf);
+}
+
+//------------------------------------------------------------------------------
 //
 // Percentage qcodes
 //
@@ -2131,8 +2165,6 @@ void qca_int_to_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   // Convert int to float form
 
-  // This always succeeds
-  NOPL_INT res;
   
   num_int_to_num(NUM_MAX_DIGITS, &(s->integer), &(s->num_result));
 
@@ -3118,7 +3150,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // QCO_POKEB               0x55    
     // QCO_POKEW               0x56    
     { QCO_RAISE,         "QCO_RAISE",         {qca_raise,        qca_null,        qca_null}},    // QCO_RAISE               0x57    
-    // QCO_RANDOMIZE           0x58    
+    { QCO_RANDOMIZE,     "QCO_RANDOMIZE",     {qca_pop_num,      qca_randomize,   qca_null}},    // QCO_RANDOMIZE           0x58    
     // QCO_STOP                0x59    
     // QCO_TRAP                0x5A    
     { QCO_APPEND,         "QCO_APPEND",         {qca_append,      qca_null,       qca_null}},    // QCO_APPEND              0x5B    
@@ -3207,7 +3239,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_LOG,           "RTF_LOG",           {qca_pop_num,      qca_log10_num,   qca_push_num_result}},    // RTF_LOG                 0xAE
     { RTF_PI,            "RTF_PI",            {qca_null,         qca_pi_num,      qca_push_num_result}},    // RTF_PI                  0xAF    
     { RTF_RAD,           "RTF_RAD",           {qca_null,         qca_rtf_rad,     qca_null}},               // RTF_RAD                 0xB0    
-    // RTF_RND                 0xB1    
+    { RTF_RND,           "RTF_RND",           {qca_null,         qca_rnd,     qca_push_num_result}},    // RTF_RND                 0xB1    
     { RTF_SIN,           "RTF_SIN",           {qca_pop_num,      qca_sin_num,     qca_push_num_result}},
     { RTF_SQR,           "RTF_SQR",           {qca_pop_num,      qca_sqr_num,     qca_push_num_result}},
     { RTF_TAN,           "RTF_TAN",           {qca_pop_num,      qca_tan_num,     qca_push_num_result}},
