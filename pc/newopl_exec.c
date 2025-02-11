@@ -247,7 +247,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   char *first = name;
   char *last = name + (strlen(name)-1);
 
-  printf("\nname:'%s'", name);
+  printf("\nname:'%s'\n", name);
   
   for(int i=0; i<strlen(name); i++)
     {
@@ -266,7 +266,7 @@ void push_proc(FILE *fp, NOBJ_MACHINE *m, char *name, int top)
   strncpy(current_proc, first, last-first+1);
   current_proc[last-first+2] = '\0';
   
-  printf("\ncur_proc:'%s'", current_proc);
+  printf("\ncur_proc:'%s'\n", current_proc);
     
   debug("\n\n");
   debug("\n===================================Proc=========================================\n\n");

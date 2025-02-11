@@ -1,34 +1,254 @@
 fix1:
 
-local F$(20)
-local F, PASS%, NUM%
+local F$(30)
+local F, PASS%, NUM%, ans$(30)
 
 PASS% = 0
 NUM% = 0
 
-F = 1234.56
-F$ = fix$(f, 0, 16)
 
-print f$
+rem --------------------------------------------------------------------------------
 
-if f$="1.23456000000E+3"
+F = 3.0
+F$ = fix$(f, 4)
+ans$="3"
+
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
 PASS% = PASS% + 1
+else
+print f$," is not ",ans$
 endif
 NUM% = NUM% + 1
 
-F = 1234.56
-F$ = fix$(f, 0, 10)
+rem --------------------------------------------------------------------------------
 
-print f$
+F = 33.0
+F$ = fix$(f, 4)
+ans$="33"
 
-if f$="**********"
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
 PASS% = PASS% + 1
+else
+print f$," is not ",ans$
 endif
 NUM% = NUM% + 1
+
+rem --------------------------------------------------------------------------------
+
+F = 12.34
+F$ = fix$(f, 14)
+ans$="12.34"
+
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
+PASS% = PASS% + 1
+else
+print f$," is not ",ans$
+endif
+NUM% = NUM% + 1
+
+rem --------------------------------------------------------------------------------
+
+F = 123E20
+F$ = fix$(f, 14)
+ans$="1.23E+22"
+
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
+PASS% = PASS% + 1
+else
+print F$," is not ",ans$
+endif
+NUM% = NUM% + 1
+
+rem --------------------------------------------------------------------------------
+
+F = 0.0
+F$ = fix$(f, 14)
+ans$="0"
+
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
+PASS% = PASS% + 1
+else
+print f$," is not ",ans$
+endif
+NUM% = NUM% + 1
+
+rem --------------------------------------------------------------------------------
+
+F = 0.0
+F$ = fix$(f, 14)
+ans$="0"
+
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
+PASS% = PASS% + 1
+else
+print f$," is not ",ans$
+endif
+NUM% = NUM% + 1
+
+rem --------------------------------------------------------------------------------
+
+F = 123456789012.0
+F$ = fix$(f, 14)
+ans$="123456789012"
+
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
+PASS% = PASS% + 1
+else
+print f$," is not ",ans$
+endif
+NUM% = NUM% + 1
+
+rem --------------------------------------------------------------------------------
+
+F = 123456789012
+F$ = fix$(f, 14)
+ans$="123456789012"
+
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
+PASS% = PASS% + 1
+else
+print f$," is not ",ans$
+endif
+NUM% = NUM% + 1
+
+rem --------------------------------------------------------------------------------
+
+F = 1.23456789012
+F$ = fix$(f, 14)
+ans$="1.23456789012"
+
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
+PASS% = PASS% + 1
+else
+print f$," is not ",ans$
+endif
+NUM% = NUM% + 1
+
+rem --------------------------------------------------------------------------------
+
+F = 2.3+1.4
+F$ = fix$(f, 14)
+ans$="3.7"
+
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
+PASS% = PASS% + 1
+else
+print f$," is not ",ans$
+endif
+NUM% = NUM% + 1
+
+rem --------------------------------------------------------------------------------
+
+F = 3.5-10
+F$ = fix$(f, 14)
+ans$="-6.5"
+
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
+PASS% = PASS% + 1
+else
+print f$," is not ",ans$
+endif
+NUM% = NUM% + 1
+
+rem --------------------------------------------------------------------------------
+
+F = -12.34E45
+F$ = fix$(f, 14)
+ans$="-1.234E+46"
+
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
+PASS% = PASS% + 1
+else
+print f$," is not ",ans$
+endif
+NUM% = NUM% + 1
+
+rem --------------------------------------------------------------------------------
+
+F = -0.04
+F$ = fix$(f, 14)
+ans$="-0.04"
+
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
+PASS% = PASS% + 1
+else
+print f$," is not ",ans$
+endif
+NUM% = NUM% + 1
+rem --------------------------------------------------------------------------------
+
+F = 1.2E-30
+F$ = fix$(f, 14)
+ans$="1.2E-30"
+
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
+PASS% = PASS% + 1
+else
+print f$," is not ",ans$
+endif
+NUM% = NUM% + 1
+rem --------------------------------------------------------------------------------
+
+F = 1.2E30
+F$ = fix$(f, 14)
+ans$="1.2E+30"
+
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
+PASS% = PASS% + 1
+else
+print f$," is not ",ans$
+endif
+NUM% = NUM% + 1
+rem --------------------------------------------------------------------------------
+
+F = 1.2E-5
+F$ = fix$(f, 14)
+ans$="0.000012"
+
+print "Ans:",ans$, " got:",f$
+
+if f$=ans$
+PASS% = PASS% + 1
+else
+print f$," is not ",ans$
+endif
+NUM% = NUM% + 1
+
+rem --------------------------------------------------------------------------------
 
 if PASS% = NUM%
 print "PASS"
 else
-print "NUM:",NUM%,"PASS:",PASS%
+print "NUM:",NUM%,"P:",PASS%
 print "FAIL"
 endif

@@ -2309,6 +2309,33 @@ void qca_chr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_fix(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOPL_FLOAT f;
+  int w;
+  
+  // Pop arguments
+  w = pop_machine_int(m);
+
+  qca_pop_num(m, s);
+  
+  f = s->num;
+
+  // Convert float to string
+  strcpy(s->str, num_to_text(&(s->num)));
+  s->len = strlen(s->str);
+
+  if( s->len > w )
+    {
+      s->len = w;
+
+      for(int i= 0; i< s->len; i++)
+	{
+	  s->str[i] = '*';
+	}
+    }
+}
+
+void qca_gen(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_FLOAT f;
   int a, b;
   
   // Pop arguments
@@ -3261,7 +3288,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_DATIM               0xB9    
     // RTF_SERR                0xBA    
     { RTF_FIX,           "RTF_FIX",           {qca_null,         qca_fix,         qca_push_string}},         // RTF_FIX                 0xBB    
-    // RTF_GEN                 0xBC    
+    { RTF_GEN,           "RTF_GEN",           {qca_pop_num,      qca_gen,         qca_push_string}},         // RTF_GEN                 0xBC    
     // RTF_SGET                0xBD    
     { RTF_HEX,           "RTF_HEX",           {qca_pop_int,      qca_hex,         qca_push_string}},         // RTF_HEX                 0xBE    
     

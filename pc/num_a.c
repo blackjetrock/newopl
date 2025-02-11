@@ -2071,33 +2071,141 @@ NOPL_FLOAT num_float_from_str(char *str)
 
 //------------------------------------------------------------------------------
 
+void remove_trailing_zeros(char *n)
+{
+  // 
+  for(int i = strlen(n)-1; i>0; i--)
+    {
+      
+      switch( n[i] )
+	{
+	case '0':
+	  n[i] = '\0';
+	  break;
+
+	case '.':
+	  n[i+1] = '0';
+	  break;
+	  
+	default:
+	  return;
+	  break;
+	}
+    }
+}
+
+int calc_num_sigdigs(NOPL_FLOAT *n)
+{
+  int sigdigs = NUM_MAX_DIGITS;
+  
+  for(int i = NUM_MAX_DIGITS-1; i>0; i--)
+    {
+      switch(n->digits[i])
+	{
+	case 0:
+	  sigdigs--;
+	  break;
+
+	default:
+	  //printf("\nSigdigs=%d\n", sigdigs);
+	  return(sigdigs);
+	  break;
+	}
+    }
+  
+  //  printf("\nSigdigs=%d\n", sigdigs);
+  return(sigdigs);
+}
+
+//------------------------------------------------------------------------------
+//
 // Size of this array is number of digits plus extra for signs and exponent.
+//
+// Scientific notation for exponents > NUM_MAX_DIGITS
+// and -exponent < -NUM_MAX_DIGITS
 
 char num_text[NUM_MAX_DIGITS+3+1+1+10];
+
+#define EXP (n->exponent)
+#define EXP_LIM 14
 
 char *num_to_text(NOPL_FLOAT *n)
 {
   char temp[10];
+  int num_sigdigs = calc_num_sigdigs(n);
   
   num_text[0] = '\0';
   
-  if(n->sign)
+  if( ((EXP > 0) && (EXP >  EXP_LIM)) ||
+      ((EXP < 0) && (EXP < -EXP_LIM)) ||
+      ((EXP < 0) && (-EXP+num_sigdigs > EXP_LIM)))
     {
-      strcat(num_text, "-");
-    }
-
-  sprintf(temp, "%d.", n->digits[0]);
-  strcat(num_text, temp);
-  
-  for(int i=1; i<NUM_MAX_DIGITS; i++)
-    {
-      sprintf(temp, "%d", n->digits[i]);
+      if(n->sign)
+	{
+	  strcat(num_text, "-");
+	}
+      
+      sprintf(temp, "%d.", n->digits[0]);
       strcat(num_text, temp);
-    }
+      
+      for(int i=1; i<NUM_MAX_DIGITS; i++)
+	{
+	  sprintf(temp, "%d", n->digits[i]);
+	  strcat(num_text, temp);
+	}
 
-  sprintf(temp, "E%+d", (int)n->exponent);
-  strcat(num_text, temp);
-  return(num_text);
+      remove_trailing_zeros(num_text);
+      
+      sprintf(temp, "E%+d", (int)n->exponent);
+      strcat(num_text, temp);
+      return(num_text);
+    }
+  else
+    {
+      if(n->sign)
+	{
+	  strcat(num_text, "-");
+	}
+
+      // Not scientific format
+      if( EXP >= 0 )
+	{
+	  for(int i=0; i<NUM_MAX_DIGITS; i++)
+	    {
+	      sprintf(temp, "%d", n->digits[i]);
+	      strcat(num_text, temp);
+
+	      if( (EXP == i) && (num_sigdigs != EXP+1) )
+		{
+		  strcat(num_text, ".");
+		}
+	    }
+	}
+      else
+	{
+	  // Negative exponent
+	  int i = EXP;
+	  while(i<0)
+	    {
+	      strcat(num_text, "0");
+	      if( (EXP == i)  )
+		{
+		  strcat(num_text, ".");
+		}
+	      i++;
+	    }
+	  for(int i=0; i<NUM_MAX_DIGITS; i++)
+	    {
+	      sprintf(temp, "%d", n->digits[i]);
+	      strcat(num_text, temp);
+	    }
+
+	  
+	}
+
+      remove_trailing_zeros(num_text);
+      return(num_text);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
