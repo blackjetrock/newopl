@@ -97,6 +97,71 @@ endif
 
 rem --------------------------------------------------------------------------------
 
+i% = 32
+s1$="20"
+s2$=hex$(I%)
+num%=num%+1
+if s1$ = s2$
+pass% = pass%+1
+print "Hex of ",I%," is ",s2$
+else
+print s1$," is not ", s2$
+endif
+
+rem --------------------------------------------------------------------------------
+
+i% = -45
+s1$="FFD3"
+s2$=hex$(I%)
+num%=num%+1
+if s1$ = s2$
+pass% = pass%+1
+print "Hex of ",I%," is ",s2$
+else
+print s1$," is not ", s2$
+endif
+
+rem --------------------------------------------------------------------------------
+
+i% = -1
+s1$="FFFF"
+s2$=hex$(I%)
+num%=num%+1
+if s1$ = s2$
+pass% = pass%+1
+print "Hex of ",I%," is ",s2$
+else
+print s1$," is not ", s2$
+endif
+
+rem --------------------------------------------------------------------------------
+
+i% = 0
+s1$="0"
+s2$=hex$(I%)
+num%=num%+1
+if s1$ = s2$
+pass% = pass%+1
+print "Hex of ",I%," is ",s2$
+else
+print s1$," is not ", s2$
+endif
+
+rem --------------------------------------------------------------------------------
+
+i% = 23.2
+s1$="17"
+s2$=hex$(I%)
+num%=num%+1
+if s1$ = s2$
+pass% = pass%+1
+print "Hex of ",I%," is ",s2$
+else
+print s1$," is not ", s2$
+endif
+
+rem --------------------------------------------------------------------------------
+
 if PASS% = NUM%
 print "PASS"
 endif

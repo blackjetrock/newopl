@@ -439,3 +439,4 @@ void qca_push_proc(NOBJ_MACHINE *m, NOBJ_QCS *s);
 void dbpfq(const char *caller, char *fmt, ...);
 void qca_assign_int_field(char *string, int val);
 void qcode_init(void);
+void qca_right(NOBJ_MACHINE *m, NOBJ_QCS *s);

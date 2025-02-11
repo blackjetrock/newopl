@@ -2106,6 +2106,15 @@ void qca_val(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 }
 
+void qca_hex(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  // Convert string to float
+  sprintf(s->str, "%X", s->integer);
+  s->len = strlen(s->str);
+  s->integer = 4;
+  qca_right(m, s);
+}
+
 //------------------------------------------------------------------------------
 
 void qca_int_to_num(NOBJ_MACHINE *m, NOBJ_QCS *s)
@@ -3199,10 +3208,10 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_CHR,           "RTF_CHR",           {qca_pop_int,      qca_chr,         qca_push_string}},    // RTF_CHR                 0xB8
     // RTF_DATIM               0xB9    
     // RTF_SERR                0xBA    
-    { RTF_FIX,           "RTF_FIX",           {qca_null,         qca_fix,         qca_push_string}},    // RTF_FIX                 0xBB    
+    { RTF_FIX,           "RTF_FIX",           {qca_null,         qca_fix,         qca_push_string}},         // RTF_FIX                 0xBB    
     // RTF_GEN                 0xBC    
     // RTF_SGET                0xBD    
-    // RTF_HEX                 0xBE    
+    { RTF_HEX,           "RTF_HEX",           {qca_pop_int,      qca_hex,         qca_push_string}},         // RTF_HEX                 0xBE    
     
     // RTF_SKEY                0xBF    
     { RTF_LEFT,           "RTF_LEFT",            {qca_pop_str_int,  qca_left,          qca_push_string}},    // RTF_LEFT                0xC0    
