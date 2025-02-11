@@ -2273,12 +2273,44 @@ void qca_fix(NOBJ_MACHINE *m, NOBJ_QCS *s)
     }
 }
 
+//------------------------------------------------------------------------------
+
 void qca_left(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  printf("\nLen:%d n:%d\n", s->len, s->integer);
+  //printf("\nLen:%d n:%d\n", s->len, s->integer);
+  if( s->integer > NOBJ_STRING_MAXLEN )
+    {
+      s->integer = NOBJ_STRING_MAXLEN;
+    }
   
   if( s->len > s->integer )
     {
+      s->len = s->integer;
+    }
+}
+
+void qca_right(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  //printf("\nLen:%d n:%d\n", s->len, s->integer);
+
+  if( s->integer > NOBJ_STRING_MAXLEN )
+    {
+      s->integer = NOBJ_STRING_MAXLEN;
+    }
+
+  // Get RH n characters
+  
+  if( s->len > s->integer )
+    {
+      // We need only N characters, shift them over, lose the first
+      // len - N characters
+      int remlen = s->len - s->integer;
+
+      for(int i=0; i<s->integer; i++)
+	{
+	  s->str[i] = s->str[remlen+i];
+	}
+      
       s->len = s->integer;
     }
 }
@@ -3177,7 +3209,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_LOWER,          "RTF_LOWER",           {qca_pop_str,      qca_lower,         qca_push_string}},    // RTF_LOWER               0xC1    
     // RTF_MID                 0xC2    
     // RTF_NUM                 0xC3    
-    // RTF_RIGHT               0xC4    
+    { RTF_RIGHT,          "RTF_RIGHT",           {qca_pop_str_int,  qca_right,         qca_push_string}},    // RTF_RIGHT               0xC4    
     // RTF_REPT                0xC5    
     // RTF_SCI                 0xC6    
     { RTF_UPPER,          "RTF_UPPER",           {qca_pop_str,      qca_upper,         qca_push_string}},    // RTF_UPPER               0xC7    
