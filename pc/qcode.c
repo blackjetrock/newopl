@@ -2940,6 +2940,20 @@ void qca_dow(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_16(m, time_dow(d, mo, y));
 }
 
+void qca_days(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_INT d, mo, y;
+
+  y = pop_machine_int(m);
+  mo = pop_machine_int(m);
+  d = pop_machine_int(m);
+
+  int jdn = time_jdn(d, mo, y);
+  int jdn_1_1_1900 = time_jdn(1, 1, 1900);
+  
+  push_machine_16(m, jdn - jdn_1_1_1900);
+}
+
 //------------------------------------------------------------------------------
 //
 // Calculates sum of a list of values.
@@ -3422,7 +3436,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_WEEK                0xDA
     { RTF_ACOS,          "RTF_ACOS",          {qca_pop_num,      qca_acos_num,    qca_push_num_result}},
     { RTF_ASIN,          "RTF_ASIN",          {qca_pop_num,      qca_asin_num,    qca_push_num_result}},
-    // RTF_DAYS                0xDD
+    { RTF_DAYS,          "RTF_DAYS",          {qca_null,         qca_days,        qca_null}},               // RTF_DAYS                0xDD
     { RTF_MAX,           "RTF_MAX",           {qca_rtf_max,      qca_null,        qca_push_num_result}},    // RTF_MAX                 0xDE
     { RTF_MEAN,          "RTF_MEAN",          {qca_rtf_sum,      qca_mean,        qca_push_num_result}},    // RTF_MEAN                0xDF
     { RTF_MIN,           "RTF_MIN",           {qca_rtf_min,      qca_null,        qca_push_num_result}},    // RTF_MIN                 0xE0
@@ -3663,7 +3677,7 @@ QCODE_DESC qcode_decode[] =
     {0xDA,	"-",	"III",	"I",	"WEEK"},
     {0xDB,	"-",	"F",	"F",	"ACOS"},
     {0xDC,	"-",	"F",	"F",	"ASIN"},
-    {0xDD,	"-",	"III",	"F",	"DAYS"},
+    {0xDD,	"-",	"III",	"I",	"DAYS"},
     {0xDE,	"-",	"Flist",	"F",	"MAX"},
     {0xDF,	"-",	"Flist",	"F",	"MEAN"},
     {0xE0,	"-",	"Flist",	"F",	"MIN"},

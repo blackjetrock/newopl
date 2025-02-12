@@ -9,6 +9,7 @@ cc -g -DTUI -Wno-format-truncation -Wno-format-overflow newopl_exec.c \
   newopl_lib.c \
   newopl_types.c \
   qcode.c \
+  time.c \
   clock_pc.c \
   num_a.c \
   machine.c \
@@ -26,6 +27,7 @@ cc -g  -DTUI     -Wno-format-truncation -Wno-format-overflow newopl_objdump.c \
   newopl_lib.c \
   newopl_types.c \
   qcode.c \
+  time.c \
   clock_pc.c \
   num_a.c \
   machine.c \
