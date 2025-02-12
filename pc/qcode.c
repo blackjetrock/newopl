@@ -2928,6 +2928,20 @@ void qca_rtf_rad(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 //------------------------------------------------------------------------------
 //
+
+void qca_dow(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_INT d, mo, y;
+
+  y = pop_machine_int(m);
+  mo = pop_machine_int(m);
+  d = pop_machine_int(m);
+
+  push_machine_16(m, time_dow(d, mo, y));
+}
+
+//------------------------------------------------------------------------------
+//
 // Calculates sum of a list of values.
 //
 // Used by RTF_MEAN and RTF_VAR
@@ -3389,7 +3403,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     //
     //////////////////////////////// LZ QCode //////////////////////////////
     //
-    // RTF_DOW                 0xD7
+
     { RTF_LTPERCENT,          "RTF_LTPERCENT",           {qca_pop_2num,      qca_lt_per,         qca_push_num_result}},    // RTF_LTPERCENT           0xCC
     { RTF_GTPERCENT,          "RTF_GTPERCENT",           {qca_pop_2num,      qca_gt_per,         qca_push_num_result}},    // RTF_GTPERCENT           0xCD
     { RTF_PLUSPERCENT,        "RTF_PLUSPERCENT",         {qca_pop_2num,      qca_plus_per,       qca_push_num_result}},    // RTF_PLUSPERCENT         0xCE
@@ -3402,7 +3416,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_UDG,           "RTF_UDG",           {qca_pop_9int,     qca_null,        qca_null}},    // RTF_UDG                 0xD5
 
     // RTF_CLOCK               0xD6
-    // RTF_DOW                 0xD7
+    { RTF_DOW,                "RTF_DOW",                 {qca_null,          qca_dow,            qca_null}},                // RTF_DOW                 0xD7
     // RTF_FINDW               0xD8
     { RTF_MENUN,         "RTF_MENUN",         {qca_rtf_menun,    qca_null,        qca_null}},    // RTF_MENUN               0xD9
     // RTF_WEEK                0xDA

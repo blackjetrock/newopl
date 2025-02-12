@@ -40,7 +40,7 @@
 #include "svc_mn.h"
 
 #include "sysvar.h"
-
+#include "time.h"
 
 #ifdef TUI
 #include "tui.h"
