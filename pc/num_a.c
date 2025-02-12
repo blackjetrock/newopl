@@ -21,6 +21,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 FILE *numfp;
+char num_text[NOBJ_STRING_MAXLEN+1];
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -2117,7 +2118,7 @@ int calc_num_sigdigs(NOPL_FLOAT *n)
   return(sigdigs);
 }
 //------------------------------------------------------------------------------
-char num_text[NUM_MAX_DIGITS+3+1+1+10];
+
 
 char *num_to_sci_text(NOPL_FLOAT *n)
 {
@@ -2237,6 +2238,61 @@ char *num_to_text(NOPL_FLOAT *n)
       remove_trailing_zeros(num_text);
       return(num_text);
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Convert a float to a string version integer
+//
+
+char *num_to_int_text(NOPL_FLOAT *n, int width)
+{
+  char frag[3];
+
+  printf("\nnum int exponent:%d", n->exponent);
+  
+  num_text[0] = '\0';
+
+  if( n->exponent < 0 )
+    {
+      strcpy(num_text, "0");
+      return(num_text);
+    }
+
+  printf("\nnum int 2");
+    
+  // Put significant figures in the buffer until exponent reaches 0
+  int i;
+  int j;
+  
+  for(i=n->exponent, j=0; (i>=0) && (strlen(num_text) < width); i--,j++)
+    {
+      printf("\n%s", num_text);
+      
+      if( i>= NUM_MAX_DIGITS )
+	{
+	strcat(num_text, "0");
+	}
+      else
+	{
+	  sprintf(frag, "%d", n->digits[j]);
+	  strcat(num_text, frag);
+	}
+    }
+
+  printf("\nAfter loop 1: i:%d '%s'", i, num_text);
+      
+  for(i=0; i<width;i++)
+    {
+      printf("\n%s", num_text);
+      if( strlen(num_text) < width )
+	{
+	  strcat(num_text, " ");
+	}
+    }
+
+  printf("\ndone: '%s'", num_text);
+  return(num_text);
 }
 
 
