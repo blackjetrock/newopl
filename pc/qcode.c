@@ -19,18 +19,18 @@ FILE *lprintfp;
 QC_BYTE_CODE qc_byte_code[] =
   {
    
-   {"v",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_v},
-   {"V",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_V},
-   {"-",      null_qc_byte_fn,            null_qc_byte_prt_fn  },
-   {"m",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_m},
-   {"f",      null_qc_byte_len_fn_1,      qc_byte_prt_fn_f},
-   {"I",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_I},
-   {"F",           qc_byte_len_fn_F,      qc_byte_prt_fn_F},
-   {"S",           qc_byte_len_fn_S,      qc_byte_prt_fn_S},
-   {"B",      null_qc_byte_len_fn_1,      qc_byte_prt_fn_B},
-   {"O",      null_qc_byte_len_fn_1,      qc_byte_prt_fn_O},
-   {"D",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_D},
-   {"f+list", null_qc_byte_fn,       null_qc_byte_prt_fn  },
+    {"v",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_v},
+    {"V",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_V},
+    {"-",      null_qc_byte_fn,            null_qc_byte_prt_fn  },
+    {"m",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_m},
+    {"f",      null_qc_byte_len_fn_1,      qc_byte_prt_fn_f},
+    {"I",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_I},
+    {"F",           qc_byte_len_fn_F,      qc_byte_prt_fn_F},
+    {"S",           qc_byte_len_fn_S,      qc_byte_prt_fn_S},
+    {"B",      null_qc_byte_len_fn_1,      qc_byte_prt_fn_B},
+    {"O",      null_qc_byte_len_fn_1,      qc_byte_prt_fn_O},
+    {"D",      null_qc_byte_len_fn_2,      qc_byte_prt_fn_D},
+    {"f+list", null_qc_byte_fn,       null_qc_byte_prt_fn  },
   };
 
 int qcode_sizeof_qc_byte_code = (sizeof(qc_byte_code)/sizeof(QC_BYTE_CODE));
@@ -893,6 +893,17 @@ void qca_cls(NOBJ_MACHINE *m, NOBJ_QCS *s)
     {
       printf("\n");
     }
+}
+
+//------------------------------------------------------------------------------
+
+void qca_get(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int c;
+  
+  c = fgetc(stdin);
+  
+  push_machine_16(m, c);
 }
 
 //------------------------------------------------------------------------------
@@ -2567,9 +2578,9 @@ void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
   int num_fields = logical_file_info[logfile].num_field_names;
 
   for(int i=0; i<num_fields-1; i++)
-  {
-    logical_file_info[logfile].buffer[i] = NOPL_FIELD_DELIMITER;
-  }
+    {
+      logical_file_info[logfile].buffer[i] = NOPL_FIELD_DELIMITER;
+    }
 
   logical_file_info[logfile].buffer_size = num_fields-1;
 
@@ -2954,6 +2965,33 @@ void qca_days(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_16(m, jdn - jdn_1_1_1900);
 }
 
+char *mname[12] =
+  {
+    "JAN",    
+    "FEB",    
+    "MAR",    
+    "APR",    
+    "MAY",    
+    "JUN",    
+    "JUL",    
+    "AUG",    
+    "SEP",    
+    "OCT",    
+    "NOV",    
+    "DEC",    
+  };
+
+void qca_month_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  if( (s->integer < 1) || (s->integer > 12) )
+    {
+      runtime_error(ER_TM_MN, "Month %d out of range", s->integer);
+    }
+
+  strcpy(s->str, mname[s->integer-1]);
+  s->len = strlen(s->str);
+}
+
 //------------------------------------------------------------------------------
 //
 // Calculates sum of a list of values.
@@ -2976,7 +3014,7 @@ void qca_rtf_sum(NOBJ_MACHINE *m, NOBJ_QCS *s)
   //dbq("flist_flg:%d", flist_flag);
 
   // Save flag for later codes
-    s->flist_flag = flist_flag;
+  s->flist_flag = flist_flag;
   
   switch(flist_flag)
     {
@@ -3355,7 +3393,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_ERR,           "RTF_ERR",           {qca_err,          qca_null,        qca_push_result}},    // RTF_ERR    0x8E    
     // RTF_FIND                0x8F    
     // RTF_FREE                0x90    
-    // RTF_GET                 0x91    
+    { RTF_GET,           "RTF_GET",           {qca_null,         qca_get,         qca_null}},    // RTF_GET                 0x91    
     { RTF_HOUR,          "RTF_HOUR",          {qca_clock_hour,   qca_null,        qca_null}},
     { RTF_IABS,          "RTF_IABS",          {qca_pop_int,      qca_iabs,        qca_push_result}},    // RTF_IABS                0x93    
     { RTF_INT,           "RTF_INT",           {qca_pop_num,      qca_num_to_int,  qca_push_result}},    // RTF_INT                 0x94    
@@ -3445,7 +3483,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_VAR,           "RTF_VAR",           {qca_rtf_sum,      qca_rtf_var,     qca_push_num_result}},    // RTF_VAR                 0xE3
     // RTF_DAYNAME             0xE4
     // RTF_DIRW                0xE5
-    // RTF_MONTHSTR            0xE6
+    { RTF_MONTHSTR,           "RTF_MONTHSTR",           {qca_pop_int,      qca_month_str,         qca_push_string}}    // RTF_MONTHSTR            0xE6
   };
 
 #define SIZEOF_QCODE_INFO (sizeof(qcode_info)/sizeof(NOBJ_QCODE_INFO))
@@ -4152,7 +4190,7 @@ int qc_byte_len_fn_S(int i, NOBJ_QCODE *qc)
 char *qc_byte_prt_fn_F(int i, NOBJ_QCODE *qc)
 {
   uint8_t first_byte;
-   int8_t exponent;
+  int8_t exponent;
   uint8_t sign;
   char line[100];
   char digits[30];

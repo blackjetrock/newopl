@@ -80,7 +80,8 @@ ERROR_INFO error_info[] =
     {ER_GN_BL, "BATTERY TOO LOW"},
     {ER_GN_RF, "DEVICE READ FAIL"},
     {ER_GN_WF, "DEVICE WRITE FAIL"},
-    {ER_FL_NP, "ABC"}
+    {ER_FL_NP, "ABC"},
+    {ER_TM_MN, "Month number out of range"},
   };
 
 #define NUM_ERROR_INFO (sizeof(error_info)/sizeof(ERROR_INFO))

@@ -71,6 +71,8 @@
 #define ER_GN_RF  193   // DEVICE READ FAIL
 #define ER_GN_WF  192   // DEVICE WRITE FAIL
 
+#define ER_TM_MN  310   // Month number out of range
+
 void runtime_error(int error_code, char *fmt, ...);
 char *error_text(int error_code);
 void runtime_error_msg(int error_code, char *fmt, ...);
