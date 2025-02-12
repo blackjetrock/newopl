@@ -2951,6 +2951,17 @@ void qca_dow(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_16(m, time_dow(d, mo, y));
 }
 
+void qca_week(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_INT d, mo, y;
+
+  y = pop_machine_int(m);
+  mo = pop_machine_int(m);
+  d = pop_machine_int(m);
+
+  push_machine_16(m, time_week(d, mo, y));
+}
+
 void qca_days(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOPL_INT d, mo, y;
@@ -3471,7 +3482,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_DOW,                "RTF_DOW",                 {qca_null,          qca_dow,            qca_null}},                // RTF_DOW                 0xD7
     // RTF_FINDW               0xD8
     { RTF_MENUN,         "RTF_MENUN",         {qca_rtf_menun,    qca_null,        qca_null}},    // RTF_MENUN               0xD9
-    // RTF_WEEK                0xDA
+    { RTF_WEEK,          "RTF_WEEK",          {qca_null,         qca_week,        qca_null}},    // RTF_WEEK                0xDA
     { RTF_ACOS,          "RTF_ACOS",          {qca_pop_num,      qca_acos_num,    qca_push_num_result}},
     { RTF_ASIN,          "RTF_ASIN",          {qca_pop_num,      qca_asin_num,    qca_push_num_result}},
     { RTF_DAYS,          "RTF_DAYS",          {qca_null,         qca_days,        qca_null}},               // RTF_DAYS                0xDD

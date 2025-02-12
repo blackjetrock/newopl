@@ -41,8 +41,63 @@ int time_jdn(int d, int m, int y)
 }
 
 
-  int time_dow(int d, int m, int y)
+int time_dow(int d, int m, int y)
 {
   return(1+(time_jdn(d, m, y) % 7));
 }
+
+// Day of year
+int time_doy(int d, int m, int y)
+{
+  return(time_jdn(d, m, y) - time_jdn(1, 1, y));
+}
+
+int time_p(int y)
+{
+  return((y + y/4 - y/100 +y/400) % 7);
+}
+
+// Number of weeks in a year
+int time_weeks(int y)
+{
+  int weeks;
+  int d = 0;
+  
+  weeks = 52;
+
+  if( (time_p(y) == 4) || (time_p(y-1) == 3) )
+    {
+      weeks++;
+    }
+
+  return(weeks);
+}
+
+// ISO week number
+int time_week(int d, int m, int y)
+{
+  // Get dow
+  int dow = time_dow(d, m, y);
+  int doy = time_doy(d, m, y);
+  int woy;
+
+  int w = (10 + doy - dow) / 7;
+
+  if( w < 1 )
+    {
+      woy = time_weeks(y-1);      
+    }
+  else if( w > time_weeks(y) )
+    {
+      woy = 1;
+    }
+  else
+    {
+      woy = w;
+    }
+  
+  return(woy);
+}
+
+
 
