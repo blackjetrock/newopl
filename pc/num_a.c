@@ -2248,8 +2248,15 @@ char *num_to_text(NOPL_FLOAT *n)
 char *num_to_int_text(NOPL_FLOAT *n, int width)
 {
   char frag[3];
+  int right_just = 0;
 
-  printf("\nnum int exponent:%d", n->exponent);
+  if( width < 0 )
+    {
+      right_just = 1;
+      width = -width;
+    }
+  
+  //printf("\nnum int exponent:%d", n->exponent);
   
   num_text[0] = '\0';
 
@@ -2259,7 +2266,7 @@ char *num_to_int_text(NOPL_FLOAT *n, int width)
       return(num_text);
     }
 
-  printf("\nnum int 2");
+  //printf("\nnum int 2");
     
   // Put significant figures in the buffer until exponent reaches 0
   int i;
@@ -2267,9 +2274,9 @@ char *num_to_int_text(NOPL_FLOAT *n, int width)
   
   for(i=n->exponent, j=0; (i>=0) && (strlen(num_text) < width); i--,j++)
     {
-      printf("\n%s", num_text);
+      //printf("\n%s", num_text);
       
-      if( i>= NUM_MAX_DIGITS )
+      if( j>= NUM_MAX_DIGITS )
 	{
 	strcat(num_text, "0");
 	}
@@ -2281,17 +2288,29 @@ char *num_to_int_text(NOPL_FLOAT *n, int width)
     }
 
   printf("\nAfter loop 1: i:%d '%s'", i, num_text);
+
+  if( i > 0 )
+    {
+      // Field not big enough, fill with *
+      for(i=0; i<width;i++)
+	{
+	  num_text[i] = '*';
+	}
       
+      num_text[i] = '\0';
+      return(num_text);
+    }
+  
   for(i=0; i<width;i++)
     {
-      printf("\n%s", num_text);
+      //printf("\n%s", num_text);
       if( strlen(num_text) < width )
 	{
 	  strcat(num_text, " ");
 	}
     }
 
-  printf("\ndone: '%s'", num_text);
+  //printf("\ndone: '%s'", num_text);
   return(num_text);
 }
 
