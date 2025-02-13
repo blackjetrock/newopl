@@ -89,6 +89,12 @@ proc compare_results {basename f1 f2} {
 
 }
 
+################################################################################
+#
+# Build the code in the text version
+#
+
+exec ./m
 
 # Find all files that are nopl translation tests
 
