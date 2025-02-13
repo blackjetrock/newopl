@@ -78,4 +78,6 @@ void num_init(void);
 void num_uninit(void);
 void num_to_mem(NOPL_FLOAT *f, uint8_t *mp);
 char *num_to_sci_text(NOPL_FLOAT *n);
+char *num_to_int_text(NOPL_FLOAT *n, int width);
+
 
