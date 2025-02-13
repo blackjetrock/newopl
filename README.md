@@ -114,9 +114,11 @@ This window shows variables:
 ![image](https://github.com/user-attachments/assets/d19399c3-0a4c-415c-9d58-a7e2f5bd89e5)
 
 and also the calculator memories:
+
 ![image](https://github.com/user-attachments/assets/50726dcb-2c16-48b9-8ad7-86323b250658)
 
-It shows the file fields and oinformation about the files:
+It shows the file fields and information about the files:
+
 ![image](https://github.com/user-attachments/assets/37fdef34-2b2a-4211-9606-0061a970c6ac)
 
 Variable values cannot be altered in these windows.
