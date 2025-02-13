@@ -5,9 +5,20 @@
 This is the start of an attempt to build a toolchain for NewOPL, a re-creation of OPL for the Psion Organiser. The plan is to build the toolchain on Linux in C and then port it over to the RP Pico running under the Psion Organiser re-creation code on that hardware. 
 The plan for the language is to support the original OPL command set and the translated code (QCodes). Extensions will then be added that allow use of the extra features of the re-creation hardware (and future versions of the hardware), such as graphics commands and SD card support. SD card support will be added on a later hardware revision that has an SD card on it.
 
+Current Status
+==============
+
+The translator can translate OPL and generate QCode and a .ob3 file. The QCode is byte compatible with the Psion Organiser. It generates the same QCode as an Organiser LZ apart from one situation where it generate sightly different QCode, but the QCode still works properly.
+
+The runtime can run almost all of the QCodes (check the big table in qcode.c to see what is supported). Output is on the terminal at the moment, or in a curses TUI.
+If you build with mtui then the runtime uses curses and sends output to a TUI. The TUI also has a debugger for QCode and allows the stack to be examined as well as the file record fields an variables.
+
 Tools
 =====
-To build these tools on Linux, use the <code>m</code> script.
+To build these tools on Linux, use:
+
+<code>m</code> script for a text based runtime.
+<code>mtui</code> script for a curses based TUI runtime with a debugger.
 
 newopl_objdump
 --------------
@@ -21,7 +32,7 @@ It can read binary QCode files and also OB3 files.
 newopl_exec
 -----------
 
-Executes an OPL procedure
+Executes an OPL procedure. If the TUI version is built then the output is in a windowed curses form and includes a QCode debugger.
 
 For example:
 
@@ -58,7 +69,7 @@ and results in the output:
 66
 </code>
 
-** Not all qcodes are implemented, only a minimum set at the moment.
+** Not all qcodes are implemented, check qcode.c for the full list
 
 
 newopl_tran
@@ -70,16 +81,45 @@ For example:
 
 ./newopl_tran ../examples/expr1.opl
 
-will turn the expr1.opl example into output tokens in the 'intcode.txt' file. The intention is that those output tokens will then be turned into the final qcode.
-
+will turn the expr1.opl example into output tokens in the 'intcode.txt' file. Those output tokens are then turned into the final qcode in an ob3 file.
 
 
 Runtime
 =======
 
 The runtime uses the same stack structure as original OPL. The stack is limited to 64K, but could use all of that 64K if needed.
-The original binaries should be able to be run.
-The model is the same stack based system as organiser OPL, with externals, globals and locals handled in the same way as the original.
+The original binaries should be able to be run, assuing they use only supported QCodes.
+
+The model is the same stack based system as organiser OPL, with externals, globals and locals handled in the same way as the original. OPL translated o an original organiser should work, subject to all the QCodes being implemented.
+
+Debugger
+--------
+
+When run in TUI mode, the runtime opens an output window and a printer window for PRINT and LPRINT output respectively, and also several debugger windows. The code is single stepped in this mode. The stack and other memory can be examined, as well as file records and variables.
+
+![image](https://github.com/user-attachments/assets/8bde2bf1-19b8-4b7d-b2c7-665068bb8aa8)
+
+The memory window shows memory. Typing hex digits sets the address of the dat shown in this window.
+The QCode window shows the QCode that will be executed when ENTER is pressed. There's a decode of the QCode and the output in a similar form to the output of newopl_onbjdump.
+The Output window shows the PRINT statement outputs.
+The Machine window has the system variables used by the QCode engine.
+The Variables window shows the variables used by the current PROC. 
+The Printer window shows output fro the LPRINT statements.
+
+Variables Window
+----------------
+
+This window shows variables:
+
+![image](https://github.com/user-attachments/assets/d19399c3-0a4c-415c-9d58-a7e2f5bd89e5)
+
+and also the calculator memories:
+![image](https://github.com/user-attachments/assets/50726dcb-2c16-48b9-8ad7-86323b250658)
+
+It shows the file fields and oinformation about the files:
+![image](https://github.com/user-attachments/assets/37fdef34-2b2a-4211-9606-0061a970c6ac)
+
+Variable values cannot be altered in these windows.
 
 Translation
 ===========
@@ -98,7 +138,7 @@ The algorithm used to process expressions is the 'shunting yard algorithm' (see 
 
 The expressions in OPL have to be typed as different qcodes are used for different types of code. For example, the PRINT qcode has versions for integers, floats and strings. The correct code has to be used for the argument the code is presented with. This is done at translate time by the original OPL.
 
-The text is parsed and then passed as tokens to an expression processor that handles these in isolation. This uses the shunting yard algorithm to order the expressions in postfix form from the OPL infix form. 
+The text is parsed on a line by line basis and then passed as tokens to an expression processor that handles these in isolation. This uses the shunting yard algorithm to order the expressions in postfix form from the OPL infix form. 
 
 As the translator is going to run on a small Pico sized processor we cannot use a file system for the core processing (the PC version has files for debug but they aren't used in the core translation) and we also can't have large memory based syntax trees as the memory is not available. This is very like the original Organiser which did all this in the organiser ROM. Translation is done on a line by line basis, delimited by colons. REMs are treated as any other function, but no QCodes are generated.
 
