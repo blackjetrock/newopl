@@ -9,6 +9,7 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include <curses.h>
+#include <unistd.h>
 
 #include "newopl.h"
 

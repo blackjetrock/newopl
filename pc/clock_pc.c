@@ -111,3 +111,8 @@ void qca_clock_year(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   qca_clock_component(m, s, CC_YEAR);
 }
+
+void qca_clock_pause(int del)
+{
+  sleep(del);
+}

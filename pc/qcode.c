@@ -1112,6 +1112,7 @@ void qca_input_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_pause(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+  qca_clock_pause(s->integer);
 }
 
 
@@ -2345,6 +2346,7 @@ void qca_goto(NOBJ_MACHINE *m, NOBJ_QCS *s)
   m->rta_pc += offset -2;
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 
@@ -3354,8 +3356,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_GOTO,          "QCO_GOTO",          {qca_goto,         qca_null,        qca_null}},
     // QCO_OFF                 0x52    
     { QCO_ONERR,         "QCO_ONERR",         {qca_onerr,        qca_null,        qca_null}},    // QCO_ONERR               0x53    
-    // QCO_PAUSE               0x54
-    { QCO_PAUSE,         "QCO_PAUSE",         {qca_pop_int,      qca_pause,       qca_null}},
+    { QCO_PAUSE,         "QCO_PAUSE",         {qca_pop_int,      qca_pause,       qca_null}},    // QCO_PAUSE               0x54
     // QCO_POKEB               0x55    
     // QCO_POKEW               0x56    
     { QCO_RAISE,         "QCO_RAISE",         {qca_raise,        qca_null,        qca_null}},    // QCO_RAISE               0x57    
