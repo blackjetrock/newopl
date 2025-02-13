@@ -857,7 +857,7 @@ void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
       
       if( s->len > max_len )
 	{
-	  runtime_error(ER_LX_ST, "String too big");
+	  runtime_error(ER_LX_ST, "String too big (%d > %d)", s->len, max_len);
 	  return;
 	}
       
@@ -1087,7 +1087,7 @@ void qca_input_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
       
       if( s->len > max_len )
 	{
-	  runtime_error(ER_LX_ST, "String too big");
+	  runtime_error(ER_LX_ST, "String too big (%d > %d)", s->len, max_len);
 	  return;
 	}
       
@@ -2362,9 +2362,10 @@ void qca_chr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_fix(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOPL_FLOAT f;
-  int w;
+  int w, decpl;
   
   // Pop arguments
+  decpl = pop_machine_int(m);
   w = pop_machine_int(m);
 
   qca_pop_num(m, s);

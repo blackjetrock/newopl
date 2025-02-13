@@ -2071,13 +2071,34 @@ NOPL_FLOAT num_float_from_str(char *str)
 }
 
 //------------------------------------------------------------------------------
+//
+// Remove training zeros given a string float and the exponent
+//
+// For positive exponent don't drop zeros
+//
 
 void remove_trailing_zeros(char *n)
 {
-  // 
+  // If there's no decimal point then don't drop zeros
+  int has_dot = 0;
+
+  printf("\n'%s'", n);
+  
+  for(int i = 0; i<strlen(n); i++)
+    {
+      if( n[i] == '.' )
+	{
+	  has_dot = 1;
+	}
+    }
+
+  if( !has_dot )
+    {
+      return;
+    }
+  
   for(int i = strlen(n)-1; i>0; i--)
     {
-      
       switch( n[i] )
 	{
 	case '0':
@@ -2086,6 +2107,7 @@ void remove_trailing_zeros(char *n)
 
 	case '.':
 	  n[i+1] = '0';
+	  return;
 	  break;
 	  
 	default:
