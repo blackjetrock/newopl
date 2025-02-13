@@ -36,7 +36,7 @@ Executes an OPL procedure. If the TUI version is built then the output is in a w
 
 For example:
 
-./newopl_exec ../examples/PRNT1.OB3
+<code>./newopl_exec ../examples/PRNT1.OB3</code>
 
 Runs the PRNT1.OB3 exmple file. This contains:
 
