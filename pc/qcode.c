@@ -2376,6 +2376,8 @@ void qca_fix(NOBJ_MACHINE *m, NOBJ_QCS *s)
   strcpy(s->str, num_to_text(&(s->num)));
   s->len = strlen(s->str);
 
+  printf("\nw=%d, l=%d, s=%s", w, s->len, s->str);
+  
   if( s->len > w )
     {
       s->len = w;
