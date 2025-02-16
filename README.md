@@ -185,6 +185,8 @@ Things I didn't know about OPL when I started
     SIN(90)+COS(90)
   </code>code>
   which gives an error when translated on an Organiser.
-  
+
+  * Even though the DAYS keyword returns an integer, the RTF_DAYS QCode returns a float.
+    
 
 
