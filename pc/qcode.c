@@ -857,7 +857,7 @@ void qca_ass_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
       
       if( s->len > max_len )
 	{
-	  runtime_error(ER_LX_ST, "String too big");
+	  runtime_error(ER_LX_ST, "String too big (%d > %d)", s->len, max_len);
 	  return;
 	}
       
@@ -1087,7 +1087,7 @@ void qca_input_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
       
       if( s->len > max_len )
 	{
-	  runtime_error(ER_LX_ST, "String too big");
+	  runtime_error(ER_LX_ST, "String too big (%d > %d)", s->len, max_len);
 	  return;
 	}
       
@@ -2352,6 +2352,7 @@ void qca_goto(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_chr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
+  //
   // We have an int, build a string that has one character with the ascii code
   // of the int.
 
@@ -2361,29 +2362,29 @@ void qca_chr(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 void qca_fix(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
-  NOPL_FLOAT f;
-  int w;
+  int w, decpl;
   
   // Pop arguments
   w = pop_machine_int(m);
-
+  decpl = pop_machine_int(m);
   qca_pop_num(m, s);
-  
-  f = s->num;
+
+  num_round_up(&(s->num), decpl);
 
   // Convert float to string
   strcpy(s->str, num_to_text(&(s->num)));
+
+  //printf("\nw=%d, dp=%d len=%d, s=%s", w, decpl, s->len, s->str);
+  num_set_decimal_places(s->str, decpl);
+    
+  //printf("\nw=%d, dp=%d len=%d, s=%s\n", w, decpl, s->len, s->str);
+
+  num_force_str_to_width(s->str, w);
+
+  // If in scientific notation then it was too big so force to asterisks
+  num_force_sci_asterisk(s->str);
+  
   s->len = strlen(s->str);
-
-  if( s->len > w )
-    {
-      s->len = w;
-
-      for(int i= 0; i< s->len; i++)
-	{
-	  s->str[i] = '*';
-	}
-    }
 }
 
 void qca_gen(NOBJ_MACHINE *m, NOBJ_QCS *s)

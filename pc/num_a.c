@@ -18,6 +18,9 @@
 
 #include "nopl.h"
 
+
+#define DB1 1      // num_to_text
+
 ////////////////////////////////////////////////////////////////////////////////
 
 FILE *numfp;
@@ -2072,12 +2075,245 @@ NOPL_FLOAT num_float_from_str(char *str)
 
 //------------------------------------------------------------------------------
 
+
+int where_char(char *s, char c)
+{
+  for(int i = 0; i<strlen(s); i++)
+    {
+      if( s[i] == c )
+	{
+	  return(i);
+	}
+    }
+
+  return(-1);
+}
+
+int has_char(char *s, char c)
+{
+  if( where_char(s, c)== -1 )
+    {
+      return(0);
+    }
+  return(1);
+}
+
+void insert_char(char *s, char c)
+{
+  char *lastc = s+strlen(s);
+
+  dbq("Insert '%c' at '%s'", c, s);
+  
+  while(lastc >= s)
+    {
+      *(lastc+1) = *lastc;
+      lastc--;
+    }
+
+  *s = c;
+  dbq("After insert:'%s'", s);  
+}
+//------------------------------------------------------------------------------
+//
+// Negative width is right justification signal
+//
+// If data won't fit in field, field becomes asterisks
+//
+
+void num_force_str_to_width(char *s, int w)
+{
+  int right_just = 0;
+
+  dbq("Forcing '%s' to width %d", s, w);
+  
+  if( w < 0 )
+    {
+      right_just = 1;
+      w = -w;
+    }
+
+  dbq("%s justified.", right_just?"Right":"Left");
+  
+  // Check for too large 
+  if( strlen(s) > w )
+    {
+      dbq("Too wide");
+      for(int i= 0; i<w; i++)
+	{
+	  s[i] = '*';
+	}
+      
+      s[w] = '\0';
+    }
+
+  // Pad
+  // Now force the value to be the required width
+  if( strlen(s) < w )
+    {
+      dbq("Too narrow, padding");
+      if( !right_just )
+	{
+	  while( strlen(s) < w )
+	    {
+	      strcat(s, " ");
+	    }
+	}
+      else
+	{
+	  // Add spaces to front of string
+	  while( strlen(s) < w )
+	    {
+	      insert_char(s, ' ');
+	    }
+	}
+    }
+
+  dbq("Now '%s'", s);
+}
+
+//------------------------------------------------------------------------------
+//
+// Round up
+//
+
+void num_round_up(NOPL_FLOAT *n, int numdp)
+{
+  NOPL_FLOAT delta, n1;
+
+  n1 = *n;
+  
+  num_clear(&delta);
+  delta.digits[0] = 5;
+  delta.sign = n->sign;
+  delta.exponent = -(numdp+1);
+
+  num_add(&n1, &delta, n);
+}
+
+//------------------------------------------------------------------------------
+//
+// Set number of decimal places.
+//
+// Has to handle scientific notoation and floats and integers
+//
+// Integers: No DP, zero DPs added
+// Sci:      Fix DPS between dot and E
+// floats:   Fix between dot and end of string
+
+void num_set_decimal_places(char *ns, int dp)
+{
+  dbq("Setting '%s' to %d decimal places", ns, dp);
+  
+  // Work out what type of number we have
+  if( has_char(ns, 'E') )
+    {
+      // Scientific notation
+      dbq("Scientific notation, exiting");
+      dbq("Now '%s'", ns);
+      return;
+    }
+
+  if( has_char(ns, '.') )
+    {
+      // Float
+      int i = where_char(ns, '.');
+      int num_dp = 0;
+      
+      dbq("Has decimal point at %d", i);            
+      i++;
+      
+      while( (isdigit(ns[i]) && (dp > 0)) || (num_dp < dp) )
+	{
+	  dbq("Digit %c at %d, dp:%d num_dp:%d", ns[i], i, dp, num_dp);
+	  num_dp++;
+	  dp--;
+	  i++;
+	}
+
+      i--;
+
+      // Truncate string
+      ns[i+1] = '\0';
+      
+      dbq("Digits end at %d, inserting chars if needed", i);
+      
+      while( dp>0 )
+	{
+	  insert_char(&(ns[i]), '0');
+	  dp--;
+	}
+
+      // If last char is a dot then remove it
+      if( ns[strlen(ns)-1] == '.' )
+	{
+	  ns[strlen(ns)-1] = '\0';
+	  dbq("Removed trailing dot");
+	}
+
+      // End of DPs is here
+      dbq("Now '%s'", ns);
+      return;
+    }
+
+  // Must be integer, we add zeroes on the end
+  if( (strlen(ns) + dp + 1) > NOBJ_STRING_MAXLEN )
+    {
+      runtime_error(ER_LX_ST, "FIX$ result too long");
+    }
+
+  dbq("Integer");
+  
+  strcat(ns, ".");
+  for(int i=0; i<dp; i++)
+    {
+      strcat(ns, "0");
+    }
+
+  dbq("Now '%s'", ns);
+}
+
+//------------------------------------------------------------------------------
+
+void num_force_sci_asterisk(char *s)
+{
+  // If there's an E int he number then turn into asterisks
+  for(int i=0; i<strlen(s); i++)
+    {
+      if( s[i] == 'E' )
+	{
+	  for(int i=0; i<strlen(s); i++)
+	    {
+	      s[i] = '*';
+	    }
+	}
+    }
+}
+
+
+//------------------------------------------------------------------------------
+//
+// Remove training zeros given a string float and the exponent
+//
+// For positive exponent don't drop zeros
+//
+
 void remove_trailing_zeros(char *n)
 {
-  // 
+  // If there's no decimal point then don't drop zeros
+  int has_dot = 0;
+
+  dbq("Removing trailing zeros from '%s'", n);
+  
+  if( !has_char(n, '.') )
+    {
+      dbq("Had no decimal point, exiting");
+      dbq("Now '%s'", n);
+      return;
+    }
+
+  dbq("Removing...");
   for(int i = strlen(n)-1; i>0; i--)
     {
-      
       switch( n[i] )
 	{
 	case '0':
@@ -2086,6 +2322,7 @@ void remove_trailing_zeros(char *n)
 
 	case '.':
 	  n[i+1] = '0';
+	  return;
 	  break;
 	  
 	default:
@@ -2093,11 +2330,15 @@ void remove_trailing_zeros(char *n)
 	  break;
 	}
     }
+  
+  dbq("Now '%s'", n);
 }
 
 int calc_num_sigdigs(NOPL_FLOAT *n)
 {
   int sigdigs = NUM_MAX_DIGITS;
+
+  dbq("Calculating number of sig digits");
   
   for(int i = NUM_MAX_DIGITS-1; i>0; i--)
     {
@@ -2108,13 +2349,13 @@ int calc_num_sigdigs(NOPL_FLOAT *n)
 	  break;
 
 	default:
-	  //printf("\nSigdigs=%d\n", sigdigs);
+	  dbq("Sig digits:%d", sigdigs);
 	  return(sigdigs);
 	  break;
 	}
     }
-  
-  //  printf("\nSigdigs=%d\n", sigdigs);
+
+  dbq("Sig digits:%d", sigdigs);
   return(sigdigs);
 }
 //------------------------------------------------------------------------------
@@ -2124,6 +2365,8 @@ char *num_to_sci_text(NOPL_FLOAT *n)
 {
   char temp[10];
 
+  dbq("");
+  
   num_text[0] = '\0';
  
   if(n->sign)
@@ -2169,28 +2412,10 @@ char *num_to_text(NOPL_FLOAT *n)
       ((EXP < 0) && (EXP < -EXP_LIM)) ||
       ((EXP < 0) && (-EXP+num_sigdigs > EXP_LIM)))
     {
-#if 0
-      if(n->sign)
-	{
-	  strcat(num_text, "-");
-	}
       
-      sprintf(temp, "%d.", n->digits[0]);
-      strcat(num_text, temp);
+      num_to_sci_text(n);
       
-      for(int i=1; i<NUM_MAX_DIGITS; i++)
-	{
-	  sprintf(temp, "%d", n->digits[i]);
-	  strcat(num_text, temp);
-	}
-
-      remove_trailing_zeros(num_text);
-      
-      sprintf(temp, "E%+d", (int)n->exponent);
-      strcat(num_text, temp);
-#endif
-      
-      return(num_to_sci_text(n));
+      return(num_text);
     }
   else
     {
@@ -2204,10 +2429,12 @@ char *num_to_text(NOPL_FLOAT *n)
 	{
 	  for(int i=0; i<NUM_MAX_DIGITS; i++)
 	    {
+	      // Add a digit
 	      sprintf(temp, "%d", n->digits[i]);
 	      strcat(num_text, temp);
 
-	      if( (EXP == i) && (num_sigdigs != EXP+1) )
+	      // Add a dot if we have the same number of digits as the exponent
+	      if( (EXP == i) /* && (num_sigdigs != EXP+1)*/ )
 		{
 		  strcat(num_text, ".");
 		}
@@ -2226,13 +2453,12 @@ char *num_to_text(NOPL_FLOAT *n)
 		}
 	      i++;
 	    }
+	  
 	  for(int i=0; i<NUM_MAX_DIGITS; i++)
 	    {
 	      sprintf(temp, "%d", n->digits[i]);
 	      strcat(num_text, temp);
 	    }
-
-	  
 	}
 
       remove_trailing_zeros(num_text);

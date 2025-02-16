@@ -79,5 +79,7 @@ void num_uninit(void);
 void num_to_mem(NOPL_FLOAT *f, uint8_t *mp);
 char *num_to_sci_text(NOPL_FLOAT *n);
 char *num_to_int_text(NOPL_FLOAT *n, int width);
-
-
+void num_set_decimal_places(char *ns, int dp);
+void num_force_str_to_width(char *s, int w);
+void num_round_up(NOPL_FLOAT *n, int numdp);
+void num_force_sci_asterisk(char *s);
