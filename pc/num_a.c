@@ -2184,6 +2184,7 @@ void num_round_up(NOPL_FLOAT *n, int numdp)
   
   num_clear(&delta);
   delta.digits[0] = 5;
+  delta.sign = n->sign;
   delta.exponent = -(numdp+1);
 
   num_add(&n1, &delta, n);
@@ -2270,6 +2271,24 @@ void num_set_decimal_places(char *ns, int dp)
 
   dbq("Now '%s'", ns);
 }
+
+//------------------------------------------------------------------------------
+
+void num_force_sci_asterisk(char *s)
+{
+  // If there's an E int he number then turn into asterisks
+  for(int i=0; i<strlen(s); i++)
+    {
+      if( s[i] == 'E' )
+	{
+	  for(int i=0; i<strlen(s); i++)
+	    {
+	      s[i] = '*';
+	    }
+	}
+    }
+}
+
 
 //------------------------------------------------------------------------------
 //

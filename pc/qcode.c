@@ -2370,7 +2370,7 @@ void qca_fix(NOBJ_MACHINE *m, NOBJ_QCS *s)
   qca_pop_num(m, s);
 
   num_round_up(&(s->num), decpl);
-  
+
   // Convert float to string
   strcpy(s->str, num_to_text(&(s->num)));
 
@@ -2381,6 +2381,9 @@ void qca_fix(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
   num_force_str_to_width(s->str, w);
 
+  // If in scientific notation then it was too big so force to asterisks
+  num_force_sci_asterisk(s->str);
+  
   s->len = strlen(s->str);
 }
 
