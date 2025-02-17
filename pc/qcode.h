@@ -402,9 +402,15 @@ char *qcode_name(NOBJ_QCODE qcode);
 
 extern FILE *exdbfp;
 
+#if DEBUG
 #define dbq(fmt...) dbpfq(__FUNCTION__, fmt)
 #define dbq_num(text, num) dbq_num_f(__FUNCTION__, text, num)
 #define dbq_num_exploded(text, num) dbq_num_exploded_f(__FUNCTION__, text, num)
+#else
+#define dbq(fmt...) ;
+#define dbq_num(text, num) ;
+#define dbq_num_exploded(text, num) ;
+#endif
 
 void dbpfq(const char *caller, char *fmt, ...);
 char *decode_qc_txt(int *i,  NOBJ_QCODE **qc);

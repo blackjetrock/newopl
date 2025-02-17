@@ -1,65 +1,62 @@
 
-Filename:'vars2'
-File ext:'ob3
+Filename:'ob3_nopl'
+File ext:'bin
 Dropping OB3 header...
 Enter:dump_proc
-Var Space Size:07DE
-QCode Space Size:001F
+Var Space Size:0004
+QCode Space Size:0032
 Number of parameters:00
 Parameter types:
-Global varname Size:002C
-Global variables (5)
- 0: PEAR%            INT    (00) FFCC
- 1: DOOR$            STR    (02) FFC1
- 2: OPEN%            INTARY (03) FF5A
- 3: POS$             STRARY (05) FCEC
- 4: FLOAT            FLTARY (04) F911
+Global varname Size:0000
+Global variables (0)
 
-External varname Size:000E
-External variables (2)
- 0: EXTTOP%          INT    (00)
- 1: SA$              STRARY (05)
+External varname Size:0000
+External variables (0)
 
-String length fixups (4)
- 0: F903 0A
- 1: F8C4 07
- 2: FFC0 0A
- 3: FCEB 1E
+String length fixups (0)
 
-Array size fixups (6)
- 0: F8EF 0005
- 1: F8C5 0005
- 2: F822 0014
- 3: FF5A 0032
- 4: FCEC 0014
- 5: F911 007B
+Array size fixups (0)
 
 QCode
 
 0000: 59       STOP     (bytes code:-)
 0001: B2       SIN     (bytes code:-)
-0002: 14       Push parameter/external integer variable reference     (bytes code:V)
-0003: FFD0       (65488)
+0002: 0D       Push local/global integer variable reference     (bytes code:v)
+0003: FFFC       (65532)
 0005: 22       Push integer literal     (bytes code:I)
-0006: 0008       (8)
+0006: 0000       (0)
 0008: 7F       Assign integer     (bytes code:-)
-0009: 0F       Push local/global string variable reference     (bytes code:v)
-000A: F904       (63748)
-000C: 24       Push string literal     (bytes code:S)
-000D: Len:3
-000E: 'abc'
-0011: 81       Assign string     (bytes code:-)
-0012: 22       Push integer literal     (bytes code:I)
-0013: 000A       (10)
-0015: 19       Pop integer index and push parameter/external string array variable reference     (bytes code:V)
-0016: FFCE       (65486)
-0018: 24       Push string literal     (bytes code:S)
-0019: Len:3
-001A: 'def'
-001D: 81       Assign string     (bytes code:-)
-001E: 7B       RETURN (float 0)     (bytes code:-)
+0009: 20       Push byte literal     (bytes code:B)
+000A: 00           (0)
+000B: 7D       Procedure call.     (bytes code:S)
+000C: Len:6
+000D: 'PTIME%'
+0013: 83       drop integer from stack     (bytes code:-)
+0014: 0D       Push local/global integer variable reference     (bytes code:v)
+0015: FFFC       (65532)
+0017: 00       Push local/global integer variable value     (bytes code:v)
+0018: FFFC       (65532)
+001A: 22       Push integer literal     (bytes code:I)
+001B: 0001       (1)
+001D: 2D       Plus integer     (bytes code:-)
+001E: 7F       Assign integer     (bytes code:-)
+001F: 00       Push local/global integer variable value     (bytes code:v)
+0020: FFFC       (65532)
+0022: 22       Push integer literal     (bytes code:I)
+0023: 000A       (10)
+0025: 2C       Equal integer     (bytes code:-)
+0026: 7E       Branch if false     (bytes code:D)
+0027: Dest:0009 (Dist:FFFFFFE2)
+0029: 24       Push string literal     (bytes code:S)
+002A: Len:4
+002B: 'PASS'
+002F: 71       PRINT string     (bytes code:-)
+0030: 73       PRINT newline     (bytes code:-)
+0031: 7B       RETURN (float 0)     (bytes code:-)
 
 QCode Data
 
-0000:59 B2 14 FF D0 22 00 08 7F 0F F9 04 24 03 61 62 
-0010:63 81 22 00 0A 19 FF CE 24 03 64 65 66 81 7B 
+0000:59 B2 0D FF FC 22 00 00 7F 20 00 7D 06 50 54 49 
+0010:4D 45 25 83 0D FF FC 00 FF FC 22 00 01 2D 7F 00 
+0020:FF FC 22 00 0A 2C 7E FF E2 24 04 50 41 53 53 71 
+0030:73 7B 
