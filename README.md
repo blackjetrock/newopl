@@ -18,7 +18,7 @@ Tools
 To build these tools on Linux, use:
 
 <code>m</code> script for a text based runtime.
-<code>mtui</code> script for a curses based TUI runtime with a debugger.
+<br><code>mtui</code> script for a curses based TUI runtime with a debugger.
 
 newopl_objdump
 --------------
@@ -154,6 +154,30 @@ The control structures (IF/ENDIF, DO/UNTIL and WHILE/ENDWH) all have their own p
 Negative integers are parsed in the recursive descent parser and so the negation of positive integers to get negative integers isn't used. The recursive descent parser does have unary operator support, however, so the unary '-' can be used in expressions.
 
 The translation is performed in two passes. The first pass is used to build tables and fixup information, some of which can't be determined on one pass, and the second pass uses this information to build the QCode. QCode is not built on the first pass.
+
+Tests
+=====
+
+There are two sets of tests, one for translation and one for execution.
+
+To run the translation tests, run:
+
+<br><code>./tr_test.tcl</code>
+
+from the <code>pc</code> directory.
+
+To run the execution tests, run:
+
+<br><code>./ex_test.tcl</code>
+
+from the <code>pc</code> directory.
+
+The scripts run all the tests, displaying results as they go, counting successes and failures which are displayed at the end of the run.
+If you want to run the execution test extst_XXXX.opl then use:
+
+<br><code>./ef XXXX</code>
+
+
 
 
 Things I didn't know about OPL when I started
