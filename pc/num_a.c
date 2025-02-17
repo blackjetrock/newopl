@@ -920,8 +920,54 @@ void num_num_to_int(int n, NOPL_FLOAT *num,  NOBJ_INT *i)
 
 //------------------------------------------------------------------------------
 
-// Convert int to float
+// Convert int32 to float
 
+void num_int32_to_num(int n, int32_t *i, NOPL_FLOAT *num)
+{
+  dbq("Converting %d to float", *i);
+  
+  num_clear_digits(n, num->digits);
+  
+  // Set sign up
+  if( *i < 0 )
+    {
+      num->sign = NUM_SIGN_NEGATIVE;
+      *i = - *i;
+    }
+  else
+    {
+      num->sign = NUM_SIGN_POSITIVE;
+    }
+
+  num->exponent   = 11;
+
+#if 1  
+  long int div = 1;
+  for(int j=0, k=NUM_MAX_DIGITS-1; j<NUM_MAX_DIGITS; j++,k--)
+    {
+      num->digits[k]  = ((long int)*i / div) % 10;
+      div *= 10L;
+    }
+#else
+  
+  num->digits[0]  = (*i / 10000000000);
+  num->digits[1]  = (*i / 1000000000) % 10;
+  num->digits[2]  = (*i / 100000000)  % 10;
+  num->digits[3]  = (*i / 10000000)   % 10;
+  num->digits[4]  = ( *i / 1000000) % 10;
+  num->digits[5]  = (*i / 100000);
+  num->digits[6]  = (*i / 10000) % 10;
+  num->digits[7]  = (*i / 1000)  % 10;
+  num->digits[8]  = (*i / 100)   % 10;
+  num->digits[9]  =  *i / 10        % 10;
+  num->digits[10] = (*i / 1    ) % 10;
+#endif
+  
+  dbq_num("Raw convert:%s", num);
+  num_normalise_digits(n, num->digits, &(num->exponent));
+  dbq_num("After normalise:%s", num);
+  num_normalise(num);
+}
 
 void num_int_to_num(int n, NOBJ_INT *i, NOPL_FLOAT *num)
 {
@@ -2205,7 +2251,7 @@ void num_set_decimal_places(char *ns, int dp)
   dbq("Setting '%s' to %d decimal places", ns, dp);
   
   // Work out what type of number we have
-  if( has_char(ns, 'E') )
+  if( has_char(ns, 'E'),0 )
     {
       // Scientific notation
       dbq("Scientific notation, exiting");
@@ -2221,26 +2267,48 @@ void num_set_decimal_places(char *ns, int dp)
       
       dbq("Has decimal point at %d", i);            
       i++;
-      
+#if 0
       while( (isdigit(ns[i]) && (dp > 0)) || (num_dp < dp) )
 	{
-	  dbq("Digit %c at %d, dp:%d num_dp:%d", ns[i], i, dp, num_dp);
+	  dbq("Digit %02X at %d, dp:%d num_dp:%d", ns[i], i, dp, num_dp);
 	  num_dp++;
 	  dp--;
 	  i++;
 	}
 
       i--;
+      dp++;
+#endif
 
-      // Truncate string
-      ns[i+1] = '\0';
-      
-      dbq("Digits end at %d, inserting chars if needed", i);
-      
-      while( dp>0 )
+      while( isdigit(ns[i]) )
 	{
-	  insert_char(&(ns[i]), '0');
-	  dp--;
+	  dbq("Digit %02X at %d, num_dp:%d", ns[i], i, num_dp);
+	  num_dp++;
+	  i++;
+	}
+      
+      // At first non-digit
+      dbq("Digit %02X at %d, num_dp:%d", ns[i], i, num_dp);
+      if( num_dp < dp )
+	{
+	  // Add zeros
+	  dbq("Digits end at %d, inserting chars if needed", i);
+	  
+	  while( num_dp < dp )
+	    {
+	      insert_char(&(ns[i]), '0');
+	      num_dp++;
+	    }
+	}
+      else
+	{
+	  dbq("Truncating");
+	  
+	  // Truncate string
+	  if( ns[i-num_dp+dp] != 'E' )
+	    {
+	      ns[i+-num_dp+dp] = '\0';
+	    }
 	}
 
       // If last char is a dot then remove it
@@ -2276,7 +2344,7 @@ void num_set_decimal_places(char *ns, int dp)
 
 void num_force_sci_asterisk(char *s)
 {
-  // If there's an E int he number then turn into asterisks
+  // If there's an E in the number then turn into asterisks
   for(int i=0; i<strlen(s); i++)
     {
       if( s[i] == 'E' )
@@ -2288,7 +2356,6 @@ void num_force_sci_asterisk(char *s)
 	}
     }
 }
-
 
 //------------------------------------------------------------------------------
 //
@@ -2358,15 +2425,19 @@ int calc_num_sigdigs(NOPL_FLOAT *n)
   dbq("Sig digits:%d", sigdigs);
   return(sigdigs);
 }
+
 //------------------------------------------------------------------------------
+//
+// Convert float to text in scientific notation.
+//
+//
 
-
-char *num_to_sci_text(NOPL_FLOAT *n)
+char *num_to_sci_text(NOPL_FLOAT *n, int decpl)
 {
   char temp[10];
 
-  dbq("");
-  
+  dbq("decpl:%d", decpl);
+
   num_text[0] = '\0';
  
   if(n->sign)
@@ -2376,17 +2447,46 @@ char *num_to_sci_text(NOPL_FLOAT *n)
   
   sprintf(temp, "%d.", n->digits[0]);
   strcat(num_text, temp);
+
+  dbq("%s", num_text);
   
   for(int i=1; i<NUM_MAX_DIGITS; i++)
     {
       sprintf(temp, "%d", n->digits[i]);
       strcat(num_text, temp);
     }
+
+  dbq("'%s'", num_text);
   
   remove_trailing_zeros(num_text);
+  dbq("After remove: '%s'", num_text);
+
+  if( decpl >= 0 )
+    {
+      num_set_decimal_places(num_text, decpl);
+      dbq("After set dec places: '%s'", num_text);
+    }
   
-  sprintf(temp, "E%+d", (int)n->exponent);
+  char sign;
+  int exp = n->exponent;
+  
+  if( n->exponent < 0 )
+    {
+      sign = '-';
+      exp = -exp;
+    }
+  else
+    {
+      sign = '+';
+    }
+  
+  sprintf(temp, "E%c", sign);
   strcat(num_text, temp);
+
+  sprintf(temp, "%02d", exp);
+  strcat(num_text, temp);
+  
+  dbq("%s", num_text);
   return(num_text);
 }
 
@@ -2413,7 +2513,7 @@ char *num_to_text(NOPL_FLOAT *n)
       ((EXP < 0) && (-EXP+num_sigdigs > EXP_LIM)))
     {
       
-      num_to_sci_text(n);
+      num_to_sci_text(n, -1);
       
       return(num_text);
     }

@@ -2418,29 +2418,22 @@ void qca_gen(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_sci(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOPL_FLOAT f;
-  int a, b;
+  int w, decpl;
   
   // Pop arguments
-  b = pop_machine_int(m);
-  a = pop_machine_int(m);
-
+  w     = pop_machine_int(m);
+  decpl = pop_machine_int(m);
   qca_pop_num(m, s);
   
   f = s->num;
 
   // Convert float to string
-  strcpy(s->str, num_to_sci_text(&(s->num)));
+  strcpy(s->str, num_to_sci_text(&(s->num), decpl));
+
+  //num_set_decimal_places(s->str, decpl);
+  num_force_str_to_width(s->str, w);
+  
   s->len = strlen(s->str);
-
-  if( s->len > b )
-    {
-      s->len = b;
-
-      for(int i= 0; i< s->len; i++)
-	{
-	  s->str[i] = '*';
-	}
-    }
 }
 
 //------------------------------------------------------------------------------
@@ -2977,6 +2970,11 @@ void qca_week(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_16(m, time_week(d, mo, y));
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// Returns a float, despite the examples saying it returns an int. If it was an int then
+// 2025 would not be a possible return vaue
+
 void qca_days(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOPL_INT d, mo, y;
@@ -2985,10 +2983,20 @@ void qca_days(NOBJ_MACHINE *m, NOBJ_QCS *s)
   mo = pop_machine_int(m);
   d = pop_machine_int(m);
 
+  // Calculate Julian day numbers
   int jdn = time_jdn(d, mo, y);
   int jdn_1_1_1900 = time_jdn(1, 1, 1900);
+
+  // Work out the difference (int32 has sufficient rnge)
+  int32_t diff = jdn - jdn_1_1_1900;
+  NOPL_FLOAT num_diff;
   
-  push_machine_16(m, jdn - jdn_1_1_1900);
+  // Convert to float
+  num_int32_to_num(NUM_MAX_DIGITS, &diff, &num_diff);
+
+  dbq_num("num_diff: ", &num_diff);
+   
+  push_machine_num(m, &num_diff);
 }
 
 char *mname[12] =
