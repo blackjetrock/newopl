@@ -2959,6 +2959,43 @@ void qca_dow(NOBJ_MACHINE *m, NOBJ_QCS *s)
   push_machine_16(m, time_dow(d, mo, y));
 }
 
+char *dayname[7] =
+  {
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+    "Sun"
+  };
+
+void qca_dayname(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_INT d;
+
+  dbq("Day Name");
+  
+  d = s->integer;
+
+  dbq("d:", d);
+  
+  if( d < 1 )
+    {
+      d = 1;
+    }
+
+  if( d > 7 )
+    {
+      d = 7;
+    }
+
+  dbq("Dayname='%s'", dayname[d-1]);
+  
+  strcpy(s->str, dayname[d-1]);
+  s->len = strlen(s->str);
+}
+
 void qca_week(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   NOPL_INT d, mo, y;
@@ -3514,9 +3551,9 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_STD,           "RTF_STD",           {qca_rtf_sum,      qca_rtf_std,     qca_push_num_result}},    // RTF_STD                 0xE1
     { RTF_SUM,           "RTF_SUM",           {qca_rtf_sum,      qca_null,        qca_push_num_result}},    // RTF_SUM                 0xE2
     { RTF_VAR,           "RTF_VAR",           {qca_rtf_sum,      qca_rtf_var,     qca_push_num_result}},    // RTF_VAR                 0xE3
-    // RTF_DAYNAME             0xE4
+    { RTF_DAYNAME,       "RTF_DAYNAME",       {qca_pop_int,      qca_dayname,     qca_push_string}},        // RTF_DAYNAME             0xE4
     // RTF_DIRW                0xE5
-    { RTF_MONTHSTR,           "RTF_MONTHSTR",           {qca_pop_int,      qca_month_str,         qca_push_string}}    // RTF_MONTHSTR            0xE6
+    { RTF_MONTHSTR,      "RTF_MONTHSTR",      {qca_pop_int,      qca_month_str,   qca_push_string}}         // RTF_MONTHSTR            0xE6
   };
 
 #define SIZEOF_QCODE_INFO (sizeof(qcode_info)/sizeof(NOBJ_QCODE_INFO))
