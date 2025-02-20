@@ -89,7 +89,7 @@ num%=num%+1
 rem ------------------------------------L--------------------------------------------
 
 E$ = dayname$(1) 
-ANS%= "Mon"
+ANS$= "Mon"
 print CHR$(num%+asc("A"));"(";ANS$;"):";e$,(e$=ANS$) : PASS2%=PASS2%+(e$=ANS$)
 num%=num%+1
 

@@ -896,6 +896,26 @@ void qca_cls(NOBJ_MACHINE *m, NOBJ_QCS *s)
 }
 
 //------------------------------------------------------------------------------
+//
+
+void qca_cursor(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  m->cursor_flag = qcode_next_8(m);  // Get type
+
+  dbq("\nCursor flag now set to %d", m->cursor_flag);
+}
+
+//------------------------------------------------------------------------------
+//
+
+void qca_escape(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  m->rta_escf = qcode_next_8(m);  // Get type
+
+  dbq("\nEscape flag now set to %d", m->rta_escf);
+}
+
+//------------------------------------------------------------------------------
 
 void qca_get(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -3397,8 +3417,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_AT,            "QI_AT",             {qca_pop_2int,     qca_null,        qca_null}},
     { QCO_BEEP,          "QCO_BEEP",          {qca_pop_2int,     qca_null,        qca_null}},
     { QCO_CLS,           "QCO_CLS",           {qca_cls,          qca_null,        qca_null}},    // QCO_CLS                 0x4E    
-    // QCO_CURSOR              0x4F    
-    // QCO_ESCAPE              0x50    
+    { QCO_CURSOR,        "QCO_CURSOR",        {qca_cursor,       qca_null,        qca_null}},    // QCO_CURSOR              0x4F    
+    { QCO_ESCAPE,        "QCO_ESCAPE",        {qca_escape,       qca_null,        qca_null}},    // QCO_ESCAPE              0x50    
     { QCO_GOTO,          "QCO_GOTO",          {qca_goto,         qca_null,        qca_null}},
     // QCO_OFF                 0x52    
     { QCO_ONERR,         "QCO_ONERR",         {qca_onerr,        qca_null,        qca_null}},    // QCO_ONERR               0x53    

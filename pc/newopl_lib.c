@@ -530,7 +530,9 @@ void init_machine(NOBJ_MACHINE *m)
   //m->rta_sp = 0x3ED0;       // For example 4 just ex4
   m->rta_fp = 0;
   m->rta_pc = 0;
-
+  m->rta_escf = 0;
+  m->cursor_flag = 0;
+  
   // No error so far
   m->error_occurred = 0;
   
