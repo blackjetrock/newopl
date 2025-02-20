@@ -135,6 +135,7 @@ typedef struct _NOBJ_MACHINE
   int rta_pc;
   int rta_fp;
   int cursor_flag;
+  int clock_flag;
   int rta_escf;
   int onerr_handler;
   int error_code;

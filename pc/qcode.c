@@ -926,6 +926,20 @@ void qca_break(NOBJ_MACHINE *m, NOBJ_QCS *s)
 //------------------------------------------------------------------------------
 //
 
+void qca_clock(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  int prev = m->clock_flag;
+
+  m->clock_flag = s->integer;
+  
+  dbq("CLOCK: Previous state:%d, state now:%d", prev, m->clock_flag);
+
+  s->result = prev;
+}
+
+//------------------------------------------------------------------------------
+//
+
 void qca_stop(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   dbq("STOP, exiting");
@@ -3584,8 +3598,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_DELETEW             0xD4
     { RTF_UDG,           "RTF_UDG",           {qca_pop_9int,     qca_null,        qca_null}},    // RTF_UDG                 0xD5
 
-    // RTF_CLOCK               0xD6
-    { RTF_DOW,                "RTF_DOW",                 {qca_null,          qca_dow,            qca_null}},                // RTF_DOW                 0xD7
+    { RTF_CLOCK,         "RTF_CLOCK",         {qca_pop_int,     qca_clock,        qca_push_result}},    // RTF_CLOCK               0xD6
+    { RTF_DOW,           "RTF_DOW",           {qca_null,        qca_dow,          qca_null}},                // RTF_DOW                 0xD7
     // RTF_FINDW               0xD8
     { RTF_MENUN,         "RTF_MENUN",         {qca_rtf_menun,    qca_null,        qca_null}},    // RTF_MENUN               0xD9
     { RTF_WEEK,          "RTF_WEEK",          {qca_null,         qca_week,        qca_null}},    // RTF_WEEK                0xDA
