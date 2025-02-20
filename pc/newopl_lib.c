@@ -525,7 +525,7 @@ void init_machine(NOBJ_MACHINE *m)
   init_sp(m, NOBJ_MACHINE_STACK_SIZE);
   
   // CM stack for testing
-  init_sp(m, 0x3F00);       // For full example 4
+  init_sp(m, NOBJ_MACHINE_STACK_HIGH);       // For full example 4
   
   //m->rta_sp = 0x3ED0;       // For example 4 just ex4
   m->rta_fp = 0;

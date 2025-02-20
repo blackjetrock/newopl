@@ -25,6 +25,8 @@
 
 //#define NOBJ_MACHINE_STACK_SIZE         65535
 #define NOBJ_MACHINE_STACK_SIZE         0x3eff
+#define NOBJ_MACHINE_STACK_LOW          0x0100
+#define NOBJ_MACHINE_STACK_HIGH         0x3f00
 
 #define NOBJ_PRT_MAX_LINE                 800
 

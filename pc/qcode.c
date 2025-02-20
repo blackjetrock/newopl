@@ -948,6 +948,90 @@ void qca_stop(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 //------------------------------------------------------------------------------
 //
+// Allow peeks in the stack
+//
+
+#define STACK_ADDRESS(XXX) ((XXX <= NOBJ_MACHINE_STACK_HIGH) && (XXX >= NOBJ_MACHINE_STACK_LOW))
+
+void qca_peekw(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_INT w;
+  
+  s->result = 0;
+  
+  if( STACK_ADDRESS(s->integer2) )
+    {
+      dbq("Stack address");
+
+      w  = 256*(m->stack[s->integer2]);
+      w += m->stack[s->integer2+1];
+
+      s->result = w;
+    }
+  
+  dbq("PEEKW(%04X) = %04X", s->integer2, w);
+
+}
+
+void qca_peekb(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_INT w;
+  
+  s->result = 0;
+  
+  if( STACK_ADDRESS(s->integer2) )
+    {
+      dbq("Stack address");
+
+      w = m->stack[s->integer2];
+
+      s->result = w;
+    }
+  
+  dbq("PEEKW(%04X) = %04X", s->integer2, w);
+}
+
+//------------------------------------------------------------------------------
+
+void qca_pokew(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_INT w = 0;
+
+  dbq("POKEW(%04X, %04X)", s->integer2, s->integer);
+  
+  if( STACK_ADDRESS(s->integer2) )
+    {
+      dbq("Stack address");
+
+      m->stack[s->integer2+0] = s->integer / 256;
+      m->stack[s->integer2+1] = s->integer & 0xFF;
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void qca_pokeb(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  NOPL_INT w;
+  
+  dbq("POKEW(%04X, %04X)", s->integer2, s->integer);
+
+  if( (s->integer > 255) || (s->integer <0))
+    {
+      runtime_error(ER_FN_BA, "POKEB value is not a byte");
+      return;
+    }
+  
+  if( STACK_ADDRESS(s->integer2) )
+    {
+      dbq("Stack address");
+
+      m->stack[s->integer2+0] = s->integer & 0xFF;
+    }
+}
+
+//------------------------------------------------------------------------------
+//
 
 void qca_escape(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -3464,8 +3548,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     // QCO_OFF                 0x52    
     { QCO_ONERR,         "QCO_ONERR",         {qca_onerr,        qca_null,        qca_null}},    // QCO_ONERR               0x53    
     { QCO_PAUSE,         "QCO_PAUSE",         {qca_pop_int,      qca_pause,       qca_null}},    // QCO_PAUSE               0x54
-    // QCO_POKEB               0x55    
-    // QCO_POKEW               0x56    
+    { QCO_POKEB,         "QCO_POKEB",         {qca_pop_2int,     qca_pokeb,       qca_null}},    // QCO_POKEB               0x55    
+    { QCO_POKEW,         "QCO_POKEW",         {qca_pop_2int,     qca_pokew,       qca_null}},    // QCO_POKEW               0x56    
     { QCO_RAISE,         "QCO_RAISE",         {qca_raise,        qca_null,        qca_null}},    // QCO_RAISE               0x57    
     { QCO_RANDOMIZE,     "QCO_RANDOMIZE",     {qca_pop_num,      qca_randomize,   qca_null}},    // QCO_RANDOMIZE           0x58    
     { QCO_STOP,          "QCO_STOP",          {qca_stop,         qca_null,        qca_null}},    // QCO_STOP                0x59    
@@ -3534,8 +3618,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_MENU,          "RTF_MENU",          {qca_rtf_menu,     qca_null,        qca_null}},          // RTF_MENU                0x98
     { RTF_MINUTE,        "RTF_MINUTE",        {qca_clock_minute, qca_null,        qca_null}},
     { RTF_MONTH,         "RTF_MONTH",         {qca_clock_month,  qca_null,        qca_null}},
-    // RTF_PEEKB               0x9B    
-    // RTF_PEEKW               0x9C    
+    { RTF_PEEKB,         "RTF_PEEKB",         {qca_pop_int,      qca_peekb,       qca_push_result}},    // RTF_PEEKB               0x9B    
+    { RTF_PEEKW,         "RTF_PEEKW",         {qca_pop_int,      qca_peekw,       qca_push_result}},   // RTF_PEEKW               0x9C    
     // RTF_RECSIZE             0x9D
     { RTF_SECOND,        "RTF_SECOND",        {qca_clock_second, qca_null,        qca_null}},
     // RTF_IUSR                0x9F    
