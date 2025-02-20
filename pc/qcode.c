@@ -908,6 +908,33 @@ void qca_cursor(NOBJ_MACHINE *m, NOBJ_QCS *s)
 //------------------------------------------------------------------------------
 //
 
+void qca_special(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  dbq("QCO_SPECIAL not supported, exiting");
+  s->done = 1;
+}
+
+//------------------------------------------------------------------------------
+//
+
+void qca_break(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  dbq("BREAK, exiting");
+  s->done = 1;
+}
+
+//------------------------------------------------------------------------------
+//
+
+void qca_stop(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  dbq("STOP, exiting");
+  s->done = 1;
+}
+
+//------------------------------------------------------------------------------
+//
+
 void qca_escape(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   m->rta_escf = qcode_next_8(m);  // Get type
@@ -3375,8 +3402,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QI_INT_CON,        "QI_INT_CON",        {qca_null,         qca_null,        qca_int_qc_con}},
     { QI_NUM_CON,        "QI_NUM_CON",        {qca_null,         qca_null,        qca_num_qc_con}},
     { QI_STR_CON,        "QI_STR_CON",        {qca_null,         qca_null,        qca_str_qc_con}},
-    // QCO_SPECIAL             0x25    
-    // QCO_BREAK               0x26
+    { QCO_SPECIAL,       "QCO_SPECIAL",       {qca_special,      qca_null,        qca_null}},            // QCO_SPECIAL             0x25    
+    { QCO_BREAK,         "QCO_BREAK",         {qca_break,        qca_null,        qca_null}},            // QCO_BREAK               0x26
     { QCO_LT_INT,        "QI_LT_INT",         {qca_pop_2int,     qca_lt_int,      qca_null}},
     { QCO_LTE_INT,       "QI_LTE_INT",        {qca_pop_2int,     qca_lte_int,     qca_null}},
     { QCO_GT_INT,        "QI_GT_INT",         {qca_pop_2int,     qca_gt_int,      qca_null}},
@@ -3427,7 +3454,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // QCO_POKEW               0x56    
     { QCO_RAISE,         "QCO_RAISE",         {qca_raise,        qca_null,        qca_null}},    // QCO_RAISE               0x57    
     { QCO_RANDOMIZE,     "QCO_RANDOMIZE",     {qca_pop_num,      qca_randomize,   qca_null}},    // QCO_RANDOMIZE           0x58    
-    // QCO_STOP                0x59    
+    { QCO_STOP,          "QCO_STOP",          {qca_stop,         qca_null,        qca_null}},    // QCO_STOP                0x59    
     // QCO_TRAP                0x5A    
     { QCO_APPEND,         "QCO_APPEND",         {qca_append,      qca_null,       qca_null}},    // QCO_APPEND              0x5B    
     { QCO_CLOSE,          "QCO_CLOSE",          {qca_close,       qca_null,       qca_null}},     // QCO_CLOSE               0x5C    
