@@ -177,7 +177,9 @@ If you want to run the execution test extst_XXXX.opl then use:
 
 <br><code>./ef XXXX</code>
 
+If you want to execute a test in the debugger use:
 
+<br><code>./eft XXXX</code>
 
 
 Things I didn't know about OPL when I started
