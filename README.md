@@ -212,7 +212,7 @@ Things I didn't know about OPL when I started
   </code>code>
   which gives an error when translated on an Organiser.
 
-* Even though the DAYS keyword returns an integer, the RTF_DAYS QCode returns a float.
+* Even though all the documentation says the DAYS keyword returns an integer, it doesn't, it returns a float. This is because the number of days from 1/1/1900 won't fit in an integer after 18th Sep 1989. The RTF_DAYS QCode returns a float. There are examples of OPL code that treat the result of DAYS as a float and assign it to a float variable.
     
 
 
