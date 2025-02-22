@@ -1,0 +1,56 @@
+
+Filename:'whilelop'
+File ext:'ob3
+Dropping OB3 header...
+Enter:dump_proc
+Var Space Size:0004
+QCode Space Size:0027
+Number of parameters:00
+Parameter types:
+Global varname Size:0000
+Global variables (0)
+
+External varname Size:0000
+External variables (0)
+
+String length fixups (0)
+
+Array size fixups (0)
+
+QCode
+
+0000: 59       STOP     (bytes code:-)
+0001: B2       SIN     (bytes code:-)
+0002: 0D       Push local/global integer variable reference     (bytes code:v)
+0003: FFFC       (65532)
+0005: 22       Push integer literal     (bytes code:I)
+0006: 0000       (0)
+0008: 7F       Assign integer     (bytes code:-)
+0009: 00       Push local/global integer variable value     (bytes code:v)
+000A: FFFC       (65532)
+000C: 22       Push integer literal     (bytes code:I)
+000D: 2710       (10000)
+000F: 28       Less than equal integer     (bytes code:-)
+0010: 7E       Branch if false     (bytes code:D)
+0011: Dest:0026 (Dist:0015)
+0013: 00       Push local/global integer variable value     (bytes code:v)
+0014: FFFC       (65532)
+0016: 6F       PRINT integer     (bytes code:-)
+0017: 73       PRINT newline     (bytes code:-)
+0018: 0D       Push local/global integer variable reference     (bytes code:v)
+0019: FFFC       (65532)
+001B: 00       Push local/global integer variable value     (bytes code:v)
+001C: FFFC       (65532)
+001E: 22       Push integer literal     (bytes code:I)
+001F: 0001       (1)
+0021: 2D       Plus integer     (bytes code:-)
+0022: 7F       Assign integer     (bytes code:-)
+0023: 51       GOTO     (bytes code:D)
+0024: Dest:0009 (Dist:FFFFFFE5)
+0026: 7B       RETURN (float 0)     (bytes code:-)
+
+QCode Data
+
+0000:59 B2 0D FF FC 22 00 00 7F 00 FF FC 22 27 10 28 
+0010:7E 00 15 00 FF FC 6F 73 0D FF FC 00 FF FC 22 00 
+0020:01 2D 7F 51 FF E5 7B 
