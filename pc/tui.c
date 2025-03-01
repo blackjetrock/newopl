@@ -28,6 +28,10 @@ WINDOW *qcode_win;
 WINDOW *output_win;
 WINDOW *printer_win;
 
+// Cursor handling
+int menu_cursor = 0;
+int menu_cur_x = 0;
+int menu_cur_y = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -336,6 +340,16 @@ void tui_display_machine(NOBJ_MACHINE *m)
 
 void machine_win_keyfn(void)
 {
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void tui_set_cursor_pos(void)
+{
+  if( menu_cursor)
+    {
+      mvprintw(menu_cur_y, menu_cur_x, "");
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -795,6 +809,8 @@ void tui_step(NOBJ_MACHINE *m, int *done)
       tui_display_machine(m);
       tui_display_variables(m);
       tui_display_qcode(m);
+
+      tui_set_cursor_pos();
       
       c = wgetch(stdscr);
       

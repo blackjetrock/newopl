@@ -2,6 +2,7 @@
 
 #include "nopl.h"
 
+#define MENU_DB 0
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -13,36 +14,94 @@ int mn_menu(char *str)
   char sels[MAX_NOPL_MENU_SELS];
   char *sp;
   int num_sels = 0;
+  int strx, stry;
 
-  // Display menu string
 #if TUI
-  wprintw(output_win, "%s\n", str);
-  wrefresh(output_win);
+  //getyx(output_win, stry, strx);
+ 
+  // Display menu string
+
+  //wprintw(output_win, "%s\n", str);
+
+  //wrefresh(output_win);
 #else
+#if MENU_DB
   printf("\n%s\n", str);
+#endif
 #endif
   
   // Find the selection letters
   sp = str;
-  sels[num_sels++] = *sp;
+  //  sels[num_sels++] = *sp;
+  
+  int i=0;
+  int ipos[32];
+  int iposx[32];
+  int iposy[32];
+  char selchar[32];
+  
+  char frag[2] = " ";
+
+  // Find each of the menu items, print them and store their first characters
+  // and the cursor positions of those characters.
   
   while( *sp != '\0')
     {
-      if( *sp == ',' )
+      if( (i==0) || (*sp == ',') || (*sp == ' ') )
 	{
-	  sels[num_sels++] = *(sp+1);
+	  if( i==0 )
+	    {
+	      selchar[num_sels] = *(sp);
+	      sels[num_sels] = *(sp);
+	    }
+	  else
+	    {
+	      selchar[num_sels] = *(sp+1);
+	      sels[num_sels] = *(sp+1);	      
+	    }
+
+#if TUI
+	  getyx(output_win, iposy[num_sels], iposx[num_sels]);
+#endif
+	  frag[0] = *sp;
+#if TUI
+	  wprintw(output_win, "%s", frag);
+#else
+	  printf("%s", frag);
+#endif
+	  num_sels++;
 	}
+      else
+	{
+	  frag[0] = *sp;
+#if TUI
+	  wprintw(output_win, "%s", frag);
+#else
+	  printf("%s", frag);
+#endif
+	}
+      
       sp++;
+      i++;
     }
 
-#if 0
-  printf("\n%d sels\n", num_sels);
-  
-  for(int i=0; i<num_sels; i++)
-    {
-      printf("\n%i:%c", i, sels[i]);
-    }
+#if TUI
+  wprintw(output_win, "\n");
+  wrefresh(output_win);
+#else
   printf("\n");
+#endif
+  
+#if MENU_DB
+  // Dump all the data gathered
+  printf("\nStr:'%s'", str);
+  
+  for(int s=0; s<num_sels; s++)
+    {
+      printf("\n%02i:selchar:'%c' X,y:%d,%d", s,  selchar[s], iposx[s], iposy[s]);
+    }
+  printf("\n...\n");
+
 #endif
   
   // Wait for one of the selection letters to be pressed
@@ -54,6 +113,11 @@ int mn_menu(char *str)
 
   while(!done)
     {
+#if TUI
+      mvprintw(stry, strx+ipos[selnum], "");
+      wrefresh(output_win);
+#endif
+      
 #if TUI
       key = wgetch(stdscr);
 #else
@@ -75,7 +139,7 @@ int mn_menu(char *str)
 	  wprintw(output_win, "\nKey:%02X", key);
 	  wrefresh(output_win);
 #endif
-	  for(int i= 0; i<num_sels; i++)
+	  for(int i=selnum; (i!=selnum-1)&&!done; i=((i+1) % num_sels))
 	    {
 	      if( key == sels[i] )
 		{

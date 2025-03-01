@@ -14,3 +14,7 @@ extern WINDOW *machine_win;
 extern WINDOW *qcode_win;
 extern WINDOW *output_win;
 extern WINDOW *printer_win;
+  
+extern int menu_cursor;
+extern int menu_cur_x;
+extern int menu_cur_y;
