@@ -58,6 +58,7 @@ int mn_menu(char *str)
 
 	      // Copy entry string
 	      strncpy(&(selstr[num_sels-1][0]),  str+start, i-start);
+	      selstr[num_sels-1][63] = '\0';
 	      start = i+1;
 	    }
 
@@ -86,7 +87,8 @@ int mn_menu(char *str)
     }
 
   strncpy(&(selstr[num_sels-1][0]),  str+start, i-start);
-	      
+  selstr[num_sels-1][63] = '\0';
+  
   // Correct the totals for the first characters of the entries
   for(int i=0; i<num_sels; i++)
     {
@@ -194,7 +196,7 @@ int mn_menu(char *str)
   return(selnum);
 #else
 
-  // On command line, print the selectuions and nunbers and allow the number to be selected
+  // On command line, print the selections and nunbers and allow the number to be selected
   for(int i=0; i<num_sels; i++)
     {
       printf("\n%d:%s", i+1, selstr[i]);
