@@ -58,7 +58,7 @@ int mn_menu(char *str)
 
 	      // Copy entry string
 	      strncpy(&(selstr[num_sels-1][0]),  str+start, i-start);
-	      selstr[num_sels-1][63] = '\0';
+	      selstr[num_sels-1][i-start] = '\0';
 	      start = i+1;
 	    }
 
@@ -87,7 +87,7 @@ int mn_menu(char *str)
     }
 
   strncpy(&(selstr[num_sels-1][0]),  str+start, i-start);
-  selstr[num_sels-1][63] = '\0';
+  selstr[num_sels-1][i-start] = '\0';
   
   // Correct the totals for the first characters of the entries
   for(int i=0; i<num_sels; i++)
