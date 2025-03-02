@@ -130,35 +130,52 @@ int mn_menu(char *str)
   //
   // Process the menu, in the compiled manner
   //
-
+  //------------------------------------------------------------------------------
+  
 #if TUI
+
+  // TUI has a display that is more similar to the original Organiser
+  
   // Wait for one of the selection letters to be pressed
   int done = 0;
+  int done_srch = 0;
   int selnum = 0;
   int key;
+
+  curs_set(3);
+  
+  // Display the menu, storing the positions of the entries
+  for(int i=0; i<num_sels; i++)
+    {
+      wprintw(output_win, " ");
+      getyx(output_win, iposy[i], iposx[i]);
+      wprintw(output_win, selstr[i]);
+      wprintw(output_win, " ");
+    }
+  
+  wrefresh(output_win);
 
   keypad(stdscr, TRUE);
 
   while(!done)
     {
-#if TUI
-      mvprintw(stry, strx+ipos[selnum], "");
+      //printf("\nLoop");
+      mvwprintw(output_win, iposy[selnum], iposx[selnum], "");
       wrefresh(output_win);
-#endif
-      
-#if TUI
+
       key = wgetch(stdscr);
-#else
-      key = fgetc(stdin);
-#endif
       
       switch(key)
 	{
 	case ERR:
 	  break;
 
-	case 13:
-	  printf("\nEnter");
+	case 10:
+	  done = 1;
+	  if( (selnum >=0) && (selnum < num_sels) )
+	    {
+	      done = 1;
+	    }
 	  break;
 	  
 	case 27:
@@ -171,19 +188,37 @@ int mn_menu(char *str)
 	  wprintw(output_win, "\nKey:%02X", key);
 	  wrefresh(output_win);
 #endif
-	  for(int i=selnum; (i!=selnum-1)&&!done; i=((i+1) % num_sels))
+	  done_srch = 0;
+	  
+	  // We have a key that could be the first letter of an entry
+	  int last_i = selnum>0? selnum-1 : num_sels-1;
+	  
+	  for(int i=selnum; (i != last_i) && !done_srch; i=((i+1) % num_sels))
 	    {
+	      //printf("\ni:%d selnum:%d", i, selnum);
 	      if( key == sels[i] )
 		{
 		  if( how_many_have_sel[i] == 1 )
 		    {
 		      selnum = i;
 		      done = 1;
+		      break;
 		    }
 		  else
 		    {
-		      // rotate around the entries and select with EXE (ENTER)
-		      
+		      // Rotate around the entries and select with EXE (ENTER)
+		      // Find next entry that starts with this letter
+		      for(int j=((i+1) % num_sels); (j!=i); j=((j+1) % num_sels))
+			{
+			  //printf("\nj:%d", j);
+			  if( key == sels[j] )
+			    {
+			      // Found it
+			      selnum = j;
+			      done_srch = 1;
+			      break;
+			    }
+			}
 		    }
 		}
 	    }
@@ -193,7 +228,7 @@ int mn_menu(char *str)
   
   nodelay(stdscr, 0);
   
-  return(selnum);
+  return(selnum+1);
 #else
 
   // On command line, print the selections and nunbers and allow the number to be selected
