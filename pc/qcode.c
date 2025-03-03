@@ -948,6 +948,15 @@ void qca_stop(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 //------------------------------------------------------------------------------
 //
+
+void qca_trap(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  dbq("TRAP, setting flag");
+  m->rtb_trap = 1;
+}
+
+//------------------------------------------------------------------------------
+//
 // Allow peeks in the stack
 //
 
@@ -2709,6 +2718,8 @@ void qca_add_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 // The datapack to use is in the filename before the colon
 // the filename on the pack is after the colon.
 //
+// TRAP used
+//
 
 void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
@@ -3560,7 +3571,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_RAISE,         "QCO_RAISE",         {qca_raise,        qca_null,        qca_null}},    // QCO_RAISE               0x57    
     { QCO_RANDOMIZE,     "QCO_RANDOMIZE",     {qca_pop_num,      qca_randomize,   qca_null}},    // QCO_RANDOMIZE           0x58    
     { QCO_STOP,          "QCO_STOP",          {qca_stop,         qca_null,        qca_null}},    // QCO_STOP                0x59    
-    // QCO_TRAP                0x5A    
+    { QCO_TRAP,          "QCO_TRAP",          {qca_trap,         qca_null,        qca_null}},    // QCO_TRAP                0x5A    
     { QCO_APPEND,         "QCO_APPEND",         {qca_append,      qca_null,       qca_null}},    // QCO_APPEND              0x5B    
     { QCO_CLOSE,          "QCO_CLOSE",          {qca_close,       qca_null,       qca_null}},     // QCO_CLOSE               0x5C    
     // QCO_COPY                0x5D    
