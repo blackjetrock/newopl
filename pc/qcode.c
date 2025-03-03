@@ -2491,6 +2491,13 @@ void qca_goto(NOBJ_MACHINE *m, NOBJ_QCS *s)
   m->rta_pc += offset -2;
 }
 
+//------------------------------------------------------------------------------
+
+void qca_off(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  dbq("OFF: Not supported");
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -3545,7 +3552,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_CURSOR,        "QCO_CURSOR",        {qca_cursor,       qca_null,        qca_null}},    // QCO_CURSOR              0x4F    
     { QCO_ESCAPE,        "QCO_ESCAPE",        {qca_escape,       qca_null,        qca_null}},    // QCO_ESCAPE              0x50    
     { QCO_GOTO,          "QCO_GOTO",          {qca_goto,         qca_null,        qca_null}},
-    // QCO_OFF                 0x52    
+    { QCO_OFF,           "QCO_OFF",           {qca_off,          qca_null,        qca_null}},    // QCO_OFF                 0x52    
     { QCO_ONERR,         "QCO_ONERR",         {qca_onerr,        qca_null,        qca_null}},    // QCO_ONERR               0x53    
     { QCO_PAUSE,         "QCO_PAUSE",         {qca_pop_int,      qca_pause,       qca_null}},    // QCO_PAUSE               0x54
     { QCO_POKEB,         "QCO_POKEB",         {qca_pop_2int,     qca_pokeb,       qca_null}},    // QCO_POKEB               0x55    
