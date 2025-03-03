@@ -134,11 +134,12 @@ typedef struct _NOBJ_MACHINE
   NOBJ_SP rta_sp;
   int rta_pc;
   int rta_fp;
+  int rtb_trap;
   int cursor_flag;
   int clock_flag;
   int rta_escf;
   int onerr_handler;
-  int error_code;
+  int rtb_eror;
   int error_occurred;
   char error_string[80];
 } NOBJ_MACHINE;

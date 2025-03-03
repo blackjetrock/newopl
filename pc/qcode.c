@@ -678,12 +678,12 @@ void qca_push_qc_word(NOBJ_MACHINE *m, NOBJ_QCS *s)
 void qca_raise(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {  
   m->error_occurred = 1;
-  m->error_code = pop_machine_int(m);
+  m->rtb_eror = pop_machine_int(m);
 }
 
 void qca_err(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {  
-  s->result = m->error_code;
+  s->result = m->rtb_eror;
 }
 
 // Set a flag that will be seen in the main exec loop
