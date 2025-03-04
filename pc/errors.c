@@ -123,6 +123,31 @@ void runtime_error(int error_code, char *fmt, ...)
   strcpy(current_machine->error_string, line);
 }
 
+//------------------------------------------------------------------------------
+
+// Runtime error only if not trapped, otherwise just set up error code
+
+void trappable_runtime_error(int error_code, char *fmt, ...)
+{
+  if( !current_machine->rtb_trap )
+    {
+      // Signal to the QCode loop that an error has occurred
+      current_machine->error_occurred = 1;
+    }
+
+  current_machine->rtb_eror = error_code;
+
+  va_list valist;
+  char line[80];
+  
+  va_start(valist, fmt);
+  
+  vsprintf(line, fmt, valist);
+  va_end(valist);
+
+  strcpy(current_machine->error_string, line);
+}
+
 void runtime_error_print(void)
 {
   dbq("Runtime error: error code: %d ***", current_machine->rtb_eror);

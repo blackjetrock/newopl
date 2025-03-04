@@ -74,6 +74,7 @@
 #define ER_TM_MN  310   // Month number out of range
 
 void runtime_error(int error_code, char *fmt, ...);
+void trappable_runtime_error(int error_code, char *fmt, ...);
 char *error_text(int error_code);
 void runtime_error_msg(int error_code, char *fmt, ...);
 void runtime_error_print(void);

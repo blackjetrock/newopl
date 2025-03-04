@@ -2713,7 +2713,7 @@ void qca_add_str(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 //------------------------------------------------------------------------------
 //
-// Open and create are similar so we use the same functin here.
+// Open and create are similar so we use the same function here.
 //
 // The datapack to use is in the filename before the colon
 // the filename on the pack is after the colon.
@@ -2736,7 +2736,7 @@ void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
     
   if( logfile >= NOPL_NUM_LOGICAL_FILES )
     {
-      runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
+      trappable_runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
       return;
     }
   
@@ -2769,10 +2769,11 @@ void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
     {
       if( logical_file_info[logfile].open )
 	{
-	  runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
+	  trappable_runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
 	}
 
       // Open the file
+      fl_open(logfile);
       
       logical_file_info[logfile].open = 1;
     }
@@ -2781,11 +2782,13 @@ void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
     {
       if( logical_file_info[logfile].open )
 	{
-	  runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
+	  trappable_runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
 	}
+      
+      logical_file_info[logfile].rec_type =  fl_cret(logfile, 0);
     }
 
-  logical_file_info[logfile].rec_type =  fl_cret(logfile, 0);
+
 }
 
 //------------------------------------------------------------------------------
@@ -2814,6 +2817,21 @@ void qca_rtf_exist(NOBJ_MACHINE *m, NOBJ_QCS *s)
     {
       s->result = NOBJ_FALSE;
     }
+}
+
+//------------------------------------------------------------------------------
+
+void qca_count(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+
+  PAK_ADDR first_free;
+  int num_recs;
+  int bytes_free;
+
+  // Get currently open file details
+  fl_size(&bytes_free, &num_recs, &first_free);
+
+  s->result = num_recs;
 }
 
 //------------------------------------------------------------------------------
@@ -3617,8 +3635,8 @@ NOBJ_QCODE_INFO qcode_info[] =
     { QCO_DROP_STR,      "QCO_DROP_STR",      {qca_pop_str,      qca_null,        qca_null}},
     { QCO_INT_TO_NUM,    "QCO_INT_TO_NUM",    {qca_pop_int,      qca_int_to_num,  qca_push_num_result}},
     { QCO_NUM_TO_INT,    "QCO_NUM_TO_INT",    {qca_pop_num,      qca_num_to_int,  qca_push_result}},
-    // QCO_END_FIELDS          0x88    
-    // QCO_RUN_ASSEM           0x89    
+    // QCO_END_FIELDS          0x88      *** Should never be executed 
+    // QCO_RUN_ASSEM           0x89      *** Assembly not supported
     { RTF_ADDR,          "RTF_ADDR",          {qca_pop_ref,      qca_null,        qca_null}},
     { RTF_ASC,           "RTF_ASC",           {qca_pop_str,      qca_asc,         qca_push_result}},
     { RTF_DAY,           "RTF_DAY",           {qca_clock_day,    qca_null,        qca_null}},
@@ -3643,7 +3661,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     // RTF_IUSR                0x9F    
     // RTF_VIEW                0xA0    
     { RTF_YEAR,          "RTF_YEAR",          {qca_clock_year,   qca_null,        qca_null}},
-    // RTF_COUNT               0xA2    
+    { RTF_COUNT,         "RTF_COUNT",         {qca_count,        qca_null,        qca_push_result}},    // RTF_COUNT               0xA2    
     // RTF_EOF                 0xA3    
     { RTF_EXIST,         "RTF_EXIST",         {qca_pop_str,      qca_rtf_exist,   qca_push_result}},    // RTF_EXIST               0xA4    
     // RTF_POS                 0xA5

@@ -64,7 +64,7 @@ void fl_print_len_string(char *str, int len)
 //
 // Uses a caller-supplied context that allows nested calls to the service
 //
-// Doies not alter pak address
+// Does not alter pak address
 //
 // Returns record data
 //         pak address of start of record
@@ -407,6 +407,14 @@ FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
 #endif
   
   pk_setp(pkb_curp);
+
+#if 0
+  // Format pak (temporary call)
+  pk_fmat(logfile);
+
+#if DEBUG
+  printf("\nFormatted");
+#endif
   
   // Open file as create
   pk_open(logfile);
@@ -415,13 +423,13 @@ FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
   printf("\nOpened");
 #endif
   
+#else
+  pk_create(logfile);
+
   // Format pak (temporary call)
   pk_fmat(logfile);
-
-#if DEBUG
-  printf("\nFormatted");
 #endif
-  
+
   rc = fl_catl(1, pkb_curp, fn, &rectype);
 
   while(rc == 1)
@@ -832,10 +840,10 @@ int fl_rpos(void)
   
 ////////////////////////////////////////////////////////////////////////////////
 
-void fl_open(char *name)
+void fl_open(int logfile)
 {
   // Open current file
-  pk_open(current_logfile);
+  pk_open(logfile);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

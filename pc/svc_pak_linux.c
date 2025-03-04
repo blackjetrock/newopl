@@ -40,9 +40,38 @@ LINUX_FILE_INFO linux_file_info[NOPL_NUM_LOGICAL_FILES];
 //#define FLASH_PAK_SIZE    ((uint32_t)(1024*1024*1))
 #define FLASH_PAK_SIZE    ((uint32_t)(1024*64))
 
+//------------------------------------------------------------------------------
+//
+// Open for reading
+//
+
 void pk_open_linux(int logfile, char *filename)
 {
+  LINFI.fp = fopen(filename, "rb+");
+
+  if( LINFI.fp == NULL )
+    {
+      trappable_runtime_error(ER_FL_NX, "File does not exist:'%s'", filename);
+    }
+
+#if DEBUG
+  printf("\n%s:fp=%X name:'%s' logfile=%d", __FUNCTION__, LINFI.fp, filename, logfile);
+#endif
+}
+
+//------------------------------------------------------------------------------
+//
+// Open for creating
+//
+
+void pk_create_linux(int logfile, char *filename)
+{
   LINFI.fp = fopen(filename, "wb+");
+
+  if( LINFI.fp == NULL )
+    {
+      trappable_runtime_error(ER_FL_NX, "File cannot be created:'%s'", filename);
+    }
 
 #if DEBUG
   printf("\n%s:fp=%X name:'%s' logfile=%d", __FUNCTION__, LINFI.fp, filename, logfile);
