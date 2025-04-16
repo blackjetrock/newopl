@@ -27,7 +27,6 @@ typedef struct _NOPL_LOGICAL_FILE
   char         *field_name[NOPL_MAX_FIELDS];
   int          num_field_names;
   NOBJ_VARTYPE field_type[NOPL_MAX_FIELDS];
-  
   int          fname_pool_i;
   char         field_name_charpool[NOPL_MAX_FIELDS*(NOPL_MAX_FIELD_NAME+1)];
 } NOPL_LOGICAL_FILE;

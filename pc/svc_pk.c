@@ -9,6 +9,8 @@
 // A:Pico flash
 // B:Recreation serial EEPROM
 //
+// Linux version has A,B,C and D as linux file system calls
+// Each file is in a different file.
 
 #include <ctype.h>
 #include <stdio.h>
@@ -185,9 +187,7 @@ void pk_open(int logfile)
 {
   char *filename = logical_file_info[logfile].name;
 
-#if DEBUG
-  printf("\nOpening '%s'", filename);
-#endif
+  dbq("Opening '%s'", filename);
   
   // Branch to the pak drivers
   return( (*pk_drivers[pkb_curp].open)(logfile, filename+2));
@@ -199,9 +199,7 @@ void pk_create(int logfile)
 {
   char *filename = logical_file_info[logfile].name;
 
-#if DEBUG
-  printf("\nOpening '%s'", filename);
-#endif
+  dbq("Creating '%s'", filename);
   
   // Branch to the pak drivers
   return( (*pk_drivers[pkb_curp].create)(logfile, filename+2));
@@ -212,6 +210,8 @@ void pk_create(int logfile)
 void pk_close(int logfile)
 {
   char *filename = logical_file_info[logfile].name;
+
+  dbq("Closing '%s'", filename);
   
   // Branch to the pak drivers
   return( (*pk_drivers[pkb_curp].close)(logfile, filename+2));

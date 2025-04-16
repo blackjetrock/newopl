@@ -7,8 +7,9 @@
 
 #include "nopl.h"
 
-#define DEBUG 0
-#define DB_FL_SCAN_PAK 0
+#define DEBUG 1
+#define DB_FL_SCAN_PAK 1
+#define DB_FL_SIZE     1
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -58,6 +59,36 @@ void fl_print_len_string(char *str, int len)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+char *fl_op_to_text(FL_OP op)
+{
+  switch(op)
+    {
+    case FL_OP_OPEN:
+      return("FL_OP_OPEN");
+      break;
+
+    case FL_OP_CLOSE:
+      return("FL_OP_CLOSE");
+      break;
+
+    case FL_OP_FIRST:
+      return("FL_OP_FIRST");
+      break;
+
+    case FL_OP_NEXT:
+      return("FL_OP_NEXT");
+      break;
+
+    default:
+      return("FL_OP_????");
+      break;
+    }
+  
+  return("????");
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 // Device already open when accessed
 // first is 1 for first call, 0 thereafter
 // return value is 1 if record found, 0 if not
@@ -77,8 +108,8 @@ int fl_scan_pak(FL_SCAN_PAK_CONTEXT *context, FL_OP op, int device, uint8_t *des
   PAK_ADDR rec_start = 0;
 
 #if DB_FL_SCAN_PAK
-  printf("\n%s:ENTRY:op:%d len_byte:%02X rectype:%02X", __FUNCTION__, op, length_byte, record_type);
-  printf("\n%s:CPAD:%04X", __FUNCTION__, pk_qadd());
+  dbq("ENTRY:op:%s len_byte:%02X rectype:%02X", fl_op_to_text(op), length_byte, record_type);
+  dbq("CPAD:%04X",  pk_qadd());
 #endif
 
   fl_check_op();
@@ -114,11 +145,12 @@ int fl_scan_pak(FL_SCAN_PAK_CONTEXT *context, FL_OP op, int device, uint8_t *des
   record_type = pk_rbyt();
 
 #if DB_FL_SCAN_PAK
-  printf("\n%s:CPAD:%04X", __FUNCTION__, pk_qadd());
+  dbq("CPAD:%04X", pk_qadd());
 #endif
   
   if( length_byte == 0 )
     {
+      dbq("Length byte zero, exiting");
       pk_sadd(context->save_pak_addr);
       return(ER_FL_NP);
     }
@@ -130,7 +162,7 @@ int fl_scan_pak(FL_SCAN_PAK_CONTEXT *context, FL_OP op, int device, uint8_t *des
       pk_skip(block_length);
 
 #if DB_FL_SCAN_PAK
-      printf("\n%s:Long record:blk_len:%04X", __FUNCTION__, block_length);
+      dbq("Long record:blk_len:%04X", block_length);
 #endif
 
     }
@@ -139,7 +171,7 @@ int fl_scan_pak(FL_SCAN_PAK_CONTEXT *context, FL_OP op, int device, uint8_t *des
       if( record_type != 0xFF )
 	{
 #if DB_FL_SCAN_PAK
-	  printf("\n%s:Short record:len:%04X", __FUNCTION__, length_byte);
+	  dbq("Short record:type:%02X len:%04X", record_type, length_byte);
 #endif
 
 	  // Copy record start
@@ -155,7 +187,7 @@ int fl_scan_pak(FL_SCAN_PAK_CONTEXT *context, FL_OP op, int device, uint8_t *des
 	    }
 
 #if DB_FL_SCAN_PAK
-	  printf("\n%s:Exit(1):CPAD:%04X", __FUNCTION__, pkw_cpad);
+	  dbq("\n%s:Exit(1):CPAD:%04X", __FUNCTION__, pkw_cpad);
 #endif
 	  
 	  return(1);
@@ -169,7 +201,7 @@ int fl_scan_pak(FL_SCAN_PAK_CONTEXT *context, FL_OP op, int device, uint8_t *des
       pk_sadd(pkw_cpad-2);
 
 #if DB_FL_SCAN_PAK
-      printf("\n%s:Exit(0):CPAD:%04X\n", __FUNCTION__, pkw_cpad);
+      dbq("\n%s:Exit(0):CPAD:%04X\n", __FUNCTION__, pkw_cpad);
 #endif
 
       return(0);
@@ -178,7 +210,7 @@ int fl_scan_pak(FL_SCAN_PAK_CONTEXT *context, FL_OP op, int device, uint8_t *des
     {
       
 #if DB_FL_SCAN_PAK
-      printf("\n%s:Exit(?):CPAD:%04X\n", __FUNCTION__, pkw_cpad);
+      dbq("\n%s:Exit(?):CPAD:%04X\n", __FUNCTION__, pkw_cpad);
 #endif
   
       return(0);
@@ -195,7 +227,7 @@ void fl_pos_at_end(void)
   int rc = 0;
 
 #if DB_FL_POS_AT_END
-  printf("\n%s", __FUNCTION__);
+  dbq("\n%s", __FUNCTION__);
 #endif
   
   rc = fl_catl(1, pkb_curp, NULL, NULL);
@@ -206,7 +238,7 @@ void fl_pos_at_end(void)
     }
 
 #if DB_FL_POS_AT_END
-  printf("\n%s:exit Addr now:%04X", __FUNCTION__, pkw_cpad);
+  dbq("\n%s:exit Addr now:%04X", __FUNCTION__, pkw_cpad);
 #endif
 
 }
@@ -246,7 +278,7 @@ void fl_back(void)
       recno--;
       
 #if DB_FL_FIND
-      printf("\n%s:Recno:%d rect:%d", __FUNCTION__, recno, rectype);
+      dbq("\n%s:Recno:%d rect:%d", __FUNCTION__, recno, rectype);
 #endif
       
       if( fl_frec(recno, &pak_addr, &rectype, &reclen) )
@@ -301,7 +333,7 @@ int fl_catl(FL_OP op, int device, char *filename, uint8_t *rectype)
   FL_SCAN_PAK_CONTEXT context;
   
 #if DB_FL_CATL
-  printf("\n%s:\n", __FUNCTION__);
+  dbq("\n%s:\n", __FUNCTION__);
 #endif
   
   // Access device on first call
@@ -320,25 +352,27 @@ int fl_catl(FL_OP op, int device, char *filename, uint8_t *rectype)
 
   // Check record to see if it is a file
   // record type is 0x81
-
+  // We have a slightly different format here, allowing longer file names
+  
   while( rc )
     {
-
       rc = fl_scan_pak(&context, op, device, record_data, &recstart);
       
-      if( record_data[0] == 0x09 )
+      if( record_data[1] == 0x81 )
 	{
 	  if( record_data[1] == 0x81 )
 	    {
+	      int rec_data_len = record_data[0];
+	      
 	      // It is a file.
 	      if( rectype != NULL )
 		{
-		  *rectype = record_data[10];
+		  *rectype = record_data[2+rec_data_len];
 		}
 
 	      if( filename != NULL )
 		{
-		  for(int i=2; i<10; i++)
+		  for(int i=2; i<rec_data_len-1; i++)
 		    {
 		      *(filename++) = record_data[i];
 		    }
@@ -348,14 +382,13 @@ int fl_catl(FL_OP op, int device, char *filename, uint8_t *rectype)
 	      // Exit with file data
 	      break;
 	    }
-
 	}
       else
 	{
 	  // Do another loop, as this wasn't a file
 	}
 #if DB_FL_CATL
-      printf("\n%s:rc:%d recdat[0]:%d", __FUNCTION__, rc, record_data[0]);
+      dbq("\n%s:rc:%d recdat[0]:%d", __FUNCTION__, rc, record_data[0]);
 #endif
 
     }
@@ -391,7 +424,7 @@ FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
     }
 
 #if DEBUG  
-  printf("\n%s:", __FUNCTION__);
+  dbq("");
 #endif
   
   // Scan the pak and work out the record types that are used
@@ -402,55 +435,36 @@ FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
   
   char fn[256];
 
-#if DEBUG
-  printf("\nGetting record types");
-#endif
+  dbq("Getting record types");
   
   pk_setp(pkb_curp);
 
-#if 0
-  // Format pak (temporary call)
-  pk_fmat(logfile);
-
-#if DEBUG
-  printf("\nFormatted");
-#endif
-  
-  // Open file as create
-  pk_open(logfile);
-
-#if DEBUG
-  printf("\nOpened");
-#endif
-  
-#else
+  dbq("Creating pack");
   pk_create(logfile);
-
+  
   // Format pak (temporary call)
+  dbq("Formatting pak");
+  
   pk_fmat(logfile);
-#endif
 
+  // Start after header
+  dbq("Finding rec types in use");
+  pk_sadd(0xa);
   rc = fl_catl(1, pkb_curp, fn, &rectype);
 
   while(rc == 1)
     {
-#if DEBUG
-      printf("\n%s ($%02X) found", fn, rectype);
-#endif
-      
       used_rectypes[rectype - 0x90] = 1;
       rc = fl_catl(0, pkb_curp, fn, &rectype);
     }
 
-#if DEBUG
+  dbq("Rec types");
+  
   for(int i=0x90; i<=0xfe; i++)
     {
-      printf("\n%02X:%d", i, used_rectypes[i-0x90]);
+      dbq("%02X:%d", i, used_rectypes[i-0x90]);
     }
 
-  printf("\nDone...");
-#endif
-  
   // Now find a record type that isn't used
   new_rectype = 0;
 
@@ -464,15 +478,11 @@ FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
 
   if( new_rectype == 0 )
     {
-#if DEBUG
-      printf("\nNo new rec type available");
-#endif
+      dbq("No new rec type available");
     }
   else
     {
-#if DEBUG
-      printf("\nNew rectype of %02X available", new_rectype);
-#endif
+      dbq("New rectype of %02X available", new_rectype);
     }
 
   if( type != 0 )
@@ -480,26 +490,26 @@ FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
       new_rectype = type;
     }
 
-#if DEBUG
-  printf("\nFile record type:%02X", new_rectype);
-  printf("\n");
-#endif
+  dbq("File record type:%02X", new_rectype);
   
   // Create a file record entry at the end of the file
-  
-  // Write the record
+
+  int total_reclen = strlen(filename)+3;
+
+  // Write the file record
   // e.g.  09 81 4D 41 49 4E 20 20 20 20 90  filename "MAIN"
-  record[0] = 0x09;
+  record[0] = total_reclen-2;
   record[1] = 0x81;
-  for(int i=0; i<8; i++)
+
+  int i;
+  for(i=0; i<strlen(filename); i++)
     {
-      record[2+i] = *(filename++);
+      record[2+i] = *(filename+i);
     }
   
-  record[10] = new_rectype;
+  record[2+i] = new_rectype;
 
   PAK_ADDR pak_addr;
-  int reclen;
   int bytes_free;
   int num_recs;
   
@@ -507,11 +517,10 @@ FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
   fl_size(&bytes_free, &num_recs, &pak_addr);
   pk_sadd(pak_addr);
   
-  pk_save(11, record);
-#if DEBUG
-  printf("\nFile record type:%02X", new_rectype);
-  printf("\n");
-#endif
+  pk_save(total_reclen, record);
+
+  dbq("\nFile record type:%02X", new_rectype);
+  return(new_rectype);
 }
 
 void fl_deln(void)
@@ -540,14 +549,14 @@ void fl_eras(void)
   pk_read(1, &id0);
 
 #if DB_FL_ERAS
-  printf("\n%s:id0=%02X", __FUNCTION__, id0);
+  dbq("\n%s:id0=%02X", __FUNCTION__, id0);
 #endif
   
   if( id0 & 0x02,1 )
     {
       // EPROM pack
 #if DB_FL_ERAS
-  printf("\n%s:EPROM pak", __FUNCTION__);
+  dbq("\n%s:EPROM pak", __FUNCTION__);
 #endif
 
       // Clear top bit of record type of current record
@@ -561,16 +570,16 @@ void fl_eras(void)
 	  // Copy data
 	  // Skip the two byte header so we read just the data
 #if DB_FL_ERAS
-	  printf("\n%s:Addr;%04X", __FUNCTION__, pak_addr);
+	  dbq("\n%s:Addr;%04X", __FUNCTION__, pak_addr);
 #endif
 
 	  pk_sadd(pak_addr);
 	  pk_read(2, dest);
 	  
 #if DB_FL_ERAS
-	  printf("\nRead data:\n");
+	  dbq("\nRead data:\n");
 	  db_dump(dest, 2);
-	  printf("\n");
+	  dbq("\n");
 #endif
 
 	  // Clear the bit
@@ -581,9 +590,9 @@ void fl_eras(void)
 	  pk_save(2, dest);
 
 #if DB_FL_ERAS
-	  printf("\nWrite data:\n");
+	  dbq("\nWrite data:\n");
 	  db_dump(dest, 2);
-	  printf("\n");
+	  dbq("\n");
 #endif
 
 	}
@@ -620,7 +629,7 @@ int fl_find(char *srch, char *dest, int *len)
   uint8_t recdata[256];
 
 #if DB_FL_FIND
-  printf("\n%s:Entry", __FUNCTION__);
+  dbq("\n%s:Entry", __FUNCTION__);
 #endif
       
   // Get the current position and move to the next record
@@ -631,7 +640,7 @@ int fl_find(char *srch, char *dest, int *len)
   while(!done)
     {
 #if DB_FL_FIND
-      printf("\n%s:Recno:%d rect:%d", __FUNCTION__, recno, rectype);
+      dbq("\n%s:Recno:%d rect:%d", __FUNCTION__, recno, rectype);
 #endif
       
       if( fl_frec(recno, &pak_addr, &rectype, &reclen) )
@@ -641,18 +650,18 @@ int fl_find(char *srch, char *dest, int *len)
 	  save_pak_addr = pk_qadd();
 	  pk_sadd(pak_addr);
 #if DB_FL_FIND
-	  printf("\n%s:Reading %d bytes", __FUNCTION__, reclen+2);
+	  dbq("\n%s:Reading %d bytes", __FUNCTION__, reclen+2);
 #endif
 	  pk_read(reclen+2, recdata);
 	  
 #if DB_FL_FIND
-	  printf("\n%s:Recdata:", __FUNCTION__);
+	  dbq("\n%s:Recdata:", __FUNCTION__);
 	  fl_print_len_string(recdata+2, reclen);
 #endif
 	  pk_sadd(save_pak_addr);
 
 #if DB_FL_FIND
-	  printf("\n%s:TESTING %s against Recdata (%d bytes)", __FUNCTION__, srch, reclen);
+	  dbq("\n%s:TESTING %s against Recdata (%d bytes)", __FUNCTION__, srch, reclen);
 	  fl_print_len_string(recdata+2, reclen);
 #endif
 
@@ -663,7 +672,7 @@ int fl_find(char *srch, char *dest, int *len)
 	      if( (strncmp(&(recdata[i]), srch, strlen(srch)) == 0) || (strlen(srch) == 0) )
 		{
 #if DB_FL_FIND
-		  printf("\n%s:**FOUND**", __FUNCTION__);
+		  dbq("\n%s:**FOUND**", __FUNCTION__);
 #endif
 	  
 		  // Yes, found it
@@ -676,7 +685,7 @@ int fl_find(char *srch, char *dest, int *len)
 	    {
 	      // Copy the data over
 	      memcpy(dest, recdata+2, reclen);
-	      //sprintf(dest, "dummy");
+	      //sdbq(dest, "dummy");
 	      // Terminate string
 	      *(dest+reclen) = '\0';
 	      
@@ -697,7 +706,7 @@ int fl_find(char *srch, char *dest, int *len)
 	{
 	  // No record, we are done
 #if DB_FL_FIND
-	  printf("\n%s:exit(0)", __FUNCTION__);
+	  dbq("\n%s:exit(0)", __FUNCTION__);
 #endif
 	  return(0);
 	}
@@ -739,7 +748,7 @@ int fl_frec(int n, PAK_ADDR *pak_addr, FL_REC_TYPE *rectype, int *reclen)
 	}
       
 #if DB_FL_FREC
-      printf("\n%s:n:%d recno:%d rect:%d recstart:%04X", __FUNCTION__, n, rec_n, record_data[1], recstart);
+      dbq("\n%s:n:%d recno:%d rect:%d recstart:%04X", __FUNCTION__, n, rec_n, record_data[1], recstart);
 #endif
       
       op = FL_OP_NEXT;
@@ -754,9 +763,9 @@ int fl_frec(int n, PAK_ADDR *pak_addr, FL_REC_TYPE *rectype, int *reclen)
 	      // This is the record we are looking for
 	      // Return data
 #if DB_FL_FREC
-	      printf("\n%s:Found record (recdata ", __FUNCTION__);
+	      dbq("\n%s:Found record (recdata ", __FUNCTION__);
 	      fl_print_len_string(record_data, record_data[0]);
-	      printf(" )");
+	      dbq(" )");
 #endif
 	      *pak_addr = recstart;
 	      *rectype  = record_data[1];
@@ -772,7 +781,7 @@ int fl_frec(int n, PAK_ADDR *pak_addr, FL_REC_TYPE *rectype, int *reclen)
 	}
 
 #if DB_FL_FREC
-      printf("\n%s:rc:%d rec_n:%d n:%d", __FUNCTION__, rc, rec_n, n);
+      dbq("\n%s:rc:%d rec_n:%d n:%d", __FUNCTION__, rc, rec_n, n);
 #endif
     }
 
@@ -780,7 +789,7 @@ int fl_frec(int n, PAK_ADDR *pak_addr, FL_REC_TYPE *rectype, int *reclen)
     
   // Not found, return error
 #if DB_FL_FREC
-  printf("\n%s:NOT FOUND rc=0", __FUNCTION__);
+  dbq("\n%s:NOT FOUND rc=0", __FUNCTION__);
 #endif
 
   return(0);
@@ -809,7 +818,7 @@ void fl_next(void)
       recno++;
       
 #if DB_FL_FIND
-      printf("\n%s:Recno:%d rect:%d", __FUNCTION__, recno, rectype);
+      dbq("\n%s:Recno:%d rect:%d", __FUNCTION__, recno, rectype);
 #endif
       
       if( fl_frec(recno, &pak_addr, &rectype, &reclen) )
@@ -888,9 +897,9 @@ int fl_read(uint8_t *dest)
       pk_read(reclen, dest);
 
 #if DB_FL_READ
-      printf("\nRead data:\n");
+      dbq("\nRead data:\n");
       db_dump(dest, reclen);
-      printf("\n");
+      dbq("\n");
 #endif
       
       return(1);
@@ -940,7 +949,7 @@ void fl_size(int *bytes_free, int *num_recs, PAK_ADDR *first_free)
   PAK_ADDR save_addr;
   
 #if DB_FL_SIZE
-  printf("\n%s:", __FUNCTION__);
+  dbq("\n%s:", __FUNCTION__);
 #endif
 
   fl_scan_pak(&context, FL_OP_OPEN, pkb_curp, recdat, &recstart);
@@ -951,7 +960,7 @@ void fl_size(int *bytes_free, int *num_recs, PAK_ADDR *first_free)
       op = FL_OP_NEXT;
       
 #if DB_FL_SIZE
-      printf("\n%s:rc:%d rcnt:%d", __FUNCTION__, rc, rec_cnt);
+      dbq("\n%s:rc:%d rcnt:%d", __FUNCTION__, rc, rec_cnt);
 #endif
   
       if( rc )
@@ -993,6 +1002,8 @@ void fl_writ(uint8_t *src, int len)
 
   lentype[0] = (len % 256);
   lentype[1] = flb_rect;
+
+  dbq("Len:%d [0]=%d [1]=%d flb_rect=%02X", len, lentype[0], lentype[1], flb_rect);
   
   // Find the end of the file (and pack) as the data will be appended
   fl_pos_at_end();

@@ -2767,6 +2767,9 @@ void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
   
   if( OPEN )
     {
+      dbq("OPEN");
+      dbq("Logfile:%d", logfile);
+
       if( logical_file_info[logfile].open )
 	{
 	  trappable_runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
@@ -2776,16 +2779,21 @@ void qca_create_open(int create_nopen, NOBJ_MACHINE *m, NOBJ_QCS *s)
       fl_open(logfile);
       
       logical_file_info[logfile].open = 1;
+      flb_rect = logical_file_info[logfile].rec_type;
     }
   
   if( CREATE )
     {
+      dbq("CREATE");
+      dbq("Logfile:%d", logfile);
+      
       if( logical_file_info[logfile].open )
 	{
 	  trappable_runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
 	}
       
       logical_file_info[logfile].rec_type =  fl_cret(logfile, 0);
+      flb_rect = logical_file_info[logfile].rec_type;
     }
 
 
@@ -2850,6 +2858,13 @@ void qca_use(NOBJ_MACHINE *m, NOBJ_QCS *s)
       runtime_error(ER_RT_FO, "Bad file ID: %d", logfile);
       return;
     }
+
+  // Get the current record type for the file
+  fl_rect(logical_file_info[current_logfile].rec_type);
+
+  // Set current record type
+  flb_rect = logical_file_info[logfile].rec_type;
+
 }  
 
 void qca_append(NOBJ_MACHINE *m, NOBJ_QCS *s)

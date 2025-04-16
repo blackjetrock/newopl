@@ -153,8 +153,6 @@ char *logfile_field_start(int n, int logfile)
     {
       return( &(logical_file_info[logfile].buffer[logical_file_info[logfile].buffer_size-1]));
     }
-
-  
 }
 
 //------------------------------------------------------------------------------
