@@ -7,9 +7,9 @@
 
 #include "nopl.h"
 
-#define DEBUG 1
-#define DB_FL_SCAN_PAK 1
-#define DB_FL_SIZE     1
+#define DEBUG          0
+#define DB_FL_SCAN_PAK 0
+#define DB_FL_SIZE     0
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -145,6 +145,7 @@ int fl_scan_pak(FL_SCAN_PAK_CONTEXT *context, FL_OP op, int device, uint8_t *des
   record_type = pk_rbyt();
 
 #if DB_FL_SCAN_PAK
+  dbq("Length/type:%02X %02X", length_byte, record_type);
   dbq("CPAD:%04X", pk_qadd());
 #endif
   
@@ -152,7 +153,7 @@ int fl_scan_pak(FL_SCAN_PAK_CONTEXT *context, FL_OP op, int device, uint8_t *des
     {
       dbq("Length byte zero, exiting");
       pk_sadd(context->save_pak_addr);
-      return(ER_FL_NP);
+      return(ER_FL_NP, 0);
     }
 
   if( record_type == 0x80 )
@@ -410,7 +411,7 @@ void fl_copy(void)
 FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
 {
   int     rc = 0;
-  uint8_t record[11];
+  uint8_t record[NOBJ_FILENAME_MAXLEN];
   int     new_rectype;
   char    *filename = logical_file_info[logfile].name;
   
@@ -493,9 +494,17 @@ FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
   dbq("File record type:%02X", new_rectype);
   
   // Create a file record entry at the end of the file
+  // +2 as we include the device letter and colon
+  int total_reclen = strlen(filename)+2;
 
-  int total_reclen = strlen(filename)+3;
-
+  // Ensure we don't overflow record
+  if( total_reclen >= sizeof(record) )
+    {
+      total_reclen = sizeof(record)-1;
+    }
+  
+  dbq("Creating file record entry of len:%02X", total_reclen);
+  
   // Write the file record
   // e.g.  09 81 4D 41 49 4E 20 20 20 20 90  filename "MAIN"
   record[0] = total_reclen-2;
@@ -509,6 +518,12 @@ FL_REC_TYPE fl_cret(int logfile, FL_REC_TYPE type)
   
   record[2+i] = new_rectype;
 
+  dbq("Record:");
+  for(int i=0; i<total_reclen; i++)
+    {
+      dbq("%02X ", record[i]);
+    }
+  
   PAK_ADDR pak_addr;
   int bytes_free;
   int num_recs;
