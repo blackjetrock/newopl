@@ -14,7 +14,10 @@ A.A$ = "a str 1a"
 A.B$ = "a str 1b"
 A.C$ = "a str 1c"
 
+print pos
 append
+print pos
+
 print "A count:",count
 if count <> 1
 pass% = 0
@@ -24,12 +27,15 @@ create "A:COUNT", B, r$
 use b
 
 B.R$ = "First record"
+print pos
 append
+print pos
 if count <> 1
 pass% = 0
 endif
 print "B count:",count	
 append
+print pos
 print "B count:",count
 if count <> 2
 pass% = 0

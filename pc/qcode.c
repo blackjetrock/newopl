@@ -2815,6 +2815,13 @@ void qca_open(NOBJ_MACHINE *m, NOBJ_QCS *s)
 
 //------------------------------------------------------------------------------
 
+void qca_rtf_pos(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  s->result = fl_rpos();
+}
+
+//------------------------------------------------------------------------------
+
 void qca_rtf_exist(NOBJ_MACHINE *m, NOBJ_QCS *s)
 {
   if( fl_exist(s->str) )
@@ -3679,7 +3686,7 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_COUNT,         "RTF_COUNT",         {qca_count,        qca_null,        qca_push_result}},    // RTF_COUNT               0xA2    
     // RTF_EOF                 0xA3    
     { RTF_EXIST,         "RTF_EXIST",         {qca_pop_str,      qca_rtf_exist,   qca_push_result}},    // RTF_EXIST               0xA4    
-    // RTF_POS                 0xA5
+    { RTF_POS,           "RTF_POS",           {qca_rtf_pos,      qca_null,        qca_push_result}},  // RTF_POS                 0xA5
     { RTF_ABS,           "RTF_ABS",           {qca_pop_num,      qca_abs_num,     qca_push_num_result}},
     { RTF_ATAN,          "RTF_ATAN",          {qca_pop_num,      qca_atan_num,    qca_push_num_result}},
     { RTF_COS,           "RTF_COS",           {qca_pop_num,      qca_cos_num,     qca_push_num_result}},
