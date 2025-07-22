@@ -1172,6 +1172,9 @@ int size_of_type(NOBJ_VAR_INFO *vi)
       internal_error("Void has no size");
       break;
     }
+  
+  internal_error("Unknown Type");
+  return(0);
 }
 
 int data_offset_of_type(NOBJ_VAR_INFO *vi)
@@ -1214,6 +1217,9 @@ int data_offset_of_type(NOBJ_VAR_INFO *vi)
       internal_error("Void has no data offset");
       break;
     }
+
+  internal_error("Unknown Type");
+  return(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1945,10 +1951,12 @@ int start_get_line(int start_idx)
   return(retval);
 }
 
+#if 0
 int get_next_line(void)
 {
   
 }
+#endif
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2167,6 +2175,9 @@ int scan_literal_core(char *lit, OP_STACK_ENTRY *op)
     {
       strcpy(op->name, origlit);
     }
+
+  dbprintf("ret1");  
+  return(1);
 }
 
 //------------------------------------------------------------------------------
@@ -7638,6 +7649,10 @@ int scan_line(LEVEL_INFO levels)
      dbprintf("ret0: Scanning for trappable command failed");
      return(0);
     }
+
+  dbprintf("ret0");
+  return(0);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////

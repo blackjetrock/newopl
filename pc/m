@@ -1,11 +1,11 @@
-cc -g  -Wno-format-truncation -Wno-format-overflow newopl_tran.c \
+cc -g  -Wreturn-type -Wno-format-truncation -Wno-format-overflow newopl_tran.c \
    newopl_lib.c \
    newopl_types.c \
    parser.c \
    machine.c \
    errors.c \
    -o newopl_tran -lm
-cc -g  -Wno-format-truncation -Wno-format-overflow newopl_exec.c \
+cc -g  -Wreturn-type  -Wno-format-truncation -Wno-format-overflow newopl_exec.c \
    newopl_lib.c \
    newopl_types.c \
    qcode.c \
@@ -23,7 +23,7 @@ cc -g  -Wno-format-truncation -Wno-format-overflow newopl_exec.c \
    svc_mn.c \
    sysvar.c \
    -o newopl_exec  -lcurses -lm
-cc -g  -Wno-format-truncation -Wno-format-overflow newopl_objdump.c \
+cc -g  -Wreturn-type  -Wno-format-truncation -Wno-format-overflow newopl_objdump.c \
    newopl_lib.c \
    newopl_types.c \
    qcode.c \
@@ -41,6 +41,6 @@ cc -g  -Wno-format-truncation -Wno-format-overflow newopl_objdump.c \
    svc_mn.c \
    sysvar.c \
    -o newopl_objdump  -lcurses -lm
-cc newopl_packdump.c \
+cc  -Wreturn-type newopl_packdump.c \
    -o newopl_packdump
    
