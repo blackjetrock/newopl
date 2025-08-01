@@ -16,7 +16,7 @@ rem
 LOCAL X,Y,Z,R,SV,HV
 LOCAL ANTSV,ANTHV,SATSV,SOLSV,SOLHV,RSAT
 LOCAL SINSV,SINHV,COSSV,COSHV,XX,YY,ZZ,RR,OPT%
-LOCAL M$(62)
+LOCAL M$(80)
 M$="stndrdthththththththththththththththththstndrdthththththththst"
 RSAT=42.2/6.37
 PRINT"YOUR LONGITUDE:" :rem In degrees, negative for WEST

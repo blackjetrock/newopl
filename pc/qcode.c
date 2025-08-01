@@ -3517,7 +3517,31 @@ void qca_rtf_std(NOBJ_MACHINE *m, NOBJ_QCS *s)
 //
 //
 
-NOBJ_QCODE_INFO qcode_info[] =
+// Special 'escape' qcode that indicates a graphics qcode command
+//
+// Next qcode byte: graphics sub command
+//
+
+void qca_gcls(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  printf("\nGCLS");
+}
+
+void qca_gpoint(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+  printf("\nGPOINT");
+}
+
+void qca_gline(NOBJ_MACHINE *m, NOBJ_QCS *s)
+{
+    printf("\nGLINE");
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+
+const NOBJ_QCODE_INFO qcode_info[] =
   {
     { QI_INT_SIM_FP,     "QI_INT_SIM_FP",     {qca_fp,           qca_null,        qca_push_int_at_ind}},
     { QI_NUM_SIM_FP,     "QI_NUM_SIM_FP",     {qca_fp,           qca_null,        qca_num_ind_con}},
@@ -3756,7 +3780,12 @@ NOBJ_QCODE_INFO qcode_info[] =
     { RTF_VAR,           "RTF_VAR",           {qca_rtf_sum,      qca_rtf_var,     qca_push_num_result}},    // RTF_VAR                 0xE3
     { RTF_DAYNAME,       "RTF_DAYNAME",       {qca_pop_int,      qca_dayname,     qca_push_string}},        // RTF_DAYNAME             0xE4
     // RTF_DIRW                0xE5
-    { RTF_MONTHSTR,      "RTF_MONTHSTR",      {qca_pop_int,      qca_month_str,   qca_push_string}}         // RTF_MONTHSTR            0xE6
+    { RTF_MONTHSTR,      "RTF_MONTHSTR",      {qca_pop_int,      qca_month_str,   qca_push_string}},        // RTF_MONTHSTR            0xE6
+
+    // Extended Qcode
+    { QCX_GCLS,          "QCX_GCLS",          {qca_gcls,         qca_null,        qca_null}},                // QCX_GCLX            0xF0
+    { QCX_GPOINT,       "QCX_GPOINT",        {qca_gpoint,      qca_null,        qca_null}},                // QCX_GPOINT         0xF1
+    { QCX_GLINE,         "QCX_GLINE",          {qca_gline,         qca_null,        qca_null}},                // QCX_GLINE         0xF2
   };
 
 #define SIZEOF_QCODE_INFO (sizeof(qcode_info)/sizeof(NOBJ_QCODE_INFO))
@@ -3998,6 +4027,9 @@ QCODE_DESC qcode_decode[] =
     {0xE4,	"-",	"I",	"S",	"DAYNAME$"},
     {0xE5,	"-",	"S",	"S",	"DIRW$"},
     {0xE6,	"-",	"I",	"S",	"MONTH$"},
+    {0xF0,	"-",	"-",	"-",	"GCLS"},
+    {0xF0,	"-",	"II",	"-",	"GPOINT"},
+    {0xF1,	"-",	"II",	"-",	"GLINE"},
   };
 
 int qcode_sizeof_qcode_decode = (sizeof(qcode_decode)/sizeof(QCODE_DESC));

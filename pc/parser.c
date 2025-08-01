@@ -261,6 +261,9 @@ struct _FN_INFO
     { "VIEW",     0,  0, ' ',  "is",        "i", 0x00, 0 },   
     { "WEEK",     0,  0, ' ',  "iii",       "i", 0x00, 0 },
     { "YEAR",     0,  0, ' ',  "",          "i", 0x00, 0 },
+    { "GCLS",     1,  0, ' ',  "",          "v", 0x00, 0 },   // Graphics clear
+    { "GPOINT",   1,  0, ' ',  "ii",        "v", 0x00, 0 },   // Graphics point
+    { "GLINE",    1,  0, ' ',  "iiii",      "v", 0x00, 0 },   // Graphics Line 
   };
 
 
@@ -1174,6 +1177,7 @@ int size_of_type(NOBJ_VAR_INFO *vi)
     }
   
   internal_error("Unknown Type");
+
   return(0);
 }
 
@@ -1219,6 +1223,7 @@ int data_offset_of_type(NOBJ_VAR_INFO *vi)
     }
 
   internal_error("Unknown Type");
+
   return(0);
 }
 
@@ -1580,6 +1585,12 @@ void dump_qcode_data(char *opl_filename)
   
   fp = fopen("qcode_data.txt", "w");
 
+  if( fp == NULL )
+    {
+      printf("\nCould not open '%s'", "qcode_data.txt");
+      return;
+    }
+  
   idx = print_qch_field(idx, fp, "size of the variables on stack", 2);
   idx = print_qch_field(idx, fp, "size of Q code", 2);
 
@@ -1672,10 +1683,17 @@ void dump_qcode_data(char *opl_filename)
   
   printf("\nOutput name:%s", ob3_fn);
 
-  objfp = fopen(ob3_fn, "wb");
+  objfp = fopen(ob3_fn, "w");
 
-  fprintf(objfp, "ORG%c%c%c%c%c", 0x01, 0xce, 0x83, 0x01, 0xca);
+  if( objfp == NULL )
+    {
+      printf("\nCould not open '%s' (%d)\n", ob3_fn);
+    }
   
+  fprintf(objfp, "ORG%c%c%c%c%c", 0x01, 0xce, 0x83, 0x01, 0xca);
+
+  printf("\nHeader written\n");
+    
   for(int i=0; i<qcode_header_len+qcode_len; i++)
     {
       //      fprintf(objfp, "%c", qcode_header[i]);
@@ -2309,7 +2327,7 @@ int is_logfile_char(char ch)
 // Scans for a variable name string part
 int scan_vname(char *vname_dest)
 {
-  char vname[300];
+  char vname[NOBJ_VARNAME_MAXLEN];
   int vname_i = 0;
   char ch;
 
@@ -2707,7 +2725,7 @@ int check_variable(int *index)
   int idx = *index;
   int orig_index = *index;
   
-  char vname[300];
+  char vname[NOBJ_VARNAME_MAXLEN];
   char chstr[2];
   int var_is_string  = 0;
   int var_is_integer = 0;
@@ -3764,10 +3782,13 @@ int check_atom(int *index)
 // Double quotes can be included in the string by using ""
 //
 
+// No strings within strings so this can be off the stack
+char strval[NOBJ_STRING_MAXLEN+1];
+
 int scan_string(void)
 {
   char chstr[2];
-  char strval[300];
+ 
   OP_STACK_ENTRY op;
   indent_more();
   
@@ -3818,7 +3839,7 @@ int scan_string(void)
 	}
     }
   syntax_error("Bad string");
-  dbprintf("ret1");
+  dbprintf("ret0");
   return(0);
 }
 
@@ -7235,7 +7256,7 @@ int check_line(int *index)
 int scan_line(LEVEL_INFO levels)
 {
   int idx = cline_i;
-  char cmdname[300];
+  char cmdname[NOBJ_VARNAME_MAXLEN+1];
   char label[NOPL_MAX_LABEL+1];
   
   indent_more();
@@ -7652,7 +7673,6 @@ int scan_line(LEVEL_INFO levels)
 
   dbprintf("ret0");
   return(0);
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////

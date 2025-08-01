@@ -11,9 +11,12 @@ set ::FAIL 0
 set ::OPL_LINECOUNT 0
 
 proc compare_results {basename f1 f2} {
-
+    #puts "Basenme:$basename"
+    #puts "f1:$f1"
+    #puts "f2:$f2"
     set f1fp [open $f1]
     set f1txt [read $f1fp]
+    #puts "f1txt:'$f1txt'"
     close $f1fp
 
     set f2fp [open $f2]
