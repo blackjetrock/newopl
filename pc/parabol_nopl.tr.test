@@ -3,7 +3,7 @@ Filename:'parabol'
 File ext:'ob3
 Dropping OB3 header...
 Enter:dump_proc
-Var Space Size:00E4
+Var Space Size:00F6
 QCode Space Size:04A0
 Number of parameters:00
 Parameter types:
@@ -14,7 +14,7 @@ External varname Size:0000
 External variables (0)
 
 String length fixups (1)
- 0: FF1C 3E
+ 0: FF0A 50
 
 Array size fixups (0)
 
@@ -23,7 +23,7 @@ QCode
 0000: 59       STOP     (bytes code:-)
 0001: B2       SIN     (bytes code:-)
 0002: 0F       Push local/global string variable reference     (bytes code:v)
-0003: FF1D       (65309)
+0003: FF0B       (65291)
 0005: 24       Push string literal     (bytes code:S)
 0006: Len:62
 0007: 'stndrdthththththththththththththththththstndrdthththththththst'
@@ -743,7 +743,7 @@ QCode
 047A: FFE6       (65510)
 047C: 70       PRINT float     (bytes code:-)
 047D: 02       Push local/global string variable value     (bytes code:v)
-047E: FF1D       (65309)
+047E: FF0B       (65291)
 0480: 01       Push local/global float variable value     (bytes code:v)
 0481: FFE6       (65510)
 0483: 22       Push integer literal     (bytes code:I)
@@ -772,7 +772,7 @@ QCode
 
 QCode Data
 
-0000:59 B2 0F FF 1D 24 3E 73 74 6E 64 72 64 74 68 74 
+0000:59 B2 0F FF 0B 24 3E 73 74 6E 64 72 64 74 68 74 
 0010:68 74 68 74 68 74 68 74 68 74 68 74 68 74 68 74 
 0020:68 74 68 74 68 74 68 74 68 74 68 74 68 74 68 73 
 0030:74 6E 64 72 64 74 68 74 68 74 68 74 68 74 68 74 
@@ -843,6 +843,6 @@ QCode Data
 0440:EE 3D 23 02 30 01 3E 23 02 50 FF 3C 94 86 80 24 
 0450:0A 45 6C 65 76 61 74 69 6F 6E 3D 71 23 02 10 01 
 0460:01 FF CE 3E 94 86 23 02 10 01 3F 70 73 22 00 09 
-0470:B8 71 01 FF EE 87 E6 71 72 01 FF E6 70 02 FF 1D 
+0470:B8 71 01 FF EE 87 E6 71 72 01 FF E6 70 02 FF 0B 
 0480:01 FF E6 22 00 02 86 3E 22 00 01 86 3D 87 22 00 
 0490:02 C2 71 91 83 00 FF 5C 22 00 00 2C 7E FC 1A 7B 
