@@ -811,6 +811,9 @@ void add_var_info(NOBJ_VAR_INFO *vi, int insert_idx)
 
   if( srch_vi == NULL )
     {
+      // New variable, clear details if needed
+      vi->offset = 0;
+      
       dbprintf("Not already present");
       
       // Not present
@@ -2247,6 +2250,7 @@ int check_literal(int *index, char *lit)
 {
   int idx = *index;
   int orig_idx = *index;
+  char *orig_lit = lit;
   
   indent_more();
   
@@ -2295,7 +2299,7 @@ int check_literal(int *index, char *lit)
   
   // reached end of literal string , all ok
   *index = idx;
-  dbprintf("ret1 Match. '%' == '%s'", lit, &(cline[orig_idx]));
+  dbprintf("ret1 Match. '%s' == '%s'", orig_lit, &(cline[orig_idx]));
   return(1);
 
 }

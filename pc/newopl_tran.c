@@ -2434,8 +2434,11 @@ int type_check_stack_ptr = 0;
 void type_check_stack_push(EXP_BUFFER_ENTRY entry)
 {
   dbprintf(" %s: '%s'", __FUNCTION__, entry.name);
+
   fprintf(exfp, "\nPush:'%s'", entry.name);
- 
+
+  printf("\np_idx:%d", entry.p_idx);
+    
   if( type_check_stack_ptr < MAX_TYPE_CHECK_STACK )
     {
       type_check_stack[type_check_stack_ptr++] = entry;
@@ -2663,7 +2666,9 @@ void dump_exp_buffer(FILE *fp, int bufnum)
       
       fprintf(fp, "  %d:", token.p_idx);
 
-      for(int pi=0; pi< MAX_EXP_BUF_P/*token.p_idx*/; pi++)
+
+      //for(int pi=0; pi< MAX_EXP_BUF_P/*token.p_idx*/; pi++)
+        for(int pi=0; pi< token.p_idx; pi++)
 	{
 	  fprintf(fp, " %d", token.p[pi]);
 	}

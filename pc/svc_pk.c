@@ -151,7 +151,8 @@ uint16_t pk_rwrd(void)
 
   word  = pk_rbyt() << 8;
   word |= pk_rbyt();
-  
+
+  return(word);
 }
 
 void pk_skip(int len)
@@ -232,7 +233,7 @@ int pk_exist(char *filename)
 void pk_fmat(int logfile)
 {
   // Branch to the pak drivers
-  return( (*pk_drivers[pkb_curp].format)(logfile));
+  (*pk_drivers[pkb_curp].format)(logfile);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

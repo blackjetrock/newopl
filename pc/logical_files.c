@@ -142,6 +142,7 @@ char *address_tab_n(int n, int logfile)
 
 //------------------------------------------------------------------------------
 
+#if 0
 char *logfile_field_start(int n, int logfile)
 {
   if( n == 0 )
@@ -154,6 +155,7 @@ char *logfile_field_start(int n, int logfile)
       return( &(logical_file_info[logfile].buffer[logical_file_info[logfile].buffer_size-1]));
     }
 }
+#endif
 
 //------------------------------------------------------------------------------
 
