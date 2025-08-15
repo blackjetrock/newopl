@@ -310,8 +310,19 @@ NOPL_FLOAT num_from_text(char *p)
       f.exponent *= exp_sign;
     }
 
-  f.exponent += dotpos-1;
+  //  printf("\nExponent = %d\n", f.exponent);
 
+  if( dot_seen )
+    {
+
+    }
+  else
+    {
+      dotpos = dig_i;
+    }
+
+  f.exponent += dotpos-1;
+      
   num_normalise(&f);
   
   //  printf("dotpos=%d", dotpos);
